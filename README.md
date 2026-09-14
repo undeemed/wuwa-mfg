@@ -4,6 +4,8 @@
 
 The tested setup lets WuWa select its own frame-generation multiplier through **6x**, using Follow game mode. Runtime telemetry reported matching 3x and 6x output on an RTX 4070 Ti, with normal visible gameplay reported by the tester. This is an **experimental, narrowly validated release**.
 
+**Setup automatically applies this project's binary patch before installing `winmm.dll`.** It downloads the original RTXMFG release, modifies the DLL locally, and verifies that the result matches the tested patched DLL.
+
 [Download the setup ZIP](https://github.com/undeemed/wuwa-mfg/releases/latest) · [How the patch works](docs/technical.md) · [Test results](docs/validation.md) · [Troubleshooting](docs/troubleshooting.md)
 
 ## Quick start
@@ -15,7 +17,17 @@ The tested setup lets WuWa select its own frame-generation multiplier through **
 5. Restart Windows if you applied the aliases; otherwise launch a fresh game process. Enable DLSS Frame Generation and select the multiplier in WuWa's graphics settings.
 6. Choose **Verify** in Setup.cmd, then return to focused gameplay. It samples fresh runtime status for 30 seconds and reports requested/presented counts. Check that the image and motion also look normal.
 
-No Python installation or NVIDIA Profile Inspector download is required. Setup downloads a checksum-pinned, official Python runtime into its own `.runtime` folder, then downloads and verifies the original upstream RTXMFG archive. The tested DLL is reproduced locally. This repository/release contains **source and scripts, with no mod, game, or NVIDIA binaries bundled**.
+No Python installation or NVIDIA Profile Inspector download is required. Setup downloads a checksum-pinned, official Python runtime into its own `.runtime` folder. This repository/release contains **source and scripts**; setup generates the patched mod DLL locally from the verified upstream download.
+
+## How setup applies the patch
+
+1. Download and verify the original **RTXMFG v1.3.3** archive and DLL against their pinned SHA-256 hashes.
+2. The [installer](wuwa_mfg/cli.py) automatically calls `patch_dll(download_dll())`. The [Python patcher](wuwa_mfg/patch.py) applies the wrapper startup timing change and updates the PE checksum.
+3. Verify the modified DLL against the known patched SHA-256, then [install those patched bytes](wuwa_mfg/core.py) as `Client/Binaries/Win64/winmm.dll`.
+
+The patcher from the published **v0.1.0 setup ZIP** was tested against a fresh upstream download: its output was **byte-for-byte identical to the DLL in the working WuWa test installation**. See [the exact changes and hashes](docs/technical.md#exact-binary-edit).
+
+The separate [`patches/early-wrapper-preparation.patch`](patches/early-wrapper-preparation.patch) file expresses the same change in C++ for developers rebuilding upstream source. Setup uses the Python binary patcher above; users running **Setup.cmd → Install** do not need to apply the source `.patch` file manually.
 
 ## Supported configuration in 0.1.0
 
