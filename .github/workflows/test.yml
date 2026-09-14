@@ -1,0 +1,34 @@
+name: Tests
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ['3.10', '3.12']
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: ${{ matrix.python }}
+          architecture: x64
+      - name: Fetch pinned upstream test input
+        run: python -c "import urllib.request; from wuwa_mfg.patch import RELEASE_URL; urllib.request.urlretrieve(RELEASE_URL, 'upstream-test.zip')"
+      - name: Unit and exact-binary integration tests
+        env:
+          RTXMFG_TEST_ARCHIVE: upstream-test.zip
+        run: python -m unittest discover -s tests -v
+      - name: Parse Windows launcher
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: |
+          $parseErrors = $null
+          $parsedTokens = $null
+          [System.Management.Automation.Language.Parser]::ParseFile((Join-Path $pwd 'Launch.ps1'), [ref]$parsedTokens, [ref]$parseErrors) | Out-Null
+          if ($parseErrors.Count) { $parseErrors; exit 1 }

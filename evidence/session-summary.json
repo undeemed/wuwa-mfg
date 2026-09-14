@@ -1,0 +1,15 @@
+{
+  "date": "2026-09-14",
+  "game": "Wuthering Waves",
+  "platform": "Windows, Steam",
+  "gpu": "RTX 4070 Ti 12 GB",
+  "pci_vendor_device": "10DE:2782",
+  "driver": "616.92",
+  "patched_dll_sha256": "46e931fdc265fcd1875f6c113b689a159466061c13cef239f57ca386d66f148f",
+  "three_x": {"active_samples": 53, "matching_requested_presented": 53, "request_result": 0, "visual_report": "Normal picture and smooth motion"},
+  "six_x": {"total_samples": 180, "active_samples": 67, "matching_requested_presented": 67, "request_result": 0, "follow_game": true, "driver_forced_count": 0},
+  "four_five_x": {"reported_working_by_tester": true, "individually_captured": false},
+  "long_term_stability_tested": false,
+  "independent_frame_uniqueness_analysis": false,
+  "anti_cheat_safety_verified": false
+}

@@ -1,0 +1,12 @@
+.runtime/
+__pycache__/
+*.py[cod]
+.venv/
+dist/
+*.dll
+*.bin
+*.exe
+*.zip
+*status.json
+*state.json
+*.log

@@ -1,0 +1,12 @@
+--- a/source/native/patcher.cpp
++++ b/source/native/patcher.cpp
+@@ -7026,7 +7026,8 @@
+         return {true, false, match};
+     }
+ 
+-    if (!gpu_dispatch::IsAda())
++    const auto family = gpu_dispatch::Selected();
++    if (family != gpu_dispatch::Family::eUnknown && family != gpu_dispatch::Family::eAda)
+     {
+         return {true, UseAmpere() && memcmp(match + universal_wrapper_profile::kPatchOffset,
+             kWrapperOriginal.data(), kWrapperOriginal.size()) == 0, match, compiledMaximum};

@@ -1,0 +1,28 @@
+name: Compatibility or setup report
+description: Report setup problems or a tested configuration without sharing private logs.
+body:
+  - type: input
+    id: version
+    attributes:
+      label: WuWa MFG release
+      placeholder: 0.1.0
+    validations:
+      required: true
+  - type: input
+    id: hardware
+    attributes:
+      label: Physical GPU and NVIDIA driver
+      description: Use the real GPU model, even if Windows shows an alias. No serial numbers.
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: What happened?
+      description: Include selected multiplier, fresh-launch status, requested/presented counts if available, and visible image behavior. Do not upload full backups, game/NVIDIA binaries, account names or user paths.
+    validations:
+      required: true
+  - type: textarea
+    id: recovery
+    attributes:
+      label: Restore result and steps to reproduce

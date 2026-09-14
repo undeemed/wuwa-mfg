@@ -1,0 +1,9 @@
+[project]
+name = "wuwa-mfg"
+version = "0.1.0"
+description = "Reproducible RTXMFG startup timing patch and reversible WuWa setup"
+requires-python = ">=3.10"
+license = "MIT"
+
+[tool.ruff]
+line-length = 120
