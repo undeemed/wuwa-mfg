@@ -222,8 +222,10 @@ class TransactionTests(unittest.TestCase):
         self.assertEqual(self.state_path.read_bytes(), backup)
 
     def test_root_and_exe_paths_resolve_to_correct_directory(self):
-        self.assertEqual(core.find_game(self.game.parents[2]), self.game)
-        self.assertEqual(core.find_game(self.game / core.EXE), self.game)
+        # Hosted Windows runners use a short RUNNER~1 temporary path; resolving
+        # it correctly expands to runneradmin. Compare physical directories.
+        self.assertTrue(core.find_game(self.game.parents[2]).samefile(self.game))
+        self.assertTrue(core.find_game(self.game / core.EXE).samefile(self.game))
 
 
 class TelemetryTests(unittest.TestCase):
