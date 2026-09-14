@@ -1,6 +1,8 @@
-# WuWa RTXMFG Unlock
+# Wuthering Waves DLSS Multi Frame Generation Unlock (RTXMFG)
 
-**RTXMFG 3x/4x/5x/6x unlock for Wuthering Waves via GPU-name spoofing and targeted mod/driver tweaks.**
+**Unlock DLSS Multi Frame Generation 3x/4x/5x/6x in Wuthering Waves (WuWa) using RTXMFG, GPU-name spoofing, and targeted mod/driver tweaks.**
+
+WuWa MFG provides a guided Windows installer for the tested **NVIDIA GeForce RTX 4070 Ti**, part of the **RTX 40 series**. It combines RTX 5080 display-name spoofing with a custom RTXMFG binary patch and NVIDIA Frame Generation profile settings. The installer includes automatic backups, rollback, and runtime frame-count verification.
 
 The working setup combines three parts:
 
@@ -12,9 +14,11 @@ The working setup combines three parts:
 
 Tested on an **RTX 4070 Ti with driver 616.92**: 3x and 6x were confirmed in runtime telemetry; 4x and 5x were reported working by the tester. This first release is experimental and restricted to the [validated configuration](#supported-configuration-in-010).
 
-[Download the setup ZIP](https://github.com/undeemed/wuwa-mfg/releases/latest) · [How the patch works](docs/technical.md) · [Test results](docs/validation.md) · [Troubleshooting](docs/troubleshooting.md)
+[Download WuWa DLSS MFG Unlock](https://github.com/undeemed/wuwa-mfg/releases/latest) · [Installation guide](#install-the-wuwa-dlss-mfg-unlock) · [How the RTXMFG patch works](docs/technical.md) · [Compatibility and test results](docs/validation.md) · [Troubleshooting](docs/troubleshooting.md)
 
-## Quick start
+<a id="quick-start"></a>
+
+## Install the WuWa DLSS MFG unlock
 
 1. Download **WuWa-MFG-0.1.0.zip** from Releases and extract the entire folder somewhere you can keep it.
 2. Close Wuthering Waves. Double-click **Setup.cmd**, choose **Install**, and approve the normal Windows administrator prompt.
@@ -25,7 +29,9 @@ Tested on an **RTX 4070 Ti with driver 616.92**: 3x and 6x were confirmed in run
 
 No Python installation or NVIDIA Profile Inspector download is required. Setup downloads a checksum-pinned, official Python runtime into its own `.runtime` folder. This repository/release contains **source and scripts**; setup generates the patched mod DLL locally from the verified upstream download.
 
-## How setup applies the patch
+<a id="how-setup-applies-the-patch"></a>
+
+## How setup applies the RTXMFG binary patch
 
 1. Download and verify the original **RTXMFG v1.3.3** archive and DLL against their pinned SHA-256 hashes.
 2. The [installer](wuwa_mfg/cli.py) automatically calls `patch_dll(download_dll())`. The [Python patcher](wuwa_mfg/patch.py) applies the wrapper startup timing change and updates the PE checksum.
@@ -60,7 +66,27 @@ This is a third-party game mod, **not official DLSS 5 or an anti-cheat-approved 
 
 Follow game accepts supported choices made by WuWa. Dynamic mode is followed **only if the game requests it**. This is not unlimited frame generation; the tested capacity is five generated frames plus one rendered frame, or 6x total.
 
-## Undo
+## Wuthering Waves DLSS MFG FAQ
+
+### Can I use DLSS Multi Frame Generation on an RTX 40-series GPU?
+
+This project's working WuWa configuration was tested on an **RTX 4070 Ti with NVIDIA driver 616.92**. Runtime captures confirmed 3x and 6x; the tester also reported 4x and 5x working. The installer currently accepts only the [validated GPU, driver and NVIDIA cache builds](#supported-configuration-in-010). Other RTX 40-series cards need separate validation.
+
+### Why does Wuthering Waves only show Frame Generation on/off or stay at 2x?
+
+In the tested configuration, **RTX 5080 GPU-name spoofing** exposed WuWa's native multiplier choices. The RTXMFG startup patch addressed the cached 2x limit, while NVIDIA profile tweaks removed a forced frame count. Restart Windows after applying the name spoof, or fully restart the game after changing driver overrides. See [2x/3x troubleshooting](docs/troubleshooting.md#counts-are-still-2x3x-after-selecting-6x).
+
+### Does the installer automatically apply the custom RTXMFG patch?
+
+Yes. Setup downloads the pinned upstream DLL, applies this project's binary patch, verifies the modified file's SHA-256, and installs it as `winmm.dll`. The separate C++ `.patch` file is for source builds. See [the automatic patching steps](#how-setup-applies-the-rtxmfg-binary-patch).
+
+### Can I switch between 3x, 4x, 5x and 6x or use Dynamic MFG?
+
+Select the multiplier in WuWa's graphics settings. **Follow game** leaves control with the game; dynamic mode is followed only when WuWa requests it. A 6x multiplier means up to five generated frames plus one rendered frame, not six times the input responsiveness or a guaranteed sixfold FPS increase. Use the installer's **Verify** action to check runtime counts, and check visible motion separately.
+
+<a id="undo"></a>
+
+## Uninstall and restore the previous configuration
 
 Close WuWa, open **Setup.cmd → Restore**, review the target, and type `RESTORE`.
 
