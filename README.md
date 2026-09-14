@@ -1,10 +1,16 @@
-# WuWa MFG
+# WuWa RTXMFG Unlock
 
-**A reproducible RTXMFG startup patch and guided Windows installer for Wuthering Waves.**
+**RTXMFG 3x/4x/5x/6x unlock for Wuthering Waves via GPU-name spoofing and targeted mod/driver tweaks.**
 
-The tested setup lets WuWa select its own frame-generation multiplier through **6x**, using Follow game mode. Runtime telemetry reported matching 3x and 6x output on an RTX 4070 Ti, with normal visible gameplay reported by the tester. This is an **experimental, narrowly validated release**.
+The working setup combines three parts:
 
-**Setup automatically applies this project's binary patch before installing `winmm.dll`.** It downloads the original RTXMFG release, modifies the DLL locally, and verifies that the result matches the tested patched DLL.
+- **GPU-name spoofing:** present the GPU's Windows display name as an RTX 5080 to expose WuWa's native multiplier choices.
+- **RTXMFG binary tweak:** patch the wrapper startup timing so the higher frame-generation capacity is prepared before WuWa caches it.
+- **NVIDIA profile tweaks:** enable the FG DLL override and clear the forced frame count, allowing WuWa's selected multiplier to apply.
+
+**Choose 3x, 4x, 5x or 6x in the game.** RTXMFG runs in Follow game mode, so control stays with WuWa. Setup handles the binary patch automatically and offers GPU-name spoofing during installation.
+
+Tested on an **RTX 4070 Ti with driver 616.92**: 3x and 6x were confirmed in runtime telemetry; 4x and 5x were reported working by the tester. This first release is experimental and restricted to the [validated configuration](#supported-configuration-in-010).
 
 [Download the setup ZIP](https://github.com/undeemed/wuwa-mfg/releases/latest) · [How the patch works](docs/technical.md) · [Test results](docs/validation.md) · [Troubleshooting](docs/troubleshooting.md)
 
@@ -13,7 +19,7 @@ The tested setup lets WuWa select its own frame-generation multiplier through **
 1. Download **WuWa-MFG-0.1.0.zip** from Releases and extract the entire folder somewhere you can keep it.
 2. Close Wuthering Waves. Double-click **Setup.cmd**, choose **Install**, and approve the normal Windows administrator prompt.
 3. Setup finds Steam libraries automatically. For another launcher, paste the WuWa folder when prompted. It must resolve to `Client/Binaries/Win64/Client-Win64-Shipping.exe`.
-4. If WuWa currently offers only an on/off FG switch, choose **yes** for the optional GPU display-name aliases. The tested setup used these aliases to expose the native multiplier menu. Review the target and type `INSTALL`.
+4. If WuWa currently offers only an on/off FG switch, choose **yes** for GPU-name spoofing (the optional RTX 5080 display-name aliases). The tested setup used this to expose the native multiplier menu. Review the target and type `INSTALL`.
 5. Restart Windows if you applied the aliases; otherwise launch a fresh game process. Enable DLSS Frame Generation and select the multiplier in WuWa's graphics settings.
 6. Choose **Verify** in Setup.cmd, then return to focused gameplay. It samples fresh runtime status for 30 seconds and reports requested/presented counts. Check that the image and motion also look normal.
 
@@ -50,7 +56,7 @@ This is a third-party game mod, **not official DLSS 5 or an anti-cheat-approved 
 - Installs one patched `winmm.dll` beside WuWa's shipping EXE.
 - Sets `RTXMFG-Universal.json` to **Follow game**, Preset B. It does not force a multiplier or invent a dynamic FPS target. The saved `multiplier: 4` field is ignored while Follow game is enabled.
 - Enables NVIDIA's global FG DLL override (`0x10E41E03 = 1`) and sets its generated-frame count override to application control (`0x104D6667 = 0`). It removes user overrides for those same two settings in WuWa's driver profile so the game inherits them. **These global settings can also affect other compatible games.** Other profile settings are preserved.
-- Optionally changes three Windows GPU description strings to `NVIDIA GeForce RTX 5080` to expose WuWa's native menu. This affects names shown system-wide; the physical GPU stays a 4070 Ti. Setup never restarts Windows automatically.
+- Optionally spoofs the GPU name by changing three Windows description strings to `NVIDIA GeForce RTX 5080`, exposing WuWa's native menu. This affects names shown system-wide; the physical GPU stays a 4070 Ti. Setup never restarts Windows automatically.
 
 Follow game accepts supported choices made by WuWa. Dynamic mode is followed **only if the game requests it**. This is not unlimited frame generation; the tested capacity is five generated frames plus one rendered frame, or 6x total.
 
