@@ -1,0 +1,149 @@
+diff --git a/OptiScaler/dlssnr/DlssNr_DemoBufferProbe.h b/OptiScaler/dlssnr/DlssNr_DemoBufferProbe.h
+--- a/OptiScaler/dlssnr/DlssNr_DemoBufferProbe.h
++++ b/OptiScaler/dlssnr/DlssNr_DemoBufferProbe.h
+@@ -1,7 +1,7 @@
+ #pragma once
+ 
+ // GPL-3.0 demo research: map documented pointers and observe native barriers.
+-// Mutually exclusive prefix/pool/stem markers enable one fenced bounded readback.
++// Mutually exclusive prefix/pool/stem/post markers enable one fenced bounded readback.
+ #include <d3d12.h>
+ #include <wrl/client.h>
+ #include <json.hpp>
+@@ -29,7 +29,7 @@
+     ID3D12CommandList* identity=nullptr;
+     std::filesystem::path directory;
+     UINT64 bytes=0;
+-    bool pooled=false,stem=false;
++    bool pooled=false,stem=false,post=false;
+     std::filesystem::path filename=L"pre-output-prefix.raw";
+     bool enabled=false,attempted=false,recorded=false,submitted=false,discarded=false,written=false;
+     nlohmann::json metadata;
+@@ -42,7 +42,7 @@
+     UINT64 retainedBytes=0;
+     bool enabled=false;
+     unsigned frame=0,chain=0,barrierEvents=0,legacyCalls=0,enhancedCalls=0;
+-    bool coverageGap=false;
++    bool coverageGap=false,firstPreVerified=false;
+     TensorShot shot;
+ };
+ // Process-lifetime retention prevents stale/recycled address matches. The cap
+@@ -79,12 +79,14 @@
+     const bool prefix=std::filesystem::exists(runtime.parent_path()/L"nr-pre-tensor-capture.enable");
+     const bool pool=std::filesystem::exists(runtime.parent_path()/L"nr-pre-pool-capture.enable");
+     const bool stem=std::filesystem::exists(runtime.parent_path()/L"nr-pre-stem-capture.enable");
+-    if(unsigned(prefix)+unsigned(pool)+unsigned(stem)==1)
+-    {
+-        state->shot.pooled=pool;state->shot.stem=stem;
++    const bool post=std::filesystem::exists(runtime.parent_path()/L"nr-post-inputs-capture.enable");
++    if(unsigned(prefix)+unsigned(pool)+unsigned(stem)+unsigned(post)==1)
++    {
++        state->shot.pooled=pool;state->shot.stem=stem;state->shot.post=post;
+         if(pool)state->shot.filename=L"pre-pool.raw";
+         if(stem)state->shot.filename=L"pre-stem.raw";
+-        state->shot.directory=runtime.parent_path()/(stem?L"nr-pre-stem-capture":pool?L"nr-pre-pool-capture":L"nr-pre-tensor-capture");
++        if(post)state->shot.filename=L"post-inputs.raw";
++        state->shot.directory=runtime.parent_path()/(post?L"nr-post-inputs-capture":stem?L"nr-pre-stem-capture":pool?L"nr-pre-pool-capture":L"nr-pre-tensor-capture");
+         if(!std::filesystem::exists(state->shot.directory))
+         { std::filesystem::create_directory(state->shot.directory);state->shot.enabled=true; }
+     }
+@@ -275,7 +277,7 @@
+ }
+ inline void CaptureTensor(ID3D12GraphicsCommandList* commands,const void* params,unsigned size,unsigned frame,unsigned status)
+ {
+-    if(!state || !state->shot.enabled || state->shot.attempted || frame!=1 || size!=264 || !params || status!=0)return;
++    if(!state || !state->shot.enabled || state->shot.post || state->shot.attempted || frame!=1 || size!=264 || !params || status!=0)return;
+     std::lock_guard lock(state->mutex);auto& shot=state->shot;shot.attempted=true;
+     const auto* data=static_cast<const unsigned char*>(params);
+     UINT64 address=0,poolAddress=0;unsigned h=0,w=0,noise=0,poolH=0,poolW=0,skipH=0,skipW=0;
+@@ -330,6 +332,66 @@
+         {"state_contract","Observed whole-buffer UAV declaration with no split/alias/enhanced barriers or implementation gaps; restored to UAV"}};
+     Event({{"kind","tensor_capture_recorded"},{"bytes",bytes},{"buffer_id",found->id},{"offset",offset}});
+ }
++inline void CapturePostInputs(ID3D12GraphicsCommandList* commands,const void* params,unsigned size,unsigned frame,unsigned status)
++{
++    if(!state || !state->shot.enabled || !state->shot.post || state->shot.attempted ||
++       frame!=1 || size!=184 || !params || status!=0)return;
++    std::lock_guard lock(state->mutex);auto& shot=state->shot;shot.attempted=true;
++    auto fail=[&](const char* reason)
++    { Event({{"kind","post_input_capture_skipped"},{"reason",reason}}); };
++    const auto* data=static_cast<const unsigned char*>(params);
++    unsigned networkH=0,networkW=0,outputH=0,outputW=0;
++    memcpy(&networkH,data+32,4);memcpy(&networkW,data+36,4);
++    memcpy(&outputW,data+172,4);memcpy(&outputH,data+176,4);
++    if(!originalLegacy || !originalEnhanced || state->coverageGap || !state->firstPreVerified ||
++       networkH!=1152 || networkW!=1920 || outputH!=1080 || outputW!=1920)
++    { fail("Unverified first-frame extent, counter or barrier coverage");return; }
++    const UINT64 sizes[]={576ull*960*32,1152ull*1920*32};
++    Buffer* buffers[]={nullptr,nullptr};UINT64 offsets[2]{};
++    for(unsigned i=0;i<2;++i)
++    {
++        UINT64 address=0;memcpy(&address,data+i*8,8);
++        for(auto& buffer:state->buffers)
++            if(address>=buffer.address && address-buffer.address<buffer.bytes)
++            { buffers[i]=&buffer;offsets[i]=address-buffer.address;break; }
++        if(!buffers[i] || !buffers[i]->stateUsable || buffers[i]->declaredState!=D3D12_RESOURCE_STATE_UNORDERED_ACCESS ||
++           buffers[i]->bytes-offsets[i]<sizes[i])
++        { fail("Input prefix has no sufficiently large allocation with a verified UAV declaration");return; }
++    }
++    if(buffers[0]==buffers[1] && offsets[0]<offsets[1]+sizes[1] && offsets[1]<offsets[0]+sizes[0])
++    { fail("Candidate input ranges overlap");return; }
++    const UINT64 total=sizes[0]+sizes[1];
++    Microsoft::WRL::ComPtr<ID3D12Device> device;
++    if(FAILED(commands->GetDevice(IID_PPV_ARGS(&device))))return;
++    D3D12_HEAP_PROPERTIES heap{};heap.Type=D3D12_HEAP_TYPE_READBACK;
++    D3D12_RESOURCE_DESC desc{};desc.Dimension=D3D12_RESOURCE_DIMENSION_BUFFER;desc.Width=total;
++    desc.Height=1;desc.DepthOrArraySize=1;desc.MipLevels=1;desc.SampleDesc.Count=1;desc.Layout=D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
++    if(FAILED(device->CreateCommittedResource(&heap,D3D12_HEAP_FLAG_NONE,&desc,D3D12_RESOURCE_STATE_COPY_DEST,
++        nullptr,IID_PPV_ARGS(&shot.readback))) || FAILED(device->CreateFence(0,D3D12_FENCE_FLAG_NONE,IID_PPV_ARGS(&shot.fence))))
++    { fail("Readback/fence allocation failed");return; }
++    nlohmann::json inputs=nlohmann::json::array();UINT64 destination=0;
++    for(unsigned i=0;i<2;++i)
++    {
++        D3D12_RESOURCE_BARRIER barrier{};barrier.Type=D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
++        barrier.Transition={buffers[i]->resource.Get(),D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES,
++            D3D12_RESOURCE_STATE_UNORDERED_ACCESS,D3D12_RESOURCE_STATE_COPY_SOURCE};
++        commands->ResourceBarrier(1,&barrier);
++        commands->CopyBufferRegion(shot.readback.Get(),destination,buffers[i]->resource.Get(),offsets[i],sizes[i]);
++        std::swap(barrier.Transition.StateBefore,barrier.Transition.StateAfter);commands->ResourceBarrier(1,&barrier);
++        inputs.push_back({{"pointer_argument_offset",i*8},{"buffer_id",buffers[i]->id},
++            {"allocation_offset",offsets[i]},{"file_offset",destination},{"bytes",sizes[i]}});
++        destination+=sizes[i];
++    }
++    shot.identity=Identity(commands);shot.bytes=total;shot.recorded=true;
++    shot.metadata={{"schema",1},{"frame",frame},{"width",outputW},{"height",outputH},
++        {"network_width",networkW},{"network_height",networkH},{"noise_counter",0},
++        {"tensor_kind","post_block_input_prefixes"},{"file",shot.filename.string()},
++        {"bytes",total},{"gpu_completed",false},{"complete",false},{"layout_verified",false},
++        {"inputs",inputs},{"captured_after_chain",state->chain},
++        {"scope","Bounded argument-0 and argument-8 input prefixes after the first neural post block; layout and semantics require offline verification"},
++        {"state_contract","Observed whole-buffer UAV declarations without split/alias/enhanced barriers or implementation gaps; restored to UAV"}};
++    Event({{"kind","post_input_capture_recorded"},{"bytes",total},{"inputs",inputs}});
++}
+ inline void TensorSubmitted(ID3D12CommandQueue* queue,UINT count,ID3D12CommandList* const* commands)
+ {
+     if(!state)return;
+@@ -357,6 +419,11 @@
+     UINT64 output=0,weights=0;unsigned height=0,width=0;
+     memcpy(&output,data+216,8);memcpy(&weights,data+224,8);
+     memcpy(&height,data+208,4);memcpy(&width,data+212,4);
++    if(frame==1)
++    {
++        unsigned noise=0;memcpy(&noise,data+200,4);
++        state->firstPreVerified=height==1080 && width==1920 && noise==0;
++    }
+     state->output<<nlohmann::json({{"kind","known_tensor_ranges"},{"frame",frame},{"chain",chain},
+         {"height",height},{"width",width},{"output_tensor",Locate(output)},
+         {"weight_tensor",Locate(weights)},{"registered_buffers",state->buffers.size()},
+diff --git a/OptiScaler/dlssnr/DlssNr_DemoKernelProbe.h b/OptiScaler/dlssnr/DlssNr_DemoKernelProbe.h
+--- a/OptiScaler/dlssnr/DlssNr_DemoKernelProbe.h
++++ b/OptiScaler/dlssnr/DlssNr_DemoKernelProbe.h
+@@ -292,6 +292,8 @@
+         DemoBufferProbe::Observe(name,k.pParams,k.paramSize,frame,chain);
+         if(name=="cc_tinlayout_fused_pre_block_swin_1h_32_1_ds_fp8" && count==1)
+             DemoBufferProbe::CaptureTensor(commands,k.pParams,k.paramSize,frame,status);
++        if(name=="cc_tinlayout_fused_post_block_swin_1h_32_fp8" && count==1)
++            DemoBufferProbe::CapturePostInputs(commands,k.pParams,k.paramSize,frame,status);
+         nlohmann::json record={{"kind","launch"},{"frame",frame},{"chain",chain},{"kernel",i},
+             {"name",name},{"api",api},{"status",status},{"chain_cpu_us",cpuUs},
+             {"param_bytes",k.paramSize},{"has_packed_params",k.pParams!=nullptr},

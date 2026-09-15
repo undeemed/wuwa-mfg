@@ -1,8 +1,9 @@
 # SPDX-License-Identifier: MIT
-"""Capture private first-block features in two hidden NVIDIA demo views.
+"""Capture private boundary-block features in two hidden NVIDIA demo views.
 
-Requires the combined optiscaler-demo-pre-tensor.patch capture build. This tool
-never launches a game. Raw tensors and textures must remain outside this repo.
+Requires the combined optiscaler-demo-pre-tensor.patch capture build, plus the
+post-inputs add-on for that mode. This tool never launches a game. Raw tensors
+and textures must remain outside this repo.
 """
 import argparse
 import json
@@ -28,14 +29,17 @@ def main():
     parser.add_argument('--capture-dll', type=Path, required=True)
     parser.add_argument('--capture-sha256', required=True)
     parser.add_argument('--prefix')
-    parser.add_argument('--stem', action='store_true', help='Capture the complete skip and pooled output together.')
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument('--stem', action='store_true', help='Capture the complete skip and pooled output together.')
+    mode.add_argument('--post-inputs', action='store_true', help='Capture bounded input prefixes after the final neural block; requires the post-inputs add-on patch.')
     args = parser.parse_args()
-    args.prefix = args.prefix or ('native-pre-stem' if args.stem else 'native-pre-pool')
-    markers = tuple(name.replace('pre-pool', 'pre-stem') for name in MARKERS) if args.stem else MARKERS
+    capture_mode = 'post-inputs' if args.post_inputs else 'pre-stem' if args.stem else 'pre-pool'
+    args.prefix = args.prefix or ('native-' + capture_mode)
+    markers = tuple(name.replace('pre-pool', capture_mode) for name in MARKERS)
     artifacts = dict(ARTIFACTS)
-    if args.stem:
+    if capture_mode != 'pre-pool':
         del artifacts['nr-pre-pool-capture']
-        artifacts['nr-pre-stem-capture'] = 'pre-stem'
+        artifacts['nr-' + capture_mode + '-capture'] = capture_mode
     import re
     if not re.fullmatch('[a-z0-9-]+', args.prefix):
         parser.error('Use a simple lowercase trial prefix.')
@@ -55,7 +59,8 @@ def main():
         raise ValueError('Capture DLL hash mismatch.')
     for name in (*MARKERS, *ARTIFACTS, 'nr-kernel-timing.enable',
                  'nr-force-sm89.enable', 'nr-pre-tensor-capture.enable', 'nr-pre-tensor-capture',
-                 'nr-pre-stem-capture.enable', 'nr-pre-stem-capture'):
+                 'nr-pre-stem-capture.enable', 'nr-pre-stem-capture',
+                 'nr-post-inputs-capture.enable', 'nr-post-inputs-capture'):
         if (demo / name).exists():
             raise FileExistsError('Archive or disable previous experiment: ' + name)
     views = [('original', None), ('west', [-1, 1.8, 0])]
@@ -69,7 +74,7 @@ def main():
     if manifest_path.exists():
         raise FileExistsError(manifest_path)
     output.mkdir(parents=True, exist_ok=True)
-    manifest = {'schema': 1, 'mode': 'complete_first_block' if args.stem else 'pooled',
+    manifest = {'schema': 1, 'mode': 'post_block_input_prefixes' if args.post_inputs else 'complete_first_block' if args.stem else 'pooled',
                 'capture_dll_sha256': sha256(capture_dll),
                 'original_dll_sha256': sha256(original_dll),
                 'original_scene_sha256': sha256(original_scene), 'views': []}
@@ -88,7 +93,7 @@ def main():
     try:
         (demo / 'dxgi.dll').write_bytes(capture_dll)
         for name in markers:
-            (demo / name).write_text('One-shot private first-block capture\n')
+            (demo / name).write_text('One-shot private boundary-block capture\n')
         for name, direction in views:
             scene.write_bytes(original_scene if direction is None else
                               camera_scene(original_scene, [0, 1.8, 0], direction))
@@ -104,16 +109,22 @@ def main():
             archive()
             if run.returncode:
                 raise RuntimeError('Hidden demo runner failed: ' + label)
-            tensor_dir = trial / ('pre-stem' if args.stem else 'pre-pool')
+            tensor_dir = trial / capture_mode
             meta = json.loads((tensor_dir / 'metadata.json').read_text())
-            expected_bytes = 1152*1920*32 + 576*960*32 if args.stem else 576*960*32
-            expected_filename = 'pre-stem.raw' if args.stem else 'pre-pool.raw'
+            expected_bytes = 1152*1920*32 + 576*960*32 if args.stem or args.post_inputs else 576*960*32
+            expected_filename = capture_mode + '.raw'
             if not (meta['complete'] and meta['gpu_completed'] and meta['frame'] == 1
                     and meta['noise_counter'] == 0 and meta['tensor_kind'] == manifest['mode']
-                    and meta['pointer_argument_offset'] == (216 if args.stem else 248)
                     and [meta['width'], meta['height']] == [1920, 1080]
-                    and [meta['pool_width'], meta['pool_height']] == [960, 576]
                     and meta['bytes'] == expected_bytes and meta['file'] == expected_filename):
+                raise ValueError('Feature capture contract failed.')
+            if args.post_inputs:
+                expected = [(0, 0, 576*960*32), (8, 576*960*32, 1152*1920*32)]
+                actual = [(x['pointer_argument_offset'], x['file_offset'], x['bytes']) for x in meta['inputs']]
+                if actual != expected or [meta['network_width'], meta['network_height']] != [1920, 1152] or meta['captured_after_chain'] != 156:
+                    raise ValueError('Post-block input-prefix contract failed.')
+            elif not (meta['pointer_argument_offset'] == (216 if args.stem else 248)
+                      and [meta['pool_width'], meta['pool_height']] == [960, 576]):
                 raise ValueError('First-block capture contract failed.')
             if args.stem and not ([meta['skip_width'], meta['skip_height']] == [1920,1152]
                                  and meta['skip_bytes'] == 1152*1920*32 and meta['pool_bytes'] == 576*960*32):
@@ -126,7 +137,7 @@ def main():
                     and frame['controls']['DLSSNR.Reset'] == 1):
                 raise ValueError('Paired first-reset textures are incomplete.')
             record = {'view': name, 'label': label,
-                      'stem_sha256' if args.stem else 'pooled_sha256': sha256(raw), 'capture_hashes': {}}
+                      'post_inputs_sha256' if args.post_inputs else 'stem_sha256' if args.stem else 'pooled_sha256': sha256(raw), 'capture_hashes': {}}
             for role in ('color', 'output'):
                 resource = frame['resources'][role]
                 if [resource['width'], resource['height']] != [1920, 1080]:

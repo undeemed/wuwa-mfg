@@ -60,7 +60,7 @@ the [license](licenses/MLX-DLSS-Apache-2.0.txt) and this attribution. The upstre
 repository and weights are not vendored here. The demo probe and model-capture
 patches, including the combined native launch-contract probe and optional SM89
 selector, buffer/barrier metadata probe, fenced preprocessor-prefix and separate
-pooled-output and complete-first-block captures, and output-argument observation,
+pooled-output, complete-first-block and final-block-input captures, and output-argument observation,
 extend the GPL-3.0 OptiScaler
 integration and follow that license instead. The camera-view, pooled-feature and
 output-contract collection utilities are original MIT-licensed orchestration;
@@ -90,8 +90,12 @@ its private logical weights. Neither the original weights nor fitted derivative
 weights are distributed. The layer-pruning and restoration-distillation papers
 are cited for research ideas; their source and data are not copied.
 The direct FP8/FP16 MMA diagnostic follows the public NVIDIA PTX ISA fragment
-layout and instruction interface. Its block-0 scheduling adapts the same pinned
+layout and instruction interface. Its block-0 and block-70 scheduling adapts the same pinned
 MLX-DLSS reference and retains the research files' Apache-2.0 notices.
+The final-block decoder, substitution probe and boundary-block regression checks
+use that attribution and license. They contain no captured features or vendor
+instruction code. The regression reference is the earlier Apache-2.0 diagnostic
+from this repository's own Git history.
 Research papers are linked in the latency investigation; their reported results
 are not presented as performance claims for this toolkit.
 

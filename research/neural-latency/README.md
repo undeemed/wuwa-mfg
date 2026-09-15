@@ -1032,3 +1032,97 @@ all 59 supported blocks; `--single-blocks none --group <label> <comma-separated-
 tests a joint removal. Structural transitions and boundary blocks are rejected.
 Source commit, weight hash, capture controls and saved baselines are checked
 before accepting results. No compressed model is accepted for installation.
+
+## Final-block inputs and FP8 accumulation
+
+The latest diagnostic separates errors accumulated by the reconstructed
+decoder from errors in its final block. The new
+[`optiscaler-demo-post-inputs.patch`](optiscaler-demo-post-inputs.patch) is an
+**add-on to the combined `optiscaler-demo-pre-tensor.patch`**, not a standalone
+patch or installer option. It captures two bounded input prefixes after the
+first successful neural post block (chain 156), without changing the launch:
+
+| Packed pointer argument | Candidate tensor | Bytes |
+| --- | --- | ---: |
+| 0 | Half-resolution decoder, 576×960×32 E4M3 | 17,694,720 |
+| 8 | Full-resolution skip, 1152×1920×32 E4M3 | 70,778,880 |
+
+The probe requires the observed 1920×1080 first evaluation, noise counter zero,
+1920×1152 internal extent, retained buffers with sufficient nonoverlapping
+ranges, and observed UAV states with complete barrier coverage. It inserts
+bounded copies, restores those states, and reads back only after the actual
+submission fence completes. Capture metadata deliberately leaves
+`layout_verified` false; range containment alone does not establish semantics.
+All existing demo process and marker gates remain in effect.
+
+`collect_pre_pool.py --post-inputs` collected original and west views in two
+bounded 25-second runs. It enforces the exact hidden executable before launch.
+Both captures completed with four fenced paired image frames; only the first
+reset frame is used here. The demo DLL, camera scene and native source files
+were restored, and WuWa was not launched or changed. The two sparse model
+samples in each run were **5.44 ms**; this instrumented capture is not a speedup.
+
+`decode_post_inputs.py` tests the prior tiled skip mapping and four decoder
+layout hypotheses. In the original view, the first **33,554,432 bytes** of the
+post-block skip exactly match an earlier first-block capture of the same input
+and controls. This check covers that prefix, not all bytes. The decoder's
+two-plane, channel-permuted layout correlates with the reconstruction at
+**0.98085 / 0.98131**, versus 0.40609 / 0.42650 for unpermuted planes and below
+0.053 for the two interleaved alternatives. Those results support the mapping
+without proving every layout or arithmetic detail.
+
+`probe_post_block.py` first requires the isolated final block with reconstructed
+inputs to reproduce the complete reconstruction's four-channel head exactly.
+Both views pass. The original view also exactly reproduces a saved, independently
+generated reconstruction with matching input, output and controls. It then
+substitutes native inputs to localize the remaining error:
+
+| Final-stage experiment | Original native RGB MAE | West native RGB MAE |
+| --- | ---: | ---: |
+| Reconstructed inputs and arithmetic | 0.0078644 | 0.0089212 |
+| Native skip only | 0.0077571 | 0.0088140 |
+| Native decoder only | 0.0015595 | 0.0017197 |
+| Both native inputs | 0.0011095 | 0.0012314 |
+| Both native inputs, direct FP16 output head | 0.0011096 | 0.0012313 |
+| Both native inputs, direct FP8 feed-forward MMA | 0.0002802 | 0.0003137 |
+| Same, with residual seeded into the MMA accumulator | 0.0002056 | 0.0002276 |
+| Same, with direct attention MMA and seeded attention bias | **0.0001638** | **0.0001792** |
+| Reconstructed inputs, all of these final-block MMA changes | 0.0076828 | 0.0087705 |
+
+The last four rows use the direct FP16 output head. Most original image error
+comes from the upstream decoder: replacing both inputs lowers it by about 86%.
+Within the remaining final-block error, FP8 operand conversion and accumulation
+order matter; changing only the output head has negligible effect. The final
+block already avoids an extra E4M3 publication before the head in the pinned
+reference. There is no additional publication to remove there.
+
+`mma_first_block.py` now accepts `block_index=70` as well as its unchanged
+default of zero. Block 70 uses the recovered (-4,-4) window origin, zero padding
+after the feed-forward stage and cropping after attention. Its direct-MMA path
+uses the existing CUDA implementation; no new native instruction code is
+distributed. `test_boundary_mma.py` verifies exact block-0 agreement with the
+prior published implementation and exact block-70 chunk invariance in 24
+finite-input cases. These checks are not native parity tests.
+
+**Captured native inputs are diagnostic substitutions, not an independently
+runnable model.** Without them, the final-block changes improve complete-image
+error only modestly. Even the best substitution is not bit-exact, and the
+grading approximation, temporal behavior and other scenes remain unvalidated.
+No new latency improvement or replacement DLL is claimed. The complete
+reconstruction remains far slower than NVIDIA's native implementation, and the
+3 ms/no-quality-loss target remains unmet.
+
+Only source and [numeric evidence](../../evidence/neural-model-research/native-post-block.json)
+are published. Captured features, textures, weights, vendor binaries and
+disassembly stay private. Reproduction interfaces, using fresh private output
+directories and the same pinned reference and weights:
+
+```text
+collect_pre_pool.py --post-inputs --demo-dir <hidden-demo> --output-dir <private-trials> --capture-dll <private-capture-build> --capture-sha256 <sha256>
+probe_post_block.py --source <pinned-reference> --weights <private-weights> --case <label> <trial> <saved-baseline-or-dash> --mma-post --output-directory <private-directory>
+test_boundary_mma.py --source <pinned-reference> --weights <private-weights> --output <private-json>
+```
+
+Repeat `--case` for multiple views. `--prefix-check-trial` optionally verifies
+the matching earlier first-block prefix. The regression test requires Git
+history containing commit `3beec244d0aea1a35b744f9210818830801d1a2d`.

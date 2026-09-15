@@ -679,6 +679,34 @@ launched and no game or native DLL was changed. The [full experiment](../researc
 includes all removals, group checks, fitted projection results, source and
 numeric evidence. The 3 ms/no-quality-loss target remains unmet.
 
+## Locating final-block reconstruction error
+
+Two hidden demo captures now include bounded native decoder and skip inputs to
+the last neural block. The capture build leaves native launches intact and
+requires known extents, nonoverlapping buffer ranges, observed UAV states and
+completed submission fences. Original files were restored after collection;
+WuWa was not launched or changed.
+
+Replacing both reconstructed inputs with the native captures lowers final RGB
+error from **0.007864 / 0.008921** to **0.001110 / 0.001231** on the original and
+west views. This indicates that most of the mismatch accumulates upstream.
+Direct FP8 MMA, operand rounding, and seeding residuals and attention bias into
+the accumulators further lower the diagnostic error to **0.000164 / 0.000179**.
+Changing only the final FP16 head has negligible effect.
+
+These low errors depend on captured native intermediate features. With all
+inputs computed by the reconstruction itself, the same final-block changes
+reach only **0.007683 / 0.008770**. No independently runnable replacement has
+achieved native quality, and no native latency gain was measured. Both capture
+runs still reported sparse model samples of 5.44 ms. The [full diagnostic](../research/neural-latency/README.md#final-block-inputs-and-fp8-accumulation)
+includes the layout checks, output comparisons, regression tests and source.
+
+This distinguishes two requirements: a smaller model must retain the learned
+effect, while faster kernels must preserve the intended arithmetic. The first
+small models meet the timing budget but fail quality; the reconstructed model
+still needs numerical corrections before its output is a trustworthy teacher.
+Neither requirement has been solved by the new final-block result.
+
 ## Papers and what can transfer
 
 These papers provide research ideas. Their reported speedups are on other models
