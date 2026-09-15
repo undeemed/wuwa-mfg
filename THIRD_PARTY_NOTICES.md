@@ -120,3 +120,26 @@ exports only aggregate counts and histograms, never weight values, and links
 the public NVIDIA PTX specification for the sparse-matrix format.
 
 FirstEverTech/RTX4000-MFG-Unlock inspired the native NVIDIA profile experiment and is linked for attribution. Its repository content and binary artifacts are not copied into this project.
+
+## Private photo validation sources
+
+The image-plane writer, fixture checks, downloader and isolated-desktop helper
+are original MIT-licensed utilities; the student evaluator retains Apache-2.0.
+The mesh is generated from numeric geometry. No sample assets or NVIDIA source
+are copied into this repository. Pillow and NumPy are separately installed
+dependencies used for private image preparation and validation.
+
+The research downloads these images solely as private renderer inputs. It
+center-crops/resamples each to 1920×1080, then captures the sample's rendered
+input and native neural output. No original image, prepared texture, output,
+prediction or learned weights are distributed with this project.
+
+| Source | Author | Terms |
+| --- | --- | --- |
+| [Brent W. Jett official portrait, S92-47144](https://commons.wikimedia.org/wiki/File:Brent_W._Jett_-_Official_Astronaut_Portrait.jpg) | NASA | Public domain in the United States; see [NASA media guidelines](https://www.nasa.gov/nasa-brand-center/images-and-media/). No endorsement is implied. |
+| [Fronalpstock big](https://commons.wikimedia.org/wiki/File:Fronalpstock_big.jpg) | Hannes Röst | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/). Private crop/resampling and neural transformations are recorded; no adaptations are distributed. |
+| [3 year old calico cat](https://commons.wikimedia.org/wiki/File:3_year_old_calico_cat.jpg) | Babelball | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/). |
+
+The numerical evidence retains these sources, author credits, transformation
+description, original dimensions and file hashes. Photo terms are separate
+from the licenses on this repository's research code.

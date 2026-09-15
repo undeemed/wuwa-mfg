@@ -1,0 +1,1020 @@
+{
+  "schema": 1,
+  "experiment": "Unseen photo content and isolated desktop capture",
+  "baseline_commit": "3e428b14d348435337ed1c6ee713c13d27215bb0",
+  "target_achieved": false,
+  "quality_gate_passed": false,
+  "native_runtime_accelerated": false,
+  "published_source_sha256": {
+    "research/neural-latency/make_demo_image_scene.py": "85d1ace107577c32cb2829b13da7867aba7e096cbf9fdfb225a2d0ddb90a56d6",
+    "research/neural-latency/collect_demo_image.py": "5c206a1a7da6bbc21fb330a49fecb3f793a31769bf09251c588f5bebbf777931",
+    "research/neural-latency/prepare_demo_photo_cases.py": "872c40d7c7d33390eebf4ca9acfd72200893c64764c2163633fe23597e8a1cd8",
+    "research/neural-latency/evaluate_photo_students.py": "114627c14a9d147fde6592bfc442edd7555427bf75b35c73a08be3a790a77e5d",
+    "research/neural-latency/test_demo_image_scene.py": "703d1c1ba6606714d89f888f1f0416627cae1e9ffbffd80a3db1d3ca184467bb",
+    "research/neural-latency/collect_demo_views.py": "5a819c68a3a68a9b9eda6dd7596658655b8b19ee6143489529f3edb5b1aae892",
+    "research/neural-latency/compare_output_grade.py": "189ba5fc33f7caebf1a4d265c8bb87f111ad00513dc6f57f2788302777bcab4e",
+    "research/neural-latency/student_probe.py": "ba75311bb1565208cebde500e48ba8df7be9d42ff07d27c8cb1f8a8df1993d93",
+    "research/neural-latency/output_grade.py": "a4f8c6ee272cec6ae384dca930838ed9a3a9f4e2f2c708d71c5aa7fd824a71ab",
+    "research/neural-latency/attention_student.py": "8602dd984315453a574e094933c833895aa1e5221590570a1775fa08e1906041",
+    "research/neural-latency/fused_norm.py": "8ed6f5a4235e5e8815a9533308397e0edb87b37d92b33a8747835770d8d80ec1",
+    "research/neural-latency/fused_norm.cu": "699d2ea0ccfa4553310944be37e0d1ee281e8e00793a9960a369d8f298b494a9",
+    "research/neural-latency/test_output_grade.py": "eba2c892448835f9a86895aeb4c881e41bc2b70c60472ec3734458f4486944d5",
+    "research/neural-latency/inspect_pre_kernel.py": "37932169a82f24dac23fb2c9d0b0f865ad329e9a770a51f2a929cce9c3528dc3",
+    "research/neural-latency/optiscaler-demo-model-capture.patch": "1b50a13fbd53fb5f9295cccb67c66cdb674083c5b48639ef651efe282e1de33a",
+    "tools/run_neural_demo_trial.py": "89843898caca25b0e9e8d5833efd75bb051e0df803a446778d886fb0bddebc34",
+    "tools/isolated_demo_process.py": "0ac8fc90b6cce4fd9da87fdb77675456a67bb293b306326ba6a3e1101f9c9f6e"
+  },
+  "preserved_state": {
+    "game_dxgi": "b3b0857a6d94e4745b42f2bb3beb747c527548ceec0abff11afecf89a1f6a590",
+    "game_ini": "213fd3f55423a12c075a9d96c2f87df3ea86c3971e135aa89eab1ff9b6a34fa6",
+    "game_nr": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927",
+    "demo_dxgi": "b3b0857a6d94e4745b42f2bb3beb747c527548ceec0abff11afecf89a1f6a590",
+    "demo_nr": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927",
+    "demo_hidden_exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+    "demo_scene": "389da6d234662bb88714b4240384ce63739ff06c7e75ff6014fcd2bab574f547",
+    "demo_ini": "8ac6219a0f4090297a87cc753aa3efee6b4c87111dffed5d9d314fb73ebffc62",
+    "normal_native_sources_unchanged": true,
+    "no_active_research_markers": true,
+    "captures_archived": true,
+    "no_staged_image_assets": true
+  },
+  "all_nine_original_inis_match": true,
+  "successful_captures": 7,
+  "completed_fenced_frames": 28,
+  "fixture_source_checks": {
+    "mesh_chunks": 10,
+    "validated_stream_slots": 7,
+    "nondegenerate_triangles": 4,
+    "png_exact_roundtrips": 2,
+    "mesh_sha256": "e8e95d75e03895cef19613b3aae96e8ce5081ea83f82980d0b6b95b5e0bbc3bc",
+    "fixture_sha256": [
+      "5ee4c5c37046f6e6a397dc8ab0fa69c79781b37d62e21254486f613e63697691",
+      "936c4d4e430b675ca5bb8a5980e9288747892d495cd030d8d6f975a9f40c64f6"
+    ]
+  },
+  "fixture_capture_checks": [
+    {
+      "proof": {
+        "label": "teacher-image-fixture-a2",
+        "capture_hashes": {
+          "color": "e838ca64840b7da6ca389497ed1794cdb8a2383b2056e06248ecda5b0fb2094f",
+          "output": "3237d8a5aa986b695db984db849ee5584176116c1d9bc517ad07d5494fa4f052"
+        },
+        "complete_fenced_frames": [
+          {
+            "index": 0,
+            "reset": 1
+          },
+          {
+            "index": 1,
+            "reset": 0
+          },
+          {
+            "index": 2,
+            "reset": 0
+          },
+          {
+            "index": 3,
+            "reset": 0
+          }
+        ],
+        "runtime_sha256": {
+          "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+          "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+          "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+        },
+        "restored": {
+          "scene": true,
+          "dll": true,
+          "ini": true
+        },
+        "inactive_desktop_observations": 4,
+        "all_demo_windows_hidden_and_off_input_desktop": true,
+        "native_sparse_timing": {
+          "total_ms": {
+            "median": 5.59,
+            "min": 5.59,
+            "max": 5.59
+          },
+          "model_ms": {
+            "median": 5.39,
+            "min": 5.39,
+            "max": 5.39
+          },
+          "surrounding_ms": {
+            "median": 0.2,
+            "min": 0.2,
+            "max": 0.2
+          }
+        },
+        "native_retained_timing_count": 1
+      },
+      "corner_rgb_means": [
+        [
+          1.0,
+          0.18250885605812073,
+          0.12753085792064667
+        ],
+        [
+          0.12766341865062714,
+          1.0,
+          0.18251357972621918
+        ],
+        [
+          0.1274586319923401,
+          0.1825971007347107,
+          1.0
+        ],
+        [
+          1.0,
+          0.9341619610786438,
+          0.13837407529354095
+        ]
+      ],
+      "expected_orientation": true
+    },
+    {
+      "proof": {
+        "label": "teacher-image-fixture-b",
+        "capture_hashes": {
+          "color": "36f08779c01ce7090da2738c4c153e3ee96c11c26fb1f3a2a1032f1daed2b727",
+          "output": "ebf10dbf4e633b4c648aad1b7843ef15e7bbb2fd3bc457674cd3d0577f604a0b"
+        },
+        "complete_fenced_frames": [
+          {
+            "index": 0,
+            "reset": 1
+          },
+          {
+            "index": 1,
+            "reset": 0
+          },
+          {
+            "index": 2,
+            "reset": 0
+          },
+          {
+            "index": 3,
+            "reset": 0
+          }
+        ],
+        "runtime_sha256": {
+          "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+          "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+          "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+        },
+        "restored": {
+          "scene": true,
+          "dll": true,
+          "ini": true
+        },
+        "inactive_desktop_observations": 4,
+        "all_demo_windows_hidden_and_off_input_desktop": true,
+        "native_sparse_timing": {
+          "total_ms": {
+            "median": 5.58,
+            "min": 5.58,
+            "max": 5.58
+          },
+          "model_ms": {
+            "median": 5.39,
+            "min": 5.39,
+            "max": 5.39
+          },
+          "surrounding_ms": {
+            "median": 0.2,
+            "min": 0.2,
+            "max": 0.2
+          }
+        },
+        "native_retained_timing_count": 1
+      },
+      "corner_rgb_means": [
+        [
+          0.12753085792064667,
+          1.0,
+          0.18250885605812073
+        ],
+        [
+          0.18251357972621918,
+          0.12766341865062714,
+          1.0
+        ],
+        [
+          1.0,
+          0.1274586319923401,
+          0.1825971007347107
+        ],
+        [
+          0.13837407529354095,
+          1.0,
+          0.9341619610786438
+        ]
+      ],
+      "expected_orientation": true
+    }
+  ],
+  "frozen_student_comparison": {
+    "schema": 1,
+    "target_achieved": false,
+    "quality_gate_passed": false,
+    "selection_sha256": "118aa5c879037a12ea132ba38716f97cccd07a7120f9169d77f75ef8a4587dc4",
+    "photo_manifest": {
+      "schema": 1,
+      "purpose": "Unseen-content validation only; no fitting or tuning on these three images.",
+      "preprocessing": "Pillow RGB conversion and LANCZOS center-fit to 1920x1080; no aspect-ratio distortion.",
+      "model_resolution": [
+        1920,
+        1080
+      ],
+      "cases": [
+        {
+          "name": "portrait",
+          "author": "NASA",
+          "license": "Public domain in the United States (NASA)",
+          "license_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+          "source": "https://commons.wikimedia.org/wiki/File:Brent_W._Jett_-_Official_Astronaut_Portrait.jpg",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/e/e9/Brent_W._Jett_-_Official_Astronaut_Portrait.jpg",
+          "source_size": [
+            2400,
+            3000
+          ],
+          "source_sha1": "1aa64e6c1e05e18b419162c75c26405a1f7322b1",
+          "split": "validation",
+          "source_bytes": 1007136,
+          "source_sha256": "bf3acb666b51589cace3459dba1076a9e2794ef6f25234cf65139b77a97fdc61",
+          "source_sha1_verified": true,
+          "texture_sha256": "3bc967b1117bd417436cb73287295cb9f56d9a15793e1858a19789645f551c44",
+          "scene_manifest": {
+            "schema": 1,
+            "mesh_bytes": 1072,
+            "texture_sha256": "3bc967b1117bd417436cb73287295cb9f56d9a15793e1858a19789645f551c44",
+            "texture_bytes": 3137810,
+            "fixture_variant": null,
+            "generated_fixture_resolution": null,
+            "files_sha256": {
+              "image.png": "3bc967b1117bd417436cb73287295cb9f56d9a15793e1858a19789645f551c44",
+              "materials.json": "145652b9b67bfacf2fb7539455d097855d60c7c480a7392bd1f42e393447c088",
+              "plane.chk": "e8e95d75e03895cef19613b3aae96e8ce5081ea83f82980d0b6b95b5e0bbc3bc",
+              "scene.json": "4b448fbbbf73fbd49996f5fc5405e40f736347786abf6d4a27a1258f08e6e2cd"
+            },
+            "note": "Texture is rendered through the sample; capture the actual model input. No latency or quality claim."
+          }
+        },
+        {
+          "name": "landscape",
+          "author": "Hannes R\u00f6st",
+          "license": "CC BY-SA 3.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+          "source": "https://commons.wikimedia.org/wiki/File:Fronalpstock_big.jpg",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/3/3f/Fronalpstock_big.jpg",
+          "source_size": [
+            10109,
+            4542
+          ],
+          "split": "validation",
+          "source_bytes": 14679474,
+          "source_sha256": "24eb29eccdf0af691b406d1a3d22c0ef5d761cc454d8a917848c33958f6fc857",
+          "source_sha1_verified": false,
+          "texture_sha256": "b8e12dae50575bd6297d3e5489ff9036b78952f8ad1645f57cd5627596b52175",
+          "scene_manifest": {
+            "schema": 1,
+            "mesh_bytes": 1072,
+            "texture_sha256": "b8e12dae50575bd6297d3e5489ff9036b78952f8ad1645f57cd5627596b52175",
+            "texture_bytes": 3397511,
+            "fixture_variant": null,
+            "generated_fixture_resolution": null,
+            "files_sha256": {
+              "image.png": "b8e12dae50575bd6297d3e5489ff9036b78952f8ad1645f57cd5627596b52175",
+              "materials.json": "145652b9b67bfacf2fb7539455d097855d60c7c480a7392bd1f42e393447c088",
+              "plane.chk": "e8e95d75e03895cef19613b3aae96e8ce5081ea83f82980d0b6b95b5e0bbc3bc",
+              "scene.json": "4b448fbbbf73fbd49996f5fc5405e40f736347786abf6d4a27a1258f08e6e2cd"
+            },
+            "note": "Texture is rendered through the sample; capture the actual model input. No latency or quality claim."
+          }
+        },
+        {
+          "name": "cat",
+          "author": "Babelball",
+          "license": "CC0 1.0",
+          "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "source": "https://commons.wikimedia.org/wiki/File:3_year_old_calico_cat.jpg",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/8/8b/3_year_old_calico_cat.jpg",
+          "source_size": [
+            6000,
+            4000
+          ],
+          "source_sha1": "aedf4227c4a8d247883f2a54ff5291a8c7cfbebf",
+          "split": "validation",
+          "source_bytes": 2064270,
+          "source_sha256": "c1af939cd482dfd5decd34ba3a565b42dc26deb3babef4a41c92420c85269df9",
+          "source_sha1_verified": true,
+          "texture_sha256": "5304058369ba9b97165f8bf3e6da9878a5d001df2d70498b9aeb9fd0c4447080",
+          "scene_manifest": {
+            "schema": 1,
+            "mesh_bytes": 1072,
+            "texture_sha256": "5304058369ba9b97165f8bf3e6da9878a5d001df2d70498b9aeb9fd0c4447080",
+            "texture_bytes": 1559883,
+            "fixture_variant": null,
+            "generated_fixture_resolution": null,
+            "files_sha256": {
+              "image.png": "5304058369ba9b97165f8bf3e6da9878a5d001df2d70498b9aeb9fd0c4447080",
+              "materials.json": "145652b9b67bfacf2fb7539455d097855d60c7c480a7392bd1f42e393447c088",
+              "plane.chk": "e8e95d75e03895cef19613b3aae96e8ce5081ea83f82980d0b6b95b5e0bbc3bc",
+              "scene.json": "4b448fbbbf73fbd49996f5fc5405e40f736347786abf6d4a27a1258f08e6e2cd"
+            },
+            "note": "Texture is rendered through the sample; capture the actual model input. No latency or quality claim."
+          }
+        }
+      ]
+    },
+    "models": {
+      "plain": {
+        "architecture": {
+          "type": "four-level hierarchical residual CNN with global context gate",
+          "width": 16,
+          "blocks": 2,
+          "parameters": 223440,
+          "shuffle_factor": 4,
+          "noise_channels": 0,
+          "input_receptive_field_pixels": "whole image via global context gate",
+          "variant": "hierarchical",
+          "explicit_output_grading": [
+            0.9330329895019531,
+            -0.25,
+            0.8999999761581421
+          ],
+          "widths": [
+            16,
+            32,
+            64,
+            96
+          ],
+          "blocks_per_stage": 2,
+          "internal_downsampling": "learned features only; original pixels retained through input rearrangement and residual path"
+        },
+        "record_sha256": "92976ef38bd77a4d40be138c514075a0632f56acb31e53c839d6146b58414b36",
+        "checkpoint_sha256": "653e68daa9992c602e593c1ad9d30b0e1087d155f0c14e1faa6ec930c44b7e7f",
+        "training_view_count": 30,
+        "steps": 4500
+      },
+      "attention": {
+        "architecture": {
+          "type": "four-level hierarchical residual CNN with global context gate and spatial self-attention",
+          "width": 16,
+          "blocks": 2,
+          "parameters": 260880,
+          "shuffle_factor": 4,
+          "noise_channels": 0,
+          "input_receptive_field_pixels": "whole image via global context gate",
+          "variant": "hierarchical-attention",
+          "explicit_output_grading": [
+            0.9330329895019531,
+            -0.25,
+            0.8999999761581421
+          ],
+          "widths": [
+            16,
+            32,
+            64,
+            96
+          ],
+          "blocks_per_stage": 2,
+          "internal_downsampling": "learned features only; original pixels retained through input rearrangement and residual path",
+          "global_attention": {
+            "cell_size": 32,
+            "token_shape": [
+              34,
+              60
+            ],
+            "heads": 3,
+            "head_dim": 32,
+            "layers": 1,
+            "normalization": "per-token LayerNorm before learned Q/K/V",
+            "operator": "PyTorch scaled_dot_product_attention, noncausal, dropout 0",
+            "position_encoding": "none; attention receives the existing spatial CNN features",
+            "residual_scale": 0.1,
+            "output_projection_initialization": "zero",
+            "precision": "FP32 training; FP16 inference",
+            "timing_scope": "included in complete network and output-grading graph"
+          }
+        },
+        "record_sha256": "f5433349fd7111ee01343e56af4323550634e8d574ace634ffa9a2be3d4d0b6c",
+        "checkpoint_sha256": "e18dce51a7c73bcdaf82ac1d8d49c59b59f9e92e4c17941dd0ed47d7afbddf84",
+        "training_view_count": 30,
+        "steps": 4500
+      },
+      "wide": {
+        "architecture": {
+          "type": "four-level hierarchical residual CNN with global context gate",
+          "width": 32,
+          "blocks": 2,
+          "parameters": 871792,
+          "shuffle_factor": 4,
+          "noise_channels": 0,
+          "input_receptive_field_pixels": "whole image via global context gate",
+          "variant": "hierarchical",
+          "explicit_output_grading": [
+            0.9330329895019531,
+            -0.25,
+            0.8999999761581421
+          ],
+          "widths": [
+            32,
+            64,
+            128,
+            192
+          ],
+          "blocks_per_stage": 2,
+          "internal_downsampling": "learned features only; original pixels retained through input rearrangement and residual path"
+        },
+        "record_sha256": "2dab445f5025d8289042c059b01e18cca4566bab854544a67978a7d03a354b53",
+        "checkpoint_sha256": "af0b775912e06406d83513086b349c0fa4f5d0faee75d45892c3bfdfc2a3248c",
+        "training_view_count": 30,
+        "steps": 4500
+      }
+    },
+    "cases": [
+      {
+        "name": "portrait",
+        "capture_proof": {
+          "label": "teacher-photo-portrait",
+          "capture_hashes": {
+            "color": "d60ec44402a02d7e03fc0be790deefbcc5110dc7002be1d8a2031243ce602862",
+            "output": "cb75f15d16ab5f4ac082a5a7272c13aab748cae4037ac27059333d2348c7d969"
+          },
+          "complete_fenced_frames": [
+            {
+              "index": 0,
+              "reset": 1
+            },
+            {
+              "index": 1,
+              "reset": 0
+            },
+            {
+              "index": 2,
+              "reset": 0
+            },
+            {
+              "index": 3,
+              "reset": 0
+            }
+          ],
+          "runtime_sha256": {
+            "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+            "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+            "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+          },
+          "restored": {
+            "scene": true,
+            "dll": true,
+            "ini": true
+          },
+          "inactive_desktop_observations": 4,
+          "all_demo_windows_hidden_and_off_input_desktop": true,
+          "native_sparse_timing": {
+            "total_ms": {
+              "median": 5.58,
+              "min": 5.58,
+              "max": 5.58
+            },
+            "model_ms": {
+              "median": 5.38,
+              "min": 5.38,
+              "max": 5.38
+            },
+            "surrounding_ms": {
+              "median": 0.21,
+              "min": 0.21,
+              "max": 0.21
+            }
+          },
+          "native_retained_timing_count": 1
+        },
+        "input_statistics": {
+          "mean": 0.6612144112586975,
+          "std": 0.3125610649585724,
+          "fraction_at_least_one": 0.14409481095679014,
+          "fraction_at_most_zero": 0.0014281121399176955
+        },
+        "identity": {
+          "mae": 0.084090955555439,
+          "rmse": 0.0965588390827179,
+          "p99": 0.2164306640625,
+          "gradient_error": 0.00866854377090931
+        },
+        "grade_only": {
+          "mae": 0.03786113113164902,
+          "rmse": 0.055844418704509735,
+          "p99": 0.183349609375,
+          "gradient_error": 0.007289214991033077
+        },
+        "models": {
+          "plain": {
+            "mae": 0.0679960548877716,
+            "rmse": 0.0885762944817543,
+            "p99": 0.26953125,
+            "gradient_error": 0.012120142579078674
+          },
+          "attention": {
+            "mae": 0.06877101957798004,
+            "rmse": 0.09105829894542694,
+            "p99": 0.29229736328125,
+            "gradient_error": 0.01261192001402378
+          },
+          "wide": {
+            "mae": 0.07002316415309906,
+            "rmse": 0.09041934460401535,
+            "p99": 0.275299072265625,
+            "gradient_error": 0.011454503051936626
+          }
+        }
+      },
+      {
+        "name": "landscape",
+        "capture_proof": {
+          "label": "teacher-photo-landscape",
+          "capture_hashes": {
+            "color": "ce88cebb0be45aefb048a3ae4e87b83c56776ef4ff3f11d454ce0bc7d61734d1",
+            "output": "7890ee1902560f34f54766f349d4306fa910d81b788b4f2eff7a070072c2f4a4"
+          },
+          "complete_fenced_frames": [
+            {
+              "index": 0,
+              "reset": 1
+            },
+            {
+              "index": 1,
+              "reset": 0
+            },
+            {
+              "index": 2,
+              "reset": 0
+            },
+            {
+              "index": 3,
+              "reset": 0
+            }
+          ],
+          "runtime_sha256": {
+            "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+            "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+            "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+          },
+          "restored": {
+            "scene": true,
+            "dll": true,
+            "ini": true
+          },
+          "inactive_desktop_observations": 4,
+          "all_demo_windows_hidden_and_off_input_desktop": true,
+          "native_sparse_timing": {
+            "total_ms": {
+              "median": 5.58,
+              "min": 5.58,
+              "max": 5.58
+            },
+            "model_ms": {
+              "median": 5.37,
+              "min": 5.37,
+              "max": 5.37
+            },
+            "surrounding_ms": {
+              "median": 0.2,
+              "min": 0.2,
+              "max": 0.2
+            }
+          },
+          "native_retained_timing_count": 1
+        },
+        "input_statistics": {
+          "mean": 0.7894094586372375,
+          "std": 0.22660544514656067,
+          "fraction_at_least_one": 0.2706757973251029,
+          "fraction_at_most_zero": 0.0
+        },
+        "identity": {
+          "mae": 0.07191673666238785,
+          "rmse": 0.07845916599035263,
+          "p99": 0.1201171875,
+          "gradient_error": 0.006165253929793835
+        },
+        "grade_only": {
+          "mae": 0.013430011458694935,
+          "rmse": 0.02332666702568531,
+          "p99": 0.094970703125,
+          "gradient_error": 0.005637540016323328
+        },
+        "models": {
+          "plain": {
+            "mae": 0.04719557613134384,
+            "rmse": 0.06212073192000389,
+            "p99": 0.1602783203125,
+            "gradient_error": 0.012950390577316284
+          },
+          "attention": {
+            "mae": 0.06481194496154785,
+            "rmse": 0.09955476224422455,
+            "p99": 0.295013427734375,
+            "gradient_error": 0.012765107676386833
+          },
+          "wide": {
+            "mae": 0.05709153786301613,
+            "rmse": 0.08037010580301285,
+            "p99": 0.2130126953125,
+            "gradient_error": 0.013691466301679611
+          }
+        }
+      },
+      {
+        "name": "cat",
+        "capture_proof": {
+          "label": "teacher-photo-cat",
+          "capture_hashes": {
+            "color": "f783346fc093b8f8b61a4f77376e8ac9e0170ba1aa3f6f8063ff2aa5075151cb",
+            "output": "397f02d8e46dfe8171b77ff400eb0cd200527bad0e95dc862eaea21f37483093"
+          },
+          "complete_fenced_frames": [
+            {
+              "index": 0,
+              "reset": 1
+            },
+            {
+              "index": 1,
+              "reset": 0
+            },
+            {
+              "index": 2,
+              "reset": 0
+            },
+            {
+              "index": 3,
+              "reset": 0
+            }
+          ],
+          "runtime_sha256": {
+            "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+            "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+            "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+          },
+          "restored": {
+            "scene": true,
+            "dll": true,
+            "ini": true
+          },
+          "inactive_desktop_observations": 4,
+          "all_demo_windows_hidden_and_off_input_desktop": true,
+          "native_sparse_timing": {
+            "total_ms": {
+              "median": 5.62,
+              "min": 5.62,
+              "max": 5.62
+            },
+            "model_ms": {
+              "median": 5.41,
+              "min": 5.41,
+              "max": 5.41
+            },
+            "surrounding_ms": {
+              "median": 0.2,
+              "min": 0.2,
+              "max": 0.2
+            }
+          },
+          "native_retained_timing_count": 1
+        },
+        "input_statistics": {
+          "mean": 0.5250096321105957,
+          "std": 0.3643174171447754,
+          "fraction_at_least_one": 0.0928369341563786,
+          "fraction_at_most_zero": 6.044238683127572e-05
+        },
+        "identity": {
+          "mae": 0.06671200692653656,
+          "rmse": 0.07894325256347656,
+          "p99": 0.1650390625,
+          "gradient_error": 0.003359326859936118
+        },
+        "grade_only": {
+          "mae": 0.027504336088895798,
+          "rmse": 0.032770201563835144,
+          "p99": 0.0927734375,
+          "gradient_error": 0.0028894501738250256
+        },
+        "models": {
+          "plain": {
+            "mae": 0.03588053211569786,
+            "rmse": 0.044290315359830856,
+            "p99": 0.10498046875,
+            "gradient_error": 0.00523621030151844
+          },
+          "attention": {
+            "mae": 0.04595765843987465,
+            "rmse": 0.05389023572206497,
+            "p99": 0.1142578125,
+            "gradient_error": 0.005601400043815374
+          },
+          "wide": {
+            "mae": 0.03333126753568649,
+            "rmse": 0.04165852814912796,
+            "p99": 0.1015625,
+            "gradient_error": 0.0049387002363801
+          }
+        }
+      }
+    ],
+    "complete_graph_timings": {
+      "plain": {
+        "median_ms": 1.2234559655189514,
+        "p95_ms": 1.2267520427703857,
+        "samples_ms": [
+          1.223423957824707,
+          1.2212159633636475,
+          1.218559980392456,
+          1.2182400226593018,
+          1.2225279808044434,
+          1.222656011581421,
+          1.216096043586731,
+          1.218559980392456,
+          1.2195839881896973,
+          1.223680019378662,
+          1.2206079959869385,
+          1.223680019378662,
+          1.2267520427703857,
+          1.220128059387207,
+          1.2216320037841797,
+          1.2224960327148438,
+          1.2255680561065674,
+          1.223680019378662,
+          1.2202240228652954,
+          1.2266240119934082,
+          1.2246079444885254,
+          1.223520040512085,
+          1.235967993736267,
+          1.2213120460510254,
+          1.2267520427703857,
+          1.2257280349731445,
+          1.2263679504394531,
+          1.2234879732131958,
+          1.2267520427703857,
+          1.223647952079773
+        ],
+        "graph_matches_eager": true
+      },
+      "attention": {
+        "median_ms": 1.3012639880180359,
+        "p95_ms": 1.3071696221828462,
+        "samples_ms": [
+          1.3015040159225464,
+          1.3035520315170288,
+          1.2994240522384644,
+          1.2984000444412231,
+          1.3015040159225464,
+          1.3052799701690674,
+          1.3015040159225464,
+          1.297984004020691,
+          1.30457603931427,
+          1.3015040159225464,
+          1.2953599691390991,
+          1.3012800216674805,
+          1.311743974685669,
+          1.3076159954071045,
+          1.2970240116119385,
+          1.3012479543685913,
+          1.30239999294281,
+          1.3066240549087524,
+          1.3035520315170288,
+          1.3004800081253052,
+          1.3002560138702393,
+          1.299456000328064,
+          1.3004800081253052,
+          1.3051199913024902,
+          1.3035520315170288,
+          1.2952640056610107,
+          1.301151990890503,
+          1.299232006072998,
+          1.299456000328064,
+          1.3010879755020142
+        ],
+        "graph_matches_eager": true
+      },
+      "wide": {
+        "median_ms": 1.953279972076416,
+        "p95_ms": 1.9605328142642975,
+        "samples_ms": [
+          1.96288001537323,
+          1.9548159837722778,
+          1.950719952583313,
+          1.9640320539474487,
+          1.9514240026474,
+          1.9495359659194946,
+          1.9537919759750366,
+          1.950719952583313,
+          1.9496959447860718,
+          1.950719952583313,
+          1.9548159837722778,
+          1.9545600414276123,
+          1.9527679681777954,
+          1.9567680358886719,
+          1.9576640129089355,
+          1.9567999839782715,
+          1.9525120258331299,
+          1.9557440280914307,
+          1.9558080434799194,
+          1.9527679681777954,
+          1.9516479969024658,
+          1.9517439603805542,
+          1.9537919759750366,
+          1.9517439603805542,
+          1.9537919759750366,
+          1.9524799585342407,
+          1.9568639993667603,
+          1.9493119716644287,
+          1.9546879529953003,
+          1.9496959447860718
+        ],
+        "graph_matches_eager": true
+      }
+    },
+    "mean_mae": {
+      "plain": 0.05035738771160444,
+      "attention": 0.059846874326467514,
+      "wide": 0.05348198985060056
+    },
+    "mean_grade_only_mae": 0.026265159559746582,
+    "limitations": [
+      "Three unseen photographs rendered on a static emissive plane; not representative game scenes or temporal validation.",
+      "Images are cropped/resampled to 1080p, then rendered/filtered/exposed by the sample. Targets use the actual captured model input.",
+      "Native sparse GPU timings and full Torch graph timings are different scopes; no D3D12 student integration or native speedup.",
+      "Frozen students were fitted only on 30 Sponza views. No training occurs here; these results can inform future work but are not a final quality gate."
+    ]
+  },
+  "desktop_controls": [
+    {
+      "label": "teacher-desktop-control-original",
+      "comparison_with_historical": {
+        "color": {
+          "mae": 5.496286235029402e-07,
+          "rmse": 0.0002141671284334734,
+          "max": 0.18023681640625,
+          "fraction_equal": 0.9989318094135803,
+          "historical_sha256": "2e44a6a5e2730c21f7f2b4610b0a3c0af6fc94e2f51601f2ab2fa3fa679cf7f6",
+          "new_sha256": "25b09c2e965b8f788cfb6a1d8c41076caec018cab64cc041d271e5eb671cd11e",
+          "byte_equal": false
+        },
+        "output": {
+          "mae": 0.002443058416247368,
+          "rmse": 0.0035185273736715317,
+          "max": 0.220062255859375,
+          "fraction_equal": 0.02040702160493827,
+          "historical_sha256": "13668520132202f28b6b584aff445e6982d17ece0430c9c134b7c2ef85b68d2b",
+          "new_sha256": "fef0236990fc5e87a84167c614c4635df440ddc6c7f9aa1662e4c6dfa538941f",
+          "byte_equal": false
+        }
+      },
+      "native_sparse_timing": {
+        "total_ms": {
+          "median": 5.63,
+          "min": 5.63,
+          "max": 5.63
+        },
+        "model_ms": {
+          "median": 5.43,
+          "min": 5.43,
+          "max": 5.43
+        },
+        "surrounding_ms": {
+          "median": 0.21,
+          "min": 0.21,
+          "max": 0.21
+        }
+      },
+      "native_retained_timing_count": 1,
+      "complete_fenced_frames": [
+        {
+          "index": 0,
+          "reset": 1
+        },
+        {
+          "index": 1,
+          "reset": 0
+        },
+        {
+          "index": 2,
+          "reset": 0
+        },
+        {
+          "index": 3,
+          "reset": 0
+        }
+      ],
+      "inactive_desktop_observations": 4
+    },
+    {
+      "label": "teacher-desktop-repeat-original",
+      "comparison_with_historical": {
+        "color": {
+          "mae": 0.0,
+          "rmse": 0.0,
+          "max": 0.0,
+          "fraction_equal": 1.0,
+          "historical_sha256": "2e44a6a5e2730c21f7f2b4610b0a3c0af6fc94e2f51601f2ab2fa3fa679cf7f6",
+          "new_sha256": "2e44a6a5e2730c21f7f2b4610b0a3c0af6fc94e2f51601f2ab2fa3fa679cf7f6",
+          "byte_equal": true
+        },
+        "output": {
+          "mae": 0.0,
+          "rmse": 0.0,
+          "max": 0.0,
+          "fraction_equal": 1.0,
+          "historical_sha256": "13668520132202f28b6b584aff445e6982d17ece0430c9c134b7c2ef85b68d2b",
+          "new_sha256": "13668520132202f28b6b584aff445e6982d17ece0430c9c134b7c2ef85b68d2b",
+          "byte_equal": true
+        }
+      },
+      "native_sparse_timing": {
+        "total_ms": {
+          "median": 5.61,
+          "min": 5.61,
+          "max": 5.61
+        },
+        "model_ms": {
+          "median": 5.41,
+          "min": 5.41,
+          "max": 5.41
+        },
+        "surrounding_ms": {
+          "median": 0.2,
+          "min": 0.2,
+          "max": 0.2
+        }
+      },
+      "native_retained_timing_count": 1,
+      "complete_fenced_frames": [
+        {
+          "index": 0,
+          "reset": 1
+        },
+        {
+          "index": 1,
+          "reset": 0
+        },
+        {
+          "index": 2,
+          "reset": 0
+        },
+        {
+          "index": 3,
+          "reset": 0
+        }
+      ],
+      "inactive_desktop_observations": 4
+    }
+  ],
+  "failure_containment": {
+    "deliberate_unsupported_format": true,
+    "observations": [
+      {
+        "elapsed_s": 5.0,
+        "error_dialog_present_on_inactive_desktop": true,
+        "input_desktop_unchanged": true
+      },
+      {
+        "elapsed_s": 10.1,
+        "error_dialog_present_on_inactive_desktop": true,
+        "input_desktop_unchanged": true
+      },
+      {
+        "elapsed_s": 15.1,
+        "error_dialog_present_on_inactive_desktop": true,
+        "input_desktop_unchanged": true
+      },
+      {
+        "elapsed_s": 20.2,
+        "error_dialog_present_on_inactive_desktop": true,
+        "input_desktop_unchanged": true
+      }
+    ],
+    "restored": {
+      "scene": true,
+      "dll": true,
+      "ini": true
+    },
+    "native_capture_or_timing": false
+  },
+  "initial_failed_prototype": {
+    "reason": "Absolute native paths are not mounted in the sample virtual filesystem. No model frames captured.",
+    "main_window_patch_did_not_contain_error_dialog": true,
+    "restored": {
+      "scene": true,
+      "dll": true,
+      "ini": true
+    }
+  },
+  "additional_limitations": [
+    "The photograph inputs have 9.3-27.1 percent of channel values at one after sample preprocessing. This is not source-photo fidelity.",
+    "An original-scene repeat matches historical input/output bytes, but the preceding control differs slightly. Universal determinism or timing equivalence is not established.",
+    "Every native photo trial has only one retained sparse timing sample. Full Torch graph timing is a separate scope; no replacement was installed."
+  ]
+}

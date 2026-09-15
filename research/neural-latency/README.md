@@ -1515,3 +1515,84 @@ The [sparsity evidence](../../evidence/neural-model-research/weight-sparsity.jso
 contains per-tensor counts, logical-axis histograms and source hashes. Run
 `inspect_weight_sparsity.py --weights <private-pinned-weights> --output <private-json>`
 to reproduce the audit locally.
+
+## Unseen photo content and contained background launches
+
+The existing sample can render a small emissive image plane, allowing different
+content to reach the native model without installing another application.
+`make_demo_image_scene.py` writes a **1,072-byte mesh** from numeric geometry and
+a material/scene description. Its default asymmetric texture checks image
+orientation and coverage. `test_demo_image_scene.py` validates ten file chunks,
+seven stream references, four triangles and two exact PNG round trips. Both
+fixture captures have the expected corner colors and orientation at 1920×1080.
+
+`collect_demo_image.py` stages only these generated assets inside the sample's
+media mount, runs the existing fenced capture build, then restores the scene,
+DLL and INI and archives its assets/captures privately. The first prototype used
+an unsupported absolute filesystem path in the sample's virtual filesystem;
+it produced no model frames and exposed an error dialog that the main-window
+hide patch did not contain. That failed trial is retained in the evidence.
+
+The trial runner now always uses `tools/isolated_demo_process.py`: it requires
+the same exact hidden-executable hash and starts the sample on a private Windows
+desktop that is never activated. It neither requests desktop-switch access nor
+calls `SwitchDesktop`. This follows Microsoft's
+[process desktop interface](https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/ns-processthreadsapi-startupinfow)
+and [desktop creation API](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createdesktopw).
+A deliberate unsupported-file test kept its error dialog on that inactive
+desktop through four observations, then restored all sample files. Normal
+trials verified hidden demo windows and an unchanged input desktop.
+
+An original-scene repeat reproduces the historical input and native output
+hashes exactly. The preceding control is also retained: its input MAE is
+0.00000055 and native-output MAE is 0.002443 against the historical capture.
+Therefore the evidence supports a matching repeat, not universal deterministic
+captures. The log's `0x087A0001` presentation status means the window is occluded,
+as defined by [Microsoft](https://learn.microsoft.com/en-us/windows/win32/direct3ddxgi/dxgi-status).
+The sample continues rendering and completing the captured GPU work.
+
+`prepare_demo_photo_cases.py` selects three licensed photographs before inference,
+records attribution/source hashes, and center-crops/resamples them to 1920×1080
+without changing their aspect ratio. All originals, prepared textures, native
+captures and student predictions remain private. Sources and terms are listed
+in [third-party notices](../../THIRD_PARTY_NOTICES.md#private-photo-validation-sources).
+No photo is included in training or used to fit another model in this experiment.
+
+`evaluate_photo_students.py` reloads the three frozen 30-view students, checks
+that each new captured input is absent from their training hashes, verifies
+the runtime/controls and all capture fences, then evaluates the complete models.
+All three models have larger MAE than the fixed-grade diagnostic on every photo:
+
+| Candidate | Portrait MAE | Landscape MAE | Cat MAE | Mean MAE | Full graph |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Fixed output grade only | 0.037861 | 0.013430 | 0.027504 | 0.026265 | Not timed |
+| Width 16 | 0.067996 | 0.047196 | 0.035881 | 0.050357 | 1.223 ms |
+| Width 16 + attention | 0.068771 | 0.064812 | 0.045958 | 0.059847 | 1.301 ms |
+| Width 32 | 0.070023 | 0.057092 | 0.033331 | 0.053482 | 1.953 ms |
+
+The complete FP16-network-plus-grade graphs match eager output and have 30 timing
+samples each. They exclude D3D12 integration. Native photo trials provide one
+retained sparse timing sample each, **5.37–5.41 ms** for the model; these are not
+a latency distribution or a native optimization result. The fixed grade omits
+the learned effect and is not an accepted replacement.
+
+These findings expose poor transfer beyond the training scene. They do not
+separate architecture limits from inadequate data or training. Static photos
+are not representative game sequences, and sample rendering/exposure clips
+**9.3–27.1% of input channel values** at one. Comparisons use the actual rendered
+input and its native target, not the original photograph. Temporal quality and
+perceptual acceptance remain untested. The three cases now inform research and
+must not be advertised as a future independent final test set.
+
+The [numeric evidence](../../evidence/neural-model-research/photo-validation.json)
+contains source provenance, seven successful captures/28 fenced frames,
+fixture checks, both original-scene controls, the deliberate failure check,
+all model comparisons and preserved-file hashes. No candidate is installed;
+the 3 ms/no-quality-loss objective remains unmet.
+
+```text
+make_demo_image_scene.py --output <new-private-scene> [--texture <local-image>]
+collect_demo_image.py --demo-dir <configured-hidden-demo> --output-dir <private-trials-root> --scene-dir <private-scene> --capture-dll <private-fenced-build> --capture-sha256 <verified-hash> --label <new-label>
+prepare_demo_photo_cases.py --output <new-private-photo-directory>
+evaluate_photo_students.py --base <private-trials-root> --photos <private-photo-directory> --plain <width-16-run> --attention <attention-run> --wide <width-32-run> --output <new-private-comparison-directory>
+```

@@ -807,6 +807,33 @@ documents its scope and the NVIDIA format reference. No sparse kernel was
 installed or benchmarked; pruning would require changing the model and
 validating its quality.
 
+## Testing content beyond the training scene
+
+A new, tiny image-plane scene lets the existing sample generate native targets
+for unfamiliar content. Three reserved photographs were tested against the
+frozen 30-view students, with no retraining. Every student has worse pixel MAE
+than the fixed-grade diagnostic on every photo. The plain student's mean MAE
+is **0.050357**, versus **0.026265** for the grade-only diagnostic, while its
+complete Torch graph runs at **1.223 ms**. Speed is available; preserving the
+learned effect remains unresolved. A color grade is not a substitute for that
+effect, and neither result passes acceptance.
+
+The [experiment](../research/neural-latency/README.md#unseen-photo-content-and-contained-background-launches)
+records attribution, private-data preparation, matched native inputs/targets,
+all three model comparisons and limitations. These are static rendered photos;
+sample exposure clips some channels, and there is no temporal or game-quality
+acceptance. The new cases now inform research rather than remaining a final
+independent test set.
+
+The same work fixes a background-launch gap: hiding the sample's main window
+did not contain load-error dialogs. The runner now places the verified sample
+on a private Windows desktop that is never activated. A deliberate load failure
+verified dialog containment and file restoration. An original-scene repeat
+matches the historical input/output hashes exactly; an earlier slightly
+different capture is retained as well. The native runtime, game and driver
+remain unchanged, and the approximately **5.4 ms** native baseline still exceeds
+the target.
+
 ## Papers and what can transfer
 
 These papers provide research ideas. Their reported speedups are on other models

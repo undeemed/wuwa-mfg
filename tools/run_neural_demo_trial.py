@@ -22,6 +22,8 @@ def main():
     parser.add_argument('--seconds', type=int, default=45)
     parser.add_argument('--restore-state', action='store_true')
     parser.add_argument('--fps', type=int, choices=[0, 60, 120], default=0)
+    parser.add_argument('--isolated-desktop', action='store_true', default=True,
+                        help='Enabled by default: contain all demo windows and error dialogs on a desktop that is never activated.')
     opts = parser.parse_args()
     DEMO = Path(opts.demo_dir).resolve()
     ROOT = Path(opts.output_dir).resolve()
@@ -60,20 +62,20 @@ def main():
     proc = None
     observations = []
     telemetry = []
+    desktop_observations = []
     try:
         log_path = DEMO / 'OptiScaler.log'
         if log_path.exists():
             log_path.replace(out / 'pre-existing.log')
-        startup = subprocess.STARTUPINFO()
-        startup.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-        startup.wShowWindow = subprocess.SW_HIDE
-        proc = subprocess.Popen([str(DEMO / 'ngx_dlss_demo.exe'), *ARGS], cwd=DEMO,
-                                startupinfo=startup, creationflags=subprocess.CREATE_NO_WINDOW)
+        from isolated_demo_process import IsolatedDemoProcess
+        proc = IsolatedDemoProcess([str(DEMO / 'ngx_dlss_demo.exe'), *ARGS], cwd=DEMO)
         while time.monotonic() - start < opts.seconds:
             time.sleep(5)
             log_path = DEMO / 'OptiScaler.log'
             lines = log_path.read_text(errors='replace').splitlines() if log_path.exists() else []
             elapsed = time.monotonic() - start
+            if opts.isolated_desktop:
+                desktop_observations.append({'elapsed_s': round(elapsed, 1), **proc.snapshot()})
             telemetry.append({'elapsed_s': round(elapsed, 1), 'gpu': gpu_snapshot()})
             fresh = [line for line in lines if RX.search(line)]
             for line in fresh:
@@ -94,6 +96,8 @@ def main():
                   'observations': observations, 'telemetry': telemetry,
                   'retained_count': len(kept), 'timings_are_sparse_gpu_intervals': True}
         result['hidden_launch_requested'] = True
+        if opts.isolated_desktop:
+            result['isolated_desktop_observations'] = desktop_observations
         result['local_file_sha256'] = {name: hashlib.sha256((DEMO / name).read_bytes()).hexdigest()
             for name in ('ngx_dlss_demo.exe', 'dxgi.dll', 'nvngx_dlssnr.dll')}
         if kept:
@@ -103,10 +107,14 @@ def main():
         (out / 'result.json').write_text(json.dumps(result, indent=2))
         print(json.dumps({k:v for k,v in result.items() if k not in ('observations','telemetry')}, indent=2))
     finally:
-        if proc is not None and proc.poll() is None:
-            proc.terminate()
-            proc.wait(timeout=15)
-        ini_path.write_bytes(original)
+        try:
+            if proc is not None and proc.poll() is None:
+                proc.terminate()
+                proc.wait(timeout=15)
+            if opts.isolated_desktop and proc is not None:
+                proc.close()
+        finally:
+            ini_path.write_bytes(original)
 
 if __name__ == '__main__':
     main()
