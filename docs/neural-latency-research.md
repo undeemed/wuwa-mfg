@@ -1113,6 +1113,36 @@ document both experiments. All eighteen sample launches used the inactive privat
 desktop; game, driver and normal runtime state remain unchanged. The full goal
 of 3 ms at 1920×1080 with unchanged native quality remains unmet.
 
+## Output-clamp training and a native dependency test
+
+The brighter-data model clips about 13.8% of channels on the brighter training
+images. Most clipped channels have an output-space gradient pointing back into
+range, but they account for only 8.05% of RGB error. A training-only
+straight-through gradient preserves the exact forward clamp and inference path.
+Against the ordinary control, it improves scene validation error 1.63% but
+worsens older-photo error 19.19% and newer-photo error 4.53%. Eight individual
+cases improve and eight regress. The candidate is rejected; the optional training
+flag stays off by default.
+
+Its full-1080p student-plus-grade graph remains around 1.001 ms, excluding
+application integration. All 48 model/image comparisons retain bit-exact results
+across the existing eight execution modes. Fast inference is already possible
+for these small models; preserving the native effect remains the unresolved part.
+
+A separate test submits original integer kernels through NVIDIA's native
+multi-kernel launch API, using fresh buffers and a separate CPU reference. All
+24 tested mode/size/length combinations finish with zero mismatched elements.
+This supports dependency ordering for those finite workloads on this GPU and
+driver. It does not prove that the native model's calls can be merged safely or
+that merging them would meet 3 ms. No native kernels were modified or accelerated.
+
+The [training method](../research/neural-latency/README.md#training-gradients-through-the-output-clamp),
+[native selftest](../research/neural-latency/README.md#native-multi-kernel-dependency-selftest)
+and [numeric evidence](../evidence/neural-model-research/clamp-training-and-chain-selftest.json)
+document the completed experiments. The single sample launch used the inactive
+private desktop; WuWa and the normal runtime remain unchanged. The full target
+is still unmet.
+
 ## Papers and what can transfer
 
 The joint [native feature supervision experiment](../research/neural-latency/README.md#native-intermediate-feature-supervision)

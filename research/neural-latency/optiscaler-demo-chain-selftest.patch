@@ -1,0 +1,24 @@
+--- a/OptiScaler/dlssnr/DlssNr_DemoKernelProbe.h
++++ b/OptiScaler/dlssnr/DlssNr_DemoKernelProbe.h
+@@ -1,4 +1,5 @@
+ #pragma once
++#include "DlssNr_DemoChainSelftest.h"
+ 
+ // Research observer for the separate NVIDIA demo only. It forwards complete
+ // launch chains unchanged. The contract extension reads only whitelisted CPU
+@@ -457,6 +458,7 @@
+             wantsTiming = std::filesystem::exists(runtimePath.parent_path() / L"nr-kernel-timing.enable");
+             forceSm89 = std::filesystem::exists(runtimePath.parent_path() / L"nr-force-sm89.enable");
+             timingPath = runtimePath.parent_path() / L"nr-kernel-timing.csv";
++            DemoChainSelftest::Configure(runtimePath.parent_path());
+             output << "kind,frame,chain,kernel,sm,count_or_bytes,grid_x,grid_y,grid_z,block_x,block_y,block_z,shared_bytes,status,name\n";
+             output.flush();
+             LOG_INFO("NR demo probe: pass-through kernel metadata enabled");
+@@ -484,6 +486,7 @@
+     if (!enabled) return;
+     std::lock_guard lock(mutex);
+     frame = ++evaluations; chain = 0;
++    if(frame==32)DemoChainSelftest::Run(commands,originalModule,originalFunction,originalLaunch);
+     capture = frame <= 4 || frame == 64 || frame == 128 || frame == 256;
+     BeginTimings(commands);
+ }

@@ -69,6 +69,7 @@ class HierarchicalStudent(nn.Module):
         self.decoder_reorder_stages=(0,1,2)
         self.fused_decoder_backend=None
         self.fused_conditioning_backend=None
+        self.straight_through_output_clamp=False
         self.global_attention=None
         if attention:
             from attention_student import GlobalAttention
@@ -126,7 +127,11 @@ class HierarchicalStudent(nn.Module):
                 return self.fused_affine_backend.affine_compose(x[:,:3],residual,coefficients)
             from affine_student import compose_affine
             return compose_affine(x[:,:3],residual,coefficients)
-        return (x[:,:3]+0.25*residual).clamp(0,1)
+        raw=x[:,:3]+0.25*residual
+        if self.straight_through_output_clamp and self.training and torch.is_grad_enabled():
+            from output_clamp import StraightThroughClamp
+            return StraightThroughClamp.apply(raw)
+        return raw.clamp(0,1)
 
 
 def main():
@@ -157,6 +162,7 @@ def main():
     p.add_argument('--feature-targets',type=Path,help='Private native decoder hints used only during training.')
     p.add_argument('--feature-weight',type=float,default=.01)
     p.add_argument('--paired-gradient',choices=['mean','pcgrad'],help='Two training domains: first 30 scene views, then 16 or 32 photo slots. One example from each per optimizer step.')
+    p.add_argument('--straight-through-output-clamp',action='store_true',help='Experimental training-only identity gradient through the output clamp; forward and inference are unchanged.')
     a=p.parse_args()
     if not 1<=a.steps<=10000 or not 1<=a.max_seconds<=600:
         raise SystemExit('Use a bounded training run.')
@@ -167,6 +173,8 @@ def main():
         raise SystemExit('Feature hints require the graded whole-frame hierarchical model and a finite weight in (0,1].')
     if a.width not in (16,32,48,64) or not 1<=a.blocks<=8:
         raise SystemExit('Architecture exceeds the prototype bounds.')
+    if a.straight_through_output_clamp and (a.architecture!='hierarchical-film' or not a.whole_frame or not a.output_grade_contract):
+        raise SystemExit('The output-clamp gradient experiment requires the conditioned, graded whole-frame model.')
     if a.paired_gradient and (a.architecture not in ('hierarchical','hierarchical-film') or not a.whole_frame or not a.output_grade_contract
                              or a.feature_targets or a.noise_source):
         raise SystemExit('Paired gradients require the plain or conditioned graded whole-frame hierarchy without feature hints or noise.')
@@ -266,6 +274,7 @@ def main():
     model=(HierarchicalStudent(a.width,a.blocks,bool(a.noise_source),a.architecture=='hierarchical-affine',a.architecture=='hierarchical-attention',a.architecture in ('hierarchical-film','hierarchical-latent'),a.architecture=='hierarchical-latent') if a.architecture.startswith('hierarchical')
            else PixelStudent(a.width,a.blocks,bool(a.noise_source),dilations)).cuda().to(memory_format=torch.channels_last)
     if grade_parameters is not None:model=GradedStudent(model,grade_parameters)
+    if a.straight_through_output_clamp:model.network.straight_through_output_clamp=True
     optimizer=torch.optim.AdamW(model.parameters(),lr=a.initial_lr,weight_decay=0.0001)
     report={'schema':1,'gpu':torch.cuda.get_device_name(),'torch':torch.__version__,
         'capture_hashes':hashes,'training_capture_hashes':training_hashes,'validation_capture_hashes':validation_hashes,
@@ -285,6 +294,7 @@ def main():
         'training':[]}
     report['optimization']={'initial_learning_rate':a.initial_lr,'cosine_decay':a.cosine_lr,
                             'final_learning_rate':a.final_lr if a.cosine_lr else a.initial_lr}
+    if a.straight_through_output_clamp:report['optimization']['output_clamp_gradient']='straight-through during training; exact forward and inference'
     report['architecture']['variant']=a.architecture
     if grade_parameters is not None:
         report['architecture']['explicit_output_grading']=list(grade_parameters)

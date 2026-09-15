@@ -246,3 +246,15 @@ implementation or binary payload. Brighter training captures reuse the sixteen
 previously credited image identities; all source images, derived scene assets,
 native captures and trained weights remain private. No new image sources were
 downloaded for this experiment.
+
+The clipping diagnostic, straight-through clamp and its mechanical test, original
+integer CUDA workload, NVRTC compiler utility and hidden-demo selftest runner are
+original Apache-2.0 research code. The OptiScaler C++ selftest header and attachment
+patch are original GPL-3.0-only extensions. They use separately installed NVIDIA
+and PyTorch interfaces; no vendor implementation or generated binary is included.
+The straight-through idea is credited to Bengio, Léonard and Courville,
+[Estimating or Propagating Gradients Through Stochastic Neurons for Conditional
+Computation](https://arxiv.org/abs/1308.3432), with the limitations discussed by
+Yin et al., [Understanding Straight-Through Estimator in Training Activation
+Quantized Neural Nets](https://arxiv.org/abs/1903.05662). No paper implementation is
+copied. Training weights, images, activations and raw gradients stay private.

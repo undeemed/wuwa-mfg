@@ -2589,3 +2589,115 @@ records the new capture audit, matched training runs, every validation result,
 kernel/timing checks and launch-order study. All eighteen sample launches stayed
 on the inactive private desktop. WuWa, driver settings, native model and normal
 runtime files remain unchanged.
+
+## Training gradients through the output clamp
+
+The brighter-data model clips its residual-corrected RGB before applying the
+observed output grade. A training-only diagnostic checks whether this clamp
+blocks useful gradients. Across the sixteen brighter training images, **13.80%**
+of channels are clipped; **75.73%** of those have an output-space gradient pointing
+back into range. However, clipped channels account for only **8.05%** of absolute
+RGB error. This identifies a possible training obstacle, not the main cause of
+the remaining quality gap.
+
+[`analyze_training_clipping.py`](analyze_training_clipping.py) revalidates all 62
+training captures and excludes the sixteen validation frames. It reconstructs
+the pre-clamp image, verifies the ordinary output, and computes gradients at the
+detached bounded image. It performs no optimizer steps and leaves weights and
+parameter gradient fields unchanged. Only scalar summaries and hashes are saved.
+
+[`output_clamp.py`](output_clamp.py) tests a straight-through estimator: its
+forward operation is the exact ordinary clamp, while its backward operation
+passes the incoming gradient through unchanged. This is deliberately a surrogate
+gradient, not the clamp's mathematical derivative. The approach is inspired by
+[Bengio, Léonard and Courville](https://arxiv.org/abs/1308.3432). The analysis by
+[Yin et al.](https://arxiv.org/abs/1903.05662) applies to a particular quantized
+network setting and does not guarantee improvement in this renderer.
+
+The option is **off by default** and applies only during gradient-enabled
+training of the conditioned, graded hierarchy. Evaluation, fused inference,
+checkpoint structure and ordinary training remain unchanged. Mechanical checks
+cover FP16/FP32/FP64 gradients, every finite FP16 forward bit pattern, and the
+loaded model in training and evaluation modes. Enabling the option changes the
+training gradients without changing forward values; evaluation gradients also
+remain identical. Deterministic settings are confined to the mechanical test.
+
+```text
+analyze_training_clipping.py --base <private-trial-root> --photos <old-photo-manifest> --images <diverse-image-manifest> --brightness <brightness-manifest> --baseline <original-46-frame-model> --model <brighter-data-model> --output <fresh-private-audit.json>
+test_output_clamp.py --model <brighter-data-model> --capture <audited-training-capture> --output <fresh-private-test.json>
+```
+
+For the experiment, add `--straight-through-output-clamp` to the preceding
+brighter-data training command, keeping `--brightness-mode native`. The ordinary
+brighter-data model is the control. Both use the same 62 frames, architecture,
+seed, optimizer, loss, 4,500 updates and 9,000 sampled examples, starting from
+scratch. The candidate takes 177.39 seconds to train; training MAE improves from
+0.023333 to 0.022281, but validation is mixed:
+
+| Validation group | Ordinary clamp gradient | Straight-through | Change |
+|---|---:|---:|---:|
+| Six scene views | 0.026068 | 0.025643 | −1.63% |
+| Six older photo cases | 0.018731 | 0.022326 | +19.19% |
+| Four newer photos | 0.020624 | 0.021558 | +4.53% |
+
+Lower MAE is better. Eight of sixteen cases improve and eight regress. The
+candidate is rejected for the unchanged-quality goal. All 48 saved predictions
+reproduce exactly, and the two earlier models' 32 results match their previous
+report. Existing fusions remain bit-exact across 48 model/image pairs and eight
+execution modes. The candidate's full-1080p graph takes **1.0009 ms median**, with
+**1.0040 ms interval p95**; the ordinary control measures **0.9983 ms** in the same
+alternating benchmark. Each interval averages ten graph replays, with 30 AB/BA
+pairs and 40 warmup replays per mode. This includes the student and output grade,
+excludes application integration, and is not a native-runtime speedup.
+
+## Native multi-kernel dependency selftest
+
+The native execution investigation now has a bounded test of dependent kernels
+inside `NvAPI_D3D12_LaunchCuKernelChain`. It uses the two original integer kernels
+in [`chain_order_test.cu`](chain_order_test.cu), fresh private buffers, and its own
+D3D12 command queue. No native model kernel or captured model argument is changed.
+
+The first kernel fills an array. Each following kernel reads a permutation of the
+preceding output and applies unsigned 32-bit arithmetic, alternating buffers.
+The permutation crosses thread-block boundaries. A separate CPU calculation
+checks every final element. For 1,024, 65,536 and 262,144 elements and chain lengths
+2, 3, 8 and 17, the test compares single-kernel calls separated by global UAV
+barriers with one multi-kernel call. Both modes begin with fresh resources in
+explicit states. Arguments stay alive until the GPU fence completes; readback
+requires successful completion and has a five-second timeout.
+
+All **24 mode/size/length results** completed with successful API statuses and
+**zero mismatched elements**. This establishes dependency behavior for these
+finite workloads on the tested RTX 4070 Ti and driver 616.92. It does not establish
+universal API memory semantics, native packed-argument lifetimes, complete native
+command coverage, or permission to merge across the previously observed twenty
+barriers. No native batching or acceleration is claimed.
+
+[`compile_chain_order_test.py`](compile_chain_order_test.py) compiles the original
+CUDA source with the separately installed PyTorch 2.7.1+cu128 NVRTC, targeting
+SM89. The tested cubin is 4,456 bytes; the C++ harness deliberately pins that size.
+A different compiler output requires reviewing that guard and a fresh test.
+Apply the existing `optiscaler-demo-pre-tensor.patch` to the pinned research
+source, then the new [`optiscaler-demo-chain-selftest.patch`](optiscaler-demo-chain-selftest.patch),
+and copy [`DlssNr_DemoChainSelftest.h`](DlssNr_DemoChainSelftest.h) into its
+`OptiScaler/dlssnr` directory before building. This is an independent add-on to
+the combined observer, not an add-on to the launch-order patch. All generated
+binaries remain private.
+
+```text
+compile_chain_order_test.py --output <fresh-private-cubin>
+run_chain_selftest.py --demo-dir <existing-hidden-demo> --base <private-trial-root> --dll <checked-selftest-build> --dll-sha256 <checked-hash> --cubin <private-cubin> --cubin-sha256 <checked-hash> --output <fresh-private-results>
+```
+
+[`run_chain_selftest.py`](run_chain_selftest.py) verifies the exact hidden demo EXE
+and supplied binary hashes, checks that WuWa and the demo are closed, then uses
+the existing inactive-private-desktop runner. The test runs once at evaluation
+32 in a bounded 25-second trial. Five desktop observations confirmed that the
+demo stayed hidden and off the input desktop. The normal DLL and INI were
+restored and owned probe artifacts archived afterward. A completed runner is not
+itself a passing test: inspect test completion, all statuses and mismatch counts.
+
+[Numeric evidence](../../evidence/neural-model-research/clamp-training-and-chain-selftest.json)
+records both investigations, source hashes and preserved state. One sample was
+launched, and WuWa remained closed and unchanged. The 3 ms, unchanged-quality
+goal remains unmet.

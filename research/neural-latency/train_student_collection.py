@@ -41,6 +41,7 @@ def main():
     parser.add_argument('--paired-gradient',choices=['mean','pcgrad'],help='Matched two-domain training; requires the diverse image collection.')
     parser.add_argument('--brightness-collection',type=Path,help='Private sixteen-photo native brightness extension; requires paired mean training.')
     parser.add_argument('--brightness-mode',choices=['native','repeat-low'],help='Replace the extra photo slots with brighter captures or repeated dim controls.')
+    parser.add_argument('--straight-through-output-clamp',action='store_true',help='Experimental training-only output-clamp gradient.')
     args = parser.parse_args()
     if args.image_collection and not args.photo_collection:
         raise ValueError('The image extension requires its preceding photo collection.')
@@ -119,6 +120,7 @@ def main():
     command.extend(['--initial-lr', str(args.initial_lr), '--final-lr', str(args.final_lr)])
     if args.initialize_from:
         command.extend(['--initialize-from', str(args.initialize_from)])
+    if args.straight_through_output_clamp:command.append('--straight-through-output-clamp')
     if args.feature_targets:
         command.extend(['--feature-targets', str(args.feature_targets), '--feature-weight', str(args.feature_weight)])
     if args.paired_gradient:
