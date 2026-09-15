@@ -96,6 +96,45 @@ extern "C" __global__ void student_output_f16(
             grade_clamp(lightness+saturation*(rgb[c]-lightness)));
 }
 
+// Original student residual arithmetic: round the FP16 product before adding.
+// Contiguous channel-last pairs avoid general multidimensional indexing.
+template<unsigned Channels> __device__ void residual_dense(
+    const unsigned* input,const unsigned* residual,const unsigned* scale,unsigned* output,unsigned pairs) {
+    const unsigned index=blockIdx.x*blockDim.x+threadIdx.x;
+    if(index>=pairs)return;
+    const unsigned a=input[index],r=residual[index],s=scale[index%(Channels/2)];
+    unsigned product,result;
+    asm("mul.rn.f16x2 %0, %1, %2;" : "=r"(product) : "r"(r), "r"(s));
+    asm("add.rn.f16x2 %0, %1, %2;" : "=r"(result) : "r"(a), "r"(product));
+    output[index]=result;
+}
+#define RESIDUAL_DENSE(C) extern "C" __global__ void residual_dense_##C( \
+    const unsigned* x,const unsigned* r,const unsigned* s,unsigned* y,unsigned pairs) { \
+    residual_dense<C>(x,r,s,y,pairs); }
+RESIDUAL_DENSE(16)
+RESIDUAL_DENSE(32)
+RESIDUAL_DENSE(64)
+RESIDUAL_DENSE(96)
+RESIDUAL_DENSE(128)
+RESIDUAL_DENSE(192)
+#undef RESIDUAL_DENSE
+
+extern "C" __global__ void residual_scale_add_f16(
+    const unsigned short* input,const unsigned short* residual,const unsigned short* scale,unsigned short* output,
+    unsigned count,unsigned channels,unsigned height,unsigned width,
+    unsigned long long ib,unsigned long long ic,unsigned long long iy,unsigned long long ix,
+    unsigned long long rb,unsigned long long rc,unsigned long long ry,unsigned long long rx,
+    unsigned long long scale_stride) {
+    const unsigned index=blockIdx.x*blockDim.x+threadIdx.x;
+    if(index>=count)return;
+    const unsigned c=index%channels,pixel=index/channels;
+    const unsigned x=pixel%width,y=(pixel/width)%height,b=pixel/(width*height);
+    const float a=read_half(input[b*ib+c*ic+y*iy+x*ix]);
+    const float r=read_half(residual[b*rb+c*rc+y*ry+x*rx]);
+    const float s=read_half(scale[c*scale_stride]);
+    output[index]=write_value<unsigned short>(a+half_round(r*s));
+}
+
 // Nearest 2x upsample and skip addition with one final FP16 rounding.
 // Strided NCHW inputs; contiguous NHWC output exposed as NCHW by the loader.
 extern "C" __global__ void decoder_upscale_add_f16(

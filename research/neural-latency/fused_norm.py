@@ -86,7 +86,46 @@ class FusedNorm:
         check(lookup(C.byref(self.decoder_function),self.module,b'decoder_upscale_add_f16'),'cuModuleGetFunction')
         self.student_output_function=C.c_void_p()
         check(lookup(C.byref(self.student_output_function),self.module,b'student_output_f16'),'cuModuleGetFunction')
+        self.residual_function=C.c_void_p()
+        check(lookup(C.byref(self.residual_function),self.module,b'residual_scale_add_f16'),'cuModuleGetFunction')
+        self.dense_residual_functions={}
+        for channels in (16,32,64,96,128,192):
+            function=C.c_void_p()
+            check(lookup(C.byref(function),self.module,('residual_dense_'+str(channels)).encode()),'cuModuleGetFunction')
+            self.dense_residual_functions[channels]=function
         # Module stays alive until process exit, including any captured graphs.
+
+    def residual_scale_add(self,x,residual,scale):
+        if any(t.device.type!='cuda' or t.device!=x.device or t.dtype!=torch.float16
+               or t.ndim!=4 or t.requires_grad for t in (x,residual,scale)):
+            raise ValueError('Expected same-device inference-only CUDA NCHW FP16 tensors.')
+        batch,channels,height,width=x.shape
+        if residual.shape!=x.shape or scale.shape!=(1,channels,1,1):
+            raise ValueError('Expected matching residual extent and one scale per channel.')
+        count=x.numel()
+        if not count or count>=2**31:
+            raise ValueError('Tensor exceeds the bounded launch extent.')
+        output=torch.empty((batch,height,width,channels),device=x.device,dtype=x.dtype).permute(0,3,1,2)
+        arguments=[C.c_void_p(t.data_ptr()) for t in (x,residual,scale,output)]
+        dense=(channels in self.dense_residual_functions and scale.stride(1)==1
+               and all(t.data_ptr()%4==0 for t in (x,residual,scale))
+               and all(t.is_contiguous(memory_format=torch.channels_last) for t in (x,residual)))
+        if dense:
+            arguments += [C.c_uint(count//2)]
+            function=self.dense_residual_functions[channels]
+            threads=(count//2+255)//256
+        else:
+            arguments += [C.c_uint(v) for v in (count,channels,height,width)]
+            arguments += [C.c_ulonglong(s) for t in (x,residual) for s in t.stride()]
+            arguments += [C.c_ulonglong(scale.stride(1))]
+            function=self.residual_function
+            threads=(count+255)//256
+        params=(C.c_void_p*len(arguments))(*(C.addressof(v) for v in arguments))
+        stream=torch.cuda.current_stream(x.device)
+        status=self.launch(function,threads,1,1,256,1,1,0,
+                           C.c_void_p(stream.cuda_stream),params,None)
+        if status:raise RuntimeError(f'cuLaunchKernel failed: {status}')
+        return output
 
     def student_output(self,source,head,parameters):
         if any(t.device.type!='cuda' or t.device!=source.device or t.dtype!=torch.float16

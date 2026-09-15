@@ -13,7 +13,7 @@ from collect_demo_photo_training import audited_photos
 from compare_output_grade import read_capture
 from fused_norm import FusedNorm
 from output_grade import GradedStudent, grade_torch
-from student_probe import HierarchicalStudent
+from student_probe import HierarchicalStudent, ResidualBlock
 from test_output_grade import graph_measure
 
 
@@ -30,10 +30,13 @@ def same(a, b):
 
 
 def configure(model, mode, kernel):
-    model.fused_student_output = mode in ('output', 'combined')
-    model.network.reorder_decoder = mode in ('decoder', 'combined')
+    model.fused_student_output = mode in ('output', 'combined', 'all')
+    model.network.reorder_decoder = mode in ('decoder', 'combined', 'all')
     model.network.decoder_reorder_stages = (1, 2) if model.network.head.in_channels == 32 else (0, 1, 2)
     model.network.fused_decoder_backend = kernel if model.network.reorder_decoder else None
+    for block in model.network.modules():
+        if isinstance(block,ResidualBlock):
+            block.fused_residual_backend=kernel if mode in ('residual','all') else None
 
 
 def main():
@@ -41,6 +44,7 @@ def main():
     parser.add_argument('--base', type=Path, required=True)
     parser.add_argument('--photos', type=Path, required=True)
     parser.add_argument('--image-collection', type=Path, help='Optional diverse image extension manifest.')
+    parser.add_argument('--residual-fusion', action='store_true', help='Also check residual-only and all-fusion modes.')
     parser.add_argument('--model', nargs=2, action='append', default=[])
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
@@ -53,6 +57,11 @@ def main():
     torch.backends.cudnn.allow_tf32 = False
     torch.backends.cuda.matmul.allow_tf32 = False
     kernel = FusedNorm()
+    modes=['baseline','output','decoder','combined']+(['residual','all'] if args.residual_fusion else [])
+    residual_tests=None
+    if args.residual_fusion:
+        from test_student_residual import operator_tests
+        residual_tests=operator_tests(kernel)
     controls = (.9330329895019531, -.25, .8999999761581421)
     tests, rejected, rows, timings, model_info = [], [], [], {}, {}
     with torch.inference_mode():
@@ -139,7 +148,7 @@ def main():
                 row = {'label': label, 'capture_hashes': hashes, 'models': {}}
                 for name, model in models.items():
                     outputs = {}
-                    for mode in ['baseline', 'output', 'decoder', 'combined']:
+                    for mode in modes:
                         configure(model, mode, kernel)
                         outputs[mode] = model(source)
                         assert same(outputs[mode], outputs['baseline']), (name, label, mode)
@@ -147,13 +156,14 @@ def main():
                             timing, graph = graph_measure(model, source)
                             assert same(graph, outputs[mode])
                             timings.setdefault(name, {})[mode] = {**timing, 'graph_matches_eager_bitwise': True}
-                    row['models'][name] = {'all_four_modes_bit_equal': True}
+                    row['models'][name] = {'all_four_modes_bit_equal': True, 'all_checked_modes_bit_equal': True}
                     configure(model, 'baseline', kernel)
                 rows.append(row)
     report = {'schema': 1, 'complete': True, 'target_achieved': False, 'quality_gate_passed': False,
               'native_runtime_accelerated': False, 'enabled_by_default': False,
               'gpu': torch.cuda.get_device_name(), 'torch': torch.__version__,
               'kernel_tests': tests, 'rejected_inputs': rejected, 'models': model_info,
+              'checked_modes':modes, 'residual_tests':residual_tests,
               'cases': rows, 'timings': timings,
               'limitations': ['Finite-input equivalence to existing student arithmetic, not native quality.',
                   'Complete student graph timings exclude D3D12 integration and do not accelerate native NVIDIA execution.',

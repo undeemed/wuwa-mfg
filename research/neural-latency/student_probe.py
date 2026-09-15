@@ -20,9 +20,12 @@ class ResidualBlock(nn.Module):
         self.expand=nn.Conv2d(width,width*2,1)
         self.project=nn.Conv2d(width*2,width,1)
         self.scale=nn.Parameter(torch.full((1,width,1,1),0.1))
+        self.fused_residual_backend=None
 
     def forward(self,x):
         y=self.project(F.gelu(self.expand(self.depthwise(x))))
+        if self.fused_residual_backend is not None:
+            return self.fused_residual_backend.residual_scale_add(x,y,self.scale.detach())
         return x+y*self.scale
 
 
@@ -129,6 +132,7 @@ def main():
     p.add_argument('--initialize-from',type=Path,help='Private matching student run; load weights only and start a fresh optimizer.')
     p.add_argument('--feature-targets',type=Path,help='Private native decoder hints used only during training.')
     p.add_argument('--feature-weight',type=float,default=.01)
+    p.add_argument('--paired-gradient',choices=['mean','pcgrad'],help='Two training domains: first 30 scene views, then 16 photos. One example from each per optimizer step.')
     a=p.parse_args()
     if not 1<=a.steps<=10000 or not 1<=a.max_seconds<=600:
         raise SystemExit('Use a bounded training run.')
@@ -139,6 +143,9 @@ def main():
         raise SystemExit('Feature hints require the graded whole-frame hierarchical model and a finite weight in (0,1].')
     if a.width not in (16,32,48,64) or not 1<=a.blocks<=8:
         raise SystemExit('Architecture exceeds the prototype bounds.')
+    if a.paired_gradient and (a.architecture!='hierarchical' or not a.whole_frame or not a.output_grade_contract
+                             or a.feature_targets or a.noise_source):
+        raise SystemExit('Paired gradients require the plain graded whole-frame hierarchy without feature hints or noise.')
     dilations=list(map(int,a.dilations.split(','))) if a.dilations else [1]*a.blocks
     if len(dilations)!=a.blocks or any(d not in [1,2,4,8] for d in dilations):
         raise SystemExit('Expected one supported dilation per block.')
@@ -317,36 +324,49 @@ def main():
             report['grade_only_holdout_mae']=float(graded_error.mean())
     torch.cuda.synchronize()
     started=time.perf_counter()
+    paired_conflicts=torch.zeros((),device='cuda',dtype=torch.int32)
+    if a.paired_gradient:
+        assert len(training_views)==46 and batch==1
+        from paired_gradient import paired_gradients
+        report['paired_training']={'method':a.paired_gradient,'scene_frames':30,'photo_frames':16,
+            'examples_per_step':2,'domain_weights':[.5,.5],
+            'parameter_projection':'shared, symmetric against original gradients' if a.paired_gradient=='pcgrad' else 'none'}
     for step in range(a.steps):
-        crops=[];labels=[]
-        for _ in range(batch):
-            selected_index=int(rng.integers(len(training_views)))
-            train_source,train_target,right=training_views[selected_index]
-            if a.whole_frame:
-                crops.append(train_source);labels.append(train_target)
-            else:
-                y=int(rng.integers((height-patch)//4+1))*4
-                x=int(rng.integers((right-patch)//4+1))*4
-                crops.append(train_source[:,:,y:y+patch,x:x+patch])
-                labels.append(train_target[:,:,y:y+patch,x:x+patch])
-        x=torch.cat(crops).contiguous(memory_format=torch.channels_last)
-        y=torch.cat(labels).contiguous(memory_format=torch.channels_last)
         optimizer.zero_grad(set_to_none=True)
         if a.cosine_lr:
             lr=a.final_lr+.5*(a.initial_lr-a.final_lr)*(1+math.cos(math.pi*step/max(1,a.steps-1)))
             for group in optimizer.param_groups:group['lr']=lr
-        predicted=model(x)
-        if a.loss_border:
-            border=a.loss_border
-            predicted=predicted[:,:,border:-border,border:-border]
-            y=y[:,:,border:-border,border:-border]
-        pixel=(predicted-y).abs().mean()
-        detail=((predicted[:,:,:,1:]-predicted[:,:,:,:-1])-(y[:,:,:,1:]-y[:,:,:,:-1])).abs().mean()
-        detail=detail+((predicted[:,:,1:,:]-predicted[:,:,:-1,:])-(y[:,:,1:,:]-y[:,:,:-1,:])).abs().mean()
-        loss=pixel+0.25*detail
-        feature_loss=hint.loss(training_hashes[selected_index]['color']) if hint is not None else None
-        if feature_loss is not None:loss=loss+a.feature_weight*feature_loss
-        loss.backward();optimizer.step()
+        if a.paired_gradient:
+            loss,pixel,conflict=paired_gradients(model,training_views,rng,a.paired_gradient)
+            paired_conflicts+=conflict
+            feature_loss=None
+        else:
+            crops=[];labels=[]
+            for _ in range(batch):
+                selected_index=int(rng.integers(len(training_views)))
+                train_source,train_target,right=training_views[selected_index]
+                if a.whole_frame:
+                    crops.append(train_source);labels.append(train_target)
+                else:
+                    y=int(rng.integers((height-patch)//4+1))*4
+                    x=int(rng.integers((right-patch)//4+1))*4
+                    crops.append(train_source[:,:,y:y+patch,x:x+patch])
+                    labels.append(train_target[:,:,y:y+patch,x:x+patch])
+            x=torch.cat(crops).contiguous(memory_format=torch.channels_last)
+            y=torch.cat(labels).contiguous(memory_format=torch.channels_last)
+            predicted=model(x)
+            if a.loss_border:
+                border=a.loss_border
+                predicted=predicted[:,:,border:-border,border:-border]
+                y=y[:,:,border:-border,border:-border]
+            pixel=(predicted-y).abs().mean()
+            detail=((predicted[:,:,:,1:]-predicted[:,:,:,:-1])-(y[:,:,:,1:]-y[:,:,:,:-1])).abs().mean()
+            detail=detail+((predicted[:,:,1:,:]-predicted[:,:,:-1,:])-(y[:,:,1:,:]-y[:,:,:-1,:])).abs().mean()
+            loss=pixel+0.25*detail
+            feature_loss=hint.loss(training_hashes[selected_index]['color']) if hint is not None else None
+            if feature_loss is not None:loss=loss+a.feature_weight*feature_loss
+            loss.backward()
+        optimizer.step()
         if step%100==0 or step+1==a.steps:
             sample={'step':step+1,'loss':float(loss),'pixel_mae':float(pixel),'seconds':time.perf_counter()-started}
             if hint is not None:sample['feature_mse']=float(feature_loss) if feature_loss is not None else None
@@ -354,6 +374,8 @@ def main():
         if time.perf_counter()-started>=a.max_seconds:
             break
     report['completed_steps']=step+1
+    if a.paired_gradient:
+        report['paired_training'].update(conflicting_steps=int(paired_conflicts),examples_seen=2*(step+1))
     torch.cuda.synchronize()
     report['training_seconds']=time.perf_counter()-started
     if hint is not None:

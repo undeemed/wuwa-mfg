@@ -948,6 +948,43 @@ accepted or installed. [Method and commands](../research/neural-latency/README.m
 and [numerical evidence](../evidence/neural-model-research/diverse-image-extension.json)
 record the data, training, comparison, exactness checks and timing samples.
 
+## Gradient interference and residual fusion
+
+A diagnostic on all 46 training frames found negative gradient alignment in
+288/480 scene/photo pairs. The two mean gradients had cosine −0.929. This is an
+observation at one checkpoint, not proof that gradient interference caused the
+quality tradeoff. No validation pixels or weight updates entered the diagnostic.
+
+A controlled two-domain projection experiment then compared ordinary gradient
+averaging with PCGrad. Both models use the same architecture, seed, 4,500 updates
+and 9,000 sampled training examples. Each update pairs one scene frame with one
+photo. The projection model improves training fit and reduces scene validation
+MAE by 2.93% relative to the matched control, but photo-group errors rise by 0.37%
+and 3.42%. Neither model passes the quality gate. The older uniformly sampled
+model used only 4,500 examples, so gains over it cannot be attributed solely to
+the projection method.
+
+The independent kernel experiment combines per-channel residual scaling and
+addition while preserving both FP16 roundings. A generic scalar version was
+exact but slower. A specialized path for aligned, contiguous channel-last pairs
+removed most indexing overhead. Twenty operator cases and seven invalid-input
+guards pass, including boundary patterns, specialized widths and a misaligned
+fallback. All six execution modes are bit-identical on sixteen images for four
+checkpoints: **64 complete model/image checks**.
+
+Alternating the previous and new graph paths over thirty pairs, with ten replays
+per interval, measures **3.21–4.82% less GPU time** for the width-16 students and
+**6.45% less** for the tested width-32 model. Complete student-plus-grade interval
+averages are about 1.12–1.16 ms and 1.96 ms respectively. This excludes D3D12
+integration; it does not accelerate NVIDIA's native runtime. The fusion remains
+an optional research path, disabled by default.
+
+[Methods and commands](../research/neural-latency/README.md#paired-gradients-and-residual-scale-fusion)
+and [numerical evidence](../evidence/neural-model-research/paired-gradients-and-residual-fusion.json)
+include the rejected scalar timing, both training controls, exactness checks and
+timing variation. The game, native model, normal runtime files and driver settings
+remain unchanged.
+
 ## Papers and what can transfer
 
 The joint [native feature supervision experiment](../research/neural-latency/README.md#native-intermediate-feature-supervision)
@@ -969,6 +1006,7 @@ and hardware; none establishes the target for this runtime.
 | [SageAttention2++](https://arxiv.org/html/2505.21136v3) | Use faster FP8 matrix instructions with FP16 accumulators and manage numerical range. | The inspected native code already uses this instruction family. The paper supports investigating accumulation and data movement, but its speedup over another attention implementation cannot be applied to this renderer. Our direct-MMA result improves a numerical reference, not native latency. |
 | [SmoothQuant](https://proceedings.mlr.press/v202/xiao23c/xiao23c.pdf) | Calibrate activation/weight scaling before lower-precision execution. | This runtime already invokes FP8-named kernels. LLM INT8 results do not imply a further lossless gain, and calibration must include renderer activations and controls. |
 | [Knowledge distillation](https://arxiv.org/abs/1503.02531) | Train a smaller student against the larger model's behavior. | A renderer needs matched pixels, detail and temporal consistency, not just matching classification probabilities. A trustworthy teacher and held-out sequences are prerequisites. |
+| [Gradient Surgery / PCGrad](https://arxiv.org/abs/2001.06782) | Adjust conflicting training gradients without adding inference work. | Our matched two-domain test improves scene error but worsens photo error. Negative alignment alone does not prove the paper's full conditions or guarantee renderer quality. |
 | [FitNets](https://arxiv.org/abs/1412.6550) | Use intermediate teacher features and a learned projection to guide a smaller student. | Our joint auxiliary loss improves scene errors but worsens photo errors. It does not implement the full FitNets procedure or establish renderer quality from classification results. |
 | [LIT](https://arxiv.org/abs/1810.01937) | Train shallower blocks with intermediate teacher inputs and targets. | This may avoid unstable student inputs during block training, but it is not implemented here. A deployable replacement must run without captured native activations. |
 | [Experience Replay for Continual Learning](https://arxiv.org/abs/1811.11682) | Retain prior examples when adapting a model to new data. | Its reinforcement-learning results do not establish pixel fidelity. Our warm-start experiment retains old native targets, but still trades photo accuracy against scene accuracy; it is not an implementation of CLEAR. |

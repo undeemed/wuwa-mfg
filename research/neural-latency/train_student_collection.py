@@ -38,9 +38,12 @@ def main():
     parser.add_argument('--initialize-from', type=Path, help='Optional private matching student run for weights-only initialization.')
     parser.add_argument('--feature-targets', type=Path, help='Optional private native feature target manifest.')
     parser.add_argument('--feature-weight', type=float, default=.01)
+    parser.add_argument('--paired-gradient',choices=['mean','pcgrad'],help='Matched two-domain training; requires the diverse image collection.')
     args = parser.parse_args()
     if args.image_collection and not args.photo_collection:
         raise ValueError('The image extension requires its preceding photo collection.')
+    if args.paired_gradient and not args.image_collection:
+        raise ValueError('Paired training requires the fixed 46-frame collection.')
     repo = Path(__file__).resolve().parents[2]
     if args.output.resolve().is_relative_to(repo) or args.output.exists():
         raise ValueError('Use a fresh private output directory outside the repository.')
@@ -108,6 +111,9 @@ def main():
         command.extend(['--initialize-from', str(args.initialize_from)])
     if args.feature_targets:
         command.extend(['--feature-targets', str(args.feature_targets), '--feature-weight', str(args.feature_weight)])
+    if args.paired_gradient:
+        assert len(train)==46 and len(validation)==16
+        command.extend(['--paired-gradient',args.paired_gradient])
     if args.image_collection:
         command.extend(['--data-description', 'One Sponza scene plus sixteen training photo identities; seven different photo identities stay in validation, three at two emissions. Image identities and splits were fixed before the new captures and fitting. First-reset static frames only, not representative game or temporal validation.'])
     elif args.photo_collection:

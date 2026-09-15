@@ -2025,3 +2025,107 @@ contains source identities, capture/restoration proofs, split checks, training,
 per-image comparisons and all timing samples. No model is accepted or installed.
 The native runtime and game remain unchanged, and the **3 ms/no-quality-loss
 goal remains unmet**.
+
+## Paired gradients and residual-scale fusion
+
+`analyze_student_gradients.py` checks the fixed 46-frame training set and computes
+FP32 RGB/detail-loss gradients at the existing checkpoint trained on 46 frames. It performs
+no optimizer update, verifies the weights and parameter gradient fields remain
+unchanged, and excludes all sixteen validation cases. Across the thirty scene
+and sixteen photo examples, **288 of 480 cross-domain pairs** have negative
+gradient cosine. The cosine between the two mean gradients is **−0.929**.
+Within-scene and within-photo negative counts are 221/435 and 51/120. This shows
+opposition at this checkpoint, but does not prove harmful interference or the
+curvature conditions discussed by the research paper.
+
+The controlled training experiment is inspired by
+[PCGrad, Algorithm 1](https://papers.neurips.cc/paper_files/paper/2020/file/3fe78a8acf5fda99de95303940a2420c-Paper.pdf).
+For two conflicting gradients, each is projected against the original opposite
+gradient before averaging. Otherwise their ordinary average is used. Here the
+two groups are content domains sharing the same renderer objective, rather than
+different prediction tasks. All model parameters are shared.
+
+`train_student_collection.py --paired-gradient mean` is the matched control;
+`--paired-gradient pcgrad` enables projection. Both require the full image
+extension and use the same model, seed, learning-rate schedule and 4,500 optimizer
+steps. Each update samples one of the thirty scene frames and one of the sixteen
+photos, computes their gradients in separate passes, and averages them with equal
+domain weights. Thus each run processes **9,000 examples**; neither is
+compute-matched to the earlier 4,500-example, uniformly sampled model. The
+gradient combiner adds no inference operation. Eight small algebra cases and five
+invalid-input guards check the two-task rule and ordinary mean-gradient control.
+
+```text
+analyze_student_gradients.py --base <private-trials-root> --photos <private-photo-manifest> --images <private-image-manifest> --model <private-46-frame-run> --output <fresh-private-report.json>
+test_paired_gradient.py --output <fresh-private-report.json>
+```
+
+Separately, `residual_scale_add` combines each student residual block's
+per-channel multiplication and skip addition. It explicitly rounds the FP16
+product before adding, preserving the previous two-operation arithmetic.
+`ResidualBlock.fused_residual_backend` defaults to `None`; the optional backend
+is inference-only. Twenty operator cases cover several shapes and layouts,
+broadcast strides and every finite half pattern in selected operand combinations,
+including products that overflow. Seven invalid-input guards are checked.
+The first scalar version was slower despite being exact. The final implementation
+uses aligned pairs for contiguous channel-last tensors with 16, 32, 64, 96, 128 or
+192 channels, retaining the scalar fallback for other layouts. Explicit
+`mul.rn.f16x2` and `add.rn.f16x2` keep multiplication and addition separate;
+the [PTX instruction specification](https://docs.nvidia.com/cuda/parallel-thread-execution/index.html#half-precision-floating-point-instructions)
+documents these operations. Each specialized channel count has a finite-pattern
+test, and a misaligned view checks fallback behavior.
+
+`test_student_output.py --residual-fusion` adds residual-only and all-fusion modes
+to its earlier four modes. The full-image comparison includes the original
+output and decoder fusions and retains the existing width-32 decoder fallback.
+This optimization concerns experimental student graphs, not NVIDIA's native
+runtime or the installed game.
+
+Both paired training runs completed 4,500 updates: 198.40 seconds for ordinary
+averaging and 197.31 seconds for projection. Mean training RGB error fell to
+0.020323 and 0.017220 respectively, from the earlier model's 0.029834. The first
+losses match exactly. Conflict was observed on 2,321 ordinary-control updates and
+2,079 projection-run updates.
+
+| Validation group | Earlier uniform training | Paired mean control | Paired PCGrad |
+| --- | ---: | ---: | ---: |
+| Six scene views | 0.029773 | 0.026924 | 0.026135 |
+| Six older photo cases | 0.024322 | 0.024670 | 0.024762 |
+| Four new photo cases | 0.021973 | 0.023107 | 0.023897 |
+
+Values are mean absolute RGB error, lower is better. Relative to the matched
+control, projection improves the scene mean by 2.93%, but worsens the photo
+means by 0.37% and 3.42%. Three new photos improve individually; the library
+regresses enough to worsen that group's average. Better training fit and less
+gradient conflict have not established native quality. Both candidates remain
+rejected for installation. All 48 saved validation outputs reproduce exactly.
+
+All six execution modes match bit-for-bit across sixteen validation images for
+each of four checkpoints, including width 32: **64 complete model/image checks**.
+The first generic residual fusion added 2–4% to the previously optimized graph
+time. After introducing the contiguous paired path, single-replay measurements
+improved, but showed timing variation. A separate comparison alternates the old
+and new graph order over thirty pairs after forty warmup replays per mode. Each
+interval averages ten consecutive replays:
+
+| Checkpoint | Earlier fusions | With residual fusion | Reduction |
+| --- | ---: | ---: | ---: |
+| Earlier 46-frame model | 1.180 ms | 1.123 ms | 4.82% |
+| Paired mean control | 1.190 ms | 1.136 ms | 4.60% |
+| Paired PCGrad | 1.197 ms | 1.158 ms | 3.21% |
+| Earlier width-32 model | 2.091 ms | 1.956 ms | 6.45% |
+
+These are full 1080p student-plus-grade graph measurements, excluding application
+integration. They are interval averages, not individual-frame tail latency.
+Other desktop GPU work remains uncontrolled; timings from different protocols
+should not be compared directly. The optional fusion remains disabled by default.
+
+```text
+benchmark_student_residual.py --capture <private-validation-capture> --model <name> <private-model-directory> [--model <name> <another-model-directory>] --output <fresh-private-report.json>
+```
+
+[Complete numerical evidence](../../evidence/neural-model-research/paired-gradients-and-residual-fusion.json)
+retains the training diagnostic, failed quality outcomes, initial slower kernel,
+final exactness tests and both timing protocols. No sample or game launch was
+needed; normal runtime files and game/driver settings are unchanged. **Native
+quality and the full 3 ms target remain unachieved.**

@@ -199,3 +199,12 @@ All original files, transformed images, captures and learned weights stay
 private. Only source metadata, original MIT collector code and numerical
 experiment results are published. These image terms do not change the licenses
 of the research code.
+
+The training-pair validator, gradient diagnostic, two-domain gradient combiner,
+algebra tests and residual-scale fusion are original Apache-2.0 research code.
+The projection rule is credited to Yu et al.,
+[Gradient Surgery for Multi-Task Learning](https://arxiv.org/abs/2001.06782),
+Algorithm 1. No upstream implementation is copied. Domain-specific renderer
+results are our own experiments, not claims transferred from that paper.
+Gradients, model checkpoints, captures and predictions remain private; only
+source, scalar diagnostics and numerical evidence are distributed.
