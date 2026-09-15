@@ -163,7 +163,12 @@ def main():
     p.add_argument('--feature-weight',type=float,default=.01)
     p.add_argument('--paired-gradient',choices=['mean','pcgrad'],help='Two training domains: first 30 scene views, then 16 or 32 photo slots. One example from each per optimizer step.')
     p.add_argument('--straight-through-output-clamp',action='store_true',help='Experimental training-only identity gradient through the output clamp; forward and inference are unchanged.')
+    p.add_argument('--frequency-weight',type=float,default=0.,help='Optional training-only focal frequency loss, added to the existing RGB/detail loss.')
     a=p.parse_args()
+    if not math.isfinite(a.frequency_weight) or not 0<=a.frequency_weight<=100:
+        raise SystemExit('Use a finite frequency-loss weight in [0,100].')
+    if a.frequency_weight and (a.architecture!='hierarchical-film' or a.paired_gradient!='mean' or a.straight_through_output_clamp):
+        raise SystemExit('The frequency experiment requires ordinary-clamp, paired-mean conditioned training.')
     if not 1<=a.steps<=10000 or not 1<=a.max_seconds<=600:
         raise SystemExit('Use a bounded training run.')
     if not all(math.isfinite(v) for v in (a.initial_lr,a.final_lr)) or not 0<a.final_lr<=a.initial_lr<=.002:
@@ -295,6 +300,7 @@ def main():
     report['optimization']={'initial_learning_rate':a.initial_lr,'cosine_decay':a.cosine_lr,
                             'final_learning_rate':a.final_lr if a.cosine_lr else a.initial_lr}
     if a.straight_through_output_clamp:report['optimization']['output_clamp_gradient']='straight-through during training; exact forward and inference'
+    if a.frequency_weight:report['optimization']['frequency_loss']={'weight':a.frequency_weight,'weighting':'detached amplitude, normalized per image/channel','transform':'full-image orthonormal complex FFT','alpha':1}
     report['architecture']['variant']=a.architecture
     if grade_parameters is not None:
         report['architecture']['explicit_output_grading']=list(grade_parameters)
@@ -391,7 +397,7 @@ def main():
             lr=a.final_lr+.5*(a.initial_lr-a.final_lr)*(1+math.cos(math.pi*step/max(1,a.steps-1)))
             for group in optimizer.param_groups:group['lr']=lr
         if a.paired_gradient:
-            loss,pixel,conflict=paired_gradients(model,training_views,rng,a.paired_gradient)
+            loss,pixel,conflict=paired_gradients(model,training_views,rng,a.paired_gradient,a.frequency_weight)
             paired_conflicts+=conflict
             feature_loss=None
         else:

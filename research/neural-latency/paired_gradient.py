@@ -24,7 +24,7 @@ def combine_pair(a,b,*,project):
     return result,dot<0
 
 
-def paired_gradients(model,training_views,rng,mode):
+def paired_gradients(model,training_views,rng,mode,frequency_weight=0.):
     from student_training_pairs import rgb_loss
     assert len(training_views) in (46,62) and mode in ('mean','pcgrad')
     indices=[int(rng.integers(30)),30+int(rng.integers(len(training_views)-30))]
@@ -32,7 +32,11 @@ def paired_gradients(model,training_views,rng,mode):
     vectors,losses,pixels=[],[],[]
     for index in indices:
         source,target,_=training_views[index]
-        loss,pixel=rgb_loss(model(source.contiguous(memory_format=torch.channels_last)),target)
+        predicted=model(source.contiguous(memory_format=torch.channels_last))
+        loss,pixel=rgb_loss(predicted,target)
+        if frequency_weight:
+            from frequency_loss import frequency_loss
+            loss=loss+frequency_weight*frequency_loss(predicted,target)
         gradients=torch.autograd.grad(loss,parameters)
         vectors.append(torch.cat([g.flatten() for g in gradients]).detach())
         losses.append(loss.detach());pixels.append(pixel.detach())

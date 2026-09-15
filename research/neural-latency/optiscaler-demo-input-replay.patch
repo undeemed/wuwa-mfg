@@ -1,0 +1,63 @@
+--- a/OptiScaler/dlssnr/DlssNr_DemoCapture.h
++++ b/OptiScaler/dlssnr/DlssNr_DemoCapture.h
+@@ -7,6 +7,7 @@
+ #include <array>
+ #include <fstream>
+ #include <mutex>
++#include "DlssNr_DemoInputReplay.h"
+ 
+ namespace DlssNr::DemoCapture
+ {
+@@ -55,6 +56,7 @@
+     if (!GetModuleFileNameW(nullptr, executable, (DWORD)std::size(executable)) ||
+         _wcsicmp(std::filesystem::path(executable).filename().c_str(), L"ngx_dlss_demo.exe") ||
+         !std::filesystem::exists(runtime.parent_path() / L"nr-model-capture.enable")) return;
++    DemoInputReplay::Configure(runtime.parent_path());
+     state = new Capture;
+     state->directory = runtime.parent_path() / L"nr-model-capture";
+     if (std::filesystem::exists(state->directory))
+@@ -162,6 +164,14 @@
+     for (const char* key : {"DLSSNR.Intensity","DLSSNR.LocalStructureStrength","DLSSNR.LocalToneStrength",
+          "DLSSNR.SkinStructureStrength","DLSSNR.MVecScaleX","DLSSNR.MVecScaleY"})
+     { float value = 0; if (parameters->Get(key,&value) == NVSDK_NGX_Result_Success) frame.metadata["controls"][key] = value; }
++    Json replay;
++    if(!DemoInputReplay::Apply(commands,device.Get(),state->count,frame.metadata["controls"],frame.shots,replay))
++    {
++        frame.metadata["input_replay"]=replay;frame.metadata["complete"]=false;
++        std::ofstream error(state->directory/("frame-"+std::to_string(state->count)+".json"));error<<frame.metadata.dump(2);
++        state->enabled=false;return;
++    }
++    if(!replay.is_null())frame.metadata["input_replay"]=replay;
+     for (unsigned i = 0; i < 3; ++i) Record(commands,frame.shots[i],D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
+     ++state->count; active = &frame;
+ }
+--- a/OptiScaler/dlssnr/DlssNr_DemoCommandProbe.h
++++ b/OptiScaler/dlssnr/DlssNr_DemoCommandProbe.h
+@@ -19,7 +19,7 @@
+ 
+ namespace DlssNr::DemoCommandProbe
+ {
+-inline bool configured=false,enabled=false,attached=false;
++inline bool configured=false,enabled=false,attached=false,originalArguments=false;
+ inline std::atomic<bool> coverageGap=false;
+ inline std::recursive_mutex mutex;
+ inline std::ofstream output;
+@@ -61,6 +61,7 @@
+        !std::filesystem::exists(directory/L"nr-command-probe.enable"))return;
+     const auto file=directory/L"nr-command-probe.jsonl";if(std::filesystem::exists(file))return;
+     output.open(file);enabled=bool(output);
++    originalArguments=std::filesystem::exists(directory/L"nr-command-original-arguments.enable");
+     Event({{"kind","configuration"},{"schema",1},{"event_cap",32768},{"owned_byte_cap",64u*1024*1024},
+         {"scope","known command-list implementations, selected evaluations, owned packed CPU arguments only"}});
+ }
+@@ -254,8 +255,8 @@
+         }
+         const auto result=owned->calls.data();ownedChains.push_back(std::move(owned));retainedBytes+=bytes;
+         Event({{"kind","owned_arguments"},{"count",count},{"bytes",bytes},{"copy_exact",true},
+-            {"reused_source_storage",reused},{"reused_storage_changed",changed}});
+-        return result;
++            {"reused_source_storage",reused},{"reused_storage_changed",changed},{"forwarded_copy",!originalArguments}});
++        return originalArguments?kernels:result;
+     }
+     catch(const std::exception& e){coverageGap=true;Event({{"kind","arguments_forwarded_original"},{"reason",e.what()}});return kernels;}
+     catch(...){coverageGap=true;Event({{"kind","arguments_forwarded_original"},{"reason","unknown copy failure"}});return kernels;}

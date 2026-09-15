@@ -1,0 +1,54 @@
+--- a/OptiScaler/dlssnr/DlssNr_DemoKernelProbe.h
++++ b/OptiScaler/dlssnr/DlssNr_DemoKernelProbe.h
+@@ -15,6 +15,7 @@
+ #include <chrono>
+ #include <cmath>
+ #include "DlssNr_DemoBufferProbe.h"
++#include "DlssNr_DemoCommandProbe.h"
+ 
+ namespace DlssNr::DemoKernelProbe
+ {
+@@ -363,7 +364,9 @@
+     DemoBufferProbe::BeforeKernel(frame,chain+1);
+     const auto started = std::chrono::steady_clock::now();
+     NvAPI_Status status;
+-    { DemoBufferProbe::LaunchOrderScope order; status = originalLaunch(commands, kernels, count); }
++    { DemoCommandProbe::LaunchScope commandScope(chain+1,count,false);
++      const auto* submitted=DemoCommandProbe::CopyArguments(kernels,count);
++      DemoBufferProbe::LaunchOrderScope order; status = originalLaunch(commands, submitted, count); }
+     const auto cpuUs=std::chrono::duration<double,std::micro>(std::chrono::steady_clock::now()-started).count();
+     AfterLaunch(commands, index, status);
+     Record(kernels, count, status);
+@@ -377,7 +380,7 @@
+     DemoBufferProbe::BeforeKernel(frame,chain+1);
+     const auto started = std::chrono::steady_clock::now();
+     NvAPI_Status status;
+-    { DemoBufferProbe::LaunchOrderScope order; status = originalLaunchEx(commands, kernels, count); }
++    { DemoCommandProbe::LaunchScope commandScope(chain+1,count,true); DemoBufferProbe::LaunchOrderScope order; status = originalLaunchEx(commands, kernels, count); }
+     const auto cpuUs=std::chrono::duration<double,std::micro>(std::chrono::steady_clock::now()-started).count();
+     AfterLaunch(commands, index, status);
+     Record(kernels, count, status);
+@@ -456,6 +459,7 @@
+             if (old != reinterpret_cast<void*>(originalResolve)) { output.close(); return; }
+             importSlot = slot;
+             enabled = true;
++            DemoCommandProbe::Configure(runtimePath.parent_path());
+             wantsTiming = std::filesystem::exists(runtimePath.parent_path() / L"nr-kernel-timing.enable");
+             forceSm89 = std::filesystem::exists(runtimePath.parent_path() / L"nr-force-sm89.enable");
+             timingPath = runtimePath.parent_path() / L"nr-kernel-timing.csv";
+@@ -487,6 +491,7 @@
+     std::lock_guard lock(mutex);
+     frame = ++evaluations; chain = 0;
+     capture = frame <= 4 || frame == 64 || frame == 128 || frame == 256;
++    DemoCommandProbe::Begin(commands,frame,capture);
+     DemoBufferProbe::EvaluationOrder(frame,capture,true);
+     BeginTimings(commands);
+ }
+@@ -506,6 +511,7 @@
+     }
+     if (capture)
+     { std::lock_guard lock(mutex); output.flush(); contract.flush(); LOG_INFO("NR demo probe: evaluation {} captured {} chains", frame, chain); }
++    DemoCommandProbe::End();
+     DemoBufferProbe::EvaluationOrder(frame,capture,false);
+     capture = false;
+ }

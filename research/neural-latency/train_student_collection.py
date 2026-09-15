@@ -42,6 +42,7 @@ def main():
     parser.add_argument('--brightness-collection',type=Path,help='Private sixteen-photo native brightness extension; requires paired mean training.')
     parser.add_argument('--brightness-mode',choices=['native','repeat-low'],help='Replace the extra photo slots with brighter captures or repeated dim controls.')
     parser.add_argument('--straight-through-output-clamp',action='store_true',help='Experimental training-only output-clamp gradient.')
+    parser.add_argument('--frequency-weight',type=float,default=0.,help='Optional auxiliary training-only focal frequency loss.')
     args = parser.parse_args()
     if args.image_collection and not args.photo_collection:
         raise ValueError('The image extension requires its preceding photo collection.')
@@ -121,6 +122,7 @@ def main():
     if args.initialize_from:
         command.extend(['--initialize-from', str(args.initialize_from)])
     if args.straight_through_output_clamp:command.append('--straight-through-output-clamp')
+    if args.frequency_weight:command.extend(['--frequency-weight',str(args.frequency_weight)])
     if args.feature_targets:
         command.extend(['--feature-targets', str(args.feature_targets), '--feature-weight', str(args.feature_weight)])
     if args.paired_gradient:

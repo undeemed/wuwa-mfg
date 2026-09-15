@@ -1143,6 +1143,34 @@ document the completed experiments. The single sample launch used the inactive
 private desktop; WuWa and the normal runtime remain unchanged. The full target
 is still unmet.
 
+## Spectral training and controlled native argument forwarding
+
+Broad spatial frequencies account for roughly 64–69% of squared training error
+in the brighter-data model. A training-only spectral loss, calibrated without
+validation data, worsens all three validation groups by 13.87%, 28.85% and 10.87%.
+It is rejected and remains off by default. Its graph still takes about 1.003 ms;
+the unresolved problem is faithful output, not student inference speed.
+
+The native observer now traces 75 command-list methods alongside both barrier
+methods. It finds a descriptor-heap change after launch 1 and confirms extensive
+reuse of packed argument storage: 144 reused buffers change within the first
+evaluation. Deferred calls therefore need their own argument storage and must
+preserve the command boundaries.
+
+A new fixed-input replay test removes differences in the demo's rendered inputs
+and prior history. From reset, all four captured frames have identical inputs
+across three modes. Both command tracing with original arguments and tracing with
+copied arguments reproduce the native reference output byte-for-byte on every
+frame. This is a controlled correctness result, not a batching or speed result.
+No real-model kernel calls have been merged yet.
+
+The [spectral experiment](../research/neural-latency/README.md#training-against-spectral-errors),
+[native method and replay procedure](../research/neural-latency/README.md#native-command-coverage-argument-ownership-and-fixed-input-replay)
+and [numeric evidence](../evidence/neural-model-research/spectral-training-and-native-input-replay.json)
+document the completed work. Five hidden sample launches used the inactive
+private desktop. WuWa, driver settings and the normal runtime remain unchanged;
+the full 3 ms and unchanged-quality goal remains unmet.
+
 ## Papers and what can transfer
 
 The joint [native feature supervision experiment](../research/neural-latency/README.md#native-intermediate-feature-supervision)

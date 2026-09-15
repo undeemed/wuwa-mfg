@@ -258,3 +258,14 @@ Computation](https://arxiv.org/abs/1308.3432), with the limitations discussed by
 Yin et al., [Understanding Straight-Through Estimator in Training Activation
 Quantized Neural Nets](https://arxiv.org/abs/1903.05662). No paper implementation is
 copied. Training weights, images, activations and raw gradients stay private.
+
+The spectral-error diagnostic, auxiliary loss and its tests are original
+Apache-2.0 research code, inspired by Jiang et al.,
+[Focal Frequency Loss for Image Reconstruction and Synthesis](https://openaccess.thecvf.com/content/ICCV2021/papers/Jiang_Focal_Frequency_Loss_for_Image_Reconstruction_and_Synthesis_ICCV_2021_paper.pdf),
+equations 7–10. No paper implementation is copied or benchmark gain transferred
+to this renderer. Captures, spectral arrays, gradients and trained weights remain
+private. The command-list observer and input-replay C++ extensions are original
+GPL-3.0-only code using separately installed DirectX/NVIDIA interfaces and
+Microsoft Detours. Their Python collectors and analyzer are original
+Apache-2.0 code. No vendor implementation, binary, packed argument data or GPU
+address is distributed.

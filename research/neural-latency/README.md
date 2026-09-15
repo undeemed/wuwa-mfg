@@ -2701,3 +2701,147 @@ itself a passing test: inspect test completion, all statuses and mismatch counts
 records both investigations, source hashes and preserved state. One sample was
 launched, and WuWa remained closed and unchanged. The 3 ms, unchanged-quality
 goal remains unmet.
+
+## Training against spectral errors
+
+The brighter-data model's training error is mostly broad spatial structure.
+With an orthonormal FFT, DC plus frequencies below 1/128 cycles per pixel account
+for **64.29%** of squared error on scene views, **68.74%** on dim photos and
+**69.04%** on brighter photos. This describes error energy, not its perceptual
+importance or a proven architecture defect.
+
+[`analyze_training_spectrum.py`](analyze_training_spectrum.py) inspects the same
+62 training frames, excluding all sixteen validation frames. It verifies
+Parseval's equality and measures output-space gradients without fitting or
+changing weights. The auxiliary coefficient is fixed before training: the median
+of one quarter of the ordinary-to-spectral gradient norm ratio, **8.940009**.
+This calibrates at the trained control; it does not guarantee balanced parameter
+gradients throughout a fresh training run.
+
+[`frequency_loss.py`](frequency_loss.py) is an original implementation inspired
+by Jiang et al., [Focal Frequency Loss](https://openaccess.thecvf.com/content/ICCV2021/papers/Jiang_Focal_Frequency_Loss_for_Image_Reconstruction_and_Synthesis_ICCV_2021_paper.pdf).
+It weights complex Fourier differences by detached amplitudes, normalized per
+image and channel. The existing RGB/detail loss remains present. The optional
+`--frequency-weight` defaults to zero, requires ordinary-clamp paired-mean
+conditioned training, and adds no inference operations or parameters.
+
+[`test_frequency_loss.py`](test_frequency_loss.py) checks FP32/FP64 gradients
+against an inverse-FFT expression with the adaptive weights held fixed. The
+largest tested FP32 discrepancy is 5.59e-9. Zero-error gradients, an impulse
+Parseval case, phase sensitivity and exact paired-gradient routing all pass.
+Both zero and calibrated weights are checked on actual training images,
+including the last of the 62 sampling slots. No optimizer step is taken.
+
+```text
+analyze_training_spectrum.py --base <private-trial-root> --photos <old-photo-manifest> --images <diverse-image-manifest> --brightness <brightness-manifest> --baseline <original-46-frame-model> --model <brighter-data-model> --output <fresh-private-spectrum.json>
+test_frequency_loss.py --model <brighter-data-model> --scene <training-scene-capture> --photo <training-photo-capture> --calibration <spectrum-report> --output <fresh-private-test.json>
+```
+
+Add `--frequency-weight 8.940009117126465` to the preceding brighter-data training
+command for this recorded experiment. Keep the same data, architecture, seed,
+optimizer, ordinary clamp, 4,500 updates and 9,000 sampled examples. The candidate
+takes 224.39 seconds to train. Its training MAE rises from 0.023333 to 0.029214,
+and all three validation group means worsen:
+
+| Validation group | Ordinary control | Spectral auxiliary loss | Change |
+|---|---:|---:|---:|
+| Six scene views | 0.026068 | 0.029682 | +13.87% |
+| Six older photo cases | 0.018731 | 0.024135 | +28.85% |
+| Four newer photos | 0.020624 | 0.022865 | +10.87% |
+
+Only three of sixteen cases improve. This candidate is **rejected** and the
+option remains off by default. The result does not establish that frequency
+losses cannot help other training regimes; this specific calibrated run failed.
+All 48 saved predictions reproduce exactly, including the two old models' 32
+unchanged results. Existing fusions pass all 48 model/image comparisons across
+eight modes. The candidate's full-1080p student-plus-grade graph measures
+**1.0034 ms median**, with **1.0086 ms interval p95**; the ordinary control measures
+**1.0003 ms**. These 30 alternating pairs average ten replays per interval and
+exclude application integration. No native-runtime acceleration is claimed.
+
+## Native command coverage, argument ownership and fixed input replay
+
+[`DlssNr_DemoCommandProbe.h`](DlssNr_DemoCommandProbe.h) adds typed forwarding
+hooks for 75 methods in the observed `ID3D12GraphicsCommandList10` implementation.
+Existing hooks cover the two barrier methods. The method signatures come from
+the installed DirectX interface types; the 86-slot vtable ordering is checked
+against that SDK. Shared or failed hook targets set a coverage-gap flag. Logs
+contain method names and scalar ordering information, never pointers or arguments.
+
+On each of seven selected evaluations, all 158 native kernel calls succeed.
+All 75 hooks attach successfully, and 3,429 events stay below the 32,768 cap.
+Apart from the twenty previously observed barriers, the trace records only:
+
+- `SetDescriptorHeaps` before the first launch;
+- another `SetDescriptorHeaps` after launch 1;
+- one `OMSetBlendFactor` call inside a native launch.
+
+All observed calls are on the evaluation thread and the same command list, with
+no nested method calls. This covers the observed command-list implementations;
+device/resource methods, other implementations and implicit driver operations
+are not a complete captured API stream. A future batcher must preserve the
+descriptor-heap change as well as the barriers.
+
+The observer also forwards sampled launches using owned copies of their packed
+CPU arguments. **144 source buffers are reused and changed within the first
+evaluation**. Subsequent sampled evaluations reuse 158, with 153 changed.
+Each evaluation copies 12,072 bytes; seven retain 84,504 bytes. Copies are checked
+while the caller's buffers are valid and retained until process exit. Embedded
+GPU-resource lifetimes are not extended by copying their addresses.
+
+The initial two-process output comparison is inconclusive. Its reset frame has
+slightly different input pixels and motion. The next frame has identical current
+inputs but different preceding history and different output. That is neither a
+passing equivalence test nor an isolated regression caused by argument copying.
+[`analyze_native_commands.py`](analyze_native_commands.py) reports current-input
+matches separately from matches extending from reset through the prior frames.
+
+To remove this ambiguity, [`DlssNr_DemoInputReplay.h`](DlssNr_DemoInputReplay.h)
+uploads the same saved color, depth and motion sequence for the first four
+evaluations, beginning at reset. Every control value, texture format, extent and
+row layout is checked before recording copies. Upload resources remain alive
+through process exit. Input textures return to their required shader-resource
+state, and the existing fenced capture then verifies the bytes actually supplied
+to the native renderer. All replay payloads stay private.
+
+Three new runs use the same compiled DLL and fixed input sequence:
+
+| Mode | Command-method tracing | Arguments submitted | Four native outputs |
+|---|---|---|---|
+| Native reference | Off | Original caller buffers | Reference |
+| Trace control | On | Original caller buffers | All byte-identical to reference |
+| Owned arguments | On | Checked private copies | All byte-identical to reference |
+
+All 36 input-resource comparisons are exact, including prior captured history.
+All eight output comparisons are exact. This validates the observer and copied
+arguments for the tested sequence. It does **not** establish safe real-model
+batching, a universal interface guarantee or a native speedup. The earlier
+integer-chain selftest and this controlled native comparison provide prerequisites
+for the next batching experiment; no kernel calls are merged yet.
+
+The command observer is an add-on to the existing pre-tensor and launch-order
+patches. Copy its header into `OptiScaler/dlssnr`, then apply
+[`optiscaler-demo-command-probe.patch`](optiscaler-demo-command-probe.patch).
+For fixed input replay, also copy its header and apply
+[`optiscaler-demo-input-replay.patch`](optiscaler-demo-input-replay.patch).
+Build only the separate demo research DLL. The replay collector runs the three
+modes and restores the normal DLL/INI after each; staged input payloads and
+markers are removed, and captures are archived privately.
+
+```text
+collect_native_launch_order.py --demo-dir <existing-hidden-demo> --base <private-trial-root> --baseline-dll <checked-capture-build> --baseline-sha256 <checked-hash> --observer-dll <checked-command-build> --observer-sha256 <checked-hash> --label-prefix native-command-probe --command-probe --output <fresh-private-pair.json>
+analyze_native_commands.py --state <observed-private-state> --paired <pair-report> --output <fresh-private-analysis.json>
+collect_native_input_replay.py --demo-dir <existing-hidden-demo> --base <private-trial-root> --source <fenced-four-frame-capture> --dll <checked-replay-build> --dll-sha256 <checked-hash> --output <fresh-private-comparison.json>
+```
+
+The replay collector supports explicit `--resume`: it revalidates completed
+captures and runs only missing modes. This was used after a collector metadata
+mismatch interrupted postprocessing of the first completed run; that sample was
+not relaunched. Every application launch verifies the exact hidden EXE and uses
+the inactive private desktop. Five sample runs occurred in total, with zero game
+launches and no driver changes. No binaries or private inputs are distributed.
+
+[Numeric evidence](../../evidence/neural-model-research/spectral-training-and-native-input-replay.json)
+records the rejected spectral model, native trace, input/history qualifications,
+controlled output comparisons, source hashes and preserved state. The 3 ms at
+1920×1080 goal with unchanged native quality remains unmet.
