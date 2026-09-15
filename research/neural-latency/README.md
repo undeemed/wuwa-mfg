@@ -2268,3 +2268,84 @@ retains the complete training/comparison results, all operator and full-image
 checks, and timing samples. The larger model is not accepted or installed.
 No sample/game launch or game, driver, native model or normal runtime change was
 needed. **Native-quality equivalence at 3 ms remains unverified.**
+
+## Spatial error and latent context exchange
+
+The preceding capacity test did not improve training fit. A new training-only
+diagnostic decomposes the conditioned models' errors using a constant RGB
+correction in each rectangular image tile. One correction for the entire image
+removes about 1–5% of mean per-image MAE; an 8×16 grid removes about 35–41%.
+The grid uses **native target pixels**, so these corrections cannot be used at
+inference. It establishes spatial variation in the errors, not which architecture
+can predict it. All sixteen validation frames stay outside this diagnostic.
+
+```text
+analyze_spatial_error.py --base <private-demo-root> --photos <private-photo-manifest> --images <private-image-manifest> --model <name> <private-conditioned-student> --output <fresh-private-report.json>
+```
+
+The next model tests a compact spatial context branch inspired by
+[Perceiver IO](https://arxiv.org/abs/2107.14795). Its read/process/write interface
+uses a small latent array between input and output queries. Our adaptation reads
+the deepest CNN features into 32 learned slots, applies one self-attention/MLP
+stage there, and writes corrections back to spatial features. Normalized xy
+coordinates distinguish locations. This is an original small branch, not a
+replication of the paper's models or their language/vision benchmark results.
+
+At 1080p, the padded feature map has 34×60 positions and 96 channels. Three heads
+use dimension 32. The branch is applied before the existing global gate and
+decoder conditioning; source pixels and local skips are retained. Its final
+projection starts at zero. The branch adds **153,120 parameters**, for **407,792**
+total at width 16. Coordinates are cached by shape, device and dtype; checks cover
+reuse, changing those shapes/dtypes, and returning from inference to training.
+
+On two actual training images, neutral insertion matches the earlier model in
+FP32 and FP16. A scratch projection update verifies gradients reach the read
+attention, coordinates' learned projection and latent slots; strict reload
+reproduces output. These are mechanical checks, not a quality claim.
+
+```text
+test_latent_context.py --model <private-width16-conditioned-student> --capture <private-training-capture> --capture <another-private-training-capture> --output <fresh-private-report.json>
+```
+
+Select `--architecture hierarchical-latent --width 16` with the collection
+training command. The measured candidate retains the same 46 training frames,
+sixteen validation frames, seed, 4,500 updates and original optimizer schedule.
+It starts from scratch; no validation pixels or intermediate teacher features
+enter fitting. Extra attention increases compute, so this is not a FLOP-matched
+comparison. Training completed in 94.22 seconds. Mean training MAE is 0.029270,
+versus 0.028293 for the smaller conditioned baseline.
+
+| Validation group | Conditioned baseline | Latent context | MAE change |
+| --- | ---: | ---: | ---: |
+| Six scene views | 0.028421 | 0.029060 | +2.25% |
+| Six older photo cases | 0.021364 | 0.022417 | +4.93% |
+| Four newer photo cases | 0.022106 | 0.021238 | −3.93% |
+
+Lower error is better. The new model improves only one of six scene cases, three
+of six older photo cases and two of four newer photo cases. It remains rejected
+for native-quality use. All 48 saved predictions reproduce exactly; the two older
+checkpoints' 32 validation results match the preceding comparison exactly.
+
+Removing the trained branch changes its deepest features by about 21% in mean
+absolute magnitude, but worsens training RGB MAE only from 0.033153 to 0.033218
+on scenes and 0.021988 to 0.022292 on photos. These FP32 removal diagnostics show
+that the branch is active and contributes a small net fit improvement. Removing
+it changes downstream inputs, so this is not a separately trained no-branch
+control or evidence that spatial context is fundamentally unnecessary.
+
+```text
+ablate_latent_context.py --base <private-demo-root> --photos <private-photo-manifest> --images <private-image-manifest> --model <private-latent-student> --output <fresh-private-report.json>
+```
+
+All existing fusion modes remain bit-identical on 48 complete model/image pairs
+across eight modes. The candidate's full 1080p student-plus-grade graph measures
+**1.0977 ms** with all fusions, versus 1.1381 ms without the previous conditioning
+fusion. Thirty alternating intervals per mode each average ten replays after
+forty warmups. The timings exclude D3D12 integration; they are not per-frame tail
+latency or a native-runtime speedup. No new CUDA kernel is introduced here.
+
+[Numerical evidence](../../evidence/neural-model-research/latent-context-exchange.json)
+records the spatial diagnostic, mechanical checks, training, mixed validation,
+branch removal and kernel compatibility. No sample or game launch was needed;
+game, driver, native model and normal runtime files remain unchanged. **The
+3 ms/native-quality target remains unmet.**

@@ -58,11 +58,11 @@ def main():
         assert record['controls'] == baseline['controls'] and record['native_shape'] == [1080, 1920]
         assert record['completed_steps'] == 4500
         architecture = record['architecture']
-        assert architecture['variant'] in ('hierarchical', 'hierarchical-attention', 'hierarchical-film')
+        assert architecture['variant'] in ('hierarchical', 'hierarchical-attention', 'hierarchical-film','hierarchical-latent')
         assert architecture['width'] in (16, 32) and architecture['blocks'] == 2 and architecture['noise_channels'] == 0
         checkpoint = torch.load(directory / 'student-private.pt', map_location='cpu', weights_only=True)
         assert checkpoint['architecture'] == architecture
-        network = HierarchicalStudent(architecture['width'], 2, attention=architecture['variant'] == 'hierarchical-attention', conditioned=architecture['variant']=='hierarchical-film')
+        network = HierarchicalStudent(architecture['width'], 2, attention=architecture['variant'] == 'hierarchical-attention', conditioned=architecture['variant'] in ('hierarchical-film','hierarchical-latent'), latent=architecture['variant']=='hierarchical-latent')
         model = GradedStudent(network, architecture['explicit_output_grading'])
         model.load_state_dict(checkpoint['state_dict'], strict=True)
         model = model.cuda().half().eval().to(memory_format=torch.channels_last)

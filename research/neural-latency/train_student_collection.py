@@ -29,7 +29,7 @@ def main():
     parser.add_argument('--base-trials', type=Path, required=True)
     parser.add_argument('--grade-contract', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
-    parser.add_argument('--architecture', choices=['hierarchical', 'hierarchical-attention', 'hierarchical-film'], required=True)
+    parser.add_argument('--architecture', choices=['hierarchical', 'hierarchical-attention', 'hierarchical-film','hierarchical-latent'], required=True)
     parser.add_argument('--width', type=int, choices=[16, 32], default=16)
     parser.add_argument('--photo-collection', type=Path, help='Optional private audited photo extension manifest.')
     parser.add_argument('--image-collection', type=Path, help='Optional diverse image extension, requiring --photo-collection.')

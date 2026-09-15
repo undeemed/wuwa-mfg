@@ -1035,6 +1035,28 @@ and [numeric evidence](../evidence/neural-model-research/conditioning-capacity-a
 include the mixed quality results, unchanged timing control and exactness scope.
 The new fusion remains disabled by default. Game and driver state are unchanged.
 
+## Spatial context through a small latent array
+
+A training-only diagnostic finds that region-specific RGB offsets explain much
+more error than one image-wide offset. These are target-derived oracle values,
+not usable runtime corrections. They motivate a spatial-context experiment but
+do not prove that missing context is the cause of the quality gap.
+
+The new branch uses 32 learned slots to exchange information between spatial CNN
+features, with xy coordinates and read/process/write attention inspired by
+[Perceiver IO](https://arxiv.org/abs/2107.14795). It starts neutral and adds 153,120
+parameters. With the same data and 4,500 updates, newer-photo error falls 3.93%,
+but scene and older-photo error rise 2.25% and 4.93%. Temporarily removing the
+trained branch confirms it changes the features and modestly helps training fit.
+The model still fails native-quality acceptance.
+
+Its optimized full-1080p graph takes **1.0977 ms**, excluding application
+integration. Existing kernels remain bit-exact across 48 complete model/image
+checks and eight execution modes; no new kernel or native-runtime acceleration
+is claimed. The [method and commands](../research/neural-latency/README.md#spatial-error-and-latent-context-exchange)
+and [numeric evidence](../evidence/neural-model-research/latent-context-exchange.json)
+include all comparisons and their limits. Game and driver state remain unchanged.
+
 ## Papers and what can transfer
 
 The joint [native feature supervision experiment](../research/neural-latency/README.md#native-intermediate-feature-supervision)
@@ -1058,6 +1080,7 @@ and hardware; none establishes the target for this runtime.
 | [Knowledge distillation](https://arxiv.org/abs/1503.02531) | Train a smaller student against the larger model's behavior. | A renderer needs matched pixels, detail and temporal consistency, not just matching classification probabilities. A trustworthy teacher and held-out sequences are prerequisites. |
 | [Gradient Surgery / PCGrad](https://arxiv.org/abs/2001.06782) | Adjust conflicting training gradients without adding inference work. | Our matched two-domain test improves scene error but worsens photo error. Negative alignment alone does not prove the paper's full conditions or guarantee renderer quality. |
 | [FiLM](https://arxiv.org/abs/1709.07871) | Condition feature channels using learned affine transformations. | Our image-conditioned decoder improves scene and older-photo errors but slightly worsens the newer-photo mean. Visual-reasoning performance does not establish native renderer quality. |
+| [Perceiver IO](https://arxiv.org/abs/2107.14795) | Exchange spatial information through a compact latent array and output queries. | Our small CNN branch improves newer-photo error but worsens the other groups. Its efficient attention interface does not establish equivalent renderer quality. |
 | [FitNets](https://arxiv.org/abs/1412.6550) | Use intermediate teacher features and a learned projection to guide a smaller student. | Our joint auxiliary loss improves scene errors but worsens photo errors. It does not implement the full FitNets procedure or establish renderer quality from classification results. |
 | [LIT](https://arxiv.org/abs/1810.01937) | Train shallower blocks with intermediate teacher inputs and targets. | This may avoid unstable student inputs during block training, but it is not implemented here. A deployable replacement must run without captured native activations. |
 | [Experience Replay for Continual Learning](https://arxiv.org/abs/1811.11682) | Retain prior examples when adapting a model to new data. | Its reinforcement-learning results do not establish pixel fidelity. Our warm-start experiment retains old native targets, but still trades photo accuracy against scene accuracy; it is not an implementation of CLEAR. |

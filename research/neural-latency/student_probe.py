@@ -47,8 +47,9 @@ class PixelStudent(nn.Module):
 
 class HierarchicalStudent(nn.Module):
     """Learned multiscale features with full-resolution pixel rearrangement/skips."""
-    def __init__(self,width=16,blocks=2,noise=False,affine=False,attention=False,conditioned=False):
+    def __init__(self,width=16,blocks=2,noise=False,affine=False,attention=False,conditioned=False,latent=False):
         super().__init__()
+        if latent and not conditioned:raise ValueError('Latent context requires the conditioned RGB hierarchy.')
         if conditioned and (noise or affine or attention):
             raise ValueError('Decoder conditioning is tested only with the plain RGB hierarchy.')
         widths=[width,width*2,width*4,width*6]
@@ -76,6 +77,10 @@ class HierarchicalStudent(nn.Module):
         if conditioned:
             from decoder_conditioning import DecoderConditioning
             self.decoder_conditioning=DecoderConditioning(widths[-1],widths[:3])
+        self.latent_context=None
+        if latent:
+            from latent_context import LatentContext
+            self.latent_context=LatentContext(widths[-1])
 
     def forward(self,x,*,fused_output_backend=None,grade_parameters=None):
         height,width=x.shape[-2:]
@@ -86,6 +91,7 @@ class HierarchicalStudent(nn.Module):
         for i,stage in enumerate(self.encoder):
             value=stage(value)
             if i<3:skips.append(value);value=self.down[i](value)
+        if self.latent_context is not None:value=self.latent_context(value)
         pooled=value.mean(dim=(2,3),keepdim=True)
         modulation=self.decoder_conditioning(pooled) if self.decoder_conditioning is not None else None
         value=value*(1+0.1*torch.tanh(self.context(pooled)))
@@ -140,7 +146,7 @@ def main():
     p.add_argument('--patch-size',type=int,choices=[128,256,384],default=128)
     p.add_argument('--batch',type=int,choices=range(1,17),default=8)
     p.add_argument('--cosine-lr',action='store_true',help='Decay learning rate from .002 to .00002 over the bounded steps.')
-    p.add_argument('--architecture',choices=['local','hierarchical','hierarchical-affine','hierarchical-attention','hierarchical-film'],default='local')
+    p.add_argument('--architecture',choices=['local','hierarchical','hierarchical-affine','hierarchical-attention','hierarchical-film','hierarchical-latent'],default='local')
     p.add_argument('--whole-frame',action='store_true',help='Train complete views, batch 1; requires a separate validation view.')
     p.add_argument('--output-grade-contract',type=Path,help='Learn a pre-grading residual, then apply the observed output grade. Requires a separate validation view.')
     p.add_argument('--evaluate-all-training',action='store_true',help='Report every full training view after fitting; requires separate validation views.')
@@ -182,7 +188,7 @@ def main():
         raise SystemExit('The affine experiment requires whole-frame training and the observed output grade.')
     if a.architecture=='hierarchical-attention' and (not a.whole_frame or not a.output_grade_contract):
         raise SystemExit('The global-attention experiment requires whole-frame training and the observed output grade.')
-    if a.architecture=='hierarchical-film' and (not a.whole_frame or not a.output_grade_contract or a.noise_source):
+    if a.architecture in ('hierarchical-film','hierarchical-latent') and (not a.whole_frame or not a.output_grade_contract or a.noise_source):
         raise SystemExit('Decoder conditioning requires graded whole-frame RGB training.')
     noise=None
     if a.noise_source:
@@ -257,7 +263,7 @@ def main():
         assert pair_hashes['color'] not in validation_inputs, 'Duplicate validation input.'
         validation_inputs.add(pair_hashes['color'])
         extra_validation.append((pair,pair_hashes))
-    model=(HierarchicalStudent(a.width,a.blocks,bool(a.noise_source),a.architecture=='hierarchical-affine',a.architecture=='hierarchical-attention',a.architecture=='hierarchical-film') if a.architecture.startswith('hierarchical')
+    model=(HierarchicalStudent(a.width,a.blocks,bool(a.noise_source),a.architecture=='hierarchical-affine',a.architecture=='hierarchical-attention',a.architecture in ('hierarchical-film','hierarchical-latent'),a.architecture=='hierarchical-latent') if a.architecture.startswith('hierarchical')
            else PixelStudent(a.width,a.blocks,bool(a.noise_source),dilations)).cuda().to(memory_format=torch.channels_last)
     if grade_parameters is not None:model=GradedStudent(model,grade_parameters)
     optimizer=torch.optim.AdamW(model.parameters(),lr=a.initial_lr,weight_decay=0.0001)
@@ -295,7 +301,7 @@ def main():
                                       blocks_per_stage=a.blocks,input_receptive_field_pixels='whole image via global context gate',
                                       internal_downsampling='learned features only; original pixels retained through input rearrangement and residual path')
         report['architecture'].pop('dilations')
-        if a.architecture=='hierarchical-film':
+        if a.architecture in ('hierarchical-film','hierarchical-latent'):
             report['architecture']['decoder_conditioning']={
                 'source':'spatial mean of deepest encoder features, before the original context gate',
                 'normalization':'LayerNorm across pooled channels, epsilon 1e-5',
@@ -303,6 +309,16 @@ def main():
                 'application':'per-channel value*(1+scale)+shift after upsample/skip combination at all three decoder stages',
                 'projection_initialization':'zero; initially neutral',
                 'conditioning_parameters':sum(v.numel() for v in model.network.decoder_conditioning.parameters())}
+        if a.architecture=='hierarchical-latent':
+            report['architecture']['latent_context']={'tokens':32,'width':a.width*6,'head_dim':32,
+                'input_token_shape':[(height+31)//32,(width+31)//32],
+                'stages':'input-to-latent cross-attention, one latent self-attention/MLP, latent-to-spatial cross-attention',
+                'position_encoding':'normalized xy coordinates projected into features, shared by read keys and write queries',
+                'application':'deepest encoder features before pooling, original context gate and decoder conditioning',
+                'output_projection_initialization':'zero','residual_scale':.1,
+                'parameters':sum(v.numel() for v in model.network.latent_context.parameters()),
+                'operator':'PyTorch scaled_dot_product_attention, noncausal, dropout 0',
+                'precision':'FP32 training, FP16 inference; all stages included in complete graph timings'}
         if a.architecture=='hierarchical-affine':
             report['architecture']['affine_field']={'channels':12,'cell_size':32,
                 'interpolation':'bilinear, align_corners=False, over the padded image',

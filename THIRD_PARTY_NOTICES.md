@@ -223,3 +223,12 @@ code. The scalar and packed half arithmetic follow NVIDIA's published
 No vendor implementation, binary or disassembly is distributed. The associated
 capacity experiment uses the existing original image-conditioned architecture;
 its learned weights and captured data remain private.
+
+The spatial-error diagnostic, latent-context branch, mechanical tests and
+training-branch ablation are original Apache-2.0 code. The latent
+read/process/write interface is credited to Jaegle et al.,
+[Perceiver IO](https://arxiv.org/abs/2107.14795). No upstream implementation or
+trained weights are copied. The small CNN adaptation and measured results are
+our own experiment; the paper's benchmarks are not renderer quality claims.
+All private captured images, predictions, activations and trained weights remain
+outside this repository.
