@@ -67,7 +67,21 @@ class FusedNorm:
         for dtype, name in [(torch.float16,b'fp8_roundtrip_f16'),(torch.float32,b'fp8_roundtrip_f32')]:
             function = C.c_void_p(); check(lookup(C.byref(function),self.module,name),'cuModuleGetFunction')
             self.roundtrip_functions[dtype] = function
+        self.noise_function = C.c_void_p()
+        check(lookup(C.byref(self.noise_function),self.module,b'gaussian_noise_f32'),'cuModuleGetFunction')
         # Module stays alive until process exit, including any captured graphs.
+
+    def noise(self, height, width, frame_index=0):
+        if not (0 < height <= 8192 and 0 < width <= 8192 and 0 <= frame_index < 2**32):
+            raise ValueError('Expected bounded positive extents and a uint32 frame index.')
+        output = torch.empty((height,width,3),device='cuda',dtype=torch.float32)
+        arguments = [C.c_void_p(output.data_ptr()),C.c_uint(width),C.c_uint(height),C.c_uint(frame_index)]
+        params = (C.c_void_p*4)(*(C.addressof(v) for v in arguments))
+        stream = torch.cuda.current_stream(output.device)
+        status = self.launch(self.noise_function,(height*width+255)//256,1,1,256,1,1,0,
+                             C.c_void_p(stream.cuda_stream),params,None)
+        if status: raise RuntimeError(f'cuLaunchKernel failed: {status}')
+        return output
 
     def __call__(self, x):
         if x.device.type != 'cuda' or x.shape[-1] != 32 or x.dtype not in self.functions or x.requires_grad:

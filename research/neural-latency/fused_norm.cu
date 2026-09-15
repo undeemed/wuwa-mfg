@@ -184,3 +184,41 @@ extern "C" __global__ void fp8_roundtrip_f16(const unsigned short* input,unsigne
 extern "C" __global__ void fp8_roundtrip_f32(const float* input,float* output,unsigned long long count,TensorLayout layout) {
     fp8_roundtrip(input,output,count,layout);
 }
+
+// Recovered PCG/Box-Muller feature construction, using explicit GPU operations.
+// This is an arithmetic diagnostic; native sample equality must be measured.
+__device__ __forceinline__ unsigned noise_mix(unsigned value) {
+    return (value ^ (value >> ((value >> 28) + 4))) * 0x108ef2d9u;
+}
+__device__ __forceinline__ float noise_uniform(unsigned value) {
+    value = noise_mix(value);
+    return (float)(((value >> 30) ^ (value >> 8)) + 1u) * 0x1p-24f;
+}
+__device__ __forceinline__ float noise_radius(float value) {
+    float logarithm, radicand, radius;
+    asm("lg2.approx.ftz.f32 %0, %1;" : "=f"(logarithm) : "f"(value));
+    asm("mul.rn.ftz.f32 %0, %1, %2;" : "=f"(radicand) : "f"(logarithm),"f"(0.69314718246459960938f));
+    asm("mul.rn.ftz.f32 %0, %1, %2;" : "=f"(radicand) : "f"(radicand),"f"(-2.f));
+    asm("sqrt.approx.ftz.f32 %0, %1;" : "=f"(radius) : "f"(radicand));
+    return radius;
+}
+extern "C" __global__ void gaussian_noise_f32(float* output,unsigned width,unsigned height,unsigned frame) {
+    const unsigned index=blockIdx.x*blockDim.x+threadIdx.x;
+    if(index>=width*height)return;
+    const unsigned x=index%width,y=index/width;
+    unsigned mixed=noise_mix(y*0xd8163841u ^ x*0x8da6b343u ^ frame*0x9e3779b9u ^ 0x243f6a88u);
+    mixed ^= mixed >> 22;
+    const float a=noise_uniform(mixed*0xcaa5b80du+0x21dd796bu);
+    const float b=noise_uniform(mixed*0x83232c31u+0x3463e0acu);
+    const float c=noise_uniform(mixed*0x2c9277b5u+0xac564b05u);
+    const float d=noise_uniform(mixed*0xfa6dc5f9u+0x4712a88eu);
+    const float ra=noise_radius(a),rb=noise_radius(c);
+    const float angle_a=d*6.2831854820251464844f,angle_b=b*6.2831854820251464844f;
+    float ca,sa,cb;
+    asm("cos.approx.ftz.f32 %0, %1;" : "=f"(ca) : "f"(angle_a));
+    asm("sin.approx.ftz.f32 %0, %1;" : "=f"(sa) : "f"(angle_a));
+    asm("cos.approx.ftz.f32 %0, %1;" : "=f"(cb) : "f"(angle_b));
+    output[index*3]=half_round(rb*ca);
+    output[index*3+1]=half_round(rb*sa);
+    output[index*3+2]=half_round(ra*cb);
+}

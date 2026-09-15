@@ -52,7 +52,8 @@ The runtime is not bundled in this repository or its source/script release.
 The numerical experiments in `research/neural-latency` use
 [MLX-DLSS](https://github.com/iamwavecut/MLX-DLSS) commit
 `0ca2deab092fe6f3e331bf4f616271dbc64521d0`. The CUDA normalization, bit-affine
-softmax, quadratic activation, cosine publication and batched feed-forward implementations adapt the
+softmax, quadratic activation, cosine publication, Gaussian noise, first-block
+branch rounding and batched feed-forward implementations adapt the
 operation order and rounding specified by its PyTorch
 reference. These model experiment files are provided under Apache-2.0; retain
 the [license](licenses/MLX-DLSS-Apache-2.0.txt) and this attribution. The upstream
@@ -65,6 +66,10 @@ is original MIT-licensed orchestration; it does not include sample assets.
 
 The CUDA experiment invokes the user's separately installed PyTorch, NVRTC and
 CUDA driver. Their binaries and generated GPU code are not distributed here.
+Private native inspection uses NVIDIA's separately downloaded `cuobjdump` and
+`nvdisasm` tools. Only our inspection/decoder source, derived layout and arithmetic
+findings, tool provenance and numeric results are published; no NVIDIA tools,
+disassembly, CUDA modules, model weights or captured tensors are included.
 Research papers are linked in the latency investigation; their reported results
 are not presented as performance claims for this toolkit.
 

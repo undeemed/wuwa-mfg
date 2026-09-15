@@ -19,6 +19,7 @@ dist/
 *.cubin
 *.ptx
 *.fatbin
+*.sass
 *.onnx
 *.raw
 *.npy

@@ -449,12 +449,12 @@ barrier-only run also had different first inputs, so it cannot support a paired
 output claim. The capture run's two sparse post-warmup model samples were both
 5.45 ms; this is not a speedup.
 
-The bytes are still an **allocation prefix, not a decoded tensor**. A search
+The first investigation treated the bytes as an **allocation prefix**. A search
 against the reconstructed adapter, first block and pooled output tested 1,080
 simple tiled layouts, then 14,040 layouts including split channel axes. The best
 fresh-sample correlation in the larger search was only about 0.149, far short of
-establishing a match. Other offsets, packed lane layouts and arithmetic differences
-remain possible. No numerical equivalence follows from successful readback.
+establishing a match. The later lane-bit decoder below resolves the captured
+skip prefix. No numerical equivalence follows from successful readback alone.
 
 This provides a concrete intermediate artifact for investigating the native
 kernel's stores and resolving the reconstruction mismatch. Raw bytes and
@@ -471,6 +471,38 @@ and 0.02318 without noise. **This candidate was rejected.** Its noise values are
 not independently proven sample-exact against the native preprocessor, and timing
 excludes their preparation and D3D12 integration. See
 [`student-hierarchical-noise.json`](../evidence/neural-model-research/student-hierarchical-noise.json).
+
+## First-block layout and missing branch rounding
+
+Private inspection of the SM89 preprocessor revealed 512-byte tiles containing
+4×4 pixels and 32 channels. A fixed nine-bit address permutation, validated on
+the original view and a separate west view without refitting, decodes every byte
+of the captured 32 MiB skip prefix. Both views correlate above 0.9989 with the
+reconstruction, but only about 53% of the original reference values match exactly.
+This establishes a usable intermediate comparison, not model equivalence.
+
+The next discrepancy was two missing FP8 conversions: the native code rounds
+the feed-forward and QKV branch inputs while retaining the unrounded residual
+operands. Adding both conversions to reconstructed block 0 reduced prefix MAE
+about ninefold, from 0.00763 to 0.000824 on the original view and from 0.00761 to
+0.000817 on the west view. Exact bytes rose to about 92%. A CUDA implementation
+of the recovered noise formula made essentially no difference by itself, so
+approximate noise math does not explain this first-block error.
+
+**The full-image quality check still fails.** With only block 0 changed, matched
+original-view RGB MAE rose from 0.01435 to 0.01611, although high-pass correlation
+improved from 0.9741 to 0.9810. Better agreement at one intermediate stage can
+expose errors elsewhere in an inexact reconstruction. Neither that local result
+nor its high correlation proves unchanged final quality. Reconstruction graph
+time remains around 190 ms; native model time remains 5.45 ms in the latest
+sparse demo samples. The 3 ms target has not been reached.
+
+The correction stays optional and confined to offline research. The published
+[decoder, inspection and arithmetic tools](../research/neural-latency/README.md#first-block-lane-layout-and-arithmetic)
+and numeric evidence document both the improvement and the failed image test.
+The next native checks should isolate downstream publication/accumulation and
+the separate pooled output, rather than train another student against an
+unverified reconstruction.
 
 ## Papers and what can transfer
 

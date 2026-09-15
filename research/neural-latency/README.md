@@ -382,8 +382,9 @@ byte; later frames had unmatched inputs and were excluded.
 adapter, first block and pooled outputs. The 1152-row hypothesis comes from the
 native launch grid; it is not proof of logical extent. The tool searches declared
 tile-axis permutations and optionally split channel axes. All 14,040 tested
-candidates failed to establish a convincing match. This does not localize the
-arithmetic error: the tensor location/layout is still unverified.
+candidates failed to establish a convincing match. The later lane-bit decoder
+below resolves the captured skip prefix; the earlier axis search alone could
+not localize an arithmetic error.
 
 ```powershell
 .venv\Scripts\python probe_pre_tensor_layout.py --source MLX-DLSS --weights D:\PrivateWeights\logical.safetensors --trial D:\PrivateTrials\native-pre-tensor --output D:\PrivateResults\pre-layout --split-channels
@@ -398,3 +399,75 @@ above with `--noise-source MLX-DLSS`. It ran in 1.47 ms but worsened both holdou
 it was rejected. Noise preparation and application integration are excluded from
 that timing. Its full numeric record is
 [`student-hierarchical-noise.json`](../../evidence/neural-model-research/student-hierarchical-noise.json).
+
+## First-block lane layout and arithmetic
+
+`decode_pre_tensor.py` implements the recovered **4×4 pixels × 32 channels**
+layout. Each 512-byte tile contains 32 lanes writing 16 bytes apiece. With
+physical offset `p = 16*lane + byte`, the logical index is `channel + 32*x + 128*y`.
+Logical bits 0–8 select physical bits **[0, 4, 5, 1, 3, 6, 7, 8, 2]**.
+Tiles advance horizontally with a pitch of 480 tiles at width 1920.
+
+Disassembly narrowed the stores to 512-byte tiles. Correlation across 4,096
+calibration tiles then assigned each physical slot to exactly one logical slot;
+the 512 assignments reduce exactly to the bit permutation above. The decoder
+exhaustively checks that the formula is a bijection. It was applied without
+refitting to every captured byte on the original and west views. Both correlate
+above 0.9989 with the reconstructed first block, with about 53% exact bytes.
+This is strong layout evidence, **not numerical equality**. The prefix covers
+544 full rows plus 1,024 pixels in each of the following four rows, not the whole
+1152-row padded tensor. Pooled output uses a separate pointer and is not decoded.
+
+```powershell
+python decode_pre_tensor.py --trial D:\PrivateTrials\native-pre-tensor --reference D:\PrivateResults\pre-layout\block0-private.npy --output D:\PrivateResults\tile-validation.json
+```
+
+To reproduce the private binary inspection, obtain NVIDIA's standalone
+`cuda_nvdisasm` and `cuda_cuobjdump` Windows packages, version 12.8.90, from the
+[CUDA 12.8.1 redistribution manifest](https://developer.download.nvidia.com/compute/cuda/redist/redistrib_12.8.1.json).
+The exact download URLs, sizes and archive hashes are retained in the numeric
+evidence. These two packages total about 10.85 MB; a full toolkit installation
+was not used. `inspect_pre_kernel.py` verifies the NR DLL, first compressed
+fatbinary and extracted SM89 image hashes, finds the exact preprocessor symbol,
+and invokes the tools without a window. The generated GPU code must stay private
+and outside this repository. The tool does not modify its DLL input.
+
+```powershell
+python inspect_pre_kernel.py --dll D:\PrivateRuntime\nvngx_dlssnr.dll --cuobjdump D:\PrivateTools\cuobjdump.exe --nvdisasm D:\PrivateTools\nvdisasm.exe --output D:\PrivateResults\pre-inspection
+```
+
+The native first block converts branch inputs to E4M3 before the feed-forward
+and QKV projections while retaining separate residual values. The recovered
+reference omitted those conversions. `first_block_rounding.py` applies this
+change **only to block 0** on one model instance. `probe_pre_tensor_arithmetic.py`
+compares the unmodified arithmetic, GPU noise alone, each branch conversion and
+both conversions against the same private prefixes:
+
+| Variant | Original view MAE | West view MAE | Exact bytes, original / west |
+| --- | ---: | ---: | ---: |
+| Reference | 0.007632 | 0.007605 | 53.28% / 53.19% |
+| GPU noise | 0.007632 | 0.007605 | 53.28% / 53.19% |
+| FP8 feed-forward input + GPU noise | 0.001457 | 0.001431 | 85.98% / 86.28% |
+| FP8 QKV input + GPU noise | 0.007621 | 0.007592 | 53.33% / 53.24% |
+| Both FP8 branch inputs + GPU noise | 0.000824 | 0.000817 | 91.98% / 92.07% |
+
+```powershell
+.venv\Scripts\python test_fused_noise.py --source MLX-DLSS --output D:\PrivateResults\noise-checks.json
+.venv\Scripts\python probe_pre_tensor_arithmetic.py --source MLX-DLSS --weights D:\PrivateWeights\logical.safetensors --trial D:\PrivateTrials\native-pre-tensor --trial D:\PrivateTrials\native-pre-tensor-west --output D:\PrivateResults\first-block.json
+```
+
+The optional `--first-block-rounding` flag on `compare_capture.py` measures the
+same branch correction through the full reconstruction. On matched original-view
+input, RGB MAE **worsened from 0.01435 to 0.01611**, despite the intermediate
+improvement; high-pass correlation improved from 0.9741 to 0.9810. This exposes
+unresolved downstream differences and prevents treating local agreement as an
+image-quality pass. Both runs use 1920×1080 input with 1152×1920 padding, the same
+controls/noise counter, and the existing reconstruction fusions. GPU graph time
+remains around 190 ms, far above the native model's 5.45 ms. No game deployment
+or native speedup follows from this experiment.
+
+Source, tool provenance, addresses expressed as constant-buffer offsets, numeric
+comparisons and limitations are recorded in
+[`native-pre-layout.json`](../../evidence/neural-model-research/native-pre-layout.json)
+and [`first-block-rounding.json`](../../evidence/neural-model-research/first-block-rounding.json).
+Weights, raw textures/tensors, vendor code and tool binaries are not published.
