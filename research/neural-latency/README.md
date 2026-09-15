@@ -3315,3 +3315,68 @@ on hosts where the normal query works.
 includes both complete training/evaluation records, checks, precision diagnostics,
 direct timing intervals, source digests and preserved game/demo hashes. Weights,
 captured images, feature tensors and route arrays remain private.
+
+## How the routed student was built and exported
+
+The routed candidate is a small network trained to imitate matched input/output
+captures from the native runtime. It contains no recovered NVIDIA weights. Its
+base started with random network weights and a zero-initialized residual head;
+subsequent stages build on the already trained student:
+
+1. `HierarchicalStudent` in [student_probe.py](student_probe.py) rearranges each
+   4×4 pixel block into channels without discarding input pixels. A narrow
+   multiscale encoder/decoder learns image features and predicts an RGB correction.
+2. [shared_feature_student.py](shared_feature_student.py) freezes that trained
+   base and adds a correction decoder. It reuses the base's current-frame features
+   instead of running another encoder. Both stages execute for every inference.
+3. [region_context_student.py](region_context_student.py) lets each deep feature
+   region consult itself and three selected regions. At 1080p, it selects four
+   out of 135 padded regions. Selection uses the current input, not a saved route.
+4. The model adds its learned corrections to the input and applies the observed
+   output grade once. It has **381,600 parameters** in total. The final stage was
+   trained for 4,500 updates / 9,000 example presentations; this is not the total
+   training or development effort across earlier stages.
+
+The 62 training images represent only 17 source identities. The model learns the
+appearance observed in those examples; neither its size nor visual similarity
+on a few stills establishes the native model's general ability or temporal
+stability. The routed candidate remains under development, with the earlier
+quality regressions retained in the evidence above.
+
+[export_region_student.py](export_region_student.py) performs a strict
+[PyTorch 2.7 export](https://docs.pytorch.org/docs/2.7/export.html) using the
+existing standard-operator path. The artifact retains tensor-based top-k routing
+and attention, accepts a full 1920×1080 FP16 RGB frame, and includes both model
+stages and final grading. It is fixed to batch one, CUDA and channels-last layout.
+The exported program is not a compiled native DLL or a replacement for NGX.
+
+The export, original unfused model and existing fused model produce identical
+FP16 output bits on all 16 reserved comparison images. A second process reloads
+the artifact without importing any original model definitions and reproduces
+all 16 output hashes. No new training images, predictions or feature arrays are
+written. The private artifact occupies 14,078,942 bytes and contains learned
+weights and export metadata; it must not be published.
+
+| Same-run full-model CUDA Graph timing | Median | Interval p95 |
+| --- | ---: | ---: |
+| Candidate with existing, unchanged fusions | 2.090 ms | 2.635 ms |
+| Reloaded export with standard operators | 3.722 ms | 4.818 ms |
+
+This is a separate comparison from the earlier four-model 2.463 ms result.
+Intervals alternate model order, with 30 sets of ten replays after warmup. These
+numbers exclude application/texture-transfer costs; interval p95 is not frame
+tail latency. Serialization preserves the image but does not automatically
+preserve the existing fusion benefits. Carrying those optimizations into a
+runtime and testing motion remain open work. No new kernels or application
+changes were made, and this experiment does not claim quality acceptance.
+
+Run export and verification as separate processes with the same PyTorch version:
+
+```text
+export_region_student.py export --base <private-demo-root> --lab <private-research-root> --photos <photo-manifest> --images <diverse-manifest> --first <private-first-model> --candidate <private-routed-model> --evaluation <routed-evaluation/result.json> --output <fresh-private-export-directory>
+export_region_student.py verify --output <private-export-directory>
+```
+
+[Numeric evidence](../../evidence/neural-model-research/region-export.json)
+contains output parity checks, operator counts and timing intervals. The model
+package, capture paths, pixels and weights remain private.

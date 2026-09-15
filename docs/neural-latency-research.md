@@ -15,9 +15,19 @@ and routed training runs. The routed complete model takes **2.463 ms** versus
 **2.592 ms** for dense attention in the same timing comparison. It improves the
 scene validation group, but worsens both photo groups: overall RGB error is
 **4.86% higher** than the frozen first model. FP32 checks confirm that this is not
-explained by FP16 rounding. Both candidates are rejected as replacements. The
-quality gap and complete-pass 3 ms target remain unresolved; these timings exclude
-D3D12 integration, and the native runtime is unchanged.
+explained by FP16 rounding. Neither candidate passes the strict quality gate.
+The routed model remains the working research candidate after direct image
+comparison; a metric regression alone does not quantify perceived quality loss.
+The quality gap and complete-pass 3 ms target remain unresolved; these timings
+exclude D3D12 integration, and the native runtime is unchanged.
+
+A subsequent [export and reload check](../research/neural-latency/README.md#how-the-routed-student-was-built-and-exported)
+preserves the routed model's output bit for bit on all 16 validation images,
+including a fresh process that does not import its original model classes.
+In this separate paired timing run, the existing optimized path takes **2.090 ms**
+and the standard-operator export **3.722 ms**. Export succeeds, but preserving the
+existing optimizations remains necessary for deployment. The package is a private
+PyTorch artifact, not a native runtime DLL, and no game or sample was launched.
 
 The preceding [sampling experiment](../research/neural-latency/README.md#training-coverage-and-cluster-sampling)
 also failed validation. The 62 training captures still come from one 3D scene and

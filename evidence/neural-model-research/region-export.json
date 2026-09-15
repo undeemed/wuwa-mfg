@@ -1,0 +1,665 @@
+{
+  "complete": true,
+  "artifact_sha256": "f642f23dfcb2be0023046be68e0203d9014bd65b490e8914a11a15054b0f3f85",
+  "artifact_bytes": 14078942,
+  "candidate_checkpoint_sha256": "a8c3f154fcef648aee1c078b735708ca2de7fd210df1fe3fe33a0b8f61b73077",
+  "first_checkpoint_sha256": "5591e5ee782668956f8a99424e6e1c701951d10490d4e569038fb0d528913283",
+  "torch_version": "2.7.1+cu128",
+  "native_shape": [
+    1080,
+    1920
+  ],
+  "parameters": 381600,
+  "strict_export": true,
+  "operators": {
+    "<built-in function getitem>": 17,
+    "aten.add.Tensor": 46,
+    "aten.amax.default": 1,
+    "aten.amin.default": 1,
+    "aten.arange.default": 2,
+    "aten.cat.default": 4,
+    "aten.chunk.default": 7,
+    "aten.clamp.default": 6,
+    "aten.clamp_min.default": 1,
+    "aten.conv2d.default": 78,
+    "aten.detach.default": 2,
+    "aten.div.Tensor": 3,
+    "aten.expand.default": 2,
+    "aten.eye.default": 1,
+    "aten.flatten.using_ints": 2,
+    "aten.gelu.default": 22,
+    "aten.index.Tensor": 3,
+    "aten.layer_norm.default": 3,
+    "aten.linear.default": 6,
+    "aten.masked_fill.Scalar": 1,
+    "aten.matmul.default": 1,
+    "aten.mean.dim": 2,
+    "aten.mul.Tensor": 40,
+    "aten.ones.default": 1,
+    "aten.pad.default": 4,
+    "aten.permute.default": 3,
+    "aten.pixel_shuffle.default": 2,
+    "aten.pixel_unshuffle.default": 2,
+    "aten.reshape.default": 11,
+    "aten.rsub.Scalar": 1,
+    "aten.scaled_dot_product_attention.default": 1,
+    "aten.slice.Tensor": 27,
+    "aten.sub.Tensor": 2,
+    "aten.sum.dim_IntList": 3,
+    "aten.tanh.default": 1,
+    "aten.to.dtype": 5,
+    "aten.topk.default": 1,
+    "aten.transpose.int": 5,
+    "aten.unsqueeze.default": 8,
+    "aten.upsample_nearest2d.vec": 6,
+    "aten.view.default": 1
+  },
+  "input": {
+    "shape": [
+      1,
+      3,
+      1080,
+      1920
+    ],
+    "dtype": "float16",
+    "device": "cuda",
+    "layout": "channels_last"
+  },
+  "all_outputs_bitwise_equal": true,
+  "matches_existing_fused_candidate": true,
+  "routing_preserved_as_tensor_operations": true,
+  "timing": {
+    "measurements": [
+      {
+        "order": [
+          "candidate_existing_fusions",
+          "export_standard_operators"
+        ],
+        "ms_per_replay": {
+          "candidate_existing_fusions": 2.6451648712158202,
+          "export_standard_operators": 4.551168060302734
+        }
+      },
+      {
+        "order": [
+          "export_standard_operators",
+          "candidate_existing_fusions"
+        ],
+        "ms_per_replay": {
+          "export_standard_operators": 4.088115310668945,
+          "candidate_existing_fusions": 2.2602752685546874
+        }
+      },
+      {
+        "order": [
+          "candidate_existing_fusions",
+          "export_standard_operators"
+        ],
+        "ms_per_replay": {
+          "candidate_existing_fusions": 2.104217529296875,
+          "export_standard_operators": 3.8231582641601562
+        }
+      },
+      {
+        "order": [
+          "export_standard_operators",
+          "candidate_existing_fusions"
+        ],
+        "ms_per_replay": {
+          "export_standard_operators": 3.7710849761962892,
+          "candidate_existing_fusions": 2.086400032043457
+        }
+      },
+      {
+        "order": [
+          "candidate_existing_fusions",
+          "export_standard_operators"
+        ],
+        "ms_per_replay": {
+          "candidate_existing_fusions": 2.090768051147461,
+          "export_standard_operators": 3.7557247161865233
+        }
+      },
+      {
+        "order": [
+          "export_standard_operators",
+          "candidate_existing_fusions"
+        ],
+        "ms_per_replay": {
+          "export_standard_operators": 3.74200325012207,
+          "candidate_existing_fusions": 2.1021696090698243
+        }
+      },
+      {
+        "order": [
+          "candidate_existing_fusions",
+          "export_standard_operators"
+        ],
+        "ms_per_replay": {
+          "candidate_existing_fusions": 2.1038080215454102,
+          "export_standard_operators": 4.976947021484375
+        }
+      },
+      {
+        "order": [
+          "export_standard_operators",
+          "candidate_existing_fusions"
+        ],
+        "ms_per_replay": {
+          "export_standard_operators": 4.782796859741211,
+          "candidate_existing_fusions": 2.6235904693603516
+        }
+      },
+      {
+        "order": [
+          "candidate_existing_fusions",
+          "export_standard_operators"
+        ],
+        "ms_per_replay": {
+          "candidate_existing_fusions": 2.718822479248047,
+          "export_standard_operators": 4.804095840454101
+        }
+      },
+      {
+        "order": [
+          "export_standard_operators",
+          "candidate_existing_fusions"
+        ],
+        "ms_per_replay": {
+          "export_standard_operators": 4.828467178344726,
+          "candidate_existing_fusions": 2.5779199600219727
+        }
+      },
+      {
+        "order": [
+          "candidate_existing_fusions",
+          "export_standard_operators"
+        ],
+        "ms_per_replay": {
+          "candidate_existing_fusions": 2.613043212890625,
+          "export_standard_operators": 4.189683151245117
+        }
+      },
+      {
+        "order": [
+          "export_standard_operators",
+          "candidate_existing_fusions"
+        ],
+        "ms_per_replay": {
+          "export_standard_operators": 3.9715518951416016,
+          "candidate_existing_fusions": 2.1696319580078125
+        }
+      },
+      {
+        "order": [
+          "candidate_existing_fusions",
+          "export_standard_operators"
+        ],
+        "ms_per_replay": {
+          "candidate_existing_fusions": 2.1781503677368166,
+          "export_standard_operators": 3.8745983123779295
+        }
+      },
+      {
+        "order": [
+          "export_standard_operators",
+          "candidate_existing_fusions"
+        ],
+        "ms_per_replay": {
+          "export_standard_operators": 3.730944061279297,
+          "candidate_existing_fusions": 2.10565128326416
+        }
+      },
+      {
+        "order": [
+          "candidate_existing_fusions",
+          "export_standard_operators"
+        ],
+        "ms_per_replay": {
+          "candidate_existing_fusions": 2.111027145385742,
+          "export_standard_operators": 3.743439865112305
+        }
+      },
+      {
+        "order": [
+          "export_standard_operators",
+          "candidate_existing_fusions"
+        ],
+        "ms_per_replay": {
+          "export_standard_operators": 3.713740921020508,
+          "candidate_existing_fusions": 2.089676856994629
+        }
+      },
+      {
+        "order": [
+          "candidate_existing_fusions",
+          "export_standard_operators"
+        ],
+        "ms_per_replay": {
+          "candidate_existing_fusions": 2.127359962463379,
+          "export_standard_operators": 3.6650753021240234
+        }
+      },
+      {
+        "order": [
+          "export_standard_operators",
+          "candidate_existing_fusions"
+        ],
+        "ms_per_replay": {
+          "export_standard_operators": 3.552355194091797,
+          "candidate_existing_fusions": 2.004991912841797
+        }
+      },
+      {
+        "order": [
+          "candidate_existing_fusions",
+          "export_standard_operators"
+        ],
+        "ms_per_replay": {
+          "candidate_existing_fusions": 2.0010719299316406,
+          "export_standard_operators": 3.5512321472167967
+        }
+      },
+      {
+        "order": [
+          "export_standard_operators",
+          "candidate_existing_fusions"
+        ],
+        "ms_per_replay": {
+          "export_standard_operators": 3.5650558471679688,
+          "candidate_existing_fusions": 2.002521514892578
+        }
+      },
+      {
+        "order": [
+          "candidate_existing_fusions",
+          "export_standard_operators"
+        ],
+        "ms_per_replay": {
+          "candidate_existing_fusions": 2.002739143371582,
+          "export_standard_operators": 3.5618785858154296
+        }
+      },
+      {
+        "order": [
+          "export_standard_operators",
+          "candidate_existing_fusions"
+        ],
+        "ms_per_replay": {
+          "export_standard_operators": 3.5690494537353517,
+          "candidate_existing_fusions": 2.003968048095703
+        }
+      },
+      {
+        "order": [
+          "candidate_existing_fusions",
+          "export_standard_operators"
+        ],
+        "ms_per_replay": {
+          "candidate_existing_fusions": 2.004787254333496,
+          "export_standard_operators": 3.5747840881347654
+        }
+      },
+      {
+        "order": [
+          "export_standard_operators",
+          "candidate_existing_fusions"
+        ],
+        "ms_per_replay": {
+          "export_standard_operators": 3.5550209045410157,
+          "candidate_existing_fusions": 2.007142448425293
+        }
+      },
+      {
+        "order": [
+          "candidate_existing_fusions",
+          "export_standard_operators"
+        ],
+        "ms_per_replay": {
+          "candidate_existing_fusions": 2.002329635620117,
+          "export_standard_operators": 3.563417434692383
+        }
+      },
+      {
+        "order": [
+          "export_standard_operators",
+          "candidate_existing_fusions"
+        ],
+        "ms_per_replay": {
+          "export_standard_operators": 3.5733184814453125,
+          "candidate_existing_fusions": 2.0061920166015623
+        }
+      },
+      {
+        "order": [
+          "candidate_existing_fusions",
+          "export_standard_operators"
+        ],
+        "ms_per_replay": {
+          "candidate_existing_fusions": 2.0026111602783203,
+          "export_standard_operators": 3.561676788330078
+        }
+      },
+      {
+        "order": [
+          "export_standard_operators",
+          "candidate_existing_fusions"
+        ],
+        "ms_per_replay": {
+          "export_standard_operators": 3.5710494995117186,
+          "candidate_existing_fusions": 2.0033279418945313
+        }
+      },
+      {
+        "order": [
+          "candidate_existing_fusions",
+          "export_standard_operators"
+        ],
+        "ms_per_replay": {
+          "candidate_existing_fusions": 2.0001440048217773,
+          "export_standard_operators": 3.55676155090332
+        }
+      },
+      {
+        "order": [
+          "export_standard_operators",
+          "candidate_existing_fusions"
+        ],
+        "ms_per_replay": {
+          "export_standard_operators": 3.5718753814697264,
+          "candidate_existing_fusions": 2.0060096740722657
+        }
+      }
+    ],
+    "all_graphs_match_eager_bitwise": true,
+    "warmup_replays_per_model": 40,
+    "replays_per_interval": 10,
+    "alternating_pairs": 30,
+    "summary": {
+      "candidate_existing_fusions": {
+        "median_ms": 2.090222454071045,
+        "p95_interval_ms": 2.635456390380859
+      },
+      "export_standard_operators": {
+        "median_ms": 3.7223424911499023,
+        "p95_interval_ms": 4.817500076293945
+      }
+    }
+  },
+  "scope": "Fixed-shape inference export; same trained weights, no new kernels. Timing excludes application, D3D12 and frame transfer. Not a native runtime DLL or a quality acceptance.",
+  "target_achieved": false,
+  "quality_gate_passed": false,
+  "candidate_status": "Selected for further research; no deployment or quality acceptance.",
+  "new_training": false,
+  "new_kernels": false,
+  "app_launches": 0,
+  "cases": [
+    {
+      "label": "north",
+      "group": "scene",
+      "capture_hashes": {
+        "color": "584c107ead68fca78c3eee0190d715e51c1f76392dc03c09050b5f572afa075e",
+        "output": "10bf20e6b20b3b56a31dca40dd829ff260061998d7fa18eafa306f56d525ca3a"
+      },
+      "output_sha256": "7c6fb0b8d05a5512ae5038a788f34cc6d667545e526a484277799226c3c4cd67",
+      "bitwise_equal": true
+    },
+    {
+      "label": "shifted-north",
+      "group": "scene",
+      "capture_hashes": {
+        "color": "721e179eda73cb100b0afad0894313bbae3a79f5ddffe7fb80dcef448e1282e1",
+        "output": "32ff6ac02eaedd341702bbce4d7aecbefc416cc2604e640814acdca718f4cf2a"
+      },
+      "output_sha256": "caa76f795fe36a53cf0727c32a07c0fe9f666f97771a7a6dc17f324fa39bf6d6",
+      "bitwise_equal": true
+    },
+    {
+      "label": "teacher-illumination-validation-dim",
+      "group": "scene",
+      "capture_hashes": {
+        "color": "72ea0a80f42db07ca3206415e6dcf5a6731d568bfb312232b800a74b5fe86a5d",
+        "output": "c340167f486527ada9844e30bf8d926d8da26469fb23f052a49b4e8dabb36c00"
+      },
+      "output_sha256": "99af77629b39dc9d838adc5430c256d0015545eb5bafacf7a7857d64a5dba8a7",
+      "bitwise_equal": true
+    },
+    {
+      "label": "teacher-illumination-validation-bright",
+      "group": "scene",
+      "capture_hashes": {
+        "color": "d55760855801f6f13bde735009f7aa8bf441b09d029c5f19bba290dbd9bba8a7",
+        "output": "afa0d89796b9a294ed2be40b353dd870d16c826a86f1614178810aa0c6a1eba3"
+      },
+      "output_sha256": "6687b78d8c399101a95305c2dc174a4f11ca87beaa41f28965c103672149cf46",
+      "bitwise_equal": true
+    },
+    {
+      "label": "teacher-illumination-validation-low-sun",
+      "group": "scene",
+      "capture_hashes": {
+        "color": "ce5e35c020ddc18ee2c33c84c5638e639a40b1af0669db6f528704e2333d9611",
+        "output": "07b6b385703687102b597cddf0b3312fd0c8c3891234a0d5c0ea61d09ba1d702"
+      },
+      "output_sha256": "81bd93e882b2f516e52ee4db9a57aefadd215364cafa827a735f6b19954d5526",
+      "bitwise_equal": true
+    },
+    {
+      "label": "teacher-illumination-validation-neutral",
+      "group": "scene",
+      "capture_hashes": {
+        "color": "ec96364768db3b4fd5f306cb1c3ccd77d4dc03a0965a8d6602ce87cbe6fb8a2e",
+        "output": "e8ebdcfeb6d46d5272d2fd2be9fc872af09dbdf9f603e3599d1b88819e147d4c"
+      },
+      "output_sha256": "8d5654f59bac26d27d060b360cf243b5229c1e690b1aed7e259927f154e53014",
+      "bitwise_equal": true
+    },
+    {
+      "label": "teacher-photo-portrait",
+      "group": "previous-photos",
+      "capture_hashes": {
+        "color": "d60ec44402a02d7e03fc0be790deefbcc5110dc7002be1d8a2031243ce602862",
+        "output": "cb75f15d16ab5f4ac082a5a7272c13aab748cae4037ac27059333d2348c7d969"
+      },
+      "output_sha256": "17b04000dac8b7f1ff293379ae68d6dfc8705351ff25c2dfc96023f5db1a5acc",
+      "bitwise_equal": true
+    },
+    {
+      "label": "teacher-photo-tenth-portrait",
+      "group": "previous-photos",
+      "capture_hashes": {
+        "color": "071ec0aae77b6e15909c3f7b79ed0c619e4359289d37e46094e4f0e941978d19",
+        "output": "fe55fe61e495fa68e16c9d743f926cab52233fc946adf436619591ed1dbbb795"
+      },
+      "output_sha256": "ed5cba487af934f88f180577e188cd6ef0cb78c536be2fbd32637536512d63db",
+      "bitwise_equal": true
+    },
+    {
+      "label": "teacher-photo-landscape",
+      "group": "previous-photos",
+      "capture_hashes": {
+        "color": "ce88cebb0be45aefb048a3ae4e87b83c56776ef4ff3f11d454ce0bc7d61734d1",
+        "output": "7890ee1902560f34f54766f349d4306fa910d81b788b4f2eff7a070072c2f4a4"
+      },
+      "output_sha256": "38cc06f4abd129b9d4a0033367e1aa33f520a9b804e72aba82c1250822572363",
+      "bitwise_equal": true
+    },
+    {
+      "label": "teacher-photo-tenth-landscape",
+      "group": "previous-photos",
+      "capture_hashes": {
+        "color": "8675250f022e482d5a01d8e287b2bafc844baf561090d30d1a9488b0656ca309",
+        "output": "5a61cc6d78a4a4a0d45ea60f04dcbefc6516a10f2456334b9394dcb003992812"
+      },
+      "output_sha256": "37ebefc82162145c38e21c93d2239b70b88ac7f7b17074791c9bb179d124f29b",
+      "bitwise_equal": true
+    },
+    {
+      "label": "teacher-photo-cat",
+      "group": "previous-photos",
+      "capture_hashes": {
+        "color": "f783346fc093b8f8b61a4f77376e8ac9e0170ba1aa3f6f8063ff2aa5075151cb",
+        "output": "397f02d8e46dfe8171b77ff400eb0cd200527bad0e95dc862eaea21f37483093"
+      },
+      "output_sha256": "84c0a2d86569fb921adaf74d53a9f0f166e6b794a245029c859458c70d8c08a8",
+      "bitwise_equal": true
+    },
+    {
+      "label": "teacher-photo-tenth-cat",
+      "group": "previous-photos",
+      "capture_hashes": {
+        "color": "25fe2d0b191d1c31efa9ca0bff7ecf75585296631930e318c6fc1e6a3c212015",
+        "output": "e0f64756c7243ffdcaccd52f2df9bc49f7fa514747be48be65ce5661c0c7581c"
+      },
+      "output_sha256": "f8ebbbd110f4bb4a59f76ec3ab2d336cb80f70202c2b36766034b9f6dd4bdf09",
+      "bitwise_equal": true
+    },
+    {
+      "label": "teacher-diverse-library",
+      "group": "diverse-photos",
+      "capture_hashes": {
+        "color": "e7a63502657c1d957e2340622bcf2fec67266ef9375cda3f3d2cfca48803e9d4",
+        "output": "8f771e46ab78f64595c272f4238c402eb4b36469c52790ef0bfe950aa27b93c3"
+      },
+      "output_sha256": "480f7196987d5da00f37b0df5fc9a128879ab7d4136364ad11ed430e3337ddef",
+      "bitwise_equal": true
+    },
+    {
+      "label": "teacher-diverse-beach",
+      "group": "diverse-photos",
+      "capture_hashes": {
+        "color": "400f68a2ed7a175a66d28efb3ee13b04415a6077f6b9ed38d5654e14b7458ebd",
+        "output": "e18e03c18d3ae5444c44db0325a918cadea5c4a6b953ba94bf197bb302a294cb"
+      },
+      "output_sha256": "be6f5daded16296d6c222363d4369f92383a45ab87fd86ed9bd3957a20ddad23",
+      "bitwise_equal": true
+    },
+    {
+      "label": "teacher-diverse-cassidy",
+      "group": "diverse-photos",
+      "capture_hashes": {
+        "color": "4a922ad9e1e26560cdc917a60fb13fdb358cf1275628c823038b3c2d9278d9c3",
+        "output": "e483e2d868f94e1817e33a4984fc7eb6447f34eb3f8dd0fead278513638ade97"
+      },
+      "output_sha256": "0a71bfc4bdcbb41468278a411ca4a8497473e18a622cfe15bef040335c733dd0",
+      "bitwise_equal": true
+    },
+    {
+      "label": "teacher-diverse-dunes-other",
+      "group": "diverse-photos",
+      "capture_hashes": {
+        "color": "33acd586d4f1fc5fe871095f71706a24f6b568d24390499b19077a649e5136ed",
+        "output": "97fee64e2ac2c101b3c564f5cf769e727770acb6fe2c6a00b0b651054b2e37c6"
+      },
+      "output_sha256": "28300eb97419795c69994cd101ae9666a507ee798903c906d907bb0257821c5b",
+      "bitwise_equal": true
+    }
+  ],
+  "independent_reload": {
+    "complete": true,
+    "artifact_sha256": "f642f23dfcb2be0023046be68e0203d9014bd65b490e8914a11a15054b0f3f85",
+    "torch_version": "2.7.1+cu128",
+    "native_shape": [
+      1080,
+      1920
+    ],
+    "all_outputs_bitwise_equal": true,
+    "validation_count": 16,
+    "original_model_definitions_imported": false,
+    "cases": [
+      {
+        "label": "north",
+        "bitwise_equal": true
+      },
+      {
+        "label": "shifted-north",
+        "bitwise_equal": true
+      },
+      {
+        "label": "teacher-illumination-validation-dim",
+        "bitwise_equal": true
+      },
+      {
+        "label": "teacher-illumination-validation-bright",
+        "bitwise_equal": true
+      },
+      {
+        "label": "teacher-illumination-validation-low-sun",
+        "bitwise_equal": true
+      },
+      {
+        "label": "teacher-illumination-validation-neutral",
+        "bitwise_equal": true
+      },
+      {
+        "label": "teacher-photo-portrait",
+        "bitwise_equal": true
+      },
+      {
+        "label": "teacher-photo-tenth-portrait",
+        "bitwise_equal": true
+      },
+      {
+        "label": "teacher-photo-landscape",
+        "bitwise_equal": true
+      },
+      {
+        "label": "teacher-photo-tenth-landscape",
+        "bitwise_equal": true
+      },
+      {
+        "label": "teacher-photo-cat",
+        "bitwise_equal": true
+      },
+      {
+        "label": "teacher-photo-tenth-cat",
+        "bitwise_equal": true
+      },
+      {
+        "label": "teacher-diverse-library",
+        "bitwise_equal": true
+      },
+      {
+        "label": "teacher-diverse-beach",
+        "bitwise_equal": true
+      },
+      {
+        "label": "teacher-diverse-cassidy",
+        "bitwise_equal": true
+      },
+      {
+        "label": "teacher-diverse-dunes-other",
+        "bitwise_equal": true
+      }
+    ],
+    "scope": "Fresh-process PyTorch reload only; no native runtime, temporal or game validation."
+  },
+  "preserved_file_hashes": {
+    "game_dxgi": "b3b0857a6d94e4745b42f2bb3beb747c527548ceec0abff11afecf89a1f6a590",
+    "game_ini": "213fd3f55423a12c075a9d96c2f87df3ea86c3971e135aa89eab1ff9b6a34fa6",
+    "game_nr": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927",
+    "demo_dxgi": "b3b0857a6d94e4745b42f2bb3beb747c527548ceec0abff11afecf89a1f6a590",
+    "demo_ini": "8ac6219a0f4090297a87cc753aa3efee6b4c87111dffed5d9d314fb73ebffc62",
+    "demo_nr": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927",
+    "demo_hidden_exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+    "demo_scene": "389da6d234662bb88714b4240384ce63739ff06c7e75ff6014fcd2bab574f547"
+  },
+  "source_sha256_git_lf": {
+    "research/neural-latency/export_region_student.py": "a6b83585ca875d9bb4a32c43f7fb9e0fcffa527f66fab94e5dc60163eff0e818",
+    "research/neural-latency/region_context_student.py": "00bd30e263ce9388e3c43f2585404ff647a224d4a80c248a56151d4c93c5d10d",
+    "research/neural-latency/shared_feature_student.py": "3905c6f3ae55bff08f2573d5ab76bf7e58b18c7b1aed01f9b3cc7349c67badac",
+    "research/neural-latency/student_probe.py": "324731b533722f758132d1163bef099fed5b79b0599a2902da8622f481b195af",
+    "research/neural-latency/progressive_student.py": "313beda21814fe48711c88d2a8cf2d41585dc0b42e91f277688dab55cc960817",
+    "research/neural-latency/output_grade.py": "a67c613077f46c11d237ad70caa5ce748045bed05f4cddc83158896fff446d88",
+    "research/neural-latency/decoder_conditioning.py": "a5ccee1fe187e96e5dc38a5c62e6928e577a9fcf989b6493b713b2df8ba82343",
+    "research/neural-latency/evaluate_progressive_student.py": "48be2be12ae975bd5390483083ca2233d5370b90c4df57b6bbea1776424b54d2",
+    "research/neural-latency/fused_norm.py": "3a2aa9341a797cddc782ae2f5e123cc7d7b36c431d85d38462a498a7ce21d1d3",
+    "research/neural-latency/test_student_output.py": "f134e86880b17a4a5bda37a11ba9dc997a6f7e4f4fe4fce6f31032586eb0fa7c",
+    "research/neural-latency/compare_output_grade.py": "189ba5fc33f7caebf1a4d265c8bb87f111ad00513dc6f57f2788302777bcab4e",
+    "research/neural-latency/student_training_pairs.py": "9f1823f1574ede397ec415e5db5cbe7b290e33623e4a571341b32725d6fc589c",
+    "research/neural-latency/run_without_wmi.py": "2792a23b36d2b66b5634474e6ee549fea035e7b28af83b5f16f16b4a023d0399"
+  },
+  "previous_four_model_comparison_median_ms": 2.4627711296081545,
+  "timing_note": "Separate run from the four-model comparison. Compare the two paths within this run; not a new model improvement or an application latency claim.",
+  "privacy": "No learned weights, exported package, images, tensors, native implementation or private paths included."
+}

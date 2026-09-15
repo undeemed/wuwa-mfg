@@ -312,3 +312,8 @@ It implements neither paper's complete model and copies no external implementati
 weights or figures. The papers' benchmark gains are not transferred to this renderer.
 PyTorch supplies the existing attention and gather operators. No new CUDA kernel,
 vendor modification, captured image, feature tensor or trained weight is included.
+
+The routed-student export/reload audit is original Apache-2.0 research code using
+PyTorch's public export API. Its generated model package contains private learned
+weights and is not distributed. Only original tooling, documentation and sanitized
+numerical checks are published; no vendor runtime implementation is included.
