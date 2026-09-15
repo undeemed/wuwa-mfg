@@ -60,10 +60,11 @@ the [license](licenses/MLX-DLSS-Apache-2.0.txt) and this attribution. The upstre
 repository and weights are not vendored here. The demo probe and model-capture
 patches, including the combined native launch-contract probe and optional SM89
 selector, buffer/barrier metadata probe, fenced preprocessor-prefix and separate
-pooled-output and complete-first-block captures,
+pooled-output and complete-first-block captures, and output-argument observation,
 extend the GPL-3.0 OptiScaler
-integration and follow that license instead. The camera-view and pooled-feature collection utilities
-is original MIT-licensed orchestration; it does not include sample assets.
+integration and follow that license instead. The camera-view, pooled-feature and
+output-contract collection utilities are original MIT-licensed orchestration;
+they do not include sample assets.
 
 The CUDA experiment invokes the user's separately installed PyTorch, NVRTC and
 CUDA driver. Their binaries and generated GPU code are not distributed here.
@@ -71,6 +72,9 @@ Private native inspection uses NVIDIA's separately downloaded `cuobjdump` and
 `nvdisasm` tools. Only our inspection/decoder source, derived layout and arithmetic
 findings, tool provenance and numeric results are published; no NVIDIA tools,
 disassembly, CUDA modules, model weights or captured tensors are included.
+The output-grading comparison is an original Apache-2.0 algebraic implementation
+of the observed color operations. It does not contain NVIDIA instruction code
+and does not claim bit-exact reproduction of NVIDIA's output stage.
 The direct FP8/FP16 MMA diagnostic follows the public NVIDIA PTX ISA fragment
 layout and instruction interface. Its block-0 scheduling adapts the same pinned
 MLX-DLSS reference and retains the research files' Apache-2.0 notices.

@@ -563,6 +563,33 @@ documents the capture guards, decoder, paired comparisons and limitations.
 Its lower timings when using stored native activations are diagnostic only;
 they cannot be reported as a usable renderer speedup.
 
+## Correcting the native output stage
+
+Later inspection found non-neutral exposure, contrast and saturation in the
+native post-process. The earlier full-image comparisons above omitted this
+stage. Applying an algebraic approximation of the **observed**, unfitted
+parameters reduces the baseline reconstruction's mean absolute RGB error from
+0.01425 / 0.01647 to **0.00794 / 0.00923** in original / west views.
+
+This also changes the earlier arithmetic comparisons. After grading, the exact
+native first-block diagnostic improves those errors to **0.00524 / 0.00591**.
+On another precisely matched capture, the branch-rounding variant reaches
+**0.00496**, compared with **0.00786** for its graded baseline. The earlier
+reports that these variants worsened the final image describe the incomplete
+composition pipeline and must not be generalized to the corrected comparison.
+
+These are CPU comparisons of saved reconstructions, not latency improvements.
+Every candidate still differs from native output; captured-activation variants
+cannot run independently, and the grading implementation is not bit exact.
+The new hidden-demo run stayed at **5.425 ms model / 5.635 ms total** from two
+sparse warm readings. The 3 ms target remains unmet.
+
+Model research can now account explicitly for the known color transform while
+working on the learned detail changes. Whether that permits a smaller model
+without losing quality is still untested. See the
+[output-grading experiment](../research/neural-latency/README.md#output-grading-changes-the-earlier-image-comparisons)
+and [complete numeric evidence](../evidence/neural-model-research/native-output-grading.json).
+
 ## Papers and what can transfer
 
 These papers provide research ideas. Their reported speedups are on other models

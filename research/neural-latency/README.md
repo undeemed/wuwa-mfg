@@ -666,3 +666,92 @@ identify consecutive duplicate barriers to remove. No barrier-removal patch was
 made. Source restoration, capture contracts, complete skip comparisons and all
 eight matched image tests are recorded in
 [`native-pre-stem.json`](../../evidence/neural-model-research/native-pre-stem.json).
+
+## Output grading changes the earlier image comparisons
+
+The earlier full-image comparisons omitted a non-neutral native output stage.
+Their recorded numbers remain valid for that incomplete pipeline, but they
+cannot isolate the quality of the network arithmetic. The new experiment below
+changes several of those comparisons after applying the observed grading.
+
+`inspect_output_kernels.py` reads the exact SF-v2 DLL and extracts only its two
+identified output modules using separately supplied NVIDIA tools. It checks the
+DLL, bounded fatbinary payloads and SM89 module hashes. Extraction and disassembly
+stay outside the repository. The tool does not modify or launch an application.
+
+The combined demo patch now records selected numeric output-kernel arguments.
+Address/texture arguments are recorded only as presence booleans. It retains the
+existing demo-only guards and is applied directly to the normal R4 source; do not
+stack it with older capture patches. `collect_output_contract.py` performs one
+25-second run in the exact verified hidden demo, collecting paired first-reset
+textures and argument records. It restores the demo DLL and markers afterward.
+
+For the observed **style 1, preset 0, intensity 1**, the final post-process uses:
+
+| Packed argument offset | Observed value | Derived role |
+| --- | ---: | --- |
+| 316 / 320 | 0 / 1 | Black / white normalization |
+| 324 | approximately -0.1 | Exposure multiplier `2^value` |
+| 332 | -0.25 | Blend between the channel value and its smoothstep |
+| 336 | approximately -0.1 | HSL saturation multiplier `1 + value` |
+| 328 / 340 | 0 / 0 | Neutral gamma / second saturation exponent |
+| 344–368 | all 0 | Neutral white-balance and tonal-band controls |
+
+These are observed internal launch parameters, not new user configuration keys
+or values fitted to the target image. The optional mask/reference/history fields
+tested here are absent; the base/reference input is present. The neural output
+kernel separately reports a residual scale of 1/32, consistent with the existing
+composition's 1/4 residual relative to the preprocessor's 1/8 RGB scale. That
+consistency alone does not prove the complete neural output operation is correct.
+
+`compare_output_grade.py` applies an **algebraic approximation** of the observed
+exposure, contrast and saturation to saved reconstructions. It checks each
+reconstruction against both hashes of its exact paired input/native output and
+against the observed controls. Native HSL round trips, texture arithmetic and
+special-function rounding are not reproduced bit for bit. Reduced HSL saturation
+is expressed as `L + 0.9*(RGB-L)`, with `L=(max(RGB)+min(RGB))/2`. The result is
+rounded to FP16 to match the captured output format.
+
+```powershell
+python collect_output_contract.py --demo-dir D:\PrivateDemo\bin\ngx_dlss_demo --output-dir D:\PrivateResults --capture-dll D:\PrivateBuild\OptiScaler.dll --capture-sha256 <verified-build-sha256>
+python compare_output_grade.py --contract-trial D:\PrivateResults\trials\native-output-contract --case original D:\PrivateResults\trials\native-output-contract\capture D:\PrivateResults\original-reconstruction --output D:\PrivateResults\output-grade.json
+```
+
+Twelve saved full-resolution reconstructions were checked. Four use exactly the
+same input and target bytes as the new parameter capture. For the other eight,
+reuse of those parameters is an explicit inference from matching runtime,
+controls and reset conditions; their image comparisons still use their own
+exact paired targets. No network inference or latency benchmark is rerun by this
+CPU script.
+
+| Reconstruction | MAE before grading, original / west | MAE after grading, original / west |
+| --- | ---: | ---: |
+| Previous implementation | 0.01425 / 0.01647 | **0.00794 / 0.00923** |
+| Exact native first-block outputs, diagnostic only | 0.01632 / 0.01757 | **0.00524 / 0.00591** |
+| Full FP16 accumulation | 0.01445 / 0.01663 | 0.00800 / 0.00879 |
+| Exact native first block + full FP16 accumulation | 0.01618 / 0.01745 | 0.00539 / 0.00593 |
+
+On the capture that exactly matches the newly observed contract, the graded
+baseline's MAE is **0.00786**. The previous first-block branch-rounding variant
+improves that to **0.00496**, direct-MMA variant to **0.00534**, and captured-pool
+diagnostic to **0.00525**. Thus the earlier conclusion that these variants worsen
+the final image does not hold after accounting for this output stage. The
+branch-rounding variant remains closer than the direct-MMA variant on this
+particular full-image test; better intermediate agreement is still not proof of
+better final output.
+
+The script also checks storage-only rounding, exposure alone, exposure plus
+contrast, and FP16 rounding before the full grade. Storage rounding alone barely
+changes the errors. Input rounding before grading changes MAE by less than
+0.0000002 in these cases. These controls help attribute the improvement to the
+grading operation rather than to storage precision.
+
+**No quality or speed target has been met.** All reconstructions still differ
+from the native image. The new hidden-demo run measured **5.425 ms model /
+5.635 ms total**, from two sparse warm intervals. The CPU grading comparisons do
+not improve that timing, and captured-activation variants remain non-deployable.
+The next model experiments can keep this known color transform explicit while
+testing whether a smaller learned component preserves detail and motion; this
+is a research direction, not a demonstrated replacement. Complete numerical
+results and contracts are in
+[`native-output-grading.json`](../../evidence/neural-model-research/native-output-grading.json).

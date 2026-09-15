@@ -24,7 +24,7 @@ def read_span(data, offset, size):
     return data[offset:offset + size]
 
 
-def symbols(data):
+def symbols(data, kernel=KERNEL):
     header = struct.unpack('<16sHHIQQQIHHHHHH', read_span(data, 0, 64))
     if header[0][:6] != b'\x7fELF\x02\x01' or header[11] != 64:
         raise ValueError('Expected little-endian ELF64 with normal section headers.')
@@ -46,14 +46,14 @@ def symbols(data):
             end = strings.find(b'\0', name)
             if end < 0:
                 raise ValueError('Unterminated symbol.')
-            if strings[name:end].decode('utf-8', errors='strict') == KERNEL:
+            if strings[name:end].decode('utf-8', errors='strict') == kernel:
                 if target >= len(sections):
                     raise ValueError('Invalid kernel section.')
-                found.append({'symbol_index': index, 'name': KERNEL, 'value': value,
+                found.append({'symbol_index': index, 'name': kernel, 'value': value,
                               'size': size, 'section_index': target,
                               'section_file_offset': sections[target][4]})
     if len(found) != 1:
-        raise ValueError('Expected one exact preprocessor symbol.')
+        raise ValueError('Expected one exact kernel symbol: ' + kernel)
     return found[0]
 
 

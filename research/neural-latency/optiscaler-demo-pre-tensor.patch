@@ -356,7 +356,7 @@ diff --git a/OptiScaler/dlssnr/DlssNr_DemoKernelProbe.h b/OptiScaler/dlssnr/Dlss
 new file mode 100644
 --- /dev/null
 +++ b/OptiScaler/dlssnr/DlssNr_DemoKernelProbe.h
-@@ -0,0 +1,469 @@
+@@ -0,0 +1,508 @@
 +#pragma once
 +
 +// Research observer for the separate NVIDIA demo only. It forwards complete
@@ -372,6 +372,7 @@ new file mode 100644
 +#include <Util.h>
 +#include <json.hpp>
 +#include <chrono>
++#include <cmath>
 +#include "DlssNr_DemoBufferProbe.h"
 +
 +namespace DlssNr::DemoKernelProbe
@@ -671,6 +672,44 @@ new file mode 100644
 +            { unsigned value=0;memcpy(&value,params+uintOffsets[j],4);fields[uintNames[j]]=value; }
 +            record["preprocessor_scalar_candidate"]=fields;
 +            record["scalar_offsets_source"]="MLX-DLSS 0ca2deab preprocessor parameter map; requires sanity checks";
++        }
++        // Exact output-kernel contracts derived from this DLL's SM89 code.
++        // Numeric arithmetic fields only; address/texture fields are booleans.
++        const bool postProcess=name=="cg2r_post_process_kernel" && k.paramSize==376;
++        const bool neuralPost=name=="cc_tinlayout_fused_post_block_swin_1h_32_fp8" && k.paramSize==184;
++        if(k.pParams && (postProcess || neuralPost))
++        {
++            const auto* params=static_cast<const unsigned char*>(k.pParams);
++            nlohmann::json fields;
++            auto floatField=[&](unsigned offset)
++            {
++                float value=0;memcpy(&value,params+offset,4);
++                if(std::isfinite(value))fields["float_by_offset"][std::to_string(offset)]=value;
++                else fields["float_by_offset"][std::to_string(offset)]="nonfinite";
++            };
++            auto intField=[&](unsigned offset)
++            { int value=0;memcpy(&value,params+offset,4);fields["int_by_offset"][std::to_string(offset)]=value; };
++            auto presentField=[&](unsigned offset)
++            { UINT64 value=0;memcpy(&value,params+offset,8);fields["nonzero_64bit_by_offset"][std::to_string(offset)]=value!=0; };
++            if(postProcess)
++            {
++                for(unsigned offset:{8u,12u,40u,44u,48u,52u,56u,60u,72u,76u,80u,84u,88u,92u,
++                    104u,108u,112u,116u,120u,124u,136u,140u,144u,148u,152u,156u,
++                    168u,172u,176u,180u,184u,188u,200u,204u,208u,212u,216u,220u,
++                    232u,236u,240u,244u,248u,252u,264u,268u,272u,276u,280u,284u,
++                    288u,316u,320u,324u,328u,332u,336u,340u,344u,348u,352u,356u,360u,364u,368u})floatField(offset);
++                for(unsigned offset:{292u,296u,300u,304u,308u})intField(offset);
++                for(unsigned offset:{64u,96u,128u,160u,192u,224u,256u})presentField(offset);
++            }
++            else
++            {
++                for(unsigned offset:{48u,64u,68u,72u,76u,80u,84u,116u,120u,124u,128u,132u,136u,
++                    140u,144u,148u,152u,156u,160u,164u,168u})floatField(offset);
++                for(unsigned offset:{32u,36u,40u,44u,52u,112u,172u,176u})intField(offset);
++                for(unsigned offset:{0u,8u,24u,56u,96u,104u})presentField(offset);
++            }
++            record["output_scalar_candidate"]=fields;
++            record["output_offsets_source"]="Exact SF-v2 SM89 output-kernel instruction types; offsets relative to packed arguments; semantics require validation";
 +        }
 +        contract << record.dump() << '\n';
 +    }
