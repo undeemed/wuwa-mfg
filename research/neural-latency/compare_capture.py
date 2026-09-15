@@ -18,12 +18,15 @@ p.add_argument('--fused-gate',action='store_true')
 p.add_argument('--fused-publish',action='store_true',help='Fuse strided cosine normalization, scaling and FP8 publication.')
 p.add_argument('--fused-roundtrip',action='store_true',help='Fuse clamp and E4M3 roundtrip without an intermediate FP8 allocation.')
 p.add_argument('--first-block-rounding',action='store_true',help='Experimental FP8 inputs to block-0 FFN/QKV branches; retain original residual operands.')
+p.add_argument('--mma-first-block',action='store_true',help='Experimental direct FP8 MMA and initial residual/bias for block 0 only.')
 p.add_argument('--graph',action='store_true',help='Time fixed-shape CUDA Graph replay on the complete captured input.')
 p.add_argument('--profile',action='store_true',help='Trace one warmed graph replay after timing; requires --graph.')
 p.add_argument('--noise-frame',type=int,choices=range(4),default=0,
                help='Noise counter, default 0; verify against a companion native launch-contract trace when available.')
 a=p.parse_args()
 if a.profile and not a.graph:p.error('--profile requires --graph')
+if a.mma_first_block and (a.first_block_rounding or a.precision!='fast'):
+    p.error('--mma-first-block requires fast precision and cannot combine with --first-block-rounding')
 a.output.mkdir(parents=True,exist_ok=False)
 sys.path.insert(0,str(a.source/'python'))
 metadata=json.loads((a.capture/'frame-0.json').read_text())
@@ -95,6 +98,15 @@ if a.batched_ffn:
 if a.first_block_rounding:
     from first_block_rounding import install_block_zero
     install_block_zero(reference,pipeline.model)
+if a.mma_first_block:
+    from mma_first_block import MmaFirstBlock
+    mma_block=MmaFirstBlock(reference,pipeline.model,fused)
+    previous_window=pipeline.model._window
+    def mma_window(value,index,*,head_count,publish=True):
+        if index!=0:return previous_window(value,index,head_count=head_count,publish=publish)
+        if head_count!=1:raise ValueError('MMA probe supports single-head block 0 only.')
+        return mma_block(value,attention_mma=True,seed_residual=True,seed_logits=True)
+    pipeline.model._window=mma_window
 automatic=AutomaticMask(controls['DLSSNR.SkinStructureStrength'],controls['DLSSNR.LocalStructureStrength']) if controls['DLSSNR.UseAutoMask'] else None
 prepared=pipeline.prepare(source,frame_index=a.noise_frame,normalized_style=controls['DLSSNR.Style']/128,
     local_tone_strength=controls['DLSSNR.LocalToneStrength'],
@@ -167,6 +179,7 @@ stats.update(precision=a.precision,network_extent=list(result.network_extent),ne
              fused_publish=a.fused_publish,
              fused_roundtrip=a.fused_roundtrip,
              first_block_rounding=a.first_block_rounding,
+             mma_first_block=a.mma_first_block,
              weights_sha256=hashlib.sha256(a.weights.read_bytes()).hexdigest(),
              comparison={'rgb_mae':float(error.mean()),'rgb_rmse':mse**0.5,
              'rgb_max_abs':float(error.max()),'rgb_p99_abs':float(np.percentile(error,99)),

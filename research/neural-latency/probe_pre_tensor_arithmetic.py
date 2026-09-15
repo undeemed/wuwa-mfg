@@ -25,7 +25,12 @@ def main():
     parser.add_argument('--weights', type=Path, required=True)
     parser.add_argument('--trial', type=Path, action='append', required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--fp16-accumulation', action='store_true',
+                        help='Diagnostic cuBLAS FP16 accumulation; does not prove the native reduction order.')
+    parser.add_argument('--mma', action='store_true', help='Also compare direct FP8 MMA with optional initial residual/bias.')
+    parser.add_argument('--mma-adapter', action='store_true', help='Test the fully seeded MMA path with a direct FP16 input projection; requires --mma.')
     args = parser.parse_args()
+    if args.mma_adapter and not args.mma:parser.error('--mma-adapter requires --mma')
     if args.output.exists():
         raise FileExistsError(args.output)
     sys.path.insert(0, str(args.source / 'python'))
@@ -33,12 +38,16 @@ def main():
     from mlxdlss.features import AutomaticMask, NetworkGeometry, make_features
     from mlxdlss.pipeline import NeuralRenderingPipeline
     torch.backends.cuda.matmul.allow_tf32 = False
+    torch.backends.cuda.matmul.allow_fp16_accumulation = args.fp16_accumulation
     pipeline = NeuralRenderingPipeline.from_safetensors(args.weights, device='cuda', precision='fast')
     reference.e4m3_round_trip = lambda x: x.clamp(-448, 448).to(torch.float8_e4m3fn).to(x.dtype)
     kernel = FusedNorm()
     records = []
     with torch.inference_mode():
         gpu_noise = kernel.noise(1152, 1920, 0)
+        if args.mma:
+            from mma_first_block import MmaFirstBlock
+            mma_block = MmaFirstBlock(reference, pipeline.model, kernel)
         for trial in args.trial:
             native, digest = load_prefix(trial)
             capture = trial / 'capture'
@@ -65,12 +74,13 @@ def main():
                                              'per_channel_max': noise_delta.max(axis=(0, 1)).tolist()},
                       'variants': {}}
             original = torch.from_numpy(features[None]).cuda().half()
-            for name, use_gpu, quantize_ffn, quantize_qkv in [
+            standard_modes = [] if args.mma_adapter else [
                 ('baseline', False, False, False), ('gpu_noise', True, False, False),
                 ('gpu_noise_fp8_ffn_input', True, True, False),
                 ('gpu_noise_fp8_qkv_input', True, False, True),
                 ('gpu_noise_fp8_both_branch_inputs', True, True, True),
-            ]:
+            ]
+            for name, use_gpu, quantize_ffn, quantize_qkv in standard_modes:
                 x = original.clone()
                 if use_gpu:
                     x[0, ..., :3] = gpu_noise
@@ -84,8 +94,32 @@ def main():
                 print(json.dumps({'input_sha256': record['input_sha256'], 'variant': name,
                                   **{key: metrics[key] for key in ('mae', 'rmse', 'exact_byte_fraction')}}), flush=True)
                 del x, adapter, block, quantized, array
+            if args.mma:
+                record['mma_variants'] = {}
+                x = original.clone()
+                x[0, ..., :3] = gpu_noise
+                if args.mma_adapter:
+                    adapter = kernel.mma(x.reshape(-1,16), pipeline.model.weight('block0.layer0.input_adapter_weight')).reshape(1,1152,1920,32)
+                else:
+                    adapter = x @ pipeline.model.weight('block0.layer0.input_adapter_weight')
+                mma_modes = [('all_mma_initial_residuals_and_bias_mma_adapter',True,True,True)] if args.mma_adapter else [
+                    ('ffn_mma', False, False, False), ('ffn_mma_initial_residual', False, True, False),
+                    ('all_mma', True, False, False), ('all_mma_initial_residuals', True, True, False),
+                    ('all_mma_initial_residuals_and_bias', True, True, True),
+                ]
+                for name, use_attention, seed_residual, seed_logits in mma_modes:
+                    block = mma_block(adapter, attention_mma=use_attention,
+                                      seed_residual=seed_residual, seed_logits=seed_logits)
+                    array = reference.e4m3_round_trip(block).to(torch.float8_e4m3fn)[0].view(torch.uint8).cpu().numpy()
+                    metrics = compare(native, array)
+                    record['mma_variants'][name] = metrics
+                    print(json.dumps({'input_sha256': record['input_sha256'], 'variant': name,
+                                      **{key: metrics[key] for key in ('mae', 'rmse', 'exact_byte_fraction')}}), flush=True)
+                    del block, array
+                del x, adapter
             records.append(record)
     report = {'schema': 1, 'weights_sha256': hashlib.sha256(args.weights.read_bytes()).hexdigest(),
+              'cublas_fp16_accumulation': torch.backends.cuda.matmul.allow_fp16_accumulation,
               'source_commit': '0ca2deab092fe6f3e331bf4f616271dbc64521d0', 'records': records,
               'quality_gate_passed': False, 'limitations': [
                   'Only the captured prefix of the first-block skip at reset zero is compared.',

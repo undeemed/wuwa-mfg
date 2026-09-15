@@ -69,7 +69,48 @@ class FusedNorm:
             self.roundtrip_functions[dtype] = function
         self.noise_function = C.c_void_p()
         check(lookup(C.byref(self.noise_function),self.module,b'gaussian_noise_f32'),'cuModuleGetFunction')
+        self.mma_function = C.c_void_p()
+        check(lookup(C.byref(self.mma_function),self.module,b'fp8_mma_f16'),'cuModuleGetFunction')
+        self.half_mma_function = C.c_void_p()
+        check(lookup(C.byref(self.half_mma_function),self.module,b'half_mma_f16'),'cuModuleGetFunction')
         # Module stays alive until process exit, including any captured graphs.
+
+    def mma(self, a, b, seed=None):
+        if (a.device.type!='cuda' or b.device!=a.device or a.ndim<2 or b.ndim<2
+                or a.dtype not in (torch.float8_e4m3fn,torch.float16) or b.dtype!=a.dtype
+                or a.requires_grad or b.requires_grad):
+            raise ValueError('Expected inference-only, same-device FP16 or E4M3 tensors with matching dtypes.')
+        m,k=a.shape[-2:];bk,n=b.shape[-2:]
+        batches=a.numel()//(m*k) if m*k else 0
+        step=16 if a.dtype==torch.float16 else 32
+        if not (m>0 and n>0 and k>0 and k%step==0 and bk==k and batches>0):
+            raise ValueError(f'Positive M/N and matching K divisible by {step} are required.')
+        if b.ndim!=2 and b.shape[:-2]!=a.shape[:-2]:
+            raise ValueError('B must be shared 2D or have matching batch dimensions.')
+        shape=(*a.shape[:-1],n)
+        if seed is not None and (seed.device!=a.device or seed.dtype!=torch.float16 or seed.requires_grad
+                                  or tuple(seed.shape) not in (shape,(m,n))):
+            raise ValueError('Seed must be FP16, same-device, and shared MxN or match the output.')
+        tiles=((m+15)//16)*((n+7)//8)*batches
+        if max(m,n,k,batches)>=2**31 or tiles>=2**32:
+            raise ValueError('MMA launch exceeds its bounded indexing contract.')
+        a=a.contiguous();b=b.contiguous()
+        # Packed A loads require four-byte alignment, even for contiguous views.
+        if a.data_ptr()%4:a=a.clone()
+        if seed is not None:seed=seed.contiguous()
+        output=torch.empty(shape,device=a.device,dtype=torch.float16)
+        arguments=[C.c_void_p(a.data_ptr()),C.c_void_p(b.data_ptr()),
+                   C.c_void_p(seed.data_ptr()) if seed is not None else C.c_void_p(),
+                   C.c_void_p(output.data_ptr()),C.c_uint(m),C.c_uint(n),C.c_uint(k),C.c_uint(batches),
+                   C.c_ulonglong(0 if b.ndim==2 else k*n),
+                   C.c_ulonglong(0 if seed is None or seed.ndim==2 else m*n)]
+        params=(C.c_void_p*len(arguments))(*(C.addressof(v) for v in arguments))
+        stream=torch.cuda.current_stream(a.device)
+        function=self.half_mma_function if a.dtype==torch.float16 else self.mma_function
+        status=self.launch(function,(tiles+3)//4,1,1,128,1,1,0,
+                           C.c_void_p(stream.cuda_stream),params,None)
+        if status:raise RuntimeError(f'cuLaunchKernel failed: {status}')
+        return output
 
     def noise(self, height, width, frame_index=0):
         if not (0 < height <= 8192 and 0 < width <= 8192 and 0 <= frame_index < 2**32):

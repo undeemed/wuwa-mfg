@@ -504,6 +504,23 @@ The next native checks should isolate downstream publication/accumulation and
 the separate pooled output, rather than train another student against an
 unverified reconstruction.
 
+The subsequent accumulation test raised first-block exact agreement to
+**99.46–99.48%** on both captured prefixes. The key changes were direct FP8
+tensor-core instructions with FP16 C/D, initial residuals in the projection
+accumulators, and initial attention bias in the QK product. A direct FP16 adapter
+gave the same aggregate results as cuBLAS with FP16 accumulation. Twenty-six
+synthetic cases independently test matrix layout, tails, batching, strides,
+alignment and an accumulator-order cancellation case.
+
+This remains an intermediate result. The full reconstruction with only block 0's
+branches replaced produced RGB MAE 0.01582 and took 193.91 ms in a CUDA graph.
+It preserves the comparison tool's original input adapter/noise/downstream code;
+it is not the same configuration as the isolated best-prefix test. RGB error
+remains worse than the earlier 0.01435 baseline, and neither reconstruction
+timing nor prefix equality establishes a native speedup. See the
+[direct-MMA experiment](../research/neural-latency/README.md#direct-tensor-core-accumulation)
+and its numeric evidence. The working game/runtime remains unchanged.
+
 ## Papers and what can transfer
 
 These papers provide research ideas. Their reported speedups are on other models
@@ -512,6 +529,7 @@ and hardware; none establishes the target for this runtime.
 | Work | Relevant idea | Constraint in this renderer |
 | --- | --- | --- |
 | [FlashAttention-2](https://tridao.me/publications/flash2/flash2.pdf) | Improve GPU work partitioning and avoid materializing intermediate attention matrices. | The recovered attention uses cosine normalization, explicit rounding and an approximate softmax. A standard attention replacement changes those operations; custom fusion must preserve them. |
+| [SageAttention2++](https://arxiv.org/html/2505.21136v3) | Use faster FP8 matrix instructions with FP16 accumulators and manage numerical range. | The inspected native code already uses this instruction family. The paper supports investigating accumulation and data movement, but its speedup over another attention implementation cannot be applied to this renderer. Our direct-MMA result improves a numerical reference, not native latency. |
 | [SmoothQuant](https://proceedings.mlr.press/v202/xiao23c/xiao23c.pdf) | Calibrate activation/weight scaling before lower-precision execution. | This runtime already invokes FP8-named kernels. LLM INT8 results do not imply a further lossless gain, and calibration must include renderer activations and controls. |
 | [Knowledge distillation](https://arxiv.org/abs/1503.02531) | Train a smaller student against the larger model's behavior. | A renderer needs matched pixels, detail and temporal consistency, not just matching classification probabilities. A trustworthy teacher and held-out sequences are prerequisites. |
 | [EfficientViT](https://openaccess.thecvf.com/content/ICCV2023/papers/Cai_EfficientViT_Lightweight_Multi-Scale_Attention_for_High-Resolution_Dense_Prediction_ICCV_2023_paper.pdf) | Hardware-friendly multiscale operators for dense, high-resolution prediction. | Replacing attention with linear attention changes the learned function; it is a student architecture to train and validate, not an interchangeable kernel. |

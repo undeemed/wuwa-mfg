@@ -222,3 +222,107 @@ extern "C" __global__ void gaussian_noise_f32(float* output,unsigned width,unsig
     output[index*3+1]=half_round(rb*sa);
     output[index*3+2]=half_round(ra*cb);
 }
+
+// Direct SM89 FP8 tensor-core diagnostic. Layout follows NVIDIA PTX ISA 8.7
+// mma.m16n8k32 fragments. Every active warp executes every MMA collectively.
+// C is loaded before the first product; K advances in 32-element chunks.
+extern "C" __global__ void fp8_mma_f16(
+    const unsigned char* a,const unsigned char* b,const unsigned short* seed,
+    unsigned short* output,unsigned m,unsigned n,unsigned k,unsigned batches,
+    unsigned long long bstride,unsigned long long cstride) {
+    const unsigned lane=threadIdx.x&31u,group=lane>>2,part=lane&3u;
+    const unsigned tiles_m=(m+15)/16,tiles_n=(n+7)/8;
+    const unsigned long long tile=(unsigned long long)blockIdx.x*4+(threadIdx.x>>5);
+    const unsigned long long tiles_per_batch=(unsigned long long)tiles_m*tiles_n;
+    if(tile>=tiles_per_batch*batches)return; // warp-uniform, including the final CTA
+    const unsigned batch=tile/tiles_per_batch;
+    const unsigned row=((tile/tiles_n)%tiles_m)*16+group;
+    const unsigned column=(tile%tiles_n)*8;
+    const unsigned ccol=column+part*2;
+    const unsigned long long abase=(unsigned long long)batch*m*k;
+    const unsigned long long bbase=(unsigned long long)batch*bstride;
+    const unsigned long long cbase=(unsigned long long)batch*cstride;
+    unsigned c0=0,c1=0;
+    if(seed) {
+        if(row<m && ccol<n)c0=seed[cbase+(unsigned long long)row*n+ccol];
+        if(row<m && ccol+1<n)c0|=(unsigned)seed[cbase+(unsigned long long)row*n+ccol+1]<<16;
+        if(row+8<m && ccol<n)c1=seed[cbase+(unsigned long long)(row+8)*n+ccol];
+        if(row+8<m && ccol+1<n)c1|=(unsigned)seed[cbase+(unsigned long long)(row+8)*n+ccol+1]<<16;
+    }
+    for(unsigned start=0;start<k;start+=32) {
+        const unsigned acol=start+part*4;
+        unsigned a0=0,a1=0,a2=0,a3=0,b0=0,b1=0;
+        if(row<m) {
+            a0=*(const unsigned*)(a+abase+(unsigned long long)row*k+acol);
+            a2=*(const unsigned*)(a+abase+(unsigned long long)row*k+acol+16);
+        }
+        if(row+8<m) {
+            a1=*(const unsigned*)(a+abase+(unsigned long long)(row+8)*k+acol);
+            a3=*(const unsigned*)(a+abase+(unsigned long long)(row+8)*k+acol+16);
+        }
+        if(column+group<n) {
+            #pragma unroll
+            for(unsigned i=0;i<4;++i) {
+                b0|=(unsigned)b[bbase+(unsigned long long)(acol+i)*n+column+group]<<(i*8);
+                b1|=(unsigned)b[bbase+(unsigned long long)(acol+i+16)*n+column+group]<<(i*8);
+            }
+        }
+        asm volatile("mma.sync.aligned.m16n8k32.row.col.f16.e4m3.e4m3.f16 "
+                     "{%0,%1}, {%2,%3,%4,%5}, {%6,%7}, {%0,%1};"
+                     : "+r"(c0),"+r"(c1) : "r"(a0),"r"(a1),"r"(a2),"r"(a3),"r"(b0),"r"(b1));
+    }
+    const unsigned long long obase=(unsigned long long)batch*m*n;
+    if(row<m && ccol<n)output[obase+(unsigned long long)row*n+ccol]=(unsigned short)c0;
+    if(row<m && ccol+1<n)output[obase+(unsigned long long)row*n+ccol+1]=(unsigned short)(c0>>16);
+    if(row+8<m && ccol<n)output[obase+(unsigned long long)(row+8)*n+ccol]=(unsigned short)c1;
+    if(row+8<m && ccol+1<n)output[obase+(unsigned long long)(row+8)*n+ccol+1]=(unsigned short)(c1>>16);
+}
+
+extern "C" __global__ void half_mma_f16(
+    const unsigned short* a,const unsigned short* b,const unsigned short* seed,
+    unsigned short* output,unsigned m,unsigned n,unsigned k,unsigned batches,
+    unsigned long long bstride,unsigned long long cstride) {
+    const unsigned lane=threadIdx.x&31u,group=lane>>2,part=lane&3u;
+    const unsigned tiles_m=(m+15)/16,tiles_n=(n+7)/8;
+    const unsigned long long tile=(unsigned long long)blockIdx.x*4+(threadIdx.x>>5);
+    const unsigned long long tiles_per_batch=(unsigned long long)tiles_m*tiles_n;
+    if(tile>=tiles_per_batch*batches)return;
+    const unsigned batch=tile/tiles_per_batch;
+    const unsigned row=((tile/tiles_n)%tiles_m)*16+group;
+    const unsigned column=(tile%tiles_n)*8,ccol=column+part*2;
+    const unsigned long long abase=(unsigned long long)batch*m*k,bbase=(unsigned long long)batch*bstride;
+    const unsigned long long cbase=(unsigned long long)batch*cstride;
+    unsigned c0=0,c1=0;
+    if(seed) {
+        if(row<m && ccol<n)c0=seed[cbase+(unsigned long long)row*n+ccol];
+        if(row<m && ccol+1<n)c0|=(unsigned)seed[cbase+(unsigned long long)row*n+ccol+1]<<16;
+        if(row+8<m && ccol<n)c1=seed[cbase+(unsigned long long)(row+8)*n+ccol];
+        if(row+8<m && ccol+1<n)c1|=(unsigned)seed[cbase+(unsigned long long)(row+8)*n+ccol+1]<<16;
+    }
+    for(unsigned start=0;start<k;start+=16) {
+        const unsigned acol=start+part*2;
+        unsigned a0=0,a1=0,a2=0,a3=0,b0=0,b1=0;
+        if(row<m) {
+            a0=*(const unsigned*)(a+abase+(unsigned long long)row*k+acol);
+            a2=*(const unsigned*)(a+abase+(unsigned long long)row*k+acol+8);
+        }
+        if(row+8<m) {
+            a1=*(const unsigned*)(a+abase+(unsigned long long)(row+8)*k+acol);
+            a3=*(const unsigned*)(a+abase+(unsigned long long)(row+8)*k+acol+8);
+        }
+        if(column+group<n) {
+            b0=(unsigned)b[bbase+(unsigned long long)acol*n+column+group]
+               |((unsigned)b[bbase+(unsigned long long)(acol+1)*n+column+group]<<16);
+            b1=(unsigned)b[bbase+(unsigned long long)(acol+8)*n+column+group]
+               |((unsigned)b[bbase+(unsigned long long)(acol+9)*n+column+group]<<16);
+        }
+        asm volatile("mma.sync.aligned.m16n8k16.row.col.f16.f16.f16.f16 "
+                     "{%0,%1}, {%2,%3,%4,%5}, {%6,%7}, {%0,%1};"
+                     : "+r"(c0),"+r"(c1) : "r"(a0),"r"(a1),"r"(a2),"r"(a3),"r"(b0),"r"(b1));
+    }
+    const unsigned long long obase=(unsigned long long)batch*m*n;
+    if(row<m && ccol<n)output[obase+(unsigned long long)row*n+ccol]=(unsigned short)c0;
+    if(row<m && ccol+1<n)output[obase+(unsigned long long)row*n+ccol+1]=(unsigned short)(c0>>16);
+    if(row+8<m && ccol<n)output[obase+(unsigned long long)(row+8)*n+ccol]=(unsigned short)c1;
+    if(row+8<m && ccol+1<n)output[obase+(unsigned long long)(row+8)*n+ccol+1]=(unsigned short)(c1>>16);
+}

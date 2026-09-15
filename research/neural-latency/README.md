@@ -471,3 +471,61 @@ comparisons and limitations are recorded in
 [`native-pre-layout.json`](../../evidence/neural-model-research/native-pre-layout.json)
 and [`first-block-rounding.json`](../../evidence/neural-model-research/first-block-rounding.json).
 Weights, raw textures/tensors, vendor code and tool binaries are not published.
+
+## Direct tensor-core accumulation
+
+The follow-up isolates another numerical difference: the native FP8 matrix
+instructions use FP16 C/D operands and sometimes start with the scaled residual
+or attention bias already in C. Adding that value after a separately rounded
+matrix product is different. NVIDIA documents the register layout and permitted
+types in [PTX ISA 8.7](https://docs.nvidia.com/cuda/archive/12.8.0/parallel-thread-execution/index.html#warp-level-matrix-fragment-mma-16832);
+the internal accumulation order is not fully specified, so instruction names
+alone are insufficient evidence of equality.
+
+`FusedNorm.mma` now provides a bounded, direct `m16n8k32` E4M3 operation with
+FP16 C/D, plus `m16n8k16` FP16 for the input adapter. It supports matrix batches,
+shared or batched B/C, edge tiles and misaligned A views. Inputs must already
+have the required dtype; it does not silently quantize weights. The pointwise
+and window operations in `mma_first_block.py` retain the recovered model's
+schedule. This is a diagnostic implementation, not a tuned production GEMM.
+
+Twenty-six exact arithmetic cases cover layout, tails, batches, strides and
+alignment. A cancellation fixture returns 1.5 when C initializes accumulation,
+but zero when C is added after a rounded product, confirming the order matters.
+All four block-0 FP8 weight matrices were independently checked to round-trip
+exactly before they were used. The native-prefix results are:
+
+| Configuration | Original MAE | West MAE | Exact bytes, original / west |
+| --- | ---: | ---: | ---: |
+| Both branch rounding points, ordinary cuBLAS | 0.000824 | 0.000817 | 91.98% / 92.07% |
+| Plus cuBLAS FP16 accumulation | 0.000546 | 0.000547 | 94.30% / 94.34% |
+| Direct MMA in FFN, initial residual | 0.000169 | 0.000168 | 98.40% / 98.42% |
+| Direct MMA throughout block 0, initial residuals | 0.0000824 | 0.0000804 | 99.17% / 99.19% |
+| Plus initial attention bias | 0.0000549 | 0.0000528 | 99.46% / 99.48% |
+
+Each row uses the same captured prefixes and GPU noise formula. The direct-MMA
+rows keep cuBLAS FP16 accumulation enabled for the initial adapter; replacing
+that adapter with direct FP16 MMA produced exactly the same aggregate metrics.
+This still leaves roughly 0.5% differing prefix bytes and does not prove full
+model or temporal parity.
+
+```powershell
+.venv\Scripts\python test_fp8_mma.py --output D:\PrivateResults\mma-tests.json
+.venv\Scripts\python probe_pre_tensor_arithmetic.py --source MLX-DLSS --weights D:\PrivateWeights\logical.safetensors --trial D:\PrivateTrials\native-pre-tensor --trial D:\PrivateTrials\native-pre-tensor-west --output D:\PrivateResults\mma-stem.json --fp16-accumulation --mma
+```
+
+Add `--mma-adapter` to the last command, with a fresh output path, to run only the
+fully seeded MMA variant with its direct FP16 adapter. The cuBLAS option is a
+process-local [PyTorch setting](https://docs.pytorch.org/docs/main/notes/cuda.html#full-fp16-accumulation-in-fp16-gemms),
+not a driver-profile change or a game setting.
+
+For full reconstruction, `compare_capture.py --mma-first-block` replaces only
+block 0's branches. It intentionally retains that tool's original input adapter,
+NumPy noise and downstream implementation, and cannot be combined with
+`--first-block-rounding`. On the matched original view, final RGB MAE was
+**0.01582**, versus 0.01435 for the earlier reconstruction and 0.01611 for branch
+rounding alone. High-pass correlation was 0.98199. Graph time was **193.91 ms**;
+this is not native runtime latency. This candidate is not accepted or deployed.
+
+The full settings, per-channel errors, ULP counts, synthetic checks and image
+comparison are in [`first-block-mma.json`](../../evidence/neural-model-research/first-block-mma.json).

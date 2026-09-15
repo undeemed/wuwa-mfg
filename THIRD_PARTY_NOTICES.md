@@ -70,6 +70,9 @@ Private native inspection uses NVIDIA's separately downloaded `cuobjdump` and
 `nvdisasm` tools. Only our inspection/decoder source, derived layout and arithmetic
 findings, tool provenance and numeric results are published; no NVIDIA tools,
 disassembly, CUDA modules, model weights or captured tensors are included.
+The direct FP8/FP16 MMA diagnostic follows the public NVIDIA PTX ISA fragment
+layout and instruction interface. Its block-0 scheduling adapts the same pinned
+MLX-DLSS reference and retains the research files' Apache-2.0 notices.
 Research papers are linked in the latency investigation; their reported results
 are not presented as performance claims for this toolkit.
 
