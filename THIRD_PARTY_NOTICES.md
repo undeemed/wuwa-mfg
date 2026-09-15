@@ -111,5 +111,12 @@ are original Apache-2.0 research code using the separately installed PyTorch
 scaled-dot-product attention API. They are not an implementation copied from
 the cited research papers. No trained student weights or teacher captures are
 distributed.
+The illumination view list, scene-configuration extension and collection
+orchestration are original MIT-licensed code and numeric parameters. They use
+the separately obtained sample's scene interface; no NVIDIA sample source,
+models or textures are distributed. The student comparison and read-only
+weight-sparsity audit are original Apache-2.0 research utilities. The latter
+exports only aggregate counts and histograms, never weight values, and links
+the public NVIDIA PTX specification for the sparse-matrix format.
 
 FirstEverTech/RTX4000-MFG-Unlock inspired the native NVIDIA profile experiment and is linked for attribution. Its repository content and binary artifacts are not copied into this project.

@@ -778,6 +778,35 @@ document the matched training setup, branch ablation, implementation checks
 and limitations. No application, game, native DLL, driver or installer setting
 was changed.
 
+## Expanded lighting data and sparsity feasibility
+
+Sixteen additional hidden-sample captures provide 12 new training views and
+four reserved validation views under varied sunlight. All 64 captured frames
+completed their GPU fences; the first-reset images extend the dataset to
+30 training and six validation views. Original scene, DLL and INI bytes were
+restored, and no game or driver changed.
+
+At the same 4,500 training steps, the width-16 student's mean pixel error on
+the four new views falls from **0.031313 to 0.025775**, about **17.7%**, while
+full-network-plus-grade timing remains approximately **1.2 ms**. Individual
+views have mixed results, and attention still does not improve the combined
+validation score. A width-32 candidate fits training better and runs at
+**1.96 ms**, but worsens all four new validation MAEs. No quality gate is passed.
+
+The [experiment and evidence](../research/neural-latency/README.md#illumination-data-and-reserved-camera-views)
+include split checks, all checkpoint comparisons and timings. The additional
+validation views now inform model choices; they are not a final independent
+test. One scene and first-reset frames cannot establish temporal or cross-scene
+quality preservation.
+
+A read-only kernel-feasibility check also rules out automatic conversion of
+the inspected weight tensors to 2:4 storage at their existing shapes: only
+**5.03%** of 143.8 million inspected weight values are zero, and none of the
+360 tensors passes the format checks. The [sparsity audit](../research/neural-latency/README.md#exact-zero-feasibility-for-structured-sparsity)
+documents its scope and the NVIDIA format reference. No sparse kernel was
+installed or benchmarked; pruning would require changing the model and
+validating its quality.
+
 ## Papers and what can transfer
 
 These papers provide research ideas. Their reported speedups are on other models

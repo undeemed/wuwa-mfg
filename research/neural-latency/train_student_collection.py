@@ -1,0 +1,93 @@
+# SPDX-License-Identifier: MIT
+"""Train a bounded student using the original 18 views plus an audited collection.
+
+The collection's explicit split determines which additional captures can enter
+training. Both older validation views remain excluded. Inputs and checkpoints
+must be kept outside the public repository.
+"""
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+import sys
+
+
+def original_training_names():
+    names = ['model-capture-natural', 'model-capture-natural-west',
+             'teacher-natural-northeast', 'teacher-natural-northwest',
+             'teacher-natural-southeast', 'teacher-natural-southwest']
+    poses = json.loads((Path(__file__).parent / 'capture-viewsets/translated-training.json').read_text())
+    return names + ['teacher-translated-' + pose['name'] for pose in poses]
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--collection', type=Path, required=True)
+    parser.add_argument('--audit', type=Path, required=True)
+    parser.add_argument('--baseline-result', type=Path, required=True)
+    parser.add_argument('--base-trials', type=Path, required=True)
+    parser.add_argument('--grade-contract', type=Path, required=True)
+    parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--architecture', choices=['hierarchical', 'hierarchical-attention'], required=True)
+    parser.add_argument('--width', type=int, choices=[16, 32], default=16)
+    args = parser.parse_args()
+    repo = Path(__file__).resolve().parents[2]
+    if args.output.resolve().is_relative_to(repo) or args.output.exists():
+        raise ValueError('Use a fresh private output directory outside the repository.')
+    collection = json.loads(args.collection.read_text())
+    audit = json.loads(args.audit.read_text())
+    baseline = json.loads(args.baseline_result.read_text())
+    if not collection['scene_restored'] or not collection['dll_restored']:
+        raise ValueError('Collection has not completed restoration.')
+    if hashlib.sha256(args.collection.read_bytes()).hexdigest() != audit['collection_manifest_sha256']:
+        raise ValueError('Collection changed after its audit.')
+    if audit['validation_overlap'] or not audit['all_input_variances_positive']:
+        raise ValueError('Collection audit failed.')
+
+    def verify_capture(path, expected_hashes):
+        metadata = json.loads((path / 'frame-0.json').read_text())
+        assert metadata['complete'] and metadata['gpu_completed'] and metadata['evaluate_result'] == 1
+        assert metadata['controls'] == baseline['controls']
+        for role in ('color', 'output'):
+            resource = metadata['resources'][role]
+            assert Path(resource['file']).name == resource['file']
+            assert hashlib.sha256((path / resource['file']).read_bytes()).hexdigest() == expected_hashes[role]
+        return path
+
+    names = original_training_names()
+    assert len(names) == len(baseline['training_capture_hashes']) == 18
+    train = [verify_capture(args.base_trials / name / 'capture', hashes)
+             for name, hashes in zip(names, baseline['training_capture_hashes'])]
+    validation = [verify_capture(args.base_trials / 'model-capture-natural-north/capture', baseline['validation_capture_hashes']),
+                  verify_capture(args.base_trials / 'teacher-natural-shifted-north/capture', baseline['extra_validation'][0]['capture_hashes'])]
+    audited = {view['label']: view for view in audit['views']}
+    assert len(audited) == len(collection['views'])
+    for view in collection['views']:
+        label = view['label']
+        assert Path(label).name == label
+        assert view['capture_hashes'] == audited[label]['capture_hashes'] and view['split'] == audited[label]['split']
+        path = verify_capture(args.collection.parent / 'trials' / label / 'capture', view['capture_hashes'])
+        if view['split'] == 'train':
+            train.append(path)
+        elif view['split'] == 'validation':
+            validation.append(path)
+        else:
+            raise ValueError('Unrecognized data split.')
+    assert len(train) == audit['total_training_views']
+    assert len(validation) == audit['total_validation_views']
+    command = [sys.executable, str(Path(__file__).parent / 'student_probe.py'),
+               '--capture', str(train[0]), '--validation-capture', str(validation[0])]
+    for path in train[1:]: command.extend(['--extra-train-capture', str(path)])
+    for path in validation[1:]: command.extend(['--extra-validation-capture', str(path)])
+    command.extend(['--output', str(args.output), '--steps', '4500', '--max-seconds', '600',
+                    '--width', str(args.width), '--blocks', '2', '--loss-border', '0', '--batch', '1', '--cosine-lr',
+                    '--architecture', args.architecture, '--whole-frame', '--output-grade-contract', str(args.grade_contract),
+                    '--evaluate-all-training'])
+    print(json.dumps({'architecture': args.architecture, 'width': args.width, 'training_views': len(train),
+                      'validation_views': len(validation), 'steps': 4500}), flush=True)
+    subprocess.run(command, check=True, creationflags=subprocess.CREATE_NO_WINDOW)
+
+
+if __name__ == '__main__':
+    main()

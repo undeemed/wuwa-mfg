@@ -16,6 +16,7 @@ def main():
     parser.add_argument('--collection',type=Path,required=True)
     parser.add_argument('--baseline-result',type=Path,required=True)
     parser.add_argument('--output',type=Path,required=True)
+    parser.add_argument('--allow-new-validation',action='store_true',help='Audit explicitly reserved additional validation views as well as training views.')
     args=parser.parse_args()
     if args.output.exists():raise FileExistsError(args.output)
     manifest=json.loads(args.collection.read_text())
@@ -25,15 +26,18 @@ def main():
     training={h['color'] for h in baseline['training_capture_hashes']}
     validation={baseline['validation_capture_hashes']['color']}
     validation.update(v['capture_hashes']['color'] for v in baseline.get('extra_validation',[]))
+    initial_validation_count=len(validation)
     report={'schema':1,'quality_gate_passed':False,'scene_count':1,
             'collection_manifest_sha256':hashlib.sha256(args.collection.read_bytes()).hexdigest(),
             'viewset_sha256':manifest.get('viewset_sha256'),
             'existing_training_views':len(training),'unchanged_validation_views':len(validation),
-            'views':[],'scope':'First-reset full-resolution training images in the existing scene; no temporal/cross-scene acceptance.'}
+            'views':[],'scope':'First-reset full-resolution images in the existing scene; no temporal/cross-scene acceptance.'}
     for view in manifest['views']:
         label=view['label']
-        if Path(label).name!=label or view['split']!='train':
-            raise ValueError('This audit extends training only, using simple trial labels.')
+        if Path(label).name!=label or view['split'] not in ('train','validation'):
+            raise ValueError('Expected a simple trial label and an explicit data split.')
+        if view['split']=='validation' and not args.allow_new_validation:
+            raise ValueError('Additional reserved validation requires --allow-new-validation.')
         trial=args.collection.parent/'trials'/label
         run=json.loads((trial/'result.json').read_text())
         if not (run['local_file_sha256']['ngx_dlss_demo.exe']==HIDDEN_EXE_SHA256
@@ -44,8 +48,8 @@ def main():
         if controls!=baseline['controls'] or hashes!=view['capture_hashes']:
             raise ValueError('Capture controls or content hashes changed.')
         if hashes['color'] in training|validation:
-            raise ValueError('New training input duplicates existing training or validation.')
-        training.add(hashes['color'])
+            raise ValueError('New input duplicates existing training or validation.')
+        (training if view['split']=='train' else validation).add(hashes['color'])
         frames=[]
         for index in range(4):
             frame=json.loads((trial/'capture'/f'frame-{index}.json').read_text())
@@ -61,6 +65,8 @@ def main():
                      'min':float(image.min()),'max':float(image.max())} for role,image in images.items()}
         report['views'].append({**view,'complete_fenced_frames':frames,'rgb_statistics':stats})
     report['total_training_views']=len(training)
+    report['total_validation_views']=len(validation)
+    report['new_validation_views']=len(validation)-initial_validation_count
     report['validation_overlap']=False
     report['all_input_variances_positive']=all(v['rgb_statistics']['color']['std']>0 for v in report['views'])
     args.output.parent.mkdir(parents=True,exist_ok=True)

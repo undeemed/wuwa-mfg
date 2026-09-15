@@ -1,0 +1,18 @@
+[
+  {"name":"dim-east","pos":[0,1.8,0],"target":[1,1.8,0],"split":"train","sun":{"direction":[-0.05,-1,0.1],"irradiance":0.35}},
+  {"name":"dim-west","pos":[0,1.8,0],"target":[-1,1.8,0],"split":"train","sun":{"direction":[-0.05,-1,0.1],"irradiance":0.35}},
+  {"name":"dim-northeast","pos":[0,1.8,0],"target":[1,1.8,-1],"split":"train","sun":{"direction":[-0.05,-1,0.1],"irradiance":0.35}},
+  {"name":"dim-southwest","pos":[0,1.8,0],"target":[-1,1.8,1],"split":"train","sun":{"direction":[-0.05,-1,0.1],"irradiance":0.35}},
+  {"name":"bright-east","pos":[0,1.8,0],"target":[1,1.8,0],"split":"train","sun":{"direction":[-0.05,-1,0.1],"irradiance":2}},
+  {"name":"bright-west","pos":[0,1.8,0],"target":[-1,1.8,0],"split":"train","sun":{"direction":[-0.05,-1,0.1],"irradiance":2}},
+  {"name":"bright-northeast","pos":[0,1.8,0],"target":[1,1.8,-1],"split":"train","sun":{"direction":[-0.05,-1,0.1],"irradiance":2}},
+  {"name":"bright-southwest","pos":[0,1.8,0],"target":[-1,1.8,1],"split":"train","sun":{"direction":[-0.05,-1,0.1],"irradiance":2}},
+  {"name":"low-sun-east","pos":[0,1.8,0],"target":[1,1.8,0],"split":"train","sun":{"direction":[-0.8,-0.3,0.4],"irradiance":1}},
+  {"name":"low-sun-west","pos":[0,1.8,0],"target":[-1,1.8,0],"split":"train","sun":{"direction":[-0.8,-0.3,0.4],"irradiance":1}},
+  {"name":"low-sun-northeast","pos":[0,1.8,0],"target":[1,1.8,-1],"split":"train","sun":{"direction":[-0.8,-0.3,0.4],"irradiance":1}},
+  {"name":"low-sun-southwest","pos":[0,1.8,0],"target":[-1,1.8,1],"split":"train","sun":{"direction":[-0.8,-0.3,0.4],"irradiance":1}},
+  {"name":"validation-dim","pos":[-1.5,1.4,1],"target":[0.5,1.7,-0.6],"split":"validation","sun":{"direction":[0.4,-0.8,-0.6],"irradiance":0.5}},
+  {"name":"validation-bright","pos":[2,2.2,-1],"target":[0,1.7,0.6],"split":"validation","sun":{"direction":[0.2,-1,0.2],"irradiance":1.6}},
+  {"name":"validation-low-sun","pos":[-2,2.5,0.7],"target":[0,1.7,-0.4],"split":"validation","sun":{"direction":[-0.6,-0.25,0.4],"irradiance":1}},
+  {"name":"validation-neutral","pos":[1.5,1.5,-0.7],"target":[-0.5,1.8,0.5],"split":"validation","sun":{"direction":[-0.05,-1,0.1],"irradiance":1}}
+]
