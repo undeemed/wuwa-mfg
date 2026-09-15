@@ -47,8 +47,10 @@ class PixelStudent(nn.Module):
 
 class HierarchicalStudent(nn.Module):
     """Learned multiscale features with full-resolution pixel rearrangement/skips."""
-    def __init__(self,width=16,blocks=2,noise=False,affine=False,attention=False):
+    def __init__(self,width=16,blocks=2,noise=False,affine=False,attention=False,conditioned=False):
         super().__init__()
+        if conditioned and (noise or affine or attention):
+            raise ValueError('Decoder conditioning is tested only with the plain RGB hierarchy.')
         widths=[width,width*2,width*4,width*6]
         self.stem=nn.Conv2d(96 if noise else 48,width,1)
         self.encoder=nn.ModuleList(nn.Sequential(*(ResidualBlock(w) for _ in range(blocks))) for w in widths)
@@ -69,6 +71,10 @@ class HierarchicalStudent(nn.Module):
         if attention:
             from attention_student import GlobalAttention
             self.global_attention=GlobalAttention(widths[-1])
+        self.decoder_conditioning=None
+        if conditioned:
+            from decoder_conditioning import DecoderConditioning
+            self.decoder_conditioning=DecoderConditioning(widths[-1],widths[:3])
 
     def forward(self,x,*,fused_output_backend=None,grade_parameters=None):
         height,width=x.shape[-2:]
@@ -79,7 +85,9 @@ class HierarchicalStudent(nn.Module):
         for i,stage in enumerate(self.encoder):
             value=stage(value)
             if i<3:skips.append(value);value=self.down[i](value)
-        value=value*(1+0.1*torch.tanh(self.context(value.mean(dim=(2,3),keepdim=True))))
+        pooled=value.mean(dim=(2,3),keepdim=True)
+        modulation=self.decoder_conditioning(pooled) if self.decoder_conditioning is not None else None
+        value=value*(1+0.1*torch.tanh(self.context(pooled)))
         if self.global_attention is not None:value=self.global_attention(value)
         coefficients=self.affine_head(value) if self.affine_head is not None else None
         for i in (2,1,0):
@@ -90,6 +98,9 @@ class HierarchicalStudent(nn.Module):
                        else F.interpolate(value,size=skips[i].shape[-2:],mode='nearest')+skips[i])
             else:
                 value=self.up[i](F.interpolate(value,size=skips[i].shape[-2:],mode='nearest'))+skips[i]
+            if modulation is not None:
+                scale,shift=self.decoder_conditioning.stage(modulation,i)
+                value=value*(1+scale)+shift
             value=self.decoder[i](value)
         head=self.head(value)
         if fused_output_backend is not None:
@@ -122,7 +133,7 @@ def main():
     p.add_argument('--patch-size',type=int,choices=[128,256,384],default=128)
     p.add_argument('--batch',type=int,choices=range(1,17),default=8)
     p.add_argument('--cosine-lr',action='store_true',help='Decay learning rate from .002 to .00002 over the bounded steps.')
-    p.add_argument('--architecture',choices=['local','hierarchical','hierarchical-affine','hierarchical-attention'],default='local')
+    p.add_argument('--architecture',choices=['local','hierarchical','hierarchical-affine','hierarchical-attention','hierarchical-film'],default='local')
     p.add_argument('--whole-frame',action='store_true',help='Train complete views, batch 1; requires a separate validation view.')
     p.add_argument('--output-grade-contract',type=Path,help='Learn a pre-grading residual, then apply the observed output grade. Requires a separate validation view.')
     p.add_argument('--evaluate-all-training',action='store_true',help='Report every full training view after fitting; requires separate validation views.')
@@ -164,6 +175,8 @@ def main():
         raise SystemExit('The affine experiment requires whole-frame training and the observed output grade.')
     if a.architecture=='hierarchical-attention' and (not a.whole_frame or not a.output_grade_contract):
         raise SystemExit('The global-attention experiment requires whole-frame training and the observed output grade.')
+    if a.architecture=='hierarchical-film' and (not a.whole_frame or not a.output_grade_contract or a.noise_source):
+        raise SystemExit('Decoder conditioning requires graded whole-frame RGB training.')
     noise=None
     if a.noise_source:
         sys.path.insert(0,str(a.noise_source/'python'))
@@ -237,7 +250,7 @@ def main():
         assert pair_hashes['color'] not in validation_inputs, 'Duplicate validation input.'
         validation_inputs.add(pair_hashes['color'])
         extra_validation.append((pair,pair_hashes))
-    model=(HierarchicalStudent(a.width,a.blocks,bool(a.noise_source),a.architecture=='hierarchical-affine',a.architecture=='hierarchical-attention') if a.architecture.startswith('hierarchical')
+    model=(HierarchicalStudent(a.width,a.blocks,bool(a.noise_source),a.architecture=='hierarchical-affine',a.architecture=='hierarchical-attention',a.architecture=='hierarchical-film') if a.architecture.startswith('hierarchical')
            else PixelStudent(a.width,a.blocks,bool(a.noise_source),dilations)).cuda().to(memory_format=torch.channels_last)
     if grade_parameters is not None:model=GradedStudent(model,grade_parameters)
     optimizer=torch.optim.AdamW(model.parameters(),lr=a.initial_lr,weight_decay=0.0001)
@@ -275,6 +288,14 @@ def main():
                                       blocks_per_stage=a.blocks,input_receptive_field_pixels='whole image via global context gate',
                                       internal_downsampling='learned features only; original pixels retained through input rearrangement and residual path')
         report['architecture'].pop('dilations')
+        if a.architecture=='hierarchical-film':
+            report['architecture']['decoder_conditioning']={
+                'source':'spatial mean of deepest encoder features, before the original context gate',
+                'normalization':'LayerNorm across pooled channels, epsilon 1e-5',
+                'hidden_width':a.width*6,'coefficient_channels':2*(a.width+a.width*2+a.width*4),
+                'application':'per-channel value*(1+scale)+shift after upsample/skip combination at all three decoder stages',
+                'projection_initialization':'zero; initially neutral',
+                'conditioning_parameters':sum(v.numel() for v in model.network.decoder_conditioning.parameters())}
         if a.architecture=='hierarchical-affine':
             report['architecture']['affine_field']={'channels':12,'cell_size':32,
                 'interpolation':'bilinear, align_corners=False, over the padded image',

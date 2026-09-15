@@ -2129,3 +2129,78 @@ retains the training diagnostic, failed quality outcomes, initial slower kernel,
 final exactness tests and both timing protocols. No sample or game launch was
 needed; normal runtime files and game/driver settings are unchanged. **Native
 quality and the full 3 ms target remain unachieved.**
+
+## Direct image conditioning of decoder features
+
+The next diagnostic checks two proposed explanations for the training errors.
+On the 46 training frames, a target-derived global RGB offset reduces average
+per-image MAE by only about 1–4%. This is an oracle correction requiring native
+output, not an inference feature. The ordinary 46-frame model has essentially
+no saturated context-gate channels. The PCGrad model has more saturation, but no
+channel stays saturated above 0.99 across every training image. These findings
+do not support a simple constant-color correction or a universally stuck gate.
+No weights change, and no validation cases enter this diagnostic.
+
+The new candidate tests a different hypothesis: giving the local decoder direct
+access to image-wide conditioning may help it produce different corrections for
+different content. The branch follows the feature-wise affine idea of
+[FiLM](https://arxiv.org/abs/1709.07871). It pools the deepest encoder features,
+normalizes their 96 channels with LayerNorm, and uses a small MLP to predict 224
+scale/shift coefficients. These adjust feature channels after each upsample/skip
+combination and before the decoder residual blocks. The existing context gate,
+pixel rearrangement, full-resolution source path and RGB head remain in place.
+This is feature conditioning inside the network, not a per-image RGB offset.
+
+The projection starts at zero, making the branch initially neutral. On two
+actual training inputs, inserting it into the earlier checkpoint reproduces RGB
+exactly in FP32 and FP16. Gradient tests verify that the projection learns first
+and that an update lets gradients reach its hidden layer. Strict save/reload
+reproduces the result. These are mechanical checks, not a quality pass.
+
+```text
+analyze_student_context.py --base <private-trials-root> --photos <private-photo-manifest> --images <private-image-manifest> --model <name> <private-student-directory> [--model <name> <another-directory>] --output <fresh-private-report.json>
+test_decoder_conditioning.py --model <private-baseline-directory> --capture <private-training-capture> --capture <another-private-training-capture> --output <fresh-private-report.json>
+```
+
+Use `--architecture hierarchical-film` with the existing collection training
+command to select this branch. It adds **31,232 parameters**, for **254,672** total
+at width 16. The bounded run retains the same 46 training frames, sixteen
+validation frames, seed, original learning-rate schedule and 4,500 updates as the
+ordinary baseline. It starts from scratch without feature hints, paired-gradient
+training or additional images. The first loss matches that baseline exactly.
+The added architecture increases computation, so matching update and example
+counts does not mean identical FLOPs. Training completed in 86.85 seconds.
+
+| Validation group | Earlier ordinary model | PCGrad reference | Decoder-conditioned model |
+| --- | ---: | ---: | ---: |
+| Six scene views | 0.029773 | 0.026135 | 0.028421 |
+| Six older photo cases | 0.024322 | 0.024762 | 0.021364 |
+| Four newer photo cases | 0.021973 | 0.023897 | 0.022106 |
+
+Values are mean absolute RGB error, lower is better. Relative to the matched
+ordinary baseline, five scene views improve and their mean falls **4.54%**. All
+six older photo cases improve, lowering their mean **12.16%**. The newer library
+and portrait improve while the beach and dunes worsen; their group mean rises
+**0.61%**. The PCGrad reference processed twice as many training examples and is
+not the matched control. The new branch improves several errors, but has not
+preserved native quality and is not installed.
+
+The existing output, decoder and residual fusions remain bit-exact across all
+six execution modes on sixteen validation inputs for each of three checkpoints:
+**48 complete model/image checks**. All 48 saved validation predictions reproduce
+exactly, including the two older models after the shared code refactor. No new
+CUDA kernel is introduced in this experiment.
+
+In the alternating benchmark, the new candidate measures **1.0407 ms** with all
+existing fusions, versus **1.1002 ms** with only the earlier output/decoder pair.
+The ordinary baseline measures 1.0026 ms with all fusions in the same run. Each
+of thirty intervals per mode averages ten replays after forty warmup replays;
+these are complete 1080p student-plus-grade GPU intervals, excluding D3D12
+integration. Timing varies with desktop GPU work and is not native-runtime
+acceleration or an individual-frame tail guarantee.
+
+[Numerical evidence](../../evidence/neural-model-research/decoder-conditioning.json)
+includes the training-only diagnostics, neutral-insertion tests, full training
+record, per-image comparisons, fusion checks and timing samples. No sample or
+game launch was needed, and game, driver, native model and normal runtime files
+remain unchanged. **The full 3 ms/no-quality-loss target remains unmet.**

@@ -208,3 +208,11 @@ Algorithm 1. No upstream implementation is copied. Domain-specific renderer
 results are our own experiments, not claims transferred from that paper.
 Gradients, model checkpoints, captures and predictions remain private; only
 source, scalar diagnostics and numerical evidence are distributed.
+
+The context diagnostic, decoder-conditioning module and its mechanical tests
+are original Apache-2.0 code. The feature-wise affine-conditioning idea is
+credited to Perez et al., [FiLM: Visual Reasoning with a General Conditioning
+Layer](https://arxiv.org/abs/1709.07871). No upstream implementation is copied.
+The renderer uses pooled image features rather than question embeddings; the
+paper's visual-reasoning results are not renderer quality claims. All learned
+weights, captured activations, original images and predictions remain private.

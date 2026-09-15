@@ -113,11 +113,11 @@ def main():
         for name, folder in args.model:
             folder = Path(folder)
             record = read(folder/'result.json'); architecture = record['architecture']
-            assert architecture['variant']=='hierarchical' and architecture['width'] in (16, 32)
+            assert architecture['variant'] in ('hierarchical','hierarchical-film') and architecture['width'] in (16, 32)
             assert architecture['blocks']==2 and architecture['noise_channels']==0
             checkpoint = torch.load(folder/'student-private.pt', map_location='cpu', weights_only=True)
             assert checkpoint['architecture']==architecture
-            model = GradedStudent(HierarchicalStudent(architecture['width'], 2), architecture['explicit_output_grading'])
+            model = GradedStudent(HierarchicalStudent(architecture['width'], 2, conditioned=architecture['variant']=='hierarchical-film'), architecture['explicit_output_grading'])
             model.load_state_dict(checkpoint['state_dict'], strict=True)
             model = model.cuda().half().eval().to(memory_format=torch.channels_last)
             model.fused_backend = kernel

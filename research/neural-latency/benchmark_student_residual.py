@@ -33,11 +33,11 @@ def main():
     with torch.inference_mode():
         for name,folder in args.model:
             folder=Path(folder);record=read(folder/'result.json');a=record['architecture']
-            assert record['controls']==controls and a['variant']=='hierarchical' and a['width'] in (16,32)
+            assert record['controls']==controls and a['variant'] in ('hierarchical','hierarchical-film') and a['width'] in (16,32)
             assert a['blocks']==2 and a['noise_channels']==0
             state=torch.load(folder/'student-private.pt',map_location='cpu',weights_only=True)
             assert state['architecture']==a
-            model=GradedStudent(HierarchicalStudent(a['width'],2),a['explicit_output_grading'])
+            model=GradedStudent(HierarchicalStudent(a['width'],2,conditioned=a['variant']=='hierarchical-film'),a['explicit_output_grading'])
             model.load_state_dict(state['state_dict'],strict=True)
             model=model.cuda().half().eval().to(memory_format=torch.channels_last);model.fused_backend=kernel
             configure(model,'baseline',kernel);reference=model(source)

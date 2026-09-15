@@ -985,6 +985,36 @@ include the rejected scalar timing, both training controls, exactness checks and
 timing variation. The game, native model, normal runtime files and driver settings
 remain unchanged.
 
+## Direct decoder conditioning
+
+Training-only diagnostics found that a native-target-derived constant RGB
+correction explains only about 1–4% of the models' errors. The ordinary model's
+context gate is also largely unsaturated. This does not support treating the
+problem as a simple global color bias or a stuck gate.
+
+A new branch instead supplies pooled image information directly to the decoder
+features at three scales. Its feature-wise scale/shift projection starts at zero,
+and insertion tests reproduce the earlier checkpoint exactly on the checked
+FP32/FP16 inputs. The branch adds 31,232 parameters, bringing the width-16 model
+to 254,672. It retains the same data, seed and 4,500-step ordinary training
+schedule; no validation pixels enter fitting.
+
+Against the matched ordinary baseline, scene validation MAE falls **4.54%** and
+older-photo MAE falls **12.16%**, with all six older photo cases improving. The
+newer-photo group is mixed and worsens **0.61%** on average. The model therefore
+remains below native quality and is not installed.
+
+All existing fusion modes remain bit-identical across 48 complete model/image
+checks. The candidate's fully optimized 1080p student-plus-grade graph measures
+**1.0407 ms** in the alternating interval benchmark, excluding application
+integration. This revalidates existing kernels on the new architecture; it does
+not accelerate NVIDIA's native runtime.
+
+[Method and commands](../research/neural-latency/README.md#direct-image-conditioning-of-decoder-features)
+and [numerical evidence](../evidence/neural-model-research/decoder-conditioning.json)
+record the diagnostics, training, regressions and timing scope. Game, driver and
+normal runtime state remain unchanged.
+
 ## Papers and what can transfer
 
 The joint [native feature supervision experiment](../research/neural-latency/README.md#native-intermediate-feature-supervision)
@@ -1007,6 +1037,7 @@ and hardware; none establishes the target for this runtime.
 | [SmoothQuant](https://proceedings.mlr.press/v202/xiao23c/xiao23c.pdf) | Calibrate activation/weight scaling before lower-precision execution. | This runtime already invokes FP8-named kernels. LLM INT8 results do not imply a further lossless gain, and calibration must include renderer activations and controls. |
 | [Knowledge distillation](https://arxiv.org/abs/1503.02531) | Train a smaller student against the larger model's behavior. | A renderer needs matched pixels, detail and temporal consistency, not just matching classification probabilities. A trustworthy teacher and held-out sequences are prerequisites. |
 | [Gradient Surgery / PCGrad](https://arxiv.org/abs/2001.06782) | Adjust conflicting training gradients without adding inference work. | Our matched two-domain test improves scene error but worsens photo error. Negative alignment alone does not prove the paper's full conditions or guarantee renderer quality. |
+| [FiLM](https://arxiv.org/abs/1709.07871) | Condition feature channels using learned affine transformations. | Our image-conditioned decoder improves scene and older-photo errors but slightly worsens the newer-photo mean. Visual-reasoning performance does not establish native renderer quality. |
 | [FitNets](https://arxiv.org/abs/1412.6550) | Use intermediate teacher features and a learned projection to guide a smaller student. | Our joint auxiliary loss improves scene errors but worsens photo errors. It does not implement the full FitNets procedure or establish renderer quality from classification results. |
 | [LIT](https://arxiv.org/abs/1810.01937) | Train shallower blocks with intermediate teacher inputs and targets. | This may avoid unstable student inputs during block training, but it is not implemented here. A deployable replacement must run without captured native activations. |
 | [Experience Replay for Continual Learning](https://arxiv.org/abs/1811.11682) | Retain prior examples when adapting a model to new data. | Its reinforcement-learning results do not establish pixel fidelity. Our warm-start experiment retains old native targets, but still trades photo accuracy against scene accuracy; it is not an implementation of CLEAR. |
