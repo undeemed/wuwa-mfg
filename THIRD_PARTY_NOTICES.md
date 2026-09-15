@@ -83,6 +83,12 @@ composition kernel and branch diagnostics are original Apache-2.0 experiments,
 not an HDRNet reproduction. Interpolation behavior was checked against
 [PyTorch 2.7.1's CUDA bilinear operator](https://github.com/pytorch/pytorch/blob/v2.7.1/aten/src/ATen/native/cuda/UpSampleBilinear2d.cu);
 no PyTorch operator source is vendored in this repository.
+The native block-cost mapper, schedule checks, pretrained block-sensitivity
+probe and affine feature-distillation experiment are original Apache-2.0
+research utilities. They invoke the same attributed MLX-DLSS reconstruction and
+its private logical weights. Neither the original weights nor fitted derivative
+weights are distributed. The layer-pruning and restoration-distillation papers
+are cited for research ideas; their source and data are not copied.
 The direct FP8/FP16 MMA diagnostic follows the public NVIDIA PTX ISA fragment
 layout and instruction interface. Its block-0 scheduling adapts the same pinned
 MLX-DLSS reference and retains the research files' Apache-2.0 notices.

@@ -927,3 +927,108 @@ checks, and branch metrics are in
 [`student-affine-field.json`](../../evidence/neural-model-research/student-affine-field.json).
 Weights and images remain private. No new application capture or game change
 was needed. The **3 ms at true 1080p with no quality loss** target remains unmet.
+
+## Pretrained block costs, sensitivity and feature distillation
+
+The next experiment starts from the recovered pretrained model rather than a
+new small network. It asks which learned blocks could be replaced cheaply
+without materially changing the complete image. It takes ideas from
+[LLM layer pruning](https://arxiv.org/abs/2403.17887) and
+[feature-distilled image-restoration blocks](https://arxiv.org/abs/2605.02794).
+Those papers' quality or speed results do not transfer to this renderer.
+
+`summarize_block_costs.py` matches the exact 158-chain native schedule against
+the recovered 71-block order, rejecting changed kernel names, order and chain
+sizes. This gives an **inferred** correspondence, not a native layer annotation.
+All 24 post-warmup frames of the existing timing trace matched. The complete
+instrumented intervals have a 6.138 ms median. Blocks 0 and 70 account for about
+0.350 and 0.376 ms individually; the eight global blocks together account for
+0.874 ms. These are historical instrumented costs, not an uninstrumented
+benchmark or removable-latency guarantees. `test_block_costs.py` verifies seven
+rejection cases and exclusion of a failed frame from a mixed trace.
+
+**Do not delete native launches using this map.** Chained kernels publish
+counters and depend on layouts and downstream waits. Removing their launch can
+break synchronization. The ablations below change only the isolated Torch
+reconstruction, where same-shape block bypass is explicitly supported.
+
+`probe_block_sensitivity.py` tests all **59 same-shape blocks** on the original
+and west views, preserving structural transitions, input/output blocks, 1080p
+input, the 1152-row internal layout, noise counter zero and observed grading.
+Before testing each view it requires exact reproduction of its earlier saved
+ungraded reconstruction. Both checks pass; no captured native intermediate
+features are substituted. All 118 single-block tests finish in 96.9 seconds.
+
+The unmodified graded reconstruction has native RGB MAE **0.00794 / 0.00923**.
+Every single-block removal changes the image, and none improves native MAE on
+both views. Block 43 causes the smallest worst-view change: removing it differs
+from the unchanged reconstruction by **0.00290 / 0.00345** RGB MAE, while its
+native error becomes **0.00799 / 0.01004**. Its native instrumented block interval
+is about 0.0722 ms, so this one block is not a route to the entire required gain.
+
+Joint deletions also fail. The six least-sensitive blocks were selected by
+worst-view RGB change in the single-block sweep; the group test recomputes the
+complete model instead of adding individual errors.
+
+| Reconstruction variant | Original native MAE | West native MAE | Historical native interval for the corresponding group |
+| --- | ---: | ---: | ---: |
+| Unmodified | 0.00794 | 0.00923 | Not a deletion |
+| Skip blocks 41, 42, 43, 44, 46, 47 | 0.01157 | 0.01532 | 0.436 ms |
+| Skip global blocks 31–38 | 0.03720 | 0.04569 | 0.874 ms |
+
+These group medians sum each frame's relevant intervals before taking a median.
+They must not be subtracted from the newer uninstrumented native model time.
+Group output errors are non-additive, and all candidates are rejected.
+
+`distill_block_projection.py` then replaces only block 43 with a learned affine
+512-to-512 feature projection. It fits centered float64 ridge regression on
+**8,640 feature tokens from four training cameras**: northeast, northwest,
+southeast and southwest. Ridge is fixed at 0.001 times the mean covariance
+diagonal, with an unpenalized intercept. Neither evaluation image is included
+in this fit. The teacher features are from the reconstruction, not native
+intermediate captures. Inference uses FP16 matrix multiplication and bias,
+followed by E4M3 publication. The projection has 262,656 parameters versus
+1,901,584 stored parameters in the original block.
+
+| Complete-image comparison | Original MAE | West MAE |
+| --- | ---: | ---: |
+| Deleted block versus unchanged reconstruction | 0.00290 | 0.00345 |
+| Fitted projection versus unchanged reconstruction | **0.00223** | **0.00251** |
+| Unchanged reconstruction versus native | **0.00794** | **0.00923** |
+| Fitted projection versus native | 0.00828 | 0.00958 |
+
+The projection preserves more of the reconstructed teacher's output than
+deletion does, but still worsens agreement with native output relative to the
+unmodified model. On the original view it is closer to the reconstruction than
+deletion while being farther from NVIDIA than deletion. Better feature matching
+alone therefore does not guarantee better native output.
+
+On the actual captured feature shape `[1,36,60,512]`, the isolated reconstructed
+block takes **0.329 ms** and the projection **0.0358 ms**. Each CUDA Graph matches
+its own eager output. This is not a ninefold native speedup: the original native
+block's historical instrumented cost is only 0.0722 ms, and no projection was
+integrated into the native runtime. The complete reconstruction remains far
+slower than NVIDIA, and both versions fail native quality matching.
+
+All application and game files remain unchanged; these tests use existing
+private captures and never open a window. Only source, numerical results and
+artifact hashes are published in
+[`native-block-costs.json`](../../evidence/neural-model-research/native-block-costs.json)
+and [`pretrained-block-compression.json`](../../evidence/neural-model-research/pretrained-block-compression.json).
+The fitted weights stay private. The two repeatedly consulted evaluation
+cameras are research diagnostics, not an independent final quality test.
+
+Reproduction interfaces:
+
+```text
+summarize_block_costs.py --trace <private-timing.csv> --output <private-json>
+test_block_costs.py --trace <private-timing.csv> --output <private-json>
+probe_block_sensitivity.py --source <pinned-reference> --weights <private-weights> --contract-trial <private-trial> --case <label> <capture> <saved-baseline> --output <private-json>
+distill_block_projection.py --source <pinned-reference> --weights <private-weights> --contract-trial <private-trial> --train-capture <capture> --case <label> <capture> <saved-baseline> --output-directory <private-directory>
+```
+
+Repeat `--case` and `--train-capture` for multiple views. The sweep defaults to
+all 59 supported blocks; `--single-blocks none --group <label> <comma-separated-blocks>`
+tests a joint removal. Structural transitions and boundary blocks are rejected.
+Source commit, weight hash, capture controls and saved baselines are checked
+before accepting results. No compressed model is accepted for installation.

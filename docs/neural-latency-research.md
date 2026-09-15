@@ -646,6 +646,39 @@ include the rejected initial interpolation rounding, corrected kernel tests,
 training report and branch ablations. This is a reusable research optimization,
 not a validated lower-latency replacement model. No game files were changed.
 
+## Pretrained block sensitivity and a fitted replacement
+
+An exact schedule matcher now relates the existing 158-chain native timing
+trace to the recovered 71-block model. The correspondence is inferred from
+kernel names and order. All 24 complete timing frames match; parser checks reject
+changed schedules, invalid intervals and incomplete or failed frames. These
+instrumented costs guide research, but native chained launches cannot simply be
+deleted because they publish synchronization counters and depend on layouts.
+
+The isolated reconstruction was tested with each of its 59 same-shape blocks
+removed, on two matched views. Both unmodified outputs first reproduced earlier
+saved reconstructions exactly. **None of the 59 removals improved native RGB
+error on both views** across the 118 view tests. The least-sensitive block was 43; the six
+least-sensitive blocks removed together raised native MAE from 0.00794 / 0.00923
+to 0.01157 / 0.01532. Removing all eight global blocks was worse still, at
+0.03720 / 0.04569. Their historical combined native interval is only 0.874 ms,
+and that interval is not a guaranteed saving from any valid compressed graph.
+
+A follow-up fit replaced block 43 with an affine feature projection, trained
+on four different camera views. It preserved more of the reconstructed
+teacher's complete image than simple deletion: RGB change fell from
+0.00290 / 0.00345 to 0.00223 / 0.00251. But its errors against native output,
+**0.00828 / 0.00958**, remained worse than the unmodified reconstruction.
+The candidate is rejected. Improving agreement with an imperfect teacher is
+insufficient to establish the requested native quality.
+
+The projection takes 0.0358 ms in an isolated Torch CUDA Graph, versus 0.329 ms
+for that reconstructed block. This is not a native renderer speedup: the native
+block was already about 0.0722 ms in the instrumented trace. No application was
+launched and no game or native DLL was changed. The [full experiment](../research/neural-latency/README.md#pretrained-block-costs-sensitivity-and-feature-distillation)
+includes all removals, group checks, fitted projection results, source and
+numeric evidence. The 3 ms/no-quality-loss target remains unmet.
+
 ## Papers and what can transfer
 
 These papers provide research ideas. Their reported speedups are on other models
@@ -657,6 +690,7 @@ and hardware; none establishes the target for this runtime.
 | [SageAttention2++](https://arxiv.org/html/2505.21136v3) | Use faster FP8 matrix instructions with FP16 accumulators and manage numerical range. | The inspected native code already uses this instruction family. The paper supports investigating accumulation and data movement, but its speedup over another attention implementation cannot be applied to this renderer. Our direct-MMA result improves a numerical reference, not native latency. |
 | [SmoothQuant](https://proceedings.mlr.press/v202/xiao23c/xiao23c.pdf) | Calibrate activation/weight scaling before lower-precision execution. | This runtime already invokes FP8-named kernels. LLM INT8 results do not imply a further lossless gain, and calibration must include renderer activations and controls. |
 | [Knowledge distillation](https://arxiv.org/abs/1503.02531) | Train a smaller student against the larger model's behavior. | A renderer needs matched pixels, detail and temporal consistency, not just matching classification probabilities. A trustworthy teacher and held-out sequences are prerequisites. |
+| [The Unreasonable Ineffectiveness of the Deeper Layers](https://arxiv.org/abs/2403.17887) | Rank layer-removal sensitivity, then fine-tune to repair changes. | Its LLM question-answering results do not establish pixel fidelity. Our 59-block sweep found no single removal improving both native-view errors; the first fitted feature projection also failed native quality. |
 | [EfficientViT](https://openaccess.thecvf.com/content/ICCV2023/papers/Cai_EfficientViT_Lightweight_Multi-Scale_Attention_for_High-Resolution_Dense_Prediction_ICCV_2023_paper.pdf) | Hardware-friendly multiscale operators for dense, high-resolution prediction. | Replacing attention with linear attention changes the learned function; it is a student architecture to train and validate, not an interchangeable kernel. |
 | [TinyVLA](https://arxiv.org/html/2409.12514v3) | A compact backbone and task-specific decoder can reduce inference cost. | Fast robot action prediction does not require reproducing every image pixel. Borrow compact architecture design and task-specific training, not its quality claims. |
 | [V-JEPA 2](https://arxiv.org/html/2506.09985v1) | Predict compact latent representations and learn useful temporal structure. | Semantic latent accuracy does not establish correct fine texture or UI edges. A latent predictor could assist a student, but requires pixel and temporal losses and refresh on disocclusions. |
