@@ -24,6 +24,10 @@ counter or visible menu was never sufficient evidence of the actual FG multiplie
 | Revision 2, NR on | NR at 1281×721 and actual 6x; later transition MMU write fault | Crash analyzed offline; attribution limits documented |
 | Revision 3 | Reproduced and guarded reuse of live descriptor/constant slots; first game run with NR and actual 6x | Guard included, further transition testing needed |
 | Output-resolution revision | Model size follows output, rather than pre-SR input; 100%/75%/50% preserve output proportions | Full 3840×2160 model and actual 6x observed; roughly 21–24 ms NR intervals, user responsiveness/visual assessment pending |
+| 75% output trial | 2880×1620, 12.60–13.55 ms and matching 5x samples | Tester still found it too slow |
+| 50% output trial | 1920×1080, later 6.20–6.32 ms | Tester called responsiveness acceptable; separate FG-off capture provides no new multiplier evidence |
+| NVIDIA runtime internals | Offline fatbin/ELF and native parameter analysis | Ada objects exist; ordinary internal ScalingRatio is overwritten; no proven faster runtime installed |
+| Live scale controls | Existing menu commits resolution on slider release | 25% and F7 menu remap prepared for a keyboard without Insert; game trial pending |
 
 ## Where the work lives
 
@@ -36,6 +40,7 @@ counter or visible menu was never sufficient evidence of the actual FG multiplie
 | Neural source build and local bundle creation | `BuildNeural.ps1`, `tools/make_neural_bundle.py` |
 | Neural profile, optional install/disable/scale/restore | `neural/OptiScaler.ini`, `wuwa_mfg/neural.py`, `wuwa_mfg/neural_cli.py` |
 | Crash diagnosis, proof and limits | [Crash investigation](neural-crashes.md) |
+| NVIDIA model-runtime performance investigation | [Runtime findings](nvidia-runtime-investigation.md) |
 | Reproduction/tests | `tests/` and regression sources inside the OptiScaler patch |
 | Attribution/licensing | `THIRD_PARTY_NOTICES.md`, `licenses/` |
 

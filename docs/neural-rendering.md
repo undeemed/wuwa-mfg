@@ -62,6 +62,7 @@ processed 1281 × 721 from a 2562 × 1442 input. It did not mean half of a 4K ou
 | 0.75 / 75% | 2880 × 1620 | 56.25% |
 | 0.5 / 50% | 1920 × 1080 | 25% |
 | 0.333333 / about 33% | 1280 × 720 | about 11.1% |
+| 0.25 / 25% | 960 × 540 | 6.25% |
 
 The supplied profile selects 100% output resolution with NR initially disabled.
 Full 4K contains almost nine times as many pixels as the earlier 1281 × 721 test.
@@ -129,9 +130,33 @@ scale configuration was changed for this trial.
 This adds runtime evidence for **5x with the neural stack**; it does not change the
 historical MFG-only 4x/5x user reports. The lower NR timing is encouraging, but the
 different game FG request and uncontrolled scene mean it is not a controlled
-end-to-end latency comparison. Visual quality and responsiveness still need the
-tester's assessment. The current personal setup uses 75%; the public profile still
-starts NR disabled and offers the scale control described above.
+end-to-end latency comparison. The tester subsequently reported that 75% still
+felt too slow and requested single-digit NR GPU intervals.
+
+### Follow-up at 50% and live resolution controls
+
+At 50%, the same DLL created the model at **1920 × 1080**. The initial NR interval
+was 7.97 ms; later observations were **6.20–6.32 ms total**, with 5.70–5.74 ms in
+the model. The tester called responsiveness **acceptable**. A separate 30-poll
+capture occurred with FG off, so it provides no new active-multiplier evidence.
+These are uncontrolled GPU intervals, not end-to-end latency measurements.
+
+The existing OptiScaler menu can change **Model resolution** live. Keep **Scale
+relative to output (DX12)** enabled, move the slider and release it to commit.
+The model and its resources are rebuilt; a short hitch is possible. Live changes
+use the existing deferred resource-retirement path, but repeated-transition
+stability is not established. File-based toolkit changes still require closing
+the game because they are not automatically reloaded by the running DLL.
+
+For keyboards without Insert, set `[Menu] ShortcutKey=0x76` with the game closed
+to use **F7** after one restart. **F8** remains the neural on/off toggle. This key
+remap needs no new DLL or input hook. Menu attachment still needs to work in the
+game; merely changing the key does not fix a failed overlay attachment.
+
+The tester next requested 25% (960 × 540 at 4K); that trial is pending. The public
+profile continues to start NR disabled. The separate
+[NVIDIA-runtime investigation](nvidia-runtime-investigation.md) records the
+embedded Ada kernels, overwritten internal scale parameter and FP4 limitations.
 
 ## Installed files and recovery
 

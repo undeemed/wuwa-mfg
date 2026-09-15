@@ -104,7 +104,45 @@
     },
     "follow_game": true,
     "safe_maximum_multiplier": 6,
-    "user_responsiveness_and_visual_assessment": "pending",
+    "user_responsiveness_and_visual_assessment": "Still too slow; user requested single-digit NR GPU intervals.",
     "notes": "The game requested 5x in this run, so this is not a controlled same-FG-count latency comparison with the full-resolution 6x run. GPU intervals may include other work."
+  },
+  "output_50_percent_observation": {
+    "model_dimensions": [
+      1920,
+      1080
+    ],
+    "pre_sr_passes": 1,
+    "output_scale": 0.5,
+    "initial_total_nr_ms": 7.97,
+    "recent_total_nr_ms_range": [
+      6.2,
+      6.32
+    ],
+    "recent_model_ms_range": [
+      5.7,
+      5.74
+    ],
+    "user_responsiveness_assessment": "acceptable",
+    "separate_30_poll_capture": "FG off throughout; no active-multiplier claim",
+    "notes": "Uncontrolled GPU intervals may include other GPU work; not end-to-end input latency."
+  },
+  "nvidia_runtime_offline_inspection": {
+    "runtime_sha256": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927",
+    "fatbins": 15,
+    "compiled_objects_by_sm": {
+      "75": 15,
+      "86": 15,
+      "89": 15,
+      "120": 15
+    },
+    "ptx_objects": 8,
+    "ptx_targets": [
+      "sm_120"
+    ],
+    "ordinary_scaling_parameter": "Read then overwritten with float 1.0 on creation and evaluation paths",
+    "active_kernel_dispatch_profiled": false,
+    "runtime_binary_modified": false,
+    "proven_runtime_speedup": false
   }
 }

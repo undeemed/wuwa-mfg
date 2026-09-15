@@ -55,3 +55,9 @@ request and five frames presented. Follow game and maximum 6x remained available
 This is later 5x evidence with NR, separate from the original MFG-only records.
 It is not a controlled same-FG-count input-latency comparison. See the
 [75% test details](neural-rendering.md#follow-up-at-75-output-scale).
+
+The tester subsequently found 75% too slow. At 50%, the model was 1920×1080 and
+recent NR GPU intervals were 6.20–6.32 ms; responsiveness was reported acceptable.
+A separate 30-poll capture had FG off throughout and is excluded from multiplier
+claims. Offline NVIDIA-runtime analysis and its limitations are documented in
+[the runtime investigation](nvidia-runtime-investigation.md).
