@@ -848,3 +848,82 @@ test set, and they do not cover other scenes or motion. The new evidence is in
 [`fused-output-grade.json`](../../evidence/neural-model-research/fused-output-grade.json),
 [`teacher-translated-views.json`](../../evidence/neural-model-research/teacher-translated-views.json)
 and [`student-explicit-grading.json`](../../evidence/neural-model-research/student-explicit-grading.json).
+
+## Learned affine color field with a full-resolution detail branch
+
+The best eighteen-view, width-16 student's remaining squared error is mostly
+broad in the two validation views: **79.6% / 82.5%** lies at spatial wavelengths
+of at least 64 pixels. The original training view has only 30.9% in those bands.
+These periodic-boundary FFT diagnostics motivated a smooth, content-dependent
+color correction, but do not establish perceptual or temporal quality.
+
+`student_probe.py --architecture hierarchical-affine` adds a zero-initialized
+12-channel head at the existing bottleneck. Each padded 32×32 cell predicts a
+3×4 RGB affine correction. Bilinear interpolation supplies coefficients for
+every original pixel; the existing learned full-resolution detail branch stays
+in place. Before the known output grade, the result is
+`clamp(source + 0.25 * (detail + affine_correction), 0, 1)`.
+This uses compact transforms rather than a reduced-resolution replacement
+image. It follows an idea from [HDRNet](https://groups.csail.mit.edu/graphics/hdrnet/data/hdrnet.pdf),
+but is not an HDRNet reproduction: it uses a two-dimensional field with a detail
+decoder, not a bilateral grid with a learned guide.
+
+The new width-16 network has **224,604 parameters**, just 1,164 more than the
+previous model. Both runs use the same eighteen training images, two validation
+images, controls, seed and 4,500-step schedule. The affine run completed all
+steps in 252.1 seconds. Use the previous whole-frame command with
+`--architecture hierarchical-affine --max-seconds 450`; the observed output
+grading contract is required.
+
+| Model | Mean training MAE | Original view MAE | North MAE | Shifted north MAE | Complete fused graph ms |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Previous hierarchical student | 0.01193 | 0.01116 | **0.01558** | **0.01953** | 1.221 |
+| Affine field plus detail | 0.01242 | 0.01195 | 0.01678 | 0.01988 | 1.199 |
+
+The affine model is **rejected**: it slightly worsens both validation errors.
+These historical timing samples do not establish that its architecture is
+faster than the previous model. Both are isolated CUDA Graph measurements,
+include grading and all student branches, and exclude D3D12 integration.
+
+`ablate_affine_student.py` reloads the private checkpoint, validates both texture
+hashes and controls, and requires exact reproduction of each saved output
+before disabling either branch. The following are post-training diagnostics;
+disabled branches are still computed, so no speedup is claimed.
+
+| View | Both branches | Affine only | Detail only | Neither: source plus grade |
+| --- | ---: | ---: | ---: | ---: |
+| Original training view | 0.01195 | 0.01845 | 0.03656 | 0.03891 |
+| North validation | 0.01678 | 0.01725 | 0.01963 | 0.01706 |
+| Shifted north validation | 0.01988 | 0.02051 | 0.02115 | 0.01963 |
+
+The affine branch explains much of the original view's color change, while
+the detail branch further reduces its error. That benefit transfers weakly to
+the validation cameras. This test does not support installing the model.
+
+The retained kernel improvement is `FusedNorm.affine_compose`: it interpolates
+coefficients and composes RGB directly without allocating a dense twelve-channel
+1080p field. The FP16 operation follows the reference's rounding boundaries.
+An initial version differed at two channel values in each of the full-size
+planar and interleaved tests. Explicit round-to-nearest multiply-adds in the
+interpolation fixed those failures. The CUDA operator's interpolation order was
+checked against [PyTorch 2.7.1](https://github.com/pytorch/pytorch/blob/v2.7.1/aten/src/ATen/native/cuda/UpSampleBilinear2d.cu).
+
+The final **18 finite-input cases**, covering 19,097,025 RGB channel values,
+match the Torch reference exactly, including strided and broadcast inputs,
+partial cells, zero fields, clipping and full 1080p. The captured graph also
+matches. This is tested operator parity, not exhaustive arithmetic or native
+NVIDIA image parity. The isolated composition takes **0.0655 ms**, versus
+**1.248 ms** for the separate Torch operations. Combining it with the previous
+grading fusion reduces this complete affine student's graph from **3.683 ms to
+1.199 ms** with identical tested output. It does not accelerate the native
+NVIDIA renderer, which remains around 5.4 ms.
+
+Run `test_affine_compose.py --output <private-json>` for the synthetic operation
+checks. For branch diagnostics, use
+`ablate_affine_student.py --student <private-result-directory> --case <label> <capture-directory> <role> --output <private-json>`;
+roles are `primary`, `validation` and `extra-0`. These commands do not launch a
+game or the demo. Source, full numeric reports, failed and corrected kernel
+checks, and branch metrics are in
+[`student-affine-field.json`](../../evidence/neural-model-research/student-affine-field.json).
+Weights and images remain private. No new application capture or game change
+was needed. The **3 ms at true 1080p with no quality loss** target remains unmet.

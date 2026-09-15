@@ -78,7 +78,11 @@ and does not claim bit-exact reproduction of NVIDIA's output stage.
 Its differentiable student wrapper and fused CUDA version use the same license.
 The camera-collection audit and numeric camera-pose list contain no sample
 assets or captured images. HDRNet is cited as a research direction; no HDRNet
-source, weights or image dataset is included.
+source, weights or image dataset is included. The affine-field student,
+composition kernel and branch diagnostics are original Apache-2.0 experiments,
+not an HDRNet reproduction. Interpolation behavior was checked against
+[PyTorch 2.7.1's CUDA bilinear operator](https://github.com/pytorch/pytorch/blob/v2.7.1/aten/src/ATen/native/cuda/UpSampleBilinear2d.cu);
+no PyTorch operator source is vendored in this repository.
 The direct FP8/FP16 MMA diagnostic follows the public NVIDIA PTX ISA fragment
 layout and instruction interface. Its block-0 scheduling adapts the same pinned
 MLX-DLSS reference and retains the research files' Apache-2.0 notices.

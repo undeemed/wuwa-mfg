@@ -78,7 +78,32 @@ class FusedNorm:
         check(lookup(C.byref(self.mma_function),self.module,b'fp8_mma_f16'),'cuModuleGetFunction')
         self.half_mma_function = C.c_void_p()
         check(lookup(C.byref(self.half_mma_function),self.module,b'half_mma_f16'),'cuModuleGetFunction')
+        self.affine_function=C.c_void_p()
+        check(lookup(C.byref(self.affine_function),self.module,b'affine_compose_f16'),'cuModuleGetFunction')
         # Module stays alive until process exit, including any captured graphs.
+
+    def affine_compose(self,source,detail,coefficients):
+        tensors=(source,detail,coefficients)
+        if any(x.device!=source.device or x.device.type!='cuda' or x.dtype!=torch.float16
+               or x.requires_grad or x.ndim!=4 for x in tensors):
+            raise ValueError('Expected same-device inference-only CUDA NCHW float16 tensors.')
+        if source.shape[1]!=3 or detail.shape!=source.shape:
+            raise ValueError('Source and detail must have matching RGB extents.')
+        batch,_,height,width=source.shape
+        if coefficients.shape!=(batch,12,(height+31)//32,(width+31)//32):
+            raise ValueError('Expected twelve coefficients per padded 32x32 cell.')
+        pixels=batch*height*width
+        if not pixels or pixels>=2**31:raise ValueError('Image exceeds the bounded launch extent.')
+        output=torch.empty((batch,height,width,3),device=source.device,dtype=source.dtype).permute(0,3,1,2)
+        arguments=[*(C.c_void_p(x.data_ptr()) for x in tensors),C.c_void_p(output.data_ptr()),
+                   C.c_uint(pixels),C.c_uint(height),C.c_uint(width),
+                   *(C.c_ulonglong(s) for x in tensors for s in x.stride())]
+        params=(C.c_void_p*len(arguments))(*(C.addressof(v) for v in arguments))
+        stream=torch.cuda.current_stream(source.device)
+        status=self.launch(self.affine_function,(pixels+255)//256,1,1,256,1,1,0,
+                           C.c_void_p(stream.cuda_stream),params,None)
+        if status:raise RuntimeError(f'cuLaunchKernel failed: {status}')
+        return output
 
     def output_grade(self,x,parameters):
         if (x.device.type!='cuda' or x.ndim!=4 or x.shape[1]!=3

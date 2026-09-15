@@ -44,7 +44,7 @@ class PixelStudent(nn.Module):
 
 class HierarchicalStudent(nn.Module):
     """Learned multiscale features with full-resolution pixel rearrangement/skips."""
-    def __init__(self,width=16,blocks=2,noise=False):
+    def __init__(self,width=16,blocks=2,noise=False,affine=False):
         super().__init__()
         widths=[width,width*2,width*4,width*6]
         self.stem=nn.Conv2d(96 if noise else 48,width,1)
@@ -55,6 +55,10 @@ class HierarchicalStudent(nn.Module):
         self.context=nn.Conv2d(widths[-1],widths[-1],1)
         self.head=nn.Conv2d(width,48,1)
         nn.init.zeros_(self.head.weight);nn.init.zeros_(self.head.bias)
+        self.affine_head=nn.Conv2d(widths[-1],12,1) if affine else None
+        if self.affine_head is not None:
+            nn.init.zeros_(self.affine_head.weight);nn.init.zeros_(self.affine_head.bias)
+        self.fused_affine_backend=None
 
     def forward(self,x):
         height,width=x.shape[-2:]
@@ -66,10 +70,16 @@ class HierarchicalStudent(nn.Module):
             value=stage(value)
             if i<3:skips.append(value);value=self.down[i](value)
         value=value*(1+0.1*torch.tanh(self.context(value.mean(dim=(2,3),keepdim=True))))
+        coefficients=self.affine_head(value) if self.affine_head is not None else None
         for i in (2,1,0):
             value=self.up[i](F.interpolate(value,size=skips[i].shape[-2:],mode='nearest'))
             value=self.decoder[i](value+skips[i])
         residual=F.pixel_shuffle(self.head(value),4)[:,:,:height,:width]
+        if coefficients is not None:
+            if self.fused_affine_backend is not None:
+                return self.fused_affine_backend.affine_compose(x[:,:3],residual,coefficients)
+            from affine_student import compose_affine
+            return compose_affine(x[:,:3],residual,coefficients)
         return (x[:,:3]+0.25*residual).clamp(0,1)
 
 
@@ -90,7 +100,7 @@ def main():
     p.add_argument('--patch-size',type=int,choices=[128,256,384],default=128)
     p.add_argument('--batch',type=int,choices=range(1,17),default=8)
     p.add_argument('--cosine-lr',action='store_true',help='Decay learning rate from .002 to .00002 over the bounded steps.')
-    p.add_argument('--architecture',choices=['local','hierarchical'],default='local')
+    p.add_argument('--architecture',choices=['local','hierarchical','hierarchical-affine'],default='local')
     p.add_argument('--whole-frame',action='store_true',help='Train complete views, batch 1; requires a separate validation view.')
     p.add_argument('--output-grade-contract',type=Path,help='Learn a pre-grading residual, then apply the observed output grade. Requires a separate validation view.')
     p.add_argument('--evaluate-all-training',action='store_true',help='Report every full training view after fitting; requires separate validation views.')
@@ -107,12 +117,14 @@ def main():
         raise SystemExit('Whole-frame training requires batch1 and a separate validation view.')
     if a.extra_validation_capture and not a.validation_capture:
         raise SystemExit('Extra validation views require a primary validation capture.')
-    if a.architecture=='hierarchical' and a.dilations:
+    if a.architecture.startswith('hierarchical') and a.dilations:
         raise SystemExit('The hierarchical model uses its fixed multiscale topology, not a dilation list.')
     if a.output_grade_contract and not a.validation_capture:
         raise SystemExit('Output-grading experiments require a separate validation view.')
     if a.evaluate_all_training and not a.validation_capture:
         raise SystemExit('Full training-view evaluation requires separate validation views.')
+    if a.architecture=='hierarchical-affine' and (not a.whole_frame or not a.output_grade_contract):
+        raise SystemExit('The affine experiment requires whole-frame training and the observed output grade.')
     noise=None
     if a.noise_source:
         sys.path.insert(0,str(a.noise_source/'python'))
@@ -186,7 +198,7 @@ def main():
         assert pair_hashes['color'] not in validation_inputs, 'Duplicate validation input.'
         validation_inputs.add(pair_hashes['color'])
         extra_validation.append((pair,pair_hashes))
-    model=(HierarchicalStudent(a.width,a.blocks,bool(a.noise_source)) if a.architecture=='hierarchical'
+    model=(HierarchicalStudent(a.width,a.blocks,bool(a.noise_source),a.architecture=='hierarchical-affine') if a.architecture.startswith('hierarchical')
            else PixelStudent(a.width,a.blocks,bool(a.noise_source),dilations)).cuda().to(memory_format=torch.channels_last)
     if grade_parameters is not None:model=GradedStudent(model,grade_parameters)
     optimizer=torch.optim.AdamW(model.parameters(),lr=0.002,weight_decay=0.0001)
@@ -218,12 +230,17 @@ def main():
     report['data_split']['whole_frame_training']=a.whole_frame
     report['data_split']['validation_view_count']=len(validation_inputs)
     if a.whole_frame:report['data_split']['patch']=[height,width]
-    if a.architecture=='hierarchical':
+    if a.architecture.startswith('hierarchical'):
         report['architecture'].update(type='four-level hierarchical residual CNN with global context gate',
                                       widths=[a.width,a.width*2,a.width*4,a.width*6],
                                       blocks_per_stage=a.blocks,input_receptive_field_pixels='whole image via global context gate',
                                       internal_downsampling='learned features only; original pixels retained through input rearrangement and residual path')
         report['architecture'].pop('dilations')
+        if a.architecture=='hierarchical-affine':
+            report['architecture']['affine_field']={'channels':12,'cell_size':32,
+                'interpolation':'bilinear, align_corners=False, over the padded image',
+                'application':'source + .25*(full-resolution detail + learned 3x4 affine color correction)',
+                'head_initialization':'zero'}
     if noise is not None:
         report['limitations'].append('Noise is from the pinned reconstruction at counter 0; timing excludes its precomputation and input concatenation. No vendor intermediate feature parity is claimed.')
     with torch.no_grad():
@@ -281,6 +298,8 @@ def main():
             from test_output_grade import graph_measure
             report['unfused_grade_graph_timing'],_=graph_measure(inference,x)
             inference.fused_backend=FusedNorm()
+            if a.architecture=='hierarchical-affine':
+                inference.network.fused_affine_backend=inference.fused_backend
             fused_predicted=inference(x)
             report['output_grading']['fused_matches_torch']=bool(torch.equal(fused_predicted,predicted))
             report['output_grading']['fused_max_abs']=float((fused_predicted-predicted).abs().max())

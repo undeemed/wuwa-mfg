@@ -618,6 +618,34 @@ The next model work needs better generalization and detail preservation, with
 broader data and independent sequences; simply adding width is not supported
 by this comparison.
 
+## Affine color field and fused composition
+
+The next model experiment added a learned smooth RGB transform alongside the
+existing full-resolution detail branch. It was motivated by the previous
+model's error spectrum: about 80–83% of validation squared error was at spatial
+wavelengths of at least 64 pixels. This is a diagnostic of broad image changes,
+not a perceptual quality measurement.
+
+At the same eighteen training views and 4,500 steps, the new model slightly
+worsened both validation MAEs to **0.01678 / 0.01988**, from **0.01558 / 0.01953**.
+Post-training branch tests show that the affine branch handles much of the
+original training view's color change, but that benefit transfers weakly to the
+validation views. It remains rejected for deployment.
+
+A new fused kernel interpolates the small coefficient field and composes it
+with each original RGB pixel and the full-resolution detail residual. It
+matches its Torch reference in 18 finite-input tests and takes **0.0655 ms**
+instead of **1.248 ms** for that isolated operation. Together with the existing
+grading fusion, the complete affine student takes **1.199 ms** instead of
+**3.683 ms**, with identical tested output. These times exclude application
+integration and do not improve NVIDIA's native 5.4 ms result.
+
+The [full experiment](../research/neural-latency/README.md#learned-affine-color-field-with-a-full-resolution-detail-branch)
+and [numeric evidence](../evidence/neural-model-research/student-affine-field.json)
+include the rejected initial interpolation rounding, corrected kernel tests,
+training report and branch ablations. This is a reusable research optimization,
+not a validated lower-latency replacement model. No game files were changed.
+
 ## Papers and what can transfer
 
 These papers provide research ideas. Their reported speedups are on other models

@@ -66,6 +66,49 @@ extern "C" __global__ void output_grade_f32(const float* input,float* output,
     float exposure,float contrast,float saturation) {
     grade_rgb(input,output,pixels,height,width,sb,sc,sh,sw,exposure,contrast,saturation);
 }
+
+// Bilinear coefficient interpolation, affine RGB correction and detail compose.
+// Finite FP16 operands. The dense 12-channel full-resolution field is not stored.
+extern "C" __global__ void affine_compose_f16(
+    const unsigned short* source,const unsigned short* detail,const unsigned short* field,
+    unsigned short* output,unsigned pixels,unsigned height,unsigned width,
+    unsigned long long sb,unsigned long long sc,unsigned long long sy,unsigned long long sx,
+    unsigned long long db,unsigned long long dc,unsigned long long dy,unsigned long long dx,
+    unsigned long long fb,unsigned long long fc,unsigned long long fy,unsigned long long fx) {
+    const unsigned pixel=blockIdx.x*blockDim.x+threadIdx.x;
+    if(pixel>=pixels)return;
+    const unsigned x=pixel%width,y=(pixel/width)%height,b=pixel/(width*height);
+    const unsigned gridH=(height+31)/32,gridW=(width+31)/32;
+    const float u=fmaxf(0.f,(x+.5f)*.03125f-.5f),v=fmaxf(0.f,(y+.5f)*.03125f-.5f);
+    const unsigned left=(unsigned)u,top=(unsigned)v;
+    const unsigned right=left+1<gridW ? left+1 : left,bottom=top+1<gridH ? top+1 : top;
+    const float wx=u-left,wy=v-top,ax=1.f-wx,ay=1.f-wy;
+    const unsigned long long sourceBase=b*sb+y*sy+x*sx,detailBase=b*db+y*dy+x*dx;
+    float color[3];
+    #pragma unroll
+    for(unsigned c=0;c<3;++c)color[c]=read_half(source[sourceBase+c*sc]);
+    #pragma unroll
+    for(unsigned row=0;row<3;++row) {
+        float affine=0.f;
+        #pragma unroll
+        for(unsigned column=0;column<4;++column) {
+            const unsigned long long base=b*fb+(row*4+column)*fc;
+            const float tl=read_half(field[base+top*fy+left*fx]);
+            const float tr=read_half(field[base+top*fy+right*fx]);
+            const float bl=read_half(field[base+bottom*fy+left*fx]);
+            const float br=read_half(field[base+bottom*fy+right*fx]);
+            // Explicit RN multiply-adds match the tested CUDA interpolation path.
+            const float upper=__fmaf_rn(ax,tl,wx*tr),lower=__fmaf_rn(ax,bl,wx*br);
+            const float coefficient=half_round(__fmaf_rn(ay,upper,wy*lower));
+            const float term=column<3 ? half_round(coefficient*color[column]) : coefficient;
+            affine=column==0 ? term : half_round(affine+term);
+        }
+        const float residual=read_half(detail[detailBase+row*dc]);
+        const float correction=half_round(.25f*half_round(residual+affine));
+        output[(unsigned long long)pixel*3+row]=write_value<unsigned short>(
+            grade_clamp(half_round(color[row]+correction)));
+    }
+}
 template<class T, bool Publish=false> __device__ void norm32(
     const T* input, T* output, unsigned rows, const T* scale=nullptr,
     unsigned heads=1, unsigned tokens=1, unsigned long long sb=0,
