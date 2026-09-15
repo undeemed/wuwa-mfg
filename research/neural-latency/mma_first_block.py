@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
-"""Single-head boundary-block diagnostic using direct FP8 MMA and initial C.
+"""Single-head block diagnostic using direct FP8 MMA and initial C.
 
 The recovered MLX-DLSS schedule supplies the pointwise math and window mapping.
 This implementation is for numerical diagnosis, not a tuned production kernel.
@@ -8,11 +8,13 @@ import torch
 
 
 class MmaFirstBlock:
-    def __init__(self, reference, model, kernel, *, block_index=0):
-        if block_index not in (0,70):
-            raise ValueError('Only the first and final single-head blocks are supported.')
+    def __init__(self, reference, model, kernel, *, block_index=0, fused_packing=False, fused_input_packing=False):
+        if block_index not in (*range(5),*range(66,71)):
+            raise ValueError('Only the known 32-channel single-head blocks are supported.')
         self.reference, self.model, self.kernel = reference, model, kernel
         self.block_index=block_index
+        self.fused_packing=fused_packing
+        if fused_input_packing:self.pack=kernel.pack
         self.weights = {}
         for name in ('weight1', 'weight2', 'qkv_weight', 'projection_weight'):
             value = self.weight(name)
@@ -31,14 +33,14 @@ class MmaFirstBlock:
     def __call__(self, value, *, attention_mma=False, seed_residual=False, seed_logits=False):
         ref, kernel = self.reference, self.kernel
         if value.ndim != 4 or value.shape[-1] != 32 or value.dtype != torch.float16:
-            raise ValueError('Expected FP16 [batch,height,width,32] boundary-block input.')
+            raise ValueError('Expected FP16 [batch,height,width,32] single-head input.')
         if value.shape[1] % 8 or value.shape[2] % 8:
-            raise ValueError('Boundary-block diagnostic requires extents divisible by eight.')
+            raise ValueError('Single-head diagnostic requires extents divisible by eight.')
 
         def feed_forward(tokens):
             flat = tokens.reshape(-1, 32)
             expanded = kernel.mma(self.pack(flat), self.weights['weight1'])
-            activated = self.pack(ref.quadratic_gate_activation(expanded))
+            activated = kernel.pack(expanded,activate=True) if self.fused_packing else self.pack(ref.quadratic_gate_activation(expanded))
             seed = flat * self.weight('ffn_cos_skip') if seed_residual else None
             projected = kernel.mma(activated, self.weights['weight2'], seed)
             if not seed_residual:

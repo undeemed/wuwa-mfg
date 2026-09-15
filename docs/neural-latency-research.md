@@ -707,6 +707,33 @@ small models meet the timing budget but fail quality; the reconstructed model
 still needs numerical corrections before its output is a trustworthy teacher.
 Neither requirement has been solved by the new final-block result.
 
+## Single-head corrections and measured packing optimization
+
+Direct-MMA arithmetic now covers the known single-head blocks 0–4 and 66–70.
+Every activation is computed from the input image; native captures serve only
+as comparison targets. Correcting the early stages helps much more than
+correcting only the last decoder stages. With all changes, native RGB error
+falls from **0.007864 / 0.008921** to **0.005167 / 0.005831**. This improves the
+reconstruction but does not establish native quality.
+
+A fused activation/FP8 packing kernel preserves every tested output byte in
+32 cases, including all finite FP16 input values. Activation plus conversion
+falls from 0.818 ms to 0.223 ms on a representative chunk. Plain conversion is
+slower in its contiguous microbenchmark, so that result is not generalized to
+every operand. In the complete diagnostic final block, fusing all packing is
+faster than fusing activation alone, with identical output.
+
+Across all 71 reconstructed blocks and the direct head, packing fusion reduces
+GPU graph time from **204.2–204.3 ms to 180.1–180.9 ms**, with identical eager and
+graph outputs. These times start at prepared features and exclude output
+grading and application integration. They remain far slower than the native
+runtime's approximately **5.4 ms**. Neither native quality nor 3 ms is achieved.
+
+The [full experiment](../research/neural-latency/README.md#single-head-arithmetic-and-fused-fp8-operands)
+documents the arithmetic progression, packing tradeoff, complete-image checks,
+timing scopes and source. No app, game, native DLL, driver or installer setting
+was changed.
+
 ## Papers and what can transfer
 
 These papers provide research ideas. Their reported speedups are on other models

@@ -47,8 +47,8 @@ def main():
              for values in itertools.product((False,True),repeat=3)]
     report={'schema':1,'passed':False,'source_commit':SOURCE_COMMIT,'weights_sha256':WEIGHTS_SHA,
             'previous_commit':PREVIOUS_COMMIT,'previous_source_sha256':hashlib.sha256(previous).hexdigest(),
-            'gpu':torch.cuda.get_device_name(),'torch':torch.__version__,'cases':[],
-            'scope':'Block-0 regression and block-70 chunk invariance on finite synthetic inputs; not native parity or a speed test.'}
+            'gpu':torch.cuda.get_device_name(),'torch':torch.__version__,'cases':[],'packing_cases':[],
+            'scope':'Block-0 regression, block-70 chunk invariance and single-head packing fusion on finite synthetic inputs; not native parity or a speed test.'}
     original_chunk=reference.CHUNK_TOKENS
     try:
         with torch.inference_mode():
@@ -67,12 +67,24 @@ def main():
                         raise AssertionError('Nonfinite output.')
                     report['cases'].append({'shape':list(shape),'options':option,
                         'block0_matches_previous_exactly':True,'block70_chunking_matches_exactly':True})
+            for index in (*range(5),*range(66,71)):
+                variants={mode:MmaFirstBlock(reference,pipeline.model,kernel,block_index=index,
+                    fused_packing=mode!='none',fused_input_packing=mode=='all') for mode in ('none','gate','all')}
+                for shape in ((1,8,8,32),(2,16,24,32),(1,24,40,32)):
+                    value=torch.randn(shape,device='cuda',dtype=torch.float16)*.5
+                    outputs={mode:adapter(value,attention_mma=True,seed_residual=True,seed_logits=True)
+                             for mode,adapter in variants.items()}
+                    if not all(torch.equal(outputs['none'],item) for item in outputs.values()):
+                        raise AssertionError('Packing fusion changes the single-head output.')
+                    report['packing_cases'].append({'block':index,'shape':list(shape),
+                        'gate_only_matches_exactly':True,'all_packing_matches_exactly':True})
     finally:
         reference.CHUNK_TOKENS=original_chunk
     report['passed']=True
     args.output.parent.mkdir(parents=True,exist_ok=True)
     args.output.write_text(json.dumps(report,indent=2,allow_nan=False)+'\n')
     print('Passed',len(report['cases']),'block-0 and shifted block-70 cases.')
+    print('Passed',len(report['packing_cases']),'single-head packing comparisons.')
 
 
 if __name__=='__main__':main()

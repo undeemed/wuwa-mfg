@@ -1126,3 +1126,96 @@ test_boundary_mma.py --source <pinned-reference> --weights <private-weights> --o
 Repeat `--case` for multiple views. `--prefix-check-trial` optionally verifies
 the matching earlier first-block prefix. The regression test requires Git
 history containing commit `3beec244d0aea1a35b744f9210818830801d1a2d`.
+
+## Single-head arithmetic and fused FP8 operands
+
+`probe_single_head.py` extends direct-MMA arithmetic to all known 32-channel,
+single-head blocks: **0–4 and 66–70**. The adapter returns FP16 features; its
+caller preserves existing E4M3 publication and transition rules. Native skip
+and decoder captures are **comparison targets only**. Every candidate computes
+its own features from the full 1920×1080 image with a 1920×1152 internal extent.
+The unchanged and final-block-only candidates reproduce their previous saved
+images exactly in both views. Every selected block is visited exactly once.
+
+| Arithmetic changes | Original native RGB MAE | West native RGB MAE |
+| --- | ---: | ---: |
+| Unchanged reconstruction | 0.0078644 | 0.0089212 |
+| Final block only | 0.0076828 | 0.0087705 |
+| Decoder 69 + final block | 0.0076508 | 0.0087265 |
+| Decoder 68–69 + final block | 0.0076586 | 0.0087272 |
+| Decoder 67–69 + final block | 0.0076611 | 0.0087184 |
+| Decoder 66–69 + final block | 0.0076542 | 0.0087144 |
+| Encoder 0–4 + final block | 0.0051695 | 0.0058616 |
+| All single-head blocks | **0.0051667** | **0.0058308** |
+
+All changed candidates use the direct FP16 output head. Early-stage arithmetic
+contributes much more than the last decoder stages to the improvement. Native
+decoder feature MAE falls from **2.5563 / 2.8091** to **2.0525 / 2.1907** with all
+single-head changes; these feature values are not normalized RGB errors.
+Complete-image error falls by about 34%, but no native quality gate is passed.
+
+The new `FusedNorm.pack` writes E4M3 operands directly from strided FP16 input.
+With `activate=True`, it fuses the half-rounded quadratic gate and saturating
+FP8 conversion, preserving the FP16 product rounding before conversion. It
+avoids separate activation and clamped tensors. `test_fused_pack.py` compares
+**32 cases and 86,125,878 values** byte for byte, covering every finite FP16
+input, signed zero, gate overflow followed by saturation, scalar/empty inputs,
+incomplete pairs and thread blocks, sliced/transposed/broadcast layouts, eight
+dimensions and representative token chunks. All bytes match.
+
+| Isolated operand operation | Prior graph | Fused graph |
+| --- | ---: | ---: |
+| Plain packing, 262144×32 | **0.0287 ms** | 0.0439 ms |
+| Activation + packing, 262144×128 | 0.8175 ms | **0.2233 ms** |
+
+The prior path already uses the fused activation, followed by Torch clamp and
+conversion. Plain packing is slower in this contiguous microbenchmark; it is
+not a universal conversion speedup. The full final block also packs strided
+Q/K and other operands, giving a different measured result:
+
+| Diagnostic block 70 + direct head | Original view | West view |
+| --- | ---: | ---: |
+| Existing packing | 25.74 ms | 25.71 ms |
+| Fuse activation + packing only | 20.82 ms | 20.85 ms |
+| Fuse all operand packing | **19.58 ms** | **19.68 ms** |
+
+All three outputs match exactly on reconstructed features of shape
+`[1,1152,1920,32]`. These are diagnostic timings, not the native block's
+historical instrumented interval of approximately 0.376 ms.
+
+The gain also carries through **all 71 reconstructed blocks** and the direct
+head, with inspection copies disabled:
+
+| Reconstructed network and head | Original view | West view |
+| --- | ---: | ---: |
+| Direct-MMA single-head candidate, existing packing | 204.24 ms | 204.33 ms |
+| Same candidate, fused packing | **180.08 ms** | **180.85 ms** |
+
+Eager and CUDA Graph outputs match exactly, as do fused and unfused complete
+candidate images. Thirty timed samples follow warmup for each graph. These
+measurements start at prepared features, retain every block, and include the
+unused original head as well as the direct head. They exclude feature
+preparation, output grading and application integration. The roughly 12% gain
+preserves the candidate's tested output; it does not establish native quality
+or improve NVIDIA's approximately 5.4 ms runtime. The target remains unmet.
+
+`test_boundary_mma.py` retains its 24 regression/chunk checks and adds 30 packing
+comparisons spanning all ten single-head blocks. Gate-only and all packing
+fusion match the unfused block output in every added case. The
+[arithmetic evidence](../../evidence/neural-model-research/single-head-arithmetic.json)
+and [packing evidence](../../evidence/neural-model-research/fused-fp8-packing.json)
+contain all comparisons, timing samples and source hashes. Original/west views
+remain same-scene first-reset diagnostics, not independent temporal or
+perceptual acceptance tests. No app was launched and no game, native DLL,
+driver or installer default was changed.
+
+```text
+probe_single_head.py --source <pinned-reference> --weights <private-weights> --case <label> <native-post-input-trial> --baseline-results <previous-post-block-results> --output-directory <private-directory>
+test_fused_pack.py --source <pinned-reference> --output <private-json>
+probe_single_head.py --source <pinned-reference> --weights <private-weights> --case <label> <native-post-input-trial> --baseline-results <previous-post-block-results> --fused-packing all --compare-results <unfused-run> --final-only --time-post --time-model --output-directory <private-directory>
+```
+
+Repeat `--case` for multiple views. `--fused-packing` accepts `none`, `gate` and
+`all`, defaulting to `none`. `--final-only` keeps the unchanged reference and
+all-single-head candidate. The timing flags measure only the reconstructed
+scopes above; neither establishes native renderer speed or the 3 ms target.

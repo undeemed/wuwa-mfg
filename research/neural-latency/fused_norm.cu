@@ -248,6 +248,39 @@ struct TensorLayout {
     unsigned long long sizes[8],strides[8];
     unsigned rank;
 };
+// Write E4M3 operands directly, optionally applying the half-rounded gate first.
+// No half activation or clamped intermediate tensor is materialized.
+extern "C" __global__ void fp8_pack_f16(const unsigned short* input,unsigned char* output,
+    unsigned long long count,TensorLayout layout,unsigned activate) {
+    const unsigned long long first=((unsigned long long)blockIdx.x*blockDim.x+threadIdx.x)*2;
+    if(first>=count)return;
+    float values[2]={0.f,0.f};
+    #pragma unroll
+    for(unsigned p=0;p<2;++p) {
+        const unsigned long long index=first+p;
+        if(index>=count)continue;
+        unsigned long long offset=0,remainder=index;
+        if(layout.rank==1)offset=index*layout.strides[0];
+        else for(int d=(int)layout.rank-1;d>=0;--d) {
+            offset+=(remainder%layout.sizes[d])*layout.strides[d];
+            remainder/=layout.sizes[d];
+        }
+        const float raw=read_half(input[offset]);
+        float value=raw;
+        if(activate) {
+            const float clamped=raw < -4.f ? -4.f : (raw > 4.f ? 4.f : raw);
+            const float magnitude=clamped < 0.f ? -clamped : clamped;
+            const float linear=half_round(magnitude*-0.055908203125f+0.447265625f);
+            const float gate=half_round(clamped*linear+0.89453125f);
+            value=half_round(raw*gate);
+        }
+        values[p]=value;
+    }
+    unsigned short packed;
+    asm("cvt.rn.satfinite.e4m3x2.f32 %0, %1, %2;" : "=h"(packed) : "f"(values[1]),"f"(values[0]));
+    output[first]=(unsigned char)packed;
+    if(first+1<count)output[first+1]=(unsigned char)(packed>>8);
+}
 template<class T> __device__ float read_full(T value) { return (float)value; }
 template<> __device__ float read_full<unsigned short>(unsigned short value) {return read_half(value);}
 template<class T> __device__ void fp8_roundtrip(const T* input,T* output,unsigned long long count,TensorLayout layout) {

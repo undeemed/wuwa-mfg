@@ -80,6 +80,8 @@ class FusedNorm:
         check(lookup(C.byref(self.half_mma_function),self.module,b'half_mma_f16'),'cuModuleGetFunction')
         self.affine_function=C.c_void_p()
         check(lookup(C.byref(self.affine_function),self.module,b'affine_compose_f16'),'cuModuleGetFunction')
+        self.pack_function=C.c_void_p()
+        check(lookup(C.byref(self.pack_function),self.module,b'fp8_pack_f16'),'cuModuleGetFunction')
         # Module stays alive until process exit, including any captured graphs.
 
     def affine_compose(self,source,detail,coefficients):
@@ -226,6 +228,28 @@ class FusedNorm:
         params=(C.c_void_p*len(arguments))(*(C.addressof(v) for v in arguments))
         stream=torch.cuda.current_stream(x.device)
         status=self.launch(self.publish_functions[x.dtype],(rows*4+255)//256,1,1,256,1,1,0,
+                           C.c_void_p(stream.cuda_stream),params,None)
+        if status:raise RuntimeError(f'cuLaunchKernel failed: {status}')
+        return output
+
+    def pack(self,x,*,activate=False):
+        if x.device.type!='cuda' or x.ndim>8 or x.dtype!=torch.float16 or x.requires_grad:
+            raise ValueError('Expected inference-only CUDA float16 with rank <=8.')
+        count=x.numel()
+        if count>=2**38:raise ValueError('Tensor exceeds bounded launch size.')
+        output=torch.empty(x.shape,device=x.device,dtype=torch.float8_e4m3fn)
+        if not count:return output
+        layout=TensorLayout()
+        if x.is_contiguous():
+            layout.rank=1;layout.sizes[0]=count;layout.strides[0]=1
+        else:
+            layout.rank=x.ndim
+            for i,(size,stride) in enumerate(zip(x.shape,x.stride())):
+                layout.sizes[i]=size;layout.strides[i]=stride
+        arguments=[C.c_void_p(x.data_ptr()),C.c_void_p(output.data_ptr()),C.c_ulonglong(count),layout,C.c_uint(bool(activate))]
+        params=(C.c_void_p*len(arguments))(*(C.addressof(v) for v in arguments))
+        stream=torch.cuda.current_stream(x.device)
+        status=self.launch(self.pack_function,(count+511)//512,1,1,256,1,1,0,
                            C.c_void_p(stream.cuda_stream),params,None)
         if status:raise RuntimeError(f'cuLaunchKernel failed: {status}')
         return output

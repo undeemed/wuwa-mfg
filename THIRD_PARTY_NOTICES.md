@@ -96,6 +96,10 @@ The final-block decoder, substitution probe and boundary-block regression checks
 use that attribution and license. They contain no captured features or vendor
 instruction code. The regression reference is the earlier Apache-2.0 diagnostic
 from this repository's own Git history.
+The single-head arithmetic extension, FP8 operand packing kernel and associated
+checks retain the same Apache-2.0 attribution. The fused gate follows the pinned
+reference's operation order and explicit half rounding. No vendor instructions,
+learned weights, captured features or generated CUDA modules are included.
 Research papers are linked in the latency investigation; their reported results
 are not presented as performance claims for this toolkit.
 
