@@ -2,7 +2,7 @@
 
 Offline inspection of the tested SF-v2 `nvngx_dlssnr.dll` did not establish a
 faster replacement for the RTX 4070 Ti. Output-relative model resolution remains
-the measured performance control. No NVIDIA binary edit was installed during this
+the measured performance control. No neural-runtime binary edit was installed during this
 investigation, and no debugger or kernel profiler was attached to WuWa.
 
 ## Exact runtime and method
@@ -70,3 +70,7 @@ Further internal optimization would require identifying costly dispatches in an
 isolated harness, implementing compatible SM89 kernels or a different model, and
 checking output correctness, GPU resource lifetimes and repeatable performance.
 This remains research work; no faster NVIDIA runtime is claimed by this toolkit.
+
+An [official NVIDIA demo setup](neural-demo-benchmark.md) now provides a separate
+application for testing the same pre-SR path at a 1920×1080 model extent. Feature
+creation and evaluation succeeded; a controlled speedup has not been measured.

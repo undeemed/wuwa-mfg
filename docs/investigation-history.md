@@ -27,7 +27,8 @@ counter or visible menu was never sufficient evidence of the actual FG multiplie
 | 75% output trial | 2880×1620, 12.60–13.55 ms and matching 5x samples | Tester still found it too slow |
 | 50% output trial | 1920×1080, later 6.20–6.32 ms | Tester called responsiveness acceptable; separate FG-off capture provides no new multiplier evidence |
 | NVIDIA runtime internals | Offline fatbin/ELF and native parameter analysis | Ada objects exist; ordinary internal ScalingRatio is overwritten; no proven faster runtime installed |
-| Live scale controls | Existing menu commits resolution on slider release | 25% and F7 menu remap prepared for a keyboard without Insert; game trial pending |
+| Live scale controls | Existing menu commits resolution on slider release | 25% and F7 remap installed; 960×540 model confirmed, about 3.15–3.76 ms total NR; F7 attachment not yet user-confirmed |
+| Separate benchmark app | NVIDIA DLSS Sample v310.9.1 with the same NR stack; game closed | Full 1920×1080 model, approximately 6.1 ms; mask/preset/style trials gave no meaningful speedup; intermittent device loss investigated offline |
 
 ## Where the work lives
 
@@ -41,6 +42,7 @@ counter or visible menu was never sufficient evidence of the actual FG multiplie
 | Neural profile, optional install/disable/scale/restore | `neural/OptiScaler.ini`, `wuwa_mfg/neural.py`, `wuwa_mfg/neural_cli.py` |
 | Crash diagnosis, proof and limits | [Crash investigation](neural-crashes.md) |
 | NVIDIA model-runtime performance investigation | [Runtime findings](nvidia-runtime-investigation.md) |
+| Separate lightweight test application and rejected harness trial | [Demo benchmark](neural-demo-benchmark.md) |
 | Reproduction/tests | `tests/` and regression sources inside the OptiScaler patch |
 | Attribution/licensing | `THIRD_PARTY_NOTICES.md`, `licenses/` |
 

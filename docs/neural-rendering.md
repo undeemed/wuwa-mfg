@@ -153,8 +153,12 @@ to use **F7** after one restart. **F8** remains the neural on/off toggle. This k
 remap needs no new DLL or input hook. Menu attachment still needs to work in the
 game; merely changing the key does not fix a failed overlay attachment.
 
-The tester next requested 25% (960 × 540 at 4K); that trial is pending. The public
-profile continues to start NR disabled. The separate
+At 25% (960 × 540 at 4K), the runtime created the expected model and recent GPU
+intervals were about **3.15–3.76 ms total**, including **2.62–3.01 ms model time**.
+These are observations rather than a controlled A/B benchmark. They do not show
+that a 1920 × 1080 model runs in 3 ms. The
+[separate demo experiment](neural-demo-benchmark.md) targets that larger extent.
+The public profile continues to start NR disabled. The separate
 [NVIDIA-runtime investigation](nvidia-runtime-investigation.md) records the
 embedded Ada kernels, overwritten internal scale parameter and FP4 limitations.
 

@@ -1,0 +1,674 @@
+{
+  "application": "NVIDIA NGX DLSS Sample v310.9.1, D3D12 Sponza",
+  "output_and_model": [
+    1920,
+    1080
+  ],
+  "render_input": [
+    960,
+    540
+  ],
+  "game_running": false,
+  "physical_gpu": "RTX 4070 Ti 12 GB",
+  "driver": "616.92",
+  "runtime_sha256": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927",
+  "sampling": "Sparse existing OptiScaler GPU intervals; records first observed after 15 seconds retained, with five-second polling (approximate warmup).",
+  "visual_equivalence_checked": false,
+  "proven_1080p_3ms_optimization": false,
+  "trials": [
+    {
+      "label": "baseline-60fps",
+      "warmup_seconds": 15,
+      "model_1920x1080_confirmed": true,
+      "retained_count": 8,
+      "summary": {
+        "total_ms": {
+          "median": 6.52,
+          "min": 6.0,
+          "max": 6.87
+        },
+        "model_ms": {
+          "median": 6.3149999999999995,
+          "min": 5.8,
+          "max": 6.67
+        },
+        "surrounding_ms": {
+          "median": 0.2,
+          "min": 0.2,
+          "max": 0.21
+        }
+      },
+      "exit_code_before_cleanup": null,
+      "hidden_launch_requested": null,
+      "settings": {
+        "mask": "true",
+        "preset": 0,
+        "style": 1,
+        "seconds": 90,
+        "restore_state": false,
+        "fps": 60
+      },
+      "test_executable_sha256": "d28d05c82fc776189c6049649f67b34b1ed2b48f76b2dcfac4fc3c3c4366af35",
+      "gpu_intervals_ms": [
+        {
+          "observed_at_s": 15.1,
+          "total_ms": 6.0,
+          "model_ms": 5.8,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 25.2,
+          "total_ms": 6.53,
+          "model_ms": 6.33,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 35.3,
+          "total_ms": 6.82,
+          "model_ms": 6.61,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 45.4,
+          "total_ms": 6.87,
+          "model_ms": 6.67,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 55.5,
+          "total_ms": 6.51,
+          "model_ms": 6.31,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 65.6,
+          "total_ms": 6.53,
+          "model_ms": 6.32,
+          "surrounding_ms": 0.21
+        },
+        {
+          "observed_at_s": 75.7,
+          "total_ms": 6.11,
+          "model_ms": 5.91,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 85.8,
+          "total_ms": 6.5,
+          "model_ms": 6.3,
+          "surrounding_ms": 0.2
+        }
+      ]
+    },
+    {
+      "label": "baseline-a",
+      "warmup_seconds": 15,
+      "model_1920x1080_confirmed": true,
+      "retained_count": 8,
+      "summary": {
+        "total_ms": {
+          "median": 6.105,
+          "min": 5.81,
+          "max": 6.58
+        },
+        "model_ms": {
+          "median": 5.88,
+          "min": 5.6,
+          "max": 6.37
+        },
+        "surrounding_ms": {
+          "median": 0.2,
+          "min": 0.2,
+          "max": 0.51
+        }
+      },
+      "exit_code_before_cleanup": null,
+      "hidden_launch_requested": null,
+      "settings": {
+        "mask": "true",
+        "preset": 0,
+        "style": 1,
+        "seconds": 45
+      },
+      "test_executable_sha256": null,
+      "gpu_intervals_ms": [
+        {
+          "observed_at_s": 10.0,
+          "total_ms": 6.06,
+          "model_ms": 5.86,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 15.1,
+          "total_ms": 6.09,
+          "model_ms": 5.88,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 20.1,
+          "total_ms": 6.12,
+          "model_ms": 5.61,
+          "surrounding_ms": 0.51
+        },
+        {
+          "observed_at_s": 25.2,
+          "total_ms": 6.07,
+          "model_ms": 5.87,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 30.2,
+          "total_ms": 6.58,
+          "model_ms": 6.37,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 30.2,
+          "total_ms": 6.08,
+          "model_ms": 5.88,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 35.3,
+          "total_ms": 6.36,
+          "model_ms": 6.16,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 40.3,
+          "total_ms": 5.81,
+          "model_ms": 5.6,
+          "surrounding_ms": 0.21
+        },
+        {
+          "observed_at_s": 45.4,
+          "total_ms": 6.37,
+          "model_ms": 5.89,
+          "surrounding_ms": 0.48
+        }
+      ]
+    },
+    {
+      "label": "hidden-check",
+      "warmup_seconds": 15,
+      "model_1920x1080_confirmed": true,
+      "retained_count": 3,
+      "summary": {
+        "total_ms": {
+          "median": 6.41,
+          "min": 6.12,
+          "max": 6.44
+        },
+        "model_ms": {
+          "median": 6.21,
+          "min": 5.92,
+          "max": 6.24
+        },
+        "surrounding_ms": {
+          "median": 0.2,
+          "min": 0.2,
+          "max": 0.2
+        }
+      },
+      "exit_code_before_cleanup": null,
+      "hidden_launch_requested": true,
+      "settings": {
+        "mask": "true",
+        "preset": 0,
+        "style": 1,
+        "seconds": 35,
+        "restore_state": false,
+        "fps": 60
+      },
+      "test_executable_sha256": "d28d05c82fc776189c6049649f67b34b1ed2b48f76b2dcfac4fc3c3c4366af35",
+      "visibility_result": "Startup flag overridden; tester reported the demo still opened in front.",
+      "gpu_intervals_ms": [
+        {
+          "observed_at_s": 15.1,
+          "total_ms": 6.12,
+          "model_ms": 5.92,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 25.2,
+          "total_ms": 6.41,
+          "model_ms": 6.21,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 35.3,
+          "total_ms": 6.44,
+          "model_ms": 6.24,
+          "surrounding_ms": 0.2
+        }
+      ]
+    },
+    {
+      "label": "hidden-executable",
+      "warmup_seconds": 15,
+      "model_1920x1080_confirmed": true,
+      "retained_count": 3,
+      "summary": {
+        "total_ms": {
+          "median": 6.44,
+          "min": 6.37,
+          "max": 7.04
+        },
+        "model_ms": {
+          "median": 6.23,
+          "min": 5.82,
+          "max": 6.49
+        },
+        "surrounding_ms": {
+          "median": 0.55,
+          "min": 0.2,
+          "max": 0.55
+        }
+      },
+      "exit_code_before_cleanup": null,
+      "hidden_launch_requested": true,
+      "settings": {
+        "mask": "true",
+        "preset": 0,
+        "style": 1,
+        "seconds": 35,
+        "restore_state": false,
+        "fps": 60
+      },
+      "test_executable_sha256": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+      "visibility_result": "MainWindowHandle=0 while fresh NR timings were recorded; glfwShowWindow disabled in test executable.",
+      "gpu_intervals_ms": [
+        {
+          "observed_at_s": 15.1,
+          "total_ms": 7.04,
+          "model_ms": 6.49,
+          "surrounding_ms": 0.55
+        },
+        {
+          "observed_at_s": 25.2,
+          "total_ms": 6.44,
+          "model_ms": 6.23,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 35.4,
+          "total_ms": 6.37,
+          "model_ms": 5.82,
+          "surrounding_ms": 0.55
+        }
+      ]
+    },
+    {
+      "label": "no-mask-a",
+      "warmup_seconds": 15,
+      "model_1920x1080_confirmed": true,
+      "retained_count": 5,
+      "summary": {
+        "total_ms": {
+          "median": 6.1,
+          "min": 6.07,
+          "max": 6.11
+        },
+        "model_ms": {
+          "median": 5.9,
+          "min": 5.88,
+          "max": 5.91
+        },
+        "surrounding_ms": {
+          "median": 0.2,
+          "min": 0.2,
+          "max": 0.2
+        }
+      },
+      "exit_code_before_cleanup": 2147483651,
+      "hidden_launch_requested": null,
+      "settings": {
+        "mask": "false",
+        "preset": 0,
+        "style": 1,
+        "seconds": 45
+      },
+      "test_executable_sha256": null,
+      "gpu_intervals_ms": [
+        {
+          "observed_at_s": 10.1,
+          "total_ms": 6.07,
+          "model_ms": 5.87,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 15.1,
+          "total_ms": 6.07,
+          "model_ms": 5.88,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 20.1,
+          "total_ms": 6.1,
+          "model_ms": 5.9,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 25.2,
+          "total_ms": 6.09,
+          "model_ms": 5.88,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 30.5,
+          "total_ms": 6.11,
+          "model_ms": 5.91,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 30.5,
+          "total_ms": 6.11,
+          "model_ms": 5.91,
+          "surrounding_ms": 0.2
+        }
+      ]
+    },
+    {
+      "label": "preset-one",
+      "warmup_seconds": 15,
+      "model_1920x1080_confirmed": true,
+      "retained_count": 6,
+      "summary": {
+        "total_ms": {
+          "median": 6.09,
+          "min": 5.8,
+          "max": 6.66
+        },
+        "model_ms": {
+          "median": 5.745,
+          "min": 5.59,
+          "max": 6.18
+        },
+        "surrounding_ms": {
+          "median": 0.20500000000000002,
+          "min": 0.2,
+          "max": 0.51
+        }
+      },
+      "exit_code_before_cleanup": 2147483651,
+      "hidden_launch_requested": null,
+      "settings": {
+        "mask": "true",
+        "preset": 1,
+        "style": 1,
+        "seconds": 45
+      },
+      "test_executable_sha256": null,
+      "gpu_intervals_ms": [
+        {
+          "observed_at_s": 10.0,
+          "total_ms": 6.07,
+          "model_ms": 5.87,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 15.1,
+          "total_ms": 6.66,
+          "model_ms": 6.18,
+          "surrounding_ms": 0.48
+        },
+        {
+          "observed_at_s": 20.1,
+          "total_ms": 6.14,
+          "model_ms": 5.62,
+          "surrounding_ms": 0.51
+        },
+        {
+          "observed_at_s": 25.2,
+          "total_ms": 6.07,
+          "model_ms": 5.87,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 30.2,
+          "total_ms": 6.11,
+          "model_ms": 5.9,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 30.2,
+          "total_ms": 5.8,
+          "model_ms": 5.6,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 35.3,
+          "total_ms": 5.8,
+          "model_ms": 5.59,
+          "surrounding_ms": 0.21
+        }
+      ]
+    },
+    {
+      "label": "published-runner-check",
+      "warmup_seconds": 15,
+      "model_1920x1080_confirmed": true,
+      "retained_count": 1,
+      "summary": {
+        "total_ms": {
+          "median": 5.96,
+          "min": 5.96,
+          "max": 5.96
+        },
+        "model_ms": {
+          "median": 5.76,
+          "min": 5.76,
+          "max": 5.76
+        },
+        "surrounding_ms": {
+          "median": 0.2,
+          "min": 0.2,
+          "max": 0.2
+        }
+      },
+      "exit_code_before_cleanup": null,
+      "hidden_launch_requested": true,
+      "settings": {
+        "mask": "true",
+        "preset": 0,
+        "style": 1,
+        "seconds": 20,
+        "restore_state": false,
+        "fps": 60
+      },
+      "test_executable_sha256": "d28d05c82fc776189c6049649f67b34b1ed2b48f76b2dcfac4fc3c3c4366af35",
+      "gpu_intervals_ms": [
+        {
+          "observed_at_s": 15.1,
+          "total_ms": 5.96,
+          "model_ms": 5.76,
+          "surrounding_ms": 0.2
+        }
+      ]
+    },
+    {
+      "label": "restore-state",
+      "warmup_seconds": 15,
+      "model_1920x1080_confirmed": true,
+      "retained_count": 9,
+      "summary": {
+        "total_ms": {
+          "median": 6.6,
+          "min": 6.19,
+          "max": 7.08
+        },
+        "model_ms": {
+          "median": 6.26,
+          "min": 5.93,
+          "max": 6.87
+        },
+        "surrounding_ms": {
+          "median": 0.2,
+          "min": 0.2,
+          "max": 0.67
+        }
+      },
+      "exit_code_before_cleanup": null,
+      "hidden_launch_requested": null,
+      "settings": {
+        "mask": "true",
+        "preset": 0,
+        "style": 1,
+        "seconds": 60,
+        "restore_state": true,
+        "fps": 0
+      },
+      "test_executable_sha256": null,
+      "gpu_intervals_ms": [
+        {
+          "observed_at_s": 10.0,
+          "total_ms": 6.08,
+          "model_ms": 5.6,
+          "surrounding_ms": 0.47
+        },
+        {
+          "observed_at_s": 15.1,
+          "total_ms": 6.47,
+          "model_ms": 6.26,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 20.1,
+          "total_ms": 6.19,
+          "model_ms": 5.99,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 25.2,
+          "total_ms": 6.6,
+          "model_ms": 5.93,
+          "surrounding_ms": 0.67
+        },
+        {
+          "observed_at_s": 30.2,
+          "total_ms": 6.21,
+          "model_ms": 6.0,
+          "surrounding_ms": 0.21
+        },
+        {
+          "observed_at_s": 35.3,
+          "total_ms": 6.78,
+          "model_ms": 6.58,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 40.4,
+          "total_ms": 6.68,
+          "model_ms": 6.48,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 45.4,
+          "total_ms": 6.67,
+          "model_ms": 6.47,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 50.5,
+          "total_ms": 6.39,
+          "model_ms": 6.19,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 55.5,
+          "total_ms": 7.08,
+          "model_ms": 6.87,
+          "surrounding_ms": 0.21
+        }
+      ]
+    },
+    {
+      "label": "standard-style",
+      "warmup_seconds": 15,
+      "model_1920x1080_confirmed": true,
+      "retained_count": 8,
+      "summary": {
+        "total_ms": {
+          "median": 6.05,
+          "min": 5.68,
+          "max": 6.99
+        },
+        "model_ms": {
+          "median": 5.845,
+          "min": 5.48,
+          "max": 6.79
+        },
+        "surrounding_ms": {
+          "median": 0.2,
+          "min": 0.19,
+          "max": 0.2
+        }
+      },
+      "exit_code_before_cleanup": null,
+      "hidden_launch_requested": null,
+      "settings": {
+        "mask": "true",
+        "preset": 0,
+        "style": 0,
+        "seconds": 45
+      },
+      "test_executable_sha256": null,
+      "gpu_intervals_ms": [
+        {
+          "observed_at_s": 10.1,
+          "total_ms": 6.04,
+          "model_ms": 5.83,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 15.1,
+          "total_ms": 6.99,
+          "model_ms": 6.79,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 20.2,
+          "total_ms": 5.98,
+          "model_ms": 5.78,
+          "surrounding_ms": 0.19
+        },
+        {
+          "observed_at_s": 25.2,
+          "total_ms": 6.06,
+          "model_ms": 5.85,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 25.2,
+          "total_ms": 5.68,
+          "model_ms": 5.48,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 30.2,
+          "total_ms": 6.04,
+          "model_ms": 5.84,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 35.3,
+          "total_ms": 6.44,
+          "model_ms": 6.24,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 40.3,
+          "total_ms": 6.03,
+          "model_ms": 5.83,
+          "surrounding_ms": 0.2
+        },
+        {
+          "observed_at_s": 45.4,
+          "total_ms": 6.53,
+          "model_ms": 6.33,
+          "surrounding_ms": 0.2
+        }
+      ]
+    }
+  ]
+}

@@ -144,5 +144,24 @@
     "active_kernel_dispatch_profiled": false,
     "runtime_binary_modified": false,
     "proven_runtime_speedup": false
+  },
+  "output_25_percent_observation": {
+    "model_dimensions": [
+      960,
+      540
+    ],
+    "output_scale": 0.25,
+    "pre_sr_passes": 1,
+    "recent_total_nr_ms_range": [
+      3.15,
+      3.76
+    ],
+    "recent_model_ms_range": [
+      2.62,
+      3.01
+    ],
+    "menu_key": "F7",
+    "menu_attachment_user_confirmed": false,
+    "notes": "Uncontrolled gameplay GPU intervals, not a 1920x1080-at-3-ms result. No new multiplier claim."
   }
 }
