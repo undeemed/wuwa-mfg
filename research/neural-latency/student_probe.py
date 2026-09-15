@@ -122,11 +122,16 @@ def main():
     p.add_argument('--initial-lr',type=float,default=.002)
     p.add_argument('--final-lr',type=float,default=.00002)
     p.add_argument('--initialize-from',type=Path,help='Private matching student run; load weights only and start a fresh optimizer.')
+    p.add_argument('--feature-targets',type=Path,help='Private native decoder hints used only during training.')
+    p.add_argument('--feature-weight',type=float,default=.01)
     a=p.parse_args()
     if not 1<=a.steps<=10000 or not 1<=a.max_seconds<=600:
         raise SystemExit('Use a bounded training run.')
     if not all(math.isfinite(v) for v in (a.initial_lr,a.final_lr)) or not 0<a.final_lr<=a.initial_lr<=.002:
         raise SystemExit('Require finite learning rates with 0 < final <= initial <= .002.')
+    if a.feature_targets and (a.architecture!='hierarchical' or not a.whole_frame or not a.output_grade_contract
+                             or not math.isfinite(a.feature_weight) or not 0<a.feature_weight<=1):
+        raise SystemExit('Feature hints require the graded whole-frame hierarchical model and a finite weight in (0,1].')
     if a.width not in (16,32,48,64) or not 1<=a.blocks<=8:
         raise SystemExit('Architecture exceeds the prototype bounds.')
     dilations=list(map(int,a.dilations.split(','))) if a.dilations else [1]*a.blocks
@@ -291,6 +296,13 @@ def main():
             'origin_checkpoint_sha256':hashlib.sha256((a.initialize_from/'student-private.pt').read_bytes()).hexdigest(),
             'origin_completed_steps':origin['completed_steps'],'origin_training_view_count':len(origin_hashes),
             'fresh_optimizer':True,'origin_validation_overlap':False}
+    hint=None
+    if a.feature_targets:
+        from feature_hint import FeatureHints
+        hint=FeatureHints(a.feature_targets,model.network,meta['controls'],training_hashes,
+                         [validation_hashes]+[hashes for _,hashes in extra_validation])
+        optimizer.add_param_group({'params':hint.projector.parameters()})
+        report['feature_supervision']={**hint.info,'weight':a.feature_weight}
     with torch.no_grad():
         error=(validation['color'].clamp(0,1)-validation['output']).abs() if validation else (source.clamp(0,1)-target).abs()[:,:,:,holdout_start:]
         report['identity_holdout_mae']=float(error.mean())
@@ -303,7 +315,8 @@ def main():
     for step in range(a.steps):
         crops=[];labels=[]
         for _ in range(batch):
-            train_source,train_target,right=training_views[int(rng.integers(len(training_views)))]
+            selected_index=int(rng.integers(len(training_views)))
+            train_source,train_target,right=training_views[selected_index]
             if a.whole_frame:
                 crops.append(train_source);labels.append(train_target)
             else:
@@ -326,15 +339,23 @@ def main():
         detail=((predicted[:,:,:,1:]-predicted[:,:,:,:-1])-(y[:,:,:,1:]-y[:,:,:,:-1])).abs().mean()
         detail=detail+((predicted[:,:,1:,:]-predicted[:,:,:-1,:])-(y[:,:,1:,:]-y[:,:,:-1,:])).abs().mean()
         loss=pixel+0.25*detail
+        feature_loss=hint.loss(training_hashes[selected_index]['color']) if hint is not None else None
+        if feature_loss is not None:loss=loss+a.feature_weight*feature_loss
         loss.backward();optimizer.step()
         if step%100==0 or step+1==a.steps:
             sample={'step':step+1,'loss':float(loss),'pixel_mae':float(pixel),'seconds':time.perf_counter()-started}
+            if hint is not None:sample['feature_mse']=float(feature_loss) if feature_loss is not None else None
             report['training'].append(sample);print(json.dumps(sample),flush=True)
         if time.perf_counter()-started>=a.max_seconds:
             break
     report['completed_steps']=step+1
     torch.cuda.synchronize()
     report['training_seconds']=time.perf_counter()-started
+    if hint is not None:
+        pairs=[(view[0],hashes) for view,hashes in zip(training_views,training_hashes)]
+        pairs += [(validation['input'],validation_hashes)]+[(pair['input'],hashes) for pair,hashes in extra_validation]
+        report['feature_supervision']['final_feature_metrics']=hint.evaluate(model,pairs)
+        hint.close(a.output)
     # Private derivative checkpoint; publication includes source and metrics only.
     torch.save({'architecture':report['architecture'],'state_dict':model.cpu().state_dict()},a.output/'student-private.pt')
     inference=copy.deepcopy(model).cuda().half().eval().to(memory_format=torch.channels_last)

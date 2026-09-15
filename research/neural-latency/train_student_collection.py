@@ -35,6 +35,8 @@ def main():
     parser.add_argument('--initial-lr', type=float, default=.002)
     parser.add_argument('--final-lr', type=float, default=.00002)
     parser.add_argument('--initialize-from', type=Path, help='Optional private matching student run for weights-only initialization.')
+    parser.add_argument('--feature-targets', type=Path, help='Optional private native feature target manifest.')
+    parser.add_argument('--feature-weight', type=float, default=.01)
     args = parser.parse_args()
     repo = Path(__file__).resolve().parents[2]
     if args.output.resolve().is_relative_to(repo) or args.output.exists():
@@ -96,6 +98,8 @@ def main():
     command.extend(['--initial-lr', str(args.initial_lr), '--final-lr', str(args.final_lr)])
     if args.initialize_from:
         command.extend(['--initialize-from', str(args.initialize_from)])
+    if args.feature_targets:
+        command.extend(['--feature-targets', str(args.feature_targets), '--feature-weight', str(args.feature_weight)])
     if args.photo_collection:
         command.extend(['--data-description', 'One Sponza scene plus four training photo identities; three different photo identities stay in validation at two emissions. First-reset frames only, not representative game or temporal validation.'])
     print(json.dumps({'architecture': args.architecture, 'width': args.width, 'training_views': len(train),

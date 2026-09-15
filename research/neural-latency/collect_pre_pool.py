@@ -29,6 +29,7 @@ def main():
     parser.add_argument('--capture-dll', type=Path, required=True)
     parser.add_argument('--capture-sha256', required=True)
     parser.add_argument('--prefix')
+    parser.add_argument('--single-view', action='store_true', help='Capture only the current configured scene/camera; useful for a private image scene.')
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument('--stem', action='store_true', help='Capture the complete skip and pooled output together.')
     mode.add_argument('--post-inputs', action='store_true', help='Capture bounded input prefixes after the final neural block; requires the post-inputs add-on patch.')
@@ -63,13 +64,16 @@ def main():
                  'nr-post-inputs-capture.enable', 'nr-post-inputs-capture'):
         if (demo / name).exists():
             raise FileExistsError('Archive or disable previous experiment: ' + name)
-    views = [('original', None), ('west', [-1, 1.8, 0])]
+    if list(demo.glob('nr-*.enable')):
+        raise FileExistsError('Other active neural research markers are present.')
+    views = [('original', None)] if args.single_view else [('original', None), ('west', [-1, 1.8, 0])]
     for name, _ in views:
         if (output / 'trials' / (args.prefix + '-' + name)).exists():
             raise FileExistsError('Use a fresh trial prefix.')
     scene = demo.parent.parent / 'media' / 'sponza.json'
     original_scene, original_dll = scene.read_bytes(), (demo / 'dxgi.dll').read_bytes()
-    camera_scene(original_scene, [0, 1.8, 0], views[1][1])
+    if not args.single_view:
+        camera_scene(original_scene, [0, 1.8, 0], views[1][1])
     manifest_path = output / (args.prefix + '-manifest.json')
     if manifest_path.exists():
         raise FileExistsError(manifest_path)

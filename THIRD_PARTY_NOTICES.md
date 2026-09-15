@@ -144,6 +144,15 @@ The numerical evidence retains these sources, author credits, transformation
 description, original dimensions and file hashes. Photo terms are separate
 from the licenses on this repository's research code.
 
+The native-feature capture wrapper is original MIT code; the target preparation,
+oracle audit, auxiliary projection and associated tests are original Apache-2.0
+research code. They use the previously documented private reference and captures.
+No native weights, activation arrays, reconstructed images or vendor code are
+distributed. [FitNets](https://arxiv.org/abs/1412.6550) and
+[LIT](https://arxiv.org/abs/1810.01937) are credited as research sources; their
+implementations are not copied, and the joint auxiliary experiment does not
+implement either full method.
+
 The later decoder upsampling/skip-add kernel, execution diagnostics and training
 initialization controls are original Apache-2.0 research code. The collection
 wrapper retains its MIT license. They use separately installed PyTorch/CUDA

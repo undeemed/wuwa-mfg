@@ -1755,3 +1755,88 @@ experiments including the rounding investigation, source hashes and preserved
 runtime files. No sample or game launch was needed. Native latency remains
 about **5.4 ms**; image quality and application integration still prevent the
 **3 ms with no quality loss** objective from being considered achieved.
+
+## Native intermediate feature supervision
+
+Matching final RGB alone still leaves a quality gap. This experiment adds a
+training loss against captured native decoder features, using a learned 1×1
+projection from the small model's last decoder. The idea of intermediate hints
+and a projection between differently sized representations comes from
+[FitNets](https://arxiv.org/abs/1412.6550). This is a joint auxiliary-loss
+experiment, not its full training procedure; classification results do not prove
+renderer fidelity. [LIT](https://arxiv.org/abs/1810.01937) is a related research
+direction, but its block training method is not implemented here.
+
+Seven photo feature captures reuse the already selected private image scenes.
+Every captured RGB input **and** native output matches the earlier photo pair
+byte-for-byte. All seven launches use the existing sample, the exact hidden
+executable hash and an inactive private desktop. The original scene, runtime
+DLL and INI are restored after each capture. Nothing is launched in WuWa.
+
+Before fitting, the captured decoder and skip features are used to replay only
+the reconstructed final block. Across the two earlier views and seven photos,
+RGB MAE against native output ranges from **0.000131 to 0.000363**. Both earlier
+replay outputs reproduce exactly. This supports using the decoded features as
+training targets, but does not prove their layout or arithmetic matches native
+execution exactly. This diagnostic requires native activations and is **not**
+an independent replacement or a speedup result.
+
+The private target preparation crops valid decoder rows to 540×960×32 and
+averages 2×2 cells into 270×480×32 auxiliary targets. Channel normalization is
+fitted on six training images only: the two earlier views and four training
+photos. Three different photo identities provide validation hints. Both RGB
+hashes must match the current training or validation split. The original full
+1920×1080 RGB inputs and output targets are unchanged; pooling applies only to
+the auxiliary features.
+
+The width-16 model uses the same 34 RGB training images, twelve validation
+images, seed, 4,500 steps and learning-rate schedule as the mixed-data baseline.
+Its loss adds **0.01 × normalized feature MSE** when the sampled training image
+has a feature target. A zero-initialized 544-parameter projection is trained
+alongside the model, then removed from inference and saved separately in the
+private lab. Only six of the 34 training images have these hints.
+
+| Training | Six scene validation views, mean RGB MAE | Six photo validation cases, mean RGB MAE |
+| --- | ---: | ---: |
+| Original 30-frame baseline | 0.023124 | 0.041400 |
+| Mixed 34-frame RGB baseline | 0.028038 | 0.027289 |
+| Mixed data with native feature hints | **0.024409** | **0.031071** |
+| Earlier warm-start control | 0.023212 | 0.035708 |
+
+Relative to the mixed RGB baseline, hints lower mean scene error by **12.94%**
+but increase mean photo error by **13.86%**. Five of six scene cases improve;
+three of six photo cases improve and three worsen. Mean training RGB error
+falls from 0.028178 to 0.022573. Final normalized feature MSE is 0.4992 on the
+six training targets and 0.5120 on the three validation targets. Better feature
+fit does not establish preserved output quality, and this one loss weight does
+not establish the limits of intermediate supervision.
+
+The inference model still has 223,440 parameters. Its complete 1080p Torch
+network and grading graph measures **1.241 ms median**, with thirty samples and
+exact agreement with eager execution. It loads without the auxiliary head or
+native feature files. All 42 available prior validation outputs reproduce
+exactly in the four-model comparison. This excludes application integration;
+native latency remains about **5.4 ms**, and the full quality goal is unmet.
+
+`test_feature_hint.py` confirms the auxiliary gradient reaches the student,
+rejects all three validation targets from the training loss, checks that targets
+are constants, and verifies bit-identical RGB before/after hook removal and a
+strict inference checkpoint reload. These are implementation checks, not a
+perceptual or temporal quality pass.
+
+```text
+collect_feature_image.py --demo-dir <existing-hidden-demo> --base <private-trials-root> --scene-dir <private-image-scene> --capture-dll <checked-private-build> --capture-sha256 <expected-hash> --prefix <fresh-label>
+audit_feature_teacher.py --source <pinned-private-reference> --weights <private-weights> --case <label> <private-trial> [--case <label> <another-trial>] --output <fresh-private-directory>
+prepare_feature_targets.py --case <label> train <private-trial> --case <label> validation <another-trial> --output <fresh-private-directory>
+```
+
+Add `--feature-targets <private-target-manifest> --feature-weight 0.01` to the
+existing collection training command to enable hints. They are disabled by
+default. `collect_pre_pool.py --single-view` supports the prepared photo scene;
+its default two-view collection remains unchanged.
+
+[Source provenance and complete numerical evidence](../../evidence/neural-model-research/native-feature-hints.json)
+retain capture checks, both oracle audits, normalization statistics, the training
+run, validation regressions and source tests. Weights, raw features and images
+remain private. All data are first-reset static frames from the sample; this
+does not validate temporal stability or game integration.

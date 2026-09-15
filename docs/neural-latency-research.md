@@ -886,6 +886,16 @@ include D3D12 integration. The full goal remains unmet.
 
 ## Papers and what can transfer
 
+The latest [native feature supervision experiment](../research/neural-latency/README.md#native-intermediate-feature-supervision)
+adds training-only targets from the native decoder. Against the mixed RGB
+baseline, it reduces mean scene validation error by 12.94% but increases photo
+error by 13.86%. The inference model stays near 1.24 ms in a complete Torch
+graph; its extra training projection is removed. It still fails native quality.
+The [numeric evidence](../evidence/neural-model-research/native-feature-hints.json)
+includes all regressions, capture checks and split/gradient/inference tests.
+Seven new sample captures ran on an inactive private desktop and restored the
+original files. WuWa and the normal runtime remain unchanged.
+
 These papers provide research ideas. Their reported speedups are on other models
 and hardware; none establishes the target for this runtime.
 
@@ -895,6 +905,8 @@ and hardware; none establishes the target for this runtime.
 | [SageAttention2++](https://arxiv.org/html/2505.21136v3) | Use faster FP8 matrix instructions with FP16 accumulators and manage numerical range. | The inspected native code already uses this instruction family. The paper supports investigating accumulation and data movement, but its speedup over another attention implementation cannot be applied to this renderer. Our direct-MMA result improves a numerical reference, not native latency. |
 | [SmoothQuant](https://proceedings.mlr.press/v202/xiao23c/xiao23c.pdf) | Calibrate activation/weight scaling before lower-precision execution. | This runtime already invokes FP8-named kernels. LLM INT8 results do not imply a further lossless gain, and calibration must include renderer activations and controls. |
 | [Knowledge distillation](https://arxiv.org/abs/1503.02531) | Train a smaller student against the larger model's behavior. | A renderer needs matched pixels, detail and temporal consistency, not just matching classification probabilities. A trustworthy teacher and held-out sequences are prerequisites. |
+| [FitNets](https://arxiv.org/abs/1412.6550) | Use intermediate teacher features and a learned projection to guide a smaller student. | Our joint auxiliary loss improves scene errors but worsens photo errors. It does not implement the full FitNets procedure or establish renderer quality from classification results. |
+| [LIT](https://arxiv.org/abs/1810.01937) | Train shallower blocks with intermediate teacher inputs and targets. | This may avoid unstable student inputs during block training, but it is not implemented here. A deployable replacement must run without captured native activations. |
 | [Experience Replay for Continual Learning](https://arxiv.org/abs/1811.11682) | Retain prior examples when adapting a model to new data. | Its reinforcement-learning results do not establish pixel fidelity. Our warm-start experiment retains old native targets, but still trades photo accuracy against scene accuracy; it is not an implementation of CLEAR. |
 | [The Unreasonable Ineffectiveness of the Deeper Layers](https://arxiv.org/abs/2403.17887) | Rank layer-removal sensitivity, then fine-tune to repair changes. | Its LLM question-answering results do not establish pixel fidelity. Our 59-block sweep found no single removal improving both native-view errors; the first fitted feature projection also failed native quality. |
 | [EfficientViT](https://openaccess.thecvf.com/content/ICCV2023/papers/Cai_EfficientViT_Lightweight_Multi-Scale_Attention_for_High-Resolution_Dense_Prediction_ICCV_2023_paper.pdf) | Hardware-friendly multiscale operators for dense, high-resolution prediction. | Replacing attention with linear attention changes the learned function; it is a student architecture to train and validate, not an interchangeable kernel. |
