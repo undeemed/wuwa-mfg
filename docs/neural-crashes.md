@@ -105,20 +105,61 @@ A separate read-only query, `SELECT Version FROM Win32_OperatingSystem`, also
 failed with `Timed out` / `HRESULT 0x40004`. It used a five-second operation timeout
 inside an eight-second process deadline and returned after 6.52 seconds.
 
-Together, the stack and independent timeout identify the current blocker as a
-WMI/COM request that does not return. They do not identify which service/provider
-first caused it. The installed OptiScaler DLL and configuration hashes still
-matched the previously recorded build; the experimental student was not installed.
-[Sanitized evidence](../evidence/neural-wmi-hang.json) records the comparison.
+The installed OptiScaler DLL and configuration hashes still matched the previously
+recorded build; the experimental student was not installed. Follow-up probes
+separated the blocked data provider from working WMI paths: namespace enumeration,
+class metadata and `StdRegProv` answered in 1.23–1.36 seconds, while the OS data
+query timed out again. This was not a complete WMI outage.
 
-Recovery is **pending verification**. The user was asked to save work and restart
-Windows, then repeat the bounded WMI check before launching WuWa. The diagnostic
-session was not elevated, and the running WMI dependencies included Hyper-V
-management. No service was force-stopped. Microsoft documents that
-[stopping WMI also stops dependent services](https://learn.microsoft.com/en-us/windows/win32/wmisdk/starting-and-stopping-the-wmi-service),
-which require attention when restarting it. This investigation changed no game,
-driver, security setting or WMI repository. A successful reboot and fresh game
-session still need to be demonstrated.
+### Provider dump: malformed lock in Windows health accounting
+
+The user requested diagnosis before recovery and approved a read-only elevated
+capture of the WMI service and affected provider host. Offline analysis with
+Microsoft public symbols found **74 of 79 provider threads** waiting for the same
+exclusive SRW lock, `CInterceptor_IWbemSyncProvider::s_ProcessDATALock`, inside
+`WmiPrvSE!CInterceptor_IWbemSyncProvider::PerfSet_Health_Data`. The WMI service had
+75 wait chains ending at the oldest of those provider waiters. A separate nested
+disk-partition query was waiting for WMI results; its presence does not establish
+a disk or USB hardware fault.
+
+The oldest waiter's saved register held the previous lock value
+`0xfffffffffffffff1`. The captured wait list contained all 74 blocked threads,
+and the cached process-data pointer was null. The inspected Windows binary,
+`WmiPrvSE.exe` **10.0.26100.7309**, contains an error-handling path that acquires
+this lock exclusively but releases it using `ReleaseSRWLockShared` after a failed
+process-information refresh. The 729 inspected code bytes matched the on-disk
+binary, whose Microsoft signature was valid.
+
+An [original isolated control](../research/windows-wmi/srw_pairing_control.cpp)
+tested that API pairing on a lock belonging only to the test process:
+
+| Acquire / release | State after release | Nonblocking exclusive reacquisition |
+| --- | --- | --- |
+| Exclusive / exclusive | `0x0000000000000000` | Succeeded |
+| Exclusive / shared, deliberately incorrect | `0xfffffffffffffff1` | Failed |
+
+The malformed state and waiting threads are **confirmed**. The incorrect release
+path is a **strongly supported explanation** for how this provider reached that
+state: the binary contains it, and the isolated control reproduces the exact
+value preserved by the oldest waiter. This control does not reproduce the whole
+WMI failure. The original failing NTSTATUS/allocation event was not retained, so
+the initial trigger and any contribution from other software remain unknown.
+Microsoft documents the matching
+[shared](https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-releasesrwlockshared)
+and [exclusive](https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-releasesrwlockexclusive)
+release APIs. No Windows patch or recovery is included in the control.
+
+[Sanitized evidence](../evidence/neural-wmi-hang.json) records the counts, binary
+identity, probe timings and control results. Dumps, raw logs, disassembly, process
+IDs and private paths remain local.
+
+Recovery is **pending verification**. No service was restarted or force-stopped,
+and no game, driver, persistent security setting or WMI repository was changed.
+The running WMI dependencies included Hyper-V management. Microsoft documents that
+[stopping WMI also stops dependent services](https://learn.microsoft.com/en-us/windows/win32/wmisdk/starting-and-stopping-the-wmi-service).
+After separately authorized recovery, repeat the bounded WMI query before another
+game launch. Clearing the current process state would not by itself establish
+that the underlying Windows error path cannot recur.
 
 ## Practical prevention while testing
 

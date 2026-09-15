@@ -1,27 +1,69 @@
 {
-  "schema": 1,
+  "schema": 2,
   "observed_date": "2026-09-15",
-  "scope": "Two WuWa GameThread hang reports and one independent Windows WMI health query. Recovery has not been verified.",
+  "scope": "Two WuWa hang reports, bounded WMI layer probes, approved WMI-only dumps, offline symbol/binary analysis and an isolated API-pairing control. Recovery not performed.",
   "hang_reports": {
     "count": 2,
     "crash_type": "Hang",
     "thread_name": "GameThread",
     "same_leading_module_offset_sequence": true,
     "stack_leaf_to_caller": [
-      {"module": "win32u", "rva": "0xad04"},
-      {"module": "combase", "rva": "0xa7aa4"},
-      {"module": "combase", "rva": "0xa7761"},
-      {"module": "combase", "rva": "0x37646"},
-      {"module": "combase", "rva": "0xa6a32"},
-      {"module": "combase", "rva": "0xa51aa"},
-      {"module": "combase", "rva": "0x3f863"},
-      {"module": "RPCRT4", "rva": "0x1526"},
-      {"module": "combase", "rva": "0xeb40b"},
-      {"module": "combase", "rva": "0x252472"},
-      {"module": "fastprox", "rva": "0x4cfa"},
-      {"module": "KRSDK", "rva": "0x126b52"},
-      {"module": "KRSDK", "rva": "0x125c8f"},
-      {"module": "KRSDK", "rva": "0xc8667"}
+      {
+        "module": "win32u",
+        "rva": "0xad04"
+      },
+      {
+        "module": "combase",
+        "rva": "0xa7aa4"
+      },
+      {
+        "module": "combase",
+        "rva": "0xa7761"
+      },
+      {
+        "module": "combase",
+        "rva": "0x37646"
+      },
+      {
+        "module": "combase",
+        "rva": "0xa6a32"
+      },
+      {
+        "module": "combase",
+        "rva": "0xa51aa"
+      },
+      {
+        "module": "combase",
+        "rva": "0x3f863"
+      },
+      {
+        "module": "RPCRT4",
+        "rva": "0x1526"
+      },
+      {
+        "module": "combase",
+        "rva": "0xeb40b"
+      },
+      {
+        "module": "combase",
+        "rva": "0x252472"
+      },
+      {
+        "module": "fastprox",
+        "rva": "0x4cfa"
+      },
+      {
+        "module": "KRSDK",
+        "rva": "0x126b52"
+      },
+      {
+        "module": "KRSDK",
+        "rva": "0x125c8f"
+      },
+      {
+        "module": "KRSDK",
+        "rva": "0xc8667"
+      }
     ],
     "subsequent_termination_exception": "0x00004000",
     "gpu_fault_proven_by_these_reports": false
@@ -56,14 +98,97 @@
     "experimental_student_installed": false,
     "game_files_modified": false
   },
-  "conclusion": "The immediate blocking path is a WMI/COM hardware-information request. The initial cause inside Windows/provider infrastructure is not established.",
+  "conclusion": "WuWa waits for WMI hardware information while its Windows provider is stalled on a malformed SRW lock. The stock binary contains a mismatched release error path that reproduces the preserved malformed state in an isolated control. The initial triggering error remains unknown.",
   "recovery": {
-    "status": "Awaiting user-controlled Windows restart and fresh WMI/game checks",
+    "status": "Diagnosis before recovery requested and completed; recovery and fresh WMI/game checks pending.",
     "verified": false,
-    "diagnostic_session_elevated": false,
+    "diagnostic_session_elevated": true,
     "running_wmi_dependency_observed": "vmms",
     "services_force_stopped": false,
-    "wmi_repository_modified": false
+    "wmi_repository_modified": false,
+    "elevation_scope": "Read-only dumps and wait chains of the WMI service and affected provider only.",
+    "game_process_opened_for_diagnostic": false,
+    "services_restarted": false,
+    "windows_restarted": false
   },
-  "private_artifacts_excluded": ["raw crash dumps", "raw logs", "process IDs", "usernames", "absolute addresses", "private paths"]
+  "private_artifacts_excluded": [
+    "raw crash dumps",
+    "raw logs",
+    "process IDs",
+    "usernames",
+    "absolute addresses",
+    "private paths",
+    "proprietary disassembly"
+  ],
+  "layer_probes": [
+    {
+      "name": "namespace_repository",
+      "elapsed_seconds": 1.359,
+      "returned": true,
+      "process_deadline_reached": false
+    },
+    {
+      "name": "class_metadata",
+      "elapsed_seconds": 1.297,
+      "returned": true,
+      "process_deadline_reached": false
+    },
+    {
+      "name": "registry_provider",
+      "elapsed_seconds": 1.234,
+      "returned": true,
+      "process_deadline_reached": false
+    },
+    {
+      "name": "cimwin32_provider",
+      "elapsed_seconds": 6.485,
+      "returned": false,
+      "process_deadline_reached": false
+    }
+  ],
+  "provider_lock_analysis": {
+    "provider_threads": 79,
+    "provider_threads_waiting_same_lock": 74,
+    "service_threads": 133,
+    "service_wait_chains_to_oldest_provider_waiter": 75,
+    "function": "WmiPrvSE!CInterceptor_IWbemSyncProvider::PerfSet_Health_Data",
+    "lock": "CInterceptor_IWbemSyncProvider::s_ProcessDATALock",
+    "wait_stack": [
+      "ntdll!NtWaitForAlertByThreadId",
+      "ntdll!RtlpAcquireSRWLockExclusiveContended",
+      "ntdll!RtlAcquireSRWLockExclusive",
+      "WmiPrvSE!CInterceptor_IWbemSyncProvider::PerfSet_Health_Data+0x15e"
+    ],
+    "oldest_waiter_saved_prior_lock_value": "0xfffffffffffffff1",
+    "oldest_wait_block_shared_count": 4294967295,
+    "cached_process_data_null": true,
+    "code": {
+      "module": "WmiPrvSE.exe",
+      "version": "10.0.26100.7309",
+      "signature": "Valid Microsoft Windows signature",
+      "inspected_bytes": 729,
+      "matches_disk": true,
+      "code_sha256": "3a534162b320c8b34cb4360c3269c49de36bc24eb6179fe3e3a5ec3b5aa8ebfb",
+      "file_sha256": "47c8843760f9f9c1086f844a7b746323d9edd44f453183848812f538635d12df"
+    },
+    "observed_error_path": "Exclusive acquisition followed by shared release after failed process-data refresh; successful refresh uses exclusive release.",
+    "original_failing_ntstatus_known": false,
+    "initial_trigger_known": false,
+    "attribution": "Malformed lock and blocked threads confirmed; mismatched error-path release strongly supported by code inspection, saved register state and isolated control. Original triggering failure not established.",
+    "api_pairing_control": {
+      "scope": "Own-process lock only; nonblocking reacquisition. Not a complete WMI failure reproduction.",
+      "matched": {
+        "release": "matched_exclusive",
+        "raw_after_release": "0x0000000000000000",
+        "try_exclusive": true
+      },
+      "mismatched": {
+        "release": "mismatched_shared",
+        "raw_after_release": "0xfffffffffffffff1",
+        "try_exclusive": false
+      }
+    },
+    "hardware_failure_established": false,
+    "anti_cheat_or_neural_causation_established": false
+  }
 }
