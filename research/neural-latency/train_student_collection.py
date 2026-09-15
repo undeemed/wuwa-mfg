@@ -32,12 +32,15 @@ def main():
     parser.add_argument('--architecture', choices=['hierarchical', 'hierarchical-attention'], required=True)
     parser.add_argument('--width', type=int, choices=[16, 32], default=16)
     parser.add_argument('--photo-collection', type=Path, help='Optional private audited photo extension manifest.')
+    parser.add_argument('--image-collection', type=Path, help='Optional diverse image extension, requiring --photo-collection.')
     parser.add_argument('--initial-lr', type=float, default=.002)
     parser.add_argument('--final-lr', type=float, default=.00002)
     parser.add_argument('--initialize-from', type=Path, help='Optional private matching student run for weights-only initialization.')
     parser.add_argument('--feature-targets', type=Path, help='Optional private native feature target manifest.')
     parser.add_argument('--feature-weight', type=float, default=.01)
     args = parser.parse_args()
+    if args.image_collection and not args.photo_collection:
+        raise ValueError('The image extension requires its preceding photo collection.')
     repo = Path(__file__).resolve().parents[2]
     if args.output.resolve().is_relative_to(repo) or args.output.exists():
         raise ValueError('Use a fresh private output directory outside the repository.')
@@ -87,6 +90,11 @@ def main():
         for row in audited_photos(args.photo_collection, args.base_trials.parent, baseline['controls']):
             path = verify_capture(args.base_trials.parent / (row['label'] + '-state') / 'capture', row['capture_hashes'])
             (train if row['split'] == 'train' else validation).append(path)
+    if args.image_collection:
+        from collect_diverse_images import audited_images
+        for row in audited_images(args.image_collection, args.base_trials.parent, baseline['controls'], args.photo_collection):
+            path = verify_capture(args.base_trials.parent / (row['label'] + '-state') / 'capture', row['capture_hashes'])
+            (train if row['split'] == 'train' else validation).append(path)
     command = [sys.executable, str(Path(__file__).parent / 'student_probe.py'),
                '--capture', str(train[0]), '--validation-capture', str(validation[0])]
     for path in train[1:]: command.extend(['--extra-train-capture', str(path)])
@@ -100,7 +108,9 @@ def main():
         command.extend(['--initialize-from', str(args.initialize_from)])
     if args.feature_targets:
         command.extend(['--feature-targets', str(args.feature_targets), '--feature-weight', str(args.feature_weight)])
-    if args.photo_collection:
+    if args.image_collection:
+        command.extend(['--data-description', 'One Sponza scene plus sixteen training photo identities; seven different photo identities stay in validation, three at two emissions. Image identities and splits were fixed before the new captures and fitting. First-reset static frames only, not representative game or temporal validation.'])
+    elif args.photo_collection:
         command.extend(['--data-description', 'One Sponza scene plus four training photo identities; three different photo identities stay in validation at two emissions. First-reset frames only, not representative game or temporal validation.'])
     print(json.dumps({'architecture': args.architecture, 'width': args.width, 'training_views': len(train),
                       'validation_views': len(validation), 'steps': 4500}), flush=True)

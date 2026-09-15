@@ -40,6 +40,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--base', type=Path, required=True)
     parser.add_argument('--photos', type=Path, required=True)
+    parser.add_argument('--image-collection', type=Path, help='Optional diverse image extension manifest.')
     parser.add_argument('--model', nargs=2, action='append', default=[])
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
@@ -125,6 +126,12 @@ def main():
             cases += [(r['label'], args.base/(r['label']+'-state')/'capture')
                       for r in audited_photos(args.photos, args.base, expected_controls) if r['split']=='validation']
             assert len(cases)==12
+            if args.image_collection:
+                from collect_diverse_images import audited_images
+                cases += [(r['label'], args.base/(r['label']+'-state')/'capture')
+                          for r in audited_images(args.image_collection, args.base, expected_controls, args.photos)
+                          if r['split']=='validation']
+                assert len(cases)==16
             for label, path in cases:
                 control_values, images, hashes = read_capture(path)
                 assert control_values==expected_controls

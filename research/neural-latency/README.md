@@ -1944,3 +1944,84 @@ includes the feature bounds, failed pretraining/generalization results, source
 provenance, kernel tests and all timing samples. No sample or game launch was
 needed, and no game, driver, native model or normal runtime file changed.
 **Native latency remains about 5.4 ms; the 3 ms/no-quality-loss goal remains unmet.**
+
+## Broader image training with a fixed validation split
+
+The earlier student fitted its training images more closely while losing
+accuracy on different photographs. Its training set contained only four photo
+identities. The next experiment adds twelve training sources covering interiors,
+portraits, vegetation, animals, food, landscapes and a night city. Four additional
+identities are reserved for validation before any capture or fitting. The
+[source catalogue](image-collections/diverse-extension.json) pins all sixteen
+files, credits, licenses and crop positions. None overlaps the seven earlier
+photo identities by source hash.
+
+`collect_diverse_images.py prepare` downloads bounded source files, verifies
+their pinned sizes and SHA-1 values, converts them to RGB and fits a 1920×1080
+crop without aspect distortion. It records SHA-256 hashes for the originals,
+prepared textures and generated scene manifests. Requests are paced; an explicit
+`--resume-preparation` revalidates completed files before continuing an interrupted
+preparation. Unrecorded partial artifacts cause an error for inspection.
+
+Collection uses the existing capture build and image-plane helper. Every launch
+checks the exact hidden sample executable and runs on an inactive Windows
+desktop. The original scene, DLL and INI are restored after each bounded trial.
+Four completed, fenced frame captures are checked per image; only the first
+reset frame enters fitting or evaluation. The sample's earlier DLSS processing
+affects the rendered texture before the neural model receives its actual
+1920×1080 input. These are static plane examples, not game or temporal validation.
+
+```text
+collect_diverse_images.py prepare --previous-photos <private-photo-manifest> --output <fresh-private-image-directory>
+collect_diverse_images.py collect --previous-photos <private-photo-manifest> --output <prepared-private-image-directory> --demo-dir <existing-hidden-demo> --base <private-trials-root> --capture-dll <checked-local-capture-dll> --capture-sha256 <expected-sha256>
+```
+
+The existing training and comparison commands accept
+`--image-collection <private-image-directory/manifest.json>` alongside
+`--photo-collection`. This produces **46 training frames and 16 validation
+frames**: all older examples are retained in their original splits. No validation
+pixels enter fitting. The new run keeps width 16, 223,440 parameters, seed 28411,
+4,500 full-frame steps, the original learning-rate schedule and the RGB/detail
+loss. It starts from scratch without feature supervision. The number of training
+steps is held constant, so each image receives fewer exposures on average.
+
+`test_student_output.py` accepts the same image-manifest option alongside
+`--photos`. It rechecks the existing output and decoder fusions on all sixteen
+validation inputs and the supplied checkpoints. This adds coverage; it introduces
+no new kernel or application integration.
+
+All sixteen collections completed: **64 fenced frames and 64 observations on
+inactive desktops**, with normal sample files restored each time. A source-host
+rate limit interrupted preparation after ten downloads; explicit resume checked
+those files and continued the unchanged selection with paced requests. No sample
+launch was retried. Training completed all 4,500 steps in 99.54 seconds.
+
+| Validation group | Earlier 34-frame RGB model | Earlier staged model | New 46-frame RGB model |
+| --- | ---: | ---: | ---: |
+| Six original scene views | 0.028038 | 0.023961 | 0.029773 |
+| Six older photo cases | 0.027289 | 0.033654 | 0.024322 |
+| Four new photo cases | 0.028078 | 0.029687 | 0.021973 |
+
+Values are mean absolute RGB error against native output, lower is better.
+Compared with the earlier RGB model, the new model improves all four new photos
+and four of six older photo cases. Their group means fall **21.74%** and
+**10.87%** respectively. Only two of six scene views improve, and that group's
+mean rises **6.19%**. More data helps photo generalization but does not remove the
+quality tradeoff. The staged comparison model includes 1,500 extra feature
+pretraining steps, so it is not compute-matched to either RGB-only model.
+All forty previously saved validation outputs reproduce exactly.
+
+The existing execution fusions remain bit-exact on all sixteen inputs for each
+of the three checkpoints: **48 complete model/image comparisons** across four
+execution modes. Fourteen operator tests and eight invalid-input guards pass;
+all CUDA Graph outputs match eager execution. Each graph uses thirty timing
+samples. With both fusions, the new model measures **1.060 ms**, compared with
+1.288 ms for its existing graph path in this run. This verifies earlier
+optimizations on the new checkpoint; it is not a new native-runtime speedup.
+The full 1080p student and grade are included, and D3D12 integration is excluded.
+
+[Numerical evidence](../../evidence/neural-model-research/diverse-image-extension.json)
+contains source identities, capture/restoration proofs, split checks, training,
+per-image comparisons and all timing samples. No model is accepted or installed.
+The native runtime and game remain unchanged, and the **3 ms/no-quality-loss
+goal remains unmet**.

@@ -1,0 +1,5842 @@
+{
+  "schema": 1,
+  "experiment": "Diverse native-supervised image extension",
+  "baseline_commit": "71d539b705a4ff614df3a2821f36cc344f93d89b",
+  "target_achieved": false,
+  "quality_gate_passed": false,
+  "native_runtime_accelerated": false,
+  "new_sample_launches": 16,
+  "new_game_launches": 0,
+  "published_source_sha256": {
+    "research/neural-latency/collect_diverse_images.py": "3c2b8161308ecfacb01e6b6a915383ce925de88ee3ce908dd04497e9ab48c557",
+    "research/neural-latency/image-collections/diverse-extension.json": "758adf651b869a0a21fbea3d7287aca88e9516bed2bdd0ff2a01c672fa697aec",
+    "research/neural-latency/collect_demo_image.py": "5c206a1a7da6bbc21fb330a49fecb3f793a31769bf09251c588f5bebbf777931",
+    "research/neural-latency/make_demo_image_scene.py": "ad0538aecd476de5f7a9c039f6d1b6f9df7fd6619b493e67f2967f0179a5060b",
+    "research/neural-latency/collect_demo_views.py": "5a819c68a3a68a9b9eda6dd7596658655b8b19ee6143489529f3edb5b1aae892",
+    "research/neural-latency/collect_demo_photo_training.py": "3081960672239500c8f18abe940ec87642cdefdd6ee8117b457a31cf8d7ed924",
+    "research/neural-latency/evaluate_photo_students.py": "38214065dfdc69e5034f74955450bc32d685209d41c16ad1867999747776c38f",
+    "research/neural-latency/train_student_collection.py": "d6faaa7ced4ea6ea74afff23cb4e9802c075d7ab68d5d09c3fe8589b956b9caf",
+    "research/neural-latency/evaluate_student_collection.py": "c441bd827130e58252524576a76ca9b204576938eaafb78486ee4fac4c71589b",
+    "research/neural-latency/test_student_output.py": "5b46479e9dcaea345523096e1a13ee55bb0a5111759df6c1a7efc36c85040865",
+    "research/neural-latency/student_probe.py": "1d2b6e69de9c2775ae4fe9a0e7be8b83d3d1f86a9ea8b00e73a984360bef51b7",
+    "research/neural-latency/output_grade.py": "a67c613077f46c11d237ad70caa5ce748045bed05f4cddc83158896fff446d88",
+    "research/neural-latency/fused_norm.py": "cf19b4ade6cfe599423cedcc1db81058dcba9f9a353ba44213e4af66e80b53be",
+    "research/neural-latency/fused_norm.cu": "0a7d1d07844f138b77a061f5e2ac6fc9d4fdaa0136a94912f0272335321a78d0",
+    "research/neural-latency/test_output_grade.py": "eba2c892448835f9a86895aeb4c881e41bc2b70c60472ec3734458f4486944d5",
+    "research/neural-latency/compare_output_grade.py": "189ba5fc33f7caebf1a4d265c8bb87f111ad00513dc6f57f2788302777bcab4e",
+    "research/neural-latency/capture-viewsets/translated-training.json": "9316a67afc730adb9ee00478612785698d61da8f5ce25fbba2e60fcb9982be02",
+    "tools/run_neural_demo_trial.py": "89843898caca25b0e9e8d5833efd75bb051e0df803a446778d886fb0bddebc34",
+    "tools/isolated_demo_process.py": "0ac8fc90b6cce4fd9da87fdb77675456a67bb293b306326ba6a3e1101f9c9f6e"
+  },
+  "preserved_state": {
+    "game_dxgi": "b3b0857a6d94e4745b42f2bb3beb747c527548ceec0abff11afecf89a1f6a590",
+    "game_ini": "213fd3f55423a12c075a9d96c2f87df3ea86c3971e135aa89eab1ff9b6a34fa6",
+    "game_nr": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927",
+    "demo_dxgi": "b3b0857a6d94e4745b42f2bb3beb747c527548ceec0abff11afecf89a1f6a590",
+    "demo_nr": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927",
+    "demo_hidden_exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+    "demo_scene": "389da6d234662bb88714b4240384ce63739ff06c7e75ff6014fcd2bab574f547",
+    "demo_ini": "8ac6219a0f4090297a87cc753aa3efee6b4c87111dffed5d9d314fb73ebffc62",
+    "normal_native_sources_unchanged": true,
+    "no_active_research_markers": true,
+    "captures_archived": true,
+    "no_staged_image_assets": true
+  },
+  "image_manifest_sha256": "22a72c492fda3478dd942707f5225a31f9ab33079decfd860432de302a9dd94e",
+  "image_cases": [
+    {
+      "name": "forest",
+      "split": "train",
+      "author": "Martin Eklund",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "source": "https://commons.wikimedia.org/wiki/File:Waterfall_in_forest.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/8/8b/Waterfall_in_forest.jpg",
+      "source_size": [
+        3801,
+        2455
+      ],
+      "source_sha1": "72199e59ea85cbbda75818b680253fca16799efe",
+      "source_bytes": 2800552,
+      "centering": [
+        0.5,
+        0.5
+      ],
+      "label": "teacher-diverse-forest",
+      "source_sha256": "ebc8d2e3ec65a83031a909e22cebfda50fcdaa3085f36a5d90190c2029f2ebff",
+      "texture_sha256": "f35404dede2c3da0cd9fd441c50a6fac58bd7ee0bae59f11007708f14db72206",
+      "scene_manifest_sha256": "1c35667188cb2aa3a2806914807f4040b843aaf25cca79bf7116e63df84ce833",
+      "capture_hashes": {
+        "color": "ff161f553d6abefc44ef4a94aa97443bb06a49fe5186c61b716f739c6f6e17ba",
+        "output": "52de33d92985c150012991bda1bd6a3af2fa15111526d3f0471ff868037a4bfa"
+      },
+      "proof": {
+        "label": "teacher-diverse-forest",
+        "capture_hashes": {
+          "color": "ff161f553d6abefc44ef4a94aa97443bb06a49fe5186c61b716f739c6f6e17ba",
+          "output": "52de33d92985c150012991bda1bd6a3af2fa15111526d3f0471ff868037a4bfa"
+        },
+        "complete_fenced_frames": [
+          {
+            "index": 0,
+            "reset": 1
+          },
+          {
+            "index": 1,
+            "reset": 0
+          },
+          {
+            "index": 2,
+            "reset": 0
+          },
+          {
+            "index": 3,
+            "reset": 0
+          }
+        ],
+        "runtime_sha256": {
+          "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+          "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+          "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+        },
+        "restored": {
+          "scene": true,
+          "dll": true,
+          "ini": true
+        },
+        "inactive_desktop_observations": 4,
+        "all_demo_windows_hidden_and_off_input_desktop": true,
+        "native_sparse_timing": {
+          "total_ms": {
+            "median": 5.64,
+            "min": 5.64,
+            "max": 5.64
+          },
+          "model_ms": {
+            "median": 5.44,
+            "min": 5.44,
+            "max": 5.44
+          },
+          "surrounding_ms": {
+            "median": 0.21,
+            "min": 0.21,
+            "max": 0.21
+          }
+        },
+        "native_retained_timing_count": 1
+      }
+    },
+    {
+      "name": "palace",
+      "split": "train",
+      "author": "Basile Morin",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Huijeongdang_Hall_interior_through_open_doors_at_Changdeokgung_Palace_in_Seoul.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/d/d6/Huijeongdang_Hall_interior_through_open_doors_at_Changdeokgung_Palace_in_Seoul.jpg",
+      "source_size": [
+        5179,
+        3717
+      ],
+      "source_sha1": "6f8ed60e08bd34c0dc890df28f87bfe6d255b758",
+      "source_bytes": 10044881,
+      "centering": [
+        0.5,
+        0.5
+      ],
+      "label": "teacher-diverse-palace",
+      "source_sha256": "f9bfb380c7c270332acb90168d50bbb16223987dbfe839fa3ee25ec038dfabb3",
+      "texture_sha256": "0c7a2ee38d1d9c1d37d98a4b7c46bac212037f5de942c2b62f9fdcc2528aa609",
+      "scene_manifest_sha256": "35e73d89f09d216a61fdc01823af2185afb33ef8762d6e2f08bf5bbd6476fa54",
+      "capture_hashes": {
+        "color": "7f14403921fe29a0e097781195a13c742a65c39d27b9cb21315049ab03c3287f",
+        "output": "86078d2c5c1523eeaa7496628eeccab7c4673da2df1cac39cdf058d93a266f0c"
+      },
+      "proof": {
+        "label": "teacher-diverse-palace",
+        "capture_hashes": {
+          "color": "7f14403921fe29a0e097781195a13c742a65c39d27b9cb21315049ab03c3287f",
+          "output": "86078d2c5c1523eeaa7496628eeccab7c4673da2df1cac39cdf058d93a266f0c"
+        },
+        "complete_fenced_frames": [
+          {
+            "index": 0,
+            "reset": 1
+          },
+          {
+            "index": 1,
+            "reset": 0
+          },
+          {
+            "index": 2,
+            "reset": 0
+          },
+          {
+            "index": 3,
+            "reset": 0
+          }
+        ],
+        "runtime_sha256": {
+          "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+          "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+          "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+        },
+        "restored": {
+          "scene": true,
+          "dll": true,
+          "ini": true
+        },
+        "inactive_desktop_observations": 4,
+        "all_demo_windows_hidden_and_off_input_desktop": true,
+        "native_sparse_timing": {
+          "total_ms": {
+            "median": 5.63,
+            "min": 5.63,
+            "max": 5.63
+          },
+          "model_ms": {
+            "median": 5.42,
+            "min": 5.42,
+            "max": 5.42
+          },
+          "surrounding_ms": {
+            "median": 0.21,
+            "min": 0.21,
+            "max": 0.21
+          }
+        },
+        "native_retained_timing_count": 1
+      }
+    },
+    {
+      "name": "concert",
+      "split": "train",
+      "author": "\u5317\u4eac\u9a71\u52a8\u6587\u5316\u4f20\u5a92\u6709\u9650\u516c\u53f8",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Tianjin_Grand_Theater_Concert_Hall.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/d/df/Tianjin_Grand_Theater_Concert_Hall.jpg",
+      "source_size": [
+        3533,
+        2199
+      ],
+      "source_sha1": "08b003c05d71470a0e7fd7fc5360df2127319899",
+      "source_bytes": 1105008,
+      "centering": [
+        0.5,
+        0.5
+      ],
+      "label": "teacher-diverse-concert",
+      "source_sha256": "08cf99625cd6d55f92f43737131cb3395269f1362dd0940f95181e0c6aaaab76",
+      "texture_sha256": "82bae4fa5618d32c270e2f0f53e9dc029046bfda7ed22df3d94209a9efcca17d",
+      "scene_manifest_sha256": "3c07062e90ca04d1c4096e6872c1139dbab23444b0afd85a28dbf0295fcb88e9",
+      "capture_hashes": {
+        "color": "64fee6701ecc57f5f82108dad8a7cc0ea736d38f7e19e727aabc4d02c1af79c6",
+        "output": "64291a7886965e7537ed4bdb58bc38dbff54ea1ecc08d33cc3d9aeb9e9dab7e1"
+      },
+      "proof": {
+        "label": "teacher-diverse-concert",
+        "capture_hashes": {
+          "color": "64fee6701ecc57f5f82108dad8a7cc0ea736d38f7e19e727aabc4d02c1af79c6",
+          "output": "64291a7886965e7537ed4bdb58bc38dbff54ea1ecc08d33cc3d9aeb9e9dab7e1"
+        },
+        "complete_fenced_frames": [
+          {
+            "index": 0,
+            "reset": 1
+          },
+          {
+            "index": 1,
+            "reset": 0
+          },
+          {
+            "index": 2,
+            "reset": 0
+          },
+          {
+            "index": 3,
+            "reset": 0
+          }
+        ],
+        "runtime_sha256": {
+          "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+          "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+          "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+        },
+        "restored": {
+          "scene": true,
+          "dll": true,
+          "ini": true
+        },
+        "inactive_desktop_observations": 4,
+        "all_demo_windows_hidden_and_off_input_desktop": true,
+        "native_sparse_timing": {
+          "total_ms": {
+            "median": 5.64,
+            "min": 5.64,
+            "max": 5.64
+          },
+          "model_ms": {
+            "median": 5.43,
+            "min": 5.43,
+            "max": 5.43
+          },
+          "surrounding_ms": {
+            "median": 0.21,
+            "min": 0.21,
+            "max": 0.21
+          }
+        },
+        "native_retained_timing_count": 1
+      }
+    },
+    {
+      "name": "cloisters",
+      "split": "train",
+      "author": "Benh LIEU SONG",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Cloisters_of_Moissac_Abbey.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/e/e7/Cloisters_of_Moissac_Abbey.jpg",
+      "source_size": [
+        4895,
+        3044
+      ],
+      "source_sha1": "c499941238723f3100400c8ff18b93c6ebdc07b0",
+      "source_bytes": 3608160,
+      "centering": [
+        0.5,
+        0.5
+      ],
+      "label": "teacher-diverse-cloisters",
+      "source_sha256": "be5577f5cd7afb0b03468b9c5597756e303942e70606b4dfcb7c2d4649cf7099",
+      "texture_sha256": "d36c5168f6308eec15a0177b345a9962a9659b03effc725b89bd7fc40cf01e05",
+      "scene_manifest_sha256": "2f2838e56cec0e7f26af77b4a1cc89d7a7ae7b9d319a05bc77d3bdde04143284",
+      "capture_hashes": {
+        "color": "39b6d7f109bf1c1504eb86531f1831fe552a8080091e89aa821e87ceffc4bd7b",
+        "output": "56b71109d2c34aab2ada95e797136182f3f1768ef8d4520b78d9fdf02390e5f6"
+      },
+      "proof": {
+        "label": "teacher-diverse-cloisters",
+        "capture_hashes": {
+          "color": "39b6d7f109bf1c1504eb86531f1831fe552a8080091e89aa821e87ceffc4bd7b",
+          "output": "56b71109d2c34aab2ada95e797136182f3f1768ef8d4520b78d9fdf02390e5f6"
+        },
+        "complete_fenced_frames": [
+          {
+            "index": 0,
+            "reset": 1
+          },
+          {
+            "index": 1,
+            "reset": 0
+          },
+          {
+            "index": 2,
+            "reset": 0
+          },
+          {
+            "index": 3,
+            "reset": 0
+          }
+        ],
+        "runtime_sha256": {
+          "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+          "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+          "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+        },
+        "restored": {
+          "scene": true,
+          "dll": true,
+          "ini": true
+        },
+        "inactive_desktop_observations": 4,
+        "all_demo_windows_hidden_and_off_input_desktop": true,
+        "native_sparse_timing": {
+          "total_ms": {
+            "median": 5.64,
+            "min": 5.64,
+            "max": 5.64
+          },
+          "model_ms": {
+            "median": 5.44,
+            "min": 5.44,
+            "max": 5.44
+          },
+          "surrounding_ms": {
+            "median": 0.21,
+            "min": 0.21,
+            "max": 0.21
+          }
+        },
+        "native_retained_timing_count": 1
+      }
+    },
+    {
+      "name": "night-city",
+      "split": "train",
+      "author": "Paulo Barcellos Jr.",
+      "license": "CC BY-SA 2.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+      "source": "https://commons.wikimedia.org/wiki/File:New_York_City_at_night_HDR.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/2/22/New_York_City_at_night_HDR.jpg",
+      "source_size": [
+        3024,
+        1998
+      ],
+      "source_sha1": "e5acabdb111b2215fee04c166e00757641f2ef21",
+      "source_bytes": 3118624,
+      "centering": [
+        0.5,
+        0.5
+      ],
+      "label": "teacher-diverse-night-city",
+      "source_sha256": "276634d3b635cc3e22b3a096683f4c31ecb2d982eb4cd9dac1c3fac82f2593e5",
+      "texture_sha256": "d6a04d88f4f1791057d1288831173e5d045803f18dc9dbfacd84acc5e192c6f3",
+      "scene_manifest_sha256": "10f73a583e418ea1cb42c0b9996c3ddbb2bb8f9145da4e1820edb0776d667481",
+      "capture_hashes": {
+        "color": "53ea95ee426669e8e514077be8983a51a9ed8fbb4600a4310537d3c97449c101",
+        "output": "7b124f5c138c91d15e2dfd8fab9e8171c99534b470873dceef0bb300587d60e9"
+      },
+      "proof": {
+        "label": "teacher-diverse-night-city",
+        "capture_hashes": {
+          "color": "53ea95ee426669e8e514077be8983a51a9ed8fbb4600a4310537d3c97449c101",
+          "output": "7b124f5c138c91d15e2dfd8fab9e8171c99534b470873dceef0bb300587d60e9"
+        },
+        "complete_fenced_frames": [
+          {
+            "index": 0,
+            "reset": 1
+          },
+          {
+            "index": 1,
+            "reset": 0
+          },
+          {
+            "index": 2,
+            "reset": 0
+          },
+          {
+            "index": 3,
+            "reset": 0
+          }
+        ],
+        "runtime_sha256": {
+          "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+          "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+          "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+        },
+        "restored": {
+          "scene": true,
+          "dll": true,
+          "ini": true
+        },
+        "inactive_desktop_observations": 4,
+        "all_demo_windows_hidden_and_off_input_desktop": true,
+        "native_sparse_timing": {
+          "total_ms": {
+            "median": 6.04,
+            "min": 6.04,
+            "max": 6.04
+          },
+          "model_ms": {
+            "median": 5.83,
+            "min": 5.83,
+            "max": 5.83
+          },
+          "surrounding_ms": {
+            "median": 0.21,
+            "min": 0.21,
+            "max": 0.21
+          }
+        },
+        "native_retained_timing_count": 1
+      }
+    },
+    {
+      "name": "sunflower",
+      "split": "train",
+      "author": "Don McCulley",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "source": "https://commons.wikimedia.org/wiki/File:Sunflower_Public_Domain.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/2/29/Sunflower_Public_Domain.jpg",
+      "source_size": [
+        5040,
+        4000
+      ],
+      "source_sha1": "76c336249b2f22999d072071df0db297f9e65429",
+      "source_bytes": 4733155,
+      "centering": [
+        0.5,
+        0.5
+      ],
+      "label": "teacher-diverse-sunflower",
+      "source_sha256": "3e2f7dcc69e6fd59ecc83ecb146f06a8adc7221df9a4d24ce6fc388efd921413",
+      "texture_sha256": "07264114abc72b88c348533c6641942d83035a0b43c7b1c4748b44322fa120a6",
+      "scene_manifest_sha256": "d6c75fb6e764f9ecab3a94efa4ea3c7705050822756af3b02e76526654e3f517",
+      "capture_hashes": {
+        "color": "d97cfbb7c75e775e4798f1251806de7c84c5d9ae141a706345c8089171678924",
+        "output": "044d591e92741403c4dbeeafe01af4b75eb8960d3930c6da7f546db12bb174cd"
+      },
+      "proof": {
+        "label": "teacher-diverse-sunflower",
+        "capture_hashes": {
+          "color": "d97cfbb7c75e775e4798f1251806de7c84c5d9ae141a706345c8089171678924",
+          "output": "044d591e92741403c4dbeeafe01af4b75eb8960d3930c6da7f546db12bb174cd"
+        },
+        "complete_fenced_frames": [
+          {
+            "index": 0,
+            "reset": 1
+          },
+          {
+            "index": 1,
+            "reset": 0
+          },
+          {
+            "index": 2,
+            "reset": 0
+          },
+          {
+            "index": 3,
+            "reset": 0
+          }
+        ],
+        "runtime_sha256": {
+          "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+          "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+          "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+        },
+        "restored": {
+          "scene": true,
+          "dll": true,
+          "ini": true
+        },
+        "inactive_desktop_observations": 4,
+        "all_demo_windows_hidden_and_off_input_desktop": true,
+        "native_sparse_timing": {
+          "total_ms": {
+            "median": 6.49,
+            "min": 6.49,
+            "max": 6.49
+          },
+          "model_ms": {
+            "median": 6.28,
+            "min": 6.28,
+            "max": 6.28
+          },
+          "surrounding_ms": {
+            "median": 0.21,
+            "min": 0.21,
+            "max": 0.21
+          }
+        },
+        "native_retained_timing_count": 1
+      }
+    },
+    {
+      "name": "retriever",
+      "split": "train",
+      "author": "Dirk Vorderstra\u00dfe",
+      "license": "CC BY 3.0",
+      "license_url": "https://creativecommons.org/licenses/by/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Golden_retriever_stehfoto.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/1/1d/Golden_retriever_stehfoto.jpg",
+      "source_size": [
+        3000,
+        2000
+      ],
+      "source_sha1": "fbdf03faeaf561344f34d531122c2fe503d0c244",
+      "source_bytes": 2161226,
+      "centering": [
+        0.5,
+        0.5
+      ],
+      "label": "teacher-diverse-retriever",
+      "source_sha256": "9dc112a7e456a40f3a477f4392a0f31304e85a3243b74a990454058147ee4e3e",
+      "texture_sha256": "6465b1c9adb0b1052401fbc5639702856507378dcddf55012e9ad6aa5b89a838",
+      "scene_manifest_sha256": "e72ebfb6ca64e8ab3ae922e8036c469533353445d902444a742a381065d8c3b9",
+      "capture_hashes": {
+        "color": "4c92b39370bbe62f5dae7b937de0171ef6736571201423ec1e55268f2e02b83b",
+        "output": "6b42d31592cbc4fcb7b36453d61e3e579f3a73ac21385b50d6c04d9bc786bbe7"
+      },
+      "proof": {
+        "label": "teacher-diverse-retriever",
+        "capture_hashes": {
+          "color": "4c92b39370bbe62f5dae7b937de0171ef6736571201423ec1e55268f2e02b83b",
+          "output": "6b42d31592cbc4fcb7b36453d61e3e579f3a73ac21385b50d6c04d9bc786bbe7"
+        },
+        "complete_fenced_frames": [
+          {
+            "index": 0,
+            "reset": 1
+          },
+          {
+            "index": 1,
+            "reset": 0
+          },
+          {
+            "index": 2,
+            "reset": 0
+          },
+          {
+            "index": 3,
+            "reset": 0
+          }
+        ],
+        "runtime_sha256": {
+          "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+          "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+          "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+        },
+        "restored": {
+          "scene": true,
+          "dll": true,
+          "ini": true
+        },
+        "inactive_desktop_observations": 4,
+        "all_demo_windows_hidden_and_off_input_desktop": true,
+        "native_sparse_timing": {
+          "total_ms": {
+            "median": 6.44,
+            "min": 6.44,
+            "max": 6.44
+          },
+          "model_ms": {
+            "median": 6.23,
+            "min": 6.23,
+            "max": 6.23
+          },
+          "surrounding_ms": {
+            "median": 0.21,
+            "min": 0.21,
+            "max": 0.21
+          }
+        },
+        "native_retained_timing_count": 1
+      }
+    },
+    {
+      "name": "dunes",
+      "split": "train",
+      "author": "Wikigab",
+      "license": "Public domain",
+      "license_url": "https://commons.wikimedia.org/wiki/File:Desert_dunes.jpg#Licensing",
+      "source": "https://commons.wikimedia.org/wiki/File:Desert_dunes.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/f/f4/Desert_dunes.jpg",
+      "source_size": [
+        2816,
+        2112
+      ],
+      "source_sha1": "e4f0b3f4ab3914a07d12a18e10040cdc3492f2db",
+      "source_bytes": 3734297,
+      "centering": [
+        0.5,
+        0.5
+      ],
+      "label": "teacher-diverse-dunes",
+      "source_sha256": "1699230aeccdf2dc9e740da7f1961249ce7c5a54779d81664b55d87dd097116f",
+      "texture_sha256": "3afa3226c34f67e15d5b953ad3544057d697fa1118b74f475906b17d19306416",
+      "scene_manifest_sha256": "fe6340510377a136eaf0855791f2a1567eeaeb99245f4689ddd5b725808c8721",
+      "capture_hashes": {
+        "color": "f2145c6412a5e81cb86c48e2d304404ddefc5394b139417a669146081e1631ae",
+        "output": "a68c52b4fc06babc750d01493957be1b4e394d0d00fa85e26a676acb0b267c26"
+      },
+      "proof": {
+        "label": "teacher-diverse-dunes",
+        "capture_hashes": {
+          "color": "f2145c6412a5e81cb86c48e2d304404ddefc5394b139417a669146081e1631ae",
+          "output": "a68c52b4fc06babc750d01493957be1b4e394d0d00fa85e26a676acb0b267c26"
+        },
+        "complete_fenced_frames": [
+          {
+            "index": 0,
+            "reset": 1
+          },
+          {
+            "index": 1,
+            "reset": 0
+          },
+          {
+            "index": 2,
+            "reset": 0
+          },
+          {
+            "index": 3,
+            "reset": 0
+          }
+        ],
+        "runtime_sha256": {
+          "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+          "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+          "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+        },
+        "restored": {
+          "scene": true,
+          "dll": true,
+          "ini": true
+        },
+        "inactive_desktop_observations": 4,
+        "all_demo_windows_hidden_and_off_input_desktop": true,
+        "native_sparse_timing": {
+          "total_ms": {
+            "median": 6.01,
+            "min": 6.01,
+            "max": 6.01
+          },
+          "model_ms": {
+            "median": 5.8,
+            "min": 5.8,
+            "max": 5.8
+          },
+          "surrounding_ms": {
+            "median": 0.21,
+            "min": 0.21,
+            "max": 0.21
+          }
+        },
+        "native_retained_timing_count": 1
+      }
+    },
+    {
+      "name": "watkins",
+      "split": "train",
+      "author": "NASA/Bill Stafford",
+      "license": "Public domain",
+      "license_url": "https://commons.wikimedia.org/wiki/File:Jessica_Watkins_Astronaut_portrait.jpg#Licensing",
+      "source": "https://commons.wikimedia.org/wiki/File:Jessica_Watkins_Astronaut_portrait.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/3/32/Jessica_Watkins_Astronaut_portrait.jpg",
+      "source_size": [
+        6200,
+        7750
+      ],
+      "source_sha1": "50a8ff7a96b97a924bbee9a6214230a030bbf4fd",
+      "source_bytes": 5179998,
+      "centering": [
+        0.5,
+        0.25
+      ],
+      "label": "teacher-diverse-watkins",
+      "source_sha256": "0884e5caaee9c920fd870f176df6e34688f7126e01cacb36e2ce1e11d82bc7a3",
+      "texture_sha256": "41c99361a634baf0bb05f2d2f520ce4b39c14602b60a3fc25dccbe861a2b4752",
+      "scene_manifest_sha256": "2ac3cd8cbb0b43c2f5ab29af3aeee9dd3e1ac6fedfc9ba2ef50741c6583dd33d",
+      "capture_hashes": {
+        "color": "111d7eaa792a3d17e375d5b83998e57217e29ce000499bfda0cc56ca8f95816a",
+        "output": "e6000ce639c9df7969ba2b2eaccc71483c1565bcdda1a2fa544857ebd8df89f2"
+      },
+      "proof": {
+        "label": "teacher-diverse-watkins",
+        "capture_hashes": {
+          "color": "111d7eaa792a3d17e375d5b83998e57217e29ce000499bfda0cc56ca8f95816a",
+          "output": "e6000ce639c9df7969ba2b2eaccc71483c1565bcdda1a2fa544857ebd8df89f2"
+        },
+        "complete_fenced_frames": [
+          {
+            "index": 0,
+            "reset": 1
+          },
+          {
+            "index": 1,
+            "reset": 0
+          },
+          {
+            "index": 2,
+            "reset": 0
+          },
+          {
+            "index": 3,
+            "reset": 0
+          }
+        ],
+        "runtime_sha256": {
+          "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+          "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+          "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+        },
+        "restored": {
+          "scene": true,
+          "dll": true,
+          "ini": true
+        },
+        "inactive_desktop_observations": 4,
+        "all_demo_windows_hidden_and_off_input_desktop": true,
+        "native_sparse_timing": {
+          "total_ms": {
+            "median": 6.58,
+            "min": 6.58,
+            "max": 6.58
+          },
+          "model_ms": {
+            "median": 6.37,
+            "min": 6.37,
+            "max": 6.37
+          },
+          "surrounding_ms": {
+            "median": 0.21,
+            "min": 0.21,
+            "max": 0.21
+          }
+        },
+        "native_retained_timing_count": 1
+      }
+    },
+    {
+      "name": "foale",
+      "split": "train",
+      "author": "NASA/Robert Markowitz",
+      "license": "Public domain",
+      "license_url": "https://commons.wikimedia.org/wiki/File:Michael_Foale_-_official_astronaut_portrait.jpg#Licensing",
+      "source": "https://commons.wikimedia.org/wiki/File:Michael_Foale_-_official_astronaut_portrait.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/2/29/Michael_Foale_-_official_astronaut_portrait.jpg",
+      "source_size": [
+        5412,
+        7216
+      ],
+      "source_sha1": "79fecf2f541994cf429f08245768ebe828d6b398",
+      "source_bytes": 4201285,
+      "centering": [
+        0.5,
+        0.25
+      ],
+      "label": "teacher-diverse-foale",
+      "source_sha256": "f2a64b95fd322ffd7b0ee9f0d334c3f41b08287915f2abdc056f585587873d20",
+      "texture_sha256": "5a54b9cb8f5556f2f9835643a603a61522895a52b591453f40cd86f8cbe3db4a",
+      "scene_manifest_sha256": "0654cdcd19af08d38c3f190f400a2ac991543dbd340c9a4d420322b10843e964",
+      "capture_hashes": {
+        "color": "0c9b4eacbb4b33f101970d2b17de5d6aec5698b3a5c560ed4d981d1f3ed7401d",
+        "output": "465ebd18e4db65cdc4b82def8a307f713c23c476cea5d59f8a6ba1d418e4a3a0"
+      },
+      "proof": {
+        "label": "teacher-diverse-foale",
+        "capture_hashes": {
+          "color": "0c9b4eacbb4b33f101970d2b17de5d6aec5698b3a5c560ed4d981d1f3ed7401d",
+          "output": "465ebd18e4db65cdc4b82def8a307f713c23c476cea5d59f8a6ba1d418e4a3a0"
+        },
+        "complete_fenced_frames": [
+          {
+            "index": 0,
+            "reset": 1
+          },
+          {
+            "index": 1,
+            "reset": 0
+          },
+          {
+            "index": 2,
+            "reset": 0
+          },
+          {
+            "index": 3,
+            "reset": 0
+          }
+        ],
+        "runtime_sha256": {
+          "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+          "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+          "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+        },
+        "restored": {
+          "scene": true,
+          "dll": true,
+          "ini": true
+        },
+        "inactive_desktop_observations": 4,
+        "all_demo_windows_hidden_and_off_input_desktop": true,
+        "native_sparse_timing": {
+          "total_ms": {
+            "median": 5.98,
+            "min": 5.98,
+            "max": 5.98
+          },
+          "model_ms": {
+            "median": 5.78,
+            "min": 5.78,
+            "max": 5.78
+          },
+          "surrounding_ms": {
+            "median": 0.2,
+            "min": 0.2,
+            "max": 0.2
+          }
+        },
+        "native_retained_timing_count": 1
+      }
+    },
+    {
+      "name": "berries",
+      "split": "train",
+      "author": "Brian Prechtel",
+      "license": "Public domain",
+      "license_url": "https://commons.wikimedia.org/wiki/File:Strawberries.jpg#Licensing",
+      "source": "https://commons.wikimedia.org/wiki/File:Strawberries.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/e/e1/Strawberries.jpg",
+      "source_size": [
+        2700,
+        1796
+      ],
+      "source_sha1": "defc481a6149914be7e94d6929cf190ae588fa3a",
+      "source_bytes": 1497236,
+      "centering": [
+        0.5,
+        0.5
+      ],
+      "label": "teacher-diverse-berries",
+      "source_sha256": "a6d3accf49c08fb15fe6df8279a51c57d33fd0007cd050a28deb4684022db201",
+      "texture_sha256": "a9cf533201e5de502dc3a4ab965b211ad3fd8add475002c145f59aee2ec37787",
+      "scene_manifest_sha256": "8c2862bbd9493514fc727d0a73e3c0f1d8aab1965d252e730c855b2489cab373",
+      "capture_hashes": {
+        "color": "6940831713f52497069972c96bf3f4ddeaf6fb2966daae2d56914b8d87b5aa4f",
+        "output": "4c323ac99536d945dedb5d4236b92ce9faaa7732b019892777d920574faabaf7"
+      },
+      "proof": {
+        "label": "teacher-diverse-berries",
+        "capture_hashes": {
+          "color": "6940831713f52497069972c96bf3f4ddeaf6fb2966daae2d56914b8d87b5aa4f",
+          "output": "4c323ac99536d945dedb5d4236b92ce9faaa7732b019892777d920574faabaf7"
+        },
+        "complete_fenced_frames": [
+          {
+            "index": 0,
+            "reset": 1
+          },
+          {
+            "index": 1,
+            "reset": 0
+          },
+          {
+            "index": 2,
+            "reset": 0
+          },
+          {
+            "index": 3,
+            "reset": 0
+          }
+        ],
+        "runtime_sha256": {
+          "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+          "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+          "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+        },
+        "restored": {
+          "scene": true,
+          "dll": true,
+          "ini": true
+        },
+        "inactive_desktop_observations": 4,
+        "all_demo_windows_hidden_and_off_input_desktop": true,
+        "native_sparse_timing": {
+          "total_ms": {
+            "median": 6.29,
+            "min": 6.29,
+            "max": 6.29
+          },
+          "model_ms": {
+            "median": 6.08,
+            "min": 6.08,
+            "max": 6.08
+          },
+          "surrounding_ms": {
+            "median": 0.21,
+            "min": 0.21,
+            "max": 0.21
+          }
+        },
+        "native_retained_timing_count": 1
+      }
+    },
+    {
+      "name": "aerial",
+      "split": "train",
+      "author": "Earth Science and Remote Sensing Unit , Lyndon B. Johnson Space Center",
+      "license": "Public domain",
+      "license_url": "https://commons.wikimedia.org/wiki/File:ISS026-E-5166_-_View_of_Namibia.jpg#Licensing",
+      "source": "https://commons.wikimedia.org/wiki/File:ISS026-E-5166_-_View_of_Namibia.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/3/3c/ISS026-E-5166_-_View_of_Namibia.jpg",
+      "source_size": [
+        4256,
+        2913
+      ],
+      "source_sha1": "6f6ad139bc519bdbf6cc7f25f3d71f2af8e3c94f",
+      "source_bytes": 1149860,
+      "centering": [
+        0.5,
+        0.5
+      ],
+      "label": "teacher-diverse-aerial",
+      "source_sha256": "a1eef02194aef08ed2fdad3300b528d5df8837cdc520afe5138d20b211ce1ab2",
+      "texture_sha256": "ec8f8f5c285c407409aa22f3cf368ec7b0c0be60fcd78e04856becb6895c62b1",
+      "scene_manifest_sha256": "dad8666004a35fcb62f5b342358a22a11bdafb0321edb3b4c398191586bcf5ba",
+      "capture_hashes": {
+        "color": "5fe01636707f4b60d05624399c483b7336d97e61528c23a0f70f3936019380b0",
+        "output": "cc64ae2448628272dc3c8c22e57579df5537e61a410c6e7341035e277f7e1cbb"
+      },
+      "proof": {
+        "label": "teacher-diverse-aerial",
+        "capture_hashes": {
+          "color": "5fe01636707f4b60d05624399c483b7336d97e61528c23a0f70f3936019380b0",
+          "output": "cc64ae2448628272dc3c8c22e57579df5537e61a410c6e7341035e277f7e1cbb"
+        },
+        "complete_fenced_frames": [
+          {
+            "index": 0,
+            "reset": 1
+          },
+          {
+            "index": 1,
+            "reset": 0
+          },
+          {
+            "index": 2,
+            "reset": 0
+          },
+          {
+            "index": 3,
+            "reset": 0
+          }
+        ],
+        "runtime_sha256": {
+          "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+          "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+          "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+        },
+        "restored": {
+          "scene": true,
+          "dll": true,
+          "ini": true
+        },
+        "inactive_desktop_observations": 4,
+        "all_demo_windows_hidden_and_off_input_desktop": true,
+        "native_sparse_timing": {
+          "total_ms": {
+            "median": 6.32,
+            "min": 6.32,
+            "max": 6.32
+          },
+          "model_ms": {
+            "median": 6.11,
+            "min": 6.11,
+            "max": 6.11
+          },
+          "surrounding_ms": {
+            "median": 0.21,
+            "min": 0.21,
+            "max": 0.21
+          }
+        },
+        "native_retained_timing_count": 1
+      }
+    },
+    {
+      "name": "library",
+      "split": "validation",
+      "author": "Diliff",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Long_Room_Interior,_Trinity_College_Dublin,_Ireland_-_Diliff.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/4/4b/Long_Room_Interior%2C_Trinity_College_Dublin%2C_Ireland_-_Diliff.jpg",
+      "source_size": [
+        9000,
+        6796
+      ],
+      "source_sha1": "9fa7403b3133598aa118fba78bf49fa5ae1893fc",
+      "source_bytes": 21074464,
+      "centering": [
+        0.5,
+        0.5
+      ],
+      "label": "teacher-diverse-library",
+      "source_sha256": "0370ff05c5ed4795c5568382f1c6f015b89b55b616ec88a2e0970be57a42fc0a",
+      "texture_sha256": "b74b12e1cb45f8c5d21f222458da5da72ecfc4126e0a690670d5d3cc16847190",
+      "scene_manifest_sha256": "bc1fe2664f5bda89c36916df73e61f690217b37dc78c0d390541166c6b22ead7",
+      "capture_hashes": {
+        "color": "e7a63502657c1d957e2340622bcf2fec67266ef9375cda3f3d2cfca48803e9d4",
+        "output": "8f771e46ab78f64595c272f4238c402eb4b36469c52790ef0bfe950aa27b93c3"
+      },
+      "proof": {
+        "label": "teacher-diverse-library",
+        "capture_hashes": {
+          "color": "e7a63502657c1d957e2340622bcf2fec67266ef9375cda3f3d2cfca48803e9d4",
+          "output": "8f771e46ab78f64595c272f4238c402eb4b36469c52790ef0bfe950aa27b93c3"
+        },
+        "complete_fenced_frames": [
+          {
+            "index": 0,
+            "reset": 1
+          },
+          {
+            "index": 1,
+            "reset": 0
+          },
+          {
+            "index": 2,
+            "reset": 0
+          },
+          {
+            "index": 3,
+            "reset": 0
+          }
+        ],
+        "runtime_sha256": {
+          "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+          "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+          "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+        },
+        "restored": {
+          "scene": true,
+          "dll": true,
+          "ini": true
+        },
+        "inactive_desktop_observations": 4,
+        "all_demo_windows_hidden_and_off_input_desktop": true,
+        "native_sparse_timing": {
+          "total_ms": {
+            "median": 6.15,
+            "min": 6.15,
+            "max": 6.15
+          },
+          "model_ms": {
+            "median": 5.95,
+            "min": 5.95,
+            "max": 5.95
+          },
+          "surrounding_ms": {
+            "median": 0.21,
+            "min": 0.21,
+            "max": 0.21
+          }
+        },
+        "native_retained_timing_count": 1
+      }
+    },
+    {
+      "name": "beach",
+      "split": "validation",
+      "author": "Diego Delso",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Beach_of_Key_West,_Florida,_USA4.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/7/79/Beach_of_Key_West%2C_Florida%2C_USA4.jpg",
+      "source_size": [
+        2816,
+        2112
+      ],
+      "source_sha1": "b57c7c1379c9e7c70bf93728c9ba46306f552e26",
+      "source_bytes": 2624784,
+      "centering": [
+        0.5,
+        0.5
+      ],
+      "label": "teacher-diverse-beach",
+      "source_sha256": "beea7d076259319766b1e16ca6078728be06f2e69fe45957841e617fb4a4d88d",
+      "texture_sha256": "21ed1bc43e10ae7fca5859af60e3d56370e866f04700da1d76dbb658352c2149",
+      "scene_manifest_sha256": "b08936a3865d8b6bcd965439c3b4a3c1de1c607477642af8eededca5c3aeac58",
+      "capture_hashes": {
+        "color": "400f68a2ed7a175a66d28efb3ee13b04415a6077f6b9ed38d5654e14b7458ebd",
+        "output": "e18e03c18d3ae5444c44db0325a918cadea5c4a6b953ba94bf197bb302a294cb"
+      },
+      "proof": {
+        "label": "teacher-diverse-beach",
+        "capture_hashes": {
+          "color": "400f68a2ed7a175a66d28efb3ee13b04415a6077f6b9ed38d5654e14b7458ebd",
+          "output": "e18e03c18d3ae5444c44db0325a918cadea5c4a6b953ba94bf197bb302a294cb"
+        },
+        "complete_fenced_frames": [
+          {
+            "index": 0,
+            "reset": 1
+          },
+          {
+            "index": 1,
+            "reset": 0
+          },
+          {
+            "index": 2,
+            "reset": 0
+          },
+          {
+            "index": 3,
+            "reset": 0
+          }
+        ],
+        "runtime_sha256": {
+          "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+          "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+          "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+        },
+        "restored": {
+          "scene": true,
+          "dll": true,
+          "ini": true
+        },
+        "inactive_desktop_observations": 4,
+        "all_demo_windows_hidden_and_off_input_desktop": true,
+        "native_sparse_timing": {
+          "total_ms": {
+            "median": 5.98,
+            "min": 5.98,
+            "max": 5.98
+          },
+          "model_ms": {
+            "median": 5.78,
+            "min": 5.78,
+            "max": 5.78
+          },
+          "surrounding_ms": {
+            "median": 0.2,
+            "min": 0.2,
+            "max": 0.2
+          }
+        },
+        "native_retained_timing_count": 1
+      }
+    },
+    {
+      "name": "cassidy",
+      "split": "validation",
+      "author": "NASA/Josh Valcarcel",
+      "license": "Public domain",
+      "license_url": "https://commons.wikimedia.org/wiki/File:Chris_Cassidy_-_Official_NASA_Astronaut_Portrait_in_EMU.jpg#Licensing",
+      "source": "https://commons.wikimedia.org/wiki/File:Chris_Cassidy_-_Official_NASA_Astronaut_Portrait_in_EMU.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/e/ef/Chris_Cassidy_-_Official_NASA_Astronaut_Portrait_in_EMU.jpg",
+      "source_size": [
+        5270,
+        6588
+      ],
+      "source_sha1": "ea6aa55d94487e1b896b882ec1509cc1adf35dbd",
+      "source_bytes": 3149860,
+      "centering": [
+        0.5,
+        0.25
+      ],
+      "label": "teacher-diverse-cassidy",
+      "source_sha256": "ea682bd222966bccb09436aa9cef569469f31f946cfb426e20aa488cc1063caa",
+      "texture_sha256": "f9585c16e9285c2ad144ef752fb3e286a814dec87d6b30a8b4fffb891ea93e4d",
+      "scene_manifest_sha256": "29c09bedd4f40a520439c859da919694ad258f93e5650b30803ebd4d58a4220d",
+      "capture_hashes": {
+        "color": "4a922ad9e1e26560cdc917a60fb13fdb358cf1275628c823038b3c2d9278d9c3",
+        "output": "e483e2d868f94e1817e33a4984fc7eb6447f34eb3f8dd0fead278513638ade97"
+      },
+      "proof": {
+        "label": "teacher-diverse-cassidy",
+        "capture_hashes": {
+          "color": "4a922ad9e1e26560cdc917a60fb13fdb358cf1275628c823038b3c2d9278d9c3",
+          "output": "e483e2d868f94e1817e33a4984fc7eb6447f34eb3f8dd0fead278513638ade97"
+        },
+        "complete_fenced_frames": [
+          {
+            "index": 0,
+            "reset": 1
+          },
+          {
+            "index": 1,
+            "reset": 0
+          },
+          {
+            "index": 2,
+            "reset": 0
+          },
+          {
+            "index": 3,
+            "reset": 0
+          }
+        ],
+        "runtime_sha256": {
+          "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+          "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+          "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+        },
+        "restored": {
+          "scene": true,
+          "dll": true,
+          "ini": true
+        },
+        "inactive_desktop_observations": 4,
+        "all_demo_windows_hidden_and_off_input_desktop": true,
+        "native_sparse_timing": {
+          "total_ms": {
+            "median": 6.16,
+            "min": 6.16,
+            "max": 6.16
+          },
+          "model_ms": {
+            "median": 5.96,
+            "min": 5.96,
+            "max": 5.96
+          },
+          "surrounding_ms": {
+            "median": 0.2,
+            "min": 0.2,
+            "max": 0.2
+          }
+        },
+        "native_retained_timing_count": 1
+      }
+    },
+    {
+      "name": "dunes-other",
+      "split": "validation",
+      "author": "Joe Mania joemania",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "source": "https://commons.wikimedia.org/wiki/File:Desert_Dunes_(Unsplash).jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/4/49/Desert_Dunes_%28Unsplash%29.jpg",
+      "source_size": [
+        4550,
+        2560
+      ],
+      "source_sha1": "8c285f23d92bb0780b840343349f95a0d0e97ce6",
+      "source_bytes": 1046035,
+      "centering": [
+        0.5,
+        0.5
+      ],
+      "label": "teacher-diverse-dunes-other",
+      "source_sha256": "9ef504cc6cfe0a3f134a433e220a3a3a91a5c12b028a9dd09d24c8bf8e01e17d",
+      "texture_sha256": "eb21a885011c65551379886ae1ca93bcf08e9eea06d522b57b86e3cf80112397",
+      "scene_manifest_sha256": "f0c0282513d318756b5fe310b89d2e8a5b612a2e63faf456d6b70b8cb1257194",
+      "capture_hashes": {
+        "color": "33acd586d4f1fc5fe871095f71706a24f6b568d24390499b19077a649e5136ed",
+        "output": "97fee64e2ac2c101b3c564f5cf769e727770acb6fe2c6a00b0b651054b2e37c6"
+      },
+      "proof": {
+        "label": "teacher-diverse-dunes-other",
+        "capture_hashes": {
+          "color": "33acd586d4f1fc5fe871095f71706a24f6b568d24390499b19077a649e5136ed",
+          "output": "97fee64e2ac2c101b3c564f5cf769e727770acb6fe2c6a00b0b651054b2e37c6"
+        },
+        "complete_fenced_frames": [
+          {
+            "index": 0,
+            "reset": 1
+          },
+          {
+            "index": 1,
+            "reset": 0
+          },
+          {
+            "index": 2,
+            "reset": 0
+          },
+          {
+            "index": 3,
+            "reset": 0
+          }
+        ],
+        "runtime_sha256": {
+          "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+          "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+          "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+        },
+        "restored": {
+          "scene": true,
+          "dll": true,
+          "ini": true
+        },
+        "inactive_desktop_observations": 4,
+        "all_demo_windows_hidden_and_off_input_desktop": true,
+        "native_sparse_timing": {
+          "total_ms": {
+            "median": 6.06,
+            "min": 6.06,
+            "max": 6.06
+          },
+          "model_ms": {
+            "median": 5.86,
+            "min": 5.86,
+            "max": 5.86
+          },
+          "surrounding_ms": {
+            "median": 0.2,
+            "min": 0.2,
+            "max": 0.2
+          }
+        },
+        "native_retained_timing_count": 1
+      }
+    }
+  ],
+  "complete_fenced_frames": 64,
+  "inactive_desktop_observations": 64,
+  "preparation_recovery": "The host rate-limited download eleven. After a pause, explicit resume revalidated the ten completed sources and continued the unchanged selection with paced requests. No sample launch was retried.",
+  "training": {
+    "schema": 1,
+    "gpu": "NVIDIA GeForce RTX 4070 Ti",
+    "torch": "2.7.1+cu128",
+    "capture_hashes": {
+      "color": "2e44a6a5e2730c21f7f2b4610b0a3c0af6fc94e2f51601f2ab2fa3fa679cf7f6",
+      "output": "13668520132202f28b6b584aff445e6982d17ece0430c9c134b7c2ef85b68d2b"
+    },
+    "training_capture_hashes": [
+      {
+        "color": "2e44a6a5e2730c21f7f2b4610b0a3c0af6fc94e2f51601f2ab2fa3fa679cf7f6",
+        "output": "13668520132202f28b6b584aff445e6982d17ece0430c9c134b7c2ef85b68d2b"
+      },
+      {
+        "color": "5a3292ed2faf5fb6e1290d0a9c0e7f672995bc05480e0466dea0f10271074ca4",
+        "output": "42d040613e5bd3b3dac82ed254908976971d1fdcd374084ba09cb63a3f3f0004"
+      },
+      {
+        "color": "d2ae1d4ac3eecdd016d78c45f209a1b05226e292fe71d9c0ffeaf9c13d44fd1a",
+        "output": "865392ee835b618b3f03556c1ddba2890b4e4dda31ecf6f213a0cdc13c4ed944"
+      },
+      {
+        "color": "3d23dc0613c3f28ca10e0cde8cc23f3dd8b29e2c5a8844ac413b1ab295142784",
+        "output": "71d3160242fc2f1dfc4981d5aae6a18eeddccfe41731468723f7e67e2710eca5"
+      },
+      {
+        "color": "1d047a54cd2d48c97c6584de1e99230d302c0c87e35c3a96ef410489e4aaf6f3",
+        "output": "4ea2e4fbf267b748c22511f776afeac1db5fdb4585232dd7484918ac0cb0d265"
+      },
+      {
+        "color": "2395ba423bb8ccaedab929a00969edd41df43ba532682d4190ac48e13da95f7c",
+        "output": "e263ce78605640d67dce9997b8badfbceeb86406055c48f910b1b449e4f2bd7a"
+      },
+      {
+        "color": "5de11f09a67c5e03acd2269c85b64a546218cff7772d91c31cf1b08ec6b2ccbc",
+        "output": "2a44509b6a7b93b8501381187036c9b54da17d73e40093e6407497d1128d3164"
+      },
+      {
+        "color": "9b4379a5baacc89bf9a23952bd4984d9a78d006cf1aa004dc039f7731cf39352",
+        "output": "a8d17ac54406ea33b589fd96f9f81d6b5366c21e5782d161b7024c922b052b7f"
+      },
+      {
+        "color": "83c5e825ee18a238bd87af5411b4315590f164415832788faaecd7e29ba46598",
+        "output": "61d708cc63c85825a2577a99d0782481ace12cfe8ff423dcb37275b9ddafcabf"
+      },
+      {
+        "color": "50585653ae9d032acca0296d5b35cf7dc4019172dbca37888b2ee3bfec79ef04",
+        "output": "631a5e9f2f8809deced19f120569fcf22621080548d6eb8a5d48e22d1949f60e"
+      },
+      {
+        "color": "b095223d223d70b27532f26c0e22858de9da9898e8411a5b75b101a980b2face",
+        "output": "9a867cfa000ea5b622f84a3cfa37630c16e89607ced6ea8bc7fa0f895edffbb9"
+      },
+      {
+        "color": "3d73b62af1fb7e4c3ea46f2f80038c79c8bd3b0fcd215a8ac49e358f9da9e808",
+        "output": "efcbc12dd20bbd0e7c01f09c48f5662fedaa9624e7f4d9b659ecd7fb3e857f57"
+      },
+      {
+        "color": "6b792009748a3dad1b76aaea904a76e0b5d325e59efb86fc4b1efaab1b37480d",
+        "output": "a59b5a4fa64884f6023281284a7de0647bf5fa66ec99e7617da22a38dc0b6d5c"
+      },
+      {
+        "color": "fdae01c0f5c0fa8ab4f6aaa30df022e2d835e39ff7ddd718cfb9afac91640421",
+        "output": "1304717d8cb7ae013e46cfbecf9c000fd580667f89ba91aae974a25350f71625"
+      },
+      {
+        "color": "15f32702df477c9a31a76a84d5f2990374cf311535757ac854928e26e449d968",
+        "output": "21a4d6d6206019e65ac6b44ebaec2738d1646cc85447ce7a23e95746e7f3e3c9"
+      },
+      {
+        "color": "3cc3c866987e43c2b1a9a8850f3103e1efb0449b55fd9a40cd3fea956b1b6fe1",
+        "output": "e1998768dd68043e92830ebe383e2aaceab2e71b70d7db64c511200ec2dfb1c3"
+      },
+      {
+        "color": "9a5b464bcad2066a8e1cd8ef52db3c68ccc90253a315c2ba981921a55864f55f",
+        "output": "5f678e7ecbd4b491ccc438bb28450ad75c4d4b5cd9d6bab6dd9331e5ce83381a"
+      },
+      {
+        "color": "70747879e3292e5bbe3c5d2fe00cdbd5454e60bc18bb38f59181651c097d9cd9",
+        "output": "4d3d4137951dfabc2c726200a15ecbe2e5e247c8c45c1689e8e2527b01c77ecb"
+      },
+      {
+        "color": "596f9a25a382295f5abc9902944850b6af25962323828c097118da76479c1556",
+        "output": "1283ae05882472638a42b2766f2d234f85f57dc8878d4678c37cc3edb91ec8bd"
+      },
+      {
+        "color": "88a5ddbdc3d2e8548e30e1e152f92dc89527d516c8313b496e3395df09456f06",
+        "output": "8ebc238d7db0accde71d2d8759a820cca291ed79bdb7d64723a552461168f6a3"
+      },
+      {
+        "color": "360a739198086b110a442c7ee3e708b81da4441660b82bfc9695ffa3bf4715f5",
+        "output": "5b32b0c97fdf3094112c61f5145fabdea5b954a3d03e6cb032a3a1af01c0259d"
+      },
+      {
+        "color": "fd38ae04f24fde89463011afede652240c6fe3597c62b2dc805fe62f33db2d08",
+        "output": "3a20ea061e9dc84479440965a9e0014a6052b4a5fa17d456f87459ce6dac583c"
+      },
+      {
+        "color": "bcff97e701de0cb6c0da423167f6c0096d64c455969ba6d528cffd3eb6b486b4",
+        "output": "859979ebf978edca683adb46fe3681d5d59e3e1345e90f9dba4d7608379c5119"
+      },
+      {
+        "color": "df6272610fa50b9dfa8491e471aef120fc6165dcb946b49992c815b89a97e6dc",
+        "output": "f8f203a5b70f583aaaaae5d781e46702d97ceb54344fc9a3b544520933f1a320"
+      },
+      {
+        "color": "44f4e9a90dbef9581a873c1321407277e58f100cd16d1c76fb716a5e3deafdad",
+        "output": "30d6238f20cdd6bfcc2eab7e4c4a51ebe16533020f6b5719cb6461cf753e3903"
+      },
+      {
+        "color": "ec9b20370d5e9b6a89fa8fc9b138d5b6b8af492508e41e69ca197c159a31c876",
+        "output": "09f81e847a97333cbb7c5f6e74cb12cc938671af4cf494b2a5336e3c2c458b59"
+      },
+      {
+        "color": "84b010b308a5e65b226af1acee6ac44d554b1624b71edebb97e413e72e8f3dc9",
+        "output": "cba912532a04728e4f02de44ab4d8727f6b7bff6532ad28a1948c975c516c7cb"
+      },
+      {
+        "color": "ff41ad82010ec2ebfcb52b9da86cc7a62b79f96ebb65535a7f602005b121d284",
+        "output": "1071abffa45cf79ad6053898c0b02f461f65afa6be8e752374859eb6a429de3f"
+      },
+      {
+        "color": "34995fad95433d7e18ad6f8aa8a5d4441566ae9957c4989eb911d352c2506a46",
+        "output": "75cc08cdc98f8fca52fb171fe7827232d7397aab73543dbbc48a2f6487859125"
+      },
+      {
+        "color": "04eae772d7ccfa83a92963b327a74c1c2a6702fb13dacc0d8be20d7bfc5b6299",
+        "output": "6f9268dfb195984bb9a23d09f3654d731cf895bdbaf70699db64b62740b9a38f"
+      },
+      {
+        "color": "3871e72a3c211fdc24e999fde53e28ec10c3d3ab33895049965fa2fdbec63e2c",
+        "output": "d679c6c531daaa6b4c21846f5bf909766dcee619384c74299a075da7c640f70f"
+      },
+      {
+        "color": "a3c93b102dd81e3fd909a56e9b601b97377c258231dc364ac016cfa67aee0d98",
+        "output": "a792b98415ef9fb61873ba5b928e0f5ec586c1f7d5c967e49463b5b0ead06685"
+      },
+      {
+        "color": "4b206a9282a7e1937d39d72fefe6ba16403ecf9c1cd272b11ac0555abd3a24e5",
+        "output": "f0bc7f9afecc5ca65c8b796e904a60c551e9825a3c638c89f9c361101abd811d"
+      },
+      {
+        "color": "3fb30ea75a3e3aa36933f4900a7ddc4d8e9b5748c5507e83f9a511d7f15bc46c",
+        "output": "27b9eae7c47f7cea01ce4798992a89c3c6afc8188b0fc630cba7ce4181b1cbfe"
+      },
+      {
+        "color": "ff161f553d6abefc44ef4a94aa97443bb06a49fe5186c61b716f739c6f6e17ba",
+        "output": "52de33d92985c150012991bda1bd6a3af2fa15111526d3f0471ff868037a4bfa"
+      },
+      {
+        "color": "7f14403921fe29a0e097781195a13c742a65c39d27b9cb21315049ab03c3287f",
+        "output": "86078d2c5c1523eeaa7496628eeccab7c4673da2df1cac39cdf058d93a266f0c"
+      },
+      {
+        "color": "64fee6701ecc57f5f82108dad8a7cc0ea736d38f7e19e727aabc4d02c1af79c6",
+        "output": "64291a7886965e7537ed4bdb58bc38dbff54ea1ecc08d33cc3d9aeb9e9dab7e1"
+      },
+      {
+        "color": "39b6d7f109bf1c1504eb86531f1831fe552a8080091e89aa821e87ceffc4bd7b",
+        "output": "56b71109d2c34aab2ada95e797136182f3f1768ef8d4520b78d9fdf02390e5f6"
+      },
+      {
+        "color": "53ea95ee426669e8e514077be8983a51a9ed8fbb4600a4310537d3c97449c101",
+        "output": "7b124f5c138c91d15e2dfd8fab9e8171c99534b470873dceef0bb300587d60e9"
+      },
+      {
+        "color": "d97cfbb7c75e775e4798f1251806de7c84c5d9ae141a706345c8089171678924",
+        "output": "044d591e92741403c4dbeeafe01af4b75eb8960d3930c6da7f546db12bb174cd"
+      },
+      {
+        "color": "4c92b39370bbe62f5dae7b937de0171ef6736571201423ec1e55268f2e02b83b",
+        "output": "6b42d31592cbc4fcb7b36453d61e3e579f3a73ac21385b50d6c04d9bc786bbe7"
+      },
+      {
+        "color": "f2145c6412a5e81cb86c48e2d304404ddefc5394b139417a669146081e1631ae",
+        "output": "a68c52b4fc06babc750d01493957be1b4e394d0d00fa85e26a676acb0b267c26"
+      },
+      {
+        "color": "111d7eaa792a3d17e375d5b83998e57217e29ce000499bfda0cc56ca8f95816a",
+        "output": "e6000ce639c9df7969ba2b2eaccc71483c1565bcdda1a2fa544857ebd8df89f2"
+      },
+      {
+        "color": "0c9b4eacbb4b33f101970d2b17de5d6aec5698b3a5c560ed4d981d1f3ed7401d",
+        "output": "465ebd18e4db65cdc4b82def8a307f713c23c476cea5d59f8a6ba1d418e4a3a0"
+      },
+      {
+        "color": "6940831713f52497069972c96bf3f4ddeaf6fb2966daae2d56914b8d87b5aa4f",
+        "output": "4c323ac99536d945dedb5d4236b92ce9faaa7732b019892777d920574faabaf7"
+      },
+      {
+        "color": "5fe01636707f4b60d05624399c483b7336d97e61528c23a0f70f3936019380b0",
+        "output": "cc64ae2448628272dc3c8c22e57579df5537e61a410c6e7341035e277f7e1cbb"
+      }
+    ],
+    "validation_capture_hashes": {
+      "color": "584c107ead68fca78c3eee0190d715e51c1f76392dc03c09050b5f572afa075e",
+      "output": "10bf20e6b20b3b56a31dca40dd829ff260061998d7fa18eafa306f56d525ca3a"
+    },
+    "controls": {
+      "DLSSNR.ColorSubrectBaseX": 0,
+      "DLSSNR.ColorSubrectBaseY": 0,
+      "DLSSNR.ColorSubrectHeight": 1080,
+      "DLSSNR.ColorSubrectWidth": 1920,
+      "DLSSNR.DepthInverted": 0,
+      "DLSSNR.DepthSubrectBaseX": 0,
+      "DLSSNR.DepthSubrectBaseY": 0,
+      "DLSSNR.DepthSubrectHeight": 540,
+      "DLSSNR.DepthSubrectWidth": 960,
+      "DLSSNR.Height": 1080,
+      "DLSSNR.Hint.Render.Preset": 0,
+      "DLSSNR.Intensity": 1.0,
+      "DLSSNR.LocalStructureStrength": 1.0,
+      "DLSSNR.LocalToneStrength": 1.0,
+      "DLSSNR.MVecScaleX": 2.0,
+      "DLSSNR.MVecScaleY": 2.0,
+      "DLSSNR.MVecSubrectBaseX": 0,
+      "DLSSNR.MVecSubrectBaseY": 0,
+      "DLSSNR.MVecSubrectHeight": 540,
+      "DLSSNR.MVecSubrectWidth": 960,
+      "DLSSNR.Reset": 1,
+      "DLSSNR.SkinStructureStrength": -1.0,
+      "DLSSNR.Style": 1,
+      "DLSSNR.UseAutoMask": 1,
+      "DLSSNR.Width": 1920
+    },
+    "native_shape": [
+      1080,
+      1920
+    ],
+    "architecture": {
+      "type": "four-level hierarchical residual CNN with global context gate",
+      "width": 16,
+      "blocks": 2,
+      "parameters": 223440,
+      "shuffle_factor": 4,
+      "noise_channels": 0,
+      "input_receptive_field_pixels": "whole image via global context gate",
+      "variant": "hierarchical",
+      "explicit_output_grading": [
+        0.9330329895019531,
+        -0.25,
+        0.8999999761581421
+      ],
+      "widths": [
+        16,
+        32,
+        64,
+        96
+      ],
+      "blocks_per_stage": 2,
+      "internal_downsampling": "learned features only; original pixels retained through input rearrangement and residual path"
+    },
+    "data_split": {
+      "scene_count": null,
+      "training_view_count": 46,
+      "train_columns": [
+        0,
+        1920
+      ],
+      "holdout_columns": null,
+      "separate_validation_view": true,
+      "patch": [
+        1080,
+        1920
+      ],
+      "batch": 1,
+      "no_resize": true,
+      "loss_border": 0,
+      "whole_frame_training": true,
+      "validation_view_count": 16
+    },
+    "quality_gate_passed": false,
+    "limitations": [
+      "One Sponza scene plus sixteen training photo identities; seven different photo identities stay in validation, three at two emissions. Image identities and splits were fixed before the new captures and fitting. First-reset static frames only, not representative game or temporal validation.",
+      "No temporal training or quality validation.",
+      "Torch timing excludes D3D12 integration and is not a hidden-demo benchmark."
+    ],
+    "training": [
+      {
+        "step": 1,
+        "loss": 0.04753828048706055,
+        "pixel_mae": 0.04424610733985901,
+        "seconds": 0.30074550000426825
+      },
+      {
+        "step": 101,
+        "loss": 0.03663843125104904,
+        "pixel_mae": 0.034355729818344116,
+        "seconds": 2.4987123000028078
+      },
+      {
+        "step": 201,
+        "loss": 0.018688056617975235,
+        "pixel_mae": 0.016260091215372086,
+        "seconds": 4.677562199998647
+      },
+      {
+        "step": 301,
+        "loss": 0.029669584706425667,
+        "pixel_mae": 0.027532752603292465,
+        "seconds": 6.891347299999325
+      },
+      {
+        "step": 401,
+        "loss": 0.03475321829319,
+        "pixel_mae": 0.031973034143447876,
+        "seconds": 9.096317400006228
+      },
+      {
+        "step": 501,
+        "loss": 0.014460364356637001,
+        "pixel_mae": 0.013222666457295418,
+        "seconds": 11.284897999998066
+      },
+      {
+        "step": 601,
+        "loss": 0.04284312203526497,
+        "pixel_mae": 0.04017895460128784,
+        "seconds": 13.499154800010729
+      },
+      {
+        "step": 701,
+        "loss": 0.006730115972459316,
+        "pixel_mae": 0.0059312996454536915,
+        "seconds": 15.689047500010929
+      },
+      {
+        "step": 801,
+        "loss": 0.032744936645030975,
+        "pixel_mae": 0.0304452832788229,
+        "seconds": 17.867871399997966
+      },
+      {
+        "step": 901,
+        "loss": 0.006150851026177406,
+        "pixel_mae": 0.00536622479557991,
+        "seconds": 20.06411079999816
+      },
+      {
+        "step": 1001,
+        "loss": 0.03865193575620651,
+        "pixel_mae": 0.0361870713531971,
+        "seconds": 22.305554400008987
+      },
+      {
+        "step": 1101,
+        "loss": 0.03842365741729736,
+        "pixel_mae": 0.03519778326153755,
+        "seconds": 24.52940579999995
+      },
+      {
+        "step": 1201,
+        "loss": 0.02346136048436165,
+        "pixel_mae": 0.02101186290383339,
+        "seconds": 26.72675380000146
+      },
+      {
+        "step": 1301,
+        "loss": 0.04379243031144142,
+        "pixel_mae": 0.04115155339241028,
+        "seconds": 28.973512099997606
+      },
+      {
+        "step": 1401,
+        "loss": 0.03723808377981186,
+        "pixel_mae": 0.03474998101592064,
+        "seconds": 31.217583400008152
+      },
+      {
+        "step": 1501,
+        "loss": 0.022837605327367783,
+        "pixel_mae": 0.02047475054860115,
+        "seconds": 33.41688070000964
+      },
+      {
+        "step": 1601,
+        "loss": 0.04227060824632645,
+        "pixel_mae": 0.03978294879198074,
+        "seconds": 35.60273070000403
+      },
+      {
+        "step": 1701,
+        "loss": 0.01730133220553398,
+        "pixel_mae": 0.015931276604533195,
+        "seconds": 37.836517400006414
+      },
+      {
+        "step": 1801,
+        "loss": 0.031153980642557144,
+        "pixel_mae": 0.028864795342087746,
+        "seconds": 40.03200230000948
+      },
+      {
+        "step": 1901,
+        "loss": 0.017384562641382217,
+        "pixel_mae": 0.015385831706225872,
+        "seconds": 42.225941700002295
+      },
+      {
+        "step": 2001,
+        "loss": 0.04547391086816788,
+        "pixel_mae": 0.04237798973917961,
+        "seconds": 44.4198286000028
+      },
+      {
+        "step": 2101,
+        "loss": 0.0410531684756279,
+        "pixel_mae": 0.03829219564795494,
+        "seconds": 46.617038900003536
+      },
+      {
+        "step": 2201,
+        "loss": 0.02113918401300907,
+        "pixel_mae": 0.01957745850086212,
+        "seconds": 48.81897960000788
+      },
+      {
+        "step": 2301,
+        "loss": 0.030419429764151573,
+        "pixel_mae": 0.028688613325357437,
+        "seconds": 51.02153080000426
+      },
+      {
+        "step": 2401,
+        "loss": 0.05002107471227646,
+        "pixel_mae": 0.04734419658780098,
+        "seconds": 53.22788010000659
+      },
+      {
+        "step": 2501,
+        "loss": 0.05293922498822212,
+        "pixel_mae": 0.04965200275182724,
+        "seconds": 55.42788730000029
+      },
+      {
+        "step": 2601,
+        "loss": 0.03805210441350937,
+        "pixel_mae": 0.03585895895957947,
+        "seconds": 57.64961320000293
+      },
+      {
+        "step": 2701,
+        "loss": 0.016948487609624863,
+        "pixel_mae": 0.015540795400738716,
+        "seconds": 59.845581900008256
+      },
+      {
+        "step": 2801,
+        "loss": 0.032123252749443054,
+        "pixel_mae": 0.029966682195663452,
+        "seconds": 62.0584358000051
+      },
+      {
+        "step": 2901,
+        "loss": 0.017406780272722244,
+        "pixel_mae": 0.016596846282482147,
+        "seconds": 64.25685450001038
+      },
+      {
+        "step": 3001,
+        "loss": 0.028807515278458595,
+        "pixel_mae": 0.027172788977622986,
+        "seconds": 66.47809660001076
+      },
+      {
+        "step": 3101,
+        "loss": 0.025166090577840805,
+        "pixel_mae": 0.02414095588028431,
+        "seconds": 68.67872550000902
+      },
+      {
+        "step": 3201,
+        "loss": 0.00582477543503046,
+        "pixel_mae": 0.005080991890281439,
+        "seconds": 70.88231330001145
+      },
+      {
+        "step": 3301,
+        "loss": 0.04183167219161987,
+        "pixel_mae": 0.038756318390369415,
+        "seconds": 73.08870740000566
+      },
+      {
+        "step": 3401,
+        "loss": 0.023437725380063057,
+        "pixel_mae": 0.021541904658079147,
+        "seconds": 75.28596629999811
+      },
+      {
+        "step": 3501,
+        "loss": 0.03857571631669998,
+        "pixel_mae": 0.036018650978803635,
+        "seconds": 77.49649980000686
+      },
+      {
+        "step": 3601,
+        "loss": 0.03566109389066696,
+        "pixel_mae": 0.033310405910015106,
+        "seconds": 79.68696500000078
+      },
+      {
+        "step": 3701,
+        "loss": 0.031317271292209625,
+        "pixel_mae": 0.029150601476430893,
+        "seconds": 81.91265840000415
+      },
+      {
+        "step": 3801,
+        "loss": 0.022975938394665718,
+        "pixel_mae": 0.021946677938103676,
+        "seconds": 84.13067510000838
+      },
+      {
+        "step": 3901,
+        "loss": 0.03554600477218628,
+        "pixel_mae": 0.033187590539455414,
+        "seconds": 86.35679479999817
+      },
+      {
+        "step": 4001,
+        "loss": 0.02340095303952694,
+        "pixel_mae": 0.021508660167455673,
+        "seconds": 88.56169139999838
+      },
+      {
+        "step": 4101,
+        "loss": 0.02185274288058281,
+        "pixel_mae": 0.02084038406610489,
+        "seconds": 90.76367500000924
+      },
+      {
+        "step": 4201,
+        "loss": 0.04049767181277275,
+        "pixel_mae": 0.03740529343485832,
+        "seconds": 92.95939889999863
+      },
+      {
+        "step": 4301,
+        "loss": 0.03678058087825775,
+        "pixel_mae": 0.03459934517741203,
+        "seconds": 95.16503300001204
+      },
+      {
+        "step": 4401,
+        "loss": 0.04639088362455368,
+        "pixel_mae": 0.04383937269449234,
+        "seconds": 97.35686330001045
+      },
+      {
+        "step": 4500,
+        "loss": 0.03585252910852432,
+        "pixel_mae": 0.03333060443401337,
+        "seconds": 99.53981830000703
+      }
+    ],
+    "optimization": {
+      "initial_learning_rate": 0.002,
+      "cosine_decay": true,
+      "final_learning_rate": 2e-05
+    },
+    "output_grading": {
+      "parameters": [
+        0.9330329895019531,
+        -0.25,
+        0.8999999761581421
+      ],
+      "observed_capture_hashes": {
+        "color": "2e44a6a5e2730c21f7f2b4610b0a3c0af6fc94e2f51601f2ab2fa3fa679cf7f6",
+        "output": "13668520132202f28b6b584aff445e6982d17ece0430c9c134b7c2ef85b68d2b"
+      },
+      "scope": "Unfitted algebraic approximation from the same runtime controls; other camera views reuse the parameters by inference.",
+      "training": "Differentiable FP32 operations after the clamped learned residual.",
+      "inference": "FP16 network, FP32 grading, FP16 final storage; all included in graph timing.",
+      "fused_matches_torch": true,
+      "fused_max_abs": 0.0
+    },
+    "identity_holdout_mae": 0.019964119419455528,
+    "grade_only_holdout_mae": 0.01705770380795002,
+    "completed_steps": 4500,
+    "training_seconds": 99.54000770000857,
+    "unfused_grade_graph_timing": {
+      "median_ms": 3.0028799772262573,
+      "p95_ms": 3.13438880443573,
+      "samples_ms": [
+        2.549504041671753,
+        3.004415988922119,
+        3.1025919914245605,
+        3.1401920318603516,
+        2.539520025253296,
+        2.9972479343414307,
+        2.993920087814331,
+        2.535327911376953,
+        3.0013439655303955,
+        3.155967950820923,
+        3.102400064468384,
+        2.538464069366455,
+        2.974623918533325,
+        3.0566399097442627,
+        2.7596800327301025,
+        3.053567886352539,
+        3.0791680812835693,
+        3.127295970916748,
+        2.530303955078125,
+        2.91430401802063,
+        3.069823980331421,
+        2.5290238857269287,
+        3.0054399967193604,
+        3.112895965576172,
+        2.9900479316711426,
+        2.5486080646514893,
+        3.113568067550659,
+        3.0545918941497803,
+        2.5538558959960938,
+        3.1098880767822266
+      ]
+    },
+    "quality": {
+      "train_region": {
+        "mae": 0.032502688467502594,
+        "rmse": 0.04622250149450393,
+        "p99": 0.14697265625,
+        "max_abs": 0.316162109375,
+        "psnr_db": 26.70293109671316
+      },
+      "whole_frame": {
+        "mae": 0.032502688467502594,
+        "rmse": 0.04622250149450393,
+        "p99": 0.14697265625,
+        "max_abs": 0.316162109375,
+        "psnr_db": 26.70293109671316
+      },
+      "heldout_camera": {
+        "mae": 0.017652016133069992,
+        "rmse": 0.023372535275687077,
+        "p99": 0.0732421875,
+        "max_abs": 0.1806640625,
+        "psnr_db": 32.625883521499304
+      }
+    },
+    "extra_validation": [
+      {
+        "capture_hashes": {
+          "color": "721e179eda73cb100b0afad0894313bbae3a79f5ddffe7fb80dcef448e1282e1",
+          "output": "32ff6ac02eaedd341702bbce4d7aecbefc416cc2604e640814acdca718f4cf2a"
+        },
+        "quality": {
+          "mae": 0.019503174349665642,
+          "rmse": 0.026440023117955028,
+          "p99": 0.08251953125,
+          "max_abs": 0.154296875,
+          "psnr_db": 31.55476338917733
+        },
+        "identity_mae": 0.021868281066417694,
+        "grade_only_mae": 0.019626246765255928
+      },
+      {
+        "capture_hashes": {
+          "color": "72ea0a80f42db07ca3206415e6dcf5a6731d568bfb312232b800a74b5fe86a5d",
+          "output": "c340167f486527ada9844e30bf8d926d8da26469fb23f052a49b4e8dabb36c00"
+        },
+        "quality": {
+          "mae": 0.032221198081970215,
+          "rmse": 0.043600212187757205,
+          "p99": 0.1319580078125,
+          "max_abs": 0.23388671875,
+          "psnr_db": 27.210227943184314
+        },
+        "identity_mae": 0.03319212421774864,
+        "grade_only_mae": 0.03363330289721489
+      },
+      {
+        "capture_hashes": {
+          "color": "d55760855801f6f13bde735009f7aa8bf441b09d029c5f19bba290dbd9bba8a7",
+          "output": "afa0d89796b9a294ed2be40b353dd870d16c826a86f1614178810aa0c6a1eba3"
+        },
+        "quality": {
+          "mae": 0.04291544109582901,
+          "rmse": 0.05595769523972288,
+          "p99": 0.1533203125,
+          "max_abs": 0.2735595703125,
+          "psnr_db": 25.042803626736223
+        },
+        "identity_mae": 0.056830551475286484,
+        "grade_only_mae": 0.04776373133063316
+      },
+      {
+        "capture_hashes": {
+          "color": "ce5e35c020ddc18ee2c33c84c5638e639a40b1af0669db6f528704e2333d9611",
+          "output": "07b6b385703687102b597cddf0b3312fd0c8c3891234a0d5c0ea61d09ba1d702"
+        },
+        "quality": {
+          "mae": 0.027518607676029205,
+          "rmse": 0.03662482083745903,
+          "p99": 0.103790283203125,
+          "max_abs": 0.20648193359375,
+          "psnr_db": 28.724489822582335
+        },
+        "identity_mae": 0.028451206162571907,
+        "grade_only_mae": 0.028343472629785538
+      },
+      {
+        "capture_hashes": {
+          "color": "ec96364768db3b4fd5f306cb1c3ccd77d4dc03a0965a8d6602ce87cbe6fb8a2e",
+          "output": "e8ebdcfeb6d46d5272d2fd2be9fc872af09dbdf9f603e3599d1b88819e147d4c"
+        },
+        "quality": {
+          "mae": 0.03882559761404991,
+          "rmse": 0.050340921263012726,
+          "p99": 0.1328125,
+          "max_abs": 0.328857421875,
+          "psnr_db": 25.961576818350743
+        },
+        "identity_mae": 0.050376299768686295,
+        "grade_only_mae": 0.045353952795267105
+      },
+      {
+        "capture_hashes": {
+          "color": "d60ec44402a02d7e03fc0be790deefbcc5110dc7002be1d8a2031243ce602862",
+          "output": "cb75f15d16ab5f4ac082a5a7272c13aab748cae4037ac27059333d2348c7d969"
+        },
+        "quality": {
+          "mae": 0.046505916863679886,
+          "rmse": 0.06303065375522182,
+          "p99": 0.2061767578125,
+          "max_abs": 0.482177734375,
+          "psnr_db": 24.008963766796626
+        },
+        "identity_mae": 0.08399125933647156,
+        "grade_only_mae": 0.03786160424351692
+      },
+      {
+        "capture_hashes": {
+          "color": "071ec0aae77b6e15909c3f7b79ed0c619e4359289d37e46094e4f0e941978d19",
+          "output": "fe55fe61e495fa68e16c9d743f926cab52233fc946adf436619591ed1dbbb795"
+        },
+        "quality": {
+          "mae": 0.021189125254750252,
+          "rmse": 0.028417607187153665,
+          "p99": 0.089111328125,
+          "max_abs": 0.26806640625,
+          "psnr_db": 30.928249864669777
+        },
+        "identity_mae": 0.031181929633021355,
+        "grade_only_mae": 0.019811255857348442
+      },
+      {
+        "capture_hashes": {
+          "color": "ce88cebb0be45aefb048a3ae4e87b83c56776ef4ff3f11d454ce0bc7d61734d1",
+          "output": "7890ee1902560f34f54766f349d4306fa910d81b788b4f2eff7a070072c2f4a4"
+        },
+        "quality": {
+          "mae": 0.018373990431427956,
+          "rmse": 0.023715939459639852,
+          "p99": 0.0723876953125,
+          "max_abs": 0.172119140625,
+          "psnr_db": 32.499193339233244
+        },
+        "identity_mae": 0.07175260037183762,
+        "grade_only_mae": 0.01343078725039959
+      },
+      {
+        "capture_hashes": {
+          "color": "8675250f022e482d5a01d8e287b2bafc844baf561090d30d1a9488b0656ca309",
+          "output": "5a61cc6d78a4a4a0d45ea60f04dcbefc6516a10f2456334b9394dcb003992812"
+        },
+        "quality": {
+          "mae": 0.019596658647060394,
+          "rmse": 0.023686874194783086,
+          "p99": 0.05291748046875,
+          "max_abs": 0.10107421875,
+          "psnr_db": 32.509844931196774
+        },
+        "identity_mae": 0.02697160094976425,
+        "grade_only_mae": 0.018189014866948128
+      },
+      {
+        "capture_hashes": {
+          "color": "f783346fc093b8f8b61a4f77376e8ac9e0170ba1aa3f6f8063ff2aa5075151cb",
+          "output": "397f02d8e46dfe8171b77ff400eb0cd200527bad0e95dc862eaea21f37483093"
+        },
+        "quality": {
+          "mae": 0.023409569635987282,
+          "rmse": 0.0299608916875397,
+          "p99": 0.08544921875,
+          "max_abs": 0.2314453125,
+          "psnr_db": 30.468905308626773
+        },
+        "identity_mae": 0.06669677793979645,
+        "grade_only_mae": 0.027504343539476395
+      },
+      {
+        "capture_hashes": {
+          "color": "25fe2d0b191d1c31efa9ca0bff7ecf75585296631930e318c6fc1e6a3c212015",
+          "output": "e0f64756c7243ffdcaccd52f2df9bc49f7fa514747be48be65ce5661c0c7581c"
+        },
+        "quality": {
+          "mae": 0.016858333721756935,
+          "rmse": 0.02107599629435165,
+          "p99": 0.054931640625,
+          "max_abs": 0.145751953125,
+          "psnr_db": 33.52423772916545
+        },
+        "identity_mae": 0.027050631120800972,
+        "grade_only_mae": 0.013998306356370449
+      },
+      {
+        "capture_hashes": {
+          "color": "e7a63502657c1d957e2340622bcf2fec67266ef9375cda3f3d2cfca48803e9d4",
+          "output": "8f771e46ab78f64595c272f4238c402eb4b36469c52790ef0bfe950aa27b93c3"
+        },
+        "quality": {
+          "mae": 0.03919897601008415,
+          "rmse": 0.05193026172239541,
+          "p99": 0.156982421875,
+          "max_abs": 0.30029296875,
+          "psnr_db": 25.691589772129035
+        },
+        "identity_mae": 0.03772563114762306,
+        "grade_only_mae": 0.04529065266251564
+      },
+      {
+        "capture_hashes": {
+          "color": "400f68a2ed7a175a66d28efb3ee13b04415a6077f6b9ed38d5654e14b7458ebd",
+          "output": "e18e03c18d3ae5444c44db0325a918cadea5c4a6b953ba94bf197bb302a294cb"
+        },
+        "quality": {
+          "mae": 0.013926918618381023,
+          "rmse": 0.019961142583248884,
+          "p99": 0.061279296875,
+          "max_abs": 0.12548828125,
+          "psnr_db": 33.996292063179375
+        },
+        "identity_mae": 0.04679199308156967,
+        "grade_only_mae": 0.01372000202536583
+      },
+      {
+        "capture_hashes": {
+          "color": "4a922ad9e1e26560cdc917a60fb13fdb358cf1275628c823038b3c2d9278d9c3",
+          "output": "e483e2d868f94e1817e33a4984fc7eb6447f34eb3f8dd0fead278513638ade97"
+        },
+        "quality": {
+          "mae": 0.023030469194054604,
+          "rmse": 0.02953894958680079,
+          "p99": 0.08538818359375,
+          "max_abs": 0.181640625,
+          "psnr_db": 30.592099047622305
+        },
+        "identity_mae": 0.05033518746495247,
+        "grade_only_mae": 0.02138439752161503
+      },
+      {
+        "capture_hashes": {
+          "color": "33acd586d4f1fc5fe871095f71706a24f6b568d24390499b19077a649e5136ed",
+          "output": "97fee64e2ac2c101b3c564f5cf769e727770acb6fe2c6a00b0b651054b2e37c6"
+        },
+        "quality": {
+          "mae": 0.011736650951206684,
+          "rmse": 0.014991397222340963,
+          "p99": 0.0400390625,
+          "max_abs": 0.068359375,
+          "psnr_db": 36.4831577664178
+        },
+        "identity_mae": 0.028923580422997475,
+        "grade_only_mae": 0.01208187174052
+      }
+    ],
+    "training_view_evaluation": [
+      {
+        "capture_hashes": {
+          "color": "2e44a6a5e2730c21f7f2b4610b0a3c0af6fc94e2f51601f2ab2fa3fa679cf7f6",
+          "output": "13668520132202f28b6b584aff445e6982d17ece0430c9c134b7c2ef85b68d2b"
+        },
+        "mae": 0.032502688467502594,
+        "rmse": 0.0462225005030632
+      },
+      {
+        "capture_hashes": {
+          "color": "5a3292ed2faf5fb6e1290d0a9c0e7f672995bc05480e0466dea0f10271074ca4",
+          "output": "42d040613e5bd3b3dac82ed254908976971d1fdcd374084ba09cb63a3f3f0004"
+        },
+        "mae": 0.040866728872060776,
+        "rmse": 0.055157870054244995
+      },
+      {
+        "capture_hashes": {
+          "color": "d2ae1d4ac3eecdd016d78c45f209a1b05226e292fe71d9c0ffeaf9c13d44fd1a",
+          "output": "865392ee835b618b3f03556c1ddba2890b4e4dda31ecf6f213a0cdc13c4ed944"
+        },
+        "mae": 0.034114230424165726,
+        "rmse": 0.04726887121796608
+      },
+      {
+        "capture_hashes": {
+          "color": "3d23dc0613c3f28ca10e0cde8cc23f3dd8b29e2c5a8844ac413b1ab295142784",
+          "output": "71d3160242fc2f1dfc4981d5aae6a18eeddccfe41731468723f7e67e2710eca5"
+        },
+        "mae": 0.03425377979874611,
+        "rmse": 0.04658840224146843
+      },
+      {
+        "capture_hashes": {
+          "color": "1d047a54cd2d48c97c6584de1e99230d302c0c87e35c3a96ef410489e4aaf6f3",
+          "output": "4ea2e4fbf267b748c22511f776afeac1db5fdb4585232dd7484918ac0cb0d265"
+        },
+        "mae": 0.032526977360248566,
+        "rmse": 0.04747096821665764
+      },
+      {
+        "capture_hashes": {
+          "color": "2395ba423bb8ccaedab929a00969edd41df43ba532682d4190ac48e13da95f7c",
+          "output": "e263ce78605640d67dce9997b8badfbceeb86406055c48f910b1b449e4f2bd7a"
+        },
+        "mae": 0.034900933504104614,
+        "rmse": 0.04642559960484505
+      },
+      {
+        "capture_hashes": {
+          "color": "5de11f09a67c5e03acd2269c85b64a546218cff7772d91c31cf1b08ec6b2ccbc",
+          "output": "2a44509b6a7b93b8501381187036c9b54da17d73e40093e6407497d1128d3164"
+        },
+        "mae": 0.03752348572015762,
+        "rmse": 0.05031107738614082
+      },
+      {
+        "capture_hashes": {
+          "color": "9b4379a5baacc89bf9a23952bd4984d9a78d006cf1aa004dc039f7731cf39352",
+          "output": "a8d17ac54406ea33b589fd96f9f81d6b5366c21e5782d161b7024c922b052b7f"
+        },
+        "mae": 0.03303978592157364,
+        "rmse": 0.0447014719247818
+      },
+      {
+        "capture_hashes": {
+          "color": "83c5e825ee18a238bd87af5411b4315590f164415832788faaecd7e29ba46598",
+          "output": "61d708cc63c85825a2577a99d0782481ace12cfe8ff423dcb37275b9ddafcabf"
+        },
+        "mae": 0.015536815859377384,
+        "rmse": 0.02108892984688282
+      },
+      {
+        "capture_hashes": {
+          "color": "50585653ae9d032acca0296d5b35cf7dc4019172dbca37888b2ee3bfec79ef04",
+          "output": "631a5e9f2f8809deced19f120569fcf22621080548d6eb8a5d48e22d1949f60e"
+        },
+        "mae": 0.034832507371902466,
+        "rmse": 0.04569019004702568
+      },
+      {
+        "capture_hashes": {
+          "color": "b095223d223d70b27532f26c0e22858de9da9898e8411a5b75b101a980b2face",
+          "output": "9a867cfa000ea5b622f84a3cfa37630c16e89607ced6ea8bc7fa0f895edffbb9"
+        },
+        "mae": 0.03538771718740463,
+        "rmse": 0.04698730260133743
+      },
+      {
+        "capture_hashes": {
+          "color": "3d73b62af1fb7e4c3ea46f2f80038c79c8bd3b0fcd215a8ac49e358f9da9e808",
+          "output": "efcbc12dd20bbd0e7c01f09c48f5662fedaa9624e7f4d9b659ecd7fb3e857f57"
+        },
+        "mae": 0.03987540677189827,
+        "rmse": 0.05257163196802139
+      },
+      {
+        "capture_hashes": {
+          "color": "6b792009748a3dad1b76aaea904a76e0b5d325e59efb86fc4b1efaab1b37480d",
+          "output": "a59b5a4fa64884f6023281284a7de0647bf5fa66ec99e7617da22a38dc0b6d5c"
+        },
+        "mae": 0.02232823520898819,
+        "rmse": 0.030486231669783592
+      },
+      {
+        "capture_hashes": {
+          "color": "fdae01c0f5c0fa8ab4f6aaa30df022e2d835e39ff7ddd718cfb9afac91640421",
+          "output": "1304717d8cb7ae013e46cfbecf9c000fd580667f89ba91aae974a25350f71625"
+        },
+        "mae": 0.03721156716346741,
+        "rmse": 0.05072583630681038
+      },
+      {
+        "capture_hashes": {
+          "color": "15f32702df477c9a31a76a84d5f2990374cf311535757ac854928e26e449d968",
+          "output": "21a4d6d6206019e65ac6b44ebaec2738d1646cc85447ce7a23e95746e7f3e3c9"
+        },
+        "mae": 0.03639888018369675,
+        "rmse": 0.04789780452847481
+      },
+      {
+        "capture_hashes": {
+          "color": "3cc3c866987e43c2b1a9a8850f3103e1efb0449b55fd9a40cd3fea956b1b6fe1",
+          "output": "e1998768dd68043e92830ebe383e2aaceab2e71b70d7db64c511200ec2dfb1c3"
+        },
+        "mae": 0.037404514849185944,
+        "rmse": 0.051287081092596054
+      },
+      {
+        "capture_hashes": {
+          "color": "9a5b464bcad2066a8e1cd8ef52db3c68ccc90253a315c2ba981921a55864f55f",
+          "output": "5f678e7ecbd4b491ccc438bb28450ad75c4d4b5cd9d6bab6dd9331e5ce83381a"
+        },
+        "mae": 0.030079428106546402,
+        "rmse": 0.042433109134435654
+      },
+      {
+        "capture_hashes": {
+          "color": "70747879e3292e5bbe3c5d2fe00cdbd5454e60bc18bb38f59181651c097d9cd9",
+          "output": "4d3d4137951dfabc2c726200a15ecbe2e5e247c8c45c1689e8e2527b01c77ecb"
+        },
+        "mae": 0.03742265701293945,
+        "rmse": 0.052904535084962845
+      },
+      {
+        "capture_hashes": {
+          "color": "596f9a25a382295f5abc9902944850b6af25962323828c097118da76479c1556",
+          "output": "1283ae05882472638a42b2766f2d234f85f57dc8878d4678c37cc3edb91ec8bd"
+        },
+        "mae": 0.02679901011288166,
+        "rmse": 0.040091853588819504
+      },
+      {
+        "capture_hashes": {
+          "color": "88a5ddbdc3d2e8548e30e1e152f92dc89527d516c8313b496e3395df09456f06",
+          "output": "8ebc238d7db0accde71d2d8759a820cca291ed79bdb7d64723a552461168f6a3"
+        },
+        "mae": 0.03573765605688095,
+        "rmse": 0.04754994809627533
+      },
+      {
+        "capture_hashes": {
+          "color": "360a739198086b110a442c7ee3e708b81da4441660b82bfc9695ffa3bf4715f5",
+          "output": "5b32b0c97fdf3094112c61f5145fabdea5b954a3d03e6cb032a3a1af01c0259d"
+        },
+        "mae": 0.024747692048549652,
+        "rmse": 0.03548204526305199
+      },
+      {
+        "capture_hashes": {
+          "color": "fd38ae04f24fde89463011afede652240c6fe3597c62b2dc805fe62f33db2d08",
+          "output": "3a20ea061e9dc84479440965a9e0014a6052b4a5fa17d456f87459ce6dac583c"
+        },
+        "mae": 0.03257230669260025,
+        "rmse": 0.04461187869310379
+      },
+      {
+        "capture_hashes": {
+          "color": "bcff97e701de0cb6c0da423167f6c0096d64c455969ba6d528cffd3eb6b486b4",
+          "output": "859979ebf978edca683adb46fe3681d5d59e3e1345e90f9dba4d7608379c5119"
+        },
+        "mae": 0.03833600506186485,
+        "rmse": 0.052582550793886185
+      },
+      {
+        "capture_hashes": {
+          "color": "df6272610fa50b9dfa8491e471aef120fc6165dcb946b49992c815b89a97e6dc",
+          "output": "f8f203a5b70f583aaaaae5d781e46702d97ceb54344fc9a3b544520933f1a320"
+        },
+        "mae": 0.046647392213344574,
+        "rmse": 0.060732368379831314
+      },
+      {
+        "capture_hashes": {
+          "color": "44f4e9a90dbef9581a873c1321407277e58f100cd16d1c76fb716a5e3deafdad",
+          "output": "30d6238f20cdd6bfcc2eab7e4c4a51ebe16533020f6b5719cb6461cf753e3903"
+        },
+        "mae": 0.04075777158141136,
+        "rmse": 0.05503543093800545
+      },
+      {
+        "capture_hashes": {
+          "color": "ec9b20370d5e9b6a89fa8fc9b138d5b6b8af492508e41e69ca197c159a31c876",
+          "output": "09f81e847a97333cbb7c5f6e74cb12cc938671af4cf494b2a5336e3c2c458b59"
+        },
+        "mae": 0.03652770072221756,
+        "rmse": 0.04802465811371803
+      },
+      {
+        "capture_hashes": {
+          "color": "84b010b308a5e65b226af1acee6ac44d554b1624b71edebb97e413e72e8f3dc9",
+          "output": "cba912532a04728e4f02de44ab4d8727f6b7bff6532ad28a1948c975c516c7cb"
+        },
+        "mae": 0.028717778623104095,
+        "rmse": 0.04152597486972809
+      },
+      {
+        "capture_hashes": {
+          "color": "ff41ad82010ec2ebfcb52b9da86cc7a62b79f96ebb65535a7f602005b121d284",
+          "output": "1071abffa45cf79ad6053898c0b02f461f65afa6be8e752374859eb6a429de3f"
+        },
+        "mae": 0.033325910568237305,
+        "rmse": 0.04439966753125191
+      },
+      {
+        "capture_hashes": {
+          "color": "34995fad95433d7e18ad6f8aa8a5d4441566ae9957c4989eb911d352c2506a46",
+          "output": "75cc08cdc98f8fca52fb171fe7827232d7397aab73543dbbc48a2f6487859125"
+        },
+        "mae": 0.03115718811750412,
+        "rmse": 0.04248425364494324
+      },
+      {
+        "capture_hashes": {
+          "color": "04eae772d7ccfa83a92963b327a74c1c2a6702fb13dacc0d8be20d7bfc5b6299",
+          "output": "6f9268dfb195984bb9a23d09f3654d731cf895bdbaf70699db64b62740b9a38f"
+        },
+        "mae": 0.025158153846859932,
+        "rmse": 0.03492049500346184
+      },
+      {
+        "capture_hashes": {
+          "color": "3871e72a3c211fdc24e999fde53e28ec10c3d3ab33895049965fa2fdbec63e2c",
+          "output": "d679c6c531daaa6b4c21846f5bf909766dcee619384c74299a075da7c640f70f"
+        },
+        "mae": 0.02033078484237194,
+        "rmse": 0.02794039621949196
+      },
+      {
+        "capture_hashes": {
+          "color": "a3c93b102dd81e3fd909a56e9b601b97377c258231dc364ac016cfa67aee0d98",
+          "output": "a792b98415ef9fb61873ba5b928e0f5ec586c1f7d5c967e49463b5b0ead06685"
+        },
+        "mae": 0.033389415591955185,
+        "rmse": 0.04337833821773529
+      },
+      {
+        "capture_hashes": {
+          "color": "4b206a9282a7e1937d39d72fefe6ba16403ecf9c1cd272b11ac0555abd3a24e5",
+          "output": "f0bc7f9afecc5ca65c8b796e904a60c551e9825a3c638c89f9c361101abd811d"
+        },
+        "mae": 0.02081199549138546,
+        "rmse": 0.026672041043639183
+      },
+      {
+        "capture_hashes": {
+          "color": "3fb30ea75a3e3aa36933f4900a7ddc4d8e9b5748c5507e83f9a511d7f15bc46c",
+          "output": "27b9eae7c47f7cea01ce4798992a89c3c6afc8188b0fc630cba7ce4181b1cbfe"
+        },
+        "mae": 0.014634424820542336,
+        "rmse": 0.023158637806773186
+      },
+      {
+        "capture_hashes": {
+          "color": "ff161f553d6abefc44ef4a94aa97443bb06a49fe5186c61b716f739c6f6e17ba",
+          "output": "52de33d92985c150012991bda1bd6a3af2fa15111526d3f0471ff868037a4bfa"
+        },
+        "mae": 0.019546963274478912,
+        "rmse": 0.026645494624972343
+      },
+      {
+        "capture_hashes": {
+          "color": "7f14403921fe29a0e097781195a13c742a65c39d27b9cb21315049ab03c3287f",
+          "output": "86078d2c5c1523eeaa7496628eeccab7c4673da2df1cac39cdf058d93a266f0c"
+        },
+        "mae": 0.04367217794060707,
+        "rmse": 0.05518556386232376
+      },
+      {
+        "capture_hashes": {
+          "color": "64fee6701ecc57f5f82108dad8a7cc0ea736d38f7e19e727aabc4d02c1af79c6",
+          "output": "64291a7886965e7537ed4bdb58bc38dbff54ea1ecc08d33cc3d9aeb9e9dab7e1"
+        },
+        "mae": 0.02747546322643757,
+        "rmse": 0.03565530106425285
+      },
+      {
+        "capture_hashes": {
+          "color": "39b6d7f109bf1c1504eb86531f1831fe552a8080091e89aa821e87ceffc4bd7b",
+          "output": "56b71109d2c34aab2ada95e797136182f3f1768ef8d4520b78d9fdf02390e5f6"
+        },
+        "mae": 0.036195188760757446,
+        "rmse": 0.04778303951025009
+      },
+      {
+        "capture_hashes": {
+          "color": "53ea95ee426669e8e514077be8983a51a9ed8fbb4600a4310537d3c97449c101",
+          "output": "7b124f5c138c91d15e2dfd8fab9e8171c99534b470873dceef0bb300587d60e9"
+        },
+        "mae": 0.021562622860074043,
+        "rmse": 0.029474616050720215
+      },
+      {
+        "capture_hashes": {
+          "color": "d97cfbb7c75e775e4798f1251806de7c84c5d9ae141a706345c8089171678924",
+          "output": "044d591e92741403c4dbeeafe01af4b75eb8960d3930c6da7f546db12bb174cd"
+        },
+        "mae": 0.02668694220483303,
+        "rmse": 0.03481753170490265
+      },
+      {
+        "capture_hashes": {
+          "color": "4c92b39370bbe62f5dae7b937de0171ef6736571201423ec1e55268f2e02b83b",
+          "output": "6b42d31592cbc4fcb7b36453d61e3e579f3a73ac21385b50d6c04d9bc786bbe7"
+        },
+        "mae": 0.030196478590369225,
+        "rmse": 0.03806683048605919
+      },
+      {
+        "capture_hashes": {
+          "color": "f2145c6412a5e81cb86c48e2d304404ddefc5394b139417a669146081e1631ae",
+          "output": "a68c52b4fc06babc750d01493957be1b4e394d0d00fa85e26a676acb0b267c26"
+        },
+        "mae": 0.006858114618808031,
+        "rmse": 0.00913160853087902
+      },
+      {
+        "capture_hashes": {
+          "color": "111d7eaa792a3d17e375d5b83998e57217e29ce000499bfda0cc56ca8f95816a",
+          "output": "e6000ce639c9df7969ba2b2eaccc71483c1565bcdda1a2fa544857ebd8df89f2"
+        },
+        "mae": 0.016998229548335075,
+        "rmse": 0.02286144159734249
+      },
+      {
+        "capture_hashes": {
+          "color": "0c9b4eacbb4b33f101970d2b17de5d6aec5698b3a5c560ed4d981d1f3ed7401d",
+          "output": "465ebd18e4db65cdc4b82def8a307f713c23c476cea5d59f8a6ba1d418e4a3a0"
+        },
+        "mae": 0.016648702323436737,
+        "rmse": 0.022817354649305344
+      },
+      {
+        "capture_hashes": {
+          "color": "6940831713f52497069972c96bf3f4ddeaf6fb2966daae2d56914b8d87b5aa4f",
+          "output": "4c323ac99536d945dedb5d4236b92ce9faaa7732b019892777d920574faabaf7"
+        },
+        "mae": 0.02590266801416874,
+        "rmse": 0.03614237532019615
+      },
+      {
+        "capture_hashes": {
+          "color": "5fe01636707f4b60d05624399c483b7336d97e61528c23a0f70f3936019380b0",
+          "output": "cc64ae2448628272dc3c8c22e57579df5537e61a410c6e7341035e277f7e1cbb"
+        },
+        "mae": 0.0047508543357253075,
+        "rmse": 0.006713210605084896
+      }
+    ],
+    "mean_training_view_mae": 0.029833737649428455,
+    "torch_graph_timing": {
+      "median_ms": 1.2444960474967957,
+      "p95_ms": 1.6338943779468535,
+      "samples_ms": [
+        1.7793920040130615,
+        1.2971199750900269,
+        1.2377279996871948,
+        1.627135992050171,
+        1.2441600561141968,
+        1.2390400171279907,
+        1.623039960861206,
+        1.251039981842041,
+        1.2339199781417847,
+        1.6217279434204102,
+        1.2427200078964233,
+        1.2339199781417847,
+        1.6097279787063599,
+        1.2448320388793945,
+        1.2366080284118652,
+        1.5953919887542725,
+        1.243872046470642,
+        1.2348480224609375,
+        1.5943679809570312,
+        1.244096040725708,
+        1.2369920015335083,
+        1.6226240396499634,
+        1.2472319602966309,
+        1.2304320335388184,
+        1.6032320261001587,
+        1.2421120405197144,
+        1.5001599788665771,
+        1.6394239664077759,
+        1.2377599477767944,
+        1.2385920286178589
+      ],
+      "output_matches_eager": true
+    },
+    "peak_allocated_mib": 3951.20751953125
+  },
+  "validation_comparison": {
+    "schema": 1,
+    "target_achieved": false,
+    "quality_gate_passed": false,
+    "gpu": "NVIDIA GeForce RTX 4070 Ti",
+    "torch": "2.7.1+cu128",
+    "models": {
+      "mixed34": {
+        "architecture": {
+          "type": "four-level hierarchical residual CNN with global context gate",
+          "width": 16,
+          "blocks": 2,
+          "parameters": 223440,
+          "shuffle_factor": 4,
+          "noise_channels": 0,
+          "input_receptive_field_pixels": "whole image via global context gate",
+          "variant": "hierarchical",
+          "explicit_output_grading": [
+            0.9330329895019531,
+            -0.25,
+            0.8999999761581421
+          ],
+          "widths": [
+            16,
+            32,
+            64,
+            96
+          ],
+          "blocks_per_stage": 2,
+          "internal_downsampling": "learned features only; original pixels retained through input rearrangement and residual path"
+        },
+        "training_view_count": 34,
+        "completed_steps": 4500,
+        "result_sha256": "00e1a1591682e7939ca36553a0d62f079dc238e5f4e94de87b5e5d14e9724a6d"
+      },
+      "staged": {
+        "architecture": {
+          "type": "four-level hierarchical residual CNN with global context gate",
+          "width": 16,
+          "blocks": 2,
+          "parameters": 223440,
+          "shuffle_factor": 4,
+          "noise_channels": 0,
+          "input_receptive_field_pixels": "whole image via global context gate",
+          "variant": "hierarchical",
+          "explicit_output_grading": [
+            0.9330329895019531,
+            -0.25,
+            0.8999999761581421
+          ],
+          "widths": [
+            16,
+            32,
+            64,
+            96
+          ],
+          "blocks_per_stage": 2,
+          "internal_downsampling": "learned features only; original pixels retained through input rearrangement and residual path"
+        },
+        "training_view_count": 34,
+        "completed_steps": 4500,
+        "result_sha256": "cba955b40605cfb8c9ada46c13a34cefa68281659d861e1265e10d3b1b929e0d"
+      },
+      "diverse": {
+        "architecture": {
+          "type": "four-level hierarchical residual CNN with global context gate",
+          "width": 16,
+          "blocks": 2,
+          "parameters": 223440,
+          "shuffle_factor": 4,
+          "noise_channels": 0,
+          "input_receptive_field_pixels": "whole image via global context gate",
+          "variant": "hierarchical",
+          "explicit_output_grading": [
+            0.9330329895019531,
+            -0.25,
+            0.8999999761581421
+          ],
+          "widths": [
+            16,
+            32,
+            64,
+            96
+          ],
+          "blocks_per_stage": 2,
+          "internal_downsampling": "learned features only; original pixels retained through input rearrangement and residual path"
+        },
+        "training_view_count": 46,
+        "completed_steps": 4500,
+        "result_sha256": "5484b17977f44c377228467b709eb1f003406aa05ab5a8c4e55a9ef5afcbe5e4"
+      }
+    },
+    "validation": [
+      {
+        "label": "north",
+        "validation_group": "previous",
+        "capture_hashes": {
+          "color": "584c107ead68fca78c3eee0190d715e51c1f76392dc03c09050b5f572afa075e",
+          "output": "10bf20e6b20b3b56a31dca40dd829ff260061998d7fa18eafa306f56d525ca3a"
+        },
+        "input_mean": 0.10449481755495071,
+        "input_std": 0.08206088840961456,
+        "input_min": -0.03173828125,
+        "input_max": 0.467529296875,
+        "input_fraction_equal_one": 0.0,
+        "input_fraction_above_one": 0.0,
+        "models": {
+          "mixed34": {
+            "mae": 0.019844913855195045,
+            "rmse": 0.02831169031560421,
+            "p99": 0.088134765625,
+            "gradient_error": 0.008401237428188324,
+            "saved_output_reproduced_exactly": true
+          },
+          "staged": {
+            "mae": 0.017600582912564278,
+            "rmse": 0.025098761543631554,
+            "p99": 0.0767822265625,
+            "gradient_error": 0.00791118759661913,
+            "saved_output_reproduced_exactly": true
+          },
+          "diverse": {
+            "mae": 0.017652016133069992,
+            "rmse": 0.023372534662485123,
+            "p99": 0.0732421875,
+            "gradient_error": 0.008016424253582954,
+            "saved_output_reproduced_exactly": true
+          }
+        },
+        "identity": {
+          "mae": 0.019964119419455528,
+          "rmse": 0.025841671973466873,
+          "p99": 0.07421875,
+          "gradient_error": 0.009018735960125923
+        },
+        "grade_only": {
+          "mae": 0.01705770194530487,
+          "rmse": 0.023872684687376022,
+          "p99": 0.07427978515625,
+          "gradient_error": 0.00891067087650299
+        }
+      },
+      {
+        "label": "shifted-north",
+        "validation_group": "previous",
+        "capture_hashes": {
+          "color": "721e179eda73cb100b0afad0894313bbae3a79f5ddffe7fb80dcef448e1282e1",
+          "output": "32ff6ac02eaedd341702bbce4d7aecbefc416cc2604e640814acdca718f4cf2a"
+        },
+        "input_mean": 0.11101681739091873,
+        "input_std": 0.0848589837551117,
+        "input_min": -0.0396728515625,
+        "input_max": 0.45556640625,
+        "input_fraction_equal_one": 0.0,
+        "input_fraction_above_one": 0.0,
+        "models": {
+          "mixed34": {
+            "mae": 0.01868210732936859,
+            "rmse": 0.027837814763188362,
+            "p99": 0.0899658203125,
+            "gradient_error": 0.007872674614191055,
+            "saved_output_reproduced_exactly": true
+          },
+          "staged": {
+            "mae": 0.020788760855793953,
+            "rmse": 0.02958850748836994,
+            "p99": 0.094482421875,
+            "gradient_error": 0.007974473759531975,
+            "saved_output_reproduced_exactly": true
+          },
+          "diverse": {
+            "mae": 0.019503174349665642,
+            "rmse": 0.026440022513270378,
+            "p99": 0.08251953125,
+            "gradient_error": 0.00776830967515707,
+            "saved_output_reproduced_exactly": true
+          }
+        },
+        "identity": {
+          "mae": 0.021868281066417694,
+          "rmse": 0.028901230543851852,
+          "p99": 0.087890625,
+          "gradient_error": 0.008920766413211823
+        },
+        "grade_only": {
+          "mae": 0.01962623931467533,
+          "rmse": 0.02712494134902954,
+          "p99": 0.083251953125,
+          "gradient_error": 0.008786492049694061
+        }
+      },
+      {
+        "label": "teacher-illumination-validation-dim",
+        "validation_group": "new",
+        "capture_hashes": {
+          "color": "72ea0a80f42db07ca3206415e6dcf5a6731d568bfb312232b800a74b5fe86a5d",
+          "output": "c340167f486527ada9844e30bf8d926d8da26469fb23f052a49b4e8dabb36c00"
+        },
+        "input_mean": 0.10569913685321808,
+        "input_std": 0.07484255731105804,
+        "input_min": -0.0236663818359375,
+        "input_max": 1.11328125,
+        "input_fraction_equal_one": 1.768261316872428e-06,
+        "input_fraction_above_one": 3.08641975308642e-05,
+        "models": {
+          "mixed34": {
+            "mae": 0.02931670844554901,
+            "rmse": 0.042133837938308716,
+            "p99": 0.1360931396484375,
+            "gradient_error": 0.009879781864583492,
+            "saved_output_reproduced_exactly": true
+          },
+          "staged": {
+            "mae": 0.02096988819539547,
+            "rmse": 0.029705161228775978,
+            "p99": 0.0989990234375,
+            "gradient_error": 0.009554017335176468,
+            "saved_output_reproduced_exactly": true
+          },
+          "diverse": {
+            "mae": 0.032221198081970215,
+            "rmse": 0.043600212782621384,
+            "p99": 0.1319580078125,
+            "gradient_error": 0.009441548958420753,
+            "saved_output_reproduced_exactly": true
+          }
+        },
+        "identity": {
+          "mae": 0.03319212421774864,
+          "rmse": 0.04526050016283989,
+          "p99": 0.1431884765625,
+          "gradient_error": 0.0095731932669878
+        },
+        "grade_only": {
+          "mae": 0.03363330289721489,
+          "rmse": 0.044853389263153076,
+          "p99": 0.134521484375,
+          "gradient_error": 0.009661160409450531
+        }
+      },
+      {
+        "label": "teacher-illumination-validation-bright",
+        "validation_group": "new",
+        "capture_hashes": {
+          "color": "d55760855801f6f13bde735009f7aa8bf441b09d029c5f19bba290dbd9bba8a7",
+          "output": "afa0d89796b9a294ed2be40b353dd870d16c826a86f1614178810aa0c6a1eba3"
+        },
+        "input_mean": 0.3745231628417969,
+        "input_std": 0.258273720741272,
+        "input_min": -0.1123046875,
+        "input_max": 1.1474609375,
+        "input_fraction_equal_one": 0.03259548611111111,
+        "input_fraction_above_one": 0.004646990740740741,
+        "models": {
+          "mixed34": {
+            "mae": 0.03987172245979309,
+            "rmse": 0.052299268543720245,
+            "p99": 0.1510009765625,
+            "gradient_error": 0.014047895558178425,
+            "saved_output_reproduced_exactly": true
+          },
+          "staged": {
+            "mae": 0.03715475648641586,
+            "rmse": 0.05067480728030205,
+            "p99": 0.1549072265625,
+            "gradient_error": 0.014450381509959698,
+            "saved_output_reproduced_exactly": true
+          },
+          "diverse": {
+            "mae": 0.04291544109582901,
+            "rmse": 0.055957693606615067,
+            "p99": 0.1533203125,
+            "gradient_error": 0.013467803597450256,
+            "saved_output_reproduced_exactly": true
+          }
+        },
+        "identity": {
+          "mae": 0.056830551475286484,
+          "rmse": 0.07365133613348007,
+          "p99": 0.181640625,
+          "gradient_error": 0.014105620793998241
+        },
+        "grade_only": {
+          "mae": 0.04776381328701973,
+          "rmse": 0.06035899370908737,
+          "p99": 0.1571044921875,
+          "gradient_error": 0.013635524548590183
+        }
+      },
+      {
+        "label": "teacher-illumination-validation-low-sun",
+        "validation_group": "new",
+        "capture_hashes": {
+          "color": "ce5e35c020ddc18ee2c33c84c5638e639a40b1af0669db6f528704e2333d9611",
+          "output": "07b6b385703687102b597cddf0b3312fd0c8c3891234a0d5c0ea61d09ba1d702"
+        },
+        "input_mean": 0.16051575541496277,
+        "input_std": 0.09726599603891373,
+        "input_min": -0.0294952392578125,
+        "input_max": 0.406982421875,
+        "input_fraction_equal_one": 0.0,
+        "input_fraction_above_one": 0.0,
+        "models": {
+          "mixed34": {
+            "mae": 0.028309866786003113,
+            "rmse": 0.038373805582523346,
+            "p99": 0.11505126953125,
+            "gradient_error": 0.00838152039796114,
+            "saved_output_reproduced_exactly": true
+          },
+          "staged": {
+            "mae": 0.022205036133527756,
+            "rmse": 0.030767932534217834,
+            "p99": 0.09771728515625,
+            "gradient_error": 0.008137283846735954,
+            "saved_output_reproduced_exactly": true
+          },
+          "diverse": {
+            "mae": 0.027518607676029205,
+            "rmse": 0.03662481904029846,
+            "p99": 0.103790283203125,
+            "gradient_error": 0.007894397713243961,
+            "saved_output_reproduced_exactly": true
+          }
+        },
+        "identity": {
+          "mae": 0.028451206162571907,
+          "rmse": 0.037368953227996826,
+          "p99": 0.1085205078125,
+          "gradient_error": 0.00794257689267397
+        },
+        "grade_only": {
+          "mae": 0.028343455865979195,
+          "rmse": 0.03804332762956619,
+          "p99": 0.1102294921875,
+          "gradient_error": 0.008326349779963493
+        }
+      },
+      {
+        "label": "teacher-illumination-validation-neutral",
+        "validation_group": "new",
+        "capture_hashes": {
+          "color": "ec96364768db3b4fd5f306cb1c3ccd77d4dc03a0965a8d6602ce87cbe6fb8a2e",
+          "output": "e8ebdcfeb6d46d5272d2fd2be9fc872af09dbdf9f603e3599d1b88819e147d4c"
+        },
+        "input_mean": 0.22916419804096222,
+        "input_std": 0.217667356133461,
+        "input_min": -0.07666015625,
+        "input_max": 1.162109375,
+        "input_fraction_equal_one": 0.022697884516460907,
+        "input_fraction_above_one": 0.0017351466049382717,
+        "models": {
+          "mixed34": {
+            "mae": 0.03220231831073761,
+            "rmse": 0.04347198083996773,
+            "p99": 0.1219482421875,
+            "gradient_error": 0.012644685804843903,
+            "saved_output_reproduced_exactly": true
+          },
+          "staged": {
+            "mae": 0.02504873462021351,
+            "rmse": 0.034638211131095886,
+            "p99": 0.1064453125,
+            "gradient_error": 0.012534897774457932,
+            "saved_output_reproduced_exactly": true
+          },
+          "diverse": {
+            "mae": 0.03882559761404991,
+            "rmse": 0.0503409206867218,
+            "p99": 0.1328125,
+            "gradient_error": 0.012475041672587395,
+            "saved_output_reproduced_exactly": true
+          }
+        },
+        "identity": {
+          "mae": 0.050376299768686295,
+          "rmse": 0.0685698390007019,
+          "p99": 0.21533203125,
+          "gradient_error": 0.013287071138620377
+        },
+        "grade_only": {
+          "mae": 0.0453539676964283,
+          "rmse": 0.05834429711103439,
+          "p99": 0.1458740234375,
+          "gradient_error": 0.014037756249308586
+        }
+      },
+      {
+        "label": "teacher-photo-portrait",
+        "validation_group": "photos-emittance-1.0",
+        "capture_hashes": {
+          "color": "d60ec44402a02d7e03fc0be790deefbcc5110dc7002be1d8a2031243ce602862",
+          "output": "cb75f15d16ab5f4ac082a5a7272c13aab748cae4037ac27059333d2348c7d969"
+        },
+        "input_mean": 0.6612144112586975,
+        "input_std": 0.3125610649585724,
+        "input_min": -0.051513671875,
+        "input_max": 1.1435546875,
+        "input_fraction_equal_one": 0.13071678883744856,
+        "input_fraction_above_one": 0.013378022119341564,
+        "models": {
+          "mixed34": {
+            "mae": 0.04897063970565796,
+            "rmse": 0.06731774657964706,
+            "p99": 0.213836669921875,
+            "gradient_error": 0.009749378077685833,
+            "saved_output_reproduced_exactly": true
+          },
+          "staged": {
+            "mae": 0.05290825664997101,
+            "rmse": 0.07755802571773529,
+            "p99": 0.26458740234375,
+            "gradient_error": 0.010508506558835506,
+            "saved_output_reproduced_exactly": true
+          },
+          "diverse": {
+            "mae": 0.046505916863679886,
+            "rmse": 0.0630306527018547,
+            "p99": 0.2061767578125,
+            "gradient_error": 0.009245752356946468,
+            "saved_output_reproduced_exactly": true
+          }
+        },
+        "identity": {
+          "mae": 0.08399125933647156,
+          "rmse": 0.09642539918422699,
+          "p99": 0.21630859375,
+          "gradient_error": 0.00864994153380394
+        },
+        "grade_only": {
+          "mae": 0.03786113113164902,
+          "rmse": 0.055844418704509735,
+          "p99": 0.183349609375,
+          "gradient_error": 0.007289214991033077
+        }
+      },
+      {
+        "label": "teacher-photo-tenth-portrait",
+        "validation_group": "photos-emittance-0.1",
+        "capture_hashes": {
+          "color": "071ec0aae77b6e15909c3f7b79ed0c619e4359289d37e46094e4f0e941978d19",
+          "output": "fe55fe61e495fa68e16c9d743f926cab52233fc946adf436619591ed1dbbb795"
+        },
+        "input_mean": 0.3171573281288147,
+        "input_std": 0.21737425029277802,
+        "input_min": -0.035980224609375,
+        "input_max": 0.91162109375,
+        "input_fraction_equal_one": 0.0,
+        "input_fraction_above_one": 0.0,
+        "models": {
+          "mixed34": {
+            "mae": 0.02941862866282463,
+            "rmse": 0.037116121500730515,
+            "p99": 0.102294921875,
+            "gradient_error": 0.005457383114844561,
+            "saved_output_reproduced_exactly": true
+          },
+          "staged": {
+            "mae": 0.030636373907327652,
+            "rmse": 0.0410296730697155,
+            "p99": 0.1171875,
+            "gradient_error": 0.006016595289111137,
+            "saved_output_reproduced_exactly": true
+          },
+          "diverse": {
+            "mae": 0.021189125254750252,
+            "rmse": 0.02841760776937008,
+            "p99": 0.089111328125,
+            "gradient_error": 0.0048739006742835045,
+            "saved_output_reproduced_exactly": true
+          }
+        },
+        "identity": {
+          "mae": 0.031181929633021355,
+          "rmse": 0.04057953879237175,
+          "p99": 0.111083984375,
+          "gradient_error": 0.0046824561432003975
+        },
+        "grade_only": {
+          "mae": 0.019811157137155533,
+          "rmse": 0.02643688954412937,
+          "p99": 0.08349609375,
+          "gradient_error": 0.004346071742475033
+        }
+      },
+      {
+        "label": "teacher-photo-landscape",
+        "validation_group": "photos-emittance-1.0",
+        "capture_hashes": {
+          "color": "ce88cebb0be45aefb048a3ae4e87b83c56776ef4ff3f11d454ce0bc7d61734d1",
+          "output": "7890ee1902560f34f54766f349d4306fa910d81b788b4f2eff7a070072c2f4a4"
+        },
+        "input_mean": 0.7894094586372375,
+        "input_std": 0.22660544514656067,
+        "input_min": 0.058441162109375,
+        "input_max": 1.150390625,
+        "input_fraction_equal_one": 0.2512424447016461,
+        "input_fraction_above_one": 0.01943335262345679,
+        "models": {
+          "mixed34": {
+            "mae": 0.016965612769126892,
+            "rmse": 0.024731729179620743,
+            "p99": 0.07470703125,
+            "gradient_error": 0.00783442985266447,
+            "saved_output_reproduced_exactly": true
+          },
+          "staged": {
+            "mae": 0.022623753175139427,
+            "rmse": 0.034292202442884445,
+            "p99": 0.107177734375,
+            "gradient_error": 0.007778302766382694,
+            "saved_output_reproduced_exactly": true
+          },
+          "diverse": {
+            "mae": 0.018373990431427956,
+            "rmse": 0.02371593937277794,
+            "p99": 0.0723876953125,
+            "gradient_error": 0.007625032681971788,
+            "saved_output_reproduced_exactly": true
+          }
+        },
+        "identity": {
+          "mae": 0.07175260037183762,
+          "rmse": 0.07822103798389435,
+          "p99": 0.11962890625,
+          "gradient_error": 0.0059983814135193825
+        },
+        "grade_only": {
+          "mae": 0.013430011458694935,
+          "rmse": 0.02332666702568531,
+          "p99": 0.094970703125,
+          "gradient_error": 0.005637540016323328
+        }
+      },
+      {
+        "label": "teacher-photo-tenth-landscape",
+        "validation_group": "photos-emittance-0.1",
+        "capture_hashes": {
+          "color": "8675250f022e482d5a01d8e287b2bafc844baf561090d30d1a9488b0656ca309",
+          "output": "5a61cc6d78a4a4a0d45ea60f04dcbefc6516a10f2456334b9394dcb003992812"
+        },
+        "input_mean": 0.3960431218147278,
+        "input_std": 0.17617098987102509,
+        "input_min": -0.026763916015625,
+        "input_max": 0.90869140625,
+        "input_fraction_equal_one": 0.0,
+        "input_fraction_above_one": 0.0,
+        "models": {
+          "mixed34": {
+            "mae": 0.02523346059024334,
+            "rmse": 0.032036252319812775,
+            "p99": 0.077880859375,
+            "gradient_error": 0.005818123463541269,
+            "saved_output_reproduced_exactly": true
+          },
+          "staged": {
+            "mae": 0.04424460232257843,
+            "rmse": 0.056493017822504044,
+            "p99": 0.1328125,
+            "gradient_error": 0.00646062009036541,
+            "saved_output_reproduced_exactly": true
+          },
+          "diverse": {
+            "mae": 0.019596658647060394,
+            "rmse": 0.02368687465786934,
+            "p99": 0.05291748046875,
+            "gradient_error": 0.0052094049751758575,
+            "saved_output_reproduced_exactly": true
+          }
+        },
+        "identity": {
+          "mae": 0.02697160094976425,
+          "rmse": 0.03285708278417587,
+          "p99": 0.0703125,
+          "gradient_error": 0.005747237242758274
+        },
+        "grade_only": {
+          "mae": 0.018189018592238426,
+          "rmse": 0.021935991942882538,
+          "p99": 0.050537109375,
+          "gradient_error": 0.006399970501661301
+        }
+      },
+      {
+        "label": "teacher-photo-cat",
+        "validation_group": "photos-emittance-1.0",
+        "capture_hashes": {
+          "color": "f783346fc093b8f8b61a4f77376e8ac9e0170ba1aa3f6f8063ff2aa5075151cb",
+          "output": "397f02d8e46dfe8171b77ff400eb0cd200527bad0e95dc862eaea21f37483093"
+        },
+        "input_mean": 0.5250096321105957,
+        "input_std": 0.3643174171447754,
+        "input_min": -0.01076507568359375,
+        "input_max": 1.08203125,
+        "input_fraction_equal_one": 0.09059477880658436,
+        "input_fraction_above_one": 0.0022421553497942387,
+        "models": {
+          "mixed34": {
+            "mae": 0.0194725189357996,
+            "rmse": 0.028068287298083305,
+            "p99": 0.10107421875,
+            "gradient_error": 0.0041800616309046745,
+            "saved_output_reproduced_exactly": true
+          },
+          "staged": {
+            "mae": 0.027052991092205048,
+            "rmse": 0.03445426747202873,
+            "p99": 0.1064453125,
+            "gradient_error": 0.0045127891935408115,
+            "saved_output_reproduced_exactly": true
+          },
+          "diverse": {
+            "mae": 0.023409569635987282,
+            "rmse": 0.029960891231894493,
+            "p99": 0.08544921875,
+            "gradient_error": 0.0037821182049810886,
+            "saved_output_reproduced_exactly": true
+          }
+        },
+        "identity": {
+          "mae": 0.06669677793979645,
+          "rmse": 0.07892008870840073,
+          "p99": 0.1650390625,
+          "gradient_error": 0.003366920631378889
+        },
+        "grade_only": {
+          "mae": 0.027504336088895798,
+          "rmse": 0.032770201563835144,
+          "p99": 0.0927734375,
+          "gradient_error": 0.0028894501738250256
+        }
+      },
+      {
+        "label": "teacher-photo-tenth-cat",
+        "validation_group": "photos-emittance-0.1",
+        "capture_hashes": {
+          "color": "25fe2d0b191d1c31efa9ca0bff7ecf75585296631930e318c6fc1e6a3c212015",
+          "output": "e0f64756c7243ffdcaccd52f2df9bc49f7fa514747be48be65ce5661c0c7581c"
+        },
+        "input_mean": 0.2403092384338379,
+        "input_std": 0.2369941920042038,
+        "input_min": -0.005977630615234375,
+        "input_max": 0.8740234375,
+        "input_fraction_equal_one": 0.0,
+        "input_fraction_above_one": 0.0,
+        "models": {
+          "mixed34": {
+            "mae": 0.02367204613983631,
+            "rmse": 0.031386587768793106,
+            "p99": 0.0836181640625,
+            "gradient_error": 0.0026715626008808613,
+            "saved_output_reproduced_exactly": true
+          },
+          "staged": {
+            "mae": 0.024459246546030045,
+            "rmse": 0.03410199284553528,
+            "p99": 0.104248046875,
+            "gradient_error": 0.0028828498907387257,
+            "saved_output_reproduced_exactly": true
+          },
+          "diverse": {
+            "mae": 0.016858333721756935,
+            "rmse": 0.02107599563896656,
+            "p99": 0.054931640625,
+            "gradient_error": 0.0022264476865530014,
+            "saved_output_reproduced_exactly": true
+          }
+        },
+        "identity": {
+          "mae": 0.027050631120800972,
+          "rmse": 0.037331029772758484,
+          "p99": 0.09130859375,
+          "gradient_error": 0.001857762224972248
+        },
+        "grade_only": {
+          "mae": 0.013998152688145638,
+          "rmse": 0.018357930704951286,
+          "p99": 0.051513671875,
+          "gradient_error": 0.001772725023329258
+        }
+      },
+      {
+        "label": "teacher-diverse-library",
+        "validation_group": "diverse-extension",
+        "capture_hashes": {
+          "color": "e7a63502657c1d957e2340622bcf2fec67266ef9375cda3f3d2cfca48803e9d4",
+          "output": "8f771e46ab78f64595c272f4238c402eb4b36469c52790ef0bfe950aa27b93c3"
+        },
+        "input_mean": 0.2450702041387558,
+        "input_std": 0.16441909968852997,
+        "input_min": -0.0307464599609375,
+        "input_max": 0.97705078125,
+        "input_fraction_equal_one": 0.0,
+        "input_fraction_above_one": 0.0,
+        "models": {
+          "mixed34": {
+            "mae": 0.050798747688531876,
+            "rmse": 0.06407987326383591,
+            "p99": 0.17626953125,
+            "gradient_error": 0.015220880508422852
+          },
+          "staged": {
+            "mae": 0.05280832573771477,
+            "rmse": 0.06736704707145691,
+            "p99": 0.191650390625,
+            "gradient_error": 0.015515320003032684
+          },
+          "diverse": {
+            "mae": 0.03919897601008415,
+            "rmse": 0.0519302599132061,
+            "p99": 0.156982421875,
+            "gradient_error": 0.01416676677763462,
+            "saved_output_reproduced_exactly": true
+          }
+        },
+        "identity": {
+          "mae": 0.03772563114762306,
+          "rmse": 0.04880379140377045,
+          "p99": 0.1417236328125,
+          "gradient_error": 0.014137372374534607
+        },
+        "grade_only": {
+          "mae": 0.045290637761354446,
+          "rmse": 0.05740101635456085,
+          "p99": 0.16534423828125,
+          "gradient_error": 0.016801077872514725
+        }
+      },
+      {
+        "label": "teacher-diverse-beach",
+        "validation_group": "diverse-extension",
+        "capture_hashes": {
+          "color": "400f68a2ed7a175a66d28efb3ee13b04415a6077f6b9ed38d5654e14b7458ebd",
+          "output": "e18e03c18d3ae5444c44db0325a918cadea5c4a6b953ba94bf197bb302a294cb"
+        },
+        "input_mean": 0.48807159066200256,
+        "input_std": 0.26360395550727844,
+        "input_min": -0.002101898193359375,
+        "input_max": 0.96044921875,
+        "input_fraction_equal_one": 0.0,
+        "input_fraction_above_one": 0.0,
+        "models": {
+          "mixed34": {
+            "mae": 0.015456590801477432,
+            "rmse": 0.0231714379042387,
+            "p99": 0.08111572265625,
+            "gradient_error": 0.0050308844074606895
+          },
+          "staged": {
+            "mae": 0.018773166462779045,
+            "rmse": 0.02486289106309414,
+            "p99": 0.0787353515625,
+            "gradient_error": 0.005402594804763794
+          },
+          "diverse": {
+            "mae": 0.013926918618381023,
+            "rmse": 0.019961142912507057,
+            "p99": 0.061279296875,
+            "gradient_error": 0.004654154181480408,
+            "saved_output_reproduced_exactly": true
+          }
+        },
+        "identity": {
+          "mae": 0.04679199308156967,
+          "rmse": 0.05398961156606674,
+          "p99": 0.08837890625,
+          "gradient_error": 0.004806830547749996
+        },
+        "grade_only": {
+          "mae": 0.013719467446208,
+          "rmse": 0.02030845917761326,
+          "p99": 0.064178466796875,
+          "gradient_error": 0.004696359857916832
+        }
+      },
+      {
+        "label": "teacher-diverse-cassidy",
+        "validation_group": "diverse-extension",
+        "capture_hashes": {
+          "color": "4a922ad9e1e26560cdc917a60fb13fdb358cf1275628c823038b3c2d9278d9c3",
+          "output": "e483e2d868f94e1817e33a4984fc7eb6447f34eb3f8dd0fead278513638ade97"
+        },
+        "input_mean": 0.49385011196136475,
+        "input_std": 0.29170215129852295,
+        "input_min": -0.00478363037109375,
+        "input_max": 0.94775390625,
+        "input_fraction_equal_one": 0.0,
+        "input_fraction_above_one": 0.0,
+        "models": {
+          "mixed34": {
+            "mae": 0.023910336196422577,
+            "rmse": 0.03169563040137291,
+            "p99": 0.1016845703125,
+            "gradient_error": 0.0053323241882026196
+          },
+          "staged": {
+            "mae": 0.028879888355731964,
+            "rmse": 0.03847600892186165,
+            "p99": 0.12060546875,
+            "gradient_error": 0.005914423614740372
+          },
+          "diverse": {
+            "mae": 0.023030469194054604,
+            "rmse": 0.029538949951529503,
+            "p99": 0.08538818359375,
+            "gradient_error": 0.004924981389194727,
+            "saved_output_reproduced_exactly": true
+          }
+        },
+        "identity": {
+          "mae": 0.05033518746495247,
+          "rmse": 0.05966668576002121,
+          "p99": 0.125,
+          "gradient_error": 0.00458112545311451
+        },
+        "grade_only": {
+          "mae": 0.021384015679359436,
+          "rmse": 0.028054868802428246,
+          "p99": 0.0888671875,
+          "gradient_error": 0.004300311207771301
+        }
+      },
+      {
+        "label": "teacher-diverse-dunes-other",
+        "validation_group": "diverse-extension",
+        "capture_hashes": {
+          "color": "33acd586d4f1fc5fe871095f71706a24f6b568d24390499b19077a649e5136ed",
+          "output": "97fee64e2ac2c101b3c564f5cf769e727770acb6fe2c6a00b0b651054b2e37c6"
+        },
+        "input_mean": 0.3410691022872925,
+        "input_std": 0.21399377286434174,
+        "input_min": 0.057220458984375,
+        "input_max": 0.912109375,
+        "input_fraction_equal_one": 0.0,
+        "input_fraction_above_one": 0.0,
+        "models": {
+          "mixed34": {
+            "mae": 0.022146016359329224,
+            "rmse": 0.025748420506715775,
+            "p99": 0.0537109375,
+            "gradient_error": 0.002346072578802705
+          },
+          "staged": {
+            "mae": 0.018286291509866714,
+            "rmse": 0.023534785956144333,
+            "p99": 0.069580078125,
+            "gradient_error": 0.002470938954502344
+          },
+          "diverse": {
+            "mae": 0.011736650951206684,
+            "rmse": 0.01499139703810215,
+            "p99": 0.0400390625,
+            "gradient_error": 0.001984993927180767,
+            "saved_output_reproduced_exactly": true
+          }
+        },
+        "identity": {
+          "mae": 0.028923580422997475,
+          "rmse": 0.03827417269349098,
+          "p99": 0.09765625,
+          "gradient_error": 0.0019291085191071033
+        },
+        "grade_only": {
+          "mae": 0.012081309221684933,
+          "rmse": 0.015350531786680222,
+          "p99": 0.04150390625,
+          "gradient_error": 0.001881942036561668
+        }
+      }
+    ],
+    "mean_validation_mae": {
+      "previous": {
+        "mixed34": 0.01926351059228182,
+        "staged": 0.019194671884179115,
+        "diverse": 0.018577595241367817
+      },
+      "new": {
+        "mixed34": 0.032425154000520706,
+        "staged": 0.02634460385888815,
+        "diverse": 0.035370211116969585
+      },
+      "all": {
+        "mixed34": 0.02776701468974352,
+        "staged": 0.029027540935203433,
+        "diverse": 0.025778915267437696
+      },
+      "diverse-extension": {
+        "mixed34": 0.028077922761440277,
+        "staged": 0.029686918016523123,
+        "diverse": 0.021973253693431616
+      },
+      "photos-emittance-0.1": {
+        "mixed34": 0.026108045130968094,
+        "staged": 0.03311340759197871,
+        "diverse": 0.019214705874522526
+      },
+      "photos-emittance-1.0": {
+        "mixed34": 0.028469590470194817,
+        "staged": 0.03419500030577183,
+        "diverse": 0.029429825643698376
+      }
+    },
+    "complete_graph_timings": {
+      "mixed34": {
+        "median_ms": 1.277120053768158,
+        "p95_ms": 1.7672704160213468,
+        "samples_ms": [
+          1.2645119428634644,
+          1.4192639589309692,
+          1.2615679502487183,
+          1.7006080150604248,
+          1.2707840204238892,
+          1.240064024925232,
+          1.726464033126831,
+          1.280832052230835,
+          1.2461119890213013,
+          1.7295360565185547,
+          1.2706559896469116,
+          1.2451839447021484,
+          1.6086080074310303,
+          1.2554240226745605,
+          1.2378239631652832,
+          1.6138240098953247,
+          1.2562240362167358,
+          1.2451839447021484,
+          1.619968056678772,
+          1.2827520370483398,
+          1.2615679502487183,
+          1.8891199827194214,
+          1.4600000381469727,
+          1.798143982887268,
+          1.2983039617538452,
+          1.2624640464782715,
+          1.6558079719543457,
+          1.273408055305481,
+          1.2625919580459595,
+          1.6504640579223633
+        ],
+        "graph_matches_eager": true
+      },
+      "staged": {
+        "median_ms": 1.2431360483169556,
+        "p95_ms": 1.6748159945011136,
+        "samples_ms": [
+          1.2613120079040527,
+          1.8215359449386597,
+          1.2718080282211304,
+          1.2369920015335083,
+          1.6332800388336182,
+          1.2431360483169556,
+          1.2345919609069824,
+          1.6332800388336182,
+          1.24617600440979,
+          1.2339199781417847,
+          1.6166399717330933,
+          1.2431360483169556,
+          1.2377920150756836,
+          1.5892479419708252,
+          1.2379200458526611,
+          1.2390400171279907,
+          1.708799958229065,
+          1.2461119890213013,
+          1.2368639707565308,
+          1.594048023223877,
+          1.240064024925232,
+          1.230847954750061,
+          1.605631947517395,
+          1.2431360483169556,
+          1.2336640357971191,
+          1.6035840511322021,
+          1.2349439859390259,
+          1.2335679531097412,
+          1.610751986503601,
+          1.2306879758834839
+        ],
+        "graph_matches_eager": true
+      },
+      "diverse": {
+        "median_ms": 1.2691680192947388,
+        "p95_ms": 1.7097503721714018,
+        "samples_ms": [
+          1.5144959688186646,
+          1.2769279479980469,
+          1.5534080266952515,
+          1.2584960460662842,
+          1.7363840341567993,
+          1.2778879404067993,
+          1.2462079524993896,
+          1.7312639951705933,
+          1.282047986984253,
+          1.2458239793777466,
+          1.6220159530639648,
+          1.2726720571517944,
+          1.240064024925232,
+          1.5974400043487549,
+          1.258239984512329,
+          1.2451839447021484,
+          1.6126079559326172,
+          1.2564480304718018,
+          1.2441600561141968,
+          1.615455985069275,
+          1.2564480304718018,
+          1.2472319602966309,
+          1.6066559553146362,
+          1.2554240226745605,
+          1.2462079524993896,
+          1.656831979751587,
+          1.2636159658432007,
+          1.2409600019454956,
+          1.6834559440612793,
+          1.265663981437683
+        ],
+        "graph_matches_eager": true
+      }
+    },
+    "photo_validation_proofs": [
+      {
+        "name": "portrait",
+        "author": "NASA",
+        "license": "Public domain in the United States (NASA)",
+        "license_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+        "source": "https://commons.wikimedia.org/wiki/File:Brent_W._Jett_-_Official_Astronaut_Portrait.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/e/e9/Brent_W._Jett_-_Official_Astronaut_Portrait.jpg",
+        "source_size": [
+          2400,
+          3000
+        ],
+        "source_sha1": "1aa64e6c1e05e18b419162c75c26405a1f7322b1",
+        "source_bytes": 1007136,
+        "source_sha256": "bf3acb666b51589cace3459dba1076a9e2794ef6f25234cf65139b77a97fdc61",
+        "texture_sha256": "3bc967b1117bd417436cb73287295cb9f56d9a15793e1858a19789645f551c44",
+        "split": "validation",
+        "emittance": 1.0,
+        "label": "teacher-photo-portrait",
+        "capture_hashes": {
+          "color": "d60ec44402a02d7e03fc0be790deefbcc5110dc7002be1d8a2031243ce602862",
+          "output": "cb75f15d16ab5f4ac082a5a7272c13aab748cae4037ac27059333d2348c7d969"
+        },
+        "proof": {
+          "label": "teacher-photo-portrait",
+          "capture_hashes": {
+            "color": "d60ec44402a02d7e03fc0be790deefbcc5110dc7002be1d8a2031243ce602862",
+            "output": "cb75f15d16ab5f4ac082a5a7272c13aab748cae4037ac27059333d2348c7d969"
+          },
+          "complete_fenced_frames": [
+            {
+              "index": 0,
+              "reset": 1
+            },
+            {
+              "index": 1,
+              "reset": 0
+            },
+            {
+              "index": 2,
+              "reset": 0
+            },
+            {
+              "index": 3,
+              "reset": 0
+            }
+          ],
+          "runtime_sha256": {
+            "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+            "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+            "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+          },
+          "restored": {
+            "scene": true,
+            "dll": true,
+            "ini": true
+          },
+          "inactive_desktop_observations": 4,
+          "all_demo_windows_hidden_and_off_input_desktop": true,
+          "native_sparse_timing": {
+            "total_ms": {
+              "median": 5.58,
+              "min": 5.58,
+              "max": 5.58
+            },
+            "model_ms": {
+              "median": 5.38,
+              "min": 5.38,
+              "max": 5.38
+            },
+            "surrounding_ms": {
+              "median": 0.21,
+              "min": 0.21,
+              "max": 0.21
+            }
+          },
+          "native_retained_timing_count": 1
+        }
+      },
+      {
+        "name": "portrait",
+        "author": "NASA",
+        "license": "Public domain in the United States (NASA)",
+        "license_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+        "source": "https://commons.wikimedia.org/wiki/File:Brent_W._Jett_-_Official_Astronaut_Portrait.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/e/e9/Brent_W._Jett_-_Official_Astronaut_Portrait.jpg",
+        "source_size": [
+          2400,
+          3000
+        ],
+        "source_sha1": "1aa64e6c1e05e18b419162c75c26405a1f7322b1",
+        "source_bytes": 1007136,
+        "source_sha256": "bf3acb666b51589cace3459dba1076a9e2794ef6f25234cf65139b77a97fdc61",
+        "texture_sha256": "3bc967b1117bd417436cb73287295cb9f56d9a15793e1858a19789645f551c44",
+        "split": "validation",
+        "emittance": 0.1,
+        "label": "teacher-photo-tenth-portrait",
+        "capture_hashes": {
+          "color": "071ec0aae77b6e15909c3f7b79ed0c619e4359289d37e46094e4f0e941978d19",
+          "output": "fe55fe61e495fa68e16c9d743f926cab52233fc946adf436619591ed1dbbb795"
+        },
+        "proof": {
+          "label": "teacher-photo-tenth-portrait",
+          "capture_hashes": {
+            "color": "071ec0aae77b6e15909c3f7b79ed0c619e4359289d37e46094e4f0e941978d19",
+            "output": "fe55fe61e495fa68e16c9d743f926cab52233fc946adf436619591ed1dbbb795"
+          },
+          "complete_fenced_frames": [
+            {
+              "index": 0,
+              "reset": 1
+            },
+            {
+              "index": 1,
+              "reset": 0
+            },
+            {
+              "index": 2,
+              "reset": 0
+            },
+            {
+              "index": 3,
+              "reset": 0
+            }
+          ],
+          "runtime_sha256": {
+            "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+            "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+            "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+          },
+          "restored": {
+            "scene": true,
+            "dll": true,
+            "ini": true
+          },
+          "inactive_desktop_observations": 4,
+          "all_demo_windows_hidden_and_off_input_desktop": true,
+          "native_sparse_timing": {
+            "total_ms": {
+              "median": 5.63,
+              "min": 5.63,
+              "max": 5.63
+            },
+            "model_ms": {
+              "median": 5.42,
+              "min": 5.42,
+              "max": 5.42
+            },
+            "surrounding_ms": {
+              "median": 0.21,
+              "min": 0.21,
+              "max": 0.21
+            }
+          },
+          "native_retained_timing_count": 1
+        }
+      },
+      {
+        "name": "landscape",
+        "author": "Hannes R\u00f6st",
+        "license": "CC BY-SA 3.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Fronalpstock_big.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/3/3f/Fronalpstock_big.jpg",
+        "source_size": [
+          10109,
+          4542
+        ],
+        "source_bytes": 14679474,
+        "source_sha256": "24eb29eccdf0af691b406d1a3d22c0ef5d761cc454d8a917848c33958f6fc857",
+        "texture_sha256": "b8e12dae50575bd6297d3e5489ff9036b78952f8ad1645f57cd5627596b52175",
+        "split": "validation",
+        "emittance": 1.0,
+        "label": "teacher-photo-landscape",
+        "capture_hashes": {
+          "color": "ce88cebb0be45aefb048a3ae4e87b83c56776ef4ff3f11d454ce0bc7d61734d1",
+          "output": "7890ee1902560f34f54766f349d4306fa910d81b788b4f2eff7a070072c2f4a4"
+        },
+        "proof": {
+          "label": "teacher-photo-landscape",
+          "capture_hashes": {
+            "color": "ce88cebb0be45aefb048a3ae4e87b83c56776ef4ff3f11d454ce0bc7d61734d1",
+            "output": "7890ee1902560f34f54766f349d4306fa910d81b788b4f2eff7a070072c2f4a4"
+          },
+          "complete_fenced_frames": [
+            {
+              "index": 0,
+              "reset": 1
+            },
+            {
+              "index": 1,
+              "reset": 0
+            },
+            {
+              "index": 2,
+              "reset": 0
+            },
+            {
+              "index": 3,
+              "reset": 0
+            }
+          ],
+          "runtime_sha256": {
+            "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+            "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+            "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+          },
+          "restored": {
+            "scene": true,
+            "dll": true,
+            "ini": true
+          },
+          "inactive_desktop_observations": 4,
+          "all_demo_windows_hidden_and_off_input_desktop": true,
+          "native_sparse_timing": {
+            "total_ms": {
+              "median": 5.58,
+              "min": 5.58,
+              "max": 5.58
+            },
+            "model_ms": {
+              "median": 5.37,
+              "min": 5.37,
+              "max": 5.37
+            },
+            "surrounding_ms": {
+              "median": 0.2,
+              "min": 0.2,
+              "max": 0.2
+            }
+          },
+          "native_retained_timing_count": 1
+        }
+      },
+      {
+        "name": "landscape",
+        "author": "Hannes R\u00f6st",
+        "license": "CC BY-SA 3.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Fronalpstock_big.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/3/3f/Fronalpstock_big.jpg",
+        "source_size": [
+          10109,
+          4542
+        ],
+        "source_bytes": 14679474,
+        "source_sha256": "24eb29eccdf0af691b406d1a3d22c0ef5d761cc454d8a917848c33958f6fc857",
+        "texture_sha256": "b8e12dae50575bd6297d3e5489ff9036b78952f8ad1645f57cd5627596b52175",
+        "split": "validation",
+        "emittance": 0.1,
+        "label": "teacher-photo-tenth-landscape",
+        "capture_hashes": {
+          "color": "8675250f022e482d5a01d8e287b2bafc844baf561090d30d1a9488b0656ca309",
+          "output": "5a61cc6d78a4a4a0d45ea60f04dcbefc6516a10f2456334b9394dcb003992812"
+        },
+        "proof": {
+          "label": "teacher-photo-tenth-landscape",
+          "capture_hashes": {
+            "color": "8675250f022e482d5a01d8e287b2bafc844baf561090d30d1a9488b0656ca309",
+            "output": "5a61cc6d78a4a4a0d45ea60f04dcbefc6516a10f2456334b9394dcb003992812"
+          },
+          "complete_fenced_frames": [
+            {
+              "index": 0,
+              "reset": 1
+            },
+            {
+              "index": 1,
+              "reset": 0
+            },
+            {
+              "index": 2,
+              "reset": 0
+            },
+            {
+              "index": 3,
+              "reset": 0
+            }
+          ],
+          "runtime_sha256": {
+            "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+            "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+            "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+          },
+          "restored": {
+            "scene": true,
+            "dll": true,
+            "ini": true
+          },
+          "inactive_desktop_observations": 4,
+          "all_demo_windows_hidden_and_off_input_desktop": true,
+          "native_sparse_timing": {
+            "total_ms": {
+              "median": 5.63,
+              "min": 5.63,
+              "max": 5.63
+            },
+            "model_ms": {
+              "median": 5.42,
+              "min": 5.42,
+              "max": 5.42
+            },
+            "surrounding_ms": {
+              "median": 0.21,
+              "min": 0.21,
+              "max": 0.21
+            }
+          },
+          "native_retained_timing_count": 1
+        }
+      },
+      {
+        "name": "cat",
+        "author": "Babelball",
+        "license": "CC0 1.0",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:3_year_old_calico_cat.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/8/8b/3_year_old_calico_cat.jpg",
+        "source_size": [
+          6000,
+          4000
+        ],
+        "source_sha1": "aedf4227c4a8d247883f2a54ff5291a8c7cfbebf",
+        "source_bytes": 2064270,
+        "source_sha256": "c1af939cd482dfd5decd34ba3a565b42dc26deb3babef4a41c92420c85269df9",
+        "texture_sha256": "5304058369ba9b97165f8bf3e6da9878a5d001df2d70498b9aeb9fd0c4447080",
+        "split": "validation",
+        "emittance": 1.0,
+        "label": "teacher-photo-cat",
+        "capture_hashes": {
+          "color": "f783346fc093b8f8b61a4f77376e8ac9e0170ba1aa3f6f8063ff2aa5075151cb",
+          "output": "397f02d8e46dfe8171b77ff400eb0cd200527bad0e95dc862eaea21f37483093"
+        },
+        "proof": {
+          "label": "teacher-photo-cat",
+          "capture_hashes": {
+            "color": "f783346fc093b8f8b61a4f77376e8ac9e0170ba1aa3f6f8063ff2aa5075151cb",
+            "output": "397f02d8e46dfe8171b77ff400eb0cd200527bad0e95dc862eaea21f37483093"
+          },
+          "complete_fenced_frames": [
+            {
+              "index": 0,
+              "reset": 1
+            },
+            {
+              "index": 1,
+              "reset": 0
+            },
+            {
+              "index": 2,
+              "reset": 0
+            },
+            {
+              "index": 3,
+              "reset": 0
+            }
+          ],
+          "runtime_sha256": {
+            "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+            "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+            "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+          },
+          "restored": {
+            "scene": true,
+            "dll": true,
+            "ini": true
+          },
+          "inactive_desktop_observations": 4,
+          "all_demo_windows_hidden_and_off_input_desktop": true,
+          "native_sparse_timing": {
+            "total_ms": {
+              "median": 5.62,
+              "min": 5.62,
+              "max": 5.62
+            },
+            "model_ms": {
+              "median": 5.41,
+              "min": 5.41,
+              "max": 5.41
+            },
+            "surrounding_ms": {
+              "median": 0.2,
+              "min": 0.2,
+              "max": 0.2
+            }
+          },
+          "native_retained_timing_count": 1
+        }
+      },
+      {
+        "name": "cat",
+        "author": "Babelball",
+        "license": "CC0 1.0",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:3_year_old_calico_cat.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/8/8b/3_year_old_calico_cat.jpg",
+        "source_size": [
+          6000,
+          4000
+        ],
+        "source_sha1": "aedf4227c4a8d247883f2a54ff5291a8c7cfbebf",
+        "source_bytes": 2064270,
+        "source_sha256": "c1af939cd482dfd5decd34ba3a565b42dc26deb3babef4a41c92420c85269df9",
+        "texture_sha256": "5304058369ba9b97165f8bf3e6da9878a5d001df2d70498b9aeb9fd0c4447080",
+        "split": "validation",
+        "emittance": 0.1,
+        "label": "teacher-photo-tenth-cat",
+        "capture_hashes": {
+          "color": "25fe2d0b191d1c31efa9ca0bff7ecf75585296631930e318c6fc1e6a3c212015",
+          "output": "e0f64756c7243ffdcaccd52f2df9bc49f7fa514747be48be65ce5661c0c7581c"
+        },
+        "proof": {
+          "label": "teacher-photo-tenth-cat",
+          "capture_hashes": {
+            "color": "25fe2d0b191d1c31efa9ca0bff7ecf75585296631930e318c6fc1e6a3c212015",
+            "output": "e0f64756c7243ffdcaccd52f2df9bc49f7fa514747be48be65ce5661c0c7581c"
+          },
+          "complete_fenced_frames": [
+            {
+              "index": 0,
+              "reset": 1
+            },
+            {
+              "index": 1,
+              "reset": 0
+            },
+            {
+              "index": 2,
+              "reset": 0
+            },
+            {
+              "index": 3,
+              "reset": 0
+            }
+          ],
+          "runtime_sha256": {
+            "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+            "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+            "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+          },
+          "restored": {
+            "scene": true,
+            "dll": true,
+            "ini": true
+          },
+          "inactive_desktop_observations": 4,
+          "all_demo_windows_hidden_and_off_input_desktop": true,
+          "native_sparse_timing": {
+            "total_ms": {
+              "median": 5.63,
+              "min": 5.63,
+              "max": 5.63
+            },
+            "model_ms": {
+              "median": 5.43,
+              "min": 5.43,
+              "max": 5.43
+            },
+            "surrounding_ms": {
+              "median": 0.2,
+              "min": 0.2,
+              "max": 0.2
+            }
+          },
+          "native_retained_timing_count": 1
+        }
+      }
+    ],
+    "image_validation_proofs": [
+      {
+        "name": "library",
+        "split": "validation",
+        "author": "Diliff",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Long_Room_Interior,_Trinity_College_Dublin,_Ireland_-_Diliff.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/4/4b/Long_Room_Interior%2C_Trinity_College_Dublin%2C_Ireland_-_Diliff.jpg",
+        "source_size": [
+          9000,
+          6796
+        ],
+        "source_sha1": "9fa7403b3133598aa118fba78bf49fa5ae1893fc",
+        "source_bytes": 21074464,
+        "centering": [
+          0.5,
+          0.5
+        ],
+        "label": "teacher-diverse-library",
+        "source_sha256": "0370ff05c5ed4795c5568382f1c6f015b89b55b616ec88a2e0970be57a42fc0a",
+        "texture_sha256": "b74b12e1cb45f8c5d21f222458da5da72ecfc4126e0a690670d5d3cc16847190",
+        "scene_manifest_sha256": "bc1fe2664f5bda89c36916df73e61f690217b37dc78c0d390541166c6b22ead7",
+        "capture_hashes": {
+          "color": "e7a63502657c1d957e2340622bcf2fec67266ef9375cda3f3d2cfca48803e9d4",
+          "output": "8f771e46ab78f64595c272f4238c402eb4b36469c52790ef0bfe950aa27b93c3"
+        },
+        "proof": {
+          "label": "teacher-diverse-library",
+          "capture_hashes": {
+            "color": "e7a63502657c1d957e2340622bcf2fec67266ef9375cda3f3d2cfca48803e9d4",
+            "output": "8f771e46ab78f64595c272f4238c402eb4b36469c52790ef0bfe950aa27b93c3"
+          },
+          "complete_fenced_frames": [
+            {
+              "index": 0,
+              "reset": 1
+            },
+            {
+              "index": 1,
+              "reset": 0
+            },
+            {
+              "index": 2,
+              "reset": 0
+            },
+            {
+              "index": 3,
+              "reset": 0
+            }
+          ],
+          "runtime_sha256": {
+            "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+            "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+            "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+          },
+          "restored": {
+            "scene": true,
+            "dll": true,
+            "ini": true
+          },
+          "inactive_desktop_observations": 4,
+          "all_demo_windows_hidden_and_off_input_desktop": true,
+          "native_sparse_timing": {
+            "total_ms": {
+              "median": 6.15,
+              "min": 6.15,
+              "max": 6.15
+            },
+            "model_ms": {
+              "median": 5.95,
+              "min": 5.95,
+              "max": 5.95
+            },
+            "surrounding_ms": {
+              "median": 0.21,
+              "min": 0.21,
+              "max": 0.21
+            }
+          },
+          "native_retained_timing_count": 1
+        }
+      },
+      {
+        "name": "beach",
+        "split": "validation",
+        "author": "Diego Delso",
+        "license": "CC BY-SA 3.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Beach_of_Key_West,_Florida,_USA4.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/7/79/Beach_of_Key_West%2C_Florida%2C_USA4.jpg",
+        "source_size": [
+          2816,
+          2112
+        ],
+        "source_sha1": "b57c7c1379c9e7c70bf93728c9ba46306f552e26",
+        "source_bytes": 2624784,
+        "centering": [
+          0.5,
+          0.5
+        ],
+        "label": "teacher-diverse-beach",
+        "source_sha256": "beea7d076259319766b1e16ca6078728be06f2e69fe45957841e617fb4a4d88d",
+        "texture_sha256": "21ed1bc43e10ae7fca5859af60e3d56370e866f04700da1d76dbb658352c2149",
+        "scene_manifest_sha256": "b08936a3865d8b6bcd965439c3b4a3c1de1c607477642af8eededca5c3aeac58",
+        "capture_hashes": {
+          "color": "400f68a2ed7a175a66d28efb3ee13b04415a6077f6b9ed38d5654e14b7458ebd",
+          "output": "e18e03c18d3ae5444c44db0325a918cadea5c4a6b953ba94bf197bb302a294cb"
+        },
+        "proof": {
+          "label": "teacher-diverse-beach",
+          "capture_hashes": {
+            "color": "400f68a2ed7a175a66d28efb3ee13b04415a6077f6b9ed38d5654e14b7458ebd",
+            "output": "e18e03c18d3ae5444c44db0325a918cadea5c4a6b953ba94bf197bb302a294cb"
+          },
+          "complete_fenced_frames": [
+            {
+              "index": 0,
+              "reset": 1
+            },
+            {
+              "index": 1,
+              "reset": 0
+            },
+            {
+              "index": 2,
+              "reset": 0
+            },
+            {
+              "index": 3,
+              "reset": 0
+            }
+          ],
+          "runtime_sha256": {
+            "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+            "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+            "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+          },
+          "restored": {
+            "scene": true,
+            "dll": true,
+            "ini": true
+          },
+          "inactive_desktop_observations": 4,
+          "all_demo_windows_hidden_and_off_input_desktop": true,
+          "native_sparse_timing": {
+            "total_ms": {
+              "median": 5.98,
+              "min": 5.98,
+              "max": 5.98
+            },
+            "model_ms": {
+              "median": 5.78,
+              "min": 5.78,
+              "max": 5.78
+            },
+            "surrounding_ms": {
+              "median": 0.2,
+              "min": 0.2,
+              "max": 0.2
+            }
+          },
+          "native_retained_timing_count": 1
+        }
+      },
+      {
+        "name": "cassidy",
+        "split": "validation",
+        "author": "NASA/Josh Valcarcel",
+        "license": "Public domain",
+        "license_url": "https://commons.wikimedia.org/wiki/File:Chris_Cassidy_-_Official_NASA_Astronaut_Portrait_in_EMU.jpg#Licensing",
+        "source": "https://commons.wikimedia.org/wiki/File:Chris_Cassidy_-_Official_NASA_Astronaut_Portrait_in_EMU.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/e/ef/Chris_Cassidy_-_Official_NASA_Astronaut_Portrait_in_EMU.jpg",
+        "source_size": [
+          5270,
+          6588
+        ],
+        "source_sha1": "ea6aa55d94487e1b896b882ec1509cc1adf35dbd",
+        "source_bytes": 3149860,
+        "centering": [
+          0.5,
+          0.25
+        ],
+        "label": "teacher-diverse-cassidy",
+        "source_sha256": "ea682bd222966bccb09436aa9cef569469f31f946cfb426e20aa488cc1063caa",
+        "texture_sha256": "f9585c16e9285c2ad144ef752fb3e286a814dec87d6b30a8b4fffb891ea93e4d",
+        "scene_manifest_sha256": "29c09bedd4f40a520439c859da919694ad258f93e5650b30803ebd4d58a4220d",
+        "capture_hashes": {
+          "color": "4a922ad9e1e26560cdc917a60fb13fdb358cf1275628c823038b3c2d9278d9c3",
+          "output": "e483e2d868f94e1817e33a4984fc7eb6447f34eb3f8dd0fead278513638ade97"
+        },
+        "proof": {
+          "label": "teacher-diverse-cassidy",
+          "capture_hashes": {
+            "color": "4a922ad9e1e26560cdc917a60fb13fdb358cf1275628c823038b3c2d9278d9c3",
+            "output": "e483e2d868f94e1817e33a4984fc7eb6447f34eb3f8dd0fead278513638ade97"
+          },
+          "complete_fenced_frames": [
+            {
+              "index": 0,
+              "reset": 1
+            },
+            {
+              "index": 1,
+              "reset": 0
+            },
+            {
+              "index": 2,
+              "reset": 0
+            },
+            {
+              "index": 3,
+              "reset": 0
+            }
+          ],
+          "runtime_sha256": {
+            "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+            "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+            "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+          },
+          "restored": {
+            "scene": true,
+            "dll": true,
+            "ini": true
+          },
+          "inactive_desktop_observations": 4,
+          "all_demo_windows_hidden_and_off_input_desktop": true,
+          "native_sparse_timing": {
+            "total_ms": {
+              "median": 6.16,
+              "min": 6.16,
+              "max": 6.16
+            },
+            "model_ms": {
+              "median": 5.96,
+              "min": 5.96,
+              "max": 5.96
+            },
+            "surrounding_ms": {
+              "median": 0.2,
+              "min": 0.2,
+              "max": 0.2
+            }
+          },
+          "native_retained_timing_count": 1
+        }
+      },
+      {
+        "name": "dunes-other",
+        "split": "validation",
+        "author": "Joe Mania joemania",
+        "license": "CC0",
+        "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+        "source": "https://commons.wikimedia.org/wiki/File:Desert_Dunes_(Unsplash).jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/4/49/Desert_Dunes_%28Unsplash%29.jpg",
+        "source_size": [
+          4550,
+          2560
+        ],
+        "source_sha1": "8c285f23d92bb0780b840343349f95a0d0e97ce6",
+        "source_bytes": 1046035,
+        "centering": [
+          0.5,
+          0.5
+        ],
+        "label": "teacher-diverse-dunes-other",
+        "source_sha256": "9ef504cc6cfe0a3f134a433e220a3a3a91a5c12b028a9dd09d24c8bf8e01e17d",
+        "texture_sha256": "eb21a885011c65551379886ae1ca93bcf08e9eea06d522b57b86e3cf80112397",
+        "scene_manifest_sha256": "f0c0282513d318756b5fe310b89d2e8a5b612a2e63faf456d6b70b8cb1257194",
+        "capture_hashes": {
+          "color": "33acd586d4f1fc5fe871095f71706a24f6b568d24390499b19077a649e5136ed",
+          "output": "97fee64e2ac2c101b3c564f5cf769e727770acb6fe2c6a00b0b651054b2e37c6"
+        },
+        "proof": {
+          "label": "teacher-diverse-dunes-other",
+          "capture_hashes": {
+            "color": "33acd586d4f1fc5fe871095f71706a24f6b568d24390499b19077a649e5136ed",
+            "output": "97fee64e2ac2c101b3c564f5cf769e727770acb6fe2c6a00b0b651054b2e37c6"
+          },
+          "complete_fenced_frames": [
+            {
+              "index": 0,
+              "reset": 1
+            },
+            {
+              "index": 1,
+              "reset": 0
+            },
+            {
+              "index": 2,
+              "reset": 0
+            },
+            {
+              "index": 3,
+              "reset": 0
+            }
+          ],
+          "runtime_sha256": {
+            "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+            "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+            "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+          },
+          "restored": {
+            "scene": true,
+            "dll": true,
+            "ini": true
+          },
+          "inactive_desktop_observations": 4,
+          "all_demo_windows_hidden_and_off_input_desktop": true,
+          "native_sparse_timing": {
+            "total_ms": {
+              "median": 6.06,
+              "min": 6.06,
+              "max": 6.06
+            },
+            "model_ms": {
+              "median": 5.86,
+              "min": 5.86,
+              "max": 5.86
+            },
+            "surrounding_ms": {
+              "median": 0.2,
+              "min": 0.2,
+              "max": 0.2
+            }
+          },
+          "native_retained_timing_count": 1
+        }
+      }
+    ],
+    "timing_scope": "Full-1080p FP16 network plus output grade; no D3D12/application integration.",
+    "limitations": [
+      "One 3D scene, optionally supplemented by static photograph planes; no representative game or temporal acceptance.",
+      "Validation identities stay out of fitting, but previous validation scores have informed research choices; not an independent final test set.",
+      "Pixel metrics do not establish preserved perceptual quality. No replacement is accepted."
+    ]
+  },
+  "group_mean_mae": {
+    "sponza": {
+      "mixed34": 0.028037939531107742,
+      "staged": 0.023961293200651806,
+      "diverse": 0.029772672491768997
+    },
+    "old_photos": {
+      "mixed34": 0.027288817800581455,
+      "staged": 0.03365420394887527,
+      "diverse": 0.02432226575911045
+    },
+    "new_photos": {
+      "mixed34": 0.028077922761440277,
+      "staged": 0.029686918016523123,
+      "diverse": 0.021973253693431616
+    }
+  },
+  "change_from_mixed_rgb_baseline": {
+    "sponza": {
+      "percent_mae_change": 6.187091454194027,
+      "improved_cases": 2,
+      "case_count": 6
+    },
+    "old_photos": {
+      "percent_mae_change": -10.870943780524623,
+      "improved_cases": 4,
+      "case_count": 6
+    },
+    "new_photos": {
+      "percent_mae_change": -21.741882830421744,
+      "improved_cases": 4,
+      "case_count": 4
+    }
+  },
+  "complete_output_fusion_test": {
+    "schema": 1,
+    "complete": true,
+    "target_achieved": false,
+    "quality_gate_passed": false,
+    "native_runtime_accelerated": false,
+    "enabled_by_default": false,
+    "gpu": "NVIDIA GeForce RTX 4070 Ti",
+    "torch": "2.7.1+cu128",
+    "kernel_tests": [
+      {
+        "label": "planar",
+        "shape": [
+          1,
+          3,
+          19,
+          37
+        ],
+        "head_shape": [
+          1,
+          48,
+          8,
+          16
+        ],
+        "source_stride": [
+          2109,
+          703,
+          37,
+          1
+        ],
+        "head_stride": [
+          6144,
+          128,
+          16,
+          1
+        ],
+        "parameters": [
+          0.9330329895019531,
+          -0.25,
+          0.8999999761581421
+        ],
+        "bit_equal": true
+      },
+      {
+        "label": "channels-last",
+        "shape": [
+          1,
+          3,
+          19,
+          37
+        ],
+        "head_shape": [
+          1,
+          48,
+          8,
+          16
+        ],
+        "source_stride": [
+          2109,
+          1,
+          111,
+          3
+        ],
+        "head_stride": [
+          6144,
+          1,
+          768,
+          48
+        ],
+        "parameters": [
+          0.9330329895019531,
+          -0.25,
+          0.8999999761581421
+        ],
+        "bit_equal": true
+      },
+      {
+        "label": "strided",
+        "shape": [
+          1,
+          3,
+          19,
+          37
+        ],
+        "head_shape": [
+          1,
+          48,
+          8,
+          16
+        ],
+        "source_stride": [
+          4218,
+          1406,
+          74,
+          2
+        ],
+        "head_stride": [
+          12288,
+          256,
+          32,
+          2
+        ],
+        "parameters": [
+          0.9330329895019531,
+          -0.25,
+          0.8999999761581421
+        ],
+        "bit_equal": true
+      },
+      {
+        "label": "planar",
+        "shape": [
+          2,
+          3,
+          32,
+          64
+        ],
+        "head_shape": [
+          2,
+          48,
+          8,
+          16
+        ],
+        "source_stride": [
+          6144,
+          2048,
+          64,
+          1
+        ],
+        "head_stride": [
+          6144,
+          128,
+          16,
+          1
+        ],
+        "parameters": [
+          0.9330329895019531,
+          -0.25,
+          0.8999999761581421
+        ],
+        "bit_equal": true
+      },
+      {
+        "label": "channels-last",
+        "shape": [
+          2,
+          3,
+          32,
+          64
+        ],
+        "head_shape": [
+          2,
+          48,
+          8,
+          16
+        ],
+        "source_stride": [
+          6144,
+          1,
+          192,
+          3
+        ],
+        "head_stride": [
+          6144,
+          1,
+          768,
+          48
+        ],
+        "parameters": [
+          0.9330329895019531,
+          -0.25,
+          0.8999999761581421
+        ],
+        "bit_equal": true
+      },
+      {
+        "label": "strided",
+        "shape": [
+          2,
+          3,
+          32,
+          64
+        ],
+        "head_shape": [
+          2,
+          48,
+          8,
+          16
+        ],
+        "source_stride": [
+          12288,
+          4096,
+          128,
+          2
+        ],
+        "head_stride": [
+          12288,
+          256,
+          32,
+          2
+        ],
+        "parameters": [
+          0.9330329895019531,
+          -0.25,
+          0.8999999761581421
+        ],
+        "bit_equal": true
+      },
+      {
+        "label": "planar",
+        "shape": [
+          1,
+          3,
+          1080,
+          1920
+        ],
+        "head_shape": [
+          1,
+          48,
+          272,
+          480
+        ],
+        "source_stride": [
+          6220800,
+          2073600,
+          1920,
+          1
+        ],
+        "head_stride": [
+          6266880,
+          130560,
+          480,
+          1
+        ],
+        "parameters": [
+          0.9330329895019531,
+          -0.25,
+          0.8999999761581421
+        ],
+        "bit_equal": true
+      },
+      {
+        "label": "channels-last",
+        "shape": [
+          1,
+          3,
+          1080,
+          1920
+        ],
+        "head_shape": [
+          1,
+          48,
+          272,
+          480
+        ],
+        "source_stride": [
+          6220800,
+          1,
+          5760,
+          3
+        ],
+        "head_stride": [
+          6266880,
+          1,
+          23040,
+          48
+        ],
+        "parameters": [
+          0.9330329895019531,
+          -0.25,
+          0.8999999761581421
+        ],
+        "bit_equal": true
+      },
+      {
+        "label": "strided",
+        "shape": [
+          1,
+          3,
+          1080,
+          1920
+        ],
+        "head_shape": [
+          1,
+          48,
+          272,
+          480
+        ],
+        "source_stride": [
+          12441600,
+          4147200,
+          3840,
+          2
+        ],
+        "head_stride": [
+          12533760,
+          261120,
+          960,
+          2
+        ],
+        "parameters": [
+          0.9330329895019531,
+          -0.25,
+          0.8999999761581421
+        ],
+        "bit_equal": true
+      },
+      {
+        "label": "control-boundary",
+        "shape": [
+          1,
+          3,
+          1080,
+          1920
+        ],
+        "head_shape": [
+          1,
+          48,
+          272,
+          480
+        ],
+        "source_stride": [
+          6220800,
+          2073600,
+          1920,
+          1
+        ],
+        "head_stride": [
+          6266880,
+          130560,
+          480,
+          1
+        ],
+        "parameters": [
+          1.0,
+          0.0,
+          1.0
+        ],
+        "bit_equal": true
+      },
+      {
+        "label": "control-boundary",
+        "shape": [
+          1,
+          3,
+          1080,
+          1920
+        ],
+        "head_shape": [
+          1,
+          48,
+          272,
+          480
+        ],
+        "source_stride": [
+          6220800,
+          2073600,
+          1920,
+          1
+        ],
+        "head_stride": [
+          6266880,
+          130560,
+          480,
+          1
+        ],
+        "parameters": [
+          2.0,
+          1.0,
+          0.0
+        ],
+        "bit_equal": true
+      },
+      {
+        "label": "control-boundary",
+        "shape": [
+          1,
+          3,
+          1080,
+          1920
+        ],
+        "head_shape": [
+          1,
+          48,
+          272,
+          480
+        ],
+        "source_stride": [
+          6220800,
+          2073600,
+          1920,
+          1
+        ],
+        "head_stride": [
+          6266880,
+          130560,
+          480,
+          1
+        ],
+        "parameters": [
+          0.25,
+          -1.0,
+          0.5
+        ],
+        "bit_equal": true
+      },
+      {
+        "label": "all-finite-half-patterns",
+        "shape": [
+          1,
+          3,
+          1,
+          63488
+        ],
+        "head_shape": [
+          1,
+          48,
+          8,
+          15872
+        ],
+        "source_stride": [
+          190464,
+          63488,
+          63488,
+          1
+        ],
+        "head_stride": [
+          6094848,
+          126976,
+          15872,
+          1
+        ],
+        "parameters": [
+          0.9330329895019531,
+          -0.25,
+          0.8999999761581421
+        ],
+        "bit_equal": true
+      },
+      {
+        "label": "broadcast-source-and-head",
+        "shape": [
+          1,
+          3,
+          1,
+          63488
+        ],
+        "head_shape": [
+          1,
+          48,
+          8,
+          15872
+        ],
+        "source_stride": [
+          190464,
+          0,
+          63488,
+          1
+        ],
+        "head_stride": [
+          6094848,
+          0,
+          15872,
+          1
+        ],
+        "parameters": [
+          0.9330329895019531,
+          -0.25,
+          0.8999999761581421
+        ],
+        "bit_equal": true
+      }
+    ],
+    "rejected_inputs": [
+      "dtype",
+      "rgb",
+      "head-shape",
+      "rank",
+      "cpu",
+      "empty-batch",
+      "nonfinite-control",
+      "control-range"
+    ],
+    "models": {
+      "mixed34": {
+        "architecture": {
+          "type": "four-level hierarchical residual CNN with global context gate",
+          "width": 16,
+          "blocks": 2,
+          "parameters": 223440,
+          "shuffle_factor": 4,
+          "noise_channels": 0,
+          "input_receptive_field_pixels": "whole image via global context gate",
+          "variant": "hierarchical",
+          "explicit_output_grading": [
+            0.9330329895019531,
+            -0.25,
+            0.8999999761581421
+          ],
+          "widths": [
+            16,
+            32,
+            64,
+            96
+          ],
+          "blocks_per_stage": 2,
+          "internal_downsampling": "learned features only; original pixels retained through input rearrangement and residual path"
+        },
+        "result_sha256": "00e1a1591682e7939ca36553a0d62f079dc238e5f4e94de87b5e5d14e9724a6d",
+        "checkpoint_sha256": "a8351efaa55f3a2c790a459e5b92ed49436066cfa08180cbfe89f3b7966459da"
+      },
+      "staged": {
+        "architecture": {
+          "type": "four-level hierarchical residual CNN with global context gate",
+          "width": 16,
+          "blocks": 2,
+          "parameters": 223440,
+          "shuffle_factor": 4,
+          "noise_channels": 0,
+          "input_receptive_field_pixels": "whole image via global context gate",
+          "variant": "hierarchical",
+          "explicit_output_grading": [
+            0.9330329895019531,
+            -0.25,
+            0.8999999761581421
+          ],
+          "widths": [
+            16,
+            32,
+            64,
+            96
+          ],
+          "blocks_per_stage": 2,
+          "internal_downsampling": "learned features only; original pixels retained through input rearrangement and residual path"
+        },
+        "result_sha256": "cba955b40605cfb8c9ada46c13a34cefa68281659d861e1265e10d3b1b929e0d",
+        "checkpoint_sha256": "b3d13c923a751d6a8c5ccc62128da0f738262b653cce549a254232917487c032"
+      },
+      "diverse": {
+        "architecture": {
+          "type": "four-level hierarchical residual CNN with global context gate",
+          "width": 16,
+          "blocks": 2,
+          "parameters": 223440,
+          "shuffle_factor": 4,
+          "noise_channels": 0,
+          "input_receptive_field_pixels": "whole image via global context gate",
+          "variant": "hierarchical",
+          "explicit_output_grading": [
+            0.9330329895019531,
+            -0.25,
+            0.8999999761581421
+          ],
+          "widths": [
+            16,
+            32,
+            64,
+            96
+          ],
+          "blocks_per_stage": 2,
+          "internal_downsampling": "learned features only; original pixels retained through input rearrangement and residual path"
+        },
+        "result_sha256": "5484b17977f44c377228467b709eb1f003406aa05ab5a8c4e55a9ef5afcbe5e4",
+        "checkpoint_sha256": "14326bb6832cb250cf9d8866719af474849d9baaec7121ea99a28c0ee765a036"
+      }
+    },
+    "cases": [
+      {
+        "label": "model-capture-natural-north",
+        "capture_hashes": {
+          "color": "584c107ead68fca78c3eee0190d715e51c1f76392dc03c09050b5f572afa075e",
+          "output": "10bf20e6b20b3b56a31dca40dd829ff260061998d7fa18eafa306f56d525ca3a"
+        },
+        "models": {
+          "mixed34": {
+            "all_four_modes_bit_equal": true
+          },
+          "staged": {
+            "all_four_modes_bit_equal": true
+          },
+          "diverse": {
+            "all_four_modes_bit_equal": true
+          }
+        }
+      },
+      {
+        "label": "teacher-natural-shifted-north",
+        "capture_hashes": {
+          "color": "721e179eda73cb100b0afad0894313bbae3a79f5ddffe7fb80dcef448e1282e1",
+          "output": "32ff6ac02eaedd341702bbce4d7aecbefc416cc2604e640814acdca718f4cf2a"
+        },
+        "models": {
+          "mixed34": {
+            "all_four_modes_bit_equal": true
+          },
+          "staged": {
+            "all_four_modes_bit_equal": true
+          },
+          "diverse": {
+            "all_four_modes_bit_equal": true
+          }
+        }
+      },
+      {
+        "label": "teacher-illumination-validation-dim",
+        "capture_hashes": {
+          "color": "72ea0a80f42db07ca3206415e6dcf5a6731d568bfb312232b800a74b5fe86a5d",
+          "output": "c340167f486527ada9844e30bf8d926d8da26469fb23f052a49b4e8dabb36c00"
+        },
+        "models": {
+          "mixed34": {
+            "all_four_modes_bit_equal": true
+          },
+          "staged": {
+            "all_four_modes_bit_equal": true
+          },
+          "diverse": {
+            "all_four_modes_bit_equal": true
+          }
+        }
+      },
+      {
+        "label": "teacher-illumination-validation-bright",
+        "capture_hashes": {
+          "color": "d55760855801f6f13bde735009f7aa8bf441b09d029c5f19bba290dbd9bba8a7",
+          "output": "afa0d89796b9a294ed2be40b353dd870d16c826a86f1614178810aa0c6a1eba3"
+        },
+        "models": {
+          "mixed34": {
+            "all_four_modes_bit_equal": true
+          },
+          "staged": {
+            "all_four_modes_bit_equal": true
+          },
+          "diverse": {
+            "all_four_modes_bit_equal": true
+          }
+        }
+      },
+      {
+        "label": "teacher-illumination-validation-low-sun",
+        "capture_hashes": {
+          "color": "ce5e35c020ddc18ee2c33c84c5638e639a40b1af0669db6f528704e2333d9611",
+          "output": "07b6b385703687102b597cddf0b3312fd0c8c3891234a0d5c0ea61d09ba1d702"
+        },
+        "models": {
+          "mixed34": {
+            "all_four_modes_bit_equal": true
+          },
+          "staged": {
+            "all_four_modes_bit_equal": true
+          },
+          "diverse": {
+            "all_four_modes_bit_equal": true
+          }
+        }
+      },
+      {
+        "label": "teacher-illumination-validation-neutral",
+        "capture_hashes": {
+          "color": "ec96364768db3b4fd5f306cb1c3ccd77d4dc03a0965a8d6602ce87cbe6fb8a2e",
+          "output": "e8ebdcfeb6d46d5272d2fd2be9fc872af09dbdf9f603e3599d1b88819e147d4c"
+        },
+        "models": {
+          "mixed34": {
+            "all_four_modes_bit_equal": true
+          },
+          "staged": {
+            "all_four_modes_bit_equal": true
+          },
+          "diverse": {
+            "all_four_modes_bit_equal": true
+          }
+        }
+      },
+      {
+        "label": "teacher-photo-portrait",
+        "capture_hashes": {
+          "color": "d60ec44402a02d7e03fc0be790deefbcc5110dc7002be1d8a2031243ce602862",
+          "output": "cb75f15d16ab5f4ac082a5a7272c13aab748cae4037ac27059333d2348c7d969"
+        },
+        "models": {
+          "mixed34": {
+            "all_four_modes_bit_equal": true
+          },
+          "staged": {
+            "all_four_modes_bit_equal": true
+          },
+          "diverse": {
+            "all_four_modes_bit_equal": true
+          }
+        }
+      },
+      {
+        "label": "teacher-photo-tenth-portrait",
+        "capture_hashes": {
+          "color": "071ec0aae77b6e15909c3f7b79ed0c619e4359289d37e46094e4f0e941978d19",
+          "output": "fe55fe61e495fa68e16c9d743f926cab52233fc946adf436619591ed1dbbb795"
+        },
+        "models": {
+          "mixed34": {
+            "all_four_modes_bit_equal": true
+          },
+          "staged": {
+            "all_four_modes_bit_equal": true
+          },
+          "diverse": {
+            "all_four_modes_bit_equal": true
+          }
+        }
+      },
+      {
+        "label": "teacher-photo-landscape",
+        "capture_hashes": {
+          "color": "ce88cebb0be45aefb048a3ae4e87b83c56776ef4ff3f11d454ce0bc7d61734d1",
+          "output": "7890ee1902560f34f54766f349d4306fa910d81b788b4f2eff7a070072c2f4a4"
+        },
+        "models": {
+          "mixed34": {
+            "all_four_modes_bit_equal": true
+          },
+          "staged": {
+            "all_four_modes_bit_equal": true
+          },
+          "diverse": {
+            "all_four_modes_bit_equal": true
+          }
+        }
+      },
+      {
+        "label": "teacher-photo-tenth-landscape",
+        "capture_hashes": {
+          "color": "8675250f022e482d5a01d8e287b2bafc844baf561090d30d1a9488b0656ca309",
+          "output": "5a61cc6d78a4a4a0d45ea60f04dcbefc6516a10f2456334b9394dcb003992812"
+        },
+        "models": {
+          "mixed34": {
+            "all_four_modes_bit_equal": true
+          },
+          "staged": {
+            "all_four_modes_bit_equal": true
+          },
+          "diverse": {
+            "all_four_modes_bit_equal": true
+          }
+        }
+      },
+      {
+        "label": "teacher-photo-cat",
+        "capture_hashes": {
+          "color": "f783346fc093b8f8b61a4f77376e8ac9e0170ba1aa3f6f8063ff2aa5075151cb",
+          "output": "397f02d8e46dfe8171b77ff400eb0cd200527bad0e95dc862eaea21f37483093"
+        },
+        "models": {
+          "mixed34": {
+            "all_four_modes_bit_equal": true
+          },
+          "staged": {
+            "all_four_modes_bit_equal": true
+          },
+          "diverse": {
+            "all_four_modes_bit_equal": true
+          }
+        }
+      },
+      {
+        "label": "teacher-photo-tenth-cat",
+        "capture_hashes": {
+          "color": "25fe2d0b191d1c31efa9ca0bff7ecf75585296631930e318c6fc1e6a3c212015",
+          "output": "e0f64756c7243ffdcaccd52f2df9bc49f7fa514747be48be65ce5661c0c7581c"
+        },
+        "models": {
+          "mixed34": {
+            "all_four_modes_bit_equal": true
+          },
+          "staged": {
+            "all_four_modes_bit_equal": true
+          },
+          "diverse": {
+            "all_four_modes_bit_equal": true
+          }
+        }
+      },
+      {
+        "label": "teacher-diverse-library",
+        "capture_hashes": {
+          "color": "e7a63502657c1d957e2340622bcf2fec67266ef9375cda3f3d2cfca48803e9d4",
+          "output": "8f771e46ab78f64595c272f4238c402eb4b36469c52790ef0bfe950aa27b93c3"
+        },
+        "models": {
+          "mixed34": {
+            "all_four_modes_bit_equal": true
+          },
+          "staged": {
+            "all_four_modes_bit_equal": true
+          },
+          "diverse": {
+            "all_four_modes_bit_equal": true
+          }
+        }
+      },
+      {
+        "label": "teacher-diverse-beach",
+        "capture_hashes": {
+          "color": "400f68a2ed7a175a66d28efb3ee13b04415a6077f6b9ed38d5654e14b7458ebd",
+          "output": "e18e03c18d3ae5444c44db0325a918cadea5c4a6b953ba94bf197bb302a294cb"
+        },
+        "models": {
+          "mixed34": {
+            "all_four_modes_bit_equal": true
+          },
+          "staged": {
+            "all_four_modes_bit_equal": true
+          },
+          "diverse": {
+            "all_four_modes_bit_equal": true
+          }
+        }
+      },
+      {
+        "label": "teacher-diverse-cassidy",
+        "capture_hashes": {
+          "color": "4a922ad9e1e26560cdc917a60fb13fdb358cf1275628c823038b3c2d9278d9c3",
+          "output": "e483e2d868f94e1817e33a4984fc7eb6447f34eb3f8dd0fead278513638ade97"
+        },
+        "models": {
+          "mixed34": {
+            "all_four_modes_bit_equal": true
+          },
+          "staged": {
+            "all_four_modes_bit_equal": true
+          },
+          "diverse": {
+            "all_four_modes_bit_equal": true
+          }
+        }
+      },
+      {
+        "label": "teacher-diverse-dunes-other",
+        "capture_hashes": {
+          "color": "33acd586d4f1fc5fe871095f71706a24f6b568d24390499b19077a649e5136ed",
+          "output": "97fee64e2ac2c101b3c564f5cf769e727770acb6fe2c6a00b0b651054b2e37c6"
+        },
+        "models": {
+          "mixed34": {
+            "all_four_modes_bit_equal": true
+          },
+          "staged": {
+            "all_four_modes_bit_equal": true
+          },
+          "diverse": {
+            "all_four_modes_bit_equal": true
+          }
+        }
+      }
+    ],
+    "timings": {
+      "mixed34": {
+        "baseline": {
+          "median_ms": 1.2505439519882202,
+          "p95_ms": 1.6405583918094635,
+          "samples_ms": [
+            1.2440639734268188,
+            1.2318719625473022,
+            1.2564480304718018,
+            1.235967993736267,
+            1.2328959703445435,
+            1.2501440048217773,
+            1.237887978553772,
+            1.6465920209884644,
+            1.250175952911377,
+            1.2356159687042236,
+            1.2380160093307495,
+            1.5030080080032349,
+            1.780735969543457,
+            1.2830719947814941,
+            1.238752007484436,
+            1.6291840076446533,
+            1.2509119510650635,
+            1.2410880327224731,
+            1.628991961479187,
+            1.2544000148773193,
+            1.239840030670166,
+            1.6331839561462402,
+            1.2513279914855957,
+            1.2349439859390259,
+            1.622912049293518,
+            1.2550400495529175,
+            1.2418880462646484,
+            1.6155519485473633,
+            1.2582720518112183,
+            1.2410880327224731
+          ],
+          "graph_matches_eager_bitwise": true
+        },
+        "output": {
+          "median_ms": 1.1521919965744019,
+          "p95_ms": 1.5367263674736023,
+          "samples_ms": [
+            1.1663360595703125,
+            1.1507840156555176,
+            1.5584319829940796,
+            1.1601920127868652,
+            1.1466560363769531,
+            1.5449919700622559,
+            1.1580159664154053,
+            1.143712043762207,
+            1.1384639739990234,
+            1.136639952659607,
+            1.1499520540237427,
+            1.1458560228347778,
+            1.141759991645813,
+            1.1518080234527588,
+            1.1437760591506958,
+            1.4782719612121582,
+            1.1560959815979004,
+            1.1479040384292603,
+            1.5266239643096924,
+            1.1550079584121704,
+            1.1489280462265015,
+            1.1386879682540894,
+            1.1325440406799316,
+            1.152575969696045,
+            1.141759991645813,
+            1.5001599788665771,
+            1.1579840183258057,
+            1.153823971748352,
+            1.4725120067596436,
+            1.1601920127868652
+          ],
+          "graph_matches_eager_bitwise": true
+        },
+        "decoder": {
+          "median_ms": 1.1696320176124573,
+          "p95_ms": 1.6107503950595856,
+          "samples_ms": [
+            1.17958402633667,
+            1.3965120315551758,
+            1.16428804397583,
+            1.1581439971923828,
+            1.154047966003418,
+            1.381376028060913,
+            1.1764800548553467,
+            1.1530239582061768,
+            1.4551039934158325,
+            1.2001279592514038,
+            1.1612160205841064,
+            1.1499520540237427,
+            1.1628479957580566,
+            1.1560959815979004,
+            1.6168960332870483,
+            1.1720000505447388,
+            1.1530239582061768,
+            1.6157759428024292,
+            1.1744320392608643,
+            1.1550719738006592,
+            1.5519360303878784,
+            1.1755520105361938,
+            1.1590080261230469,
+            1.581055998802185,
+            1.1672639846801758,
+            1.1550719738006592,
+            1.6046080589294434,
+            1.1601920127868652,
+            1.1560959815979004,
+            1.5860799551010132
+          ],
+          "graph_matches_eager_bitwise": true
+        },
+        "combined": {
+          "median_ms": 1.085103988647461,
+          "p95_ms": 1.524326431751251,
+          "samples_ms": [
+            1.0915839672088623,
+            1.5411200523376465,
+            1.0885119438171387,
+            1.077247977256775,
+            1.0689280033111572,
+            1.0536960363388062,
+            1.0852479934692383,
+            1.0800319910049438,
+            1.539072036743164,
+            1.0850880146026611,
+            1.07315194606781,
+            1.5052800178527832,
+            1.0913280248641968,
+            1.0741759538650513,
+            1.076159954071045,
+            1.2298239469528198,
+            1.087231993675232,
+            1.0782719850540161,
+            1.477247953414917,
+            1.087391972541809,
+            1.0741759538650513,
+            1.5040960311889648,
+            1.0851199626922607,
+            1.074112057685852,
+            1.0728960037231445,
+            1.0485759973526,
+            1.0813119411468506,
+            1.0721280574798584,
+            1.5063040256500244,
+            1.0885119438171387
+          ],
+          "graph_matches_eager_bitwise": true
+        }
+      },
+      "staged": {
+        "baseline": {
+          "median_ms": 1.2587840557098389,
+          "p95_ms": 1.6788815915584565,
+          "samples_ms": [
+            1.269760012626648,
+            1.2451839447021484,
+            1.6556479930877686,
+            1.2622400522232056,
+            1.2492799758911133,
+            1.6783360242843628,
+            1.2595200538635254,
+            1.2488960027694702,
+            1.6793279647827148,
+            1.275488018989563,
+            1.2553600072860718,
+            1.6850559711456299,
+            1.2572799921035767,
+            1.2410880327224731,
+            1.2492799758911133,
+            1.2580480575561523,
+            1.5867840051651,
+            1.260543942451477,
+            1.2539199590682983,
+            1.241760015487671,
+            1.2441600561141968,
+            1.2603520154953003,
+            1.5767359733581543,
+            1.2513279914855957,
+            1.2441600561141968,
+            1.5775359869003296,
+            1.2431360483169556,
+            1.252351999282837,
+            1.676095962524414,
+            1.265663981437683
+          ],
+          "graph_matches_eager_bitwise": true
+        },
+        "output": {
+          "median_ms": 1.1645920276641846,
+          "p95_ms": 1.5556095838546753,
+          "samples_ms": [
+            1.4540799856185913,
+            1.1683839559555054,
+            1.1620160341262817,
+            1.1376639604568481,
+            1.1663360595703125,
+            1.1550719738006592,
+            1.528831958770752,
+            1.173151969909668,
+            1.1581439971923828,
+            1.5336960554122925,
+            1.169152021408081,
+            1.16428804397583,
+            1.5592960119247437,
+            1.1630079746246338,
+            1.159168004989624,
+            1.551103949546814,
+            1.171455979347229,
+            1.1588799953460693,
+            1.5355839729309082,
+            1.168992042541504,
+            1.164896011352539,
+            1.1590720415115356,
+            1.1407359838485718,
+            1.16428804397583,
+            1.1581439971923828,
+            1.1335680484771729,
+            1.1632640361785889,
+            1.1538879871368408,
+            1.636064052581787,
+            1.5001599788665771
+          ],
+          "graph_matches_eager_bitwise": true
+        },
+        "decoder": {
+          "median_ms": 1.1917920112609863,
+          "p95_ms": 1.6257024347782134,
+          "samples_ms": [
+            1.5971519947052002,
+            1.2349439859390259,
+            1.1786240339279175,
+            1.5779839754104614,
+            1.191648006439209,
+            1.1735039949417114,
+            1.5121920108795166,
+            1.1847039461135864,
+            1.17740797996521,
+            1.6189440488815308,
+            1.183743953704834,
+            1.1682239770889282,
+            1.6046080589294434,
+            1.195647954940796,
+            1.1755520105361938,
+            1.5796159505844116,
+            1.1960320472717285,
+            1.1909120082855225,
+            1.6332800388336182,
+            1.1926720142364502,
+            1.1755520105361938,
+            1.609536051750183,
+            1.1919360160827637,
+            1.172063946723938,
+            1.6046080589294434,
+            1.1878399848937988,
+            1.17849600315094,
+            1.6312320232391357,
+            1.18886399269104,
+            1.1743359565734863
+          ],
+          "graph_matches_eager_bitwise": true
+        },
+        "combined": {
+          "median_ms": 1.0627679824829102,
+          "p95_ms": 1.5005184352397918,
+          "samples_ms": [
+            1.077247977256775,
+            1.0496000051498413,
+            1.0659840106964111,
+            1.0577919483184814,
+            1.4325120449066162,
+            1.0680320262908936,
+            1.06387197971344,
+            1.0555839538574219,
+            1.0567679405212402,
+            1.0659840106964111,
+            1.0496000051498413,
+            1.4684159755706787,
+            1.0639359951019287,
+            1.059391975402832,
+            1.060863971710205,
+            1.0557440519332886,
+            1.0616639852523804,
+            1.059775948524475,
+            1.4909440279006958,
+            1.0659840106964111,
+            1.0564160346984863,
+            1.5254080295562744,
+            1.0697599649429321,
+            1.0583679676055908,
+            1.0506240129470825,
+            1.4854400157928467,
+            1.0721280574798584,
+            1.0536960363388062,
+            1.5083520412445068,
+            1.060863971710205
+          ],
+          "graph_matches_eager_bitwise": true
+        }
+      },
+      "diverse": {
+        "baseline": {
+          "median_ms": 1.287663996219635,
+          "p95_ms": 1.8095712423324581,
+          "samples_ms": [
+            1.2953599691390991,
+            1.2636159658432007,
+            1.726464033126831,
+            1.2881920337677002,
+            1.2677119970321655,
+            1.252351999282837,
+            1.3137919902801514,
+            1.8841279745101929,
+            1.3014719486236572,
+            1.2584960460662842,
+            1.6629760265350342,
+            1.2759040594100952,
+            1.2653119564056396,
+            1.6503679752349854,
+            1.2755199670791626,
+            1.263551950454712,
+            1.70905601978302,
+            1.2787519693374634,
+            1.2614400386810303,
+            1.610751986503601,
+            1.2953599691390991,
+            1.8499200344085693,
+            1.2861440181732178,
+            1.2625279426574707,
+            1.657696008682251,
+            1.2871359586715698,
+            1.2728320360183716,
+            1.760256052017212,
+            1.2902400493621826,
+            1.2632319927215576
+          ],
+          "graph_matches_eager_bitwise": true
+        },
+        "output": {
+          "median_ms": 1.1472960114479065,
+          "p95_ms": 1.587609589099884,
+          "samples_ms": [
+            1.136639952659607,
+            1.5889919996261597,
+            1.1519999504089355,
+            1.1386879682540894,
+            1.5202560424804688,
+            1.1479040384292603,
+            1.1376639604568481,
+            1.141759991645813,
+            1.1315200328826904,
+            1.3586560487747192,
+            1.1455680131912231,
+            1.4387199878692627,
+            1.147711992263794,
+            1.141759991645813,
+            1.6250879764556885,
+            1.1467839479446411,
+            1.1407359838485718,
+            1.4909440279006958,
+            1.146880030632019,
+            1.1424319744110107,
+            1.542847990989685,
+            1.1448320150375366,
+            1.1403199434280396,
+            1.509376049041748,
+            1.1519999504089355,
+            1.3957120180130005,
+            1.585919976234436,
+            1.1486400365829468,
+            1.1366080045700073,
+            1.1386879682540894
+          ],
+          "graph_matches_eager_bitwise": true
+        },
+        "decoder": {
+          "median_ms": 1.1892639994621277,
+          "p95_ms": 1.6935215711593625,
+          "samples_ms": [
+            1.5950720310211182,
+            1.1980799436569214,
+            1.1704319715499878,
+            1.6247680187225342,
+            1.1904640197753906,
+            1.1724799871444702,
+            1.6261119842529297,
+            1.1898880004882812,
+            1.1653120517730713,
+            1.7639360427856445,
+            1.183743953704834,
+            1.1681920289993286,
+            1.6106239557266235,
+            1.206272006034851,
+            1.172160029411316,
+            1.7260799407958984,
+            1.1885440349578857,
+            1.1735039949417114,
+            1.5174720287322998,
+            1.1886399984359741,
+            1.1690560579299927,
+            1.6537280082702637,
+            1.2083200216293335,
+            1.1806720495224,
+            1.6035840511322021,
+            1.1847679615020752,
+            1.1772160530090332,
+            1.5338879823684692,
+            1.179487943649292,
+            1.1653120517730713
+          ],
+          "graph_matches_eager_bitwise": true
+        },
+        "combined": {
+          "median_ms": 1.0603519678115845,
+          "p95_ms": 1.5103599905967713,
+          "samples_ms": [
+            1.072991967201233,
+            1.0718719959259033,
+            1.0670080184936523,
+            1.0444799661636353,
+            1.060863971710205,
+            1.0598399639129639,
+            1.5007679462432861,
+            1.0618879795074463,
+            1.0516480207443237,
+            1.539072036743164,
+            1.0629119873046875,
+            1.0618879795074463,
+            1.0547200441360474,
+            1.0547200441360474,
+            1.0598399639129639,
+            1.052672028541565,
+            1.405951976776123,
+            1.0618879795074463,
+            1.052672028541565,
+            1.0516480207443237,
+            1.0485759973526,
+            1.0639359951019287,
+            1.052672028541565,
+            1.5182080268859863,
+            1.0680320262908936,
+            1.0533759593963623,
+            1.052672028541565,
+            1.0485759973526,
+            1.0741759538650513,
+            1.0557440519332886
+          ],
+          "graph_matches_eager_bitwise": true
+        }
+      }
+    },
+    "limitations": [
+      "Finite-input equivalence to existing student arithmetic, not native quality.",
+      "Complete student graph timings exclude D3D12 integration and do not accelerate native NVIDIA execution.",
+      "Exact full-image results cover only the checked checkpoints, inputs and environment."
+    ]
+  },
+  "selected_execution": {
+    "mixed34": {
+      "baseline_ms": 1.2505439519882202,
+      "output_fusion_ms": 1.1521919965744019,
+      "decoder_fusion_ms": 1.1696320176124573,
+      "combined_ms": 1.085103988647461,
+      "complete_images_bit_identical": 16
+    },
+    "staged": {
+      "baseline_ms": 1.2587840557098389,
+      "output_fusion_ms": 1.1645920276641846,
+      "decoder_fusion_ms": 1.1917920112609863,
+      "combined_ms": 1.0627679824829102,
+      "complete_images_bit_identical": 16
+    },
+    "diverse": {
+      "baseline_ms": 1.287663996219635,
+      "output_fusion_ms": 1.1472960114479065,
+      "decoder_fusion_ms": 1.1892639994621277,
+      "combined_ms": 1.0603519678115845,
+      "complete_images_bit_identical": 16
+    }
+  },
+  "limitations": [
+    "No candidate meets native image quality. Native execution is unchanged.",
+    "Twelve new training and four new validation photo identities were selected before captures and fitting. All older validation cases stay excluded from training.",
+    "The training budget remains 4500 steps; adding images reduces average exposure per image. One seed does not establish a general limit.",
+    "The staged baseline includes 1500 extra feature-pretraining steps; it is not compute-matched to the RGB-only models.",
+    "Images are static sample-rendered planes. Earlier DLSS processing resamples their appearance before true 1920x1080 neural inputs are captured.",
+    "Only first-reset frames enter training/evaluation. No representative gameplay or temporal quality acceptance is claimed.",
+    "Validation scores guide research after evaluation and do not become an independent final test suite. Pixel metrics alone cannot prove preserved perceptual quality.",
+    "Existing student fusions are rechecked on the new weights and new inputs; this turn introduces no new execution kernel.",
+    "Student graph timings include full 1080p inference and grading, but exclude D3D12 integration and do not accelerate the native runtime.",
+    "Every sample launch verifies the exact hidden executable and uses a private inactive desktop. Normal sample state is restored after each trial; game and driver settings are untouched."
+  ]
+}

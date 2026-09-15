@@ -30,7 +30,10 @@ def main():
     parser.add_argument('--model', nargs=2, action='append', required=True, metavar=('NAME', 'DIRECTORY'))
     parser.add_argument('--output-directory', type=Path, required=True)
     parser.add_argument('--photo-collection', type=Path, help='Optional private audited photo extension manifest.')
+    parser.add_argument('--image-collection', type=Path, help='Optional diverse image extension, requiring --photo-collection.')
     args = parser.parse_args()
+    if args.image_collection and not args.photo_collection:
+        raise ValueError('The image extension requires its preceding photo collection.')
     repo = Path(__file__).resolve().parents[2]
     if args.output_directory.resolve().is_relative_to(repo):
         raise ValueError('Predictions must stay in a private directory outside the repository.')
@@ -79,7 +82,7 @@ def main():
             assert Path(view['label']).name == view['label']
             cases.append((view['label'], args.collection.parent / 'trials' / view['label'] / 'capture', view['capture_hashes'], 'new'))
     assert len(cases) == audit['total_validation_views'] and len(cases) > 2
-    photo_proofs = []
+    photo_proofs, image_proofs = [], []
     if args.photo_collection:
         from collect_demo_photo_training import audited_photos
         for row in audited_photos(args.photo_collection, args.base_trials.parent, baseline['controls']):
@@ -87,6 +90,13 @@ def main():
                 cases.append((row['label'], args.base_trials.parent / (row['label'] + '-state') / 'capture',
                               row['capture_hashes'], 'photos-emittance-' + str(row['emittance'])))
                 photo_proofs.append(row)
+    if args.image_collection:
+        from collect_diverse_images import audited_images
+        for row in audited_images(args.image_collection, args.base_trials.parent, baseline['controls'], args.photo_collection):
+            if row['split']=='validation':
+                cases.append((row['label'], args.base_trials.parent / (row['label'] + '-state') / 'capture',
+                              row['capture_hashes'], 'diverse-extension'))
+                image_proofs.append(row)
     args.output_directory.mkdir(parents=True, exist_ok=False)
     rows, timings = [], {}
     with torch.inference_mode():
@@ -138,6 +148,7 @@ def main():
               'models': model_info, 'validation': rows, 'mean_validation_mae': summary,
               'complete_graph_timings': timings,
               'photo_validation_proofs': photo_proofs,
+              'image_validation_proofs': image_proofs,
               'timing_scope': 'Full-1080p FP16 network plus output grade; no D3D12/application integration.',
               'limitations': ['One 3D scene, optionally supplemented by static photograph planes; no representative game or temporal acceptance.',
                               'Validation identities stay out of fitting, but previous validation scores have informed research choices; not an independent final test set.',

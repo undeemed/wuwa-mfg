@@ -178,3 +178,24 @@ The collector and split audit are original MIT-licensed research utilities.
 | [Golden Gate Bridge](https://commons.wikimedia.org/wiki/File:GoldenGateBridge-001.jpg) | Rich Niewiroski Jr. | [CC BY 2.5](https://creativecommons.org/licenses/by/2.5/). Private crop/resampling and neural transformations recorded. |
 | [Moraine Lake](https://commons.wikimedia.org/wiki/File:Moraine_Lake_17092005.jpg) | Gorgo | Released into the public domain by the author. |
 | [Tracy Caldwell Dyson in the ISS Cupola](https://commons.wikimedia.org/wiki/File:Tracy_Caldwell_Dyson_in_Cupola_ISS.jpg) | NASA/Tracy Caldwell Dyson | Public domain in the United States; [NASA media guidelines](https://www.nasa.gov/nasa-brand-center/images-and-media/). No endorsement is implied. |
+
+The next private extension adds sixteen different sources. The
+[fixed source catalogue](research/neural-latency/image-collections/diverse-extension.json)
+records each author, source page, original-file URL, license and license link,
+dimensions, SHA-1 and crop position. Training sources are Martin Eklund's forest
+waterfall, Basile Morin's palace interior, Beijing Drive Culture Media's concert
+hall, Benh LIEU SONG's cloisters, Paulo Barcellos Jr.'s night city, Don McCulley's
+sunflower, Dirk Vorderstraße's retriever, Wikigab's dunes, the NASA portraits of
+Jessica Watkins and Michael Foale, Brian Prechtel's strawberries and NASA's
+Namibia view. Validation sources are Diliff's Trinity College library, Diego
+Delso's Key West beach, the NASA portrait of Chris Cassidy and Joe Mania's dunes.
+The catalogue retains the concert-hall author's original Chinese credit.
+
+These sources carry the separately recorded CC0, CC BY, CC BY-SA or public-domain
+terms. NASA material implies no endorsement. Preparation converts to RGB and
+fits a 1920×1080 crop without changing aspect ratio; the three portrait crops
+are biased upward. Rendering and neural processing add further transformations.
+All original files, transformed images, captures and learned weights stay
+private. Only source metadata, original MIT collector code and numerical
+experiment results are published. These image terms do not change the licenses
+of the research code.

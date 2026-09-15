@@ -1,0 +1,313 @@
+{
+  "schema": 1,
+  "name": "diverse-extension",
+  "emittance": 0.1,
+  "cases": [
+    {
+      "name": "forest",
+      "split": "train",
+      "author": "Martin Eklund",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "source": "https://commons.wikimedia.org/wiki/File:Waterfall_in_forest.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/8/8b/Waterfall_in_forest.jpg",
+      "source_size": [
+        3801,
+        2455
+      ],
+      "source_sha1": "72199e59ea85cbbda75818b680253fca16799efe",
+      "source_bytes": 2800552,
+      "centering": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "palace",
+      "split": "train",
+      "author": "Basile Morin",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Huijeongdang_Hall_interior_through_open_doors_at_Changdeokgung_Palace_in_Seoul.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/d/d6/Huijeongdang_Hall_interior_through_open_doors_at_Changdeokgung_Palace_in_Seoul.jpg",
+      "source_size": [
+        5179,
+        3717
+      ],
+      "source_sha1": "6f8ed60e08bd34c0dc890df28f87bfe6d255b758",
+      "source_bytes": 10044881,
+      "centering": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "concert",
+      "split": "train",
+      "author": "\u5317\u4eac\u9a71\u52a8\u6587\u5316\u4f20\u5a92\u6709\u9650\u516c\u53f8",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Tianjin_Grand_Theater_Concert_Hall.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/d/df/Tianjin_Grand_Theater_Concert_Hall.jpg",
+      "source_size": [
+        3533,
+        2199
+      ],
+      "source_sha1": "08b003c05d71470a0e7fd7fc5360df2127319899",
+      "source_bytes": 1105008,
+      "centering": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "cloisters",
+      "split": "train",
+      "author": "Benh LIEU SONG",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Cloisters_of_Moissac_Abbey.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/e/e7/Cloisters_of_Moissac_Abbey.jpg",
+      "source_size": [
+        4895,
+        3044
+      ],
+      "source_sha1": "c499941238723f3100400c8ff18b93c6ebdc07b0",
+      "source_bytes": 3608160,
+      "centering": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "night-city",
+      "split": "train",
+      "author": "Paulo Barcellos Jr.",
+      "license": "CC BY-SA 2.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+      "source": "https://commons.wikimedia.org/wiki/File:New_York_City_at_night_HDR.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/2/22/New_York_City_at_night_HDR.jpg",
+      "source_size": [
+        3024,
+        1998
+      ],
+      "source_sha1": "e5acabdb111b2215fee04c166e00757641f2ef21",
+      "source_bytes": 3118624,
+      "centering": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "sunflower",
+      "split": "train",
+      "author": "Don McCulley",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "source": "https://commons.wikimedia.org/wiki/File:Sunflower_Public_Domain.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/2/29/Sunflower_Public_Domain.jpg",
+      "source_size": [
+        5040,
+        4000
+      ],
+      "source_sha1": "76c336249b2f22999d072071df0db297f9e65429",
+      "source_bytes": 4733155,
+      "centering": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "retriever",
+      "split": "train",
+      "author": "Dirk Vorderstra\u00dfe",
+      "license": "CC BY 3.0",
+      "license_url": "https://creativecommons.org/licenses/by/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Golden_retriever_stehfoto.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/1/1d/Golden_retriever_stehfoto.jpg",
+      "source_size": [
+        3000,
+        2000
+      ],
+      "source_sha1": "fbdf03faeaf561344f34d531122c2fe503d0c244",
+      "source_bytes": 2161226,
+      "centering": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "dunes",
+      "split": "train",
+      "author": "Wikigab",
+      "license": "Public domain",
+      "license_url": "https://commons.wikimedia.org/wiki/File:Desert_dunes.jpg#Licensing",
+      "source": "https://commons.wikimedia.org/wiki/File:Desert_dunes.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/f/f4/Desert_dunes.jpg",
+      "source_size": [
+        2816,
+        2112
+      ],
+      "source_sha1": "e4f0b3f4ab3914a07d12a18e10040cdc3492f2db",
+      "source_bytes": 3734297,
+      "centering": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "watkins",
+      "split": "train",
+      "author": "NASA/Bill Stafford",
+      "license": "Public domain",
+      "license_url": "https://commons.wikimedia.org/wiki/File:Jessica_Watkins_Astronaut_portrait.jpg#Licensing",
+      "source": "https://commons.wikimedia.org/wiki/File:Jessica_Watkins_Astronaut_portrait.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/3/32/Jessica_Watkins_Astronaut_portrait.jpg",
+      "source_size": [
+        6200,
+        7750
+      ],
+      "source_sha1": "50a8ff7a96b97a924bbee9a6214230a030bbf4fd",
+      "source_bytes": 5179998,
+      "centering": [
+        0.5,
+        0.25
+      ]
+    },
+    {
+      "name": "foale",
+      "split": "train",
+      "author": "NASA/Robert Markowitz",
+      "license": "Public domain",
+      "license_url": "https://commons.wikimedia.org/wiki/File:Michael_Foale_-_official_astronaut_portrait.jpg#Licensing",
+      "source": "https://commons.wikimedia.org/wiki/File:Michael_Foale_-_official_astronaut_portrait.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/2/29/Michael_Foale_-_official_astronaut_portrait.jpg",
+      "source_size": [
+        5412,
+        7216
+      ],
+      "source_sha1": "79fecf2f541994cf429f08245768ebe828d6b398",
+      "source_bytes": 4201285,
+      "centering": [
+        0.5,
+        0.25
+      ]
+    },
+    {
+      "name": "berries",
+      "split": "train",
+      "author": "Brian Prechtel",
+      "license": "Public domain",
+      "license_url": "https://commons.wikimedia.org/wiki/File:Strawberries.jpg#Licensing",
+      "source": "https://commons.wikimedia.org/wiki/File:Strawberries.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/e/e1/Strawberries.jpg",
+      "source_size": [
+        2700,
+        1796
+      ],
+      "source_sha1": "defc481a6149914be7e94d6929cf190ae588fa3a",
+      "source_bytes": 1497236,
+      "centering": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "aerial",
+      "split": "train",
+      "author": "Earth Science and Remote Sensing Unit , Lyndon B. Johnson Space Center",
+      "license": "Public domain",
+      "license_url": "https://commons.wikimedia.org/wiki/File:ISS026-E-5166_-_View_of_Namibia.jpg#Licensing",
+      "source": "https://commons.wikimedia.org/wiki/File:ISS026-E-5166_-_View_of_Namibia.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/3/3c/ISS026-E-5166_-_View_of_Namibia.jpg",
+      "source_size": [
+        4256,
+        2913
+      ],
+      "source_sha1": "6f6ad139bc519bdbf6cc7f25f3d71f2af8e3c94f",
+      "source_bytes": 1149860,
+      "centering": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "library",
+      "split": "validation",
+      "author": "Diliff",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Long_Room_Interior,_Trinity_College_Dublin,_Ireland_-_Diliff.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/4/4b/Long_Room_Interior%2C_Trinity_College_Dublin%2C_Ireland_-_Diliff.jpg",
+      "source_size": [
+        9000,
+        6796
+      ],
+      "source_sha1": "9fa7403b3133598aa118fba78bf49fa5ae1893fc",
+      "source_bytes": 21074464,
+      "centering": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "beach",
+      "split": "validation",
+      "author": "Diego Delso",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Beach_of_Key_West,_Florida,_USA4.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/7/79/Beach_of_Key_West%2C_Florida%2C_USA4.jpg",
+      "source_size": [
+        2816,
+        2112
+      ],
+      "source_sha1": "b57c7c1379c9e7c70bf93728c9ba46306f552e26",
+      "source_bytes": 2624784,
+      "centering": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "cassidy",
+      "split": "validation",
+      "author": "NASA/Josh Valcarcel",
+      "license": "Public domain",
+      "license_url": "https://commons.wikimedia.org/wiki/File:Chris_Cassidy_-_Official_NASA_Astronaut_Portrait_in_EMU.jpg#Licensing",
+      "source": "https://commons.wikimedia.org/wiki/File:Chris_Cassidy_-_Official_NASA_Astronaut_Portrait_in_EMU.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/e/ef/Chris_Cassidy_-_Official_NASA_Astronaut_Portrait_in_EMU.jpg",
+      "source_size": [
+        5270,
+        6588
+      ],
+      "source_sha1": "ea6aa55d94487e1b896b882ec1509cc1adf35dbd",
+      "source_bytes": 3149860,
+      "centering": [
+        0.5,
+        0.25
+      ]
+    },
+    {
+      "name": "dunes-other",
+      "split": "validation",
+      "author": "Joe Mania joemania",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "source": "https://commons.wikimedia.org/wiki/File:Desert_Dunes_(Unsplash).jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/4/49/Desert_Dunes_%28Unsplash%29.jpg",
+      "source_size": [
+        4550,
+        2560
+      ],
+      "source_sha1": "8c285f23d92bb0780b840343349f95a0d0e97ce6",
+      "source_bytes": 1046035,
+      "centering": [
+        0.5,
+        0.5
+      ]
+    }
+  ],
+  "selection_scope": "Twelve training identities and four held-out identities selected before capturing or fitting this extension. Static sample inputs, not representative game or final temporal validation.",
+  "preprocessing": "RGB LANCZOS fit to 1920x1080 without aspect distortion. Portraits use an upper-centered crop; all other images use a centered crop. Only source metadata is distributed."
+}

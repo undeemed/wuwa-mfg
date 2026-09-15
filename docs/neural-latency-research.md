@@ -909,6 +909,45 @@ and [numeric evidence](../evidence/neural-model-research/staged-features-and-out
 preserve both the speedup and quality failures. Native NVIDIA execution remains
 about 5.4 ms, and no game or normal runtime changes were made.
 
+## Broader native-supervised image data
+
+The earlier training set contained only four photo identities. Twelve new
+training sources and four reserved validation sources now cover a wider range
+of interiors, portraits, vegetation, animals and landscapes. Their identities,
+licenses, hashes and crop positions were fixed before captures and fitting.
+The complete set contains **46 training frames and 16 validation frames**.
+All older examples retain their original splits.
+
+Sixteen bounded sample runs produced 64 completed fenced captures. Every launch
+verified the exact hidden executable and ran on an inactive desktop; all 64
+desktop observations passed. The original scene, DLL and INI were restored after
+each run. Only the first-reset frame enters this experiment. Photo planes pass
+through the sample's earlier DLSS processing before the neural model receives
+its true 1920×1080 input; they do not establish gameplay or temporal quality.
+
+The new student keeps the original architecture, width 16, 223,440 parameters,
+seed and 4,500-step RGB training budget. No feature pretraining or auxiliary loss
+is used. Relative to the earlier 34-frame RGB model:
+
+| Reserved group | Earlier mean RGB MAE | New mean RGB MAE | Change |
+| --- | ---: | ---: | ---: |
+| Six original scene views | 0.028038 | 0.029773 | 6.19% worse |
+| Six older photo cases | 0.027289 | 0.024322 | 10.87% better |
+| Four new photo cases | 0.028078 | 0.021973 | 21.74% better |
+
+All four new photos improve, but four original scene views regress. This supports
+expanding content coverage as a useful training direction; it does not establish
+preserved quality. The fixed step budget also gives each image fewer exposures
+on average, and one seed cannot establish a general model or data limit.
+
+The earlier output and decoder fusions remain bit-exact across all sixteen
+validation inputs and three checkpoints. The new model's complete student-plus-
+grade graph measures **1.060 ms** with both fusions, excluding D3D12 integration.
+No new kernel or native-runtime acceleration is claimed. The model is not
+accepted or installed. [Method and commands](../research/neural-latency/README.md#broader-image-training-with-a-fixed-validation-split)
+and [numerical evidence](../evidence/neural-model-research/diverse-image-extension.json)
+record the data, training, comparison, exactness checks and timing samples.
+
 ## Papers and what can transfer
 
 The joint [native feature supervision experiment](../research/neural-latency/README.md#native-intermediate-feature-supervision)
