@@ -16,7 +16,7 @@ p.add_argument('--batched-ffn',action='store_true',help='Experimental FP16 branc
 p.add_argument('--fused-gate',action='store_true')
 p.add_argument('--graph',action='store_true',help='Time fixed-shape CUDA Graph replay on the complete captured input.')
 p.add_argument('--noise-frame',type=int,choices=range(4),default=0,
-               help='Diagnostic noise counter; the vendor counter is not yet captured.')
+               help='Noise counter, default 0; verify against a companion native launch-contract trace when available.')
 a=p.parse_args()
 a.output.mkdir(parents=True,exist_ok=False)
 sys.path.insert(0,str(a.source/'python'))
@@ -144,7 +144,7 @@ stats.update(precision=a.precision,network_extent=list(result.network_extent),ne
              'effect_correlation':corr(predicted-source,vendor-source),
              'highpass_correlation':corr(hp(predicted),hp(vendor)),
              'reconstruction_effect_mae':float(np.abs(predicted-source).mean())},
-             limitation='One first-reset scene; noise counter, controls and reconstruction remain unproven against vendor. Reconstruction timing is not a vendor-runtime benchmark. No speed/quality claim.',
+             limitation='One first-reset scene; verify noise and controls against a companion native trace when available. Reconstruction remains unproven against vendor. Reconstruction timing is not a vendor-runtime benchmark. No speed/quality claim.',
              peak_allocated_mib=torch.cuda.max_memory_allocated()/2**20)
 (a.output/'comparison.json').write_text(json.dumps(stats,indent=2))
 print(json.dumps(stats,indent=2),flush=True)

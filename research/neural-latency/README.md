@@ -108,8 +108,9 @@ objects. Instrumented timings are diagnostic, not final speed claims.
 separate GPL-3.0 research patch on top of the same R4 compatibility source. Apply
 it to a separate source copy with `git apply --check` and `git apply`; use the
 Release x64 build procedure and DirectX-header override described above. The
-capture and kernel-probe patches have overlapping edit locations; their combined
-use has not been tested. The normal installer applies neither research patch.
+capture and kernel-probe patches have overlapping edit locations. For both at
+once, use the combined launch-contract patch below instead of stacking them.
+The normal installer applies none of these research patches.
 
 Back up the demo's `dxgi.dll`, then place the capture build there. The process
 must be named `ngx_dlss_demo.exe`, and `nr-model-capture.enable` must exist beside
@@ -135,7 +136,8 @@ running the model. `--precision reference` tests FP32 arithmetic;
 `--network-height 1152` tests extra padding; `--noise-frame 1` tests an assumed
 noise counter from 0–3. Those switches are diagnostics, not recommended fixes.
 Use a fresh output directory for each run. The manifest does not expose the
-internal vendor noise counter. This tool supports only a first-reset comparison
+internal vendor noise counter; a companion launch-contract trace now can.
+This tool supports only a first-reset comparison
 with preset 0 and RGBA16_FLOAT color/output textures, not temporal evaluation.
 It writes numeric metrics plus local previews and a NumPy reconstruction; do not
 commit the image data. `quality_gate_passed` remains false because a single frame
@@ -146,6 +148,59 @@ extent. Its `network_timing_kind` distinguishes GPU intervals from the default
 eager wall time. The graph result still excludes D3D12 integration. Both batching
 and activation fusion are experimental options, not changes to the installed
 NVIDIA runtime.
+
+## Combined native launch contract and captures
+
+[`optiscaler-demo-launch-contract.patch`](optiscaler-demo-launch-contract.patch)
+combines both research instruments and adds whitelisted scalar metadata. Apply
+it directly on the normal R4 compatibility source, **not** on top of either
+research patch above. It was built with the same pinned source, DirectX headers
+and Release x64 procedure. Build the solution so `SolutionDir` resolves correctly;
+building the project alone without that property caused missing-header errors.
+The patch follows OptiScaler's GPL-3.0 license.
+
+Only the separate, guarded hidden NVIDIA demo was used. Back up its `dxgi.dll`
+before installing this research build there. Preserve the no-show EXE patch and
+check that neither WuWa nor another demo process is running. Enable both
+`nr-kernel-probe.enable` and `nr-model-capture.enable` beside the NR DLL. Leave
+`nr-kernel-timing.enable` disabled for this experiment. Run the existing bounded
+runner for 25 seconds at 1920×1080, 60 FPS, Natural style, preset 0 and masking on.
+Archive `nr-launch-contract.jsonl`, `nr-kernel-probe.csv`, the completed capture
+folder and the run result before another run.
+
+The contract records evaluations 1–4, 64, 128 and 256. It includes launch names,
+dimensions, argument sizes, API status and time inside the original native call.
+Only the recognized 264-byte preprocessor layout has scalar fields decoded,
+using the pinned MLX-DLSS parameter map. It does not dump pointers, arbitrary
+packed arguments, GPU allocations or model weights. Launch chains are forwarded
+unchanged. Native call durations are CPU submission times, not GPU timing.
+
+A separate marker, `nr-force-sm89.enable`, opts into an architecture experiment:
+retain exactly one existing SM89 cubin entry in each recognized module container.
+The selector preserves that entry's complete bytes, accepts only zero trailing
+padding and otherwise forwards the original module. It makes no on-disk NVIDIA
+binary edits. A rejected filtered module is reported without silently retrying
+another path. This is not a recommended optimization: the completed experiment
+found no useful speedup. The older trial without padding support filtered zero
+modules and must not be interpreted as testing architecture selection.
+
+After each trial, restore the original demo DLL and disable all three markers.
+Keep raw captures private and do not deploy the research DLL to WuWa. The
+analyzer publishes only whitelisted metadata and texture-equality results:
+
+```powershell
+python summarize_launch_contract.py D:\PrivateTrials\baseline D:\PrivateTrials\sm89 --output results\native-contract.json
+python test_sm89_selection.py
+```
+
+The selector test needs `cl` in a Visual Studio x64 developer shell. It extracts
+the exact function from the combined patch and checks synthetic valid containers,
+byte preservation, zero/nonzero padding, malformed sizes, missing and duplicate
+architectures, and disabled operation. It never loads NVIDIA code. The analyzer
+validates complete capture fences, corresponding scalar controls, consistent
+launch geometry and chain order. It counts each chain's CPU duration only once.
+Paired outputs are reported only while inputs and recorded history match from
+reset. This limited static-scene check always leaves the full quality gate false.
 
 ## Bounded student training probes
 

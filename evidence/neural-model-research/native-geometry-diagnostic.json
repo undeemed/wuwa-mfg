@@ -1,0 +1,130 @@
+{
+  "schema": 1,
+  "reason": "Native launch grids motivated a same-arithmetic padding diagnostic. Extra threads may be guarded; grid geometry alone does not prove effective tensor dimensions.",
+  "quality_gate_passed": false,
+  "comparisons": [
+    {
+      "schema": 1,
+      "capture_hashes": {
+        "color": "2e44a6a5e2730c21f7f2b4610b0a3c0af6fc94e2f51601f2ab2fa3fa679cf7f6",
+        "output": "13668520132202f28b6b584aff445e6982d17ece0430c9c134b7c2ef85b68d2b"
+      },
+      "source_shape": [
+        1080,
+        1920,
+        3
+      ],
+      "network_extent": [
+        1088,
+        1920
+      ],
+      "precision": "fast",
+      "noise_frame": 0,
+      "batched_ffn": true,
+      "fused_gate": true,
+      "weights_sha256": "fa6ebc71bc6f91347d51b3368b0ef6e952b6157b6d9a164e7db82cffb88d3143",
+      "comparison": {
+        "rgb_mae": 0.015148261561989784,
+        "rgb_rmse": 0.022372259915421924,
+        "rgb_max_abs": 0.166259765625,
+        "rgb_p99_abs": 0.0693359375,
+        "psnr_db": 33.005802875756714,
+        "rgb_correlation": 0.9977564348667832,
+        "effect_correlation": 0.9377319251980138,
+        "highpass_correlation": 0.9735717434269928,
+        "reconstruction_effect_mae": 0.043202225118875504
+      },
+      "cuda_graph": {
+        "median_ms": 226.91788482666016,
+        "p95_ms": 226.99469451904298,
+        "samples_ms": [
+          226.90383911132812,
+          226.9468231201172,
+          226.93568420410156,
+          226.88243103027344,
+          226.8948516845703,
+          226.9091796875,
+          226.93682861328125,
+          226.90357971191406,
+          226.96022033691406,
+          226.9870147705078,
+          226.97325134277344,
+          226.96441650390625,
+          226.8528594970703,
+          226.89280700683594,
+          226.86207580566406,
+          226.90771484375,
+          226.8966064453125,
+          227.14060974121094,
+          226.9265899658203,
+          226.93478393554688
+        ],
+        "trial_wall_seconds": 6.689670199993998,
+        "scope": "Fixed full-resolution input in PyTorch; no D3D12 integration or vendor speedup."
+      },
+      "quality_gate_passed": false
+    },
+    {
+      "schema": 1,
+      "capture_hashes": {
+        "color": "2e44a6a5e2730c21f7f2b4610b0a3c0af6fc94e2f51601f2ab2fa3fa679cf7f6",
+        "output": "13668520132202f28b6b584aff445e6982d17ece0430c9c134b7c2ef85b68d2b"
+      },
+      "source_shape": [
+        1080,
+        1920,
+        3
+      ],
+      "network_extent": [
+        1152,
+        1920
+      ],
+      "precision": "fast",
+      "noise_frame": 0,
+      "batched_ffn": true,
+      "fused_gate": true,
+      "weights_sha256": "fa6ebc71bc6f91347d51b3368b0ef6e952b6157b6d9a164e7db82cffb88d3143",
+      "comparison": {
+        "rgb_mae": 0.014347448945045471,
+        "rgb_rmse": 0.02367224334793741,
+        "rgb_max_abs": 0.16650390625,
+        "rgb_p99_abs": 0.0804443359375,
+        "psnr_db": 32.515211666543614,
+        "rgb_correlation": 0.9981855299919543,
+        "effect_correlation": 0.9318083782527262,
+        "highpass_correlation": 0.9741044774661087,
+        "reconstruction_effect_mae": 0.04174425080418587
+      },
+      "cuda_graph": {
+        "median_ms": 243.40830993652344,
+        "p95_ms": 243.51777114868165,
+        "samples_ms": [
+          243.41285705566406,
+          243.42527770996094,
+          243.4211883544922,
+          243.41091918945312,
+          243.39651489257812,
+          243.36988830566406,
+          243.37887573242188,
+          243.35340881347656,
+          243.5307159423828,
+          243.51708984375,
+          243.42201232910156,
+          243.420166015625,
+          243.3638153076172,
+          243.38607788085938,
+          243.38829040527344,
+          243.41868591308594,
+          243.48118591308594,
+          243.34927368164062,
+          243.40570068359375,
+          243.39251708984375
+        ],
+        "trial_wall_seconds": 7.146468899998581,
+        "scope": "Fixed full-resolution input in PyTorch; no D3D12 integration or vendor speedup."
+      },
+      "quality_gate_passed": false
+    }
+  ],
+  "conclusion": "Extra padding reduced MAE slightly but worsened RMSE and tail errors. Rejected as a parity fix. This is a reconstructed graph, not a native-runtime speedup."
+}

@@ -1,0 +1,1421 @@
+{
+  "schema": 1,
+  "trials": [
+    {
+      "schema": 1,
+      "trial": "launch-contract-natural",
+      "successful_modules": 9,
+      "successful_sm89_filtered_modules": 0,
+      "modules": [
+        {
+          "bytes": 0,
+          "status": -14,
+          "architecture_selection": "unknown"
+        },
+        {
+          "bytes": 3944768,
+          "status": 0,
+          "architecture_selection": "unknown",
+          "fatbin_architectures": [
+            75,
+            86,
+            89,
+            120
+          ],
+          "fatbin_walk_complete": true
+        },
+        {
+          "bytes": 2473688,
+          "status": 0,
+          "architecture_selection": "unknown",
+          "fatbin_architectures": [
+            75,
+            86,
+            89,
+            120
+          ],
+          "fatbin_walk_complete": true
+        },
+        {
+          "bytes": 2419288,
+          "status": 0,
+          "architecture_selection": "unknown",
+          "fatbin_architectures": [
+            75,
+            86,
+            89,
+            120
+          ],
+          "fatbin_walk_complete": true
+        },
+        {
+          "bytes": 2637352,
+          "status": 0,
+          "architecture_selection": "unknown",
+          "fatbin_architectures": [
+            75,
+            86,
+            89,
+            120
+          ],
+          "fatbin_walk_complete": true
+        },
+        {
+          "bytes": 2114088,
+          "status": 0,
+          "architecture_selection": "unknown",
+          "fatbin_architectures": [
+            75,
+            86,
+            89,
+            120
+          ],
+          "fatbin_walk_complete": true
+        },
+        {
+          "bytes": 3202680,
+          "status": 0,
+          "architecture_selection": "unknown",
+          "fatbin_architectures": [
+            75,
+            86,
+            89,
+            120,
+            120
+          ],
+          "fatbin_walk_complete": true
+        },
+        {
+          "bytes": 255312,
+          "status": 0,
+          "architecture_selection": "unknown",
+          "fatbin_architectures": [
+            75,
+            86,
+            89,
+            120
+          ],
+          "fatbin_walk_complete": true
+        },
+        {
+          "bytes": 54824,
+          "status": 0,
+          "architecture_selection": "unknown",
+          "fatbin_architectures": [
+            75,
+            86,
+            89,
+            120
+          ],
+          "fatbin_walk_complete": true
+        },
+        {
+          "bytes": 6936,
+          "status": 0,
+          "architecture_selection": "unknown",
+          "fatbin_architectures": [
+            75,
+            86,
+            89,
+            120,
+            120
+          ],
+          "fatbin_walk_complete": true
+        }
+      ],
+      "apis": {
+        "chain": 1106
+      },
+      "all_launches_succeeded": true,
+      "all_observed_launches_use_packed_parameters": true,
+      "observed_launch_order_and_geometry_consistent": true,
+      "launch_order_sha256": "8c0b9e9bc12e5567bfa206e4471e2ac6c572f1539a1f21df4af7b812e293b6ae",
+      "frames": [
+        {
+          "evaluation": 1,
+          "kernels": 158,
+          "chains": 158,
+          "kernels_per_chain": {
+            "1": 158
+          },
+          "native_call_cpu_us_sum": 164.9,
+          "native_call_cpu_us_median": 0.8,
+          "native_call_cpu_us_max": 17.2,
+          "preprocessor_scalars": {
+            "auto_enabled": 1,
+            "auto_structure": 1.0,
+            "depth_inverted": 0,
+            "height": 1080,
+            "mvec_x": 0.0010416667209938169,
+            "mvec_y": 0.0018518518190830946,
+            "noise_counter": 0,
+            "rgb_scale": 0.0625,
+            "skin_structure": 1.0,
+            "structure": 1.0,
+            "style": 0.0078125,
+            "tone": 1.0,
+            "width": 1920
+          },
+          "capture_sanity": {
+            "completed_fenced_capture": true,
+            "checks": {
+              "extent_matches_capture": true,
+              "style_matches_normalized_control": true,
+              "tone_matches_control": true,
+              "structure_matches_control": true,
+              "mask_matches_control": true,
+              "depth_direction_matches_control": true
+            },
+            "reset": 1
+          }
+        },
+        {
+          "evaluation": 2,
+          "kernels": 158,
+          "chains": 158,
+          "kernels_per_chain": {
+            "1": 158
+          },
+          "native_call_cpu_us_sum": 155.7,
+          "native_call_cpu_us_median": 0.8,
+          "native_call_cpu_us_max": 12.4,
+          "preprocessor_scalars": {
+            "auto_enabled": 1,
+            "auto_structure": 1.0,
+            "depth_inverted": 0,
+            "height": 1080,
+            "mvec_x": 0.0020833334419876337,
+            "mvec_y": 0.003703703638166189,
+            "noise_counter": 1,
+            "rgb_scale": 0.0625,
+            "skin_structure": 1.0,
+            "structure": 1.0,
+            "style": 0.0078125,
+            "tone": 1.0,
+            "width": 1920
+          },
+          "capture_sanity": {
+            "completed_fenced_capture": true,
+            "checks": {
+              "extent_matches_capture": true,
+              "style_matches_normalized_control": true,
+              "tone_matches_control": true,
+              "structure_matches_control": true,
+              "mask_matches_control": true,
+              "depth_direction_matches_control": true
+            },
+            "reset": 0
+          }
+        },
+        {
+          "evaluation": 3,
+          "kernels": 158,
+          "chains": 158,
+          "kernels_per_chain": {
+            "1": 158
+          },
+          "native_call_cpu_us_sum": 164.1,
+          "native_call_cpu_us_median": 0.8,
+          "native_call_cpu_us_max": 20.7,
+          "preprocessor_scalars": {
+            "auto_enabled": 1,
+            "auto_structure": 1.0,
+            "depth_inverted": 0,
+            "height": 1080,
+            "mvec_x": 0.0020833334419876337,
+            "mvec_y": 0.003703703638166189,
+            "noise_counter": 2,
+            "rgb_scale": 0.0625,
+            "skin_structure": 1.0,
+            "structure": 1.0,
+            "style": 0.0078125,
+            "tone": 1.0,
+            "width": 1920
+          },
+          "capture_sanity": {
+            "completed_fenced_capture": true,
+            "checks": {
+              "extent_matches_capture": true,
+              "style_matches_normalized_control": true,
+              "tone_matches_control": true,
+              "structure_matches_control": true,
+              "mask_matches_control": true,
+              "depth_direction_matches_control": true
+            },
+            "reset": 0
+          }
+        },
+        {
+          "evaluation": 4,
+          "kernels": 158,
+          "chains": 158,
+          "kernels_per_chain": {
+            "1": 158
+          },
+          "native_call_cpu_us_sum": 152.2,
+          "native_call_cpu_us_median": 0.8,
+          "native_call_cpu_us_max": 15.200000000000001,
+          "preprocessor_scalars": {
+            "auto_enabled": 1,
+            "auto_structure": 1.0,
+            "depth_inverted": 0,
+            "height": 1080,
+            "mvec_x": 0.0020833334419876337,
+            "mvec_y": 0.003703703638166189,
+            "noise_counter": 3,
+            "rgb_scale": 0.0625,
+            "skin_structure": 1.0,
+            "structure": 1.0,
+            "style": 0.0078125,
+            "tone": 1.0,
+            "width": 1920
+          },
+          "capture_sanity": {
+            "completed_fenced_capture": true,
+            "checks": {
+              "extent_matches_capture": true,
+              "style_matches_normalized_control": true,
+              "tone_matches_control": true,
+              "structure_matches_control": true,
+              "mask_matches_control": true,
+              "depth_direction_matches_control": true
+            },
+            "reset": 0
+          }
+        },
+        {
+          "evaluation": 64,
+          "kernels": 158,
+          "chains": 158,
+          "kernels_per_chain": {
+            "1": 158
+          },
+          "native_call_cpu_us_sum": 131.4,
+          "native_call_cpu_us_median": 0.8,
+          "native_call_cpu_us_max": 7.5,
+          "preprocessor_scalars": {
+            "auto_enabled": 1,
+            "auto_structure": 1.0,
+            "depth_inverted": 0,
+            "height": 1080,
+            "mvec_x": 0.0020833334419876337,
+            "mvec_y": 0.003703703638166189,
+            "noise_counter": 63,
+            "rgb_scale": 0.0625,
+            "skin_structure": 1.0,
+            "structure": 1.0,
+            "style": 0.0078125,
+            "tone": 1.0,
+            "width": 1920
+          },
+          "capture_sanity": null
+        },
+        {
+          "evaluation": 128,
+          "kernels": 158,
+          "chains": 158,
+          "kernels_per_chain": {
+            "1": 158
+          },
+          "native_call_cpu_us_sum": 149.5,
+          "native_call_cpu_us_median": 0.8,
+          "native_call_cpu_us_max": 11.3,
+          "preprocessor_scalars": {
+            "auto_enabled": 1,
+            "auto_structure": 1.0,
+            "depth_inverted": 0,
+            "height": 1080,
+            "mvec_x": 0.0020833334419876337,
+            "mvec_y": 0.003703703638166189,
+            "noise_counter": 127,
+            "rgb_scale": 0.0625,
+            "skin_structure": 1.0,
+            "structure": 1.0,
+            "style": 0.0078125,
+            "tone": 1.0,
+            "width": 1920
+          },
+          "capture_sanity": null
+        },
+        {
+          "evaluation": 256,
+          "kernels": 158,
+          "chains": 158,
+          "kernels_per_chain": {
+            "1": 158
+          },
+          "native_call_cpu_us_sum": 135.8,
+          "native_call_cpu_us_median": 0.8,
+          "native_call_cpu_us_max": 8.0,
+          "preprocessor_scalars": {
+            "auto_enabled": 1,
+            "auto_structure": 1.0,
+            "depth_inverted": 0,
+            "height": 1080,
+            "mvec_x": 0.0020833334419876337,
+            "mvec_y": 0.003703703638166189,
+            "noise_counter": 255,
+            "rgb_scale": 0.0625,
+            "skin_structure": 1.0,
+            "structure": 1.0,
+            "style": 0.0078125,
+            "tone": 1.0,
+            "width": 1920
+          },
+          "capture_sanity": null
+        }
+      ],
+      "model_1920x1080_confirmed": true,
+      "sparse_gpu_intervals": {
+        "retained_count": 2,
+        "summary": {
+          "total_ms": {
+            "median": 5.615,
+            "min": 5.61,
+            "max": 5.62
+          },
+          "model_ms": {
+            "median": 5.415,
+            "min": 5.41,
+            "max": 5.42
+          },
+          "surrounding_ms": {
+            "median": 0.2,
+            "min": 0.2,
+            "max": 0.2
+          }
+        }
+      },
+      "limitations": [
+        "CPU durations enclose only the original NVAPI call; they are not GPU execution times.",
+        "Capture and metadata instrumentation are active. Sparse intervals do not prove a speedup.",
+        "A zero-length module probe may fail independently of successful real modules.",
+        "Scalar sanity checks validate only the listed controls, not every inferred parameter offset.",
+        "Different demo launches are not guaranteed identical inputs or temporal history."
+      ]
+    },
+    {
+      "schema": 1,
+      "trial": "launch-contract-sm89",
+      "successful_modules": 9,
+      "successful_sm89_filtered_modules": 0,
+      "modules": [
+        {
+          "bytes": 0,
+          "status": -14,
+          "architecture_selection": "unknown",
+          "force_sm89_requested": true,
+          "filtered_to_sm89": false,
+          "submitted_bytes": 0
+        },
+        {
+          "bytes": 3944768,
+          "status": 0,
+          "architecture_selection": "unknown",
+          "fatbin_architectures": [
+            75,
+            86,
+            89,
+            120
+          ],
+          "fatbin_walk_complete": true,
+          "force_sm89_requested": true,
+          "filtered_to_sm89": false,
+          "submitted_bytes": 3944768
+        },
+        {
+          "bytes": 2473688,
+          "status": 0,
+          "architecture_selection": "unknown",
+          "fatbin_architectures": [
+            75,
+            86,
+            89,
+            120
+          ],
+          "fatbin_walk_complete": true,
+          "force_sm89_requested": true,
+          "filtered_to_sm89": false,
+          "submitted_bytes": 2473688
+        },
+        {
+          "bytes": 2419288,
+          "status": 0,
+          "architecture_selection": "unknown",
+          "fatbin_architectures": [
+            75,
+            86,
+            89,
+            120
+          ],
+          "fatbin_walk_complete": true,
+          "force_sm89_requested": true,
+          "filtered_to_sm89": false,
+          "submitted_bytes": 2419288
+        },
+        {
+          "bytes": 2637352,
+          "status": 0,
+          "architecture_selection": "unknown",
+          "fatbin_architectures": [
+            75,
+            86,
+            89,
+            120
+          ],
+          "fatbin_walk_complete": true,
+          "force_sm89_requested": true,
+          "filtered_to_sm89": false,
+          "submitted_bytes": 2637352
+        },
+        {
+          "bytes": 2114088,
+          "status": 0,
+          "architecture_selection": "unknown",
+          "fatbin_architectures": [
+            75,
+            86,
+            89,
+            120
+          ],
+          "fatbin_walk_complete": true,
+          "force_sm89_requested": true,
+          "filtered_to_sm89": false,
+          "submitted_bytes": 2114088
+        },
+        {
+          "bytes": 3202680,
+          "status": 0,
+          "architecture_selection": "unknown",
+          "fatbin_architectures": [
+            75,
+            86,
+            89,
+            120,
+            120
+          ],
+          "fatbin_walk_complete": true,
+          "force_sm89_requested": true,
+          "filtered_to_sm89": false,
+          "submitted_bytes": 3202680
+        },
+        {
+          "bytes": 255312,
+          "status": 0,
+          "architecture_selection": "unknown",
+          "fatbin_architectures": [
+            75,
+            86,
+            89,
+            120
+          ],
+          "fatbin_walk_complete": true,
+          "force_sm89_requested": true,
+          "filtered_to_sm89": false,
+          "submitted_bytes": 255312
+        },
+        {
+          "bytes": 54824,
+          "status": 0,
+          "architecture_selection": "unknown",
+          "fatbin_architectures": [
+            75,
+            86,
+            89,
+            120
+          ],
+          "fatbin_walk_complete": true,
+          "force_sm89_requested": true,
+          "filtered_to_sm89": false,
+          "submitted_bytes": 54824
+        },
+        {
+          "bytes": 6936,
+          "status": 0,
+          "architecture_selection": "unknown",
+          "fatbin_architectures": [
+            75,
+            86,
+            89,
+            120,
+            120
+          ],
+          "fatbin_walk_complete": true,
+          "force_sm89_requested": true,
+          "filtered_to_sm89": false,
+          "submitted_bytes": 6936
+        }
+      ],
+      "apis": {
+        "chain": 1106
+      },
+      "all_launches_succeeded": true,
+      "all_observed_launches_use_packed_parameters": true,
+      "observed_launch_order_and_geometry_consistent": true,
+      "launch_order_sha256": "8c0b9e9bc12e5567bfa206e4471e2ac6c572f1539a1f21df4af7b812e293b6ae",
+      "frames": [
+        {
+          "evaluation": 1,
+          "kernels": 158,
+          "chains": 158,
+          "kernels_per_chain": {
+            "1": 158
+          },
+          "native_call_cpu_us_sum": 165.4,
+          "native_call_cpu_us_median": 0.8,
+          "native_call_cpu_us_max": 18.3,
+          "preprocessor_scalars": {
+            "auto_enabled": 1,
+            "auto_structure": 1.0,
+            "depth_inverted": 0,
+            "height": 1080,
+            "mvec_x": 0.0010416667209938169,
+            "mvec_y": 0.0018518518190830946,
+            "noise_counter": 0,
+            "rgb_scale": 0.0625,
+            "skin_structure": 1.0,
+            "structure": 1.0,
+            "style": 0.0078125,
+            "tone": 1.0,
+            "width": 1920
+          },
+          "capture_sanity": {
+            "completed_fenced_capture": true,
+            "checks": {
+              "extent_matches_capture": true,
+              "style_matches_normalized_control": true,
+              "tone_matches_control": true,
+              "structure_matches_control": true,
+              "mask_matches_control": true,
+              "depth_direction_matches_control": true
+            },
+            "reset": 1
+          }
+        },
+        {
+          "evaluation": 2,
+          "kernels": 158,
+          "chains": 158,
+          "kernels_per_chain": {
+            "1": 158
+          },
+          "native_call_cpu_us_sum": 152.4,
+          "native_call_cpu_us_median": 0.8,
+          "native_call_cpu_us_max": 15.1,
+          "preprocessor_scalars": {
+            "auto_enabled": 1,
+            "auto_structure": 1.0,
+            "depth_inverted": 0,
+            "height": 1080,
+            "mvec_x": 0.0020833334419876337,
+            "mvec_y": 0.003703703638166189,
+            "noise_counter": 1,
+            "rgb_scale": 0.0625,
+            "skin_structure": 1.0,
+            "structure": 1.0,
+            "style": 0.0078125,
+            "tone": 1.0,
+            "width": 1920
+          },
+          "capture_sanity": {
+            "completed_fenced_capture": true,
+            "checks": {
+              "extent_matches_capture": true,
+              "style_matches_normalized_control": true,
+              "tone_matches_control": true,
+              "structure_matches_control": true,
+              "mask_matches_control": true,
+              "depth_direction_matches_control": true
+            },
+            "reset": 0
+          }
+        },
+        {
+          "evaluation": 3,
+          "kernels": 158,
+          "chains": 158,
+          "kernels_per_chain": {
+            "1": 158
+          },
+          "native_call_cpu_us_sum": 164.8,
+          "native_call_cpu_us_median": 0.8,
+          "native_call_cpu_us_max": 20.8,
+          "preprocessor_scalars": {
+            "auto_enabled": 1,
+            "auto_structure": 1.0,
+            "depth_inverted": 0,
+            "height": 1080,
+            "mvec_x": 0.0020833334419876337,
+            "mvec_y": 0.003703703638166189,
+            "noise_counter": 2,
+            "rgb_scale": 0.0625,
+            "skin_structure": 1.0,
+            "structure": 1.0,
+            "style": 0.0078125,
+            "tone": 1.0,
+            "width": 1920
+          },
+          "capture_sanity": {
+            "completed_fenced_capture": true,
+            "checks": {
+              "extent_matches_capture": true,
+              "style_matches_normalized_control": true,
+              "tone_matches_control": true,
+              "structure_matches_control": true,
+              "mask_matches_control": true,
+              "depth_direction_matches_control": true
+            },
+            "reset": 0
+          }
+        },
+        {
+          "evaluation": 4,
+          "kernels": 158,
+          "chains": 158,
+          "kernels_per_chain": {
+            "1": 158
+          },
+          "native_call_cpu_us_sum": 151.9,
+          "native_call_cpu_us_median": 0.8,
+          "native_call_cpu_us_max": 14.0,
+          "preprocessor_scalars": {
+            "auto_enabled": 1,
+            "auto_structure": 1.0,
+            "depth_inverted": 0,
+            "height": 1080,
+            "mvec_x": 0.0020833334419876337,
+            "mvec_y": 0.003703703638166189,
+            "noise_counter": 3,
+            "rgb_scale": 0.0625,
+            "skin_structure": 1.0,
+            "structure": 1.0,
+            "style": 0.0078125,
+            "tone": 1.0,
+            "width": 1920
+          },
+          "capture_sanity": {
+            "completed_fenced_capture": true,
+            "checks": {
+              "extent_matches_capture": true,
+              "style_matches_normalized_control": true,
+              "tone_matches_control": true,
+              "structure_matches_control": true,
+              "mask_matches_control": true,
+              "depth_direction_matches_control": true
+            },
+            "reset": 0
+          }
+        },
+        {
+          "evaluation": 64,
+          "kernels": 158,
+          "chains": 158,
+          "kernels_per_chain": {
+            "1": 158
+          },
+          "native_call_cpu_us_sum": 137.2,
+          "native_call_cpu_us_median": 0.8,
+          "native_call_cpu_us_max": 8.3,
+          "preprocessor_scalars": {
+            "auto_enabled": 1,
+            "auto_structure": 1.0,
+            "depth_inverted": 0,
+            "height": 1080,
+            "mvec_x": 0.0020833334419876337,
+            "mvec_y": 0.003703703638166189,
+            "noise_counter": 63,
+            "rgb_scale": 0.0625,
+            "skin_structure": 1.0,
+            "structure": 1.0,
+            "style": 0.0078125,
+            "tone": 1.0,
+            "width": 1920
+          },
+          "capture_sanity": null
+        },
+        {
+          "evaluation": 128,
+          "kernels": 158,
+          "chains": 158,
+          "kernels_per_chain": {
+            "1": 158
+          },
+          "native_call_cpu_us_sum": 134.3,
+          "native_call_cpu_us_median": 0.8,
+          "native_call_cpu_us_max": 7.2,
+          "preprocessor_scalars": {
+            "auto_enabled": 1,
+            "auto_structure": 1.0,
+            "depth_inverted": 0,
+            "height": 1080,
+            "mvec_x": 0.0020833334419876337,
+            "mvec_y": 0.003703703638166189,
+            "noise_counter": 127,
+            "rgb_scale": 0.0625,
+            "skin_structure": 1.0,
+            "structure": 1.0,
+            "style": 0.0078125,
+            "tone": 1.0,
+            "width": 1920
+          },
+          "capture_sanity": null
+        },
+        {
+          "evaluation": 256,
+          "kernels": 158,
+          "chains": 158,
+          "kernels_per_chain": {
+            "1": 158
+          },
+          "native_call_cpu_us_sum": 143.6,
+          "native_call_cpu_us_median": 0.8,
+          "native_call_cpu_us_max": 7.4,
+          "preprocessor_scalars": {
+            "auto_enabled": 1,
+            "auto_structure": 1.0,
+            "depth_inverted": 0,
+            "height": 1080,
+            "mvec_x": 0.0020833334419876337,
+            "mvec_y": 0.003703703638166189,
+            "noise_counter": 255,
+            "rgb_scale": 0.0625,
+            "skin_structure": 1.0,
+            "structure": 1.0,
+            "style": 0.0078125,
+            "tone": 1.0,
+            "width": 1920
+          },
+          "capture_sanity": null
+        }
+      ],
+      "model_1920x1080_confirmed": true,
+      "sparse_gpu_intervals": {
+        "retained_count": 2,
+        "summary": {
+          "total_ms": {
+            "median": 5.645,
+            "min": 5.62,
+            "max": 5.67
+          },
+          "model_ms": {
+            "median": 5.4399999999999995,
+            "min": 5.41,
+            "max": 5.47
+          },
+          "surrounding_ms": {
+            "median": 0.2,
+            "min": 0.2,
+            "max": 0.2
+          }
+        }
+      },
+      "limitations": [
+        "CPU durations enclose only the original NVAPI call; they are not GPU execution times.",
+        "Capture and metadata instrumentation are active. Sparse intervals do not prove a speedup.",
+        "A zero-length module probe may fail independently of successful real modules.",
+        "Scalar sanity checks validate only the listed controls, not every inferred parameter offset.",
+        "Different demo launches are not guaranteed identical inputs or temporal history."
+      ]
+    },
+    {
+      "schema": 1,
+      "trial": "launch-contract-sm89-padded",
+      "successful_modules": 9,
+      "successful_sm89_filtered_modules": 9,
+      "modules": [
+        {
+          "bytes": 0,
+          "status": -14,
+          "architecture_selection": "unknown",
+          "force_sm89_requested": true,
+          "filtered_to_sm89": false,
+          "submitted_bytes": 0
+        },
+        {
+          "bytes": 3944768,
+          "status": 0,
+          "architecture_selection": "only SM89 cubin entry submitted",
+          "fatbin_architectures": [
+            75,
+            86,
+            89,
+            120
+          ],
+          "fatbin_walk_complete": true,
+          "force_sm89_requested": true,
+          "filtered_to_sm89": true,
+          "submitted_bytes": 424016,
+          "fatbin_version": 1,
+          "fatbin_header_bytes": 16,
+          "fatbin_payload_bytes": 3648032,
+          "trailing_bytes": 296720,
+          "trailing_bytes_all_zero": true
+        },
+        {
+          "bytes": 2473688,
+          "status": 0,
+          "architecture_selection": "only SM89 cubin entry submitted",
+          "fatbin_architectures": [
+            75,
+            86,
+            89,
+            120
+          ],
+          "fatbin_walk_complete": true,
+          "force_sm89_requested": true,
+          "filtered_to_sm89": true,
+          "submitted_bytes": 274184,
+          "fatbin_version": 1,
+          "fatbin_header_bytes": 16,
+          "fatbin_payload_bytes": 2199264,
+          "trailing_bytes": 274408,
+          "trailing_bytes_all_zero": true
+        },
+        {
+          "bytes": 2419288,
+          "status": 0,
+          "architecture_selection": "only SM89 cubin entry submitted",
+          "fatbin_architectures": [
+            75,
+            86,
+            89,
+            120
+          ],
+          "fatbin_walk_complete": true,
+          "force_sm89_requested": true,
+          "filtered_to_sm89": true,
+          "submitted_bytes": 230920,
+          "fatbin_version": 1,
+          "fatbin_header_bytes": 16,
+          "fatbin_payload_bytes": 2070512,
+          "trailing_bytes": 348760,
+          "trailing_bytes_all_zero": true
+        },
+        {
+          "bytes": 2637352,
+          "status": 0,
+          "architecture_selection": "only SM89 cubin entry submitted",
+          "fatbin_architectures": [
+            75,
+            86,
+            89,
+            120
+          ],
+          "fatbin_walk_complete": true,
+          "force_sm89_requested": true,
+          "filtered_to_sm89": true,
+          "submitted_bytes": 308896,
+          "fatbin_version": 1,
+          "fatbin_header_bytes": 16,
+          "fatbin_payload_bytes": 2581696,
+          "trailing_bytes": 55640,
+          "trailing_bytes_all_zero": true
+        },
+        {
+          "bytes": 2114088,
+          "status": 0,
+          "architecture_selection": "only SM89 cubin entry submitted",
+          "fatbin_architectures": [
+            75,
+            86,
+            89,
+            120
+          ],
+          "fatbin_walk_complete": true,
+          "force_sm89_requested": true,
+          "filtered_to_sm89": true,
+          "submitted_bytes": 216128,
+          "fatbin_version": 1,
+          "fatbin_header_bytes": 16,
+          "fatbin_payload_bytes": 1726360,
+          "trailing_bytes": 387712,
+          "trailing_bytes_all_zero": true
+        },
+        {
+          "bytes": 3202680,
+          "status": 0,
+          "architecture_selection": "only SM89 cubin entry submitted",
+          "fatbin_architectures": [
+            75,
+            86,
+            89,
+            120,
+            120
+          ],
+          "fatbin_walk_complete": true,
+          "force_sm89_requested": true,
+          "filtered_to_sm89": true,
+          "submitted_bytes": 324456,
+          "fatbin_version": 1,
+          "fatbin_header_bytes": 16,
+          "fatbin_payload_bytes": 2914024,
+          "trailing_bytes": 288640,
+          "trailing_bytes_all_zero": true
+        },
+        {
+          "bytes": 255312,
+          "status": 0,
+          "architecture_selection": "only SM89 cubin entry submitted",
+          "fatbin_architectures": [
+            75,
+            86,
+            89,
+            120
+          ],
+          "fatbin_walk_complete": true,
+          "force_sm89_requested": true,
+          "filtered_to_sm89": true,
+          "submitted_bytes": 35576,
+          "fatbin_version": 1,
+          "fatbin_header_bytes": 16,
+          "fatbin_payload_bytes": 205352,
+          "trailing_bytes": 49944,
+          "trailing_bytes_all_zero": true
+        },
+        {
+          "bytes": 54824,
+          "status": 0,
+          "architecture_selection": "only SM89 cubin entry submitted",
+          "fatbin_architectures": [
+            75,
+            86,
+            89,
+            120
+          ],
+          "fatbin_walk_complete": true,
+          "force_sm89_requested": true,
+          "filtered_to_sm89": true,
+          "submitted_bytes": 9944,
+          "fatbin_version": 1,
+          "fatbin_header_bytes": 16,
+          "fatbin_payload_bytes": 42048,
+          "trailing_bytes": 12760,
+          "trailing_bytes_all_zero": true
+        },
+        {
+          "bytes": 6936,
+          "status": 0,
+          "architecture_selection": "only SM89 cubin entry submitted",
+          "fatbin_architectures": [
+            75,
+            86,
+            89,
+            120,
+            120
+          ],
+          "fatbin_walk_complete": true,
+          "force_sm89_requested": true,
+          "filtered_to_sm89": true,
+          "submitted_bytes": 1160,
+          "fatbin_version": 1,
+          "fatbin_header_bytes": 16,
+          "fatbin_payload_bytes": 5960,
+          "trailing_bytes": 960,
+          "trailing_bytes_all_zero": true
+        }
+      ],
+      "apis": {
+        "chain": 1106
+      },
+      "all_launches_succeeded": true,
+      "all_observed_launches_use_packed_parameters": true,
+      "observed_launch_order_and_geometry_consistent": true,
+      "launch_order_sha256": "8c0b9e9bc12e5567bfa206e4471e2ac6c572f1539a1f21df4af7b812e293b6ae",
+      "frames": [
+        {
+          "evaluation": 1,
+          "kernels": 158,
+          "chains": 158,
+          "kernels_per_chain": {
+            "1": 158
+          },
+          "native_call_cpu_us_sum": 567.2,
+          "native_call_cpu_us_median": 2.8000000000000003,
+          "native_call_cpu_us_max": 25.400000000000002,
+          "preprocessor_scalars": {
+            "auto_enabled": 1,
+            "auto_structure": 1.0,
+            "depth_inverted": 0,
+            "height": 1080,
+            "mvec_x": 0.0010416667209938169,
+            "mvec_y": 0.0018518518190830946,
+            "noise_counter": 0,
+            "rgb_scale": 0.0625,
+            "skin_structure": 1.0,
+            "structure": 1.0,
+            "style": 0.0078125,
+            "tone": 1.0,
+            "width": 1920
+          },
+          "capture_sanity": {
+            "completed_fenced_capture": true,
+            "checks": {
+              "extent_matches_capture": true,
+              "style_matches_normalized_control": true,
+              "tone_matches_control": true,
+              "structure_matches_control": true,
+              "mask_matches_control": true,
+              "depth_direction_matches_control": true
+            },
+            "reset": 1
+          }
+        },
+        {
+          "evaluation": 2,
+          "kernels": 158,
+          "chains": 158,
+          "kernels_per_chain": {
+            "1": 158
+          },
+          "native_call_cpu_us_sum": 471.7,
+          "native_call_cpu_us_median": 2.8000000000000003,
+          "native_call_cpu_us_max": 15.4,
+          "preprocessor_scalars": {
+            "auto_enabled": 1,
+            "auto_structure": 1.0,
+            "depth_inverted": 0,
+            "height": 1080,
+            "mvec_x": 0.0020833334419876337,
+            "mvec_y": 0.003703703638166189,
+            "noise_counter": 1,
+            "rgb_scale": 0.0625,
+            "skin_structure": 1.0,
+            "structure": 1.0,
+            "style": 0.0078125,
+            "tone": 1.0,
+            "width": 1920
+          },
+          "capture_sanity": {
+            "completed_fenced_capture": true,
+            "checks": {
+              "extent_matches_capture": true,
+              "style_matches_normalized_control": true,
+              "tone_matches_control": true,
+              "structure_matches_control": true,
+              "mask_matches_control": true,
+              "depth_direction_matches_control": true
+            },
+            "reset": 0
+          }
+        },
+        {
+          "evaluation": 3,
+          "kernels": 158,
+          "chains": 158,
+          "kernels_per_chain": {
+            "1": 158
+          },
+          "native_call_cpu_us_sum": 252.4,
+          "native_call_cpu_us_median": 1.2,
+          "native_call_cpu_us_max": 25.6,
+          "preprocessor_scalars": {
+            "auto_enabled": 1,
+            "auto_structure": 1.0,
+            "depth_inverted": 0,
+            "height": 1080,
+            "mvec_x": 0.0020833334419876337,
+            "mvec_y": 0.003703703638166189,
+            "noise_counter": 2,
+            "rgb_scale": 0.0625,
+            "skin_structure": 1.0,
+            "structure": 1.0,
+            "style": 0.0078125,
+            "tone": 1.0,
+            "width": 1920
+          },
+          "capture_sanity": {
+            "completed_fenced_capture": true,
+            "checks": {
+              "extent_matches_capture": true,
+              "style_matches_normalized_control": true,
+              "tone_matches_control": true,
+              "structure_matches_control": true,
+              "mask_matches_control": true,
+              "depth_direction_matches_control": true
+            },
+            "reset": 0
+          }
+        },
+        {
+          "evaluation": 4,
+          "kernels": 158,
+          "chains": 158,
+          "kernels_per_chain": {
+            "1": 158
+          },
+          "native_call_cpu_us_sum": 251.2,
+          "native_call_cpu_us_median": 1.2,
+          "native_call_cpu_us_max": 25.0,
+          "preprocessor_scalars": {
+            "auto_enabled": 1,
+            "auto_structure": 1.0,
+            "depth_inverted": 0,
+            "height": 1080,
+            "mvec_x": 0.0020833334419876337,
+            "mvec_y": 0.003703703638166189,
+            "noise_counter": 3,
+            "rgb_scale": 0.0625,
+            "skin_structure": 1.0,
+            "structure": 1.0,
+            "style": 0.0078125,
+            "tone": 1.0,
+            "width": 1920
+          },
+          "capture_sanity": {
+            "completed_fenced_capture": true,
+            "checks": {
+              "extent_matches_capture": true,
+              "style_matches_normalized_control": true,
+              "tone_matches_control": true,
+              "structure_matches_control": true,
+              "mask_matches_control": true,
+              "depth_direction_matches_control": true
+            },
+            "reset": 0
+          }
+        },
+        {
+          "evaluation": 64,
+          "kernels": 158,
+          "chains": 158,
+          "kernels_per_chain": {
+            "1": 158
+          },
+          "native_call_cpu_us_sum": 177.7,
+          "native_call_cpu_us_median": 1.0,
+          "native_call_cpu_us_max": 8.1,
+          "preprocessor_scalars": {
+            "auto_enabled": 1,
+            "auto_structure": 1.0,
+            "depth_inverted": 0,
+            "height": 1080,
+            "mvec_x": 0.0020833334419876337,
+            "mvec_y": 0.003703703638166189,
+            "noise_counter": 63,
+            "rgb_scale": 0.0625,
+            "skin_structure": 1.0,
+            "structure": 1.0,
+            "style": 0.0078125,
+            "tone": 1.0,
+            "width": 1920
+          },
+          "capture_sanity": null
+        },
+        {
+          "evaluation": 128,
+          "kernels": 158,
+          "chains": 158,
+          "kernels_per_chain": {
+            "1": 158
+          },
+          "native_call_cpu_us_sum": 177.3,
+          "native_call_cpu_us_median": 1.0,
+          "native_call_cpu_us_max": 7.8,
+          "preprocessor_scalars": {
+            "auto_enabled": 1,
+            "auto_structure": 1.0,
+            "depth_inverted": 0,
+            "height": 1080,
+            "mvec_x": 0.0020833334419876337,
+            "mvec_y": 0.003703703638166189,
+            "noise_counter": 127,
+            "rgb_scale": 0.0625,
+            "skin_structure": 1.0,
+            "structure": 1.0,
+            "style": 0.0078125,
+            "tone": 1.0,
+            "width": 1920
+          },
+          "capture_sanity": null
+        },
+        {
+          "evaluation": 256,
+          "kernels": 158,
+          "chains": 158,
+          "kernels_per_chain": {
+            "1": 158
+          },
+          "native_call_cpu_us_sum": 138.9,
+          "native_call_cpu_us_median": 0.8,
+          "native_call_cpu_us_max": 11.200000000000001,
+          "preprocessor_scalars": {
+            "auto_enabled": 1,
+            "auto_structure": 1.0,
+            "depth_inverted": 0,
+            "height": 1080,
+            "mvec_x": 0.0020833334419876337,
+            "mvec_y": 0.003703703638166189,
+            "noise_counter": 255,
+            "rgb_scale": 0.0625,
+            "skin_structure": 1.0,
+            "structure": 1.0,
+            "style": 0.0078125,
+            "tone": 1.0,
+            "width": 1920
+          },
+          "capture_sanity": null
+        }
+      ],
+      "model_1920x1080_confirmed": true,
+      "sparse_gpu_intervals": {
+        "retained_count": 2,
+        "summary": {
+          "total_ms": {
+            "median": 5.640000000000001,
+            "min": 5.63,
+            "max": 5.65
+          },
+          "model_ms": {
+            "median": 5.43,
+            "min": 5.42,
+            "max": 5.44
+          },
+          "surrounding_ms": {
+            "median": 0.2,
+            "min": 0.2,
+            "max": 0.2
+          }
+        }
+      },
+      "limitations": [
+        "CPU durations enclose only the original NVAPI call; they are not GPU execution times.",
+        "Capture and metadata instrumentation are active. Sparse intervals do not prove a speedup.",
+        "A zero-length module probe may fail independently of successful real modules.",
+        "Scalar sanity checks validate only the listed controls, not every inferred parameter offset.",
+        "Different demo launches are not guaranteed identical inputs or temporal history."
+      ]
+    }
+  ],
+  "matched_capture_comparisons": [
+    {
+      "reference": "launch-contract-natural",
+      "candidate": "launch-contract-sm89",
+      "comparison_available": true,
+      "frames": [
+        {
+          "index": 0,
+          "controls_match": true,
+          "recorded_scalars_match": true,
+          "texture_formats_match": true,
+          "texture_bytes_match": {
+            "color": false,
+            "depth": true,
+            "motion": false,
+            "output": false
+          },
+          "input_and_recorded_history_match": false,
+          "paired_output_bytes_match": null
+        },
+        {
+          "index": 1,
+          "controls_match": true,
+          "recorded_scalars_match": true,
+          "texture_formats_match": true,
+          "texture_bytes_match": {
+            "color": false,
+            "depth": true,
+            "motion": false,
+            "output": false
+          },
+          "input_and_recorded_history_match": false,
+          "paired_output_bytes_match": null
+        },
+        {
+          "index": 2,
+          "controls_match": true,
+          "recorded_scalars_match": true,
+          "texture_formats_match": true,
+          "texture_bytes_match": {
+            "color": false,
+            "depth": true,
+            "motion": false,
+            "output": false
+          },
+          "input_and_recorded_history_match": false,
+          "paired_output_bytes_match": null
+        },
+        {
+          "index": 3,
+          "controls_match": true,
+          "recorded_scalars_match": true,
+          "texture_formats_match": true,
+          "texture_bytes_match": {
+            "color": false,
+            "depth": true,
+            "motion": true,
+            "output": false
+          },
+          "input_and_recorded_history_match": false,
+          "paired_output_bytes_match": null
+        }
+      ],
+      "quality_gate_passed": false,
+      "limitation": "First four frames of one static scene; later unmatched inputs are excluded."
+    },
+    {
+      "reference": "launch-contract-natural",
+      "candidate": "launch-contract-sm89-padded",
+      "comparison_available": true,
+      "frames": [
+        {
+          "index": 0,
+          "controls_match": true,
+          "recorded_scalars_match": true,
+          "texture_formats_match": true,
+          "texture_bytes_match": {
+            "color": true,
+            "depth": true,
+            "motion": true,
+            "output": true
+          },
+          "input_and_recorded_history_match": true,
+          "paired_output_bytes_match": true
+        },
+        {
+          "index": 1,
+          "controls_match": true,
+          "recorded_scalars_match": true,
+          "texture_formats_match": true,
+          "texture_bytes_match": {
+            "color": true,
+            "depth": true,
+            "motion": true,
+            "output": true
+          },
+          "input_and_recorded_history_match": true,
+          "paired_output_bytes_match": true
+        },
+        {
+          "index": 2,
+          "controls_match": true,
+          "recorded_scalars_match": true,
+          "texture_formats_match": true,
+          "texture_bytes_match": {
+            "color": false,
+            "depth": true,
+            "motion": false,
+            "output": false
+          },
+          "input_and_recorded_history_match": false,
+          "paired_output_bytes_match": null
+        },
+        {
+          "index": 3,
+          "controls_match": true,
+          "recorded_scalars_match": true,
+          "texture_formats_match": true,
+          "texture_bytes_match": {
+            "color": false,
+            "depth": true,
+            "motion": true,
+            "output": false
+          },
+          "input_and_recorded_history_match": false,
+          "paired_output_bytes_match": null
+        }
+      ],
+      "quality_gate_passed": false,
+      "limitation": "First four frames of one static scene; later unmatched inputs are excluded."
+    }
+  ]
+}

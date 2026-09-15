@@ -1,7 +1,7 @@
 # Neural latency research: model and kernel experiments
 
 **Target: 3 ms at a 1920×1080 model extent without reducing image quality. This
-target has not been achieved.** The current NVIDIA runtime remains about 6 ms in
+target has not been achieved.** The current NVIDIA runtime remains about 5.4–6.1 ms in
 the separate NVIDIA DLSS Sample. None of the experiments below replaces the
 working WuWa installation or changes the installer defaults.
 
@@ -53,6 +53,51 @@ The cost is spread across the transformer. Eliminating only the two
 full-resolution boundary blocks would not supply the roughly 3 ms saving, and
 removing them would also change the model. Generic FP8 toggles and substituting
 standard FlashAttention are not established shortcuts.
+
+## Native launch arguments and architecture selection
+
+A combined, demo-only capture and launch observer now records a limited set of
+scalar arguments alongside the fenced input/output captures. Each of seven
+observed evaluations again contained 158 successful single-kernel chains, all
+using packed arguments through `LaunchCuKernelChain`. The baseline's time inside
+those native calls totalled 0.131–0.165 ms of CPU time per observed evaluation.
+These are submission durations, **not GPU execution intervals**; removing them
+would not imply the same reduction in the neural pass.
+
+For the four captured frames, the preprocessor's extent was 1920×1080, its noise
+counter advanced through 0, 1, 2 and 3, and style was 1/128 with automatic masking
+enabled. Tone, structure, masking, depth direction and extent agreed with the
+public control values captured for the same evaluations. This confirms the
+first-frame noise and style assumptions on these runs. It does not establish
+that every inferred argument offset or reconstructed operator is correct.
+
+All nine real module submissions contained an SM89 cubin for the RTX 4070 Ti.
+An explicit architecture experiment selected only that existing cubin from each
+fatbin, without changing its instructions or weights. The first attempt made no
+change: its strict size check rejected allocations with trailing padding. The
+corrected selector accepts only zero padding and rejects malformed headers,
+unknown trailing data and missing or duplicate SM89 entries. All nine filtered
+modules were then accepted by the driver.
+
+| Demo-only test | Modules actually filtered | Sparse model median | Surrounding GPU work |
+| --- | ---: | ---: | ---: |
+| Original module submissions | 0/9 | 5.415 ms | 0.20 ms |
+| Initial selector, rejected by its size guard | 0/9 | 5.440 ms | 0.20 ms |
+| Corrected selector, SM89 entry only | 9/9 | 5.430 ms | 0.20 ms |
+
+Each bounded 25-second hidden run retained only two sparse samples after the
+approximate warmup. This experiment found **no useful latency reduction** and
+was not installed in WuWa. It does not prove which architecture the original
+driver path selected. The first two captured frames had identical inputs,
+recorded controls/scalars and output bytes between baseline and the corrected
+selector. Inputs diverged on frame three; later outputs are excluded from the
+paired quality comparison. Two matching frames do not satisfy the quality gate.
+
+The model remains the dominant measured GPU cost. A simple architecture
+selection override did not approach 3 ms. The combined probe, selector tests,
+sanitized results and reproduction instructions are published in
+[`research/neural-latency`](../research/neural-latency/README.md) and
+[`native-launch-contract.json`](../evidence/neural-model-research/native-launch-contract.json).
 
 ## Recovering an editable model
 
@@ -179,8 +224,9 @@ not close it. None of these diagnostics was adopted as a fix.
 
 The original visible extent is preserved in every comparison. Default network
 padding is 1088×1920; the 1152-height variant adds padding without downscaling.
-The internal vendor noise counter has not been captured, so a reset frame is not
-proof of a matched noise state. The local weight file also differs from the hash
+The original capture manifests do not contain the internal noise counter. The
+later combined trace above observes counter 0 on its first reset frame, supporting
+the comparison's default rather than the tested counter offsets. The local weight file also differs from the hash
 used for upstream's reported golden comparisons. These remain possible sources
 of disagreement, alongside incomplete reconstruction behavior.
 
@@ -190,6 +236,16 @@ meeting the latency target. Only the first reset frame has been compared; motion
 and temporal quality remain unvalidated. Numeric records, capture hashes and
 controls are in
 [`matched-vendor-capture.json`](../evidence/neural-model-research/matched-vendor-capture.json).
+
+The native launch grids motivated a second padding check using the same FP16
+arithmetic, batched feed-forward layers and fused activation as the 1088-height
+reference. Grid dimensions alone do not prove the effective tensor extent;
+kernels may guard extra threads. With 1152 network rows, RGB MAE fell from
+0.01515 to 0.01435, but RMSE worsened from 0.02237 to 0.02367 and the 99th-percentile
+channel error rose from 0.06934 to 0.08044. The visible input stayed 1920×1080.
+This did not resolve parity and was not adopted. Its reconstructed graph took
+243.4 ms; this is not the native NVIDIA pass. See
+[`native-geometry-diagnostic.json`](../evidence/neural-model-research/native-geometry-diagnostic.json).
 
 ## First trained student experiments
 
