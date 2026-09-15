@@ -67,6 +67,35 @@ extern "C" __global__ void output_grade_f32(const float* input,float* output,
     grade_rgb(input,output,pixels,height,width,sb,sc,sh,sw,exposure,contrast,saturation);
 }
 
+// Read the 4x pixel-shuffle head directly, preserving the two FP16 residual
+// roundings before applying the same FP32 color grade. No dense residual copy.
+extern "C" __global__ void student_output_f16(
+    const unsigned short* source,const unsigned short* head,unsigned short* output,
+    unsigned pixels,unsigned height,unsigned width,
+    unsigned long long sb,unsigned long long sc,unsigned long long sy,unsigned long long sx,
+    unsigned long long hb,unsigned long long hc,unsigned long long hy,unsigned long long hx,
+    float exposure,float contrast,float saturation) {
+    const unsigned pixel=blockIdx.x*blockDim.x+threadIdx.x;
+    if(pixel>=pixels)return;
+    const unsigned x=pixel%width,y=(pixel/width)%height,b=pixel/(width*height);
+    const unsigned phase=(y%4)*4+x%4;
+    float rgb[3];
+    #pragma unroll
+    for(unsigned c=0;c<3;++c) {
+        const float residual=read_half(head[b*hb+(c*16+phase)*hc+(y/4)*hy+(x/4)*hx]);
+        const float input=read_half(source[b*sb+c*sc+y*sy+x*sx]);
+        float v=grade_clamp(half_round(input+half_round(.25f*residual)));
+        v=grade_clamp(v*exposure);
+        const float delta=v*v*(3.f-2.f*v)-v;
+        rgb[c]=grade_clamp(v+contrast*delta);
+    }
+    const float lightness=(fmaxf(rgb[0],fmaxf(rgb[1],rgb[2]))+fminf(rgb[0],fminf(rgb[1],rgb[2])))*.5f;
+    #pragma unroll
+    for(unsigned c=0;c<3;++c)
+        output[(unsigned long long)pixel*3+c]=write_value<unsigned short>(
+            grade_clamp(lightness+saturation*(rgb[c]-lightness)));
+}
+
 // Nearest 2x upsample and skip addition with one final FP16 rounding.
 // Strided NCHW inputs; contiguous NHWC output exposed as NCHW by the loader.
 extern "C" __global__ void decoder_upscale_add_f16(

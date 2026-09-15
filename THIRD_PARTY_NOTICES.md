@@ -153,6 +153,14 @@ distributed. [FitNets](https://arxiv.org/abs/1412.6550) and
 implementations are not copied, and the joint auxiliary experiment does not
 implement either full method.
 
+The subsequent feature-capacity analysis, feature pretraining utility, fused
+student-output kernel and associated tests are original Apache-2.0 research
+code. Staged pretraining is inspired by FitNets section 2.3 but uses a different
+architecture and renderer losses. PCA vectors, position templates, projections,
+activation targets and model checkpoints remain private. The implementation
+uses separately installed NumPy, PyTorch and CUDA interfaces; no vendor kernel
+code or learned weights are distributed.
+
 The later decoder upsampling/skip-add kernel, execution diagnostics and training
 initialization controls are original Apache-2.0 research code. The collection
 wrapper retains its MIT license. They use separately installed PyTorch/CUDA

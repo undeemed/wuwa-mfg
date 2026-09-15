@@ -67,7 +67,7 @@ class HierarchicalStudent(nn.Module):
             from attention_student import GlobalAttention
             self.global_attention=GlobalAttention(widths[-1])
 
-    def forward(self,x):
+    def forward(self,x,*,fused_output_backend=None,grade_parameters=None):
         height,width=x.shape[-2:]
         # Only padding and reversible pixel-unshuffle touch the source image.
         padded=F.pad(x,(0,(-width)%32,0,(-height)%32),mode='reflect')
@@ -88,7 +88,12 @@ class HierarchicalStudent(nn.Module):
             else:
                 value=self.up[i](F.interpolate(value,size=skips[i].shape[-2:],mode='nearest'))+skips[i]
             value=self.decoder[i](value)
-        residual=F.pixel_shuffle(self.head(value),4)[:,:,:height,:width]
+        head=self.head(value)
+        if fused_output_backend is not None:
+            if coefficients is not None:
+                raise ValueError('Fused student output does not support the affine branch.')
+            return fused_output_backend.student_output(x[:,:3],head,grade_parameters)
+        residual=F.pixel_shuffle(head,4)[:,:,:height,:width]
         if coefficients is not None:
             if self.fused_affine_backend is not None:
                 return self.fused_affine_backend.affine_compose(x[:,:3],residual,coefficients)

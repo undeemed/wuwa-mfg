@@ -37,8 +37,13 @@ class GradedStudent(nn.Module):
         # Python numbers remain FP32-valued when the network is converted to half.
         self.grade_parameters=tuple(parameters)
         self.fused_backend=None
+        self.fused_student_output=False
 
     def forward(self,image):
+        if self.fused_student_output:
+            if self.fused_backend is None:
+                raise ValueError('Fused student output requires an inference backend.')
+            return self.network(image,fused_output_backend=self.fused_backend,grade_parameters=self.grade_parameters)
         value=self.network(image)
         if self.fused_backend is not None:
             return self.fused_backend.output_grade(value,self.grade_parameters)

@@ -1840,3 +1840,107 @@ retain capture checks, both oracle audits, normalization statistics, the trainin
 run, validation regressions and source tests. Weights, raw features and images
 remain private. All data are first-reset static frames from the sample; this
 does not validate temporal stability or game integration.
+
+## Feature capacity, staged training and fused output
+
+The 16→32 training projection could limit the previous feature-hint experiment.
+An analysis of the same private targets separates that limit from prediction
+error. Principal components and a shared position template are fitted on the
+**six training images only**. Validation remains separate. All projection
+results below use the native targets themselves: they are optimistic feature
+bounds, not independently predicted images or quality results.
+
+| Normalized feature MSE | Six training images | Three validation images |
+| --- | ---: | ---: |
+| Best rank-16 projection fitted on training targets | 0.003320 | 0.002401 |
+| Oracle projection into the learned head's affine subspace | 0.029774 | 0.020972 |
+| Actual jointly trained student | 0.499229 | 0.512021 |
+| Position template averaged from training targets | 0.809037 | 0.585340 |
+| Oracle per-image channel means | 0.873279 | 0.364070 |
+
+Sixteen principal components retain **99.668% of training variance**. The
+actual prediction error is much larger than either projection bound, so simply
+widening the projection is not justified by these measurements. This does not
+rule out limits in the backbone, training data, feature alignment or objective.
+The shared position template also does not explain most training variation.
+Per-image channel means use unavailable native information and are not proposed
+as an inference method. Projection vectors and templates remain private.
+
+The next experiment separates feature pretraining from RGB fitting, following
+the staged-training idea in [FitNets, section 2.3](https://arxiv.org/html/1412.6550v4#S2.SS3).
+It uses our renderer losses and architecture, not the paper's classification
+objective. First, 1,500 steps train the backbone and auxiliary projection on six
+feature targets. The RGB head receives no gradient and remains exactly zero.
+The auxiliary projection is then removed, and a separate 4,500-step RGB run
+starts from those backbone weights with a fresh optimizer and no feature loss.
+That second stage uses all 34 training images and the same twelve validation
+images, seed and original learning-rate schedule as the mixed RGB baseline.
+
+Feature pretraining takes 18.59 seconds and lowers mean training feature MSE
+from 1.0000 to 0.6163; validation MSE worsens from 0.4197 to 0.4716. The later RGB
+stage takes 85.24 seconds and reaches mean training RGB MAE **0.012689**, versus
+0.028178 for the mixed RGB baseline. Better training fit still fails to transfer
+consistently:
+
+| Training | Six scene validation views, mean RGB MAE | Six photo validation cases, mean RGB MAE |
+| --- | ---: | ---: |
+| Mixed RGB baseline | 0.028038 | 0.027289 |
+| Joint RGB and feature hints | 0.024409 | 0.031071 |
+| Feature pretraining, then RGB | **0.023961** | **0.033654** |
+
+Against the mixed RGB baseline, five scene cases improve and one worsens;
+**all six photo cases worsen**. Group mean changes are −14.54% and +23.33%.
+This candidate is rejected for deployment. It also has **6,000 total training
+steps**, so the comparison with a 4,500-step baseline is not compute-matched.
+All 42 previously saved validation outputs reproduce exactly in the comparison.
+
+```text
+analyze_feature_capacity.py --targets <private-target-manifest> --student <private-joint-hint-run> --output <fresh-private-directory>
+pretrain_feature_student.py --targets <private-target-manifest> --baseline-result <private-mixed-RGB-result.json> --base <private-trials-root> --output <fresh-private-directory> --steps 1500
+```
+
+For the second stage, use the existing collection training command with
+`--initialize-from <private-feature-pretraining-directory>` and omit feature
+targets. The pretraining utility only handles the checked six-training,
+three-validation, width-16 configuration. It does not launch an application.
+
+The independent kernel change reads the quarter-resolution, 48-channel RGB
+head directly. One CUDA operation performs pixel-shuffle indexing, residual
+scaling/addition, clamping and color grading. It avoids materializing the dense
+residual and separate intermediate images, following the general goal of
+reducing global-memory work described in NVIDIA's
+[CUDA memory optimization guidance](https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/index.html#memory-optimizations).
+The measured benefit below comes from this experiment, not from the guide.
+
+The kernel explicitly preserves both FP16 residual roundings before the FP32
+grade. Fourteen finite-input tests include padded/cropped extents, three memory
+layouts, batches, broadcast strides, boundary controls and every finite half
+pattern in selected source/head combinations. Eight invalid-input cases are
+rejected. All checked outputs match the prior fused-grade path bit-for-bit.
+
+| Checkpoint | Existing full graph | Output fusion only | Earlier decoder fusion only | Both fusions |
+| --- | ---: | ---: | ---: | ---: |
+| Mixed RGB, width 16 | 1.236 ms | 1.132 ms | 1.150 ms | **1.055 ms** |
+| Joint feature hints, width 16 | 1.233 ms | 1.140 ms | 1.149 ms | **1.052 ms** |
+| Staged training, width 16 | 1.244 ms | 1.141 ms | 1.148 ms | **1.053 ms** |
+| Original 30 frames, width 32 | 2.016 ms | 1.929 ms | 1.935 ms | **1.843 ms** |
+
+All four modes produce bit-identical RGB on all twelve validation images for
+each checkpoint: **48 complete model/image comparisons**. Each graph has thirty
+timing samples and matches eager execution bitwise. Width 32 retains its last
+decoder projection in the original position, as required by the earlier rounding
+test. These are complete 1080p student-plus-grade graphs; application integration
+is excluded. The new output fusion is disabled by default. Research callers can
+set `model.fused_student_output = True` after assigning the inference backend;
+the decoder controls remain separate. The affine student is not supported by
+this output fusion.
+
+```text
+test_student_output.py --base <private-trials-root> --photos <private-photo-manifest> --model <label> <private-student-run> [--model <label> <another-run>] --output <fresh-private-report.json>
+```
+
+[Complete numerical evidence](../../evidence/neural-model-research/staged-features-and-output-fusion.json)
+includes the feature bounds, failed pretraining/generalization results, source
+provenance, kernel tests and all timing samples. No sample or game launch was
+needed, and no game, driver, native model or normal runtime file changed.
+**Native latency remains about 5.4 ms; the 3 ms/no-quality-loss goal remains unmet.**

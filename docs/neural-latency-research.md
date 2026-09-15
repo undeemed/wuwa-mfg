@@ -884,9 +884,34 @@ stay disabled by default and apply only to experimental student execution.
 They do not improve native NVIDIA latency, establish native image quality or
 include D3D12 integration. The full goal remains unmet.
 
+## Feature capacity and final-output fusion
+
+An analysis of the native feature targets finds that sixteen principal
+components retain 99.668% of training variance. The previous student's feature
+prediction error is much larger than this projection limit. A shared position
+template also leaves substantial error. These are diagnostic bounds using
+native targets, not deployable predictors or proof of native quality.
+
+A two-stage experiment pretrains against feature targets, then fits RGB with a
+fresh optimizer. It substantially improves training fit but still worsens all
+six held-out photo cases against the mixed RGB baseline. The extra pretraining
+steps and all regressions are documented; the model is rejected for deployment.
+
+A separate CUDA fusion combines final pixel rearrangement, residual composition
+and grading. Together with the earlier decoder fusion, complete 1080p student
+graphs fall from about **1.24 to 1.05 ms** for width 16 and **2.02 to 1.84 ms**
+for the checked width-32 model. All 48 model/image comparisons are bit-identical.
+Fourteen operator cases, eight input guards and thirty samples per graph are
+recorded. Fusion remains disabled by default and excludes app integration.
+
+The [implementation and full results](../research/neural-latency/README.md#feature-capacity-staged-training-and-fused-output)
+and [numeric evidence](../evidence/neural-model-research/staged-features-and-output-fusion.json)
+preserve both the speedup and quality failures. Native NVIDIA execution remains
+about 5.4 ms, and no game or normal runtime changes were made.
+
 ## Papers and what can transfer
 
-The latest [native feature supervision experiment](../research/neural-latency/README.md#native-intermediate-feature-supervision)
+The joint [native feature supervision experiment](../research/neural-latency/README.md#native-intermediate-feature-supervision)
 adds training-only targets from the native decoder. Against the mixed RGB
 baseline, it reduces mean scene validation error by 12.94% but increases photo
 error by 13.86%. The inference model stays near 1.24 ms in a complete Torch

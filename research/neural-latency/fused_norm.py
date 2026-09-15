@@ -84,7 +84,35 @@ class FusedNorm:
         check(lookup(C.byref(self.pack_function),self.module,b'fp8_pack_f16'),'cuModuleGetFunction')
         self.decoder_function=C.c_void_p()
         check(lookup(C.byref(self.decoder_function),self.module,b'decoder_upscale_add_f16'),'cuModuleGetFunction')
+        self.student_output_function=C.c_void_p()
+        check(lookup(C.byref(self.student_output_function),self.module,b'student_output_f16'),'cuModuleGetFunction')
         # Module stays alive until process exit, including any captured graphs.
+
+    def student_output(self,source,head,parameters):
+        if any(t.device.type!='cuda' or t.device!=source.device or t.dtype!=torch.float16
+               or t.ndim!=4 or t.requires_grad for t in (source,head)):
+            raise ValueError('Expected same-device inference-only CUDA NCHW FP16 tensors.')
+        batch,channels,height,width=source.shape
+        if channels!=3 or head.shape!=(batch,48,(height+31)//32*8,(width+31)//32*8):
+            raise ValueError('Expected RGB and a 48-channel head covering the image padded to multiples of 32.')
+        exposure,contrast,saturation=parameters
+        if not (all(math.isfinite(v) for v in parameters) and 0<exposure<=16
+                and -1<=contrast<=1 and 0<=saturation<=1):
+            raise ValueError('Unsupported finite grading parameters.')
+        pixels=batch*height*width
+        if not pixels or pixels>=2**31:
+            raise ValueError('Image exceeds the bounded launch extent.')
+        output=torch.empty((batch,height,width,3),device=source.device,dtype=source.dtype).permute(0,3,1,2)
+        arguments=[C.c_void_p(t.data_ptr()) for t in (source,head,output)]
+        arguments += [C.c_uint(v) for v in (pixels,height,width)]
+        arguments += [C.c_ulonglong(s) for t in (source,head) for s in t.stride()]
+        arguments += [C.c_float(v) for v in parameters]
+        params=(C.c_void_p*len(arguments))(*(C.addressof(v) for v in arguments))
+        stream=torch.cuda.current_stream(source.device)
+        status=self.launch(self.student_output_function,(pixels+255)//256,1,1,256,1,1,0,
+                           C.c_void_p(stream.cuda_stream),params,None)
+        if status:raise RuntimeError(f'cuLaunchKernel failed: {status}')
+        return output
 
     def decoder_upscale_add(self,x,skip):
         if any(t.device.type!='cuda' or t.device!=x.device or t.dtype!=torch.float16
