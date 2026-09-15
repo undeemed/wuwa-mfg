@@ -44,7 +44,7 @@ class PixelStudent(nn.Module):
 
 class HierarchicalStudent(nn.Module):
     """Learned multiscale features with full-resolution pixel rearrangement/skips."""
-    def __init__(self,width=16,blocks=2,noise=False,affine=False):
+    def __init__(self,width=16,blocks=2,noise=False,affine=False,attention=False):
         super().__init__()
         widths=[width,width*2,width*4,width*6]
         self.stem=nn.Conv2d(96 if noise else 48,width,1)
@@ -59,6 +59,10 @@ class HierarchicalStudent(nn.Module):
         if self.affine_head is not None:
             nn.init.zeros_(self.affine_head.weight);nn.init.zeros_(self.affine_head.bias)
         self.fused_affine_backend=None
+        self.global_attention=None
+        if attention:
+            from attention_student import GlobalAttention
+            self.global_attention=GlobalAttention(widths[-1])
 
     def forward(self,x):
         height,width=x.shape[-2:]
@@ -70,6 +74,7 @@ class HierarchicalStudent(nn.Module):
             value=stage(value)
             if i<3:skips.append(value);value=self.down[i](value)
         value=value*(1+0.1*torch.tanh(self.context(value.mean(dim=(2,3),keepdim=True))))
+        if self.global_attention is not None:value=self.global_attention(value)
         coefficients=self.affine_head(value) if self.affine_head is not None else None
         for i in (2,1,0):
             value=self.up[i](F.interpolate(value,size=skips[i].shape[-2:],mode='nearest'))
@@ -100,7 +105,7 @@ def main():
     p.add_argument('--patch-size',type=int,choices=[128,256,384],default=128)
     p.add_argument('--batch',type=int,choices=range(1,17),default=8)
     p.add_argument('--cosine-lr',action='store_true',help='Decay learning rate from .002 to .00002 over the bounded steps.')
-    p.add_argument('--architecture',choices=['local','hierarchical','hierarchical-affine'],default='local')
+    p.add_argument('--architecture',choices=['local','hierarchical','hierarchical-affine','hierarchical-attention'],default='local')
     p.add_argument('--whole-frame',action='store_true',help='Train complete views, batch 1; requires a separate validation view.')
     p.add_argument('--output-grade-contract',type=Path,help='Learn a pre-grading residual, then apply the observed output grade. Requires a separate validation view.')
     p.add_argument('--evaluate-all-training',action='store_true',help='Report every full training view after fitting; requires separate validation views.')
@@ -125,6 +130,8 @@ def main():
         raise SystemExit('Full training-view evaluation requires separate validation views.')
     if a.architecture=='hierarchical-affine' and (not a.whole_frame or not a.output_grade_contract):
         raise SystemExit('The affine experiment requires whole-frame training and the observed output grade.')
+    if a.architecture=='hierarchical-attention' and (not a.whole_frame or not a.output_grade_contract):
+        raise SystemExit('The global-attention experiment requires whole-frame training and the observed output grade.')
     noise=None
     if a.noise_source:
         sys.path.insert(0,str(a.noise_source/'python'))
@@ -198,7 +205,7 @@ def main():
         assert pair_hashes['color'] not in validation_inputs, 'Duplicate validation input.'
         validation_inputs.add(pair_hashes['color'])
         extra_validation.append((pair,pair_hashes))
-    model=(HierarchicalStudent(a.width,a.blocks,bool(a.noise_source),a.architecture=='hierarchical-affine') if a.architecture.startswith('hierarchical')
+    model=(HierarchicalStudent(a.width,a.blocks,bool(a.noise_source),a.architecture=='hierarchical-affine',a.architecture=='hierarchical-attention') if a.architecture.startswith('hierarchical')
            else PixelStudent(a.width,a.blocks,bool(a.noise_source),dilations)).cuda().to(memory_format=torch.channels_last)
     if grade_parameters is not None:model=GradedStudent(model,grade_parameters)
     optimizer=torch.optim.AdamW(model.parameters(),lr=0.002,weight_decay=0.0001)
@@ -241,6 +248,17 @@ def main():
                 'interpolation':'bilinear, align_corners=False, over the padded image',
                 'application':'source + .25*(full-resolution detail + learned 3x4 affine color correction)',
                 'head_initialization':'zero'}
+        if a.architecture=='hierarchical-attention':
+            report['architecture']['type']='four-level hierarchical residual CNN with global context gate and spatial self-attention'
+            report['architecture']['global_attention']={
+                'cell_size':32,'token_shape':[(height+31)//32,(width+31)//32],
+                'heads':a.width*6//32,'head_dim':32,'layers':1,
+                'normalization':'per-token LayerNorm before learned Q/K/V',
+                'operator':'PyTorch scaled_dot_product_attention, noncausal, dropout 0',
+                'position_encoding':'none; attention receives the existing spatial CNN features',
+                'residual_scale':.1,'output_projection_initialization':'zero',
+                'precision':'FP32 training; FP16 inference',
+                'timing_scope':'included in complete network and output-grading graph'}
     if noise is not None:
         report['limitations'].append('Noise is from the pinned reconstruction at counter 0; timing excludes its precomputation and input concatenation. No vendor intermediate feature parity is claimed.')
     with torch.no_grad():

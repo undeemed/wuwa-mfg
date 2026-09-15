@@ -756,6 +756,28 @@ includes inspection provenance, the nine-candidate comparison, seed mapping
 tests, regression checks and explicit timing scopes. No application, game,
 native DLL, driver or installer setting was changed.
 
+## Compact student with global attention
+
+A new student adds spatial self-attention to the previous model's deepest
+learned features. It retains full 1920×1080 inputs and detail paths. With the
+same 18 training views and 4,500 updates, mean training error improves from
+0.011933 to **0.010733**, but validation MAE worsens from 0.015580 / 0.019533 to
+**0.021237 / 0.019931**. Some other metrics improve; overall quality acceptance
+still fails. Disabling the fitted branch improves both validation MAEs while
+worsening the original training view, consistent with overfitting.
+
+The complete FP16 network plus output grade measures **1.317 ms**, versus
+1.229 ms for the previous checkpoint in the same comparison. Reloaded images
+and graph outputs match their saved/eager counterparts exactly. These are
+offline Torch timings, not an application result. No validated replacement is
+available: inference speed is already adequate for these small candidates,
+but retaining the native effect across views remains unresolved.
+
+The [experiment and evidence](../research/neural-latency/README.md#global-attention-in-the-compact-student)
+document the matched training setup, branch ablation, implementation checks
+and limitations. No application, game, native DLL, driver or installer setting
+was changed.
+
 ## Papers and what can transfer
 
 These papers provide research ideas. Their reported speedups are on other models

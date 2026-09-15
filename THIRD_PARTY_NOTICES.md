@@ -106,5 +106,10 @@ and shared-bias MMA extension contain no vendor instruction code. Only derived
 findings, numeric instruction counts, hashes and experiment results are published.
 Research papers are linked in the latency investigation; their reported results
 are not presented as performance claims for this toolkit.
+The compact student's global-attention branch, training extension and diagnostics
+are original Apache-2.0 research code using the separately installed PyTorch
+scaled-dot-product attention API. They are not an implementation copied from
+the cited research papers. No trained student weights or teacher captures are
+distributed.
 
 FirstEverTech/RTX4000-MFG-Unlock inspired the native NVIDIA profile experiment and is linked for attribution. Its repository content and binary artifacts are not copied into this project.

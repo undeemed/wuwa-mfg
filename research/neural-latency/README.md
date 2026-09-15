@@ -1311,3 +1311,92 @@ test_mma_seed_broadcast.py --output <private-json>
 Repeat `--case` for multiple views. All outputs must be fresh private paths.
 The inspection script requires the exact pinned runtime and separately obtained
 NVIDIA tools; no vendor executable, module, weight or disassembly is bundled.
+
+## Global attention in the compact student
+
+The previous compact student used a channel gate driven by an image-wide mean.
+Its largest held-out errors were broad tone and structure. This experiment adds
+one content-dependent spatial attention layer at the deepest learned feature
+level. It tests whether exchanging information between distant regions helps;
+it is a newly trained architecture, not a native-kernel substitution.
+
+`attention_student.py` implements per-token LayerNorm, learned Q/K/V, noncausal
+scaled dot-product attention and a learned projection with a 0.1 residual scale.
+The projection starts at zero. At 1920×1080, reflection padding produces a
+34×60 token grid at 1/32 scale, with 96 channels and three 32-channel heads.
+Attention receives spatial CNN features without an additional positional
+encoding. Original pixels, pixel rearrangement, detail skips and the output
+residual remain intact. Only learned features are reduced in spatial size.
+The model grows from 223,440 to **260,880 parameters**.
+
+Training uses the same 18 native first-reset views, two held-out views, control
+values, fixed output grade and full 1080p inputs as the previous width-16 model.
+Both runs use seed 28411, 4,500 AdamW updates, batch one, weight decay 0.0001,
+learning rate 0.002 decaying to 0.00002, and pixel L1 plus 0.25 times horizontal
+and vertical gradient L1. No validation frame enters training. The added layer
+trains in FP32 and runs in FP16. The observed PyTorch 2.7.1 backend is its
+efficient-attention operator for both precisions; no FlashAttention-specific
+performance claim is made.
+
+| Measurement | Previous compact model | With global attention |
+| --- | ---: | ---: |
+| Mean training-view RGB MAE | 0.011933 | **0.010733** |
+| North validation RGB MAE | **0.015580** | 0.021237 |
+| Shifted-north validation RGB MAE | **0.019533** | 0.019931 |
+| North validation RMSE | **0.022253** | 0.030373 |
+| Shifted-north validation RMSE | 0.029472 | **0.028500** |
+| Complete network + grade, fresh graph timing | **1.229 ms** | 1.317 ms |
+
+The new model fits training images better but increases mean absolute error
+on both validation views. Some detail and shifted-view tail metrics improve;
+there is no consistent quality improvement and **no quality gate is passed**.
+The initial post-training graph measured 1.301 ms; a separate checkpoint reload
+measured 1.317 ms alongside the prior checkpoint at 1.229 ms. Both timings
+include the full FP16 network and fused output grade, with warmup and 30 samples.
+They exclude application integration and are not native demo measurements.
+
+`ablate_attention_student.py` reloads both checkpoints and first reproduces all
+six saved complete outputs exactly. It then disables only the fitted attention
+branch, preserving the surrounding trained weights:
+
+| RGB MAE | Attention enabled | Same weights, attention disabled |
+| --- | ---: | ---: |
+| Original training view | **0.010317** | 0.027550 |
+| North validation view | 0.021237 | **0.016107** |
+| Shifted-north validation view | 0.019931 | **0.019096** |
+
+The branch materially affects the image, helping the training view while
+hurting both validation MAEs. This is consistent with overfitting; disabling
+the branch is a diagnostic, not a separately retrained replacement. Broad
+errors remain: wavelengths of at least 64 pixels account for approximately
+88.3% and 82.0% of validation squared error. These FFT fractions describe
+spatial error scale, not perceptual quality.
+
+`test_attention_student.py` verifies six unchanged-backbone and zero-branch
+cases against this repository's earlier implementation, including full 1080p,
+padding and batch variations in FP32/FP16. The existing output head is made
+nonzero so it cannot hide intermediate errors. A small direct-attention
+comparison has maximum error 1.19e-7; distant-token influence and finite,
+nonzero gradients are checked. All complete graph outputs match eager output.
+
+The [numerical evidence](../../evidence/neural-model-research/student-global-attention.json)
+includes training results, ablation, frequency diagnostics, timing samples,
+checks, dataset hashes and source hashes. These repeatedly consulted views are
+not an independent final test set. They contain one scene and no temporal
+quality validation. This experiment does not establish that global attention
+cannot work; this particular trained candidate fails acceptance. More
+representative supervision and validation are needed before further architecture
+choices can establish preserved quality.
+
+```text
+student_probe.py --capture <first-training-capture> --extra-train-capture <next-training-capture> --validation-capture <north-capture> --extra-validation-capture <shifted-north-capture> --output <private-new-directory> --steps 4500 --max-seconds 600 --width 16 --blocks 2 --loss-border 0 --batch 1 --cosine-lr --architecture hierarchical-attention --whole-frame --output-grade-contract <native-output-contract-trial> --evaluate-all-training
+test_attention_student.py --output <private-new-json>
+ablate_attention_student.py --student <attention-run> --baseline <previous-graded-run> --case <label> <capture> <saved-prediction-basename> --output <private-new-json>
+```
+
+Repeat `--extra-train-capture` in the order recorded in the evidence to include
+all 18 views; the translated poses are in `capture-viewsets/translated-training.json`.
+Repeat `--case` for each compared view. Captures, learned weights and predictions
+remain private. No app was opened and no game, native runtime, driver or installer
+default changed. NVIDIA's approximately 5.4 ms result and the unmet
+3 ms/no-quality-loss target remain unchanged.
