@@ -1,0 +1,201 @@
+{
+  "schema": 1,
+  "trial": "native-buffer-ranges",
+  "native_gpu_timing": {
+    "total_ms": {
+      "median": 5.635,
+      "min": 5.63,
+      "max": 5.64
+    },
+    "model_ms": {
+      "median": 5.4350000000000005,
+      "min": 5.43,
+      "max": 5.44
+    },
+    "surrounding_ms": {
+      "median": 0.2,
+      "min": 0.2,
+      "max": 0.2
+    }
+  },
+  "retained_timing_samples": 2,
+  "timings_are_sparse_gpu_intervals": true,
+  "dll_sha256": "2e305560cad0f9544917d20d437adef4ca0727375e457c482bc0f3145b73d621",
+  "records": [
+    {
+      "buffer_cap": 128,
+      "kind": "configuration",
+      "retention_cap_bytes": 1073741824,
+      "schema": 1,
+      "scope": "default-heap buffers created during direct NR calls; metadata only"
+    },
+    {
+      "bytes": 147719680,
+      "creation": "committed",
+      "flags": 4,
+      "id": 0,
+      "initial_state": 0,
+      "kind": "buffer",
+      "retained_total_bytes": 147719680
+    },
+    {
+      "bytes": 212519936,
+      "creation": "committed",
+      "flags": 4,
+      "id": 1,
+      "initial_state": 0,
+      "kind": "buffer",
+      "retained_total_bytes": 360239616
+    },
+    {
+      "chain": 3,
+      "frame": 1,
+      "height": 1080,
+      "kind": "known_tensor_ranges",
+      "limitation": "Range matches do not establish tensor layout or current resource state",
+      "output_tensor": {
+        "buffer_id": 1,
+        "matched": true,
+        "offset": 388096,
+        "remaining_bytes": 212131840
+      },
+      "registered_buffers": 2,
+      "weight_tensor": {
+        "buffer_id": 0,
+        "matched": true,
+        "offset": 0,
+        "remaining_bytes": 147719680
+      },
+      "width": 1920
+    },
+    {
+      "chain": 3,
+      "frame": 2,
+      "height": 1080,
+      "kind": "known_tensor_ranges",
+      "limitation": "Range matches do not establish tensor layout or current resource state",
+      "output_tensor": {
+        "buffer_id": 1,
+        "matched": true,
+        "offset": 388096,
+        "remaining_bytes": 212131840
+      },
+      "registered_buffers": 2,
+      "weight_tensor": {
+        "buffer_id": 0,
+        "matched": true,
+        "offset": 0,
+        "remaining_bytes": 147719680
+      },
+      "width": 1920
+    },
+    {
+      "chain": 3,
+      "frame": 3,
+      "height": 1080,
+      "kind": "known_tensor_ranges",
+      "limitation": "Range matches do not establish tensor layout or current resource state",
+      "output_tensor": {
+        "buffer_id": 1,
+        "matched": true,
+        "offset": 388096,
+        "remaining_bytes": 212131840
+      },
+      "registered_buffers": 2,
+      "weight_tensor": {
+        "buffer_id": 0,
+        "matched": true,
+        "offset": 0,
+        "remaining_bytes": 147719680
+      },
+      "width": 1920
+    },
+    {
+      "chain": 3,
+      "frame": 4,
+      "height": 1080,
+      "kind": "known_tensor_ranges",
+      "limitation": "Range matches do not establish tensor layout or current resource state",
+      "output_tensor": {
+        "buffer_id": 1,
+        "matched": true,
+        "offset": 388096,
+        "remaining_bytes": 212131840
+      },
+      "registered_buffers": 2,
+      "weight_tensor": {
+        "buffer_id": 0,
+        "matched": true,
+        "offset": 0,
+        "remaining_bytes": 147719680
+      },
+      "width": 1920
+    },
+    {
+      "chain": 3,
+      "frame": 64,
+      "height": 1080,
+      "kind": "known_tensor_ranges",
+      "limitation": "Range matches do not establish tensor layout or current resource state",
+      "output_tensor": {
+        "buffer_id": 1,
+        "matched": true,
+        "offset": 388096,
+        "remaining_bytes": 212131840
+      },
+      "registered_buffers": 2,
+      "weight_tensor": {
+        "buffer_id": 0,
+        "matched": true,
+        "offset": 0,
+        "remaining_bytes": 147719680
+      },
+      "width": 1920
+    },
+    {
+      "chain": 3,
+      "frame": 128,
+      "height": 1080,
+      "kind": "known_tensor_ranges",
+      "limitation": "Range matches do not establish tensor layout or current resource state",
+      "output_tensor": {
+        "buffer_id": 1,
+        "matched": true,
+        "offset": 388096,
+        "remaining_bytes": 212131840
+      },
+      "registered_buffers": 2,
+      "weight_tensor": {
+        "buffer_id": 0,
+        "matched": true,
+        "offset": 0,
+        "remaining_bytes": 147719680
+      },
+      "width": 1920
+    },
+    {
+      "chain": 3,
+      "frame": 256,
+      "height": 1080,
+      "kind": "known_tensor_ranges",
+      "limitation": "Range matches do not establish tensor layout or current resource state",
+      "output_tensor": {
+        "buffer_id": 1,
+        "matched": true,
+        "offset": 388096,
+        "remaining_bytes": 212131840
+      },
+      "registered_buffers": 2,
+      "weight_tensor": {
+        "buffer_id": 0,
+        "matched": true,
+        "offset": 0,
+        "remaining_bytes": 147719680
+      },
+      "width": 1920
+    }
+  ],
+  "quality_gate_passed": false,
+  "conclusion": "Known first-preprocessor output and weight addresses match two retained default-heap buffers. This establishes range ownership, not tensor layout, resource state, or numerical parity.",
+  "capture_note": "No new GPU buffer reads or GPU commands. Existing fenced input/output texture capture was active."
+}

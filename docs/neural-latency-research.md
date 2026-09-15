@@ -360,6 +360,71 @@ Source, training metrics and the frequency diagnostic are in
 [`student-noise-context.json`](../evidence/neural-model-research/student-noise-context.json)
 and [`student-error-spectrum.json`](../evidence/neural-model-research/student-error-spectrum.json).
 
+## Hierarchical models with more camera views
+
+A four-level convolutional encoder/decoder now tests learned multiscale features,
+skip connections and an image-wide context gate. The RGB input is padded and
+reversibly rearranged into channels; internal feature maps use learned
+downsampling. Every candidate still consumes true 1920×1080 input. Preserving the
+input extent does not guarantee that the learned representation preserves quality.
+
+Five additional views were collected in the existing hidden NVIDIA sample: four
+diagonal training directions and one translated north-facing validation view.
+All 20 frame captures completed behind their GPU fences, with finite, nonconstant
+RGB. Training uses only the first reset frame from each view. The scene and demo
+DLL were restored afterward. The original north-facing view remained held out;
+the translated view was also excluded from training. This is still **one scene**.
+
+| Hierarchical candidate | Training views | Original north MAE | Translated north MAE | 1080p graph median |
+| --- | ---: | ---: | ---: | ---: |
+| Width 16; 223,440 parameters | 2 | 0.02619 | Not evaluated | 1.20 ms |
+| Width 16; 223,440 parameters | 6 | 0.02285 | 0.02318 | 1.19 ms |
+| Width 32; 871,792 parameters | 6 | 0.02322 | 0.02375 | 1.94 ms |
+| Unchanged input baseline | — | 0.01996 | 0.02187 | — |
+
+**All three models failed quality validation.** Additional views reduced the
+first candidate's original-north MAE by about 13%, but both holdouts still favored
+the unchanged input. Increasing width improved the reported training-view fit
+while slightly worsening both held-out errors. The experiment does not establish
+that more parameters solve the quality gap.
+
+All three runs used 1,500 whole-frame steps, batch 1, two residual blocks per
+stage, no noise channels, zero loss border, and the same cosine learning-rate
+schedule. Training took 21.5, 21.5 and 35.9 seconds. Timing covers 30 warmed FP16
+CUDA Graph samples, with graph/eager output equality, but excludes application
+integration. No temporal or cross-scene quality claim is supported. These models
+were not installed in WuWa or substituted into the NVIDIA sample.
+
+Source and reproduction flags are in the
+[research README](../research/neural-latency/README.md#hierarchical-student-and-additional-teacher-views).
+Numeric records are in
+[`student-hierarchical.json`](../evidence/neural-model-research/student-hierarchical.json)
+and [`student-additional-views.json`](../evidence/neural-model-research/student-additional-views.json).
+
+## Native tensor allocation mapping
+
+A demo-only metadata probe matched the preprocessor's known output and weight
+addresses to two default-heap buffers created during NR calls. The output address
+was 388,096 bytes into a 212,519,936-byte buffer; the weight address was at the
+start of a 147,719,680-byte buffer. Both matches held on all seven recorded
+evaluations. The registry retains a bounded set of resources to prevent matching
+recycled addresses; public records contain IDs and offsets, not raw addresses.
+
+This confirms which allocations contain the two known pointers. It does **not**
+establish tensor layout, current resource states or numerical parity. The new
+probe reads no GPU buffer contents and adds no GPU commands. The existing fenced
+input/output texture capture remained active. Any intermediate capture needs a
+separately established state and synchronization contract.
+
+The 25-second trial retained two sparse GPU intervals after warmup: median
+**5.435 ms model + 0.200 ms surrounding = 5.635 ms total**, at true 1920×1080.
+This is diagnostic evidence, not a speedup. The research build was confined to
+the hidden sample and removed afterward; normal R4 source and binaries were
+restored. The combined patch was built and checked by applying and reversing it
+in a scratch tree. See
+[`native-buffer-ranges.json`](../evidence/neural-model-research/native-buffer-ranges.json)
+and the [probe instructions](../research/neural-latency/README.md#native-buffer-range-metadata).
+
 ## Papers and what can transfer
 
 These papers provide research ideas. Their reported speedups are on other models

@@ -225,7 +225,7 @@ reset. This limited static-scene check always leaves the full quality gate false
 color/output textures. It needs PyTorch and NumPy but does not load the recovered
 model or its weights. Pixel-unshuffle retains every input pixel. The model is
 trained with RGB and gradient losses, then measured as an FP16 CUDA Graph at the
-unchanged 1920×1080 input. Both retained students failed the quality gate.
+unchanged 1920×1080 input. None of the retained students has passed the quality gate.
 
 For the first probe, train on the left part of the original view and reserve a
 separate right-hand region. To reproduce the original loss behavior, use zero
@@ -276,3 +276,64 @@ or temporal test. Keep every trained checkpoint and rendered prediction private.
 
 No vendor binaries, tensor files, generated GPU objects or raw captures belong
 in this directory. See [third-party notices](../../THIRD_PARTY_NOTICES.md).
+
+## Hierarchical student and additional teacher views
+
+`--architecture hierarchical --whole-frame --batch 1` selects a four-level
+encoder/decoder with skip connections and an image-wide context gate. A padded,
+reversible pixel-unshuffle retains the source pixels; learned feature maps are
+downsampled internally. This is an experimental model, not a claim that internal
+compression preserves quality. The first 223,440-parameter model ran in 1.20 ms
+but failed the held-out comparison.
+
+```powershell
+.venv\Scripts\python student_probe.py --capture D:\PrivateCaptures\natural --extra-train-capture D:\PrivateCaptures\west --validation-capture D:\PrivateCaptures\north --output results\student-hierarchical --architecture hierarchical --width 16 --blocks 2 --whole-frame --batch 1 --loss-border 0 --steps 1500 --max-seconds 240 --cosine-lr
+```
+
+`collect_demo_views.py` adds four diagonal training directions and a translated
+north-facing validation camera, still within the same Sponza scene. It uses the
+existing guarded hidden-demo runner, 20 seconds per view, Natural style, preset
+0, masking enabled, and true 1920×1080 model inputs. The original scene bytes,
+demo DLL and capture marker are restored in `finally`. The DLL must be a local
+build of the published fenced texture-capture patch; supply its verified hash.
+Other experimental markers must be disabled. Existing captures are never
+overwritten. All pixel data and logs remain in the chosen private output folder.
+
+```powershell
+python collect_demo_views.py --demo-dir D:\PrivateDemo\bin\ngx_dlss_demo --output-dir D:\PrivateTrials --capture-dll D:\PrivateBuild\OptiScaler.capture.dll --capture-sha256 YOUR_LOCAL_BUILD_SHA256 --prefix teacher-natural
+```
+
+Append each of the four resulting training capture folders with
+`--extra-train-capture`. Keep the original north view as `--validation-capture`
+and the translated view as `--extra-validation-capture`; neither enters training.
+Reports check distinct validation input hashes and record both holdouts.
+More views within one scene still do not establish cross-scene or temporal
+quality. Publish only the collection manifest and numeric results.
+
+## Native buffer range metadata
+
+[`optiscaler-demo-buffer-ranges.patch`](optiscaler-demo-buffer-ranges.patch)
+includes the combined launch-contract/capture patch plus a bounded buffer
+registry. Apply it directly to normal R4 source, not over another research patch.
+It was built as Release x64 and its patch application/reversal was checked in a
+scratch tree. It follows OptiScaler's GPL-3.0 license.
+
+In the guarded hidden demo only, enable `nr-buffer-probe.enable` alongside
+`nr-kernel-probe.enable` and `nr-model-capture.enable`. Keep architecture selection
+and kernel timing disabled. Run the same 25-second native trial, then archive
+`nr-buffer-probe.jsonl` with the other metadata/captures and restore the demo DLL
+and markers. The buffer log refuses to overwrite an existing file.
+
+The registry observes default-heap buffers through existing resource creation
+hooks, only while direct NR calls are active. It retains at most 128 buffers,
+512 MiB each, with a 1 GiB total bound to prevent stale address matches. Only two
+known fields in the recognized 264-byte preprocessor arguments are matched to
+these ranges: output and weights. Logs contain IDs, offsets, lengths and creation
+states, never raw addresses or buffer contents. No new GPU commands are added.
+
+The completed trial matched both pointers on all seven recorded evaluations.
+This establishes allocation ownership, **not** tensor layout, current resource
+state or intermediate numerical equivalence. Do not infer a safe readback state
+from the recorded creation state. The underlying reconstruction remains
+numerically different from the vendor. Results are in
+[`native-buffer-ranges.json`](../../evidence/neural-model-research/native-buffer-ranges.json).

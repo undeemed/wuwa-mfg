@@ -58,7 +58,9 @@ reference. These model experiment files are provided under Apache-2.0; retain
 the [license](licenses/MLX-DLSS-Apache-2.0.txt) and this attribution. The upstream
 repository and weights are not vendored here. The demo probe and model-capture
 patches, including the combined native launch-contract probe and optional SM89
-selector, extend the GPL-3.0 OptiScaler integration and follow that license instead.
+selector and buffer range metadata probe, extend the GPL-3.0 OptiScaler
+integration and follow that license instead. The camera-view collection utility
+is original MIT-licensed orchestration; it does not include sample assets.
 
 The CUDA experiment invokes the user's separately installed PyTorch, NVRTC and
 CUDA driver. Their binaries and generated GPU code are not distributed here.

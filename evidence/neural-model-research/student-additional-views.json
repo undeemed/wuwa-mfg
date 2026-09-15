@@ -1,0 +1,186 @@
+{
+  "schema": 1,
+  "scene_count": 1,
+  "resolution": [
+    1920,
+    1080
+  ],
+  "scene_original_sha256": "389da6d234662bb88714b4240384ce63739ff06c7e75ff6014fcd2bab574f547",
+  "capture_dll_sha256": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+  "views": [
+    {
+      "label": "teacher-natural-northeast",
+      "split": "train",
+      "pos": [
+        0,
+        1.8,
+        0
+      ],
+      "target": [
+        1,
+        1.8,
+        -1
+      ],
+      "scene_sha256": "7ad61307cb21cadd2ef1dcda487151df1940341c989034e4047299941c3ddec1",
+      "capture_hashes": {
+        "color": "d2ae1d4ac3eecdd016d78c45f209a1b05226e292fe71d9c0ffeaf9c13d44fd1a",
+        "output": "865392ee835b618b3f03556c1ddba2890b4e4dda31ecf6f213a0cdc13c4ed944"
+      },
+      "complete_fenced_frames": 4,
+      "rgb_statistics": {
+        "color": {
+          "mean": 0.1690947562456131,
+          "std": 0.173463374376297,
+          "min": -0.032989501953125,
+          "max": 1.1376953125
+        },
+        "output": {
+          "mean": 0.17401298880577087,
+          "std": 0.1669665426015854,
+          "min": 0.0,
+          "max": 0.91259765625
+        }
+      }
+    },
+    {
+      "label": "teacher-natural-northwest",
+      "split": "train",
+      "pos": [
+        0,
+        1.8,
+        0
+      ],
+      "target": [
+        -1,
+        1.8,
+        -1
+      ],
+      "scene_sha256": "115afd131049aafef2a159874b5b3ccefb030c56d6efcb69b5697496072fc01d",
+      "capture_hashes": {
+        "color": "3d23dc0613c3f28ca10e0cde8cc23f3dd8b29e2c5a8844ac413b1ab295142784",
+        "output": "71d3160242fc2f1dfc4981d5aae6a18eeddccfe41731468723f7e67e2710eca5"
+      },
+      "complete_fenced_frames": 4,
+      "rgb_statistics": {
+        "color": {
+          "mean": 0.17424598336219788,
+          "std": 0.18029054999351501,
+          "min": -0.032501220703125,
+          "max": 1.1435546875
+        },
+        "output": {
+          "mean": 0.1804009974002838,
+          "std": 0.16817224025726318,
+          "min": 0.0,
+          "max": 0.9111328125
+        }
+      }
+    },
+    {
+      "label": "teacher-natural-southeast",
+      "split": "train",
+      "pos": [
+        0,
+        1.8,
+        0
+      ],
+      "target": [
+        1,
+        1.8,
+        1
+      ],
+      "scene_sha256": "de857a9afa6ab3a0ab8d486db25b3c5cc79cb4743efe31b4d870e874e41b9e54",
+      "capture_hashes": {
+        "color": "1d047a54cd2d48c97c6584de1e99230d302c0c87e35c3a96ef410489e4aaf6f3",
+        "output": "4ea2e4fbf267b748c22511f776afeac1db5fdb4585232dd7484918ac0cb0d265"
+      },
+      "complete_fenced_frames": 4,
+      "rgb_statistics": {
+        "color": {
+          "mean": 0.2027513086795807,
+          "std": 0.22053194046020508,
+          "min": -0.0545654296875,
+          "max": 1.1435546875
+        },
+        "output": {
+          "mean": 0.20530633628368378,
+          "std": 0.19749999046325684,
+          "min": 0.0,
+          "max": 0.91845703125
+        }
+      }
+    },
+    {
+      "label": "teacher-natural-southwest",
+      "split": "train",
+      "pos": [
+        0,
+        1.8,
+        0
+      ],
+      "target": [
+        -1,
+        1.8,
+        1
+      ],
+      "scene_sha256": "142e0de103d6e291fa0f4e7f6f815be41cf81758fea72d7902bd906019aefa29",
+      "capture_hashes": {
+        "color": "2395ba423bb8ccaedab929a00969edd41df43ba532682d4190ac48e13da95f7c",
+        "output": "e263ce78605640d67dce9997b8badfbceeb86406055c48f910b1b449e4f2bd7a"
+      },
+      "complete_fenced_frames": 4,
+      "rgb_statistics": {
+        "color": {
+          "mean": 0.23291020095348358,
+          "std": 0.22622652351856232,
+          "min": -0.085205078125,
+          "max": 1.1484375
+        },
+        "output": {
+          "mean": 0.23377583920955658,
+          "std": 0.1956106275320053,
+          "min": 0.0,
+          "max": 0.9150390625
+        }
+      }
+    },
+    {
+      "label": "teacher-natural-shifted-north",
+      "split": "validation",
+      "pos": [
+        3,
+        1.8,
+        0
+      ],
+      "target": [
+        3,
+        1.8,
+        -1
+      ],
+      "scene_sha256": "ae6e77fdfefe11499ad9c8e2a6e02d85b640072d8081051067cf69748dede8c2",
+      "capture_hashes": {
+        "color": "721e179eda73cb100b0afad0894313bbae3a79f5ddffe7fb80dcef448e1282e1",
+        "output": "32ff6ac02eaedd341702bbce4d7aecbefc416cc2604e640814acdca718f4cf2a"
+      },
+      "complete_fenced_frames": 4,
+      "rgb_statistics": {
+        "color": {
+          "mean": 0.11101681739091873,
+          "std": 0.0848589837551117,
+          "min": -0.0396728515625,
+          "max": 0.45556640625
+        },
+        "output": {
+          "mean": 0.11974705755710602,
+          "std": 0.0911610871553421,
+          "min": 0.0,
+          "max": 0.50390625
+        }
+      }
+    }
+  ],
+  "limitation": "First-reset teacher images in one scene; not temporal or cross-scene validation.",
+  "scene_restored": true,
+  "dll_restored": true,
+  "collection_validation": "Four completed fenced frames per view; finite nonconstant RGB; training uses only first reset."
+}

@@ -42,11 +42,43 @@ class PixelStudent(nn.Module):
         return (x[:,:3]+0.25*residual).clamp(0,1)
 
 
+class HierarchicalStudent(nn.Module):
+    """Learned multiscale features with full-resolution pixel rearrangement/skips."""
+    def __init__(self,width=16,blocks=2,noise=False):
+        super().__init__()
+        widths=[width,width*2,width*4,width*6]
+        self.stem=nn.Conv2d(96 if noise else 48,width,1)
+        self.encoder=nn.ModuleList(nn.Sequential(*(ResidualBlock(w) for _ in range(blocks))) for w in widths)
+        self.down=nn.ModuleList(nn.Conv2d(widths[i],widths[i+1],2,stride=2) for i in range(3))
+        self.up=nn.ModuleList(nn.Conv2d(widths[i+1],widths[i],1) for i in range(3))
+        self.decoder=nn.ModuleList(nn.Sequential(*(ResidualBlock(w) for _ in range(blocks))) for w in widths[:3])
+        self.context=nn.Conv2d(widths[-1],widths[-1],1)
+        self.head=nn.Conv2d(width,48,1)
+        nn.init.zeros_(self.head.weight);nn.init.zeros_(self.head.bias)
+
+    def forward(self,x):
+        height,width=x.shape[-2:]
+        # Only padding and reversible pixel-unshuffle touch the source image.
+        padded=F.pad(x,(0,(-width)%32,0,(-height)%32),mode='reflect')
+        value=self.stem(F.pixel_unshuffle(padded,4))
+        skips=[]
+        for i,stage in enumerate(self.encoder):
+            value=stage(value)
+            if i<3:skips.append(value);value=self.down[i](value)
+        value=value*(1+0.1*torch.tanh(self.context(value.mean(dim=(2,3),keepdim=True))))
+        for i in (2,1,0):
+            value=self.up[i](F.interpolate(value,size=skips[i].shape[-2:],mode='nearest'))
+            value=self.decoder[i](value+skips[i])
+        residual=F.pixel_shuffle(self.head(value),4)[:,:,:height,:width]
+        return (x[:,:3]+0.25*residual).clamp(0,1)
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--capture',type=Path,required=True)
     p.add_argument('--extra-train-capture',type=Path,action='append',default=[])
     p.add_argument('--validation-capture',type=Path)
+    p.add_argument('--extra-validation-capture',type=Path,action='append',default=[])
     p.add_argument('--output',type=Path,required=True)
     p.add_argument('--steps',type=int,default=1500)
     p.add_argument('--max-seconds',type=int,default=120)
@@ -58,6 +90,8 @@ def main():
     p.add_argument('--patch-size',type=int,choices=[128,256,384],default=128)
     p.add_argument('--batch',type=int,choices=range(1,17),default=8)
     p.add_argument('--cosine-lr',action='store_true',help='Decay learning rate from .002 to .00002 over the bounded steps.')
+    p.add_argument('--architecture',choices=['local','hierarchical'],default='local')
+    p.add_argument('--whole-frame',action='store_true',help='Train complete views, batch 1; requires a separate validation view.')
     a=p.parse_args()
     if not 1<=a.steps<=10000 or not 1<=a.max_seconds<=600:
         raise SystemExit('Use a bounded training run.')
@@ -67,6 +101,12 @@ def main():
     if len(dilations)!=a.blocks or any(d not in [1,2,4,8] for d in dilations):
         raise SystemExit('Expected one supported dilation per block.')
     if a.patch_size<=2*a.loss_border:raise SystemExit('Loss border removes the complete crop.')
+    if a.whole_frame and (not a.validation_capture or a.batch!=1):
+        raise SystemExit('Whole-frame training requires batch1 and a separate validation view.')
+    if a.extra_validation_capture and not a.validation_capture:
+        raise SystemExit('Extra validation views require a primary validation capture.')
+    if a.architecture=='hierarchical' and a.dilations:
+        raise SystemExit('The hierarchical model uses its fixed multiscale topology, not a dilation list.')
     noise=None
     if a.noise_source:
         sys.path.insert(0,str(a.noise_source/'python'))
@@ -120,11 +160,21 @@ def main():
         training_hashes.append(pair_hashes)
     validation=None
     validation_hashes=None
+    extra_validation=[]
     if a.validation_capture:
         validation,validation_hashes=load_capture(a.validation_capture)
         assert validation['color'].shape==source.shape
         assert all(validation_hashes['color']!=h['color'] for h in training_hashes), 'Validation input overlaps training.'
-    model=PixelStudent(a.width,a.blocks,bool(a.noise_source),dilations).cuda().to(memory_format=torch.channels_last)
+    validation_inputs={validation_hashes['color']} if validation_hashes else set()
+    for directory in a.extra_validation_capture:
+        pair,pair_hashes=load_capture(directory)
+        assert pair['color'].shape==source.shape
+        assert all(pair_hashes['color']!=h['color'] for h in training_hashes), 'Validation input overlaps training.'
+        assert pair_hashes['color'] not in validation_inputs, 'Duplicate validation input.'
+        validation_inputs.add(pair_hashes['color'])
+        extra_validation.append((pair,pair_hashes))
+    model=(HierarchicalStudent(a.width,a.blocks,bool(a.noise_source)) if a.architecture=='hierarchical'
+           else PixelStudent(a.width,a.blocks,bool(a.noise_source),dilations)).cuda().to(memory_format=torch.channels_last)
     optimizer=torch.optim.AdamW(model.parameters(),lr=0.002,weight_decay=0.0001)
     report={'schema':1,'gpu':torch.cuda.get_device_name(),'torch':torch.__version__,
         'capture_hashes':hashes,'training_capture_hashes':training_hashes,'validation_capture_hashes':validation_hashes,
@@ -144,6 +194,16 @@ def main():
         'training':[]}
     report['optimization']={'initial_learning_rate':.002,'cosine_decay':a.cosine_lr,
                             'final_learning_rate':.00002 if a.cosine_lr else .002}
+    report['architecture']['variant']=a.architecture
+    report['data_split']['whole_frame_training']=a.whole_frame
+    report['data_split']['validation_view_count']=len(validation_inputs)
+    if a.whole_frame:report['data_split']['patch']=[height,width]
+    if a.architecture=='hierarchical':
+        report['architecture'].update(type='four-level hierarchical residual CNN with global context gate',
+                                      widths=[a.width,a.width*2,a.width*4,a.width*6],
+                                      blocks_per_stage=a.blocks,input_receptive_field_pixels='whole image via global context gate',
+                                      internal_downsampling='learned features only; original pixels retained through input rearrangement and residual path')
+        report['architecture'].pop('dilations')
     if noise is not None:
         report['limitations'].append('Noise is from the pinned reconstruction at counter 0; timing excludes its precomputation and input concatenation. No vendor intermediate feature parity is claimed.')
     with torch.no_grad():
@@ -155,10 +215,13 @@ def main():
         crops=[];labels=[]
         for _ in range(batch):
             train_source,train_target,right=training_views[int(rng.integers(len(training_views)))]
-            y=int(rng.integers((height-patch)//4+1))*4
-            x=int(rng.integers((right-patch)//4+1))*4
-            crops.append(train_source[:,:,y:y+patch,x:x+patch])
-            labels.append(train_target[:,:,y:y+patch,x:x+patch])
+            if a.whole_frame:
+                crops.append(train_source);labels.append(train_target)
+            else:
+                y=int(rng.integers((height-patch)//4+1))*4
+                x=int(rng.integers((right-patch)//4+1))*4
+                crops.append(train_source[:,:,y:y+patch,x:x+patch])
+                labels.append(train_target[:,:,y:y+patch,x:x+patch])
         x=torch.cat(crops).contiguous(memory_format=torch.channels_last)
         y=torch.cat(labels).contiguous(memory_format=torch.channels_last)
         optimizer.zero_grad(set_to_none=True)
@@ -204,6 +267,14 @@ def main():
             error=(validation_output.float()-validation['output']).abs()
             report['quality']['heldout_camera']=metrics(slice(None))
             np.save(a.output/'validation-output.npy',validation_output[0].permute(1,2,0).float().cpu().numpy())
+        if extra_validation:
+            report['extra_validation']=[]
+            for index,(pair,pair_hashes) in enumerate(extra_validation):
+                extra_output=inference(pair['input'].half().contiguous(memory_format=torch.channels_last))
+                error=(extra_output.float()-pair['output']).abs()
+                report['extra_validation'].append({'capture_hashes':pair_hashes,'quality':metrics(slice(None)),
+                    'identity_mae':float((pair['color'].clamp(0,1)-pair['output']).abs().mean())})
+                np.save(a.output/f'extra-validation-{index}.npy',extra_output[0].permute(1,2,0).float().cpu().numpy())
         warmup=torch.cuda.Stream();warmup.wait_stream(torch.cuda.current_stream())
         with torch.cuda.stream(warmup):
             for _ in range(3):inference(x)
