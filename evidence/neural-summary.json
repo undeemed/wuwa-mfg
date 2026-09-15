@@ -4,16 +4,28 @@
   "driver": "616.92",
   "base_source_commit": "8802b2b470db0462fa1ed03a125e793a7c06d735",
   "revision_2_nr_on": {
-    "model_dimensions": [1281, 721],
+    "model_dimensions": [
+      1281,
+      721
+    ],
     "pre_sr_passes": 1,
-    "recent_total_ms": [3.90, 3.91],
-    "recent_model_ms": [3.35, 3.37],
+    "recent_total_ms": [
+      3.9,
+      3.91
+    ],
+    "recent_model_ms": [
+      3.35,
+      3.37
+    ],
     "active_actual_frames_presented": 6,
     "crash": "GPU MMU invalid write during a reported graphics/settings/window transition",
     "exact_faulting_shader_or_resource": "not identified"
   },
   "revision_3_initial_run": {
-    "model_dimensions": [1281, 721],
+    "model_dimensions": [
+      1281,
+      721
+    ],
     "active_actual_frames_presented_observed": 6,
     "recent_nr_total_ms_approx": 4.0,
     "new_crash_during_observation": false,
@@ -31,7 +43,34 @@
     "clean_base_patch_application": "passed",
     "real_local_bundle_packaging_and_hash_check": "passed"
   },
-  "full_output_resolution_gameplay": "pending",
+  "full_output_resolution_gameplay": {
+    "model_dimensions": [
+      3840,
+      2160
+    ],
+    "pre_sr_passes": 1,
+    "output_scale": 1.0,
+    "requested_and_actual_multiplier": 6,
+    "matched_active_observations": 28,
+    "unique_matched_heartbeats": 28,
+    "total_poll_observations": 30,
+    "excluded_observations": "2 transition/off or mismatched observations",
+    "recent_total_nr_ms": [
+      21.42,
+      24.22
+    ],
+    "recent_model_ms": [
+      20.37,
+      22.9
+    ],
+    "initial_total_nr_ms": 25.03,
+    "gpu_memory_mib_snapshot": {
+      "used": 11402,
+      "total": 12282
+    },
+    "user_responsiveness_and_visual_assessment": "pending",
+    "notes": "GPU intervals may include other work. These are not end-to-end input latency measurements or a long-term stability result."
+  },
   "limitations": [
     "One tested hardware/driver configuration",
     "No independent frame uniqueness or input latency measurement",

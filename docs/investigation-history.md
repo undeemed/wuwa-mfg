@@ -23,7 +23,7 @@ counter or visible menu was never sufficient evidence of the actual FG multiplie
 | Revision 2, NR off | Extended run and actual 6x samples | External-FG baseline improved |
 | Revision 2, NR on | NR at 1281×721 and actual 6x; later transition MMU write fault | Crash analyzed offline; attribution limits documented |
 | Revision 3 | Reproduced and guarded reuse of live descriptor/constant slots; first game run with NR and actual 6x | Guard included, further transition testing needed |
-| Output-resolution revision | Model size follows output, rather than pre-SR input; 100%/75%/50% preserve output proportions | Source tests pass; performance and visual results require game validation |
+| Output-resolution revision | Model size follows output, rather than pre-SR input; 100%/75%/50% preserve output proportions | Full 3840×2160 model and actual 6x observed; roughly 21–24 ms NR intervals, user responsiveness/visual assessment pending |
 
 ## Where the work lives
 

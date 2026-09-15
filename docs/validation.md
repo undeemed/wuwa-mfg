@@ -41,5 +41,9 @@ visual quality, latency or stability in WuWa.
 Revision 2 ran NR at 1281×721 alongside actual 6x before a transition GPU crash.
 Revision 3 adds the reproduced descriptor-lifetime guard; its initial game run
 showed actual 6x and roughly 4 ms NR timing with no new crash during observation.
-Exact-trigger repetition and full-output-resolution gameplay validation remain
-pending. See [the complete findings](neural-crashes.md) and [work history](investigation-history.md).
+A following full-output run created the model at 3840×2160 and produced 28
+accepted, FG-active, matching 6x observations with distinct heartbeats out of 30
+polls. Recent total NR intervals were 21.42 and 24.22 ms, with a GPU memory snapshot
+of 11402/12282 MiB used. Two transition/off or mismatched polls were excluded.
+The user has not yet assessed responsiveness or confirmed exact-trigger repetition;
+this is an initial runtime result, not a long-term stability or input-latency test. See [the complete findings](neural-crashes.md) and [work history](investigation-history.md).

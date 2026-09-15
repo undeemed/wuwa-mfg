@@ -69,6 +69,17 @@ That test took roughly 4 ms per neural pass; **this does not predict full-resolu
 latency or guarantee smooth gameplay**. Frame generation does not remove neural
 inference cost or make input responsiveness scale with the displayed FPS counter.
 
+The first full-output test on this PC created the model at **3840 × 2160** and
+recorded **28 accepted FG-active 6x observations with matching presented counts**
+out of 30 polls (28 unique matched heartbeats; two transition/off or mismatched
+observations excluded). Recent gameplay NR intervals were **21.42 and 24.22 ms**
+total, with 20.37 and 22.90 ms in the model. An earlier interval was 25.03 ms.
+A GPU memory snapshot showed **11402 / 12282 MiB** in use. Full resolution therefore
+has a substantial measured cost, despite working alongside 6x. The tester's visual
+and responsiveness assessment is pending. These intervals may include other GPU
+work; they are not measurements of end-to-end input latency. See the
+[sanitized record](../evidence/neural-summary.json).
+
 If full resolution feels slow, close WuWa and select **Setup.cmd → 10**, then enter
 `0.75`, `0.5`, or another fraction between 0.25 and 1.0. Command-line equivalent:
 
