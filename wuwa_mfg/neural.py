@@ -41,7 +41,9 @@ def target(root, name):
     path = Path(root) / name
     cursor = path
     while cursor != Path(root):
-        if cursor.is_symlink() or (cursor.exists() and cursor.is_dir() and cursor.resolve() != cursor.absolute()):
+        # File attributes identify junctions without mistaking Windows 8.3 aliases
+        # (for example RUNNER~1 in TEMP) for redirected directories.
+        if cursor.is_symlink() or (cursor.exists() and getattr(cursor.lstat(), 'st_file_attributes', 0) & 0x400):
             raise ValueError(f'Redirected NR path: {name}')
         cursor = cursor.parent
     if path.exists() and not path.is_file():
@@ -101,7 +103,7 @@ def inspect_bundle(bundle):
 
 def install(game, bundle, state_path, assert_closed):
     assert_closed()
-    game, state_path = find_game(game), Path(state_path)
+    game, state_path = find_game(game), Path(state_path).resolve()
     if state_path.exists():
         raise ValueError('NR backup already exists. Use neural-status or neural-restore.')
     if digest(game / 'winmm.dll') != PATCHED_SHA256:
@@ -160,7 +162,8 @@ def read_state(state_path):
     backup = Path(state['backup'])
     if (backup.parent.resolve() != state_path.parent or
             not backup.name.startswith('neural-backup-') or
-            backup.is_symlink() or backup.resolve() != backup.absolute() or not backup.is_dir()):
+            backup.is_symlink() or not backup.is_dir() or
+            getattr(backup.lstat(), 'st_file_attributes', 0) & 0x400):
         raise ValueError('Invalid NR configuration backup directory')
     return state, game
 
