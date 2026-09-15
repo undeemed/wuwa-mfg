@@ -26,8 +26,8 @@ def combine_pair(a,b,*,project):
 
 def paired_gradients(model,training_views,rng,mode):
     from student_training_pairs import rgb_loss
-    assert len(training_views)==46 and mode in ('mean','pcgrad')
-    indices=[int(rng.integers(30)),30+int(rng.integers(16))]
+    assert len(training_views) in (46,62) and mode in ('mean','pcgrad')
+    indices=[int(rng.integers(30)),30+int(rng.integers(len(training_views)-30))]
     parameters=list(model.parameters())
     vectors,losses,pixels=[],[],[]
     for index in indices:

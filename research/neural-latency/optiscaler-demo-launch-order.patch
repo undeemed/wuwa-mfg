@@ -1,0 +1,103 @@
+--- a/OptiScaler/dlssnr/DlssNr_DemoBufferProbe.h
++++ b/OptiScaler/dlssnr/DlssNr_DemoBufferProbe.h
+@@ -48,7 +48,8 @@
+ // Process-lifetime retention prevents stale/recycled address matches. The cap
+ // bounds this diagnostic overhead; it must never be used as a game feature.
+ inline Registry* state=nullptr;
+-inline thread_local unsigned callDepth=0;
++inline thread_local unsigned callDepth=0,launchDepth=0;
++inline thread_local bool sampleOrdering=false;
+ using LegacyBarrierFn=void(STDMETHODCALLTYPE*)(ID3D12GraphicsCommandList*,UINT,const D3D12_RESOURCE_BARRIER*);
+ using EnhancedBarrierFn=void(STDMETHODCALLTYPE*)(ID3D12GraphicsCommandList7*,UINT,const D3D12_BARRIER_GROUP*);
+ inline LegacyBarrierFn originalLegacy=nullptr;
+@@ -131,11 +132,33 @@
+ }
+ inline void Event(nlohmann::json record)
+ {
+-    if(state->barrierEvents>=4096)return;
++    if(!sampleOrdering && state->frame)return;
++    if(state->barrierEvents>=32768)return;
+     record["frame"]=state->frame;record["before_chain"]=state->chain;
+-    record["inside_nr"]=callDepth!=0;record["event"]=++state->barrierEvents;
++    record["inside_launch"]=launchDepth!=0;record["inside_nr"]=callDepth!=0;record["event"]=++state->barrierEvents;
+     state->output<<record.dump()<<'\n';state->output.flush();
+ }
++inline void EvaluationOrder(unsigned frame,bool selected,bool begin) noexcept
++{
++    if(!state || !state->enabled)return;
++    try {
++        std::lock_guard lock(state->mutex);
++        if(begin){sampleOrdering=selected;state->frame=frame;state->chain=0;}
++        if(sampleOrdering)Event({{"kind",begin?"evaluation_enter":"evaluation_exit"}});
++        if(!begin)sampleOrdering=false;
++    } catch(...) {state->coverageGap=true;sampleOrdering=false;}
++}
++struct LaunchOrderScope
++{
++    LaunchOrderScope() noexcept {++launchDepth;Write("launch_enter");}
++    ~LaunchOrderScope() noexcept {Write("launch_exit");--launchDepth;}
++    static void Write(const char* kind) noexcept
++    {
++        if(!state || !state->enabled || !sampleOrdering)return;
++        try {std::lock_guard lock(state->mutex);Event({{"kind",kind}});}
++        catch(...) {state->coverageGap=true;}
++    }
++};
+ inline void STDMETHODCALLTYPE LegacyBarriers(ID3D12GraphicsCommandList* commands,UINT count,const D3D12_RESOURCE_BARRIER* barriers)
+ {
+     try
+@@ -146,6 +169,8 @@
+             for(UINT i=0;i<count;++i)
+             {
+                 const auto& b=barriers[i];int id=-1;
++                if(sampleOrdering && callDepth)Event({{"kind","legacy_barrier_call"},{"type",(unsigned)b.Type},
++                    {"flags",(unsigned)b.Flags},{"global_uav",b.Type==D3D12_RESOURCE_BARRIER_TYPE_UAV && !b.UAV.pResource}});
+                 if(b.Type==D3D12_RESOURCE_BARRIER_TYPE_TRANSITION && (id=ResourceId(b.Transition.pResource))>=0)
+                 {
+                     auto& buffer=state->buffers[id];
+@@ -182,6 +207,7 @@
+             for(UINT i=0;i<count;++i)
+             {
+                 const auto& group=groups[i];if(group.NumBarriers>4096)continue;
++                if(sampleOrdering && callDepth)Event({{"kind","enhanced_barrier_group"},{"type",(unsigned)group.Type},{"count",group.NumBarriers}});
+                 if(group.Type==D3D12_BARRIER_TYPE_BUFFER && group.pBufferBarriers)
+                     for(UINT j=0;j<group.NumBarriers;++j)
+                     {
+--- a/OptiScaler/dlssnr/DlssNr_DemoKernelProbe.h
++++ b/OptiScaler/dlssnr/DlssNr_DemoKernelProbe.h
+@@ -362,7 +362,8 @@
+     const auto index = BeforeLaunch(commands, kernels, count);
+     DemoBufferProbe::BeforeKernel(frame,chain+1);
+     const auto started = std::chrono::steady_clock::now();
+-    const auto status = originalLaunch(commands, kernels, count);
++    NvAPI_Status status;
++    { DemoBufferProbe::LaunchOrderScope order; status = originalLaunch(commands, kernels, count); }
+     const auto cpuUs=std::chrono::duration<double,std::micro>(std::chrono::steady_clock::now()-started).count();
+     AfterLaunch(commands, index, status);
+     Record(kernels, count, status);
+@@ -375,7 +376,8 @@
+     const auto index = BeforeLaunch(commands, kernels, count);
+     DemoBufferProbe::BeforeKernel(frame,chain+1);
+     const auto started = std::chrono::steady_clock::now();
+-    const auto status = originalLaunchEx(commands, kernels, count);
++    NvAPI_Status status;
++    { DemoBufferProbe::LaunchOrderScope order; status = originalLaunchEx(commands, kernels, count); }
+     const auto cpuUs=std::chrono::duration<double,std::micro>(std::chrono::steady_clock::now()-started).count();
+     AfterLaunch(commands, index, status);
+     Record(kernels, count, status);
+@@ -485,6 +487,7 @@
+     std::lock_guard lock(mutex);
+     frame = ++evaluations; chain = 0;
+     capture = frame <= 4 || frame == 64 || frame == 128 || frame == 256;
++    DemoBufferProbe::EvaluationOrder(frame,capture,true);
+     BeginTimings(commands);
+ }
+ inline void End()
+@@ -503,6 +506,7 @@
+     }
+     if (capture)
+     { std::lock_guard lock(mutex); output.flush(); contract.flush(); LOG_INFO("NR demo probe: evaluation {} captured {} chains", frame, chain); }
++    DemoBufferProbe::EvaluationOrder(frame,capture,false);
+     capture = false;
+ }
+ }

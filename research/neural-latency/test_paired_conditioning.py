@@ -33,21 +33,26 @@ def main():
     combined_loss=torch.cat([g.flatten() for g in torch.autograd.grad(.5*(losses[0]+losses[1]),parameters)]).detach()
     averaged,_=combine_pair(*gradients,project=False)
     mean_max_error=float((averaged-combined_loss).abs().max());assert torch.allclose(averaged,combined_loss,atol=1e-7,rtol=1e-5)
-    class FirstInEachDomain:
-        def __init__(self):self.bounds=[]
-        def integers(self,bound):self.bounds.append(bound);return 0
+    class SelectedPair:
+        def __init__(self,photo_count):self.bounds=[];self.photo_count=photo_count
+        def integers(self,bound):
+            self.bounds.append(bound)
+            return self.photo_count-1 if len(self.bounds)==2 else 0
     rows=[]
-    for mode in ('mean','pcgrad'):
-        model.zero_grad(set_to_none=True);rng=FirstInEachDomain()
+    photo_pair=views[30]
+    for photo_count,mode in [(n,m) for n in (16,32) for m in ('mean','pcgrad')]:
+        views=[None]*(30+photo_count);views[0]=tuple(load_pair(pairs[0],record['controls']))+(1920,)
+        views[-1]=photo_pair
+        model.zero_grad(set_to_none=True);rng=SelectedPair(photo_count)
         loss,pixel,conflict=paired_gradients(model,views,rng,mode)
         actual=torch.cat([p.grad.flatten() for p in parameters]);expected,expected_conflict=combine_pair(*gradients,project=mode=='pcgrad')
-        assert rng.bounds==[30,16] and torch.equal(conflict,expected_conflict)
+        assert rng.bounds==[30,photo_count] and torch.equal(conflict,expected_conflict)
         assert torch.equal(actual,expected),(mode,float((actual-expected).abs().max()),float(expected.abs().max()),int((actual!=expected).sum()))
         assert torch.equal(loss,.5*(losses[0].detach()+losses[1].detach()))
         assert torch.equal(pixel,.5*(pixels[0].detach()+pixels[1].detach()))
         condition={n:float(p.grad.abs().max()) for n,p in model.named_parameters() if n.startswith('network.decoder_conditioning.')}
         assert len(condition)==6 and all(v>0 for v in condition.values())
-        rows.append({'mode':mode,'gradient_exact':True,'domain_sampling_bounds':rng.bounds,'conflict':bool(conflict),
+        rows.append({'mode':mode,'photo_slots':photo_count,'selected_photo_index':len(views)-1,'gradient_exact':True,'domain_sampling_bounds':rng.bounds,'conflict':bool(conflict),
                      'conditioning_gradient_max':condition,'all_parameters_have_gradients':True})
     model.zero_grad(set_to_none=True)
     assert all(torch.equal(v.cpu(),state['state_dict'][k]) for k,v in model.state_dict().items())
@@ -55,7 +60,7 @@ def main():
         'deterministic_algorithms_for_mechanical_test':True,
         'source_checkpoint_sha256':sha(a.model/'student-private.pt'),'capture_hashes':[pairs[i]['capture_hashes'] for i in (0,30)],
         'parameter_count':sum(p.numel() for p in parameters),'mean_vs_joint_loss_gradient_max_abs':mean_max_error,'modes':rows,
-        'scope':'One checked scene/photo training pair. Gradient routing and averaging only; no fitting or validation evaluation.'}
+        'scope':'One checked scene/photo training pair routed through the last photo slot in both 46- and 62-slot schedules. Gradient routing and averaging only; no fitting or validation evaluation.'}
     a.output.write_text(json.dumps(report,indent=2,allow_nan=False)+'\n');print(json.dumps(report,indent=2))
 
 

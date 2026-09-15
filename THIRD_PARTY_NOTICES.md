@@ -238,3 +238,11 @@ audit are original Apache-2.0 code. The training extension uses the previously
 credited PCGrad implementation without changing its projection formula. The
 native audit reads existing private metadata and the repository's original
 observer patch; it distributes no vendor code, arguments, addresses or binaries.
+
+The training-brightness collector/audit and launch-order collector/analyzer are
+original Apache-2.0 code. The launch-order C++ patch is an original GPL-3.0
+extension to the existing OptiScaler research patch. It contains no NVIDIA
+implementation or binary payload. Brighter training captures reuse the sixteen
+previously credited image identities; all source images, derived scene assets,
+native captures and trained weights remain private. No new image sources were
+downloaded for this experiment.

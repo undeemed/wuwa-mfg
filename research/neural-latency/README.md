@@ -2445,3 +2445,147 @@ retains the gradient diagnostic, deterministic routing check, both training runs
 all validation/subgroup results, fusion/timing checks and the native batching
 coverage audit above. No sample or game was launched; game, driver, native model
 and normal runtime state remain unchanged. **3 ms with native quality is unmet.**
+
+## Native launch scopes and complete intercepted barrier calls
+
+[`optiscaler-demo-launch-order.patch`](optiscaler-demo-launch-order.patch) is an
+**add-on** to `optiscaler-demo-pre-tensor.patch`. Apply the combined pre-tensor
+patch to normal R4 source first, then this patch. It brackets both native launch
+APIs with a thread-local scope and records evaluation entry/exit. Both APIs still
+receive the original command list, kernel array and count exactly once.
+
+The observer retains evaluations 1–4, 64, 128 and 256, with a 32,768-event cap.
+Unlike the older resource-filtered log, it records every intercepted legacy
+barrier during those evaluations, including barriers for unregistered resources.
+Enhanced barrier calls retain group type/count metadata. It neither changes
+barriers nor copies kernel argument payloads. Scope logging adds CPU overhead;
+the resulting CPU call durations cannot measure a batching benefit.
+
+Build Release x64 with the existing DirectX header override through
+`/p:ForceImportBeforeCppTargets=<local-build.props>` and
+`/p:PostBuildEventUseInBuild=false`. The initial build without that header override
+failed on existing newer D3D12 declarations; the corrected build succeeded.
+Both patches also applied successfully to a fresh copy of the preserved normal
+source. Restore the normal source and build after saving the private observer.
+
+[`collect_native_launch_order.py`](collect_native_launch_order.py) runs one
+capture control and one observer trial through the existing inactive-desktop
+runner. Each launch checks the exact hidden sample executable hash. It restores
+the normal DLL, INI and scene, then archives only its owned research artifacts.
+The observer enables model capture, kernel metadata and buffer observation;
+architecture overrides, per-kernel timing and internal tensor capture stay off.
+
+```text
+collect_native_launch_order.py --demo-dir <existing-hidden-demo> --base <private-trial-root> --baseline-dll <capture-build> --baseline-sha256 <checked-hash> --observer-dll <order-observer-build> --observer-sha256 <checked-hash> --output <fresh-private-paired.json>
+analyze_native_launch_order.py --state <private-observed-trial-state> --paired-capture <private-paired.json> --output <fresh-private-analysis.json>
+```
+
+The completed trace retains **2,482 events**, below its cap. All seven sampled
+evaluations contain 158 successful one-kernel launch scopes and **20 UAV barrier
+calls outside those scopes**: nineteen between launches and one after the final
+launch. Sixteen are global barriers; four are resource-specific barrier calls.
+None occurred inside the intercepted native launch API. The schedule repeats
+across all seven evaluations.
+
+The first-reset frame has byte-identical color, depth, motion and output between
+the control and observer. Frames 1–3 have different color inputs between the two
+processes, so their output differences cannot establish observer equivalence or
+regression. They are retained as unmatched comparisons, not counted as passes.
+
+This resolves the older trace's inside-versus-between ambiguity and exposes four
+barrier calls omitted by its resource filter. It still does **not** establish
+complete command-list coverage, worker-thread behavior, packed-argument lifetime
+or ordering within a multi-kernel NVAPI chain. No executable batches or native
+speedup are claimed. NVIDIA's [CUDA Graphs documentation](https://docs.nvidia.com/cuda/cuda-programming-guide/04-special-topics/cuda-graphs.html)
+explains explicit operation dependencies and launch amortization; those CUDA
+guarantees must not be assumed for this separate NVAPI/D3D12 path.
+
+## Matched native brightness training
+
+The previous experiment found that all sixteen training photos used emission
+0.1, while older validation photos also included emission 1.0. This test adds a
+native emission-1.0 capture for **each existing training identity**. No new image
+source is downloaded, and none of the seven validation identities enters fitting.
+The same texture and image-plane scene are reused; only emission changes.
+
+[`collect_training_brightness.py`](collect_training_brightness.py) fixes the
+sixteen cases before capture, verifies the original source/texture hashes and
+uses `collect_demo_image.py` for every launch. That collector checks the exact
+hidden EXE and uses the inactive private desktop. Sixteen runs produced 64 fenced
+frames; only each first-reset frame enters training. Source images, scene assets,
+captures and weights remain private. The collector checks available disk before
+each run and supports explicit resume of completed, revalidated cases.
+
+[`audit_training_brightness.py`](audit_training_brightness.py) checks all native
+pairs and the sampling schedule. Averaged across the sixteen identities, input
+RGB means rise from **0.3399 to 0.6638**. The fraction of channels at least 1.0
+rises from approximately zero to **17.0%**. Native inputs therefore do not scale
+linearly with scene emission; multiplying old input/target pairs would not be an
+equivalent experiment.
+
+Ke et al., [Training Neural Networks on RAW and HDR Images for Restoration Tasks](https://arxiv.org/html/2312.03640v3),
+study pixel encodings, losses and exposure generalization. That work motivates
+checking value distributions, but it does not establish the correct encoding for
+this captured runtime. This experiment keeps the existing encoding, architecture
+and loss fixed. No paper implementation or reported performance gain is reused.
+
+```text
+collect_training_brightness.py --photos <old-photo-manifest> --images <diverse-image-manifest> --base <private-trial-root> --demo-dir <existing-hidden-demo> --capture-dll <checked-capture-build> --capture-sha256 <checked-hash> --output <fresh-private-brightness-directory>
+audit_training_brightness.py --base <private-trial-root> --photos <old-photo-manifest> --images <diverse-image-manifest> --brightness <brightness-manifest> --output <fresh-private-audit.json>
+```
+
+The matched training pair uses the same 254,672-parameter, width-16 conditioned
+model, seed 28411, optimizer, learning-rate schedule, L1 plus gradient loss,
+4,500 updates and 9,000 sampled examples. Both start from scratch. Each update
+selects one of thirty scene slots and one of thirty-two photo slots, with equal
+domain weight. The first sixteen photo slots contain the original dim captures.
+The last sixteen contain either repeated dim captures (**repeat-low control**)
+or the same identities captured at higher emission (**brighter-data model**).
+Thus the control has 62 sampling slots but 46 distinct inputs; the candidate has
+62 distinct inputs. Both retain the original sixteen validation frames.
+
+Use the existing `train_student_collection.py` arguments with
+`--architecture hierarchical-film --paired-gradient mean`, then add
+`--brightness-collection <brightness-manifest> --brightness-mode repeat-low` or
+`--brightness-mode native`, with separate fresh output directories. The schedule
+selects the additional photo slots 2,324 times in each run. The prior 46-slot
+training path remains supported. Deterministic mechanical checks verify exact
+gradient routing and averaging for both slot counts, including the last photo
+slot; all six conditioning parameter tensors receive gradients. Deterministic
+settings belong to that test process and do not change training settings.
+
+| Validation group | Original conditioned | Repeated-dim control | Brighter data | Change vs matched control |
+|---|---:|---:|---:|---:|
+| Six scene views | 0.028421 | 0.027259 | 0.026068 | −4.37% |
+| Six older photo cases | 0.021364 | 0.024725 | 0.018731 | −24.24% |
+| Four newer photos | 0.022106 | 0.023571 | 0.020624 | −12.50% |
+
+Values are mean absolute RGB error against native targets; lower is better.
+The brighter model improves 12 of 16 individual cases. Low-sun, dim portrait,
+dim cat and library regress relative to the matched control. The bright
+landscape improves from 0.024691 to 0.012646; its dim version improves from
+0.025153 to 0.014583. Both older photo emission subgroups improve on average.
+The earlier unpaired conditioned and earlier paired-mean models are references,
+not matched controls for this schedule. Training finishes in 176.63/176.74 seconds;
+training-set MAE is not directly comparable because the candidate has different
+targets in sixteen slots.
+
+All 64 saved validation predictions reproduce exactly, and the two old models'
+32 results match their preceding report. Existing CUDA fusions remain bit-exact
+across 64 model/image pairs and eight execution modes. With all fusions, the
+brighter model measures **1.0039 ms median**, versus **1.0020 ms** for the matched
+control. The brighter model's interval p95 is **1.0076 ms**. These are alternating
+30-pair measurements, ten graph replays per interval, including the full 1080p
+student and output grade. They exclude D3D12 integration and do not measure
+individual-frame tails. No new student kernel or native speedup is claimed.
+
+The brightness coverage change improves all three group means, but four cases
+regress and no perceptual or temporal acceptance is established. The validation
+set remains outside fitting, although its earlier scores motivated this test.
+**No replacement is installed; 3 ms with unchanged native quality remains unmet.**
+
+[Numeric evidence](../../evidence/neural-model-research/brightness-training-and-launch-order.json)
+records the new capture audit, matched training runs, every validation result,
+kernel/timing checks and launch-order study. All eighteen sample launches stayed
+on the inactive private desktop. WuWa, driver settings, native model and normal
+runtime files remain unchanged.

@@ -1083,6 +1083,36 @@ and [numeric evidence](../evidence/neural-model-research/paired-conditioning-and
 record both investigations and the next evidence needed. No application was
 launched or game/driver state changed.
 
+## Brighter training coverage and native launch ordering
+
+A matched data experiment addresses the missing high-emission training photos.
+Sixteen new native captures reuse existing training identities; validation
+identities remain excluded. Both models use identical 4,500-update paired-mean
+schedules. One repeats the dim captures in its additional photo slots, while the
+other substitutes the brighter captures. Brighter data reduces average native
+target error by 4.37% on scene views, 24.24% on older photo cases and 12.50% on
+newer photos. Twelve of sixteen individual cases improve; four regress.
+
+The full 1080p student-plus-grade graph remains around 1.004 ms, excluding
+application integration. Existing fusions are bit-exact on all 64 model/image
+pairs across eight modes. This is a useful data improvement, but it does not
+establish unchanged perceptual or temporal quality, and no model is installed.
+
+A new native observer resolves the earlier barrier ambiguity. Seven complete
+sampled evaluations each have 158 successful launch scopes and twenty intercepted
+UAV barriers outside the native launch API: nineteen between launches and one
+after the last. The first-reset frame's inputs and output are byte-identical to
+the capture control. Later frames have different inputs and cannot test output
+equivalence. Other command coverage, argument lifetimes and multi-kernel ordering
+still need verification before batching. No native acceleration is claimed.
+
+The [data method and results](../research/neural-latency/README.md#matched-native-brightness-training),
+[observer procedure](../research/neural-latency/README.md#native-launch-scopes-and-complete-intercepted-barrier-calls)
+and [numeric evidence](../evidence/neural-model-research/brightness-training-and-launch-order.json)
+document both experiments. All eighteen sample launches used the inactive private
+desktop; game, driver and normal runtime state remain unchanged. The full goal
+of 3 ms at 1920×1080 with unchanged native quality remains unmet.
+
 ## Papers and what can transfer
 
 The joint [native feature supervision experiment](../research/neural-latency/README.md#native-intermediate-feature-supervision)

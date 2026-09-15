@@ -39,11 +39,15 @@ def main():
     parser.add_argument('--feature-targets', type=Path, help='Optional private native feature target manifest.')
     parser.add_argument('--feature-weight', type=float, default=.01)
     parser.add_argument('--paired-gradient',choices=['mean','pcgrad'],help='Matched two-domain training; requires the diverse image collection.')
+    parser.add_argument('--brightness-collection',type=Path,help='Private sixteen-photo native brightness extension; requires paired mean training.')
+    parser.add_argument('--brightness-mode',choices=['native','repeat-low'],help='Replace the extra photo slots with brighter captures or repeated dim controls.')
     args = parser.parse_args()
     if args.image_collection and not args.photo_collection:
         raise ValueError('The image extension requires its preceding photo collection.')
     if args.paired_gradient and not args.image_collection:
         raise ValueError('Paired training requires the fixed 46-frame collection.')
+    if bool(args.brightness_collection)!=bool(args.brightness_mode) or (args.brightness_collection and (not args.image_collection or args.paired_gradient!='mean')):
+        raise ValueError('Brightness comparison requires its manifest, mode, image collection and paired mean training.')
     repo = Path(__file__).resolve().parents[2]
     if args.output.resolve().is_relative_to(repo) or args.output.exists():
         raise ValueError('Use a fresh private output directory outside the repository.')
@@ -98,6 +102,12 @@ def main():
         for row in audited_images(args.image_collection, args.base_trials.parent, baseline['controls'], args.photo_collection):
             path = verify_capture(args.base_trials.parent / (row['label'] + '-state') / 'capture', row['capture_hashes'])
             (train if row['split'] == 'train' else validation).append(path)
+    if args.brightness_collection:
+        from collect_training_brightness import audited_brightness
+        assert len(train)==46 and len(validation)==16
+        bright=audited_brightness(args.brightness_collection,args.base_trials.parent,baseline['controls'],args.photo_collection,args.image_collection)
+        extra=[verify_capture(args.base_trials.parent/(r['label']+'-state')/'capture',r['capture_hashes']) for r in bright]
+        train.extend(extra if args.brightness_mode=='native' else train[30:46])
     command = [sys.executable, str(Path(__file__).parent / 'student_probe.py'),
                '--capture', str(train[0]), '--validation-capture', str(validation[0])]
     for path in train[1:]: command.extend(['--extra-train-capture', str(path)])
@@ -112,9 +122,11 @@ def main():
     if args.feature_targets:
         command.extend(['--feature-targets', str(args.feature_targets), '--feature-weight', str(args.feature_weight)])
     if args.paired_gradient:
-        assert len(train)==46 and len(validation)==16
+        assert len(train)==(62 if args.brightness_collection else 46) and len(validation)==16
         command.extend(['--paired-gradient',args.paired_gradient])
-    if args.image_collection:
+    if args.brightness_collection:
+        command.extend(['--data-description', 'Thirty scene slots and thirty-two photo slots from sixteen training identities. The last sixteen slots use '+('native emission 1.0 captures' if args.brightness_mode=='native' else 'repeated emission 0.1 captures as the matched control')+'. Paired mean training gives equal scene/photo weight. Seven different photo identities stay in validation. First-reset static frames only, not game or temporal acceptance.'])
+    elif args.image_collection:
         command.extend(['--data-description', 'One Sponza scene plus sixteen training photo identities; seven different photo identities stay in validation, three at two emissions. Image identities and splits were fixed before the new captures and fitting. First-reset static frames only, not representative game or temporal validation.'])
     elif args.photo_collection:
         command.extend(['--data-description', 'One Sponza scene plus four training photo identities; three different photo identities stay in validation at two emissions. First-reset frames only, not representative game or temporal validation.'])

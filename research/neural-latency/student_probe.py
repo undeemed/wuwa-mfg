@@ -156,7 +156,7 @@ def main():
     p.add_argument('--initialize-from',type=Path,help='Private matching student run; load weights only and start a fresh optimizer.')
     p.add_argument('--feature-targets',type=Path,help='Private native decoder hints used only during training.')
     p.add_argument('--feature-weight',type=float,default=.01)
-    p.add_argument('--paired-gradient',choices=['mean','pcgrad'],help='Two training domains: first 30 scene views, then 16 photos. One example from each per optimizer step.')
+    p.add_argument('--paired-gradient',choices=['mean','pcgrad'],help='Two training domains: first 30 scene views, then 16 or 32 photo slots. One example from each per optimizer step.')
     a=p.parse_args()
     if not 1<=a.steps<=10000 or not 1<=a.max_seconds<=600:
         raise SystemExit('Use a bounded training run.')
@@ -370,9 +370,9 @@ def main():
     started=time.perf_counter()
     paired_conflicts=torch.zeros((),device='cuda',dtype=torch.int32)
     if a.paired_gradient:
-        assert len(training_views)==46 and batch==1
+        assert len(training_views) in (46,62) and batch==1
         from paired_gradient import paired_gradients
-        report['paired_training']={'method':a.paired_gradient,'scene_frames':30,'photo_frames':16,
+        report['paired_training']={'method':a.paired_gradient,'scene_frames':30,'photo_frames':len(training_views)-30,
             'examples_per_step':2,'domain_weights':[.5,.5],
             'parameter_projection':'shared, symmetric against original gradients' if a.paired_gradient=='pcgrad' else 'none'}
     for step in range(a.steps):
