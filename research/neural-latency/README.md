@@ -3023,3 +3023,97 @@ includes all image metrics, training history, mechanical checks, timing interval
 scalar diagnostics, source digests and preserved installation hashes. Captures,
 activation arrays and trained weights remain private. There is no accepted
 replacement or new installer option from this experiment.
+
+## Shared-feature correction decoder
+
+This follow-up removes the second encoder and supplies the first student's
+intermediate features to a correction decoder. It is **rejected as a replacement**:
+training error improves, but validation error gets worse. The complete model graph
+fits below 3 ms; unchanged perceptual quality and application timing do not pass.
+
+`HierarchicalStudent.forward` accepts an optional empty `feature_sink` list. It
+retains references after four encoder stages and three decoder stages without
+changing their operations, weights or ordinary return value. No global hook or
+previous-frame state is used. `SharedFeatureRefinement` freezes the first model
+and supplies these seven current-image features to `FeatureCorrectionDecoder`.
+The decoder projects and combines matching encoder/decoder features at three
+scales, conditions them on pooled deep features, and adds a reversible
+pixel-unshuffle projection of the original RGB input. A zero-initialized head
+predicts a correction to the ungraded base output, followed by one final grade.
+The correction has 107,968 trainable parameters; the frozen base has 254,672.
+This differs in both architecture and parameter count from the earlier RGB
+cascade, so its results do not isolate feature sharing as the sole cause.
+
+Mechanical checks use one training image in FP32/FP16. They confirm feature
+capture preserves the base result, neutral output matches the first model,
+live/cached feature paths agree, the head receives gradients, and the base remains
+unchanged. A disposable step passes strict checkpoint round-trip and existing
+fusion equivalence tests. Six malformed feature/input/sink cases are rejected.
+No new kernel implementation is introduced.
+
+The same 62 training images, 16 excluded validation identities, seed, paired-domain
+weights, RGB/edge loss and AdamW schedule are used. Only the correction decoder
+trains for 4,500 updates / 9,000 sampled examples. FP32 features are cached only
+during fitting. Inference recomputes the entire first model for every input.
+Its cached training predictions are reproduced exactly by the diagnostic.
+
+| Measurement | Frozen first model | First model + feature decoder |
+| --- | ---: | ---: |
+| Mean RGB error, 62 training images, FP32 | 0.023332 | 0.020537 |
+| Mean RGB error, 16 validation images, FP16 | 0.021956 | 0.022650 |
+| Mean RGB error, six validation scenes | 0.026068 | 0.027157 |
+| Mean RGB error, six earlier validation photos | 0.018731 | 0.018855 |
+| Mean RGB error, four diverse validation photos | 0.020624 | 0.021582 |
+| Mean validation edge error | 0.007307 | 0.007442 |
+| Full-1080p model graph median | 1.123 ms | 2.138 ms |
+| p95 of ten-replay interval means | 1.155 ms | 2.198 ms |
+
+Five validation images improve and 11 regress. Group MAE increases by 4.18%,
+0.66% and 4.65%, respectively. Both full-image outputs with existing fusions match
+the unfused versions bitwise on all 16 inputs, and all saved first-model outputs
+are reproduced exactly. Timing uses 30 alternating pairs after warmup and includes
+the first model, feature operations, correction and final grade. It excludes
+D3D12 integration. The p95 describes interval averages, not individual frame tails.
+Historical validation scores informed research choices; these images are still
+excluded from fitting, but do not form an independent final acceptance set.
+
+All 66 correction parameter tensors change during training, and the head features
+retain spatial variation. Mean adjustment MAE is 0.00838, with mean cosine alignment
+0.360 to the desired correction. A training-only counterfactual horizontally flips
+all seven feature maps while keeping the original RGB and base prediction fixed.
+This raises mean error from 0.020537 to 0.023040 and changes the output by MAE
+0.00816, showing sensitivity to the spatial features. The deliberately inconsistent
+features are a diagnostic, not an acceptance test. These observations support a
+generalization gap for this run, not a universal claim that feature sharing fails.
+The next model work should investigate training coverage and generalization before
+stacking more stages or increasing model size.
+
+An additional precision audit rules out FP16 rounding as the explanation for
+this aggregate regression. In FP32, mean validation MAE is 0.021957 for the first
+model and 0.022652 for the correction model; every group still worsens. The
+correction model's FP16 result differs from its FP32 result by only 0.0000965
+mean absolute output error. This does not establish equivalence at every pixel,
+but the full-precision model retains the validation failure.
+
+[MPRNet section 3.2](https://arxiv.org/html/2102.02808v1) motivates transferring
+intermediate features through learned projections. This experiment does not
+implement MPRNet's complete network, supervised-attention modules or end-to-end
+training. Its published gains are not assumed to carry over here.
+
+The private-data arguments have the same meanings as in the preceding experiment.
+Run each command sequentially with the game and demo closed; output directories
+must be fresh and outside the repository.
+
+```text
+test_shared_feature_student.py --first <private-first-model> --capture <training-capture> --output <fresh-private-tests.json>
+train_shared_feature_student.py --base <private-demo-root> --photos <photo-manifest> --images <diverse-manifest> --brightness <brightness-manifest> --baseline <private-46-image-model> --first <private-first-model> --output <fresh-private-candidate>
+evaluate_progressive_student.py --shared-features --base <private-demo-root> --lab <private-research-root> --photos <photo-manifest> --images <diverse-manifest> --first <private-first-model> --candidate <private-candidate> --output <fresh-private-evaluation>
+analyze_progressive_student.py --shared-features --base <private-demo-root> --photos <photo-manifest> --images <diverse-manifest> --brightness <brightness-manifest> --baseline <private-46-image-model> --first <private-first-model> --candidate <private-candidate> --output <fresh-private-diagnostic.json>
+audit_shared_precision.py --base <private-demo-root> --lab <private-research-root> --photos <photo-manifest> --images <diverse-manifest> --first <private-first-model> --candidate <private-candidate> --evaluation <private-evaluation/result.json> --output <fresh-private-precision.json>
+```
+
+[Numeric evidence](../../evidence/neural-model-research/shared-feature-student.json)
+contains all training/validation metrics, intervals, diagnostic scalars, tests,
+listed source hashes and preservation checks. No application was launched, no
+game/driver setting changed, and no candidate was installed. Private weights,
+captures and feature arrays are not distributed.

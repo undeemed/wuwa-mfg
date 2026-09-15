@@ -21,6 +21,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ('base', 'photos', 'images', 'brightness', 'baseline', 'first', 'candidate', 'output'):
         parser.add_argument('--' + name, type=Path, required=True)
+    parser.add_argument('--shared-features', action='store_true', help='Inspect a shared-feature correction decoder, including a spatial-feature counterfactual.')
     args = parser.parse_args()
     assert not args.output.exists() and not args.output.resolve().is_relative_to(Path(__file__).resolve().parents[2])
     first, record = load_first(args.first)
@@ -37,7 +38,15 @@ def main():
     torch.backends.cudnn.benchmark = False
     torch.backends.cudnn.allow_tf32 = False
     torch.backends.cuda.matmul.allow_tf32 = False
-    model = FrozenStudentRefinement(first)
+    if args.shared_features:
+        from shared_feature_student import SharedFeatureRefinement
+        assert fitted['variant'] == 'shared-features'
+        model = SharedFeatureRefinement(first)
+        prefix, input_layer = '', 'local'
+    else:
+        assert fitted.get('variant', 'rgb-cascade') == 'rgb-cascade'
+        model = FrozenStudentRefinement(first)
+        prefix, input_layer = 'network.', 'stem'
     initial = {name: value.clone() for name, value in model.refinement.state_dict().items()}
     state = torch.load(args.candidate / 'student-private.pt', map_location='cpu', weights_only=True)
     model.load_state_dict(state['state_dict'], strict=True)
@@ -45,17 +54,17 @@ def main():
                for name, value in model.refinement.state_dict().items()}
     parameter_changes = {'changed_tensor_count': sum(value > 0 for value in changes.values()),
                          'total_tensor_count': len(changes),
-                         'stem_weight_rms_change': changes['network.stem.weight'],
-                         'head_weight_rms_change': changes['network.head.weight'],
-                         'head_bias_rms_change': changes['network.head.bias']}
+                         input_layer+'_weight_rms_change': changes[prefix+input_layer+'.weight'],
+                         'head_weight_rms_change': changes[prefix+'head.weight'],
+                         'head_bias_rms_change': changes[prefix+'head.bias']}
     model = model.cuda().float().eval().to(memory_format=torch.channels_last)
     captured = {}
     def before_head(module, inputs):
         captured['features'] = inputs[0].detach()
     def after_head(module, inputs, output):
         captured['head'] = output.detach()
-    handles = [model.refinement.network.head.register_forward_pre_hook(before_head),
-               model.refinement.network.head.register_forward_hook(after_head)]
+    head_layer = model.refinement.head if args.shared_features else model.refinement.network.head
+    handles = [head_layer.register_forward_pre_hook(before_head), head_layer.register_forward_hook(after_head)]
     rows, head_means = [], []
     with torch.inference_mode():
         for pair, expected in zip(pairs, fitted['training_image_metrics']):
@@ -82,6 +91,12 @@ def main():
                    'head_phase_mean_std': float(means.reshape(3, 16).std(dim=1, unbiased=False).mean()),
                    'head_feature_spatial_std_mean': float(feature_std.mean()),
                    'head_feature_nearly_constant_count': int((feature_std < 1e-7).sum())}
+            if args.shared_features:
+                ungraded, features = model.extract(source)
+                flipped = tuple(torch.flip(feature, dims=(-1,)) for feature in features)
+                counterfactual = model.refinement(source, ungraded, flipped)
+                row['flipped_features_mae'] = float((counterfactual-target).abs().mean())
+                row['flipped_feature_output_difference_mae'] = float((counterfactual-refined).abs().mean())
             rows.append(row)
     for handle in handles:
         handle.remove()
@@ -94,6 +109,7 @@ def main():
         selected = [row for row in rows if group == 'all' or row['group'] == group]
         summary[group] = {'count': len(selected), **{key: statistics.mean(row[key] for row in selected) for key in fields}}
     report = {'complete': True, 'target_achieved': False, 'quality_gate_passed': False,
+              'variant': 'shared-features' if args.shared_features else 'rgb-cascade',
               'scope': 'FP32 training-only evaluation; no optimizer step, validation inference or parameter change.',
               'candidate_checkpoint_sha256': sha(args.candidate / 'student-private.pt'),
               'validation_count_excluded': len(validation), 'training_count': len(rows),
@@ -102,6 +118,7 @@ def main():
               'within_image_mean_head_phase_std': statistics.mean(row['head_phase_mean_std'] for row in rows),
               'summary': summary, 'training': rows,
               'limitations': ['Scalar variation and alignment describe the correction but do not prove why training converged there.',
+                              'For shared-feature models, horizontal feature flips preserve the original RGB input and base output but intentionally create inconsistent internal features. This is a sensitivity diagnostic, not a quality acceptance input.',
                               'The head includes 4x4 pixel-shuffle phases; per-channel mean offsets need not be a spatially uniform RGB correction.',
                               'No claim that a small correction establishes an irreducible quality limit.']}
     args.output.write_text(json.dumps(report, indent=2, allow_nan=False) + '\n')

@@ -9,14 +9,15 @@ Current work focuses on training a smaller model to reproduce the original
 output. Earlier kernel experiments remain documented below. Reduced resolution, skipped
 frames, weaker blending and a different visual style do not satisfy the target.
 
-The latest [model experiment](../research/neural-latency/README.md#frozen-base-progressive-correction)
-kept the best student frozen and trained a second residual stage. Both stages
-together took **2.824 ms**, compared with **1.101 ms** for the first stage alone
-in the same paired test. Across 16 validation images, average RGB error improved
-only **0.23%**, six images regressed, and mean edge error increased. This candidate
-is rejected as a replacement: it spends most of the remaining time budget without
-closing the quality gap. These are full-1080p model graph timings, excluding
-D3D12 integration; they do not establish the 3 ms complete-pass target.
+The latest [model experiment](../research/neural-latency/README.md#shared-feature-correction-decoder)
+kept the best student frozen and trained a correction decoder using its
+intermediate features. The full model took **2.138 ms**, compared with **1.123 ms**
+for the first stage alone in the same paired test. Training RGB error fell about
+**12%**, but validation error increased **3.16%** and 11 of 16 images regressed.
+This candidate is rejected as a replacement. The result identifies a gap between
+fitting the training images and preserving quality on other images. These are
+full-1080p model graph timings, excluding D3D12 integration; they do not establish
+the 3 ms complete-pass target.
 
 The earlier [native batching investigation](../research/neural-latency/README.md#rejected-native-batching-and-verified-overlap-differences)
 rejected an eight-kernel batcher after GPU errors and no completed image readback.
@@ -1211,7 +1212,7 @@ and hardware; none establishes the target for this runtime.
 | [SageAttention2++](https://arxiv.org/html/2505.21136v3) | Use faster FP8 matrix instructions with FP16 accumulators and manage numerical range. | The inspected native code already uses this instruction family. The paper supports investigating accumulation and data movement, but its speedup over another attention implementation cannot be applied to this renderer. Our direct-MMA result improves a numerical reference, not native latency. |
 | [SmoothQuant](https://proceedings.mlr.press/v202/xiao23c/xiao23c.pdf) | Calibrate activation/weight scaling before lower-precision execution. | This runtime already invokes FP8-named kernels. LLM INT8 results do not imply a further lossless gain, and calibration must include renderer activations and controls. |
 | [Knowledge distillation](https://arxiv.org/abs/1503.02531) | Train a smaller student against the larger model's behavior. | A renderer needs matched pixels, detail and temporal consistency, not just matching classification probabilities. A trustworthy teacher and held-out sequences are prerequisites. |
-| [MPRNet](https://arxiv.org/html/2102.02808v1) | Refine an image through supervised residual stages that retain access to the original input and exchange features. | Our frozen-base correction experiment tests a simpler cascade without cross-stage feature fusion; it is not MPRNet. The paper cautions that passing only the preceding output is insufficient. Its restoration results do not establish fidelity to this renderer. |
+| [MPRNet](https://arxiv.org/html/2102.02808v1) | Refine an image through supervised residual stages that retain access to the original input and exchange features. | The RGB cascade barely improves validation error. A subsequent shared-feature decoder improves training fit but worsens validation. Neither implements MPRNet or establishes fidelity from its restoration results. |
 | [Tiny Recursive Models](https://arxiv.org/html/2510.04871v1) | Revisit a predicted answer with a small network and retained latent state. | Puzzle accuracy and parameter efficiency do not imply low image-processing latency. Reviewed as motivation for refinement; no TRM or recursive inference implementation is included, and every additional pass must fit the full latency budget. |
 | [Gradient Surgery / PCGrad](https://arxiv.org/abs/2001.06782) | Adjust conflicting training gradients without adding inference work. | Our matched two-domain test improves scene error but worsens photo error. Negative alignment alone does not prove the paper's full conditions or guarantee renderer quality. |
 | [FiLM](https://arxiv.org/abs/1709.07871) | Condition feature channels using learned affine transformations. | Our image-conditioned decoder improves scene and older-photo errors but slightly worsens the newer-photo mean. Visual-reasoning performance does not establish native renderer quality. |

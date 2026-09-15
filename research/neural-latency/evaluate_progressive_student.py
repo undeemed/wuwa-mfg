@@ -100,6 +100,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ('base', 'lab', 'photos', 'images', 'first', 'candidate', 'output'):
         parser.add_argument('--' + name, type=Path, required=True)
+    parser.add_argument('--shared-features', action='store_true', help='Evaluate the decoder that reuses first-stage features.')
     args = parser.parse_args()
     assert not args.output.exists() and not args.output.resolve().is_relative_to(Path(__file__).resolve().parents[2])
     torch.backends.cudnn.benchmark = False
@@ -114,7 +115,15 @@ def main():
     assert candidate_record['first_result_sha256'] == sha(args.first / 'result.json')
     assert candidate_record['controls'] == record['controls'] and candidate_record['native_shape'] == [1080, 1920]
     assert candidate_record['training_capture_hashes'] == record['training_capture_hashes']
-    candidate = FrozenStudentRefinement(second_first)
+    if args.shared_features:
+        from shared_feature_student import SharedFeatureRefinement, configure_shared
+        assert candidate_record['variant'] == 'shared-features'
+        candidate = SharedFeatureRefinement(second_first)
+        configure_candidate = configure_shared
+    else:
+        assert candidate_record.get('variant', 'rgb-cascade') == 'rgb-cascade'
+        candidate = FrozenStudentRefinement(second_first)
+        configure_candidate = configure_progressive
     state = torch.load(args.candidate / 'student-private.pt', map_location='cpu', weights_only=True)
     assert state['grade_parameters'] == first.grade_parameters
     candidate.load_state_dict(state['state_dict'], strict=True)
@@ -143,12 +152,12 @@ def main():
             if timing_source is None:
                 timing_source = source.clone()
             configure(first, 'baseline', kernel)
-            configure_progressive(candidate, 'baseline', kernel)
+            configure_candidate(candidate, 'baseline', kernel)
             references = {name: model(source) for name, model in models.items()}
             produced_first = references['first'][0].permute(1, 2, 0).float().cpu().numpy()
             assert np.array_equal(produced_first, np.load(saved[hashes['color']], allow_pickle=False))
             configure(first, 'all-conditioning', kernel)
-            configure_progressive(candidate, 'all-conditioning', kernel)
+            configure_candidate(candidate, 'all-conditioning', kernel)
             assert all(same(model(source), references[name]) for name, model in models.items())
             produced = references['refined'][0].permute(1, 2, 0).float().cpu().numpy()
             assert np.isfinite(produced).all()
@@ -168,13 +177,14 @@ def main():
                           'improved_mae_count': sum(row['models']['refined']['mae'] < row['models']['first']['mae'] for row in subset),
                           'mae_change_percent': 100 * (means['refined']['mae'] / means['first']['mae'] - 1)}
     report = {'complete': True, 'target_achieved': False, 'quality_gate_passed': False,
+              'variant': 'shared-features' if args.shared_features else 'rgb-cascade',
               'native_shape': [1080, 1920], 'gpu': torch.cuda.get_device_name(), 'torch': torch.__version__,
               'first_checkpoint_sha256': sha(args.first / 'student-private.pt'),
               'candidate_checkpoint_sha256': sha(args.candidate / 'student-private.pt'),
               'candidate_result_sha256': sha(args.candidate / 'result.json'),
               'frozen_first_state_exact': True, 'training_count': 62, 'validation_count': 16, 'validation_training_overlap': False,
               'validation': rows, 'summary': summary, 'timing': timings,
-              'timing_scope': 'FP16 full-1920x1080 input through both models, intermediate concatenation, and one final grade. No cached first output during inference. Existing fusions reused unchanged.',
+              'timing_scope': 'FP16 full-1920x1080 input through the complete first model and correction stage, including intermediate feature operations and one final grade. No cached first output or feature during inference. Existing fusions reused unchanged.',
               'limitations': ['No D3D12 integration or game/temporal acceptance. Native runtime is unchanged.',
                               'p95 is over ten-replay interval averages, not individual frame tails.',
                               'Previously reserved validation images remain excluded from training, but their past scores informed research; this is not an independent final acceptance set.',

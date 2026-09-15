@@ -288,3 +288,10 @@ It does not implement MPRNet or copy its code, weights or figures. Jolicoeur-Mar
 was reviewed for iterative refinement ideas; no TRM implementation or transferred
 benchmark result is claimed. The existing training images, teacher captures and
 both student checkpoints remain private.
+
+The shared-feature correction decoder, trainer, mechanical test and precision audit, optional
+student-feature collection, and evaluator/diagnostic extensions are original
+Apache-2.0 code. Cross-stage feature exchange is credited to MPRNet section 3.2;
+this frozen-base design does not implement its complete architecture or training
+procedure. No external model implementation, weights, captured features or images
+are included. Existing inference kernels are reused without changes.

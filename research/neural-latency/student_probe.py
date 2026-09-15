@@ -83,7 +83,9 @@ class HierarchicalStudent(nn.Module):
             from latent_context import LatentContext
             self.latent_context=LatentContext(widths[-1])
 
-    def forward(self,x,*,fused_output_backend=None,grade_parameters=None):
+    def forward(self,x,*,fused_output_backend=None,grade_parameters=None,feature_sink=None):
+        if feature_sink is not None and (not isinstance(feature_sink,list) or feature_sink):
+            raise ValueError('Feature capture requires an empty list owned by this call.')
         height,width=x.shape[-2:]
         # Only padding and reversible pixel-unshuffle touch the source image.
         padded=F.pad(x,(0,(-width)%32,0,(-height)%32),mode='reflect')
@@ -91,6 +93,7 @@ class HierarchicalStudent(nn.Module):
         skips=[]
         for i,stage in enumerate(self.encoder):
             value=stage(value)
+            if feature_sink is not None:feature_sink.append(value)
             if i<3:skips.append(value);value=self.down[i](value)
         if self.latent_context is not None:value=self.latent_context(value)
         pooled=value.mean(dim=(2,3),keepdim=True)
@@ -116,6 +119,7 @@ class HierarchicalStudent(nn.Module):
             if modulation is not None and not fused_conditioning:
                 value=value*(1+scale)+shift
             value=self.decoder[i](value)
+            if feature_sink is not None:feature_sink.append(value)
         head=self.head(value)
         if fused_output_backend is not None:
             if coefficients is not None:
