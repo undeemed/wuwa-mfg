@@ -13,3 +13,13 @@ dist/
 .build/
 *.dmp
 *.nv-gpudmp
+*.safetensors
+*.pt
+*.pth
+*.cubin
+*.ptx
+*.fatbin
+*.onnx
+research/**/local-weights/
+research/**/MLX-DLSS/
+research/**/results/

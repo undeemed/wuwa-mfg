@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "mode": "graph",
+  "weights_sha256": "fa6ebc71bc6f91347d51b3368b0ef6e952b6157b6d9a164e7db82cffb88d3143",
+  "weights_count": 649,
+  "missing": [],
+  "shape_mismatches": [],
+  "weights_fully_logical": "true",
+  "synthetic_is_not_quality_validation": true,
+  "game_changed": false,
+  "torch": "2.7.1+cu128",
+  "gpu": "NVIDIA GeForce RTX 4070 Ti",
+  "compute_capability": [
+    8,
+    9
+  ],
+  "fixture": "deterministic synthetic gradient and sinusoidal detail, 320x320",
+  "native_roundtrip_model": {
+    "baseline": {
+      "median_ms": 1173.9695434570312,
+      "samples_ms": [
+        1176.3974609375,
+        1171.5416259765625
+      ]
+    },
+    "candidate": {
+      "median_ms": 694.5836486816406,
+      "samples_ms": [
+        683.4791870117188,
+        705.6881103515625
+      ]
+    },
+    "head_unequal": 0,
+    "head_max_abs": 0.0
+  },
+  "cuda_graph": {
+    "timing": {
+      "median_ms": 99.89516830444336,
+      "samples_ms": [
+        99.6648941040039,
+        107.68793487548828,
+        103.52633666992188,
+        97.90354919433594,
+        98.6429443359375,
+        97.85343933105469,
+        99.63273620605469,
+        100.47465515136719,
+        99.44780731201172,
+        100.12544250488281,
+        101.06982421875,
+        100.17164611816406
+      ]
+    },
+    "head_unequal": 0,
+    "head_max_abs": 0.0,
+    "peak_allocated_mib": 618.62158203125,
+    "applies_to": "PyTorch reconstruction; fixed shape and fixed inputs in this smoke test"
+  },
+  "network_shape": [
+    1,
+    320,
+    320,
+    16
+  ]
+}

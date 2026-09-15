@@ -1,0 +1,157 @@
+{
+  "schema": 1,
+  "gpu": "NVIDIA GeForce RTX 4070 Ti",
+  "torch": "2.7.1+cu128",
+  "tests": [
+    {
+      "dtype": "torch.float16",
+      "scale": 0.0,
+      "rows": 4099,
+      "unequal": 0,
+      "max_abs_finite": 0.0,
+      "finite_class_mismatches": 0
+    },
+    {
+      "dtype": "torch.float16",
+      "scale": 0.0001,
+      "rows": 4099,
+      "unequal": 0,
+      "max_abs_finite": 0.0,
+      "finite_class_mismatches": 0
+    },
+    {
+      "dtype": "torch.float16",
+      "scale": 0.1,
+      "rows": 4099,
+      "unequal": 0,
+      "max_abs_finite": 0.0,
+      "finite_class_mismatches": 0
+    },
+    {
+      "dtype": "torch.float16",
+      "scale": 1.0,
+      "rows": 4099,
+      "unequal": 0,
+      "max_abs_finite": 0.0,
+      "finite_class_mismatches": 0
+    },
+    {
+      "dtype": "torch.float16",
+      "scale": 16.0,
+      "rows": 4099,
+      "unequal": 0,
+      "max_abs_finite": 0.0,
+      "finite_class_mismatches": 0
+    },
+    {
+      "dtype": "torch.float16",
+      "scale": 100.0,
+      "rows": 4099,
+      "unequal": 0,
+      "max_abs_finite": 0.0,
+      "finite_class_mismatches": 0
+    },
+    {
+      "dtype": "torch.float16",
+      "layout": "noncontiguous [7,19,32]",
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "scale": 0.0,
+      "rows": 4099,
+      "unequal": 0,
+      "max_abs_finite": 0.0,
+      "finite_class_mismatches": 0
+    },
+    {
+      "dtype": "torch.float32",
+      "scale": 0.0001,
+      "rows": 4099,
+      "unequal": 0,
+      "max_abs_finite": 0.0,
+      "finite_class_mismatches": 0
+    },
+    {
+      "dtype": "torch.float32",
+      "scale": 0.1,
+      "rows": 4099,
+      "unequal": 0,
+      "max_abs_finite": 0.0,
+      "finite_class_mismatches": 0
+    },
+    {
+      "dtype": "torch.float32",
+      "scale": 1.0,
+      "rows": 4099,
+      "unequal": 0,
+      "max_abs_finite": 0.0,
+      "finite_class_mismatches": 0
+    },
+    {
+      "dtype": "torch.float32",
+      "scale": 16.0,
+      "rows": 4099,
+      "unequal": 0,
+      "max_abs_finite": 0.0,
+      "finite_class_mismatches": 0
+    },
+    {
+      "dtype": "torch.float32",
+      "scale": 100.0,
+      "rows": 4099,
+      "unequal": 0,
+      "max_abs_finite": 0.0,
+      "finite_class_mismatches": 0
+    },
+    {
+      "dtype": "torch.float32",
+      "layout": "noncontiguous [7,19,32]",
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    }
+  ],
+  "timing_shape": [
+    262144,
+    32
+  ],
+  "timings": {
+    "reference": {
+      "median_ms": 2.66758394241333,
+      "samples_ms": [
+        6.468512058258057,
+        6.535168170928955,
+        2.752511978149414,
+        2.622591972351074,
+        2.39900803565979,
+        2.147968053817749,
+        2.712575912475586,
+        2.1790719032287598,
+        2.544640064239502,
+        3.1904640197753906,
+        4.527711868286133,
+        2.541343927383423
+      ]
+    },
+    "fused": {
+      "median_ms": 0.06425599753856659,
+      "samples_ms": [
+        0.05104000121355057,
+        0.04473600164055824,
+        0.041600000113248825,
+        0.04198399931192398,
+        0.19545599818229675,
+        0.09830400347709656,
+        0.06758400052785873,
+        0.06412799656391144,
+        0.06451199948787689,
+        0.06438399851322174,
+        0.06438399851322174,
+        0.06339199841022491
+      ]
+    }
+  },
+  "matches_tested_inputs": true,
+  "scope": "Isolated kernel in PyTorch reconstruction; not a vendor DLL or game speedup."
+}

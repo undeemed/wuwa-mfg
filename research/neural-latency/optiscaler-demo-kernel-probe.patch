@@ -1,0 +1,398 @@
+--- a/OptiScaler/dlssnr/DlssNr_CompatibilityRuntime.cpp
++++ b/OptiScaler/dlssnr/DlssNr_CompatibilityRuntime.cpp
+@@ -13,6 +13,7 @@
+ #include <set>
+ #include <condition_variable>
+ #include <atomic>
++#include "DlssNr_DemoKernelProbe.h"
+ #pragma comment(lib, "psapi.lib")
+ 
+ namespace DlssNr
+@@ -118,6 +119,7 @@
+     ~Module()
+     {
+         std::lock_guard registryLock(registryMutex);
++        DemoKernelProbe::Uninstall();
+         for (const auto& binding : imports)
+             ReplaceImport(binding.slot.address, binding.slot.wide ? reinterpret_cast<void*>(&CallerPath) : reinterpret_cast<void*>(&CallerPathA),
+                           binding.original);
+@@ -164,6 +166,7 @@
+                     LOG_ERROR("NR compatibility: cannot load {} ({})", path.string(), error);
+                 return {};
+             }
++            DemoKernelProbe::Install(loaded->handle, path);
+             auto symbol = [&](const char* name) { return GetProcAddress(loaded->handle, name); };
+             loaded->init = reinterpret_cast<Module::Init>(symbol("NVSDK_NGX_D3D12_Init_Ext"));
+             loaded->create = reinterpret_cast<decltype(loaded->create)>(symbol("NVSDK_NGX_D3D12_CreateFeature"));
+@@ -264,7 +267,10 @@
+ {
+     std::lock_guard lock(module->mutex);
+     CallerScope caller;
+-    return module->evaluate(commands, feature, params, nullptr);
++    DemoKernelProbe::Begin(commands);
++    const auto result = module->evaluate(commands, feature, params, nullptr);
++    DemoKernelProbe::End();
++    return result;
+ }
+ 
+ NVSDK_NGX_Result CompatibilityRuntime::Release(NVSDK_NGX_Handle* feature)
+--- a/OptiScaler/shaders/dlssnr/DlssNr_Dx12_FinishedQueue.cpp
++++ b/OptiScaler/shaders/dlssnr/DlssNr_Dx12_FinishedQueue.cpp
+@@ -1,6 +1,7 @@
+ #include "pch.h"
+ #include "DlssNr_Dx12_State.h"
+ #include <dlssnr/DlssNr_StreamlinePicture.h>
++#include <dlssnr/DlssNr_DemoKernelProbe.h>
+ 
+ void DlssNr_Dx12::ApplyStreamlineFinished(IDXGISwapChain* swapchain, ID3D12Resource* picture, ID3D12CommandQueue* queue)
+ {
+@@ -12,6 +13,7 @@
+ auto DlssNr_Dx12::State::FinishedPictureResetCommandList(ID3D12CommandList* cmd) -> void
+ {
+     std::lock_guard<std::recursive_mutex> lock(mutex);
++    DlssNr::DemoKernelProbe::ResetRecording(cmd);
+     lifetime.ResetRecording(cmd);
+     if (enlarger) enlarger->lifetime.ResetRecording(cmd);
+     for (auto& old : retiredEnlargers) old->lifetime.ResetRecording(cmd);
+@@ -76,6 +78,7 @@
+ auto DlssNr_Dx12::State::FinishedPictureSubmitted(ID3D12CommandQueue* queue, UINT count, ID3D12CommandList* const* lists) -> void
+ {
+     std::lock_guard<std::recursive_mutex> lock(mutex);
++    DlssNr::DemoKernelProbe::Submitted(queue, count, lists);
+     lifetime.Submitted(queue, count, lists);
+     if (enlarger) enlarger->lifetime.Submitted(queue, count, lists);
+     for (auto& old : retiredEnlargers) old->lifetime.Submitted(queue, count, lists);
+--- /dev/null
++++ b/OptiScaler/dlssnr/DlssNr_DemoKernelProbe.h
+@@ -0,0 +1,331 @@
++#pragma once
++
++// Research observer for the separate NVIDIA demo only. It forwards complete
++// launch chains unchanged and never reads kernel parameters or GPU memory.
++#include <nvapi.h>
++#include <psapi.h>
++#include <mutex>
++#include <fstream>
++#include <iomanip>
++#include <unordered_map>
++#include <Util.h>
++
++namespace DlssNr::DemoKernelProbe
++{
++inline std::recursive_mutex mutex;
++inline bool enabled = false;
++inline std::ofstream output;
++inline void** importSlot = nullptr;
++inline decltype(&GetProcAddress) originalResolve = &GetProcAddress;
++using Query = void* (__cdecl*)(unsigned);
++inline Query originalQuery = nullptr;
++inline decltype(&NvAPI_D3D12_CreateCuModule) originalModule = nullptr;
++inline decltype(&NvAPI_D3D12_CreateCuFunction) originalFunction = nullptr;
++inline decltype(&NvAPI_D3D12_LaunchCuKernelChain) originalLaunch = nullptr;
++inline decltype(&NvAPI_D3D12_LaunchCuKernelChainEx) originalLaunchEx = nullptr;
++inline std::unordered_map<NVDX_ObjectHandle, unsigned> modules;
++struct FunctionInfo { unsigned sm; std::string name; };
++inline std::unordered_map<NVDX_ObjectHandle, FunctionInfo> functions;
++inline unsigned evaluations = 0;
++inline thread_local unsigned frame = 0, chain = 0;
++inline thread_local bool capture = false;
++struct Timings
++{
++    Microsoft::WRL::ComPtr<ID3D12QueryHeap> heap;
++    Microsoft::WRL::ComPtr<ID3D12Resource> readback;
++    Microsoft::WRL::ComPtr<ID3D12Fence> fence;
++    ID3D12CommandList* identity = nullptr; // identity only; not dereferenced
++    ID3D12GraphicsCommandList* recording = nullptr;
++    UINT64 fenceValue = 0, frequency = 0;
++    unsigned frame = 0;
++    bool occupied = false, ended = false, submitted = false, active = false;
++    struct Call { std::string name; unsigned count; int status; };
++    std::vector<Call> calls;
++    std::ofstream output;
++};
++// Demo process lifetime. Never free a query resource while its command list could
++// still execute, including a failed queue Signal or an interrupted trial.
++inline Timings* timing = nullptr;
++inline bool wantsTiming = false;
++inline std::filesystem::path timingPath;
++inline void CollectTimings()
++{
++    if (!timing || !timing->occupied || !timing->submitted) return;
++    const auto complete = timing->fence->GetCompletedValue();
++    if (complete == UINT64_MAX || complete < timing->fenceValue || !timing->frequency) return;
++    UINT64* stamps = nullptr;
++    D3D12_RANGE range{ 0, timing->calls.size() * 16 };
++    if (FAILED(timing->readback->Map(0, &range, reinterpret_cast<void**>(&stamps)))) return;
++    for (size_t i = 0; i < timing->calls.size(); ++i)
++    {
++        const auto& item = timing->calls[i];
++        if (!stamps[i*2] || stamps[i*2+1] < stamps[i*2]) continue;
++        timing->output << timing->frame << ',' << i + 1 << ',' << item.count << ',' << item.status << ','
++            << (double(stamps[i*2+1] - stamps[i*2]) * 1000.0 / double(timing->frequency)) << ','
++            << std::quoted(item.name) << '\n';
++    }
++    D3D12_RANGE written{0, 0}; timing->readback->Unmap(0, &written);
++    timing->output.flush();
++    LOG_INFO("NR demo probe: evaluation {} collected {} GPU chain timings", timing->frame, timing->calls.size());
++    timing->occupied = false;
++}
++inline void BeginTimings(ID3D12GraphicsCommandList* commands)
++{
++    if (!wantsTiming) return;
++    CollectTimings();
++    if (frame < 600 || frame % 120 || (timing && timing->occupied)) return;
++    if (!timing)
++    {
++        timing = new Timings;
++        Microsoft::WRL::ComPtr<ID3D12Device> device;
++        if (FAILED(commands->GetDevice(IID_PPV_ARGS(&device)))) { wantsTiming = false; return; }
++        D3D12_QUERY_HEAP_DESC query{D3D12_QUERY_HEAP_TYPE_TIMESTAMP, 4096, 0};
++        D3D12_HEAP_PROPERTIES heap{}; heap.Type = D3D12_HEAP_TYPE_READBACK;
++        D3D12_RESOURCE_DESC buffer{}; buffer.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
++        buffer.Width = 4096*8; buffer.Height = 1; buffer.DepthOrArraySize = 1;
++        buffer.MipLevels = 1; buffer.SampleDesc.Count = 1; buffer.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
++        if (FAILED(device->CreateQueryHeap(&query, IID_PPV_ARGS(&timing->heap))) ||
++            FAILED(device->CreateCommittedResource(&heap, D3D12_HEAP_FLAG_NONE, &buffer,
++                D3D12_RESOURCE_STATE_COPY_DEST, nullptr, IID_PPV_ARGS(&timing->readback))) ||
++            FAILED(device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&timing->fence))))
++        { wantsTiming = false; return; }
++        timing->output.open(timingPath, std::ios::trunc);
++        if (!timing->output) { wantsTiming = false; return; }
++        timing->output << "frame,chain,kernels,status,gpu_ms,names\n";
++    }
++    timing->identity = commands;
++    ID3D12GraphicsCommandList* real = nullptr;
++    if (Util::CheckForRealObject(__FUNCTION__, commands, (IUnknown**)&real)) timing->identity = real;
++    timing->recording = commands;
++    timing->frame = frame; timing->calls.clear();
++    timing->occupied = timing->active = true;
++    timing->submitted = timing->ended = false;
++    ++timing->fenceValue;
++}
++template<class T> inline unsigned BeforeLaunch(ID3D12GraphicsCommandList* commands, const T* kernels, unsigned count)
++{
++    if (!timing || !timing->active || commands != timing->recording || !kernels || timing->calls.size() >= 2048) return UINT_MAX;
++    std::lock_guard lock(mutex);
++    Timings::Call call{}; call.count = count;
++    for (unsigned i = 0; i < count; ++i)
++    {
++        if (i) call.name += '|';
++        auto it = functions.find(kernels[i].hFunction);
++        call.name += it == functions.end() ? "unresolved" : it->second.name;
++    }
++    auto index = unsigned(timing->calls.size()); timing->calls.push_back(std::move(call));
++    commands->EndQuery(timing->heap.Get(), D3D12_QUERY_TYPE_TIMESTAMP, index * 2);
++    return index;
++}
++inline void AfterLaunch(ID3D12GraphicsCommandList* commands, unsigned index, NvAPI_Status status)
++{
++    if (index == UINT_MAX) return;
++    commands->EndQuery(timing->heap.Get(), D3D12_QUERY_TYPE_TIMESTAMP, index*2+1);
++    timing->calls[index].status = status;
++}
++inline void Submitted(ID3D12CommandQueue* queue, UINT count, ID3D12CommandList* const* lists)
++{
++    if (!enabled || !timing) return;
++    std::lock_guard lock(mutex);
++    if (!timing->occupied || !timing->ended || timing->submitted) return;
++    for (UINT i = 0; i < count; ++i)
++    {
++        ID3D12CommandList* real = nullptr;
++        auto identity = Util::CheckForRealObject(__FUNCTION__, lists[i], (IUnknown**)&real) ? real : lists[i];
++        if (identity != timing->identity) continue;
++        timing->submitted = true;
++        if (FAILED(queue->GetTimestampFrequency(&timing->frequency))) timing->frequency = 0;
++        // Caller runs after the real ExecuteCommandLists. Signal failure keeps
++        // this slot quarantined; it must not be recycled as discarded work.
++        if (FAILED(queue->Signal(timing->fence.Get(), timing->fenceValue))) timing->frequency = 0;
++        break;
++    }
++}
++inline void ResetRecording(ID3D12CommandList* commands)
++{
++    if (!enabled || !timing) return;
++    std::lock_guard lock(mutex);
++    ID3D12CommandList* real = nullptr;
++    auto identity = Util::CheckForRealObject(__FUNCTION__, commands, (IUnknown**)&real) ? real : commands;
++    if (timing->occupied && !timing->submitted && identity == timing->identity)
++        timing->occupied = timing->active = false;
++}
++
++inline NvAPI_Status __cdecl CreateModule(ID3D12Device* device, const void* blob, NvU32 bytes,
++                                        NVDX_ObjectHandle* result)
++{
++    const auto status = originalModule(device, blob, bytes, result);
++    unsigned sm = 0;
++    if (blob && bytes >= 64 && !memcmp(blob, "\x7f" "ELF", 4))
++    { unsigned flags; memcpy(&flags, static_cast<const char*>(blob) + 48, 4); sm = (flags >> 8) & 255; }
++    std::lock_guard lock(mutex);
++    if (status == NVAPI_OK && result) modules[*result] = sm;
++    output << "module,0,0,0," << sm << ',' << bytes << ",0,0,0,0,0,0,0," << status << ",\"\"\n";
++    output.flush();
++    return status;
++}
++
++inline NvAPI_Status __cdecl CreateFunction(ID3D12Device* device, NVDX_ObjectHandle module,
++                                          const char* name, NVDX_ObjectHandle* result)
++{
++    const auto status = originalFunction(device, module, name, result);
++    std::lock_guard lock(mutex);
++    if (status == NVAPI_OK && name && result) functions[*result] = { modules[module], name };
++    return status;
++}
++
++template<class T> inline void Record(const T* kernels, NvU32 count, NvAPI_Status status)
++{
++    if (!capture || !kernels) return;
++    std::lock_guard lock(mutex);
++    ++chain;
++    for (NvU32 i = 0; i < count; ++i)
++    {
++        const auto it = functions.find(kernels[i].hFunction);
++        const auto info = it == functions.end() ? FunctionInfo{0, "unresolved"} : it->second;
++        const auto& k = kernels[i];
++        output << "launch," << frame << ',' << chain << ',' << i << ',' << info.sm << ',' << count << ','
++               << k.gridDim.x << ',' << k.gridDim.y << ',' << k.gridDim.z << ','
++               << k.blockDim.x << ',' << k.blockDim.y << ',' << k.blockDim.z << ','
++               << k.dynSharedMemBytes << ',' << status << ',' << std::quoted(info.name) << '\n';
++    }
++}
++
++inline NvAPI_Status __cdecl Launch(ID3D12GraphicsCommandList* commands,
++                                   const NVAPI_CU_KERNEL_LAUNCH_PARAMS* kernels, NvU32 count)
++{
++    const auto index = BeforeLaunch(commands, kernels, count);
++    const auto status = originalLaunch(commands, kernels, count);
++    AfterLaunch(commands, index, status);
++    Record(kernels, count, status);
++    return status;
++}
++inline NvAPI_Status __cdecl LaunchEx(ID3D12GraphicsCommandList* commands,
++                                     const NVAPI_CU_KERNEL_LAUNCH_PARAMS_EX* kernels, NvU32 count)
++{
++    const auto index = BeforeLaunch(commands, kernels, count);
++    const auto status = originalLaunchEx(commands, kernels, count);
++    AfterLaunch(commands, index, status);
++    Record(kernels, count, status);
++    return status;
++}
++inline void* __cdecl ResolveNvapi(unsigned id)
++{
++    auto result = originalQuery(id);
++    if (!result) return nullptr;
++    switch (id)
++    {
++    case 0xad1a677d: originalModule = reinterpret_cast<decltype(originalModule)>(result); return reinterpret_cast<void*>(&CreateModule);
++    case 0xe2436e22: originalFunction = reinterpret_cast<decltype(originalFunction)>(result); return reinterpret_cast<void*>(&CreateFunction);
++    case 0x24973538: originalLaunch = reinterpret_cast<decltype(originalLaunch)>(result); return reinterpret_cast<void*>(&Launch);
++    case 0x846a9bf0: originalLaunchEx = reinterpret_cast<decltype(originalLaunchEx)>(result); return reinterpret_cast<void*>(&LaunchEx);
++    default: return result;
++    }
++}
++inline FARPROC WINAPI Resolve(HMODULE module, LPCSTR name)
++{
++    const auto result = originalResolve(module, name);
++    if (result && reinterpret_cast<uintptr_t>(name) > 65535 && !strcmp(name, "nvapi_QueryInterface"))
++    { originalQuery = reinterpret_cast<Query>(result); return reinterpret_cast<FARPROC>(&ResolveNvapi); }
++    return result;
++}
++
++inline void Install(HMODULE runtime, const std::filesystem::path& runtimePath)
++{
++    std::lock_guard lock(mutex);
++    wchar_t executable[32768]{};
++    if (!GetModuleFileNameW(nullptr, executable, (DWORD)std::size(executable))) return;
++    if (_wcsicmp(std::filesystem::path(executable).filename().c_str(), L"ngx_dlss_demo.exe")) return;
++    if (!std::filesystem::exists(runtimePath.parent_path() / L"nr-kernel-probe.enable")) return;
++    if (enabled) return;
++    MODULEINFO info{};
++    if (!GetModuleInformation(GetCurrentProcess(), runtime, &info, sizeof(info))) return;
++    auto base = static_cast<unsigned char*>(info.lpBaseOfDll);
++    const size_t size = info.SizeOfImage;
++    auto inside = [&](size_t rva, size_t length) { return rva < size && length <= size - rva; };
++    if (!inside(0, sizeof(IMAGE_DOS_HEADER))) return;
++    auto dos = reinterpret_cast<IMAGE_DOS_HEADER*>(base);
++    if (dos->e_magic != IMAGE_DOS_SIGNATURE || dos->e_lfanew < 0 || !inside(dos->e_lfanew, sizeof(IMAGE_NT_HEADERS64))) return;
++    auto nt = reinterpret_cast<IMAGE_NT_HEADERS64*>(base + dos->e_lfanew);
++    if (nt->Signature != IMAGE_NT_SIGNATURE || nt->OptionalHeader.Magic != IMAGE_NT_OPTIONAL_HDR64_MAGIC) return;
++    auto directory = nt->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT];
++    if (!directory.VirtualAddress || !inside(directory.VirtualAddress, directory.Size)) return;
++    for (size_t pos = directory.VirtualAddress; inside(pos, sizeof(IMAGE_IMPORT_DESCRIPTOR)) &&
++         pos + sizeof(IMAGE_IMPORT_DESCRIPTOR) <= size_t(directory.VirtualAddress) + directory.Size; pos += sizeof(IMAGE_IMPORT_DESCRIPTOR))
++    {
++        auto desc = reinterpret_cast<IMAGE_IMPORT_DESCRIPTOR*>(base + pos);
++        if (!desc->Name) break;
++        if (!desc->OriginalFirstThunk || !desc->FirstThunk) continue;
++        for (size_t i = 0; ; ++i)
++        {
++            const size_t named = desc->OriginalFirstThunk + i * sizeof(IMAGE_THUNK_DATA64);
++            const size_t bound = desc->FirstThunk + i * sizeof(IMAGE_THUNK_DATA64);
++            if (!inside(named, sizeof(IMAGE_THUNK_DATA64)) || !inside(bound, sizeof(void*))) break;
++            auto thunk = reinterpret_cast<IMAGE_THUNK_DATA64*>(base + named);
++            if (!thunk->u1.AddressOfData) break;
++            if (IMAGE_SNAP_BY_ORDINAL64(thunk->u1.Ordinal)) continue;
++            auto rva = size_t(thunk->u1.AddressOfData);
++            constexpr char symbol[] = "GetProcAddress";
++            if (!inside(rva, 2 + sizeof(symbol)) || memcmp(base + rva + 2, symbol, sizeof(symbol))) continue;
++            auto slot = reinterpret_cast<void**>(base + bound);
++            if (!*slot) return;
++            output.open(runtimePath.parent_path() / L"nr-kernel-probe.csv", std::ios::trunc);
++            if (!output) return;
++            originalResolve = reinterpret_cast<decltype(originalResolve)>(*slot);
++            DWORD protection = 0, ignored = 0;
++            if (!VirtualProtect(slot, sizeof(void*), PAGE_READWRITE, &protection)) { output.close(); return; }
++            const auto old = InterlockedCompareExchangePointer(slot, reinterpret_cast<void*>(&Resolve), reinterpret_cast<void*>(originalResolve));
++            VirtualProtect(slot, sizeof(void*), protection, &ignored);
++            if (old != reinterpret_cast<void*>(originalResolve)) { output.close(); return; }
++            importSlot = slot;
++            enabled = true;
++            wantsTiming = std::filesystem::exists(runtimePath.parent_path() / L"nr-kernel-timing.enable");
++            timingPath = runtimePath.parent_path() / L"nr-kernel-timing.csv";
++            output << "kind,frame,chain,kernel,sm,count_or_bytes,grid_x,grid_y,grid_z,block_x,block_y,block_z,shared_bytes,status,name\n";
++            output.flush();
++            LOG_INFO("NR demo probe: pass-through kernel metadata enabled");
++            return;
++        }
++    }
++    LOG_WARN("NR demo probe: GetProcAddress import was not found");
++}
++inline void Uninstall()
++{
++    std::lock_guard lock(mutex);
++    if (!enabled) return;
++    DWORD protection = 0, ignored = 0;
++    if (VirtualProtect(importSlot, sizeof(void*), PAGE_READWRITE, &protection))
++    {
++        InterlockedCompareExchangePointer(importSlot, reinterpret_cast<void*>(originalResolve), reinterpret_cast<void*>(&Resolve));
++        VirtualProtect(importSlot, sizeof(void*), protection, &ignored);
++    }
++    enabled = false; importSlot = nullptr; output.close();
++    modules.clear(); functions.clear();
++}
++inline void Begin(ID3D12GraphicsCommandList* commands)
++{
++    if (!enabled) return;
++    std::lock_guard lock(mutex);
++    frame = ++evaluations; chain = 0;
++    capture = frame == 64 || frame == 128 || frame == 256;
++    BeginTimings(commands);
++}
++inline void End()
++{
++    if (enabled && timing && timing->active)
++    {
++        std::lock_guard lock(mutex);
++        if (!timing->calls.empty())
++        {
++            timing->recording->ResolveQueryData(timing->heap.Get(), D3D12_QUERY_TYPE_TIMESTAMP,
++                0, unsigned(timing->calls.size())*2, timing->readback.Get(), 0);
++            timing->ended = true;
++        }
++        else timing->occupied = false;
++        timing->active = false;
++    }
++    if (capture)
++    { std::lock_guard lock(mutex); output.flush(); LOG_INFO("NR demo probe: evaluation {} captured {} chains", frame, chain); }
++    capture = false;
++}
++}

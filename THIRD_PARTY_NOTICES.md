@@ -49,4 +49,18 @@ The runtime is not bundled in this repository or its source/script release.
 
 ## Research references
 
+The numerical experiments in `research/neural-latency` use
+[MLX-DLSS](https://github.com/iamwavecut/MLX-DLSS) commit
+`0ca2deab092fe6f3e331bf4f616271dbc64521d0`. The CUDA normalization implementation
+adapts the mathematical operation order and rounding specified by its PyTorch
+reference. These model experiment files are provided under Apache-2.0; retain
+the [license](licenses/MLX-DLSS-Apache-2.0.txt) and this attribution. The upstream
+repository and weights are not vendored here. The demo probe patch extends the
+GPL-3.0 OptiScaler integration and follows that license instead.
+
+The CUDA experiment invokes the user's separately installed PyTorch, NVRTC and
+CUDA driver. Their binaries and generated GPU code are not distributed here.
+Research papers are linked in the latency investigation; their reported results
+are not presented as performance claims for this toolkit.
+
 FirstEverTech/RTX4000-MFG-Unlock inspired the native NVIDIA profile experiment and is linked for attribution. Its repository content and binary artifacts are not copied into this project.

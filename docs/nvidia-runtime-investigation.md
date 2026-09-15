@@ -74,3 +74,9 @@ This remains research work; no faster NVIDIA runtime is claimed by this toolkit.
 An [official NVIDIA demo setup](neural-demo-benchmark.md) now provides a separate
 application for testing the same pre-SR path at a 1920×1080 model extent. Feature
 creation and evaluation succeeded; a controlled speedup has not been measured.
+
+The later [live kernel investigation](neural-latency-research.md) now identifies
+158 actual CUDA launches per evaluation in that demo and measures their costs.
+It also includes an editable model and tested custom CUDA normalization kernel.
+These development results do not establish a faster NVIDIA runtime or a 3 ms,
+quality-preserving replacement.

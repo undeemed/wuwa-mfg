@@ -29,6 +29,8 @@ counter or visible menu was never sufficient evidence of the actual FG multiplie
 | NVIDIA runtime internals | Offline fatbin/ELF and native parameter analysis | Ada objects exist; ordinary internal ScalingRatio is overwritten; no proven faster runtime installed |
 | Live scale controls | Existing menu commits resolution on slider release | 25% and F7 remap installed; 960×540 model confirmed, about 3.15–3.76 ms total NR; F7 attachment not yet user-confirmed |
 | Separate benchmark app | NVIDIA DLSS Sample v310.9.1 with the same NR stack; game closed | Full 1920×1080 model, approximately 6.1 ms; mask/preset/style trials gave no meaningful speedup; intermittent device loss investigated offline |
+| Live neural kernel trace | 24 complete hidden-demo evaluations, 158 CUDA kernels each | Fused FP8 kernels invoked; about 6.138 ms summed GPU intervals; individual costs recorded |
+| Editable model and CUDA research | All 649 recovered tensors match shapes; FP8 conversion, graph replay and fused normalization tested | Synthetic 320×320 reconstruction improved to 53.04 ms with matching head output; not a faster NVIDIA DLL or a full-resolution quality result |
 
 ## Where the work lives
 
@@ -43,6 +45,7 @@ counter or visible menu was never sufficient evidence of the actual FG multiplie
 | Crash diagnosis, proof and limits | [Crash investigation](neural-crashes.md) |
 | NVIDIA model-runtime performance investigation | [Runtime findings](nvidia-runtime-investigation.md) |
 | Separate lightweight test application and rejected harness trial | [Demo benchmark](neural-demo-benchmark.md) |
+| Model/kernel experiments, paper review and acceptance criteria | [Latency research](neural-latency-research.md), `research/neural-latency/`, `evidence/neural-model-research/` |
 | Reproduction/tests | `tests/` and regression sources inside the OptiScaler patch |
 | Attribution/licensing | `THIRD_PARTY_NOTICES.md`, `licenses/` |
 

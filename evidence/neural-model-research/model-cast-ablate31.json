@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "mode": "model",
+  "weights_sha256": "fa6ebc71bc6f91347d51b3368b0ef6e952b6157b6d9a164e7db82cffb88d3143",
+  "weights_count": 649,
+  "missing": [],
+  "shape_mismatches": [],
+  "weights_fully_logical": "true",
+  "synthetic_is_not_quality_validation": true,
+  "game_changed": false,
+  "torch": "2.7.1+cu128",
+  "gpu": "NVIDIA GeForce RTX 4070 Ti",
+  "compute_capability": [
+    8,
+    9
+  ],
+  "fixture": "deterministic synthetic gradient and sinusoidal detail, 320x320",
+  "native_roundtrip_model": {
+    "baseline": {
+      "median_ms": 1615.5765380859375,
+      "samples_ms": [
+        1767.6749267578125,
+        1463.4781494140625
+      ]
+    },
+    "candidate": {
+      "median_ms": 992.9352111816406,
+      "samples_ms": [
+        887.9032592773438,
+        1097.9671630859375
+      ]
+    },
+    "head_unequal": 0,
+    "head_max_abs": 0.0
+  },
+  "ablation": {
+    "removed_blocks": [
+      31
+    ],
+    "timing": {
+      "median_ms": 958.9529418945312,
+      "samples_ms": [
+        1016.1612548828125,
+        901.74462890625
+      ]
+    },
+    "head_mae": 0.19446468353271484,
+    "head_max_abs": 3.0419921875,
+    "head_rmse": 0.34520384669303894,
+    "candidate_accepted": false,
+    "reason": "Diagnostic only; no vendor or temporal quality gate."
+  },
+  "network_shape": [
+    1,
+    320,
+    320,
+    16
+  ]
+}

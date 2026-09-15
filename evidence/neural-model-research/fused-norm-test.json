@@ -1,0 +1,145 @@
+{
+  "schema": 1,
+  "gpu": "NVIDIA GeForce RTX 4070 Ti",
+  "torch": "2.7.1+cu128",
+  "tests": [
+    {
+      "dtype": "torch.float16",
+      "scale": 0.0,
+      "rows": 4099,
+      "unequal": 0,
+      "max_abs_finite": 0.0,
+      "finite_class_mismatches": 0
+    },
+    {
+      "dtype": "torch.float16",
+      "scale": 0.0001,
+      "rows": 4099,
+      "unequal": 0,
+      "max_abs_finite": 0.0,
+      "finite_class_mismatches": 0
+    },
+    {
+      "dtype": "torch.float16",
+      "scale": 0.1,
+      "rows": 4099,
+      "unequal": 0,
+      "max_abs_finite": 0.0,
+      "finite_class_mismatches": 0
+    },
+    {
+      "dtype": "torch.float16",
+      "scale": 1.0,
+      "rows": 4099,
+      "unequal": 0,
+      "max_abs_finite": 0.0,
+      "finite_class_mismatches": 0
+    },
+    {
+      "dtype": "torch.float16",
+      "scale": 16.0,
+      "rows": 4099,
+      "unequal": 0,
+      "max_abs_finite": 0.0,
+      "finite_class_mismatches": 0
+    },
+    {
+      "dtype": "torch.float16",
+      "scale": 100.0,
+      "rows": 4099,
+      "unequal": 0,
+      "max_abs_finite": 0.0,
+      "finite_class_mismatches": 0
+    },
+    {
+      "dtype": "torch.float32",
+      "scale": 0.0,
+      "rows": 4099,
+      "unequal": 0,
+      "max_abs_finite": 0.0,
+      "finite_class_mismatches": 0
+    },
+    {
+      "dtype": "torch.float32",
+      "scale": 0.0001,
+      "rows": 4099,
+      "unequal": 0,
+      "max_abs_finite": 0.0,
+      "finite_class_mismatches": 0
+    },
+    {
+      "dtype": "torch.float32",
+      "scale": 0.1,
+      "rows": 4099,
+      "unequal": 0,
+      "max_abs_finite": 0.0,
+      "finite_class_mismatches": 0
+    },
+    {
+      "dtype": "torch.float32",
+      "scale": 1.0,
+      "rows": 4099,
+      "unequal": 0,
+      "max_abs_finite": 0.0,
+      "finite_class_mismatches": 0
+    },
+    {
+      "dtype": "torch.float32",
+      "scale": 16.0,
+      "rows": 4099,
+      "unequal": 0,
+      "max_abs_finite": 0.0,
+      "finite_class_mismatches": 0
+    },
+    {
+      "dtype": "torch.float32",
+      "scale": 100.0,
+      "rows": 4099,
+      "unequal": 0,
+      "max_abs_finite": 0.0,
+      "finite_class_mismatches": 0
+    }
+  ],
+  "timing_shape": [
+    262144,
+    32
+  ],
+  "timings": {
+    "reference": {
+      "median_ms": 2.5675679445266724,
+      "samples_ms": [
+        2.667520046234131,
+        2.4675519466400146,
+        2.615295886993408,
+        2.4720959663391113,
+        2.465791940689087,
+        2.7596800327301025,
+        2.5198400020599365,
+        2.7880959510803223,
+        2.7504959106445312,
+        2.4770560264587402,
+        2.7777600288391113,
+        2.510848045349121
+      ]
+    },
+    "fused": {
+      "median_ms": 0.041440000757575035,
+      "samples_ms": [
+        0.048895999789237976,
+        0.04227200150489807,
+        0.04198399931192398,
+        0.050175998359918594,
+        0.04182400181889534,
+        0.04095999896526337,
+        0.04105599969625473,
+        0.04057599976658821,
+        0.04054399952292442,
+        0.04095999896526337,
+        0.040863998234272,
+        0.043007999658584595
+      ]
+    }
+  },
+  "matches_tested_inputs": true,
+  "scope": "Isolated kernel in PyTorch reconstruction; not a vendor DLL or game speedup."
+}

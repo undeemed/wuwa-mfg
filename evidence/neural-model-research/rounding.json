@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "mode": "rounding",
+  "weights_sha256": "fa6ebc71bc6f91347d51b3368b0ef6e952b6157b6d9a164e7db82cffb88d3143",
+  "weights_count": 649,
+  "missing": [],
+  "shape_mismatches": [],
+  "weights_fully_logical": "true",
+  "synthetic_is_not_quality_validation": true,
+  "game_changed": false,
+  "torch": "2.7.1+cu128",
+  "gpu": "NVIDIA GeForce RTX 4070 Ti",
+  "compute_capability": [
+    8,
+    9
+  ],
+  "exhaustive_finite_fp16": {
+    "count": 63488,
+    "unequal": 0,
+    "max_abs": 0.0,
+    "signed_zero_bit_mismatches": 1
+  },
+  "cuda_fp16_conversion": {
+    "shape": [
+      1,
+      1088,
+      1920,
+      32
+    ],
+    "old": {
+      "median_ms": 14.633216381072998,
+      "samples_ms": [
+        14.78825569152832,
+        39.391231536865234,
+        14.720864295959473,
+        14.467071533203125,
+        14.73423957824707,
+        14.38105583190918,
+        14.981120109558105,
+        14.044768333435059,
+        14.945280075073242,
+        14.504575729370117,
+        14.504960060119629,
+        14.545568466186523
+      ]
+    },
+    "native": {
+      "median_ms": 1.598464012145996,
+      "samples_ms": [
+        1.5738879442214966,
+        4.7287678718566895,
+        1.5943679809570312,
+        1.5438079833984375,
+        2.0735039710998535,
+        1.5626239776611328,
+        2.0722239017486572,
+        1.5858559608459473,
+        1.5329279899597168,
+        1.602560043334961,
+        1.7784639596939087,
+        2.0918400287628174
+      ]
+    },
+    "unequal": 0,
+    "applies_to": "PyTorch reference only"
+  }
+}

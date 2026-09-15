@@ -18,6 +18,7 @@ with NVIDIA driver 616.92**; support for all older RTX cards is a goal, not a cl
 
 [Download toolkit](https://github.com/undeemed/wuwa-mfg/releases/latest) ·
 [Neural rendering](docs/neural-rendering.md) · [Crash findings](docs/neural-crashes.md) ·
+[Neural latency research](docs/neural-latency-research.md) ·
 [All investigation work](docs/investigation-history.md) · [Validation](docs/validation.md)
 
 ## DLSS Multi Frame Generation unlock
