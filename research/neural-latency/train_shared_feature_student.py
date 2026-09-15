@@ -14,11 +14,13 @@ from paired_gradient import combine_pair
 from progressive_student import load_first
 from shared_feature_student import SharedFeatureRefinement
 from student_training_pairs import read,sha,training_pairs,load_pair,rgb_loss
+from cluster_sampling import draw_pair,validate_coverage
 
 
-def fit_pair(decoder,views,rng):
+def fit_pair(decoder,views,rng,probabilities=None,sampled_counts=None):
     parameters=list(decoder.parameters());vectors=[];losses=[];pixels=[]
-    for index in (int(rng.integers(30)),30+int(rng.integers(32))):
+    for index in draw_pair(rng,probabilities):
+        if sampled_counts is not None:sampled_counts[index]+=1
         source,base,features,target=views[index]
         loss,pixel=rgb_loss(decoder(source,base,features),target)
         gradients=torch.autograd.grad(loss,parameters)
@@ -34,6 +36,7 @@ def fit_pair(decoder,views,rng):
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     for name in ('base','photos','images','brightness','baseline','first','output'):parser.add_argument('--'+name,type=Path,required=True)
+    parser.add_argument('--coverage-sampling',type=Path,help='Optional preselected TRAIN-only cluster mixture report.')
     args=parser.parse_args()
     assert not args.output.exists() and not args.output.resolve().is_relative_to(Path(__file__).resolve().parents[2])
     first,record=load_first(args.first)
@@ -43,6 +46,9 @@ def main():
     assert len(pairs)==62 and [row['capture_hashes'] for row in pairs]==record['training_capture_hashes']
     validation={record['validation_capture_hashes']['color']}|{row['capture_hashes']['color'] for row in record['extra_validation']}
     assert len(validation)==16 and not validation&{row['capture_hashes']['color'] for row in pairs}
+    coverage=read(args.coverage_sampling) if args.coverage_sampling else None
+    probabilities=validate_coverage(coverage,record['training_capture_hashes'],sha(args.first/'student-private.pt')) if coverage else None
+    sampled_counts=np.zeros(62,dtype=np.int64)
     torch.manual_seed(28411);rng=np.random.default_rng(28411)
     torch.backends.cudnn.benchmark=False;torch.backends.cudnn.allow_tf32=False;torch.backends.cuda.matmul.allow_tf32=False
     model=SharedFeatureRefinement(first).cuda().float().to(memory_format=torch.channels_last)
@@ -62,7 +68,7 @@ def main():
         optimizer.zero_grad(set_to_none=True)
         lr=.00002+.5*(.002-.00002)*(1+math.cos(math.pi*step/4499))
         for group in optimizer.param_groups:group['lr']=lr
-        loss,pixel=fit_pair(model.refinement,views,rng);optimizer.step()
+        loss,pixel=fit_pair(model.refinement,views,rng,probabilities,sampled_counts);optimizer.step()
         if step%100==0 or step==4499:
             row={'step':step+1,'loss':float(loss),'pixel_mae':float(pixel),'seconds':time.perf_counter()-started}
             history.append(row);print(json.dumps(row),flush=True)
@@ -71,6 +77,7 @@ def main():
     assert step==4499,'Bounded training did not complete; not a finished candidate.'
     assert all(torch.equal(value.cpu(),frozen[key]) for key,value in model.first.state_dict().items())
     assert all(not p.requires_grad and p.grad is None for p in model.first.parameters())
+    assert sampled_counts[:30].sum()==sampled_counts[30:].sum()==4500
     model.eval();metrics=[]
     with torch.no_grad():
         for pair,(source,base,features,target),before in zip(pairs,views,initial):
@@ -88,6 +95,10 @@ def main():
             'optimization':{'updates':4500,'examples':9000,'seed':28411,'initial_lr':.002,'final_lr':.00002,'optimizer':'AdamW','weight_decay':.0001,
                             'domain_weights':[.5,.5],'loss':'L1 + 0.25 * horizontal and vertical gradient L1'},
             'scope':'Frozen base plus correction decoder with seven current-image student features and original input. FP32 features cached only for training; complete first stage runs for every inference.'}
+    if coverage:
+        report['optimization']['sampling']={'coverage_sha256':sha(args.coverage_sampling),'rule':coverage['sampling_rule'],
+            'per_image_counts':sampled_counts.tolist(),'scene_probabilities':probabilities[0].tolist(),'photo_probabilities':probabilities[1].tolist(),
+            'validation_or_target_used_to_select_probabilities':False}
     (args.output/'result.json').write_text(json.dumps(report,indent=2,allow_nan=False)+'\n')
     print(json.dumps({'completed_steps':4500,'training_seconds':elapsed,'mean_training_mae':sum(r['refined_mae'] for r in metrics)/62}),flush=True)
 

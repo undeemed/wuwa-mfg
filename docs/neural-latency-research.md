@@ -9,15 +9,14 @@ Current work focuses on training a smaller model to reproduce the original
 output. Earlier kernel experiments remain documented below. Reduced resolution, skipped
 frames, weaker blending and a different visual style do not satisfy the target.
 
-The latest [model experiment](../research/neural-latency/README.md#shared-feature-correction-decoder)
-kept the best student frozen and trained a correction decoder using its
-intermediate features. The full model took **2.138 ms**, compared with **1.123 ms**
-for the first stage alone in the same paired test. Training RGB error fell about
-**12%**, but validation error increased **3.16%** and 11 of 16 images regressed.
-This candidate is rejected as a replacement. The result identifies a gap between
-fitting the training images and preserving quality on other images. These are
-full-1080p model graph timings, excluding D3D12 integration; they do not establish
-the 3 ms complete-pass target.
+The latest [training experiment](../research/neural-latency/README.md#training-coverage-and-cluster-sampling)
+audited the 62 training images, which come from one 3D scene and 16 photos, and
+tested a fixed mixture of uniform-image and uniform-cluster sampling. The model
+and training budget stayed unchanged. Validation error increased **5.37%** over
+uniform sampling and **8.71%** over the frozen first model, despite better training
+fit. This sampling rule is rejected. Full-1080p model graph time remains
+**2.173 ms**, excluding D3D12 integration. The quality gap and the complete-pass
+3 ms target remain unresolved.
 
 The earlier [native batching investigation](../research/neural-latency/README.md#rejected-native-batching-and-verified-overlap-differences)
 rejected an eight-kernel batcher after GPU errors and no completed image readback.
@@ -1223,7 +1222,7 @@ and hardware; none establishes the target for this runtime.
 | [The Unreasonable Ineffectiveness of the Deeper Layers](https://arxiv.org/abs/2403.17887) | Rank layer-removal sensitivity, then fine-tune to repair changes. | Its LLM question-answering results do not establish pixel fidelity. Our 59-block sweep found no single removal improving both native-view errors; the first fitted feature projection also failed native quality. |
 | [EfficientViT](https://openaccess.thecvf.com/content/ICCV2023/papers/Cai_EfficientViT_Lightweight_Multi-Scale_Attention_for_High-Resolution_Dense_Prediction_ICCV_2023_paper.pdf) | Hardware-friendly multiscale operators for dense, high-resolution prediction. | Replacing attention with linear attention changes the learned function; it is a student architecture to train and validate, not an interchangeable kernel. |
 | [TinyVLA](https://arxiv.org/html/2409.12514v3) | A compact backbone and task-specific decoder can reduce inference cost. | Fast robot action prediction does not require reproducing every image pixel. Borrow compact architecture design and task-specific training, not its quality claims. |
-| [V-JEPA 2](https://arxiv.org/html/2506.09985v1) | Predict compact latent representations and learn useful temporal structure. | Semantic latent accuracy does not establish correct fine texture or UI edges. A latent predictor could assist a student, but requires pixel and temporal losses and refresh on disocclusions. |
+| [V-JEPA 2](https://arxiv.org/html/2506.09985v1) | Predict compact representations; curate and weight training data using feature clusters and target distributions. | Semantic latent accuracy does not establish pixel fidelity. Our small TRAIN-only cluster-sampling test worsens validation; it does not implement the paper's retrieval pipeline or transfer its benchmark gains. |
 | [ToCa](https://arxiv.org/html/2410.05317v1) | Selectively reuse features based on redundancy and error sensitivity. | Its reuse is across diffusion steps. This effect already uses one pass; across-frame reuse adds motion, disocclusion and noise-state problems. It must not simply retain an old rendered image. |
 | [Edge-Efficient Image Restoration](https://arxiv.org/abs/2605.02794) | Train replacement blocks against intermediate features, select combinations, then fine-tune the whole model. | Its transformer/SSM experiments use other restoration tasks and hardware. Here, the initial small CNNs fail the held-out image test; replacement blocks would need to retain learned context and be validated against actual vendor output. |
 | [Simple Baselines for Image Restoration / NAFNet](https://arxiv.org/abs/2204.04676) | Simple multiplicative gates can replace some expensive nonlinear components in a trained restoration architecture. | This suggests a student design; substituting gates into the trained vendor graph would change its function. No NAFNet replacement has been validated here. |

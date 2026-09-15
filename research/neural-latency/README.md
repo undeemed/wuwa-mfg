@@ -3117,3 +3117,87 @@ contains all training/validation metrics, intervals, diagnostic scalars, tests,
 listed source hashes and preservation checks. No application was launched, no
 game/driver setting changed, and no candidate was installed. Private weights,
 captures and feature arrays are not distributed.
+
+## Training coverage and cluster sampling
+
+The 62 training captures represent one 3D scene viewed under several poses and
+lighting conditions, plus 16 photo identities at two brightness settings. They
+are 62 distinct inputs, but only 17 scene/photo sources. To investigate the
+shared-feature decoder's generalization gap, this experiment changes sampling
+while holding its architecture, initialization seed, optimizer, learning-rate
+schedule, loss, training images and update budget fixed. **The sampling change
+is rejected:** training fit improves, but validation error increases.
+
+`analyze_training_coverage.py` summarizes each TRAIN input using the mean and
+standard deviation of the frozen first model's deepest 96 encoder channels.
+These 192-dimensional vectors stay private. Per-domain standardization excludes
+dimensions with standard deviation at most 0.0001. Seeded farthest-first
+initialization and k-means form four clusters independently for scene and photo
+inputs. No teacher target or validation pixel/score selects the clusters or
+probabilities. These are clusters of this student's features, not established
+semantic categories or a proven explanation of its errors.
+
+| Domain | Cluster sizes | Previous cluster sampling mass | Tested mixture mass |
+| --- | --- | --- | --- |
+| Scene | 15, 9, 4, 2 | 50%, 30%, 13.33%, 6.67% | 37.5%, 27.5%, 19.17%, 15.83% |
+| Photos | 23, 2, 3, 4 | 71.88%, 6.25%, 9.38%, 12.5% | 48.44%, 15.63%, 17.19%, 18.75% |
+
+The preselected rule mixes 50% uniform-image sampling with 50% uniform-cluster
+sampling inside each domain. One scene and one photo still contribute equal
+gradient weight to each update. There is no importance correction back to the
+uniform-image objective: changing relative image emphasis is the experiment.
+The optional `--coverage-sampling` argument validates the model hash, TRAIN order,
+cluster memberships and exact probability formula. Without it, the previous
+4,500 RNG pairs are reproduced exactly. The deterministic mixed sampler visits
+every training image and draws exactly 4,500 scene plus 4,500 photo examples.
+Six malformed or contaminated sampling reports are rejected.
+
+| Mean RGB error | Frozen first model | Uniform correction training | Cluster mixture |
+| --- | ---: | ---: | ---: |
+| All 62 training images, FP32 | 0.023332 | 0.020537 | 0.019361 |
+| All 16 validation images, FP16 | 0.021956 | 0.022650 | 0.023867 |
+| Six validation scenes | 0.026068 | 0.027157 | 0.026525 |
+| Six earlier validation photos | 0.018731 | 0.018855 | 0.022001 |
+| Four diverse validation photos | 0.020624 | 0.021582 | 0.022680 |
+
+The mixture improves the scene group relative to uniform correction training,
+but worsens both photo groups. Overall validation error rises 5.37% relative to
+uniform correction training and 8.71% relative to the frozen first model. Five
+images improve and 11 regress relative to that first model. This supports
+rejecting this particular sampling rule; it does not prove that all data curation
+or feature clustering is ineffective. Reweighting these existing examples did
+not resolve the generalization gap.
+
+All 16 first-model outputs reproduce their saved predictions exactly, and both
+models' existing fused outputs match their unfused versions bitwise on those
+inputs. The new model graph takes 2.173 ms median, with a 2.230 ms p95 of
+ten-replay interval means; its first-model control takes 1.143 ms. Thirty timing
+pairs alternate after warmup and include the complete first model, correction
+decoder, feature operations and final grading. D3D12 integration is excluded.
+The architecture and inference operations are unchanged by sampling. No quality,
+per-frame tail latency, temporal stability or complete-pass acceptance is claimed.
+The validation identities remain excluded from fitting; historical validation
+scores have informed the research, so they are not a fresh final acceptance set.
+
+[V-JEPA 2's data-curation sections](https://arxiv.org/html/2506.09985v1) motivated
+examining feature coverage and sampling. That work retrieves video clusters
+against target training distributions. This small equal-mixture experiment does
+not implement its retrieval pipeline, pretrained encoder or latent objective,
+and its video-understanding results do not establish renderer pixel fidelity.
+
+Run these commands sequentially using the existing private captures and models.
+The first model, baseline and manifest arguments have the meanings documented
+above; use fresh private output paths outside this repository.
+
+```text
+analyze_training_coverage.py --base <private-demo-root> --photos <photo-manifest> --images <diverse-manifest> --brightness <brightness-manifest> --baseline <private-46-image-model> --first <private-first-model> --output <fresh-private-coverage.json>
+test_cluster_sampling.py --coverage <private-coverage.json> --first <private-first-model> --output <fresh-private-sampler-tests.json>
+train_shared_feature_student.py --coverage-sampling <private-coverage.json> --base <private-demo-root> --photos <photo-manifest> --images <diverse-manifest> --brightness <brightness-manifest> --baseline <private-46-image-model> --first <private-first-model> --output <fresh-private-candidate>
+evaluate_progressive_student.py --shared-features --base <private-demo-root> --lab <private-research-root> --photos <photo-manifest> --images <diverse-manifest> --first <private-first-model> --candidate <private-candidate> --output <fresh-private-evaluation>
+```
+
+[Numeric evidence](../../evidence/neural-model-research/cluster-sampling.json)
+includes cluster assignments/probabilities, actual draw counts, tests, training
+history, every validation image, timing intervals, source digests and preserved
+installation hashes. Descriptor vectors, weights and pixels remain private.
+No new capture, kernel change, application launch or game installation occurred.

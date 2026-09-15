@@ -295,3 +295,10 @@ Apache-2.0 code. Cross-stage feature exchange is credited to MPRNet section 3.2;
 this frozen-base design does not implement its complete architecture or training
 procedure. No external model implementation, weights, captured features or images
 are included. Existing inference kernels are reused without changes.
+
+The training-coverage audit, validated cluster sampler, tests and optional
+trainer extension are original Apache-2.0 code. Data-curation discussion in
+[V-JEPA 2](https://arxiv.org/html/2506.09985v1) motivated examining feature clusters
+and sampling coverage. The experiment does not copy the paper's code, use its
+weights or implement its retrieval pipeline. Private descriptors, trained weights
+and input/output pixels are not distributed.
