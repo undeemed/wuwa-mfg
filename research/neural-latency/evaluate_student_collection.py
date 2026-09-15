@@ -29,6 +29,7 @@ def main():
     parser.add_argument('--base-trials', type=Path, required=True)
     parser.add_argument('--model', nargs=2, action='append', required=True, metavar=('NAME', 'DIRECTORY'))
     parser.add_argument('--output-directory', type=Path, required=True)
+    parser.add_argument('--photo-collection', type=Path, help='Optional private audited photo extension manifest.')
     args = parser.parse_args()
     repo = Path(__file__).resolve().parents[2]
     if args.output_directory.resolve().is_relative_to(repo):
@@ -78,6 +79,14 @@ def main():
             assert Path(view['label']).name == view['label']
             cases.append((view['label'], args.collection.parent / 'trials' / view['label'] / 'capture', view['capture_hashes'], 'new'))
     assert len(cases) == audit['total_validation_views'] and len(cases) > 2
+    photo_proofs = []
+    if args.photo_collection:
+        from collect_demo_photo_training import audited_photos
+        for row in audited_photos(args.photo_collection, args.base_trials.parent, baseline['controls']):
+            if row['split'] == 'validation':
+                cases.append((row['label'], args.base_trials.parent / (row['label'] + '-state') / 'capture',
+                              row['capture_hashes'], 'photos-emittance-' + str(row['emittance'])))
+                photo_proofs.append(row)
     args.output_directory.mkdir(parents=True, exist_ok=False)
     rows, timings = [], {}
     with torch.inference_mode():
@@ -88,6 +97,9 @@ def main():
             target = torch.from_numpy(images['output']).permute(2, 0, 1).unsqueeze(0).cuda().float()
             row = {'label': label, 'validation_group': group, 'capture_hashes': hashes,
                    'input_mean': float(images['color'].mean()), 'input_std': float(images['color'].std()),
+                   'input_min': float(images['color'].min()), 'input_max': float(images['color'].max()),
+                   'input_fraction_equal_one': float(np.mean(images['color'] == 1)),
+                   'input_fraction_above_one': float(np.mean(images['color'] > 1)),
                    'models': {}}
 
             def metrics(output):
@@ -120,14 +132,15 @@ def main():
             print(json.dumps({'label': label, 'mae': {name: score['mae'] for name, score in row['models'].items()}}), flush=True)
     summary = {group: {name: statistics.mean(row['models'][name]['mae'] for row in rows
                                            if group == 'all' or row['validation_group'] == group)
-                       for name in models} for group in ('previous', 'new', 'all')}
+                       for name in models} for group in ['previous', 'new', 'all'] + sorted({r['validation_group'] for r in rows} - {'previous', 'new'})}
     report = {'schema': 1, 'target_achieved': False, 'quality_gate_passed': False,
               'gpu': torch.cuda.get_device_name(), 'torch': torch.__version__,
               'models': model_info, 'validation': rows, 'mean_validation_mae': summary,
               'complete_graph_timings': timings,
+              'photo_validation_proofs': photo_proofs,
               'timing_scope': 'Full-1080p FP16 network plus output grade; no D3D12/application integration.',
-              'limitations': ['One scene, varied illumination and cameras; no cross-scene or temporal acceptance.',
-                              'Two previous views already informed architecture choices. Four additional views were reserved before this comparison.',
+              'limitations': ['One 3D scene, optionally supplemented by static photograph planes; no representative game or temporal acceptance.',
+                              'Validation identities stay out of fitting, but previous validation scores have informed research choices; not an independent final test set.',
                               'Pixel metrics do not establish preserved perceptual quality. No replacement is accepted.']}
     (args.output_directory / 'result.json').write_text(json.dumps(report, indent=2, allow_nan=False) + '\n')
     print(json.dumps({'mean_validation_mae': summary, 'median_ms': {name: value['median_ms'] for name, value in timings.items()}}, indent=2), flush=True)

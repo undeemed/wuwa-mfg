@@ -111,13 +111,15 @@ def png_bytes(pixels):
             + chunk(b'IDAT', zlib.compress(rows, level=6)) + chunk(b'IEND', b''))
 
 
-def write_scene(output, texture=None, variant=0):
+def write_scene(output, texture=None, variant=0, emittance=1.0):
     output = output.resolve()
     repo = Path(__file__).resolve().parents[2]
     if output.is_relative_to(repo) or (texture and texture.resolve().is_relative_to(repo)):
         raise ValueError('Keep private input images and generated assets outside the repository.')
     if output.exists():
         raise FileExistsError('Use a fresh private scene directory.')
+    if isinstance(emittance, bool) or not math.isfinite(emittance) or not .05 <= emittance <= 1:
+        raise ValueError('Emittance must be a finite scalar within .05..1.')
     if texture:
         texture = texture.resolve(strict=True)
         if texture.suffix.lower() not in ('.png', '.jpg', '.jpeg'):
@@ -130,7 +132,7 @@ def write_scene(output, texture=None, variant=0):
         texture_name = 'image.png'
         texture_data = png_bytes(fixture_pixels(variant))
     material = {'ImageSurface': {'Diffuse': [0, 0, 0], 'Specular': [0, 0, 0],
-        'Emittance': [1, 1, 1], 'Opacity': 1, 'Shininess': 0,
+        'Emittance': [1, 1, 1] if emittance == 1 else [emittance] * 3, 'Opacity': 1, 'Shininess': 0,
         'Textures': {'Emittance': texture_name}}}
     scene = {'models': [{'file': 'plane.chk', 'materials': 'materials.json', 'metal-rough': False}],
              'cameras': [{'name': 'Camera0', 'pos': [0, 0, 0], 'target': [0, 0, 2],
@@ -144,6 +146,7 @@ def write_scene(output, texture=None, variant=0):
     report = {'schema': 1, 'mesh_bytes': (output/'plane.chk').stat().st_size,
               'texture_sha256': sha(texture_data), 'texture_bytes': len(texture_data),
               'fixture_variant': variant if texture is None else None,
+              'emittance': emittance,
               'generated_fixture_resolution': [1920, 1080] if texture is None else None,
               'files_sha256': {p.name: sha(p.read_bytes()) for p in sorted(output.iterdir())},
               'note': 'Texture is rendered through the sample; capture the actual model input. No latency or quality claim.'}
@@ -156,8 +159,9 @@ def main():
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--texture', type=Path, help='Optional local image with appropriate usage rights.')
     parser.add_argument('--fixture-variant', type=int, choices=(0, 1), default=0)
+    parser.add_argument('--emittance', type=float, default=1.0, help='Image-plane emission gain (.05..1); does not change native model controls.')
     args = parser.parse_args()
-    print(json.dumps(write_scene(args.output, args.texture, args.fixture_variant), indent=2))
+    print(json.dumps(write_scene(args.output, args.texture, args.fixture_variant, args.emittance), indent=2))
 
 
 if __name__ == '__main__':

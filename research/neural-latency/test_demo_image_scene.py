@@ -4,11 +4,13 @@ import hashlib
 import io
 import json
 import struct
+from pathlib import Path
+import tempfile
 
 import numpy as np
 from PIL import Image
 
-from make_demo_image_scene import fixture_pixels, plane_mesh, png_bytes
+from make_demo_image_scene import fixture_pixels, plane_mesh, png_bytes, write_scene
 
 
 def main():
@@ -52,8 +54,31 @@ def main():
             assert np.array_equal(np.array(decoded), pixels)
         fixture_hashes.append(hashlib.sha256(encoded).hexdigest())
     assert fixture_hashes[0] != fixture_hashes[1]
+    with tempfile.TemporaryDirectory(prefix='neural-image-scene-') as directory:
+        root = Path(directory).resolve()
+        default = write_scene(root / 'default')
+        explicit = write_scene(root / 'explicit-one', emittance=1.)
+        assert default['files_sha256'] == explicit['files_sha256']
+        assert json.loads((root / 'default/materials.json').read_text())['ImageSurface']['Emittance'] == [1, 1, 1]
+        for gain in (.05, .1, .25):
+            generated = write_scene(root / ('gain-' + str(gain)), emittance=gain)
+            assert all(generated['files_sha256'][name] == default['files_sha256'][name]
+                       for name in ('plane.chk', 'scene.json', 'image.png'))
+            assert json.loads((root / ('gain-' + str(gain)) / 'materials.json').read_text())['ImageSurface']['Emittance'] == [gain] * 3
+        rejected = [False, True, 0, .049, 1.001, float('nan'), float('inf'), float('-inf')]
+        for index, gain in enumerate(rejected):
+            target = root / ('invalid-' + str(index))
+            try:
+                write_scene(target, emittance=gain)
+            except ValueError:
+                pass
+            else:
+                raise AssertionError('Invalid emission accepted.')
+            assert not target.exists()
     print(json.dumps({'mesh_chunks': count, 'validated_stream_slots': len(expected),
         'nondegenerate_triangles': 4, 'png_exact_roundtrips': 2,
+        'default_emission_asset_bytes_unchanged': True, 'changed_emission_material_only': 3,
+        'invalid_emissions_rejected_before_output': len(rejected),
         'mesh_sha256': hashlib.sha256(data).hexdigest(), 'fixture_sha256': fixture_hashes}, indent=2))
 
 

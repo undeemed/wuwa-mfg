@@ -1578,8 +1578,10 @@ the learned effect and is not an accepted replacement.
 
 These findings expose poor transfer beyond the training scene. They do not
 separate architecture limits from inadequate data or training. Static photos
-are not representative game sequences, and sample rendering/exposure clips
-**9.3–27.1% of input channel values** at one. Comparisons use the actual rendered
+are not representative game sequences, and sample rendering/exposure puts
+**9.3–27.1% of input channel values** at or above one. This includes values
+above one, so the original description of that entire fraction as clipped was
+too strong. Comparisons use the actual rendered
 input and its native target, not the original photograph. Temporal quality and
 perceptual acceptance remain untested. The three cases now inform research and
 must not be advertised as a future independent final test set.
@@ -1596,3 +1598,76 @@ collect_demo_image.py --demo-dir <configured-hidden-demo> --output-dir <private-
 prepare_demo_photo_cases.py --output <new-private-photo-directory>
 evaluate_photo_students.py --base <private-trials-root> --photos <private-photo-directory> --plain <width-16-run> --attention <attention-run> --wide <width-32-run> --output <new-private-comparison-directory>
 ```
+
+## Calibrated photo training extension
+
+The default image-plane emission overexposes the test pattern. Its captured RGB
+values are exactly one for **29.01%** of channels and above one for **1.69%**.
+Reducing emission to 0.25 lowers the exactly-one fraction to **10.26%**. At
+emission **0.1**, the same pattern has no values at or above one and a maximum
+of **0.8911**. Only the material emission changes; texture, geometry, camera,
+native model controls and full 1920×1080 model extent remain identical.
+This calibrates renderer input, not model speed or source-image fidelity.
+
+`make_demo_image_scene.py --emittance 0.1` supports this adjustment. Checks
+preserve the default asset bytes, verify that three valid emission changes
+alter only the material, and reject eight invalid inputs before creating files.
+Captured inputs can still have small negative or above-one filtering overshoots.
+Among seven calibrated photos, none has a value exactly one; one channel value
+in the lake image exceeds one. The other six photo captures stay below one.
+
+`collect_demo_photo_training.py` records its selection before fitting, prepares
+four new training photo identities, and recaptures the three earlier validation
+photos at emission 0.1. It retains their original-emission captures as validation
+too. Author credits, original dimensions, transformations and source hashes are
+recorded; [source terms](../../THIRD_PARTY_NOTICES.md#private-photo-validation-sources)
+apply separately from the code license. No images or weights are distributed.
+
+The extension adds four frames to the existing 30 training views. All twelve
+validation frames are excluded from fitting: six Sponza views and three other
+photo identities at two emissions. Source identity, input hashes, model controls,
+capture fences, staged asset hashes and restoration are checked before training
+or evaluation. The renderer stays on its private inactive desktop with the exact
+hidden executable hash required before each launch.
+
+Pass `--photo-collection <private-extension-manifest>` to
+`train_student_collection.py` or `evaluate_student_collection.py` alongside
+their existing illumination arguments. The trainer keeps width 16, 4,500 steps,
+seed, optimizer, learning-rate schedule, whole-frame loss and output grade fixed.
+Mixed-content reporting no longer assumes every capture belongs to one scene.
+The evaluation preserves per-group scores and checks saved outputs against
+fresh inference. Full student graph timing still excludes D3D12 integration.
+
+```text
+collect_demo_photo_training.py --demo-dir <configured-hidden-demo> --base <private-trials-root> --validation-photos <previous-private-photo-directory> --capture-dll <private-fenced-build> --capture-sha256 <verified-hash> --output <new-private-extension-directory>
+```
+
+The bounded 34-frame run completed in **85.8 seconds**. Adding four photo
+identities improves all six photo validation MAEs, but worsens five of six
+Sponza validation MAEs. It does not satisfy the quality requirement.
+
+| Validation group | Previous 30-frame student MAE | Mixed 34-frame student MAE | Change |
+| --- | ---: | ---: | --- |
+| Six Sponza views | **0.023124** | 0.028038 | 21.2% worse |
+| Three photos, emission 0.1 | 0.032443 | **0.026108** | 19.5% lower |
+| Three photos, original emission | 0.050357 | **0.028470** | 43.5% lower |
+| All twelve validation frames | 0.032262 | **0.027663** | 14.3% lower |
+
+The complete graph remains approximately **1.2 ms**: 1.229 ms for the previous
+checkpoint and 1.217 ms for the mixed-data checkpoint, each with 30 samples and
+exact eager/graph agreement. The architecture is identical; the small timing
+difference is not evidence of an optimization. All twelve new saved validation
+outputs and the six previously saved Sponza outputs reproduce exactly.
+
+The mixed student still has higher MAE than the fixed-grade diagnostic on five
+of six photo cases. Neither pixel improvement nor the fixed grade establishes
+preserved neural detail. The tradeoff shows that data affects transfer; it does
+not establish that simply collecting more photos will solve it. Balanced
+training, capacity and supervision remain open questions. This is one small,
+static-content experiment, with no temporal or in-game acceptance.
+
+[Numerical evidence](../../evidence/neural-model-research/photo-training-extension.json)
+includes both calibration captures, seven new photo captures, all 36 new fenced
+frames, original/source hashes, matched training settings, all validation scores,
+timing samples and preserved game/demo files. **No replacement is installed,
+the native model remains about 5.4 ms, and the 3 ms/no-quality-loss goal is unmet.**

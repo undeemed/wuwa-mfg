@@ -143,3 +143,15 @@ prediction or learned weights are distributed with this project.
 The numerical evidence retains these sources, author credits, transformation
 description, original dimensions and file hashes. Photo terms are separate
 from the licenses on this repository's research code.
+
+The subsequent training extension uses four different photo identities. The
+three sources above remain excluded from training, including their lower-emission
+variants. Original and transformed training images and all weights remain private.
+The collector and split audit are original MIT-licensed research utilities.
+
+| Additional training source | Author | Terms |
+| --- | --- | --- |
+| [Cat on snow](https://commons.wikimedia.org/wiki/File:Felis_catus-cat_on_snow.jpg) | Von.grzanka | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/). Private crop/resampling and neural transformations; no adaptations distributed. |
+| [Golden Gate Bridge](https://commons.wikimedia.org/wiki/File:GoldenGateBridge-001.jpg) | Rich Niewiroski Jr. | [CC BY 2.5](https://creativecommons.org/licenses/by/2.5/). Private crop/resampling and neural transformations recorded. |
+| [Moraine Lake](https://commons.wikimedia.org/wiki/File:Moraine_Lake_17092005.jpg) | Gorgo | Released into the public domain by the author. |
+| [Tracy Caldwell Dyson in the ISS Cupola](https://commons.wikimedia.org/wiki/File:Tracy_Caldwell_Dyson_in_Cupola_ISS.jpg) | NASA/Tracy Caldwell Dyson | Public domain in the United States; [NASA media guidelines](https://www.nasa.gov/nasa-brand-center/images-and-media/). No endorsement is implied. |

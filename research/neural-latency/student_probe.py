@@ -109,6 +109,7 @@ def main():
     p.add_argument('--whole-frame',action='store_true',help='Train complete views, batch 1; requires a separate validation view.')
     p.add_argument('--output-grade-contract',type=Path,help='Learn a pre-grading residual, then apply the observed output grade. Requires a separate validation view.')
     p.add_argument('--evaluate-all-training',action='store_true',help='Report every full training view after fitting; requires separate validation views.')
+    p.add_argument('--data-description',help='Describe a mixed-content dataset; scene count is then left unspecified rather than assumed to be one.')
     a=p.parse_args()
     if not 1<=a.steps<=10000 or not 1<=a.max_seconds<=600:
         raise SystemExit('Use a bounded training run.')
@@ -216,12 +217,12 @@ def main():
                         'parameters':sum(p.numel() for p in model.parameters()),'shuffle_factor':4,
                         'dilations':dilations,'noise_channels':3 if noise is not None else 0,
                         'input_receptive_field_pixels':4*(1+2*sum(dilations))},
-        'data_split':{'scene_count':1,'training_view_count':len(training_views),
+        'data_split':{'scene_count':None if a.data_description else 1,'training_view_count':len(training_views),
                       'train_columns':[0,train_end],'holdout_columns':None if validation else [holdout_start,width],
                       'separate_validation_view':validation is not None,
                       'patch':patch,'batch':batch,'no_resize':True,'loss_border':a.loss_border},
         'quality_gate_passed':False,
-        'limitations':['One scene and first-reset frames only; a spatial or camera holdout is not cross-scene generalization.',
+        'limitations':[a.data_description or 'One scene and first-reset frames only; a spatial or camera holdout is not cross-scene generalization.',
                        'No temporal training or quality validation.',
                        'Torch timing excludes D3D12 integration and is not a hidden-demo benchmark.'],
         'training':[]}

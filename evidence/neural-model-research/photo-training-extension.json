@@ -1,0 +1,3559 @@
+{
+  "schema": 1,
+  "experiment": "Calibrated photo-disjoint training extension",
+  "baseline_commit": "affcbcc6313032edcc8160a95c6a77c125d130aa",
+  "target_achieved": false,
+  "quality_gate_passed": false,
+  "native_runtime_accelerated": false,
+  "published_source_sha256": {
+    "research/neural-latency/collect_demo_photo_training.py": "3081960672239500c8f18abe940ec87642cdefdd6ee8117b457a31cf8d7ed924",
+    "research/neural-latency/make_demo_image_scene.py": "ad0538aecd476de5f7a9c039f6d1b6f9df7fd6619b493e67f2967f0179a5060b",
+    "research/neural-latency/test_demo_image_scene.py": "f4bde4835f0a13183f41834424d32f9ca83f65d72f00b451ecb2105941d1c222",
+    "research/neural-latency/student_probe.py": "62b2d7d6e380c8e626c63bef1a560490bf6bf5369e0070ea51e69c9e00c97c6a",
+    "research/neural-latency/train_student_collection.py": "151add30222c23afd9c7e9bd333ff98cdabe8c7f4466edaa901e9780c2e54e78",
+    "research/neural-latency/evaluate_student_collection.py": "ef3891dd98c48b7576948b0284bcc4350d8284576549bf46caa7fb40d8fffb1b",
+    "research/neural-latency/evaluate_photo_students.py": "38214065dfdc69e5034f74955450bc32d685209d41c16ad1867999747776c38f",
+    "research/neural-latency/collect_demo_image.py": "5c206a1a7da6bbc21fb330a49fecb3f793a31769bf09251c588f5bebbf777931",
+    "research/neural-latency/prepare_demo_photo_cases.py": "872c40d7c7d33390eebf4ca9acfd72200893c64764c2163633fe23597e8a1cd8",
+    "research/neural-latency/collect_demo_views.py": "5a819c68a3a68a9b9eda6dd7596658655b8b19ee6143489529f3edb5b1aae892",
+    "research/neural-latency/compare_output_grade.py": "189ba5fc33f7caebf1a4d265c8bb87f111ad00513dc6f57f2788302777bcab4e",
+    "research/neural-latency/output_grade.py": "a4f8c6ee272cec6ae384dca930838ed9a3a9f4e2f2c708d71c5aa7fd824a71ab",
+    "research/neural-latency/attention_student.py": "8602dd984315453a574e094933c833895aa1e5221590570a1775fa08e1906041",
+    "research/neural-latency/fused_norm.py": "8ed6f5a4235e5e8815a9533308397e0edb87b37d92b33a8747835770d8d80ec1",
+    "research/neural-latency/fused_norm.cu": "699d2ea0ccfa4553310944be37e0d1ee281e8e00793a9960a369d8f298b494a9",
+    "research/neural-latency/test_output_grade.py": "eba2c892448835f9a86895aeb4c881e41bc2b70c60472ec3734458f4486944d5",
+    "research/neural-latency/inspect_pre_kernel.py": "37932169a82f24dac23fb2c9d0b0f865ad329e9a770a51f2a929cce9c3528dc3",
+    "research/neural-latency/capture-viewsets/illumination.json": "5d8133d4fbb7a0ec6ace56d2e2a120c696ae49983a7fb7b33ff863aef298a510",
+    "research/neural-latency/capture-viewsets/translated-training.json": "9316a67afc730adb9ee00478612785698d61da8f5ce25fbba2e60fcb9982be02",
+    "tools/run_neural_demo_trial.py": "89843898caca25b0e9e8d5833efd75bb051e0df803a446778d886fb0bddebc34",
+    "tools/isolated_demo_process.py": "0ac8fc90b6cce4fd9da87fdb77675456a67bb293b306326ba6a3e1101f9c9f6e"
+  },
+  "preserved_state": {
+    "game_dxgi": "b3b0857a6d94e4745b42f2bb3beb747c527548ceec0abff11afecf89a1f6a590",
+    "game_ini": "213fd3f55423a12c075a9d96c2f87df3ea86c3971e135aa89eab1ff9b6a34fa6",
+    "game_nr": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927",
+    "demo_dxgi": "b3b0857a6d94e4745b42f2bb3beb747c527548ceec0abff11afecf89a1f6a590",
+    "demo_nr": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927",
+    "demo_hidden_exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+    "demo_scene": "389da6d234662bb88714b4240384ce63739ff06c7e75ff6014fcd2bab574f547",
+    "demo_ini": "8ac6219a0f4090297a87cc753aa3efee6b4c87111dffed5d9d314fb73ebffc62",
+    "normal_native_sources_unchanged": true,
+    "no_active_research_markers": true,
+    "captures_archived": true,
+    "no_staged_image_assets": true
+  },
+  "new_launches": 9,
+  "new_completed_fenced_frames": 36,
+  "all_new_original_inis_match": true,
+  "source_tests": {
+    "mesh_chunks": 10,
+    "validated_stream_slots": 7,
+    "nondegenerate_triangles": 4,
+    "png_exact_roundtrips": 2,
+    "default_emission_asset_bytes_unchanged": true,
+    "changed_emission_material_only": 3,
+    "invalid_emissions_rejected_before_output": 8,
+    "mesh_sha256": "e8e95d75e03895cef19613b3aae96e8ce5081ea83f82980d0b6b95b5e0bbc3bc",
+    "fixture_sha256": [
+      "5ee4c5c37046f6e6a397dc8ab0fa69c79781b37d62e21254486f613e63697691",
+      "936c4d4e430b675ca5bb8a5980e9288747892d495cd030d8d6f975a9f40c64f6"
+    ]
+  },
+  "emittance_calibration": [
+    {
+      "emittance": 1.0,
+      "proof": {
+        "label": "teacher-image-fixture-a2",
+        "capture_hashes": {
+          "color": "e838ca64840b7da6ca389497ed1794cdb8a2383b2056e06248ecda5b0fb2094f",
+          "output": "3237d8a5aa986b695db984db849ee5584176116c1d9bc517ad07d5494fa4f052"
+        },
+        "complete_fenced_frames": [
+          {
+            "index": 0,
+            "reset": 1
+          },
+          {
+            "index": 1,
+            "reset": 0
+          },
+          {
+            "index": 2,
+            "reset": 0
+          },
+          {
+            "index": 3,
+            "reset": 0
+          }
+        ],
+        "runtime_sha256": {
+          "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+          "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+          "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+        },
+        "restored": {
+          "scene": true,
+          "dll": true,
+          "ini": true
+        },
+        "inactive_desktop_observations": 4,
+        "all_demo_windows_hidden_and_off_input_desktop": true,
+        "native_sparse_timing": {
+          "total_ms": {
+            "median": 5.59,
+            "min": 5.59,
+            "max": 5.59
+          },
+          "model_ms": {
+            "median": 5.39,
+            "min": 5.39,
+            "max": 5.39
+          },
+          "surrounding_ms": {
+            "median": 0.2,
+            "min": 0.2,
+            "max": 0.2
+          }
+        },
+        "native_retained_timing_count": 1
+      },
+      "input_statistics": {
+        "mean": 0.6863453388214111,
+        "std": 0.3062824308872223,
+        "minimum": 0.08062744140625,
+        "maximum": 1.150390625,
+        "fraction_equal_one": 0.290083108281893,
+        "fraction_above_one": 0.016920974794238684
+      }
+    },
+    {
+      "emittance": 0.25,
+      "proof": {
+        "label": "teacher-emittance-quarter",
+        "capture_hashes": {
+          "color": "692bac7f8a0a2881921942daa5a6fa6fad3d06d686d8a718056105ca923243e8",
+          "output": "c1dcb79e155c72d37e0240149d3b773952a108793a6aa986a7ea26cff115aeaa"
+        },
+        "complete_fenced_frames": [
+          {
+            "index": 0,
+            "reset": 1
+          },
+          {
+            "index": 1,
+            "reset": 0
+          },
+          {
+            "index": 2,
+            "reset": 0
+          },
+          {
+            "index": 3,
+            "reset": 0
+          }
+        ],
+        "runtime_sha256": {
+          "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+          "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+          "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+        },
+        "restored": {
+          "scene": true,
+          "dll": true,
+          "ini": true
+        },
+        "inactive_desktop_observations": 4,
+        "all_demo_windows_hidden_and_off_input_desktop": true,
+        "native_sparse_timing": {
+          "total_ms": {
+            "median": 5.64,
+            "min": 5.64,
+            "max": 5.64
+          },
+          "model_ms": {
+            "median": 5.44,
+            "min": 5.44,
+            "max": 5.44
+          },
+          "surrounding_ms": {
+            "median": 0.2,
+            "min": 0.2,
+            "max": 0.2
+          }
+        },
+        "native_retained_timing_count": 1
+      },
+      "input_statistics": {
+        "mean": 0.6012399792671204,
+        "std": 0.2944813668727875,
+        "minimum": 0.0833740234375,
+        "maximum": 1.150390625,
+        "fraction_equal_one": 0.10258021476337449,
+        "fraction_above_one": 0.002146829989711934
+      }
+    },
+    {
+      "emittance": 0.1,
+      "proof": {
+        "label": "teacher-emittance-tenth",
+        "capture_hashes": {
+          "color": "2c9ddc4346a5b05a846c6bd6414a1a3d0c21769051f2a367bce2292fd9aacdd0",
+          "output": "b2308d50a68db166c1a7c10408a74865c96a4ea4acc470cb408af362dc1e9e7b"
+        },
+        "complete_fenced_frames": [
+          {
+            "index": 0,
+            "reset": 1
+          },
+          {
+            "index": 1,
+            "reset": 0
+          },
+          {
+            "index": 2,
+            "reset": 0
+          },
+          {
+            "index": 3,
+            "reset": 0
+          }
+        ],
+        "runtime_sha256": {
+          "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+          "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+          "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+        },
+        "restored": {
+          "scene": true,
+          "dll": true,
+          "ini": true
+        },
+        "inactive_desktop_observations": 4,
+        "all_demo_windows_hidden_and_off_input_desktop": true,
+        "native_sparse_timing": {
+          "total_ms": {
+            "median": 5.61,
+            "min": 5.61,
+            "max": 5.61
+          },
+          "model_ms": {
+            "median": 5.41,
+            "min": 5.41,
+            "max": 5.41
+          },
+          "surrounding_ms": {
+            "median": 0.2,
+            "min": 0.2,
+            "max": 0.2
+          }
+        },
+        "native_retained_timing_count": 1
+      },
+      "input_statistics": {
+        "mean": 0.405583918094635,
+        "std": 0.21269340813159943,
+        "minimum": 0.051239013671875,
+        "maximum": 0.89111328125,
+        "fraction_equal_one": 0.0,
+        "fraction_above_one": 0.0
+      }
+    }
+  ],
+  "photo_collection_sha256": "c5707637562d833edd5ab48fa7e78eacda12971c5fed2d96de625b59055b47ec",
+  "photo_collection": {
+    "schema": 1,
+    "complete": true,
+    "selection_sha256": "e534c3775e5f4ee7183e0cc115a240e5a7cfc3098ec5d674e4a49925cfb6a926",
+    "cases": [
+      {
+        "name": "snow-cat",
+        "author": "Von.grzanka",
+        "license": "CC BY-SA 3.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Felis_catus-cat_on_snow.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/b/b6/Felis_catus-cat_on_snow.jpg",
+        "source_size": [
+          3000,
+          2000
+        ],
+        "source_bytes": 2125399,
+        "source_sha256": "74d09a7c6463a844572c58634a798d4fa1b646aeff8be81a42ab68915e54e049",
+        "texture_sha256": "d822e48b02eaf4ebc9511d194be4c2412d49a06e9ae792ce92018cfca0aba3d1",
+        "split": "train",
+        "emittance": 0.1,
+        "label": "teacher-photo-tenth-snow-cat",
+        "capture_hashes": {
+          "color": "3871e72a3c211fdc24e999fde53e28ec10c3d3ab33895049965fa2fdbec63e2c",
+          "output": "d679c6c531daaa6b4c21846f5bf909766dcee619384c74299a075da7c640f70f"
+        }
+      },
+      {
+        "name": "bridge",
+        "author": "Rich Niewiroski Jr.",
+        "license": "CC BY 2.5",
+        "license_url": "https://creativecommons.org/licenses/by/2.5/",
+        "source": "https://commons.wikimedia.org/wiki/File:GoldenGateBridge-001.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/0/0c/GoldenGateBridge-001.jpg",
+        "source_size": [
+          3264,
+          2448
+        ],
+        "source_sha1": "6b3ae6642a74a9ea00baf8db73c3996583a7e50b",
+        "source_bytes": 3108075,
+        "source_sha256": "014f81f7e6430610312e6eb3a3e042ff4e5a6145b5d808b949ceeb3c5025a19a",
+        "texture_sha256": "6d615c1068cedf343159fd34f44c30cf1ec80347da3b3f3702d47445350ad35d",
+        "split": "train",
+        "emittance": 0.1,
+        "label": "teacher-photo-tenth-bridge",
+        "capture_hashes": {
+          "color": "a3c93b102dd81e3fd909a56e9b601b97377c258231dc364ac016cfa67aee0d98",
+          "output": "a792b98415ef9fb61873ba5b928e0f5ec586c1f7d5c967e49463b5b0ead06685"
+        }
+      },
+      {
+        "name": "lake",
+        "author": "Gorgo",
+        "license": "Public domain, released by the author",
+        "license_url": "https://commons.wikimedia.org/wiki/File:Moraine_Lake_17092005.jpg#Licensing",
+        "source": "https://commons.wikimedia.org/wiki/File:Moraine_Lake_17092005.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/c/c5/Moraine_Lake_17092005.jpg",
+        "source_size": [
+          2048,
+          1536
+        ],
+        "source_bytes": 1520767,
+        "source_sha256": "adb3041e3ac2de4cf3e7c3d186ea2c39a1a811b4a5fff4f888a6711579833d5f",
+        "texture_sha256": "74a317d5102cdf9dde19fd96fee01c84208ff77f1f4738304abe11cb2dd2fac5",
+        "split": "train",
+        "emittance": 0.1,
+        "label": "teacher-photo-tenth-lake",
+        "capture_hashes": {
+          "color": "4b206a9282a7e1937d39d72fefe6ba16403ecf9c1cd272b11ac0555abd3a24e5",
+          "output": "f0bc7f9afecc5ca65c8b796e904a60c551e9825a3c638c89f9c361101abd811d"
+        }
+      },
+      {
+        "name": "cupola",
+        "author": "NASA/Tracy Caldwell Dyson",
+        "license": "Public domain in the United States (NASA)",
+        "license_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+        "source": "https://commons.wikimedia.org/wiki/File:Tracy_Caldwell_Dyson_in_Cupola_ISS.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/9/95/Tracy_Caldwell_Dyson_in_Cupola_ISS.jpg",
+        "source_size": [
+          4288,
+          2848
+        ],
+        "source_bytes": 1220111,
+        "source_sha256": "910650824e150e2341c2c55784630667478d64bdc3aca8816604e07a1b009ce1",
+        "texture_sha256": "bc84154d84b34ed0bfdd098cd90cff24578ee1953ad4baf3f0617815ae7163e5",
+        "split": "train",
+        "emittance": 0.1,
+        "label": "teacher-photo-tenth-cupola",
+        "capture_hashes": {
+          "color": "3fb30ea75a3e3aa36933f4900a7ddc4d8e9b5748c5507e83f9a511d7f15bc46c",
+          "output": "27b9eae7c47f7cea01ce4798992a89c3c6afc8188b0fc630cba7ce4181b1cbfe"
+        }
+      },
+      {
+        "name": "portrait",
+        "author": "NASA",
+        "license": "Public domain in the United States (NASA)",
+        "license_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+        "source": "https://commons.wikimedia.org/wiki/File:Brent_W._Jett_-_Official_Astronaut_Portrait.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/e/e9/Brent_W._Jett_-_Official_Astronaut_Portrait.jpg",
+        "source_size": [
+          2400,
+          3000
+        ],
+        "source_sha1": "1aa64e6c1e05e18b419162c75c26405a1f7322b1",
+        "source_bytes": 1007136,
+        "source_sha256": "bf3acb666b51589cace3459dba1076a9e2794ef6f25234cf65139b77a97fdc61",
+        "texture_sha256": "3bc967b1117bd417436cb73287295cb9f56d9a15793e1858a19789645f551c44",
+        "split": "validation",
+        "emittance": 1.0,
+        "label": "teacher-photo-portrait",
+        "capture_hashes": {
+          "color": "d60ec44402a02d7e03fc0be790deefbcc5110dc7002be1d8a2031243ce602862",
+          "output": "cb75f15d16ab5f4ac082a5a7272c13aab748cae4037ac27059333d2348c7d969"
+        }
+      },
+      {
+        "name": "portrait",
+        "author": "NASA",
+        "license": "Public domain in the United States (NASA)",
+        "license_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+        "source": "https://commons.wikimedia.org/wiki/File:Brent_W._Jett_-_Official_Astronaut_Portrait.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/e/e9/Brent_W._Jett_-_Official_Astronaut_Portrait.jpg",
+        "source_size": [
+          2400,
+          3000
+        ],
+        "source_sha1": "1aa64e6c1e05e18b419162c75c26405a1f7322b1",
+        "source_bytes": 1007136,
+        "source_sha256": "bf3acb666b51589cace3459dba1076a9e2794ef6f25234cf65139b77a97fdc61",
+        "texture_sha256": "3bc967b1117bd417436cb73287295cb9f56d9a15793e1858a19789645f551c44",
+        "split": "validation",
+        "emittance": 0.1,
+        "label": "teacher-photo-tenth-portrait",
+        "capture_hashes": {
+          "color": "071ec0aae77b6e15909c3f7b79ed0c619e4359289d37e46094e4f0e941978d19",
+          "output": "fe55fe61e495fa68e16c9d743f926cab52233fc946adf436619591ed1dbbb795"
+        }
+      },
+      {
+        "name": "landscape",
+        "author": "Hannes R\u00f6st",
+        "license": "CC BY-SA 3.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Fronalpstock_big.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/3/3f/Fronalpstock_big.jpg",
+        "source_size": [
+          10109,
+          4542
+        ],
+        "source_bytes": 14679474,
+        "source_sha256": "24eb29eccdf0af691b406d1a3d22c0ef5d761cc454d8a917848c33958f6fc857",
+        "texture_sha256": "b8e12dae50575bd6297d3e5489ff9036b78952f8ad1645f57cd5627596b52175",
+        "split": "validation",
+        "emittance": 1.0,
+        "label": "teacher-photo-landscape",
+        "capture_hashes": {
+          "color": "ce88cebb0be45aefb048a3ae4e87b83c56776ef4ff3f11d454ce0bc7d61734d1",
+          "output": "7890ee1902560f34f54766f349d4306fa910d81b788b4f2eff7a070072c2f4a4"
+        }
+      },
+      {
+        "name": "landscape",
+        "author": "Hannes R\u00f6st",
+        "license": "CC BY-SA 3.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Fronalpstock_big.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/3/3f/Fronalpstock_big.jpg",
+        "source_size": [
+          10109,
+          4542
+        ],
+        "source_bytes": 14679474,
+        "source_sha256": "24eb29eccdf0af691b406d1a3d22c0ef5d761cc454d8a917848c33958f6fc857",
+        "texture_sha256": "b8e12dae50575bd6297d3e5489ff9036b78952f8ad1645f57cd5627596b52175",
+        "split": "validation",
+        "emittance": 0.1,
+        "label": "teacher-photo-tenth-landscape",
+        "capture_hashes": {
+          "color": "8675250f022e482d5a01d8e287b2bafc844baf561090d30d1a9488b0656ca309",
+          "output": "5a61cc6d78a4a4a0d45ea60f04dcbefc6516a10f2456334b9394dcb003992812"
+        }
+      },
+      {
+        "name": "cat",
+        "author": "Babelball",
+        "license": "CC0 1.0",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:3_year_old_calico_cat.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/8/8b/3_year_old_calico_cat.jpg",
+        "source_size": [
+          6000,
+          4000
+        ],
+        "source_sha1": "aedf4227c4a8d247883f2a54ff5291a8c7cfbebf",
+        "source_bytes": 2064270,
+        "source_sha256": "c1af939cd482dfd5decd34ba3a565b42dc26deb3babef4a41c92420c85269df9",
+        "texture_sha256": "5304058369ba9b97165f8bf3e6da9878a5d001df2d70498b9aeb9fd0c4447080",
+        "split": "validation",
+        "emittance": 1.0,
+        "label": "teacher-photo-cat",
+        "capture_hashes": {
+          "color": "f783346fc093b8f8b61a4f77376e8ac9e0170ba1aa3f6f8063ff2aa5075151cb",
+          "output": "397f02d8e46dfe8171b77ff400eb0cd200527bad0e95dc862eaea21f37483093"
+        }
+      },
+      {
+        "name": "cat",
+        "author": "Babelball",
+        "license": "CC0 1.0",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:3_year_old_calico_cat.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/8/8b/3_year_old_calico_cat.jpg",
+        "source_size": [
+          6000,
+          4000
+        ],
+        "source_sha1": "aedf4227c4a8d247883f2a54ff5291a8c7cfbebf",
+        "source_bytes": 2064270,
+        "source_sha256": "c1af939cd482dfd5decd34ba3a565b42dc26deb3babef4a41c92420c85269df9",
+        "texture_sha256": "5304058369ba9b97165f8bf3e6da9878a5d001df2d70498b9aeb9fd0c4447080",
+        "split": "validation",
+        "emittance": 0.1,
+        "label": "teacher-photo-tenth-cat",
+        "capture_hashes": {
+          "color": "25fe2d0b191d1c31efa9ca0bff7ecf75585296631930e318c6fc1e6a3c212015",
+          "output": "e0f64756c7243ffdcaccd52f2df9bc49f7fa514747be48be65ce5661c0c7581c"
+        }
+      }
+    ]
+  },
+  "photo_capture_proofs": [
+    {
+      "name": "snow-cat",
+      "author": "Von.grzanka",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "source": "https://commons.wikimedia.org/wiki/File:Felis_catus-cat_on_snow.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/b/b6/Felis_catus-cat_on_snow.jpg",
+      "source_size": [
+        3000,
+        2000
+      ],
+      "source_bytes": 2125399,
+      "source_sha256": "74d09a7c6463a844572c58634a798d4fa1b646aeff8be81a42ab68915e54e049",
+      "texture_sha256": "d822e48b02eaf4ebc9511d194be4c2412d49a06e9ae792ce92018cfca0aba3d1",
+      "split": "train",
+      "emittance": 0.1,
+      "label": "teacher-photo-tenth-snow-cat",
+      "capture_hashes": {
+        "color": "3871e72a3c211fdc24e999fde53e28ec10c3d3ab33895049965fa2fdbec63e2c",
+        "output": "d679c6c531daaa6b4c21846f5bf909766dcee619384c74299a075da7c640f70f"
+      },
+      "proof": {
+        "label": "teacher-photo-tenth-snow-cat",
+        "capture_hashes": {
+          "color": "3871e72a3c211fdc24e999fde53e28ec10c3d3ab33895049965fa2fdbec63e2c",
+          "output": "d679c6c531daaa6b4c21846f5bf909766dcee619384c74299a075da7c640f70f"
+        },
+        "complete_fenced_frames": [
+          {
+            "index": 0,
+            "reset": 1
+          },
+          {
+            "index": 1,
+            "reset": 0
+          },
+          {
+            "index": 2,
+            "reset": 0
+          },
+          {
+            "index": 3,
+            "reset": 0
+          }
+        ],
+        "runtime_sha256": {
+          "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+          "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+          "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+        },
+        "restored": {
+          "scene": true,
+          "dll": true,
+          "ini": true
+        },
+        "inactive_desktop_observations": 4,
+        "all_demo_windows_hidden_and_off_input_desktop": true,
+        "native_sparse_timing": {
+          "total_ms": {
+            "median": 5.64,
+            "min": 5.64,
+            "max": 5.64
+          },
+          "model_ms": {
+            "median": 5.43,
+            "min": 5.43,
+            "max": 5.43
+          },
+          "surrounding_ms": {
+            "median": 0.2,
+            "min": 0.2,
+            "max": 0.2
+          }
+        },
+        "native_retained_timing_count": 1
+      }
+    },
+    {
+      "name": "bridge",
+      "author": "Rich Niewiroski Jr.",
+      "license": "CC BY 2.5",
+      "license_url": "https://creativecommons.org/licenses/by/2.5/",
+      "source": "https://commons.wikimedia.org/wiki/File:GoldenGateBridge-001.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/0/0c/GoldenGateBridge-001.jpg",
+      "source_size": [
+        3264,
+        2448
+      ],
+      "source_sha1": "6b3ae6642a74a9ea00baf8db73c3996583a7e50b",
+      "source_bytes": 3108075,
+      "source_sha256": "014f81f7e6430610312e6eb3a3e042ff4e5a6145b5d808b949ceeb3c5025a19a",
+      "texture_sha256": "6d615c1068cedf343159fd34f44c30cf1ec80347da3b3f3702d47445350ad35d",
+      "split": "train",
+      "emittance": 0.1,
+      "label": "teacher-photo-tenth-bridge",
+      "capture_hashes": {
+        "color": "a3c93b102dd81e3fd909a56e9b601b97377c258231dc364ac016cfa67aee0d98",
+        "output": "a792b98415ef9fb61873ba5b928e0f5ec586c1f7d5c967e49463b5b0ead06685"
+      },
+      "proof": {
+        "label": "teacher-photo-tenth-bridge",
+        "capture_hashes": {
+          "color": "a3c93b102dd81e3fd909a56e9b601b97377c258231dc364ac016cfa67aee0d98",
+          "output": "a792b98415ef9fb61873ba5b928e0f5ec586c1f7d5c967e49463b5b0ead06685"
+        },
+        "complete_fenced_frames": [
+          {
+            "index": 0,
+            "reset": 1
+          },
+          {
+            "index": 1,
+            "reset": 0
+          },
+          {
+            "index": 2,
+            "reset": 0
+          },
+          {
+            "index": 3,
+            "reset": 0
+          }
+        ],
+        "runtime_sha256": {
+          "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+          "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+          "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+        },
+        "restored": {
+          "scene": true,
+          "dll": true,
+          "ini": true
+        },
+        "inactive_desktop_observations": 4,
+        "all_demo_windows_hidden_and_off_input_desktop": true,
+        "native_sparse_timing": {
+          "total_ms": {
+            "median": 5.63,
+            "min": 5.63,
+            "max": 5.63
+          },
+          "model_ms": {
+            "median": 5.42,
+            "min": 5.42,
+            "max": 5.42
+          },
+          "surrounding_ms": {
+            "median": 0.21,
+            "min": 0.21,
+            "max": 0.21
+          }
+        },
+        "native_retained_timing_count": 1
+      }
+    },
+    {
+      "name": "lake",
+      "author": "Gorgo",
+      "license": "Public domain, released by the author",
+      "license_url": "https://commons.wikimedia.org/wiki/File:Moraine_Lake_17092005.jpg#Licensing",
+      "source": "https://commons.wikimedia.org/wiki/File:Moraine_Lake_17092005.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/c/c5/Moraine_Lake_17092005.jpg",
+      "source_size": [
+        2048,
+        1536
+      ],
+      "source_bytes": 1520767,
+      "source_sha256": "adb3041e3ac2de4cf3e7c3d186ea2c39a1a811b4a5fff4f888a6711579833d5f",
+      "texture_sha256": "74a317d5102cdf9dde19fd96fee01c84208ff77f1f4738304abe11cb2dd2fac5",
+      "split": "train",
+      "emittance": 0.1,
+      "label": "teacher-photo-tenth-lake",
+      "capture_hashes": {
+        "color": "4b206a9282a7e1937d39d72fefe6ba16403ecf9c1cd272b11ac0555abd3a24e5",
+        "output": "f0bc7f9afecc5ca65c8b796e904a60c551e9825a3c638c89f9c361101abd811d"
+      },
+      "proof": {
+        "label": "teacher-photo-tenth-lake",
+        "capture_hashes": {
+          "color": "4b206a9282a7e1937d39d72fefe6ba16403ecf9c1cd272b11ac0555abd3a24e5",
+          "output": "f0bc7f9afecc5ca65c8b796e904a60c551e9825a3c638c89f9c361101abd811d"
+        },
+        "complete_fenced_frames": [
+          {
+            "index": 0,
+            "reset": 1
+          },
+          {
+            "index": 1,
+            "reset": 0
+          },
+          {
+            "index": 2,
+            "reset": 0
+          },
+          {
+            "index": 3,
+            "reset": 0
+          }
+        ],
+        "runtime_sha256": {
+          "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+          "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+          "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+        },
+        "restored": {
+          "scene": true,
+          "dll": true,
+          "ini": true
+        },
+        "inactive_desktop_observations": 4,
+        "all_demo_windows_hidden_and_off_input_desktop": true,
+        "native_sparse_timing": {
+          "total_ms": {
+            "median": 5.62,
+            "min": 5.62,
+            "max": 5.62
+          },
+          "model_ms": {
+            "median": 5.41,
+            "min": 5.41,
+            "max": 5.41
+          },
+          "surrounding_ms": {
+            "median": 0.21,
+            "min": 0.21,
+            "max": 0.21
+          }
+        },
+        "native_retained_timing_count": 1
+      }
+    },
+    {
+      "name": "cupola",
+      "author": "NASA/Tracy Caldwell Dyson",
+      "license": "Public domain in the United States (NASA)",
+      "license_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+      "source": "https://commons.wikimedia.org/wiki/File:Tracy_Caldwell_Dyson_in_Cupola_ISS.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/9/95/Tracy_Caldwell_Dyson_in_Cupola_ISS.jpg",
+      "source_size": [
+        4288,
+        2848
+      ],
+      "source_bytes": 1220111,
+      "source_sha256": "910650824e150e2341c2c55784630667478d64bdc3aca8816604e07a1b009ce1",
+      "texture_sha256": "bc84154d84b34ed0bfdd098cd90cff24578ee1953ad4baf3f0617815ae7163e5",
+      "split": "train",
+      "emittance": 0.1,
+      "label": "teacher-photo-tenth-cupola",
+      "capture_hashes": {
+        "color": "3fb30ea75a3e3aa36933f4900a7ddc4d8e9b5748c5507e83f9a511d7f15bc46c",
+        "output": "27b9eae7c47f7cea01ce4798992a89c3c6afc8188b0fc630cba7ce4181b1cbfe"
+      },
+      "proof": {
+        "label": "teacher-photo-tenth-cupola",
+        "capture_hashes": {
+          "color": "3fb30ea75a3e3aa36933f4900a7ddc4d8e9b5748c5507e83f9a511d7f15bc46c",
+          "output": "27b9eae7c47f7cea01ce4798992a89c3c6afc8188b0fc630cba7ce4181b1cbfe"
+        },
+        "complete_fenced_frames": [
+          {
+            "index": 0,
+            "reset": 1
+          },
+          {
+            "index": 1,
+            "reset": 0
+          },
+          {
+            "index": 2,
+            "reset": 0
+          },
+          {
+            "index": 3,
+            "reset": 0
+          }
+        ],
+        "runtime_sha256": {
+          "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+          "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+          "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+        },
+        "restored": {
+          "scene": true,
+          "dll": true,
+          "ini": true
+        },
+        "inactive_desktop_observations": 4,
+        "all_demo_windows_hidden_and_off_input_desktop": true,
+        "native_sparse_timing": {
+          "total_ms": {
+            "median": 5.64,
+            "min": 5.64,
+            "max": 5.64
+          },
+          "model_ms": {
+            "median": 5.43,
+            "min": 5.43,
+            "max": 5.43
+          },
+          "surrounding_ms": {
+            "median": 0.21,
+            "min": 0.21,
+            "max": 0.21
+          }
+        },
+        "native_retained_timing_count": 1
+      }
+    },
+    {
+      "name": "portrait",
+      "author": "NASA",
+      "license": "Public domain in the United States (NASA)",
+      "license_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+      "source": "https://commons.wikimedia.org/wiki/File:Brent_W._Jett_-_Official_Astronaut_Portrait.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/e/e9/Brent_W._Jett_-_Official_Astronaut_Portrait.jpg",
+      "source_size": [
+        2400,
+        3000
+      ],
+      "source_sha1": "1aa64e6c1e05e18b419162c75c26405a1f7322b1",
+      "source_bytes": 1007136,
+      "source_sha256": "bf3acb666b51589cace3459dba1076a9e2794ef6f25234cf65139b77a97fdc61",
+      "texture_sha256": "3bc967b1117bd417436cb73287295cb9f56d9a15793e1858a19789645f551c44",
+      "split": "validation",
+      "emittance": 1.0,
+      "label": "teacher-photo-portrait",
+      "capture_hashes": {
+        "color": "d60ec44402a02d7e03fc0be790deefbcc5110dc7002be1d8a2031243ce602862",
+        "output": "cb75f15d16ab5f4ac082a5a7272c13aab748cae4037ac27059333d2348c7d969"
+      },
+      "proof": {
+        "label": "teacher-photo-portrait",
+        "capture_hashes": {
+          "color": "d60ec44402a02d7e03fc0be790deefbcc5110dc7002be1d8a2031243ce602862",
+          "output": "cb75f15d16ab5f4ac082a5a7272c13aab748cae4037ac27059333d2348c7d969"
+        },
+        "complete_fenced_frames": [
+          {
+            "index": 0,
+            "reset": 1
+          },
+          {
+            "index": 1,
+            "reset": 0
+          },
+          {
+            "index": 2,
+            "reset": 0
+          },
+          {
+            "index": 3,
+            "reset": 0
+          }
+        ],
+        "runtime_sha256": {
+          "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+          "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+          "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+        },
+        "restored": {
+          "scene": true,
+          "dll": true,
+          "ini": true
+        },
+        "inactive_desktop_observations": 4,
+        "all_demo_windows_hidden_and_off_input_desktop": true,
+        "native_sparse_timing": {
+          "total_ms": {
+            "median": 5.58,
+            "min": 5.58,
+            "max": 5.58
+          },
+          "model_ms": {
+            "median": 5.38,
+            "min": 5.38,
+            "max": 5.38
+          },
+          "surrounding_ms": {
+            "median": 0.21,
+            "min": 0.21,
+            "max": 0.21
+          }
+        },
+        "native_retained_timing_count": 1
+      }
+    },
+    {
+      "name": "portrait",
+      "author": "NASA",
+      "license": "Public domain in the United States (NASA)",
+      "license_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+      "source": "https://commons.wikimedia.org/wiki/File:Brent_W._Jett_-_Official_Astronaut_Portrait.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/e/e9/Brent_W._Jett_-_Official_Astronaut_Portrait.jpg",
+      "source_size": [
+        2400,
+        3000
+      ],
+      "source_sha1": "1aa64e6c1e05e18b419162c75c26405a1f7322b1",
+      "source_bytes": 1007136,
+      "source_sha256": "bf3acb666b51589cace3459dba1076a9e2794ef6f25234cf65139b77a97fdc61",
+      "texture_sha256": "3bc967b1117bd417436cb73287295cb9f56d9a15793e1858a19789645f551c44",
+      "split": "validation",
+      "emittance": 0.1,
+      "label": "teacher-photo-tenth-portrait",
+      "capture_hashes": {
+        "color": "071ec0aae77b6e15909c3f7b79ed0c619e4359289d37e46094e4f0e941978d19",
+        "output": "fe55fe61e495fa68e16c9d743f926cab52233fc946adf436619591ed1dbbb795"
+      },
+      "proof": {
+        "label": "teacher-photo-tenth-portrait",
+        "capture_hashes": {
+          "color": "071ec0aae77b6e15909c3f7b79ed0c619e4359289d37e46094e4f0e941978d19",
+          "output": "fe55fe61e495fa68e16c9d743f926cab52233fc946adf436619591ed1dbbb795"
+        },
+        "complete_fenced_frames": [
+          {
+            "index": 0,
+            "reset": 1
+          },
+          {
+            "index": 1,
+            "reset": 0
+          },
+          {
+            "index": 2,
+            "reset": 0
+          },
+          {
+            "index": 3,
+            "reset": 0
+          }
+        ],
+        "runtime_sha256": {
+          "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+          "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+          "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+        },
+        "restored": {
+          "scene": true,
+          "dll": true,
+          "ini": true
+        },
+        "inactive_desktop_observations": 4,
+        "all_demo_windows_hidden_and_off_input_desktop": true,
+        "native_sparse_timing": {
+          "total_ms": {
+            "median": 5.63,
+            "min": 5.63,
+            "max": 5.63
+          },
+          "model_ms": {
+            "median": 5.42,
+            "min": 5.42,
+            "max": 5.42
+          },
+          "surrounding_ms": {
+            "median": 0.21,
+            "min": 0.21,
+            "max": 0.21
+          }
+        },
+        "native_retained_timing_count": 1
+      }
+    },
+    {
+      "name": "landscape",
+      "author": "Hannes R\u00f6st",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "source": "https://commons.wikimedia.org/wiki/File:Fronalpstock_big.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/3/3f/Fronalpstock_big.jpg",
+      "source_size": [
+        10109,
+        4542
+      ],
+      "source_bytes": 14679474,
+      "source_sha256": "24eb29eccdf0af691b406d1a3d22c0ef5d761cc454d8a917848c33958f6fc857",
+      "texture_sha256": "b8e12dae50575bd6297d3e5489ff9036b78952f8ad1645f57cd5627596b52175",
+      "split": "validation",
+      "emittance": 1.0,
+      "label": "teacher-photo-landscape",
+      "capture_hashes": {
+        "color": "ce88cebb0be45aefb048a3ae4e87b83c56776ef4ff3f11d454ce0bc7d61734d1",
+        "output": "7890ee1902560f34f54766f349d4306fa910d81b788b4f2eff7a070072c2f4a4"
+      },
+      "proof": {
+        "label": "teacher-photo-landscape",
+        "capture_hashes": {
+          "color": "ce88cebb0be45aefb048a3ae4e87b83c56776ef4ff3f11d454ce0bc7d61734d1",
+          "output": "7890ee1902560f34f54766f349d4306fa910d81b788b4f2eff7a070072c2f4a4"
+        },
+        "complete_fenced_frames": [
+          {
+            "index": 0,
+            "reset": 1
+          },
+          {
+            "index": 1,
+            "reset": 0
+          },
+          {
+            "index": 2,
+            "reset": 0
+          },
+          {
+            "index": 3,
+            "reset": 0
+          }
+        ],
+        "runtime_sha256": {
+          "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+          "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+          "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+        },
+        "restored": {
+          "scene": true,
+          "dll": true,
+          "ini": true
+        },
+        "inactive_desktop_observations": 4,
+        "all_demo_windows_hidden_and_off_input_desktop": true,
+        "native_sparse_timing": {
+          "total_ms": {
+            "median": 5.58,
+            "min": 5.58,
+            "max": 5.58
+          },
+          "model_ms": {
+            "median": 5.37,
+            "min": 5.37,
+            "max": 5.37
+          },
+          "surrounding_ms": {
+            "median": 0.2,
+            "min": 0.2,
+            "max": 0.2
+          }
+        },
+        "native_retained_timing_count": 1
+      }
+    },
+    {
+      "name": "landscape",
+      "author": "Hannes R\u00f6st",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "source": "https://commons.wikimedia.org/wiki/File:Fronalpstock_big.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/3/3f/Fronalpstock_big.jpg",
+      "source_size": [
+        10109,
+        4542
+      ],
+      "source_bytes": 14679474,
+      "source_sha256": "24eb29eccdf0af691b406d1a3d22c0ef5d761cc454d8a917848c33958f6fc857",
+      "texture_sha256": "b8e12dae50575bd6297d3e5489ff9036b78952f8ad1645f57cd5627596b52175",
+      "split": "validation",
+      "emittance": 0.1,
+      "label": "teacher-photo-tenth-landscape",
+      "capture_hashes": {
+        "color": "8675250f022e482d5a01d8e287b2bafc844baf561090d30d1a9488b0656ca309",
+        "output": "5a61cc6d78a4a4a0d45ea60f04dcbefc6516a10f2456334b9394dcb003992812"
+      },
+      "proof": {
+        "label": "teacher-photo-tenth-landscape",
+        "capture_hashes": {
+          "color": "8675250f022e482d5a01d8e287b2bafc844baf561090d30d1a9488b0656ca309",
+          "output": "5a61cc6d78a4a4a0d45ea60f04dcbefc6516a10f2456334b9394dcb003992812"
+        },
+        "complete_fenced_frames": [
+          {
+            "index": 0,
+            "reset": 1
+          },
+          {
+            "index": 1,
+            "reset": 0
+          },
+          {
+            "index": 2,
+            "reset": 0
+          },
+          {
+            "index": 3,
+            "reset": 0
+          }
+        ],
+        "runtime_sha256": {
+          "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+          "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+          "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+        },
+        "restored": {
+          "scene": true,
+          "dll": true,
+          "ini": true
+        },
+        "inactive_desktop_observations": 4,
+        "all_demo_windows_hidden_and_off_input_desktop": true,
+        "native_sparse_timing": {
+          "total_ms": {
+            "median": 5.63,
+            "min": 5.63,
+            "max": 5.63
+          },
+          "model_ms": {
+            "median": 5.42,
+            "min": 5.42,
+            "max": 5.42
+          },
+          "surrounding_ms": {
+            "median": 0.21,
+            "min": 0.21,
+            "max": 0.21
+          }
+        },
+        "native_retained_timing_count": 1
+      }
+    },
+    {
+      "name": "cat",
+      "author": "Babelball",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": "https://commons.wikimedia.org/wiki/File:3_year_old_calico_cat.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/8/8b/3_year_old_calico_cat.jpg",
+      "source_size": [
+        6000,
+        4000
+      ],
+      "source_sha1": "aedf4227c4a8d247883f2a54ff5291a8c7cfbebf",
+      "source_bytes": 2064270,
+      "source_sha256": "c1af939cd482dfd5decd34ba3a565b42dc26deb3babef4a41c92420c85269df9",
+      "texture_sha256": "5304058369ba9b97165f8bf3e6da9878a5d001df2d70498b9aeb9fd0c4447080",
+      "split": "validation",
+      "emittance": 1.0,
+      "label": "teacher-photo-cat",
+      "capture_hashes": {
+        "color": "f783346fc093b8f8b61a4f77376e8ac9e0170ba1aa3f6f8063ff2aa5075151cb",
+        "output": "397f02d8e46dfe8171b77ff400eb0cd200527bad0e95dc862eaea21f37483093"
+      },
+      "proof": {
+        "label": "teacher-photo-cat",
+        "capture_hashes": {
+          "color": "f783346fc093b8f8b61a4f77376e8ac9e0170ba1aa3f6f8063ff2aa5075151cb",
+          "output": "397f02d8e46dfe8171b77ff400eb0cd200527bad0e95dc862eaea21f37483093"
+        },
+        "complete_fenced_frames": [
+          {
+            "index": 0,
+            "reset": 1
+          },
+          {
+            "index": 1,
+            "reset": 0
+          },
+          {
+            "index": 2,
+            "reset": 0
+          },
+          {
+            "index": 3,
+            "reset": 0
+          }
+        ],
+        "runtime_sha256": {
+          "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+          "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+          "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+        },
+        "restored": {
+          "scene": true,
+          "dll": true,
+          "ini": true
+        },
+        "inactive_desktop_observations": 4,
+        "all_demo_windows_hidden_and_off_input_desktop": true,
+        "native_sparse_timing": {
+          "total_ms": {
+            "median": 5.62,
+            "min": 5.62,
+            "max": 5.62
+          },
+          "model_ms": {
+            "median": 5.41,
+            "min": 5.41,
+            "max": 5.41
+          },
+          "surrounding_ms": {
+            "median": 0.2,
+            "min": 0.2,
+            "max": 0.2
+          }
+        },
+        "native_retained_timing_count": 1
+      }
+    },
+    {
+      "name": "cat",
+      "author": "Babelball",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": "https://commons.wikimedia.org/wiki/File:3_year_old_calico_cat.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/8/8b/3_year_old_calico_cat.jpg",
+      "source_size": [
+        6000,
+        4000
+      ],
+      "source_sha1": "aedf4227c4a8d247883f2a54ff5291a8c7cfbebf",
+      "source_bytes": 2064270,
+      "source_sha256": "c1af939cd482dfd5decd34ba3a565b42dc26deb3babef4a41c92420c85269df9",
+      "texture_sha256": "5304058369ba9b97165f8bf3e6da9878a5d001df2d70498b9aeb9fd0c4447080",
+      "split": "validation",
+      "emittance": 0.1,
+      "label": "teacher-photo-tenth-cat",
+      "capture_hashes": {
+        "color": "25fe2d0b191d1c31efa9ca0bff7ecf75585296631930e318c6fc1e6a3c212015",
+        "output": "e0f64756c7243ffdcaccd52f2df9bc49f7fa514747be48be65ce5661c0c7581c"
+      },
+      "proof": {
+        "label": "teacher-photo-tenth-cat",
+        "capture_hashes": {
+          "color": "25fe2d0b191d1c31efa9ca0bff7ecf75585296631930e318c6fc1e6a3c212015",
+          "output": "e0f64756c7243ffdcaccd52f2df9bc49f7fa514747be48be65ce5661c0c7581c"
+        },
+        "complete_fenced_frames": [
+          {
+            "index": 0,
+            "reset": 1
+          },
+          {
+            "index": 1,
+            "reset": 0
+          },
+          {
+            "index": 2,
+            "reset": 0
+          },
+          {
+            "index": 3,
+            "reset": 0
+          }
+        ],
+        "runtime_sha256": {
+          "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+          "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+          "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+        },
+        "restored": {
+          "scene": true,
+          "dll": true,
+          "ini": true
+        },
+        "inactive_desktop_observations": 4,
+        "all_demo_windows_hidden_and_off_input_desktop": true,
+        "native_sparse_timing": {
+          "total_ms": {
+            "median": 5.63,
+            "min": 5.63,
+            "max": 5.63
+          },
+          "model_ms": {
+            "median": 5.43,
+            "min": 5.43,
+            "max": 5.43
+          },
+          "surrounding_ms": {
+            "median": 0.2,
+            "min": 0.2,
+            "max": 0.2
+          }
+        },
+        "native_retained_timing_count": 1
+      }
+    }
+  ],
+  "calibrated_photo_input_statistics": [
+    {
+      "label": "teacher-photo-tenth-snow-cat",
+      "split": "train",
+      "min": -0.0150299072265625,
+      "max": 0.96044921875,
+      "mean": 0.5789410471916199,
+      "std": 0.26637032628059387,
+      "fraction_equal_one": 0.0,
+      "fraction_above_one": 0.0
+    },
+    {
+      "label": "teacher-photo-tenth-bridge",
+      "split": "train",
+      "min": -0.0258636474609375,
+      "max": 0.97314453125,
+      "mean": 0.5011329650878906,
+      "std": 0.260530948638916,
+      "fraction_equal_one": 0.0,
+      "fraction_above_one": 0.0
+    },
+    {
+      "label": "teacher-photo-tenth-lake",
+      "split": "train",
+      "min": -0.0208587646484375,
+      "max": 1.037109375,
+      "mean": 0.34394821524620056,
+      "std": 0.25371068716049194,
+      "fraction_equal_one": 0.0,
+      "fraction_above_one": 1.6075102880658437e-07
+    },
+    {
+      "label": "teacher-photo-tenth-cupola",
+      "split": "train",
+      "min": -0.03875732421875,
+      "max": 0.95361328125,
+      "mean": 0.18333016335964203,
+      "std": 0.2374735176563263,
+      "fraction_equal_one": 0.0,
+      "fraction_above_one": 0.0
+    },
+    {
+      "label": "teacher-photo-tenth-portrait",
+      "split": "validation",
+      "min": -0.035980224609375,
+      "max": 0.91162109375,
+      "mean": 0.3171573281288147,
+      "std": 0.21737425029277802,
+      "fraction_equal_one": 0.0,
+      "fraction_above_one": 0.0
+    },
+    {
+      "label": "teacher-photo-tenth-landscape",
+      "split": "validation",
+      "min": -0.026763916015625,
+      "max": 0.90869140625,
+      "mean": 0.3960431218147278,
+      "std": 0.17617098987102509,
+      "fraction_equal_one": 0.0,
+      "fraction_above_one": 0.0
+    },
+    {
+      "label": "teacher-photo-tenth-cat",
+      "split": "validation",
+      "min": -0.005977630615234375,
+      "max": 0.8740234375,
+      "mean": 0.2403092384338379,
+      "std": 0.2369941920042038,
+      "fraction_equal_one": 0.0,
+      "fraction_above_one": 0.0
+    }
+  ],
+  "new_training": {
+    "schema": 1,
+    "gpu": "NVIDIA GeForce RTX 4070 Ti",
+    "torch": "2.7.1+cu128",
+    "capture_hashes": {
+      "color": "2e44a6a5e2730c21f7f2b4610b0a3c0af6fc94e2f51601f2ab2fa3fa679cf7f6",
+      "output": "13668520132202f28b6b584aff445e6982d17ece0430c9c134b7c2ef85b68d2b"
+    },
+    "training_capture_hashes": [
+      {
+        "color": "2e44a6a5e2730c21f7f2b4610b0a3c0af6fc94e2f51601f2ab2fa3fa679cf7f6",
+        "output": "13668520132202f28b6b584aff445e6982d17ece0430c9c134b7c2ef85b68d2b"
+      },
+      {
+        "color": "5a3292ed2faf5fb6e1290d0a9c0e7f672995bc05480e0466dea0f10271074ca4",
+        "output": "42d040613e5bd3b3dac82ed254908976971d1fdcd374084ba09cb63a3f3f0004"
+      },
+      {
+        "color": "d2ae1d4ac3eecdd016d78c45f209a1b05226e292fe71d9c0ffeaf9c13d44fd1a",
+        "output": "865392ee835b618b3f03556c1ddba2890b4e4dda31ecf6f213a0cdc13c4ed944"
+      },
+      {
+        "color": "3d23dc0613c3f28ca10e0cde8cc23f3dd8b29e2c5a8844ac413b1ab295142784",
+        "output": "71d3160242fc2f1dfc4981d5aae6a18eeddccfe41731468723f7e67e2710eca5"
+      },
+      {
+        "color": "1d047a54cd2d48c97c6584de1e99230d302c0c87e35c3a96ef410489e4aaf6f3",
+        "output": "4ea2e4fbf267b748c22511f776afeac1db5fdb4585232dd7484918ac0cb0d265"
+      },
+      {
+        "color": "2395ba423bb8ccaedab929a00969edd41df43ba532682d4190ac48e13da95f7c",
+        "output": "e263ce78605640d67dce9997b8badfbceeb86406055c48f910b1b449e4f2bd7a"
+      },
+      {
+        "color": "5de11f09a67c5e03acd2269c85b64a546218cff7772d91c31cf1b08ec6b2ccbc",
+        "output": "2a44509b6a7b93b8501381187036c9b54da17d73e40093e6407497d1128d3164"
+      },
+      {
+        "color": "9b4379a5baacc89bf9a23952bd4984d9a78d006cf1aa004dc039f7731cf39352",
+        "output": "a8d17ac54406ea33b589fd96f9f81d6b5366c21e5782d161b7024c922b052b7f"
+      },
+      {
+        "color": "83c5e825ee18a238bd87af5411b4315590f164415832788faaecd7e29ba46598",
+        "output": "61d708cc63c85825a2577a99d0782481ace12cfe8ff423dcb37275b9ddafcabf"
+      },
+      {
+        "color": "50585653ae9d032acca0296d5b35cf7dc4019172dbca37888b2ee3bfec79ef04",
+        "output": "631a5e9f2f8809deced19f120569fcf22621080548d6eb8a5d48e22d1949f60e"
+      },
+      {
+        "color": "b095223d223d70b27532f26c0e22858de9da9898e8411a5b75b101a980b2face",
+        "output": "9a867cfa000ea5b622f84a3cfa37630c16e89607ced6ea8bc7fa0f895edffbb9"
+      },
+      {
+        "color": "3d73b62af1fb7e4c3ea46f2f80038c79c8bd3b0fcd215a8ac49e358f9da9e808",
+        "output": "efcbc12dd20bbd0e7c01f09c48f5662fedaa9624e7f4d9b659ecd7fb3e857f57"
+      },
+      {
+        "color": "6b792009748a3dad1b76aaea904a76e0b5d325e59efb86fc4b1efaab1b37480d",
+        "output": "a59b5a4fa64884f6023281284a7de0647bf5fa66ec99e7617da22a38dc0b6d5c"
+      },
+      {
+        "color": "fdae01c0f5c0fa8ab4f6aaa30df022e2d835e39ff7ddd718cfb9afac91640421",
+        "output": "1304717d8cb7ae013e46cfbecf9c000fd580667f89ba91aae974a25350f71625"
+      },
+      {
+        "color": "15f32702df477c9a31a76a84d5f2990374cf311535757ac854928e26e449d968",
+        "output": "21a4d6d6206019e65ac6b44ebaec2738d1646cc85447ce7a23e95746e7f3e3c9"
+      },
+      {
+        "color": "3cc3c866987e43c2b1a9a8850f3103e1efb0449b55fd9a40cd3fea956b1b6fe1",
+        "output": "e1998768dd68043e92830ebe383e2aaceab2e71b70d7db64c511200ec2dfb1c3"
+      },
+      {
+        "color": "9a5b464bcad2066a8e1cd8ef52db3c68ccc90253a315c2ba981921a55864f55f",
+        "output": "5f678e7ecbd4b491ccc438bb28450ad75c4d4b5cd9d6bab6dd9331e5ce83381a"
+      },
+      {
+        "color": "70747879e3292e5bbe3c5d2fe00cdbd5454e60bc18bb38f59181651c097d9cd9",
+        "output": "4d3d4137951dfabc2c726200a15ecbe2e5e247c8c45c1689e8e2527b01c77ecb"
+      },
+      {
+        "color": "596f9a25a382295f5abc9902944850b6af25962323828c097118da76479c1556",
+        "output": "1283ae05882472638a42b2766f2d234f85f57dc8878d4678c37cc3edb91ec8bd"
+      },
+      {
+        "color": "88a5ddbdc3d2e8548e30e1e152f92dc89527d516c8313b496e3395df09456f06",
+        "output": "8ebc238d7db0accde71d2d8759a820cca291ed79bdb7d64723a552461168f6a3"
+      },
+      {
+        "color": "360a739198086b110a442c7ee3e708b81da4441660b82bfc9695ffa3bf4715f5",
+        "output": "5b32b0c97fdf3094112c61f5145fabdea5b954a3d03e6cb032a3a1af01c0259d"
+      },
+      {
+        "color": "fd38ae04f24fde89463011afede652240c6fe3597c62b2dc805fe62f33db2d08",
+        "output": "3a20ea061e9dc84479440965a9e0014a6052b4a5fa17d456f87459ce6dac583c"
+      },
+      {
+        "color": "bcff97e701de0cb6c0da423167f6c0096d64c455969ba6d528cffd3eb6b486b4",
+        "output": "859979ebf978edca683adb46fe3681d5d59e3e1345e90f9dba4d7608379c5119"
+      },
+      {
+        "color": "df6272610fa50b9dfa8491e471aef120fc6165dcb946b49992c815b89a97e6dc",
+        "output": "f8f203a5b70f583aaaaae5d781e46702d97ceb54344fc9a3b544520933f1a320"
+      },
+      {
+        "color": "44f4e9a90dbef9581a873c1321407277e58f100cd16d1c76fb716a5e3deafdad",
+        "output": "30d6238f20cdd6bfcc2eab7e4c4a51ebe16533020f6b5719cb6461cf753e3903"
+      },
+      {
+        "color": "ec9b20370d5e9b6a89fa8fc9b138d5b6b8af492508e41e69ca197c159a31c876",
+        "output": "09f81e847a97333cbb7c5f6e74cb12cc938671af4cf494b2a5336e3c2c458b59"
+      },
+      {
+        "color": "84b010b308a5e65b226af1acee6ac44d554b1624b71edebb97e413e72e8f3dc9",
+        "output": "cba912532a04728e4f02de44ab4d8727f6b7bff6532ad28a1948c975c516c7cb"
+      },
+      {
+        "color": "ff41ad82010ec2ebfcb52b9da86cc7a62b79f96ebb65535a7f602005b121d284",
+        "output": "1071abffa45cf79ad6053898c0b02f461f65afa6be8e752374859eb6a429de3f"
+      },
+      {
+        "color": "34995fad95433d7e18ad6f8aa8a5d4441566ae9957c4989eb911d352c2506a46",
+        "output": "75cc08cdc98f8fca52fb171fe7827232d7397aab73543dbbc48a2f6487859125"
+      },
+      {
+        "color": "04eae772d7ccfa83a92963b327a74c1c2a6702fb13dacc0d8be20d7bfc5b6299",
+        "output": "6f9268dfb195984bb9a23d09f3654d731cf895bdbaf70699db64b62740b9a38f"
+      },
+      {
+        "color": "3871e72a3c211fdc24e999fde53e28ec10c3d3ab33895049965fa2fdbec63e2c",
+        "output": "d679c6c531daaa6b4c21846f5bf909766dcee619384c74299a075da7c640f70f"
+      },
+      {
+        "color": "a3c93b102dd81e3fd909a56e9b601b97377c258231dc364ac016cfa67aee0d98",
+        "output": "a792b98415ef9fb61873ba5b928e0f5ec586c1f7d5c967e49463b5b0ead06685"
+      },
+      {
+        "color": "4b206a9282a7e1937d39d72fefe6ba16403ecf9c1cd272b11ac0555abd3a24e5",
+        "output": "f0bc7f9afecc5ca65c8b796e904a60c551e9825a3c638c89f9c361101abd811d"
+      },
+      {
+        "color": "3fb30ea75a3e3aa36933f4900a7ddc4d8e9b5748c5507e83f9a511d7f15bc46c",
+        "output": "27b9eae7c47f7cea01ce4798992a89c3c6afc8188b0fc630cba7ce4181b1cbfe"
+      }
+    ],
+    "validation_capture_hashes": {
+      "color": "584c107ead68fca78c3eee0190d715e51c1f76392dc03c09050b5f572afa075e",
+      "output": "10bf20e6b20b3b56a31dca40dd829ff260061998d7fa18eafa306f56d525ca3a"
+    },
+    "controls": {
+      "DLSSNR.ColorSubrectBaseX": 0,
+      "DLSSNR.ColorSubrectBaseY": 0,
+      "DLSSNR.ColorSubrectHeight": 1080,
+      "DLSSNR.ColorSubrectWidth": 1920,
+      "DLSSNR.DepthInverted": 0,
+      "DLSSNR.DepthSubrectBaseX": 0,
+      "DLSSNR.DepthSubrectBaseY": 0,
+      "DLSSNR.DepthSubrectHeight": 540,
+      "DLSSNR.DepthSubrectWidth": 960,
+      "DLSSNR.Height": 1080,
+      "DLSSNR.Hint.Render.Preset": 0,
+      "DLSSNR.Intensity": 1.0,
+      "DLSSNR.LocalStructureStrength": 1.0,
+      "DLSSNR.LocalToneStrength": 1.0,
+      "DLSSNR.MVecScaleX": 2.0,
+      "DLSSNR.MVecScaleY": 2.0,
+      "DLSSNR.MVecSubrectBaseX": 0,
+      "DLSSNR.MVecSubrectBaseY": 0,
+      "DLSSNR.MVecSubrectHeight": 540,
+      "DLSSNR.MVecSubrectWidth": 960,
+      "DLSSNR.Reset": 1,
+      "DLSSNR.SkinStructureStrength": -1.0,
+      "DLSSNR.Style": 1,
+      "DLSSNR.UseAutoMask": 1,
+      "DLSSNR.Width": 1920
+    },
+    "native_shape": [
+      1080,
+      1920
+    ],
+    "architecture": {
+      "type": "four-level hierarchical residual CNN with global context gate",
+      "width": 16,
+      "blocks": 2,
+      "parameters": 223440,
+      "shuffle_factor": 4,
+      "noise_channels": 0,
+      "input_receptive_field_pixels": "whole image via global context gate",
+      "variant": "hierarchical",
+      "explicit_output_grading": [
+        0.9330329895019531,
+        -0.25,
+        0.8999999761581421
+      ],
+      "widths": [
+        16,
+        32,
+        64,
+        96
+      ],
+      "blocks_per_stage": 2,
+      "internal_downsampling": "learned features only; original pixels retained through input rearrangement and residual path"
+    },
+    "data_split": {
+      "scene_count": null,
+      "training_view_count": 34,
+      "train_columns": [
+        0,
+        1920
+      ],
+      "holdout_columns": null,
+      "separate_validation_view": true,
+      "patch": [
+        1080,
+        1920
+      ],
+      "batch": 1,
+      "no_resize": true,
+      "loss_border": 0,
+      "whole_frame_training": true,
+      "validation_view_count": 12
+    },
+    "quality_gate_passed": false,
+    "limitations": [
+      "One Sponza scene plus four training photo identities; three different photo identities stay in validation at two emissions. First-reset frames only, not representative game or temporal validation.",
+      "No temporal training or quality validation.",
+      "Torch timing excludes D3D12 integration and is not a hidden-demo benchmark."
+    ],
+    "training": [
+      {
+        "step": 1,
+        "loss": 0.04606475681066513,
+        "pixel_mae": 0.042138587683439255,
+        "seconds": 0.28251710000040475
+      },
+      {
+        "step": 101,
+        "loss": 0.05570603162050247,
+        "pixel_mae": 0.052048880606889725,
+        "seconds": 2.1964286000002176
+      },
+      {
+        "step": 201,
+        "loss": 0.044812943786382675,
+        "pixel_mae": 0.04154028743505478,
+        "seconds": 4.098992500003078
+      },
+      {
+        "step": 301,
+        "loss": 0.04160583019256592,
+        "pixel_mae": 0.03880620747804642,
+        "seconds": 5.9970266000018455
+      },
+      {
+        "step": 401,
+        "loss": 0.022456390783190727,
+        "pixel_mae": 0.01975153014063835,
+        "seconds": 7.901037100004032
+      },
+      {
+        "step": 501,
+        "loss": 0.04467712342739105,
+        "pixel_mae": 0.04179440438747406,
+        "seconds": 9.800276699999813
+      },
+      {
+        "step": 601,
+        "loss": 0.039488792419433594,
+        "pixel_mae": 0.036622464656829834,
+        "seconds": 11.698602999997092
+      },
+      {
+        "step": 701,
+        "loss": 0.016334831714630127,
+        "pixel_mae": 0.014940667897462845,
+        "seconds": 13.596021599994856
+      },
+      {
+        "step": 801,
+        "loss": 0.042283013463020325,
+        "pixel_mae": 0.039010174572467804,
+        "seconds": 15.495054899991374
+      },
+      {
+        "step": 901,
+        "loss": 0.016131972894072533,
+        "pixel_mae": 0.014742555096745491,
+        "seconds": 17.397068799997214
+      },
+      {
+        "step": 1001,
+        "loss": 0.03783603385090828,
+        "pixel_mae": 0.035389553755521774,
+        "seconds": 19.29636490000121
+      },
+      {
+        "step": 1101,
+        "loss": 0.04062783718109131,
+        "pixel_mae": 0.03780701383948326,
+        "seconds": 21.201496800000314
+      },
+      {
+        "step": 1201,
+        "loss": 0.017707042396068573,
+        "pixel_mae": 0.015627311542630196,
+        "seconds": 23.100867000001017
+      },
+      {
+        "step": 1301,
+        "loss": 0.03003028966486454,
+        "pixel_mae": 0.027681834995746613,
+        "seconds": 24.99917060000007
+      },
+      {
+        "step": 1401,
+        "loss": 0.02356507070362568,
+        "pixel_mae": 0.022402871400117874,
+        "seconds": 26.89909710000211
+      },
+      {
+        "step": 1501,
+        "loss": 0.03864194080233574,
+        "pixel_mae": 0.03605915233492851,
+        "seconds": 28.799797999992734
+      },
+      {
+        "step": 1601,
+        "loss": 0.03734898567199707,
+        "pixel_mae": 0.03464828059077263,
+        "seconds": 30.69774309999775
+      },
+      {
+        "step": 1701,
+        "loss": 0.04459000378847122,
+        "pixel_mae": 0.041914649307727814,
+        "seconds": 32.60020529999747
+      },
+      {
+        "step": 1801,
+        "loss": 0.03892257437109947,
+        "pixel_mae": 0.036529846489429474,
+        "seconds": 34.50329019999481
+      },
+      {
+        "step": 1901,
+        "loss": 0.040158309042453766,
+        "pixel_mae": 0.03732651472091675,
+        "seconds": 36.40381530000013
+      },
+      {
+        "step": 2001,
+        "loss": 0.03491633012890816,
+        "pixel_mae": 0.032273899763822556,
+        "seconds": 38.301471699989634
+      },
+      {
+        "step": 2101,
+        "loss": 0.03948714956641197,
+        "pixel_mae": 0.03592792525887489,
+        "seconds": 40.20130210000207
+      },
+      {
+        "step": 2201,
+        "loss": 0.04371245950460434,
+        "pixel_mae": 0.04113122820854187,
+        "seconds": 42.100144199997885
+      },
+      {
+        "step": 2301,
+        "loss": 0.03583246469497681,
+        "pixel_mae": 0.03333313390612602,
+        "seconds": 43.99837839999236
+      },
+      {
+        "step": 2401,
+        "loss": 0.03970761597156525,
+        "pixel_mae": 0.03630080074071884,
+        "seconds": 45.89603449999413
+      },
+      {
+        "step": 2501,
+        "loss": 0.04052436351776123,
+        "pixel_mae": 0.03723901882767677,
+        "seconds": 47.794512299995404
+      },
+      {
+        "step": 2601,
+        "loss": 0.04146908223628998,
+        "pixel_mae": 0.03859410807490349,
+        "seconds": 49.69130479999876
+      },
+      {
+        "step": 2701,
+        "loss": 0.044264622032642365,
+        "pixel_mae": 0.04172942414879799,
+        "seconds": 51.58933669999533
+      },
+      {
+        "step": 2801,
+        "loss": 0.03788648545742035,
+        "pixel_mae": 0.03514911234378815,
+        "seconds": 53.49405409999599
+      },
+      {
+        "step": 2901,
+        "loss": 0.02129925601184368,
+        "pixel_mae": 0.019814731553196907,
+        "seconds": 55.396917699996266
+      },
+      {
+        "step": 3001,
+        "loss": 0.028473416343331337,
+        "pixel_mae": 0.025929894298315048,
+        "seconds": 57.30520849999448
+      },
+      {
+        "step": 3101,
+        "loss": 0.04178148880600929,
+        "pixel_mae": 0.03889162465929985,
+        "seconds": 59.20797699999821
+      },
+      {
+        "step": 3201,
+        "loss": 0.019324718043208122,
+        "pixel_mae": 0.017882531508803368,
+        "seconds": 61.10746410000138
+      },
+      {
+        "step": 3301,
+        "loss": 0.03621074557304382,
+        "pixel_mae": 0.033653050661087036,
+        "seconds": 63.00672279999708
+      },
+      {
+        "step": 3401,
+        "loss": 0.0321802943944931,
+        "pixel_mae": 0.029975764453411102,
+        "seconds": 64.90777700000035
+      },
+      {
+        "step": 3501,
+        "loss": 0.03390713408589363,
+        "pixel_mae": 0.03151722997426987,
+        "seconds": 66.80740249999508
+      },
+      {
+        "step": 3601,
+        "loss": 0.03582474961876869,
+        "pixel_mae": 0.0325436070561409,
+        "seconds": 68.70762039998954
+      },
+      {
+        "step": 3701,
+        "loss": 0.03558871150016785,
+        "pixel_mae": 0.03281167522072792,
+        "seconds": 70.61003129999153
+      },
+      {
+        "step": 3801,
+        "loss": 0.039552707225084305,
+        "pixel_mae": 0.03652791306376457,
+        "seconds": 72.50966799999878
+      },
+      {
+        "step": 3901,
+        "loss": 0.03385047987103462,
+        "pixel_mae": 0.030530698597431183,
+        "seconds": 74.41333749999467
+      },
+      {
+        "step": 4001,
+        "loss": 0.031149301677942276,
+        "pixel_mae": 0.028881944715976715,
+        "seconds": 76.31853209999099
+      },
+      {
+        "step": 4101,
+        "loss": 0.0374920479953289,
+        "pixel_mae": 0.03448813408613205,
+        "seconds": 78.21866260000388
+      },
+      {
+        "step": 4201,
+        "loss": 0.03259289637207985,
+        "pixel_mae": 0.029992379248142242,
+        "seconds": 80.12128069999744
+      },
+      {
+        "step": 4301,
+        "loss": 0.04089055582880974,
+        "pixel_mae": 0.03751901909708977,
+        "seconds": 82.02097109999158
+      },
+      {
+        "step": 4401,
+        "loss": 0.030271826311945915,
+        "pixel_mae": 0.02798624336719513,
+        "seconds": 83.92427589998988
+      },
+      {
+        "step": 4500,
+        "loss": 0.024282503873109818,
+        "pixel_mae": 0.022248754277825356,
+        "seconds": 85.80529489999753
+      }
+    ],
+    "optimization": {
+      "initial_learning_rate": 0.002,
+      "cosine_decay": true,
+      "final_learning_rate": 2e-05
+    },
+    "output_grading": {
+      "parameters": [
+        0.9330329895019531,
+        -0.25,
+        0.8999999761581421
+      ],
+      "observed_capture_hashes": {
+        "color": "2e44a6a5e2730c21f7f2b4610b0a3c0af6fc94e2f51601f2ab2fa3fa679cf7f6",
+        "output": "13668520132202f28b6b584aff445e6982d17ece0430c9c134b7c2ef85b68d2b"
+      },
+      "scope": "Unfitted algebraic approximation from the same runtime controls; other camera views reuse the parameters by inference.",
+      "training": "Differentiable FP32 operations after the clamped learned residual.",
+      "inference": "FP16 network, FP32 grading, FP16 final storage; all included in graph timing.",
+      "fused_matches_torch": true,
+      "fused_max_abs": 0.0
+    },
+    "identity_holdout_mae": 0.019964119419455528,
+    "grade_only_holdout_mae": 0.01705770380795002,
+    "completed_steps": 4500,
+    "training_seconds": 85.80540640000254,
+    "unfused_grade_graph_timing": {
+      "median_ms": 2.506608009338379,
+      "p95_ms": 2.5114112496376038,
+      "samples_ms": [
+        2.506335973739624,
+        2.5085439682006836,
+        2.5323519706726074,
+        2.5077760219573975,
+        2.5097599029541016,
+        2.5036799907684326,
+        2.504703998565674,
+        2.509632110595703,
+        2.5088000297546387,
+        2.5097599029541016,
+        2.5067520141601562,
+        2.5073280334472656,
+        2.5032639503479004,
+        2.5026559829711914,
+        2.502624034881592,
+        2.5118720531463623,
+        2.5066559314727783,
+        2.504703998565674,
+        2.5063679218292236,
+        2.5065600872039795,
+        2.5033280849456787,
+        2.505728006362915,
+        2.5077760219573975,
+        2.4995839595794678,
+        2.505728006362915,
+        2.501408100128174,
+        2.5032958984375,
+        2.50982403755188,
+        2.510848045349121,
+        2.5077760219573975
+      ]
+    },
+    "quality": {
+      "train_region": {
+        "mae": 0.028015725314617157,
+        "rmse": 0.0396663572424511,
+        "p99": 0.1278076171875,
+        "max_abs": 0.3140869140625,
+        "psnr_db": 28.031553622048612
+      },
+      "whole_frame": {
+        "mae": 0.028015725314617157,
+        "rmse": 0.0396663572424511,
+        "p99": 0.1278076171875,
+        "max_abs": 0.3140869140625,
+        "psnr_db": 28.031553622048612
+      },
+      "heldout_camera": {
+        "mae": 0.019844913855195045,
+        "rmse": 0.028311691122889747,
+        "p99": 0.088134765625,
+        "max_abs": 0.144683837890625,
+        "psnr_db": 30.96068376889452
+      }
+    },
+    "extra_validation": [
+      {
+        "capture_hashes": {
+          "color": "721e179eda73cb100b0afad0894313bbae3a79f5ddffe7fb80dcef448e1282e1",
+          "output": "32ff6ac02eaedd341702bbce4d7aecbefc416cc2604e640814acdca718f4cf2a"
+        },
+        "quality": {
+          "mae": 0.01868210732936859,
+          "rmse": 0.027837815436581044,
+          "p99": 0.0899658203125,
+          "max_abs": 0.1995849609375,
+          "psnr_db": 31.10729697682105
+        },
+        "identity_mae": 0.021868281066417694,
+        "grade_only_mae": 0.019626246765255928
+      },
+      {
+        "capture_hashes": {
+          "color": "72ea0a80f42db07ca3206415e6dcf5a6731d568bfb312232b800a74b5fe86a5d",
+          "output": "c340167f486527ada9844e30bf8d926d8da26469fb23f052a49b4e8dabb36c00"
+        },
+        "quality": {
+          "mae": 0.02931670844554901,
+          "rmse": 0.04213383813763001,
+          "p99": 0.1360931396484375,
+          "max_abs": 0.30224609375,
+          "psnr_db": 27.507379549449865
+        },
+        "identity_mae": 0.03319212421774864,
+        "grade_only_mae": 0.03363330289721489
+      },
+      {
+        "capture_hashes": {
+          "color": "d55760855801f6f13bde735009f7aa8bf441b09d029c5f19bba290dbd9bba8a7",
+          "output": "afa0d89796b9a294ed2be40b353dd870d16c826a86f1614178810aa0c6a1eba3"
+        },
+        "quality": {
+          "mae": 0.03987172245979309,
+          "rmse": 0.052299267457409655,
+          "p99": 0.1510009765625,
+          "max_abs": 0.2716064453125,
+          "psnr_db": 25.630087882858255
+        },
+        "identity_mae": 0.056830551475286484,
+        "grade_only_mae": 0.04776373133063316
+      },
+      {
+        "capture_hashes": {
+          "color": "ce5e35c020ddc18ee2c33c84c5638e639a40b1af0669db6f528704e2333d9611",
+          "output": "07b6b385703687102b597cddf0b3312fd0c8c3891234a0d5c0ea61d09ba1d702"
+        },
+        "quality": {
+          "mae": 0.028309866786003113,
+          "rmse": 0.03837380375321734,
+          "p99": 0.11505126953125,
+          "max_abs": 0.2506103515625,
+          "psnr_db": 28.319302995884357
+        },
+        "identity_mae": 0.028451206162571907,
+        "grade_only_mae": 0.028343472629785538
+      },
+      {
+        "capture_hashes": {
+          "color": "ec96364768db3b4fd5f306cb1c3ccd77d4dc03a0965a8d6602ce87cbe6fb8a2e",
+          "output": "e8ebdcfeb6d46d5272d2fd2be9fc872af09dbdf9f603e3599d1b88819e147d4c"
+        },
+        "quality": {
+          "mae": 0.03220231831073761,
+          "rmse": 0.04347198207715347,
+          "p99": 0.1219482421875,
+          "max_abs": 0.359619140625,
+          "psnr_db": 27.23581115958504
+        },
+        "identity_mae": 0.050376299768686295,
+        "grade_only_mae": 0.045353952795267105
+      },
+      {
+        "capture_hashes": {
+          "color": "d60ec44402a02d7e03fc0be790deefbcc5110dc7002be1d8a2031243ce602862",
+          "output": "cb75f15d16ab5f4ac082a5a7272c13aab748cae4037ac27059333d2348c7d969"
+        },
+        "quality": {
+          "mae": 0.04897063970565796,
+          "rmse": 0.0673177446418138,
+          "p99": 0.213836669921875,
+          "max_abs": 0.484619140625,
+          "psnr_db": 23.43740885393105
+        },
+        "identity_mae": 0.08399125933647156,
+        "grade_only_mae": 0.03786160424351692
+      },
+      {
+        "capture_hashes": {
+          "color": "071ec0aae77b6e15909c3f7b79ed0c619e4359289d37e46094e4f0e941978d19",
+          "output": "fe55fe61e495fa68e16c9d743f926cab52233fc946adf436619591ed1dbbb795"
+        },
+        "quality": {
+          "mae": 0.02941862866282463,
+          "rmse": 0.037116122259809474,
+          "p99": 0.102294921875,
+          "max_abs": 0.246826171875,
+          "psnr_db": 28.6087480677795
+        },
+        "identity_mae": 0.031181929633021355,
+        "grade_only_mae": 0.019811255857348442
+      },
+      {
+        "capture_hashes": {
+          "color": "ce88cebb0be45aefb048a3ae4e87b83c56776ef4ff3f11d454ce0bc7d61734d1",
+          "output": "7890ee1902560f34f54766f349d4306fa910d81b788b4f2eff7a070072c2f4a4"
+        },
+        "quality": {
+          "mae": 0.016965612769126892,
+          "rmse": 0.02473172825936692,
+          "p99": 0.07470703125,
+          "max_abs": 0.17138671875,
+          "psnr_db": 32.13491067942136
+        },
+        "identity_mae": 0.07175260037183762,
+        "grade_only_mae": 0.01343078725039959
+      },
+      {
+        "capture_hashes": {
+          "color": "8675250f022e482d5a01d8e287b2bafc844baf561090d30d1a9488b0656ca309",
+          "output": "5a61cc6d78a4a4a0d45ea60f04dcbefc6516a10f2456334b9394dcb003992812"
+        },
+        "quality": {
+          "mae": 0.02523346059024334,
+          "rmse": 0.03203625189292904,
+          "p99": 0.077880859375,
+          "max_abs": 0.1533203125,
+          "psnr_db": 29.88716600496239
+        },
+        "identity_mae": 0.02697160094976425,
+        "grade_only_mae": 0.018189014866948128
+      },
+      {
+        "capture_hashes": {
+          "color": "f783346fc093b8f8b61a4f77376e8ac9e0170ba1aa3f6f8063ff2aa5075151cb",
+          "output": "397f02d8e46dfe8171b77ff400eb0cd200527bad0e95dc862eaea21f37483093"
+        },
+        "quality": {
+          "mae": 0.0194725189357996,
+          "rmse": 0.0280682874057769,
+          "p99": 0.10107421875,
+          "max_abs": 0.24609375,
+          "psnr_db": 31.03568170307256
+        },
+        "identity_mae": 0.06669677793979645,
+        "grade_only_mae": 0.027504343539476395
+      },
+      {
+        "capture_hashes": {
+          "color": "25fe2d0b191d1c31efa9ca0bff7ecf75585296631930e318c6fc1e6a3c212015",
+          "output": "e0f64756c7243ffdcaccd52f2df9bc49f7fa514747be48be65ce5661c0c7581c"
+        },
+        "quality": {
+          "mae": 0.02367204613983631,
+          "rmse": 0.03138658914913157,
+          "p99": 0.0836181640625,
+          "max_abs": 0.154052734375,
+          "psnr_db": 30.06511754977531
+        },
+        "identity_mae": 0.027050631120800972,
+        "grade_only_mae": 0.013998306356370449
+      }
+    ],
+    "training_view_evaluation": [
+      {
+        "capture_hashes": {
+          "color": "2e44a6a5e2730c21f7f2b4610b0a3c0af6fc94e2f51601f2ab2fa3fa679cf7f6",
+          "output": "13668520132202f28b6b584aff445e6982d17ece0430c9c134b7c2ef85b68d2b"
+        },
+        "mae": 0.028015725314617157,
+        "rmse": 0.03966635838150978
+      },
+      {
+        "capture_hashes": {
+          "color": "5a3292ed2faf5fb6e1290d0a9c0e7f672995bc05480e0466dea0f10271074ca4",
+          "output": "42d040613e5bd3b3dac82ed254908976971d1fdcd374084ba09cb63a3f3f0004"
+        },
+        "mae": 0.03243113309144974,
+        "rmse": 0.04618208855390549
+      },
+      {
+        "capture_hashes": {
+          "color": "d2ae1d4ac3eecdd016d78c45f209a1b05226e292fe71d9c0ffeaf9c13d44fd1a",
+          "output": "865392ee835b618b3f03556c1ddba2890b4e4dda31ecf6f213a0cdc13c4ed944"
+        },
+        "mae": 0.02805669605731964,
+        "rmse": 0.04044394567608833
+      },
+      {
+        "capture_hashes": {
+          "color": "3d23dc0613c3f28ca10e0cde8cc23f3dd8b29e2c5a8844ac413b1ab295142784",
+          "output": "71d3160242fc2f1dfc4981d5aae6a18eeddccfe41731468723f7e67e2710eca5"
+        },
+        "mae": 0.029660174623131752,
+        "rmse": 0.04207134246826172
+      },
+      {
+        "capture_hashes": {
+          "color": "1d047a54cd2d48c97c6584de1e99230d302c0c87e35c3a96ef410489e4aaf6f3",
+          "output": "4ea2e4fbf267b748c22511f776afeac1db5fdb4585232dd7484918ac0cb0d265"
+        },
+        "mae": 0.0285032968968153,
+        "rmse": 0.04267029091715813
+      },
+      {
+        "capture_hashes": {
+          "color": "2395ba423bb8ccaedab929a00969edd41df43ba532682d4190ac48e13da95f7c",
+          "output": "e263ce78605640d67dce9997b8badfbceeb86406055c48f910b1b449e4f2bd7a"
+        },
+        "mae": 0.029055461287498474,
+        "rmse": 0.03885621950030327
+      },
+      {
+        "capture_hashes": {
+          "color": "5de11f09a67c5e03acd2269c85b64a546218cff7772d91c31cf1b08ec6b2ccbc",
+          "output": "2a44509b6a7b93b8501381187036c9b54da17d73e40093e6407497d1128d3164"
+        },
+        "mae": 0.031520429998636246,
+        "rmse": 0.04420238733291626
+      },
+      {
+        "capture_hashes": {
+          "color": "9b4379a5baacc89bf9a23952bd4984d9a78d006cf1aa004dc039f7731cf39352",
+          "output": "a8d17ac54406ea33b589fd96f9f81d6b5366c21e5782d161b7024c922b052b7f"
+        },
+        "mae": 0.028743620961904526,
+        "rmse": 0.041085317730903625
+      },
+      {
+        "capture_hashes": {
+          "color": "83c5e825ee18a238bd87af5411b4315590f164415832788faaecd7e29ba46598",
+          "output": "61d708cc63c85825a2577a99d0782481ace12cfe8ff423dcb37275b9ddafcabf"
+        },
+        "mae": 0.019771136343479156,
+        "rmse": 0.027643248438835144
+      },
+      {
+        "capture_hashes": {
+          "color": "50585653ae9d032acca0296d5b35cf7dc4019172dbca37888b2ee3bfec79ef04",
+          "output": "631a5e9f2f8809deced19f120569fcf22621080548d6eb8a5d48e22d1949f60e"
+        },
+        "mae": 0.02944951318204403,
+        "rmse": 0.04061198979616165
+      },
+      {
+        "capture_hashes": {
+          "color": "b095223d223d70b27532f26c0e22858de9da9898e8411a5b75b101a980b2face",
+          "output": "9a867cfa000ea5b622f84a3cfa37630c16e89607ced6ea8bc7fa0f895edffbb9"
+        },
+        "mae": 0.029105447232723236,
+        "rmse": 0.039915259927511215
+      },
+      {
+        "capture_hashes": {
+          "color": "3d73b62af1fb7e4c3ea46f2f80038c79c8bd3b0fcd215a8ac49e358f9da9e808",
+          "output": "efcbc12dd20bbd0e7c01f09c48f5662fedaa9624e7f4d9b659ecd7fb3e857f57"
+        },
+        "mae": 0.029883865267038345,
+        "rmse": 0.04157580807805061
+      },
+      {
+        "capture_hashes": {
+          "color": "6b792009748a3dad1b76aaea904a76e0b5d325e59efb86fc4b1efaab1b37480d",
+          "output": "a59b5a4fa64884f6023281284a7de0647bf5fa66ec99e7617da22a38dc0b6d5c"
+        },
+        "mae": 0.01755228079855442,
+        "rmse": 0.02437606267631054
+      },
+      {
+        "capture_hashes": {
+          "color": "fdae01c0f5c0fa8ab4f6aaa30df022e2d835e39ff7ddd718cfb9afac91640421",
+          "output": "1304717d8cb7ae013e46cfbecf9c000fd580667f89ba91aae974a25350f71625"
+        },
+        "mae": 0.034575656056404114,
+        "rmse": 0.04733658954501152
+      },
+      {
+        "capture_hashes": {
+          "color": "15f32702df477c9a31a76a84d5f2990374cf311535757ac854928e26e449d968",
+          "output": "21a4d6d6206019e65ac6b44ebaec2738d1646cc85447ce7a23e95746e7f3e3c9"
+        },
+        "mae": 0.028783822432160378,
+        "rmse": 0.039978206157684326
+      },
+      {
+        "capture_hashes": {
+          "color": "3cc3c866987e43c2b1a9a8850f3103e1efb0449b55fd9a40cd3fea956b1b6fe1",
+          "output": "e1998768dd68043e92830ebe383e2aaceab2e71b70d7db64c511200ec2dfb1c3"
+        },
+        "mae": 0.03224237263202667,
+        "rmse": 0.045382071286439896
+      },
+      {
+        "capture_hashes": {
+          "color": "9a5b464bcad2066a8e1cd8ef52db3c68ccc90253a315c2ba981921a55864f55f",
+          "output": "5f678e7ecbd4b491ccc438bb28450ad75c4d4b5cd9d6bab6dd9331e5ce83381a"
+        },
+        "mae": 0.026962105184793472,
+        "rmse": 0.037665970623493195
+      },
+      {
+        "capture_hashes": {
+          "color": "70747879e3292e5bbe3c5d2fe00cdbd5454e60bc18bb38f59181651c097d9cd9",
+          "output": "4d3d4137951dfabc2c726200a15ecbe2e5e247c8c45c1689e8e2527b01c77ecb"
+        },
+        "mae": 0.03344321250915527,
+        "rmse": 0.047770243138074875
+      },
+      {
+        "capture_hashes": {
+          "color": "596f9a25a382295f5abc9902944850b6af25962323828c097118da76479c1556",
+          "output": "1283ae05882472638a42b2766f2d234f85f57dc8878d4678c37cc3edb91ec8bd"
+        },
+        "mae": 0.024915361776947975,
+        "rmse": 0.037582702934741974
+      },
+      {
+        "capture_hashes": {
+          "color": "88a5ddbdc3d2e8548e30e1e152f92dc89527d516c8313b496e3395df09456f06",
+          "output": "8ebc238d7db0accde71d2d8759a820cca291ed79bdb7d64723a552461168f6a3"
+        },
+        "mae": 0.03086111508309841,
+        "rmse": 0.04354730620980263
+      },
+      {
+        "capture_hashes": {
+          "color": "360a739198086b110a442c7ee3e708b81da4441660b82bfc9695ffa3bf4715f5",
+          "output": "5b32b0c97fdf3094112c61f5145fabdea5b954a3d03e6cb032a3a1af01c0259d"
+        },
+        "mae": 0.02224600873887539,
+        "rmse": 0.03272637724876404
+      },
+      {
+        "capture_hashes": {
+          "color": "fd38ae04f24fde89463011afede652240c6fe3597c62b2dc805fe62f33db2d08",
+          "output": "3a20ea061e9dc84479440965a9e0014a6052b4a5fa17d456f87459ce6dac583c"
+        },
+        "mae": 0.02901313453912735,
+        "rmse": 0.0409448966383934
+      },
+      {
+        "capture_hashes": {
+          "color": "bcff97e701de0cb6c0da423167f6c0096d64c455969ba6d528cffd3eb6b486b4",
+          "output": "859979ebf978edca683adb46fe3681d5d59e3e1345e90f9dba4d7608379c5119"
+        },
+        "mae": 0.033897239714860916,
+        "rmse": 0.04619910940527916
+      },
+      {
+        "capture_hashes": {
+          "color": "df6272610fa50b9dfa8491e471aef120fc6165dcb946b49992c815b89a97e6dc",
+          "output": "f8f203a5b70f583aaaaae5d781e46702d97ceb54344fc9a3b544520933f1a320"
+        },
+        "mae": 0.03786470741033554,
+        "rmse": 0.0511489100754261
+      },
+      {
+        "capture_hashes": {
+          "color": "44f4e9a90dbef9581a873c1321407277e58f100cd16d1c76fb716a5e3deafdad",
+          "output": "30d6238f20cdd6bfcc2eab7e4c4a51ebe16533020f6b5719cb6461cf753e3903"
+        },
+        "mae": 0.03459089621901512,
+        "rmse": 0.04845205694437027
+      },
+      {
+        "capture_hashes": {
+          "color": "ec9b20370d5e9b6a89fa8fc9b138d5b6b8af492508e41e69ca197c159a31c876",
+          "output": "09f81e847a97333cbb7c5f6e74cb12cc938671af4cf494b2a5336e3c2c458b59"
+        },
+        "mae": 0.03122095949947834,
+        "rmse": 0.041505154222249985
+      },
+      {
+        "capture_hashes": {
+          "color": "84b010b308a5e65b226af1acee6ac44d554b1624b71edebb97e413e72e8f3dc9",
+          "output": "cba912532a04728e4f02de44ab4d8727f6b7bff6532ad28a1948c975c516c7cb"
+        },
+        "mae": 0.027744362130761147,
+        "rmse": 0.04121023789048195
+      },
+      {
+        "capture_hashes": {
+          "color": "ff41ad82010ec2ebfcb52b9da86cc7a62b79f96ebb65535a7f602005b121d284",
+          "output": "1071abffa45cf79ad6053898c0b02f461f65afa6be8e752374859eb6a429de3f"
+        },
+        "mae": 0.030019739642739296,
+        "rmse": 0.04182259738445282
+      },
+      {
+        "capture_hashes": {
+          "color": "34995fad95433d7e18ad6f8aa8a5d4441566ae9957c4989eb911d352c2506a46",
+          "output": "75cc08cdc98f8fca52fb171fe7827232d7397aab73543dbbc48a2f6487859125"
+        },
+        "mae": 0.028102464973926544,
+        "rmse": 0.03936607018113136
+      },
+      {
+        "capture_hashes": {
+          "color": "04eae772d7ccfa83a92963b327a74c1c2a6702fb13dacc0d8be20d7bfc5b6299",
+          "output": "6f9268dfb195984bb9a23d09f3654d731cf895bdbaf70699db64b62740b9a38f"
+        },
+        "mae": 0.023392021656036377,
+        "rmse": 0.032512836158275604
+      },
+      {
+        "capture_hashes": {
+          "color": "3871e72a3c211fdc24e999fde53e28ec10c3d3ab33895049965fa2fdbec63e2c",
+          "output": "d679c6c531daaa6b4c21846f5bf909766dcee619384c74299a075da7c640f70f"
+        },
+        "mae": 0.013864773325622082,
+        "rmse": 0.019585020840168
+      },
+      {
+        "capture_hashes": {
+          "color": "a3c93b102dd81e3fd909a56e9b601b97377c258231dc364ac016cfa67aee0d98",
+          "output": "a792b98415ef9fb61873ba5b928e0f5ec586c1f7d5c967e49463b5b0ead06685"
+        },
+        "mae": 0.037951018661260605,
+        "rmse": 0.050823766738176346
+      },
+      {
+        "capture_hashes": {
+          "color": "4b206a9282a7e1937d39d72fefe6ba16403ecf9c1cd272b11ac0555abd3a24e5",
+          "output": "f0bc7f9afecc5ca65c8b796e904a60c551e9825a3c638c89f9c361101abd811d"
+        },
+        "mae": 0.017958464100956917,
+        "rmse": 0.024771058931946754
+      },
+      {
+        "capture_hashes": {
+          "color": "3fb30ea75a3e3aa36933f4900a7ddc4d8e9b5748c5507e83f9a511d7f15bc46c",
+          "output": "27b9eae7c47f7cea01ce4798992a89c3c6afc8188b0fc630cba7ce4181b1cbfe"
+        },
+        "mae": 0.016644425690174103,
+        "rmse": 0.026627352461218834
+      }
+    ],
+    "mean_training_view_mae": 0.028177724795087296,
+    "torch_graph_timing": {
+      "median_ms": 1.216863989830017,
+      "p95_ms": 1.2303871512413025,
+      "samples_ms": [
+        1.2165119647979736,
+        1.2122880220413208,
+        1.230847954750061,
+        1.2182719707489014,
+        1.2175359725952148,
+        1.2134079933166504,
+        1.2140159606933594,
+        1.21343994140625,
+        1.2195839881896973,
+        1.214176058769226,
+        1.21343994140625,
+        1.2172160148620605,
+        1.2113920450210571,
+        1.2183680534362793,
+        1.2184319496154785,
+        1.2165119647979736,
+        1.2175359725952148,
+        1.2124160528182983,
+        1.2175359725952148,
+        1.2163519859313965,
+        1.2154879570007324,
+        1.2112640142440796,
+        1.2113920450210571,
+        1.2204159498214722,
+        1.2298239469528198,
+        1.2295039892196655,
+        1.2421120405197144,
+        1.218559980392456,
+        1.21343994140625,
+        1.2175040245056152
+      ],
+      "output_matches_eager": true
+    },
+    "peak_allocated_mib": 3183.25048828125
+  },
+  "comparison": {
+    "schema": 1,
+    "target_achieved": false,
+    "quality_gate_passed": false,
+    "gpu": "NVIDIA GeForce RTX 4070 Ti",
+    "torch": "2.7.1+cu128",
+    "models": {
+      "base30": {
+        "architecture": {
+          "type": "four-level hierarchical residual CNN with global context gate",
+          "width": 16,
+          "blocks": 2,
+          "parameters": 223440,
+          "shuffle_factor": 4,
+          "noise_channels": 0,
+          "input_receptive_field_pixels": "whole image via global context gate",
+          "variant": "hierarchical",
+          "explicit_output_grading": [
+            0.9330329895019531,
+            -0.25,
+            0.8999999761581421
+          ],
+          "widths": [
+            16,
+            32,
+            64,
+            96
+          ],
+          "blocks_per_stage": 2,
+          "internal_downsampling": "learned features only; original pixels retained through input rearrangement and residual path"
+        },
+        "training_view_count": 30,
+        "completed_steps": 4500,
+        "result_sha256": "92976ef38bd77a4d40be138c514075a0632f56acb31e53c839d6146b58414b36"
+      },
+      "mixed34": {
+        "architecture": {
+          "type": "four-level hierarchical residual CNN with global context gate",
+          "width": 16,
+          "blocks": 2,
+          "parameters": 223440,
+          "shuffle_factor": 4,
+          "noise_channels": 0,
+          "input_receptive_field_pixels": "whole image via global context gate",
+          "variant": "hierarchical",
+          "explicit_output_grading": [
+            0.9330329895019531,
+            -0.25,
+            0.8999999761581421
+          ],
+          "widths": [
+            16,
+            32,
+            64,
+            96
+          ],
+          "blocks_per_stage": 2,
+          "internal_downsampling": "learned features only; original pixels retained through input rearrangement and residual path"
+        },
+        "training_view_count": 34,
+        "completed_steps": 4500,
+        "result_sha256": "00e1a1591682e7939ca36553a0d62f079dc238e5f4e94de87b5e5d14e9724a6d"
+      }
+    },
+    "validation": [
+      {
+        "label": "north",
+        "validation_group": "previous",
+        "capture_hashes": {
+          "color": "584c107ead68fca78c3eee0190d715e51c1f76392dc03c09050b5f572afa075e",
+          "output": "10bf20e6b20b3b56a31dca40dd829ff260061998d7fa18eafa306f56d525ca3a"
+        },
+        "input_mean": 0.10449481755495071,
+        "input_std": 0.08206088840961456,
+        "input_min": -0.03173828125,
+        "input_max": 0.467529296875,
+        "input_fraction_equal_one": 0.0,
+        "input_fraction_above_one": 0.0,
+        "models": {
+          "base30": {
+            "mae": 0.01679186336696148,
+            "rmse": 0.023620106279850006,
+            "p99": 0.0787353515625,
+            "gradient_error": 0.00795774906873703,
+            "saved_output_reproduced_exactly": true
+          },
+          "mixed34": {
+            "mae": 0.019844913855195045,
+            "rmse": 0.02831169031560421,
+            "p99": 0.088134765625,
+            "gradient_error": 0.008401237428188324,
+            "saved_output_reproduced_exactly": true
+          }
+        },
+        "identity": {
+          "mae": 0.019964119419455528,
+          "rmse": 0.025841671973466873,
+          "p99": 0.07421875,
+          "gradient_error": 0.009018735960125923
+        },
+        "grade_only": {
+          "mae": 0.01705770194530487,
+          "rmse": 0.023872684687376022,
+          "p99": 0.07427978515625,
+          "gradient_error": 0.00891067087650299
+        }
+      },
+      {
+        "label": "shifted-north",
+        "validation_group": "previous",
+        "capture_hashes": {
+          "color": "721e179eda73cb100b0afad0894313bbae3a79f5ddffe7fb80dcef448e1282e1",
+          "output": "32ff6ac02eaedd341702bbce4d7aecbefc416cc2604e640814acdca718f4cf2a"
+        },
+        "input_mean": 0.11101681739091873,
+        "input_std": 0.0848589837551117,
+        "input_min": -0.0396728515625,
+        "input_max": 0.45556640625,
+        "input_fraction_equal_one": 0.0,
+        "input_fraction_above_one": 0.0,
+        "models": {
+          "base30": {
+            "mae": 0.018854478374123573,
+            "rmse": 0.02797042392194271,
+            "p99": 0.0958251953125,
+            "gradient_error": 0.007941004820168018,
+            "saved_output_reproduced_exactly": true
+          },
+          "mixed34": {
+            "mae": 0.01868210732936859,
+            "rmse": 0.027837814763188362,
+            "p99": 0.0899658203125,
+            "gradient_error": 0.007872674614191055,
+            "saved_output_reproduced_exactly": true
+          }
+        },
+        "identity": {
+          "mae": 0.021868281066417694,
+          "rmse": 0.028901230543851852,
+          "p99": 0.087890625,
+          "gradient_error": 0.008920766413211823
+        },
+        "grade_only": {
+          "mae": 0.01962623931467533,
+          "rmse": 0.02712494134902954,
+          "p99": 0.083251953125,
+          "gradient_error": 0.008786492049694061
+        }
+      },
+      {
+        "label": "teacher-illumination-validation-dim",
+        "validation_group": "new",
+        "capture_hashes": {
+          "color": "72ea0a80f42db07ca3206415e6dcf5a6731d568bfb312232b800a74b5fe86a5d",
+          "output": "c340167f486527ada9844e30bf8d926d8da26469fb23f052a49b4e8dabb36c00"
+        },
+        "input_mean": 0.10569913685321808,
+        "input_std": 0.07484255731105804,
+        "input_min": -0.0236663818359375,
+        "input_max": 1.11328125,
+        "input_fraction_equal_one": 1.768261316872428e-06,
+        "input_fraction_above_one": 3.08641975308642e-05,
+        "models": {
+          "base30": {
+            "mae": 0.021035313606262207,
+            "rmse": 0.030727200210094452,
+            "p99": 0.10595703125,
+            "gradient_error": 0.00971513893455267,
+            "saved_output_reproduced_exactly": true
+          },
+          "mixed34": {
+            "mae": 0.02931670844554901,
+            "rmse": 0.042133837938308716,
+            "p99": 0.1360931396484375,
+            "gradient_error": 0.009879781864583492,
+            "saved_output_reproduced_exactly": true
+          }
+        },
+        "identity": {
+          "mae": 0.03319212421774864,
+          "rmse": 0.04526050016283989,
+          "p99": 0.1431884765625,
+          "gradient_error": 0.0095731932669878
+        },
+        "grade_only": {
+          "mae": 0.03363330289721489,
+          "rmse": 0.044853389263153076,
+          "p99": 0.134521484375,
+          "gradient_error": 0.009661160409450531
+        }
+      },
+      {
+        "label": "teacher-illumination-validation-bright",
+        "validation_group": "new",
+        "capture_hashes": {
+          "color": "d55760855801f6f13bde735009f7aa8bf441b09d029c5f19bba290dbd9bba8a7",
+          "output": "afa0d89796b9a294ed2be40b353dd870d16c826a86f1614178810aa0c6a1eba3"
+        },
+        "input_mean": 0.3745231628417969,
+        "input_std": 0.258273720741272,
+        "input_min": -0.1123046875,
+        "input_max": 1.1474609375,
+        "input_fraction_equal_one": 0.03259548611111111,
+        "input_fraction_above_one": 0.004646990740740741,
+        "models": {
+          "base30": {
+            "mae": 0.036487650126218796,
+            "rmse": 0.05028794705867767,
+            "p99": 0.16357421875,
+            "gradient_error": 0.014831174165010452,
+            "saved_output_reproduced_exactly": true
+          },
+          "mixed34": {
+            "mae": 0.03987172245979309,
+            "rmse": 0.052299268543720245,
+            "p99": 0.1510009765625,
+            "gradient_error": 0.014047895558178425,
+            "saved_output_reproduced_exactly": true
+          }
+        },
+        "identity": {
+          "mae": 0.056830551475286484,
+          "rmse": 0.07365133613348007,
+          "p99": 0.181640625,
+          "gradient_error": 0.014105620793998241
+        },
+        "grade_only": {
+          "mae": 0.04776381328701973,
+          "rmse": 0.06035899370908737,
+          "p99": 0.1571044921875,
+          "gradient_error": 0.013635524548590183
+        }
+      },
+      {
+        "label": "teacher-illumination-validation-low-sun",
+        "validation_group": "new",
+        "capture_hashes": {
+          "color": "ce5e35c020ddc18ee2c33c84c5638e639a40b1af0669db6f528704e2333d9611",
+          "output": "07b6b385703687102b597cddf0b3312fd0c8c3891234a0d5c0ea61d09ba1d702"
+        },
+        "input_mean": 0.16051575541496277,
+        "input_std": 0.09726599603891373,
+        "input_min": -0.0294952392578125,
+        "input_max": 0.406982421875,
+        "input_fraction_equal_one": 0.0,
+        "input_fraction_above_one": 0.0,
+        "models": {
+          "base30": {
+            "mae": 0.02185576595366001,
+            "rmse": 0.03060252033174038,
+            "p99": 0.09881591796875,
+            "gradient_error": 0.008363615721464157,
+            "saved_output_reproduced_exactly": true
+          },
+          "mixed34": {
+            "mae": 0.028309866786003113,
+            "rmse": 0.038373805582523346,
+            "p99": 0.11505126953125,
+            "gradient_error": 0.00838152039796114,
+            "saved_output_reproduced_exactly": true
+          }
+        },
+        "identity": {
+          "mae": 0.028451206162571907,
+          "rmse": 0.037368953227996826,
+          "p99": 0.1085205078125,
+          "gradient_error": 0.00794257689267397
+        },
+        "grade_only": {
+          "mae": 0.028343455865979195,
+          "rmse": 0.03804332762956619,
+          "p99": 0.1102294921875,
+          "gradient_error": 0.008326349779963493
+        }
+      },
+      {
+        "label": "teacher-illumination-validation-neutral",
+        "validation_group": "new",
+        "capture_hashes": {
+          "color": "ec96364768db3b4fd5f306cb1c3ccd77d4dc03a0965a8d6602ce87cbe6fb8a2e",
+          "output": "e8ebdcfeb6d46d5272d2fd2be9fc872af09dbdf9f603e3599d1b88819e147d4c"
+        },
+        "input_mean": 0.22916419804096222,
+        "input_std": 0.217667356133461,
+        "input_min": -0.07666015625,
+        "input_max": 1.162109375,
+        "input_fraction_equal_one": 0.022697884516460907,
+        "input_fraction_above_one": 0.0017351466049382717,
+        "models": {
+          "base30": {
+            "mae": 0.023721572011709213,
+            "rmse": 0.03261293098330498,
+            "p99": 0.103515625,
+            "gradient_error": 0.0122905932366848,
+            "saved_output_reproduced_exactly": true
+          },
+          "mixed34": {
+            "mae": 0.03220231831073761,
+            "rmse": 0.04347198083996773,
+            "p99": 0.1219482421875,
+            "gradient_error": 0.012644685804843903,
+            "saved_output_reproduced_exactly": true
+          }
+        },
+        "identity": {
+          "mae": 0.050376299768686295,
+          "rmse": 0.0685698390007019,
+          "p99": 0.21533203125,
+          "gradient_error": 0.013287071138620377
+        },
+        "grade_only": {
+          "mae": 0.0453539676964283,
+          "rmse": 0.05834429711103439,
+          "p99": 0.1458740234375,
+          "gradient_error": 0.014037756249308586
+        }
+      },
+      {
+        "label": "teacher-photo-portrait",
+        "validation_group": "photos-emittance-1.0",
+        "capture_hashes": {
+          "color": "d60ec44402a02d7e03fc0be790deefbcc5110dc7002be1d8a2031243ce602862",
+          "output": "cb75f15d16ab5f4ac082a5a7272c13aab748cae4037ac27059333d2348c7d969"
+        },
+        "input_mean": 0.6612144112586975,
+        "input_std": 0.3125610649585724,
+        "input_min": -0.051513671875,
+        "input_max": 1.1435546875,
+        "input_fraction_equal_one": 0.13071678883744856,
+        "input_fraction_above_one": 0.013378022119341564,
+        "models": {
+          "base30": {
+            "mae": 0.0679960548877716,
+            "rmse": 0.0885762944817543,
+            "p99": 0.26953125,
+            "gradient_error": 0.012120142579078674
+          },
+          "mixed34": {
+            "mae": 0.04897063970565796,
+            "rmse": 0.06731774657964706,
+            "p99": 0.213836669921875,
+            "gradient_error": 0.009749378077685833,
+            "saved_output_reproduced_exactly": true
+          }
+        },
+        "identity": {
+          "mae": 0.08399125933647156,
+          "rmse": 0.09642539918422699,
+          "p99": 0.21630859375,
+          "gradient_error": 0.00864994153380394
+        },
+        "grade_only": {
+          "mae": 0.03786113113164902,
+          "rmse": 0.055844418704509735,
+          "p99": 0.183349609375,
+          "gradient_error": 0.007289214991033077
+        }
+      },
+      {
+        "label": "teacher-photo-tenth-portrait",
+        "validation_group": "photos-emittance-0.1",
+        "capture_hashes": {
+          "color": "071ec0aae77b6e15909c3f7b79ed0c619e4359289d37e46094e4f0e941978d19",
+          "output": "fe55fe61e495fa68e16c9d743f926cab52233fc946adf436619591ed1dbbb795"
+        },
+        "input_mean": 0.3171573281288147,
+        "input_std": 0.21737425029277802,
+        "input_min": -0.035980224609375,
+        "input_max": 0.91162109375,
+        "input_fraction_equal_one": 0.0,
+        "input_fraction_above_one": 0.0,
+        "models": {
+          "base30": {
+            "mae": 0.04052402824163437,
+            "rmse": 0.04917126148939133,
+            "p99": 0.124755859375,
+            "gradient_error": 0.006717994809150696
+          },
+          "mixed34": {
+            "mae": 0.02941862866282463,
+            "rmse": 0.037116121500730515,
+            "p99": 0.102294921875,
+            "gradient_error": 0.005457383114844561,
+            "saved_output_reproduced_exactly": true
+          }
+        },
+        "identity": {
+          "mae": 0.031181929633021355,
+          "rmse": 0.04057953879237175,
+          "p99": 0.111083984375,
+          "gradient_error": 0.0046824561432003975
+        },
+        "grade_only": {
+          "mae": 0.019811157137155533,
+          "rmse": 0.02643688954412937,
+          "p99": 0.08349609375,
+          "gradient_error": 0.004346071742475033
+        }
+      },
+      {
+        "label": "teacher-photo-landscape",
+        "validation_group": "photos-emittance-1.0",
+        "capture_hashes": {
+          "color": "ce88cebb0be45aefb048a3ae4e87b83c56776ef4ff3f11d454ce0bc7d61734d1",
+          "output": "7890ee1902560f34f54766f349d4306fa910d81b788b4f2eff7a070072c2f4a4"
+        },
+        "input_mean": 0.7894094586372375,
+        "input_std": 0.22660544514656067,
+        "input_min": 0.058441162109375,
+        "input_max": 1.150390625,
+        "input_fraction_equal_one": 0.2512424447016461,
+        "input_fraction_above_one": 0.01943335262345679,
+        "models": {
+          "base30": {
+            "mae": 0.04719557613134384,
+            "rmse": 0.06212073192000389,
+            "p99": 0.1602783203125,
+            "gradient_error": 0.012950390577316284
+          },
+          "mixed34": {
+            "mae": 0.016965612769126892,
+            "rmse": 0.024731729179620743,
+            "p99": 0.07470703125,
+            "gradient_error": 0.00783442985266447,
+            "saved_output_reproduced_exactly": true
+          }
+        },
+        "identity": {
+          "mae": 0.07175260037183762,
+          "rmse": 0.07822103798389435,
+          "p99": 0.11962890625,
+          "gradient_error": 0.0059983814135193825
+        },
+        "grade_only": {
+          "mae": 0.013430011458694935,
+          "rmse": 0.02332666702568531,
+          "p99": 0.094970703125,
+          "gradient_error": 0.005637540016323328
+        }
+      },
+      {
+        "label": "teacher-photo-tenth-landscape",
+        "validation_group": "photos-emittance-0.1",
+        "capture_hashes": {
+          "color": "8675250f022e482d5a01d8e287b2bafc844baf561090d30d1a9488b0656ca309",
+          "output": "5a61cc6d78a4a4a0d45ea60f04dcbefc6516a10f2456334b9394dcb003992812"
+        },
+        "input_mean": 0.3960431218147278,
+        "input_std": 0.17617098987102509,
+        "input_min": -0.026763916015625,
+        "input_max": 0.90869140625,
+        "input_fraction_equal_one": 0.0,
+        "input_fraction_above_one": 0.0,
+        "models": {
+          "base30": {
+            "mae": 0.0322469137609005,
+            "rmse": 0.04165740683674812,
+            "p99": 0.130126953125,
+            "gradient_error": 0.007639885880053043
+          },
+          "mixed34": {
+            "mae": 0.02523346059024334,
+            "rmse": 0.032036252319812775,
+            "p99": 0.077880859375,
+            "gradient_error": 0.005818123463541269,
+            "saved_output_reproduced_exactly": true
+          }
+        },
+        "identity": {
+          "mae": 0.02697160094976425,
+          "rmse": 0.03285708278417587,
+          "p99": 0.0703125,
+          "gradient_error": 0.005747237242758274
+        },
+        "grade_only": {
+          "mae": 0.018189018592238426,
+          "rmse": 0.021935991942882538,
+          "p99": 0.050537109375,
+          "gradient_error": 0.006399970501661301
+        }
+      },
+      {
+        "label": "teacher-photo-cat",
+        "validation_group": "photos-emittance-1.0",
+        "capture_hashes": {
+          "color": "f783346fc093b8f8b61a4f77376e8ac9e0170ba1aa3f6f8063ff2aa5075151cb",
+          "output": "397f02d8e46dfe8171b77ff400eb0cd200527bad0e95dc862eaea21f37483093"
+        },
+        "input_mean": 0.5250096321105957,
+        "input_std": 0.3643174171447754,
+        "input_min": -0.01076507568359375,
+        "input_max": 1.08203125,
+        "input_fraction_equal_one": 0.09059477880658436,
+        "input_fraction_above_one": 0.0022421553497942387,
+        "models": {
+          "base30": {
+            "mae": 0.03588053211569786,
+            "rmse": 0.044290315359830856,
+            "p99": 0.10498046875,
+            "gradient_error": 0.00523621030151844
+          },
+          "mixed34": {
+            "mae": 0.0194725189357996,
+            "rmse": 0.028068287298083305,
+            "p99": 0.10107421875,
+            "gradient_error": 0.0041800616309046745,
+            "saved_output_reproduced_exactly": true
+          }
+        },
+        "identity": {
+          "mae": 0.06669677793979645,
+          "rmse": 0.07892008870840073,
+          "p99": 0.1650390625,
+          "gradient_error": 0.003366920631378889
+        },
+        "grade_only": {
+          "mae": 0.027504336088895798,
+          "rmse": 0.032770201563835144,
+          "p99": 0.0927734375,
+          "gradient_error": 0.0028894501738250256
+        }
+      },
+      {
+        "label": "teacher-photo-tenth-cat",
+        "validation_group": "photos-emittance-0.1",
+        "capture_hashes": {
+          "color": "25fe2d0b191d1c31efa9ca0bff7ecf75585296631930e318c6fc1e6a3c212015",
+          "output": "e0f64756c7243ffdcaccd52f2df9bc49f7fa514747be48be65ce5661c0c7581c"
+        },
+        "input_mean": 0.2403092384338379,
+        "input_std": 0.2369941920042038,
+        "input_min": -0.005977630615234375,
+        "input_max": 0.8740234375,
+        "input_fraction_equal_one": 0.0,
+        "input_fraction_above_one": 0.0,
+        "models": {
+          "base30": {
+            "mae": 0.024556810036301613,
+            "rmse": 0.03159046545624733,
+            "p99": 0.082763671875,
+            "gradient_error": 0.003089851699769497
+          },
+          "mixed34": {
+            "mae": 0.02367204613983631,
+            "rmse": 0.031386587768793106,
+            "p99": 0.0836181640625,
+            "gradient_error": 0.0026715626008808613,
+            "saved_output_reproduced_exactly": true
+          }
+        },
+        "identity": {
+          "mae": 0.027050631120800972,
+          "rmse": 0.037331029772758484,
+          "p99": 0.09130859375,
+          "gradient_error": 0.001857762224972248
+        },
+        "grade_only": {
+          "mae": 0.013998152688145638,
+          "rmse": 0.018357930704951286,
+          "p99": 0.051513671875,
+          "gradient_error": 0.001772725023329258
+        }
+      }
+    ],
+    "mean_validation_mae": {
+      "previous": {
+        "base30": 0.017823170870542526,
+        "mixed34": 0.01926351059228182
+      },
+      "new": {
+        "base30": 0.025775075424462557,
+        "mixed34": 0.032425154000520706
+      },
+      "all": {
+        "base30": 0.03226221321771542,
+        "mixed34": 0.0276633786658446
+      },
+      "photos-emittance-0.1": {
+        "base30": 0.032442584012945495,
+        "mixed34": 0.026108045130968094
+      },
+      "photos-emittance-1.0": {
+        "base30": 0.05035738771160444,
+        "mixed34": 0.028469590470194817
+      }
+    },
+    "complete_graph_timings": {
+      "base30": {
+        "median_ms": 1.2291680574417114,
+        "p95_ms": 1.2386816143989563,
+        "samples_ms": [
+          1.2316160202026367,
+          1.2315839529037476,
+          1.248255968093872,
+          1.2288000583648682,
+          1.2328959703445435,
+          1.2338240146636963,
+          1.2328959703445435,
+          1.227776050567627,
+          1.2295360565185547,
+          1.2267520427703857,
+          1.2267520427703857,
+          1.2267520427703857,
+          1.2288000583648682,
+          1.227776050567627,
+          1.227776050567627,
+          1.2287039756774902,
+          1.233855962753296,
+          1.2288000583648682,
+          1.2369920015335083,
+          1.2325119972229004,
+          1.2298239469528198,
+          1.240064024925232,
+          1.2318719625473022,
+          1.2255680561065674,
+          1.2325439453125,
+          1.230847954750061,
+          1.2288000583648682,
+          1.2283519506454468,
+          1.222656011581421,
+          1.2267520427703857
+        ],
+        "graph_matches_eager": true
+      },
+      "mixed34": {
+        "median_ms": 1.2167999744415283,
+        "p95_ms": 1.2323487997055054,
+        "samples_ms": [
+          1.230847954750061,
+          1.2273600101470947,
+          1.2265599966049194,
+          1.227776050567627,
+          1.2110719680786133,
+          1.217087984085083,
+          1.2175359725952148,
+          1.2328959703445435,
+          1.2316800355911255,
+          1.2378239631652832,
+          1.2144639492034912,
+          1.230847954750061,
+          1.2124160528182983,
+          1.2235519886016846,
+          1.2267520427703857,
+          1.2154879570007324,
+          1.2150720357894897,
+          1.2113920450210571,
+          1.2123839855194092,
+          1.2267520427703857,
+          1.2123199701309204,
+          1.2110079526901245,
+          1.2191359996795654,
+          1.2154879570007324,
+          1.2154239416122437,
+          1.21343994140625,
+          1.2112959623336792,
+          1.2131520509719849,
+          1.2165119647979736,
+          1.218559980392456
+        ],
+        "graph_matches_eager": true
+      }
+    },
+    "photo_validation_proofs": [
+      {
+        "name": "portrait",
+        "author": "NASA",
+        "license": "Public domain in the United States (NASA)",
+        "license_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+        "source": "https://commons.wikimedia.org/wiki/File:Brent_W._Jett_-_Official_Astronaut_Portrait.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/e/e9/Brent_W._Jett_-_Official_Astronaut_Portrait.jpg",
+        "source_size": [
+          2400,
+          3000
+        ],
+        "source_sha1": "1aa64e6c1e05e18b419162c75c26405a1f7322b1",
+        "source_bytes": 1007136,
+        "source_sha256": "bf3acb666b51589cace3459dba1076a9e2794ef6f25234cf65139b77a97fdc61",
+        "texture_sha256": "3bc967b1117bd417436cb73287295cb9f56d9a15793e1858a19789645f551c44",
+        "split": "validation",
+        "emittance": 1.0,
+        "label": "teacher-photo-portrait",
+        "capture_hashes": {
+          "color": "d60ec44402a02d7e03fc0be790deefbcc5110dc7002be1d8a2031243ce602862",
+          "output": "cb75f15d16ab5f4ac082a5a7272c13aab748cae4037ac27059333d2348c7d969"
+        },
+        "proof": {
+          "label": "teacher-photo-portrait",
+          "capture_hashes": {
+            "color": "d60ec44402a02d7e03fc0be790deefbcc5110dc7002be1d8a2031243ce602862",
+            "output": "cb75f15d16ab5f4ac082a5a7272c13aab748cae4037ac27059333d2348c7d969"
+          },
+          "complete_fenced_frames": [
+            {
+              "index": 0,
+              "reset": 1
+            },
+            {
+              "index": 1,
+              "reset": 0
+            },
+            {
+              "index": 2,
+              "reset": 0
+            },
+            {
+              "index": 3,
+              "reset": 0
+            }
+          ],
+          "runtime_sha256": {
+            "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+            "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+            "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+          },
+          "restored": {
+            "scene": true,
+            "dll": true,
+            "ini": true
+          },
+          "inactive_desktop_observations": 4,
+          "all_demo_windows_hidden_and_off_input_desktop": true,
+          "native_sparse_timing": {
+            "total_ms": {
+              "median": 5.58,
+              "min": 5.58,
+              "max": 5.58
+            },
+            "model_ms": {
+              "median": 5.38,
+              "min": 5.38,
+              "max": 5.38
+            },
+            "surrounding_ms": {
+              "median": 0.21,
+              "min": 0.21,
+              "max": 0.21
+            }
+          },
+          "native_retained_timing_count": 1
+        }
+      },
+      {
+        "name": "portrait",
+        "author": "NASA",
+        "license": "Public domain in the United States (NASA)",
+        "license_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+        "source": "https://commons.wikimedia.org/wiki/File:Brent_W._Jett_-_Official_Astronaut_Portrait.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/e/e9/Brent_W._Jett_-_Official_Astronaut_Portrait.jpg",
+        "source_size": [
+          2400,
+          3000
+        ],
+        "source_sha1": "1aa64e6c1e05e18b419162c75c26405a1f7322b1",
+        "source_bytes": 1007136,
+        "source_sha256": "bf3acb666b51589cace3459dba1076a9e2794ef6f25234cf65139b77a97fdc61",
+        "texture_sha256": "3bc967b1117bd417436cb73287295cb9f56d9a15793e1858a19789645f551c44",
+        "split": "validation",
+        "emittance": 0.1,
+        "label": "teacher-photo-tenth-portrait",
+        "capture_hashes": {
+          "color": "071ec0aae77b6e15909c3f7b79ed0c619e4359289d37e46094e4f0e941978d19",
+          "output": "fe55fe61e495fa68e16c9d743f926cab52233fc946adf436619591ed1dbbb795"
+        },
+        "proof": {
+          "label": "teacher-photo-tenth-portrait",
+          "capture_hashes": {
+            "color": "071ec0aae77b6e15909c3f7b79ed0c619e4359289d37e46094e4f0e941978d19",
+            "output": "fe55fe61e495fa68e16c9d743f926cab52233fc946adf436619591ed1dbbb795"
+          },
+          "complete_fenced_frames": [
+            {
+              "index": 0,
+              "reset": 1
+            },
+            {
+              "index": 1,
+              "reset": 0
+            },
+            {
+              "index": 2,
+              "reset": 0
+            },
+            {
+              "index": 3,
+              "reset": 0
+            }
+          ],
+          "runtime_sha256": {
+            "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+            "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+            "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+          },
+          "restored": {
+            "scene": true,
+            "dll": true,
+            "ini": true
+          },
+          "inactive_desktop_observations": 4,
+          "all_demo_windows_hidden_and_off_input_desktop": true,
+          "native_sparse_timing": {
+            "total_ms": {
+              "median": 5.63,
+              "min": 5.63,
+              "max": 5.63
+            },
+            "model_ms": {
+              "median": 5.42,
+              "min": 5.42,
+              "max": 5.42
+            },
+            "surrounding_ms": {
+              "median": 0.21,
+              "min": 0.21,
+              "max": 0.21
+            }
+          },
+          "native_retained_timing_count": 1
+        }
+      },
+      {
+        "name": "landscape",
+        "author": "Hannes R\u00f6st",
+        "license": "CC BY-SA 3.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Fronalpstock_big.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/3/3f/Fronalpstock_big.jpg",
+        "source_size": [
+          10109,
+          4542
+        ],
+        "source_bytes": 14679474,
+        "source_sha256": "24eb29eccdf0af691b406d1a3d22c0ef5d761cc454d8a917848c33958f6fc857",
+        "texture_sha256": "b8e12dae50575bd6297d3e5489ff9036b78952f8ad1645f57cd5627596b52175",
+        "split": "validation",
+        "emittance": 1.0,
+        "label": "teacher-photo-landscape",
+        "capture_hashes": {
+          "color": "ce88cebb0be45aefb048a3ae4e87b83c56776ef4ff3f11d454ce0bc7d61734d1",
+          "output": "7890ee1902560f34f54766f349d4306fa910d81b788b4f2eff7a070072c2f4a4"
+        },
+        "proof": {
+          "label": "teacher-photo-landscape",
+          "capture_hashes": {
+            "color": "ce88cebb0be45aefb048a3ae4e87b83c56776ef4ff3f11d454ce0bc7d61734d1",
+            "output": "7890ee1902560f34f54766f349d4306fa910d81b788b4f2eff7a070072c2f4a4"
+          },
+          "complete_fenced_frames": [
+            {
+              "index": 0,
+              "reset": 1
+            },
+            {
+              "index": 1,
+              "reset": 0
+            },
+            {
+              "index": 2,
+              "reset": 0
+            },
+            {
+              "index": 3,
+              "reset": 0
+            }
+          ],
+          "runtime_sha256": {
+            "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+            "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+            "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+          },
+          "restored": {
+            "scene": true,
+            "dll": true,
+            "ini": true
+          },
+          "inactive_desktop_observations": 4,
+          "all_demo_windows_hidden_and_off_input_desktop": true,
+          "native_sparse_timing": {
+            "total_ms": {
+              "median": 5.58,
+              "min": 5.58,
+              "max": 5.58
+            },
+            "model_ms": {
+              "median": 5.37,
+              "min": 5.37,
+              "max": 5.37
+            },
+            "surrounding_ms": {
+              "median": 0.2,
+              "min": 0.2,
+              "max": 0.2
+            }
+          },
+          "native_retained_timing_count": 1
+        }
+      },
+      {
+        "name": "landscape",
+        "author": "Hannes R\u00f6st",
+        "license": "CC BY-SA 3.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Fronalpstock_big.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/3/3f/Fronalpstock_big.jpg",
+        "source_size": [
+          10109,
+          4542
+        ],
+        "source_bytes": 14679474,
+        "source_sha256": "24eb29eccdf0af691b406d1a3d22c0ef5d761cc454d8a917848c33958f6fc857",
+        "texture_sha256": "b8e12dae50575bd6297d3e5489ff9036b78952f8ad1645f57cd5627596b52175",
+        "split": "validation",
+        "emittance": 0.1,
+        "label": "teacher-photo-tenth-landscape",
+        "capture_hashes": {
+          "color": "8675250f022e482d5a01d8e287b2bafc844baf561090d30d1a9488b0656ca309",
+          "output": "5a61cc6d78a4a4a0d45ea60f04dcbefc6516a10f2456334b9394dcb003992812"
+        },
+        "proof": {
+          "label": "teacher-photo-tenth-landscape",
+          "capture_hashes": {
+            "color": "8675250f022e482d5a01d8e287b2bafc844baf561090d30d1a9488b0656ca309",
+            "output": "5a61cc6d78a4a4a0d45ea60f04dcbefc6516a10f2456334b9394dcb003992812"
+          },
+          "complete_fenced_frames": [
+            {
+              "index": 0,
+              "reset": 1
+            },
+            {
+              "index": 1,
+              "reset": 0
+            },
+            {
+              "index": 2,
+              "reset": 0
+            },
+            {
+              "index": 3,
+              "reset": 0
+            }
+          ],
+          "runtime_sha256": {
+            "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+            "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+            "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+          },
+          "restored": {
+            "scene": true,
+            "dll": true,
+            "ini": true
+          },
+          "inactive_desktop_observations": 4,
+          "all_demo_windows_hidden_and_off_input_desktop": true,
+          "native_sparse_timing": {
+            "total_ms": {
+              "median": 5.63,
+              "min": 5.63,
+              "max": 5.63
+            },
+            "model_ms": {
+              "median": 5.42,
+              "min": 5.42,
+              "max": 5.42
+            },
+            "surrounding_ms": {
+              "median": 0.21,
+              "min": 0.21,
+              "max": 0.21
+            }
+          },
+          "native_retained_timing_count": 1
+        }
+      },
+      {
+        "name": "cat",
+        "author": "Babelball",
+        "license": "CC0 1.0",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:3_year_old_calico_cat.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/8/8b/3_year_old_calico_cat.jpg",
+        "source_size": [
+          6000,
+          4000
+        ],
+        "source_sha1": "aedf4227c4a8d247883f2a54ff5291a8c7cfbebf",
+        "source_bytes": 2064270,
+        "source_sha256": "c1af939cd482dfd5decd34ba3a565b42dc26deb3babef4a41c92420c85269df9",
+        "texture_sha256": "5304058369ba9b97165f8bf3e6da9878a5d001df2d70498b9aeb9fd0c4447080",
+        "split": "validation",
+        "emittance": 1.0,
+        "label": "teacher-photo-cat",
+        "capture_hashes": {
+          "color": "f783346fc093b8f8b61a4f77376e8ac9e0170ba1aa3f6f8063ff2aa5075151cb",
+          "output": "397f02d8e46dfe8171b77ff400eb0cd200527bad0e95dc862eaea21f37483093"
+        },
+        "proof": {
+          "label": "teacher-photo-cat",
+          "capture_hashes": {
+            "color": "f783346fc093b8f8b61a4f77376e8ac9e0170ba1aa3f6f8063ff2aa5075151cb",
+            "output": "397f02d8e46dfe8171b77ff400eb0cd200527bad0e95dc862eaea21f37483093"
+          },
+          "complete_fenced_frames": [
+            {
+              "index": 0,
+              "reset": 1
+            },
+            {
+              "index": 1,
+              "reset": 0
+            },
+            {
+              "index": 2,
+              "reset": 0
+            },
+            {
+              "index": 3,
+              "reset": 0
+            }
+          ],
+          "runtime_sha256": {
+            "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+            "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+            "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+          },
+          "restored": {
+            "scene": true,
+            "dll": true,
+            "ini": true
+          },
+          "inactive_desktop_observations": 4,
+          "all_demo_windows_hidden_and_off_input_desktop": true,
+          "native_sparse_timing": {
+            "total_ms": {
+              "median": 5.62,
+              "min": 5.62,
+              "max": 5.62
+            },
+            "model_ms": {
+              "median": 5.41,
+              "min": 5.41,
+              "max": 5.41
+            },
+            "surrounding_ms": {
+              "median": 0.2,
+              "min": 0.2,
+              "max": 0.2
+            }
+          },
+          "native_retained_timing_count": 1
+        }
+      },
+      {
+        "name": "cat",
+        "author": "Babelball",
+        "license": "CC0 1.0",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:3_year_old_calico_cat.jpg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/8/8b/3_year_old_calico_cat.jpg",
+        "source_size": [
+          6000,
+          4000
+        ],
+        "source_sha1": "aedf4227c4a8d247883f2a54ff5291a8c7cfbebf",
+        "source_bytes": 2064270,
+        "source_sha256": "c1af939cd482dfd5decd34ba3a565b42dc26deb3babef4a41c92420c85269df9",
+        "texture_sha256": "5304058369ba9b97165f8bf3e6da9878a5d001df2d70498b9aeb9fd0c4447080",
+        "split": "validation",
+        "emittance": 0.1,
+        "label": "teacher-photo-tenth-cat",
+        "capture_hashes": {
+          "color": "25fe2d0b191d1c31efa9ca0bff7ecf75585296631930e318c6fc1e6a3c212015",
+          "output": "e0f64756c7243ffdcaccd52f2df9bc49f7fa514747be48be65ce5661c0c7581c"
+        },
+        "proof": {
+          "label": "teacher-photo-tenth-cat",
+          "capture_hashes": {
+            "color": "25fe2d0b191d1c31efa9ca0bff7ecf75585296631930e318c6fc1e6a3c212015",
+            "output": "e0f64756c7243ffdcaccd52f2df9bc49f7fa514747be48be65ce5661c0c7581c"
+          },
+          "complete_fenced_frames": [
+            {
+              "index": 0,
+              "reset": 1
+            },
+            {
+              "index": 1,
+              "reset": 0
+            },
+            {
+              "index": 2,
+              "reset": 0
+            },
+            {
+              "index": 3,
+              "reset": 0
+            }
+          ],
+          "runtime_sha256": {
+            "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+            "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+            "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+          },
+          "restored": {
+            "scene": true,
+            "dll": true,
+            "ini": true
+          },
+          "inactive_desktop_observations": 4,
+          "all_demo_windows_hidden_and_off_input_desktop": true,
+          "native_sparse_timing": {
+            "total_ms": {
+              "median": 5.63,
+              "min": 5.63,
+              "max": 5.63
+            },
+            "model_ms": {
+              "median": 5.43,
+              "min": 5.43,
+              "max": 5.43
+            },
+            "surrounding_ms": {
+              "median": 0.2,
+              "min": 0.2,
+              "max": 0.2
+            }
+          },
+          "native_retained_timing_count": 1
+        }
+      }
+    ],
+    "timing_scope": "Full-1080p FP16 network plus output grade; no D3D12/application integration.",
+    "limitations": [
+      "One 3D scene, optionally supplemented by static photograph planes; no representative game or temporal acceptance.",
+      "Validation identities stay out of fitting, but previous validation scores have informed research choices; not an independent final test set.",
+      "Pixel metrics do not establish preserved perceptual quality. No replacement is accepted."
+    ]
+  },
+  "limitations": [
+    "Four extra training photo identities and three excluded validation identities are a small exploratory extension, not representative game sequences.",
+    "Earlier validation results informed data collection; these are not independent final-test results.",
+    "The original >=1 fraction included above-one values, so it was not an exact count of clipped channels. Calibrated photos have no exactly-one values; the lake has one above-one channel value. Negative filtering overshoots also remain.",
+    "Complete student graph timings exclude application integration; sparse native timings are a separate scope. No native model or kernel speedup and no accepted replacement."
+  ]
+}

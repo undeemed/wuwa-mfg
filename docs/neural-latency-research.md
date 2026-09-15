@@ -821,7 +821,7 @@ effect, and neither result passes acceptance.
 The [experiment](../research/neural-latency/README.md#unseen-photo-content-and-contained-background-launches)
 records attribution, private-data preparation, matched native inputs/targets,
 all three model comparisons and limitations. These are static rendered photos;
-sample exposure clips some channels, and there is no temporal or game-quality
+sample exposure pushes some channels to or above one, and there is no temporal or game-quality
 acceptance. The new cases now inform research rather than remaining a final
 independent test set.
 
@@ -833,6 +833,32 @@ matches the historical input/output hashes exactly; an earlier slightly
 different capture is retained as well. The native runtime, game and driver
 remain unchanged, and the approximately **5.4 ms** native baseline still exceeds
 the target.
+
+## Calibrated input and mixed photo training
+
+Adding four different training photographs improves all six photo validation
+MAEs, but worsens five of six Sponza validation MAEs. At the same width, seed,
+4,500-step budget and optimizer, average photo MAE falls **34.1%**, while average
+Sponza MAE rises **21.2%**. The complete student graph remains about **1.2 ms**.
+This is useful evidence that the training data affects generalization; it is
+not an accepted model or proof that additional photos alone solve quality.
+
+Before collection, emission was calibrated using the same generated pattern.
+At emission 0.1 its captured maximum falls below one; no texture, geometry,
+camera or model control changes. Seven new photos use that setting. Their
+inputs have no exactly-one channels, although the lake has one above-one value
+and small negative filtering overshoots remain. The earlier description of
+all `>=1` values as clipped was too broad. Captured renderer input, rather than
+the original photograph, remains the reference for every comparison.
+
+Four new photo identities enter training. Three previous identities remain
+excluded at both original and calibrated emission, alongside all six Sponza
+validation views. The [experiment and reproduction commands](../research/neural-latency/README.md#calibrated-photo-training-extension)
+and [complete numeric evidence](../evidence/neural-model-research/photo-training-extension.json)
+record the improvements and regressions, all 36 new fenced frames, source
+attribution, output reproduction and preserved files. No native kernel change,
+game modification or model installation occurred. The native **5.4 ms** baseline
+and the unmet **3 ms with no quality drop** objective remain unchanged.
 
 ## Papers and what can transfer
 

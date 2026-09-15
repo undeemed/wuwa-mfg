@@ -148,7 +148,7 @@ def main():
               'mean_grade_only_mae': statistics.mean(row['grade_only']['mae'] for row in rows),
               'limitations': ['Three unseen photographs rendered on a static emissive plane; not representative game scenes or temporal validation.',
                   'Images are cropped/resampled to 1080p, then rendered/filtered/exposed by the sample. Targets use the actual captured model input.',
-                  'The sample clips some input channels at one; per-case fractions are recorded. These are not source-photo fidelity tests.',
+                  'Some captured channels reach or exceed one; the recorded >=1 fraction is not a count of exactly clipped values. These are not source-photo fidelity tests.',
                   'Native sparse GPU timings and full Torch graph timings are different scopes; no D3D12 student integration or native speedup.',
                   'Frozen students were fitted only on 30 Sponza views. No training occurs here; these results can inform future work but are not a final quality gate.']}
     (args.output / 'result.json').write_text(json.dumps(report, indent=2, allow_nan=False) + '\n')
