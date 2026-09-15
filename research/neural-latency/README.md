@@ -1219,3 +1219,95 @@ Repeat `--case` for multiple views. `--fused-packing` accepts `none`, `gate` and
 `all`, defaulting to `none`. `--final-only` keeps the unchanged reference and
 all-single-head candidate. The timing flags measure only the reconstructed
 scopes above; neither establishes native renderer speed or the 3 ms target.
+
+## Branched blocks and shared attention bias
+
+`inspect_branched_kernels.py` reads the pinned runtime and extracts only the
+known SM89 modules for private inspection. The 2/4/8-head chained kernels are
+in modules **1/2/3**, respectively, rather than the single-head module 0. Their
+selected functions have 2,504 / 2,392 / 2,480 instructions. The module hashes,
+tool hashes, symbols and instruction-family counts are recorded; extracted
+code and disassembly are never published. NVIDIA's disassembler reports that
+automatic dataflow analysis is disabled for these files, so no automatic
+dataflow proof is claimed.
+
+Manual inspection of the two-head kernel shows carried FP16 MMA accumulators
+across input-channel groups and across the four feed-forward branches, with
+FP8 publication between stages. This motivates `MmaBranchedBlock`, which uses
+direct FP8 MMA for the dense expansion, grouped contraction, residual-seeded
+projection and multi-head attention. The pinned reference supplies weights,
+window origins and existing publication rules. The diagnostic supports only
+blocks **5–22 and 48–65**, with 2/4/8 heads and 64/128/256 channels. It returns
+FP16 features; its caller handles each block's publication/transition contract.
+Matching every native operand layout and rounding point remains unproven.
+
+`probe_branched_blocks.py` compares nine candidates on both matched views,
+retaining all previously corrected single-head blocks. Native intermediate
+features are comparison targets, never substituted inputs. The starting images
+must exactly reproduce the previous single-head candidate before any changes:
+
+| Added branched arithmetic | Original native RGB MAE | West native RGB MAE |
+| --- | ---: | ---: |
+| None: single-head baseline | 0.0051667 | 0.0058308 |
+| Feed-forward only, all branched blocks | 0.0050849 | 0.0054542 |
+| Attention only, all branched blocks | 0.0052475 | 0.0057919 |
+| Both, all branched blocks | 0.0052386 | 0.0054815 |
+| Encoder branched blocks only | 0.0052722 | 0.0055029 |
+| Decoder branched blocks only | 0.0051439 | 0.0058078 |
+| Both, two-head blocks only | **0.0050661** | **0.0053763** |
+| Both, four-head blocks only | 0.0052253 | 0.0059461 |
+| Both, eight-head blocks only | 0.0051809 | 0.0055892 |
+
+Two-head changes provide the strongest tested result, while applying the
+changes everywhere worsens the original view. No candidate passes native
+quality. The mixed result prevents treating a generic direct-MMA replacement
+as a verified correction to every block. These repeatedly consulted first-reset
+views are diagnostic data, not independent perceptual or temporal validation.
+
+A separate implementation improvement removes copies of the attention bias.
+`FusedNorm.mma` now accepts a seed matching a trailing output shape, including
+the final M×N dimensions. For example, a `[heads,64,64]` bias can repeat across
+the leading window dimension without creating `[windows,heads,64,64]` storage.
+It does not implement arbitrary broadcasting of singleton dimensions. The CUDA
+kernel selects the seed's repeating batch while preserving initial-accumulator
+ordering; existing shared and full-size seed behavior remains unchanged.
+
+All 26 existing FP8/FP16 MMA checks pass, including the cancellation case that
+distinguishes an initial accumulator from a later addition. The new
+`test_mma_seed_broadcast.py` passes **42 mapping tests and five shape rejections**,
+covering trailing batch dimensions, matrix tails and strided seeds against
+both expanded seeds and exact small-integer arithmetic.
+
+| Isolated attention-score graph | Expanded bias | Shared bias | Bias storage before → after |
+| --- | ---: | ---: | ---: |
+| 2160 windows, 2 heads | 0.2467 ms | **0.1287 ms** | 35,389,440 → 16,384 bytes |
+| 135 windows, 8 heads | 0.0492 ms | **0.0379 ms** | 8,847,360 → 65,536 bytes |
+
+The shared-bias run reproduces **all 18 complete candidate images exactly**.
+`test_branched_block.py` also passes 36 unchanged-reference checks and 18
+chunking/shared-bias checks spanning all head counts and shifted windows.
+On the actual reconstructed block-5 input `[1,288,480,64]`, the complete
+diagnostic block improves from **2.5537 to 2.4497 ms** on the original view and
+**2.5517 to 2.4467 ms** on the west view. Eager and graph outputs match in both
+modes. Thirty samples follow warmup for each timing. This roughly 4% block
+improvement is not a native renderer or complete-network speedup.
+
+The [branched arithmetic evidence](../../evidence/neural-model-research/branched-arithmetic.json)
+and [shared-bias evidence](../../evidence/neural-model-research/shared-mma-bias.json)
+contain the inspection provenance, all candidate results, checks and timing
+samples. Only source and numerical evidence are published. No application was
+launched and no game, native runtime, driver or installer default changed.
+The approximately 5.4 ms native result and unmet 3 ms/no-quality-loss target
+remain unchanged.
+
+```text
+inspect_branched_kernels.py --dll <private-native-runtime> --cuobjdump <local-tool> --nvdisasm <local-tool> --output-directory <private-directory>
+probe_branched_blocks.py --source <pinned-reference> --weights <private-weights> --case <label> <native-post-input-trial> --baseline-results <single-head-results> --output-directory <private-directory>
+probe_branched_blocks.py --source <pinned-reference> --weights <private-weights> --case <label> <native-post-input-trial> --baseline-results <single-head-results> --compact-bias --compare-results <expanded-bias-results> --time-block --output-directory <private-directory>
+test_branched_block.py --source <pinned-reference> --weights <private-weights> --output <private-json>
+test_mma_seed_broadcast.py --output <private-json>
+```
+
+Repeat `--case` for multiple views. All outputs must be fresh private paths.
+The inspection script requires the exact pinned runtime and separately obtained
+NVIDIA tools; no vendor executable, module, weight or disassembly is bundled.

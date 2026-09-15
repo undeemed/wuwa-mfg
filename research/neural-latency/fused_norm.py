@@ -144,8 +144,8 @@ class FusedNorm:
             raise ValueError('B must be shared 2D or have matching batch dimensions.')
         shape=(*a.shape[:-1],n)
         if seed is not None and (seed.device!=a.device or seed.dtype!=torch.float16 or seed.requires_grad
-                                  or tuple(seed.shape) not in (shape,(m,n))):
-            raise ValueError('Seed must be FP16, same-device, and shared MxN or match the output.')
+                                  or not 2<=seed.ndim<=len(shape) or tuple(seed.shape)!=shape[-seed.ndim:]):
+            raise ValueError('Seed must be FP16, same-device, and match a trailing output shape including MxN.')
         tiles=((m+15)//16)*((n+7)//8)*batches
         if max(m,n,k,batches)>=2**31 or tiles>=2**32:
             raise ValueError('MMA launch exceeds its bounded indexing contract.')
@@ -158,7 +158,8 @@ class FusedNorm:
                    C.c_void_p(seed.data_ptr()) if seed is not None else C.c_void_p(),
                    C.c_void_p(output.data_ptr()),C.c_uint(m),C.c_uint(n),C.c_uint(k),C.c_uint(batches),
                    C.c_ulonglong(0 if b.ndim==2 else k*n),
-                   C.c_ulonglong(0 if seed is None or seed.ndim==2 else m*n)]
+                   C.c_ulonglong(0 if seed is None or seed.ndim==2 else m*n),
+                   C.c_uint(1 if seed is None else seed.numel()//(m*n))]
         params=(C.c_void_p*len(arguments))(*(C.addressof(v) for v in arguments))
         stream=torch.cuda.current_stream(a.device)
         function=self.half_mma_function if a.dtype==torch.float16 else self.mma_function

@@ -1,0 +1,1799 @@
+{
+  "schema": 1,
+  "target_achieved": false,
+  "quality_gate_passed": false,
+  "published_source_sha256": {
+    "research/neural-latency/fused_norm.cu": "699d2ea0ccfa4553310944be37e0d1ee281e8e00793a9960a369d8f298b494a9",
+    "research/neural-latency/fused_norm.py": "8ed6f5a4235e5e8815a9533308397e0edb87b37d92b33a8747835770d8d80ec1",
+    "research/neural-latency/inspect_branched_kernels.py": "c49694faf7b40bdf554fb99c34d4c60f7d4b5cb39311cb05a87444b10cb183bb",
+    "research/neural-latency/mma_branched_block.py": "fcccac8825102f1cc13d3b460c875bdb1fb3f548daf23fd3afe7aa3d3b6a6c9b",
+    "research/neural-latency/probe_branched_blocks.py": "42653e5da6789427f8fa5e272b8b9c96e300f35d8feafb2fd35d828ee442744a",
+    "research/neural-latency/test_branched_block.py": "bdfb463e2e06660209a75da6e9156e7a8b30693b91ae867f8bb4a27722fb6d36",
+    "research/neural-latency/test_mma_seed_broadcast.py": "bef0c8dd8597c6cfddeca113f477591a6fd2f2dc924f6c96a2bdf86c689dc7de",
+    "research/neural-latency/test_fp8_mma.py": "c5f63e17eeb0c69b0ba719b6db23ba7decdb1559d9f2d0c02a66ebc3cac69e58",
+    "research/neural-latency/inspect_pre_kernel.py": "37932169a82f24dac23fb2c9d0b0f865ad329e9a770a51f2a929cce9c3528dc3"
+  },
+  "preserved_state": {
+    "game_dxgi": "b3b0857a6d94e4745b42f2bb3beb747c527548ceec0abff11afecf89a1f6a590",
+    "game_ini": "213fd3f55423a12c075a9d96c2f87df3ea86c3971e135aa89eab1ff9b6a34fa6",
+    "game_nr": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927",
+    "demo_dxgi": "b3b0857a6d94e4745b42f2bb3beb747c527548ceec0abff11afecf89a1f6a590",
+    "demo_nr": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927",
+    "demo_hidden_exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+    "demo_scene": "389da6d234662bb88714b4240384ce63739ff06c7e75ff6014fcd2bab574f547",
+    "normal_native_sources_unchanged": true,
+    "no_active_research_markers": true,
+    "captures_archived": true
+  },
+  "experiment": "Branched window arithmetic diagnosis",
+  "inspection": {
+    "schema": 1,
+    "dll_sha256": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927",
+    "runtime_modified": false,
+    "nvdisasm_sha256": "f0ab98df225b9f2568e8f56c24a919a4e1362425fb7c02101afbf85022324add",
+    "cuobjdump_sha256": "7a1e6144ad3e9445f54fd8772272a7837a455f7fa7a3df39aad0169084a7583d",
+    "private_code_not_for_redistribution": true,
+    "kernels": [
+      {
+        "heads": 2,
+        "symbol": {
+          "symbol_index": 98,
+          "name": "cc_tinlayout_fused_swin_2h_64_2_chained_fp8",
+          "value": 0,
+          "size": 40064,
+          "section_index": 77,
+          "section_file_offset": 786944
+        },
+        "module": 1,
+        "fatbin_sha256": "5cc669ec5f78a58def2166195daf4516ecb39fdc01462fe84ec1c77d6f2dda46",
+        "cubin_sha256": "16e4400bfb1c7ffaff42c98ceae3bc95b7cfce3b83b0b891d07faa707afc35b8",
+        "instruction_families": {
+          "BAR": 8,
+          "BRA": 12,
+          "BSSY": 1,
+          "BSYNC": 1,
+          "CALL": 1,
+          "ERRBAR": 1,
+          "EXIT": 2,
+          "F2FP": 455,
+          "HADD2": 164,
+          "HFMA2": 224,
+          "HMNMX2": 274,
+          "HMUL2": 320,
+          "IADD3": 29,
+          "IMAD": 125,
+          "IMNMX": 5,
+          "ISETP": 34,
+          "LDG": 87,
+          "LDS": 20,
+          "LEA": 87,
+          "LOP3": 32,
+          "MEMBAR": 1,
+          "MOVM": 32,
+          "MUFU": 36,
+          "NANOSLEEP": 1,
+          "NOP": 14,
+          "P2R": 3,
+          "PLOP3": 21,
+          "PRMT": 47,
+          "QMMA": 304,
+          "S2R": 11,
+          "SEL": 41,
+          "SHF": 22,
+          "SHFL": 48,
+          "STG": 5,
+          "STS": 8,
+          "UIADD3": 7,
+          "UISETP": 4,
+          "ULDC": 3,
+          "ULEA": 4,
+          "UMOV": 2,
+          "UPLOP3": 2,
+          "USEL": 2,
+          "USHF": 2,
+          "WARPSYNC": 1,
+          "YIELD": 1
+        },
+        "diagnostics": "nvdisasm warning : Disassembling Std Elf to Old format or Old Elf to Std format not supported yet, switching to Std format\r\nnvdisasm warning : Dataflow analysis disabled due to previous warnings\r\n"
+      },
+      {
+        "heads": 4,
+        "symbol": {
+          "symbol_index": 98,
+          "name": "cc_tinlayout_fused_swin_4h_128_4_chained_fp8",
+          "value": 0,
+          "size": 38272,
+          "section_index": 77,
+          "section_file_offset": 766976
+        },
+        "module": 2,
+        "fatbin_sha256": "63fb6c2cbe3285a7a96d2782d0be456065011372c172dbf4ff0d23da78526c53",
+        "cubin_sha256": "d90620d65f15ba3a076f00ee4a496eb7db2c0b0e3401aaaf4664aa328f9b085b",
+        "instruction_families": {
+          "BAR": 12,
+          "BRA": 14,
+          "BSSY": 1,
+          "BSYNC": 1,
+          "CALL": 1,
+          "CS2R": 64,
+          "ERRBAR": 1,
+          "EXIT": 2,
+          "F2FP": 407,
+          "HADD2": 164,
+          "HFMA2": 160,
+          "HMNMX2": 210,
+          "HMUL2": 288,
+          "IADD3": 27,
+          "IMAD": 124,
+          "IMNMX": 3,
+          "ISETP": 9,
+          "LDG": 69,
+          "LDS": 48,
+          "LEA": 77,
+          "LOP3": 21,
+          "MEMBAR": 1,
+          "MOVM": 32,
+          "MUFU": 36,
+          "NANOSLEEP": 1,
+          "NOP": 14,
+          "PLOP3": 8,
+          "PRMT": 43,
+          "QMMA": 272,
+          "R2UR": 4,
+          "S2R": 8,
+          "S2UR": 3,
+          "SEL": 32,
+          "SHF": 15,
+          "SHFL": 48,
+          "STG": 5,
+          "STS": 16,
+          "UIADD3": 27,
+          "UIMAD": 7,
+          "UISETP": 32,
+          "ULDC": 8,
+          "ULEA": 14,
+          "ULOP3": 2,
+          "UMOV": 9,
+          "UP2UR": 1,
+          "UPLOP3": 20,
+          "UPRMT": 4,
+          "USEL": 13,
+          "USHF": 12,
+          "WARPSYNC": 1,
+          "YIELD": 1
+        },
+        "diagnostics": "nvdisasm warning : Disassembling Std Elf to Old format or Old Elf to Std format not supported yet, switching to Std format\r\nnvdisasm warning : Dataflow analysis disabled due to previous warnings\r\n"
+      },
+      {
+        "heads": 8,
+        "symbol": {
+          "symbol_index": 98,
+          "name": "cc_tinlayout_fused_swin_8h_256_8_chained_fp8",
+          "value": 0,
+          "size": 39680,
+          "section_index": 77,
+          "section_file_offset": 823040
+        },
+        "module": 3,
+        "fatbin_sha256": "cd1317d6307b06bbf51760ecfbcf5473ccee2274423aa1f8cd1a9d80c0f252ac",
+        "cubin_sha256": "f9aba135890246d7da4eb54a12973fe12671f0d7366514751e080ac33b2c22c6",
+        "instruction_families": {
+          "BAR": 10,
+          "BRA": 15,
+          "BSSY": 1,
+          "BSYNC": 1,
+          "CALL": 1,
+          "CS2R": 62,
+          "ERRBAR": 1,
+          "EXIT": 2,
+          "F2FP": 406,
+          "HADD2": 162,
+          "HFMA2": 160,
+          "HMNMX2": 209,
+          "HMUL2": 288,
+          "IADD3": 34,
+          "IMAD": 152,
+          "IMNMX": 5,
+          "ISETP": 39,
+          "LDG": 59,
+          "LDS": 52,
+          "LEA": 90,
+          "LOP3": 58,
+          "MEMBAR": 1,
+          "MOVM": 32,
+          "MUFU": 34,
+          "NANOSLEEP": 1,
+          "NOP": 11,
+          "P2R": 4,
+          "PLOP3": 20,
+          "PRMT": 81,
+          "QMMA": 288,
+          "R2P": 1,
+          "S2R": 11,
+          "SEL": 49,
+          "SHF": 39,
+          "SHFL": 48,
+          "STG": 5,
+          "STS": 16,
+          "UIADD3": 10,
+          "UISETP": 4,
+          "ULDC": 3,
+          "ULEA": 4,
+          "UMOV": 5,
+          "USEL": 2,
+          "USHF": 2,
+          "WARPSYNC": 1,
+          "YIELD": 1
+        },
+        "diagnostics": "nvdisasm warning : Disassembling Std Elf to Old format or Old Elf to Std format not supported yet, switching to Std format\r\nnvdisasm warning : Dataflow analysis disabled due to previous warnings\r\n"
+      }
+    ]
+  },
+  "nvidia_tool_distribution": {
+    "manifest": "https://developer.download.nvidia.com/compute/cuda/redist/redistrib_12.8.1.json",
+    "archive": "https://developer.download.nvidia.com/compute/cuda/redist/cuda_nvdisasm/windows-x86_64/cuda_nvdisasm-windows-x86_64-12.8.90-archive.zip",
+    "relative_path": "cuda_nvdisasm/windows-x86_64/cuda_nvdisasm-windows-x86_64-12.8.90-archive.zip",
+    "sha256": "a348209c803fa67b7bc216a5b4d7a6f9a117ccc60a8c567eb94cf25ba737ec47",
+    "md5": "d1ff8578df3f7a8665f358b76baac708",
+    "size": "5368805"
+  },
+  "cuobjdump_distribution": {
+    "manifest": "https://developer.download.nvidia.com/compute/cuda/redist/redistrib_12.8.1.json",
+    "archive": "https://developer.download.nvidia.com/compute/cuda/redist/cuda_cuobjdump/windows-x86_64/cuda_cuobjdump-windows-x86_64-12.8.90-archive.zip",
+    "relative_path": "cuda_cuobjdump/windows-x86_64/cuda_cuobjdump-windows-x86_64-12.8.90-archive.zip",
+    "sha256": "af6c4b7678cd9f3f3b8eeff7cc44f9d732bfacf70b1bdd03abccc25fec6c1ac1",
+    "md5": "ed3d68dd6b204049d51d11478cfeaa21",
+    "size": "5484288"
+  },
+  "image_comparison": {
+    "schema": 1,
+    "complete": true,
+    "target_achieved": false,
+    "quality_gate_passed": false,
+    "source_commit": "0ca2deab092fe6f3e331bf4f616271dbc64521d0",
+    "weights_sha256": "fa6ebc71bc6f91347d51b3368b0ef6e952b6157b6d9a164e7db82cffb88d3143",
+    "gpu": "NVIDIA GeForce RTX 4070 Ti",
+    "torch": "2.7.1+cu128",
+    "output_extent": [
+      1920,
+      1080
+    ],
+    "network_extent": [
+      1920,
+      1152
+    ],
+    "native_activations_substituted": false,
+    "native_runtime_modified": false,
+    "cases": [
+      {
+        "label": "original",
+        "capture_hashes": {
+          "color": "2e44a6a5e2730c21f7f2b4610b0a3c0af6fc94e2f51601f2ab2fa3fa679cf7f6",
+          "output": "13668520132202f28b6b584aff445e6982d17ece0430c9c134b7c2ef85b68d2b"
+        },
+        "controls": {
+          "DLSSNR.ColorSubrectBaseX": 0,
+          "DLSSNR.ColorSubrectBaseY": 0,
+          "DLSSNR.ColorSubrectHeight": 1080,
+          "DLSSNR.ColorSubrectWidth": 1920,
+          "DLSSNR.DepthInverted": 0,
+          "DLSSNR.DepthSubrectBaseX": 0,
+          "DLSSNR.DepthSubrectBaseY": 0,
+          "DLSSNR.DepthSubrectHeight": 540,
+          "DLSSNR.DepthSubrectWidth": 960,
+          "DLSSNR.Height": 1080,
+          "DLSSNR.Hint.Render.Preset": 0,
+          "DLSSNR.Intensity": 1.0,
+          "DLSSNR.LocalStructureStrength": 1.0,
+          "DLSSNR.LocalToneStrength": 1.0,
+          "DLSSNR.MVecScaleX": 2.0,
+          "DLSSNR.MVecScaleY": 2.0,
+          "DLSSNR.MVecSubrectBaseX": 0,
+          "DLSSNR.MVecSubrectBaseY": 0,
+          "DLSSNR.MVecSubrectHeight": 540,
+          "DLSSNR.MVecSubrectWidth": 960,
+          "DLSSNR.Reset": 1,
+          "DLSSNR.SkinStructureStrength": -1.0,
+          "DLSSNR.Style": 1,
+          "DLSSNR.UseAutoMask": 1,
+          "DLSSNR.Width": 1920
+        },
+        "native_input_sha256": {
+          "raw": "e202ae215668514cef722de02110a2e5486092b1e416b874b07d5f35afac612d",
+          "decoder": "db1bef23867052444007d81c4b2b488f2be72b665f0090cb6007abec9d54ae7e",
+          "skip": "ee40154278b8fd8a54dcba49d2c6e8d28ccc8eb3fc3b36d26e4246904ada401e"
+        },
+        "variants": {
+          "single-head-baseline": {
+            "blocks": [],
+            "mode": "all",
+            "vs_native": {
+              "rgb_mae": 0.005166663974705593,
+              "rgb_rmse": 0.007169511883908967,
+              "rgb_max_abs": 0.13818359375,
+              "rgb_p99_abs": 0.0228271484375,
+              "highpass_mae": 0.001810034357069469
+            },
+            "decoder_vs_native": {
+              "mae": 2.052489757537842,
+              "rmse": 3.1403703689575195,
+              "max_abs": 72.0
+            },
+            "previous_output_reproduced_exactly": true,
+            "vs_single_head_baseline": {
+              "rgb_mae": 0.0,
+              "rgb_rmse": 0.0,
+              "rgb_max_abs": 0.0,
+              "rgb_p99_abs": 0.0,
+              "highpass_mae": 0.0
+            }
+          },
+          "branched-ffn": {
+            "blocks": [
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              48,
+              49,
+              50,
+              51,
+              52,
+              53,
+              54,
+              55,
+              56,
+              57,
+              58,
+              59,
+              60,
+              61,
+              62,
+              63,
+              64,
+              65
+            ],
+            "mode": "ffn",
+            "vs_native": {
+              "rgb_mae": 0.005084941966560719,
+              "rgb_rmse": 0.007022228101449469,
+              "rgb_max_abs": 0.1376953125,
+              "rgb_p99_abs": 0.0224609375,
+              "highpass_mae": 0.0017978855571265128
+            },
+            "decoder_vs_native": {
+              "mae": 2.038439989089966,
+              "rmse": 3.1049644947052,
+              "max_abs": 72.0
+            },
+            "vs_single_head_baseline": {
+              "rgb_mae": 0.0030667680051990253,
+              "rgb_rmse": 0.004316121397061405,
+              "rgb_max_abs": 0.078857421875,
+              "rgb_p99_abs": 0.01416015625,
+              "highpass_mae": 0.0014366562899757792
+            }
+          },
+          "branched-attention": {
+            "blocks": [
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              48,
+              49,
+              50,
+              51,
+              52,
+              53,
+              54,
+              55,
+              56,
+              57,
+              58,
+              59,
+              60,
+              61,
+              62,
+              63,
+              64,
+              65
+            ],
+            "mode": "attention",
+            "vs_native": {
+              "rgb_mae": 0.005247454299340446,
+              "rgb_rmse": 0.00720171658349814,
+              "rgb_max_abs": 0.109619140625,
+              "rgb_p99_abs": 0.023193359375,
+              "highpass_mae": 0.0017985543204227575
+            },
+            "decoder_vs_native": {
+              "mae": 2.043602228164673,
+              "rmse": 3.1257002353668213,
+              "max_abs": 70.0
+            },
+            "vs_single_head_baseline": {
+              "rgb_mae": 0.0029264367315841554,
+              "rgb_rmse": 0.004104641309156612,
+              "rgb_max_abs": 0.078125,
+              "rgb_p99_abs": 0.0130615234375,
+              "highpass_mae": 0.0014303749584214029
+            }
+          },
+          "branched-all": {
+            "blocks": [
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              48,
+              49,
+              50,
+              51,
+              52,
+              53,
+              54,
+              55,
+              56,
+              57,
+              58,
+              59,
+              60,
+              61,
+              62,
+              63,
+              64,
+              65
+            ],
+            "mode": "all",
+            "vs_native": {
+              "rgb_mae": 0.005238640707267885,
+              "rgb_rmse": 0.007047364502589971,
+              "rgb_max_abs": 0.103515625,
+              "rgb_p99_abs": 0.021728515625,
+              "highpass_mae": 0.0018003191423910686
+            },
+            "decoder_vs_native": {
+              "mae": 2.04449462890625,
+              "rmse": 3.096634864807129,
+              "max_abs": 72.0
+            },
+            "vs_single_head_baseline": {
+              "rgb_mae": 0.00291356836238669,
+              "rgb_rmse": 0.004082215511687516,
+              "rgb_max_abs": 0.07861328125,
+              "rgb_p99_abs": 0.01318359375,
+              "highpass_mae": 0.0014278226746301057
+            }
+          },
+          "encoder-branched": {
+            "blocks": [
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22
+            ],
+            "mode": "all",
+            "vs_native": {
+              "rgb_mae": 0.005272225714537771,
+              "rgb_rmse": 0.007085188734165544,
+              "rgb_max_abs": 0.095703125,
+              "rgb_p99_abs": 0.02197265625,
+              "highpass_mae": 0.0018009733956484125
+            },
+            "decoder_vs_native": {
+              "mae": 2.048395872116089,
+              "rmse": 3.1044280529022217,
+              "max_abs": 72.0
+            },
+            "vs_single_head_baseline": {
+              "rgb_mae": 0.002877821249555827,
+              "rgb_rmse": 0.004048287694414829,
+              "rgb_max_abs": 0.07489013671875,
+              "rgb_p99_abs": 0.01318359375,
+              "highpass_mae": 0.0014269355097792133
+            }
+          },
+          "decoder-branched": {
+            "blocks": [
+              48,
+              49,
+              50,
+              51,
+              52,
+              53,
+              54,
+              55,
+              56,
+              57,
+              58,
+              59,
+              60,
+              61,
+              62,
+              63,
+              64,
+              65
+            ],
+            "mode": "all",
+            "vs_native": {
+              "rgb_mae": 0.005143870271554546,
+              "rgb_rmse": 0.0071420050075485875,
+              "rgb_max_abs": 0.136962890625,
+              "rgb_p99_abs": 0.0228271484375,
+              "highpass_mae": 0.0018094933411391973
+            },
+            "decoder_vs_native": {
+              "mae": 2.0456275939941406,
+              "rmse": 3.12926983833313,
+              "max_abs": 73.0
+            },
+            "vs_single_head_baseline": {
+              "rgb_mae": 0.0019560083278278542,
+              "rgb_rmse": 0.0028501292919444927,
+              "rgb_max_abs": 0.071533203125,
+              "rgb_p99_abs": 0.009765625,
+              "highpass_mae": 0.0013759335677053302
+            }
+          },
+          "heads-2": {
+            "blocks": [
+              5,
+              6,
+              7,
+              8,
+              62,
+              63,
+              64,
+              65
+            ],
+            "mode": "all",
+            "vs_native": {
+              "rgb_mae": 0.005066080993806001,
+              "rgb_rmse": 0.007054815403006552,
+              "rgb_max_abs": 0.1083984375,
+              "rgb_p99_abs": 0.02294921875,
+              "highpass_mae": 0.001800618051932992
+            },
+            "decoder_vs_native": {
+              "mae": 2.016512870788574,
+              "rmse": 3.081472635269165,
+              "max_abs": 70.0
+            },
+            "vs_single_head_baseline": {
+              "rgb_mae": 0.002887263290925189,
+              "rgb_rmse": 0.004001526794469291,
+              "rgb_max_abs": 0.0692138671875,
+              "rgb_p99_abs": 0.0126953125,
+              "highpass_mae": 0.0014293482812166483
+            }
+          },
+          "heads-4": {
+            "blocks": [
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              56,
+              57,
+              58,
+              59,
+              60,
+              61
+            ],
+            "mode": "all",
+            "vs_native": {
+              "rgb_mae": 0.005225310249986135,
+              "rgb_rmse": 0.0071879872940359794,
+              "rgb_max_abs": 0.13671875,
+              "rgb_p99_abs": 0.023193359375,
+              "highpass_mae": 0.0017969097324070506
+            },
+            "decoder_vs_native": {
+              "mae": 2.0301003456115723,
+              "rmse": 3.096048593521118,
+              "max_abs": 72.0
+            },
+            "vs_single_head_baseline": {
+              "rgb_mae": 0.0028421163625359813,
+              "rgb_rmse": 0.004027485916971829,
+              "rgb_max_abs": 0.08349609375,
+              "rgb_p99_abs": 0.012939453125,
+              "highpass_mae": 0.0014215739707371833
+            }
+          },
+          "heads-8": {
+            "blocks": [
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              48,
+              49,
+              50,
+              51,
+              52,
+              53,
+              54,
+              55
+            ],
+            "mode": "all",
+            "vs_native": {
+              "rgb_mae": 0.0051808874998356645,
+              "rgb_rmse": 0.007180373957773997,
+              "rgb_max_abs": 0.13037109375,
+              "rgb_p99_abs": 0.0233154296875,
+              "highpass_mae": 0.001803628119996953
+            },
+            "decoder_vs_native": {
+              "mae": 2.036769390106201,
+              "rmse": 3.113165855407715,
+              "max_abs": 72.0
+            },
+            "vs_single_head_baseline": {
+              "rgb_mae": 0.0025662508374559136,
+              "rgb_rmse": 0.0035988971259373723,
+              "rgb_max_abs": 0.060791015625,
+              "rgb_p99_abs": 0.011474609375,
+              "highpass_mae": 0.0014063048818038547
+            }
+          }
+        }
+      },
+      {
+        "label": "west",
+        "capture_hashes": {
+          "color": "5a3292ed2faf5fb6e1290d0a9c0e7f672995bc05480e0466dea0f10271074ca4",
+          "output": "42d040613e5bd3b3dac82ed254908976971d1fdcd374084ba09cb63a3f3f0004"
+        },
+        "controls": {
+          "DLSSNR.ColorSubrectBaseX": 0,
+          "DLSSNR.ColorSubrectBaseY": 0,
+          "DLSSNR.ColorSubrectHeight": 1080,
+          "DLSSNR.ColorSubrectWidth": 1920,
+          "DLSSNR.DepthInverted": 0,
+          "DLSSNR.DepthSubrectBaseX": 0,
+          "DLSSNR.DepthSubrectBaseY": 0,
+          "DLSSNR.DepthSubrectHeight": 540,
+          "DLSSNR.DepthSubrectWidth": 960,
+          "DLSSNR.Height": 1080,
+          "DLSSNR.Hint.Render.Preset": 0,
+          "DLSSNR.Intensity": 1.0,
+          "DLSSNR.LocalStructureStrength": 1.0,
+          "DLSSNR.LocalToneStrength": 1.0,
+          "DLSSNR.MVecScaleX": 2.0,
+          "DLSSNR.MVecScaleY": 2.0,
+          "DLSSNR.MVecSubrectBaseX": 0,
+          "DLSSNR.MVecSubrectBaseY": 0,
+          "DLSSNR.MVecSubrectHeight": 540,
+          "DLSSNR.MVecSubrectWidth": 960,
+          "DLSSNR.Reset": 1,
+          "DLSSNR.SkinStructureStrength": -1.0,
+          "DLSSNR.Style": 1,
+          "DLSSNR.UseAutoMask": 1,
+          "DLSSNR.Width": 1920
+        },
+        "native_input_sha256": {
+          "raw": "c00283c4e7028c154be42a4e9acaf24840794f8744547546fb09da8233fc1a06",
+          "decoder": "a7aca9b9a8ba48f6a03dab211d90bd2163263026488bdb1ca0e6bc2fe525d876",
+          "skip": "be613d5aab71203e9622d61df89f32a6661c023e30f4cb17c362094b20c99221"
+        },
+        "variants": {
+          "single-head-baseline": {
+            "blocks": [],
+            "mode": "all",
+            "vs_native": {
+              "rgb_mae": 0.0058307739253416506,
+              "rgb_rmse": 0.008064516241530642,
+              "rgb_max_abs": 0.1416015625,
+              "rgb_p99_abs": 0.026611328125,
+              "highpass_mae": 0.0020330207806542044
+            },
+            "decoder_vs_native": {
+              "mae": 2.1906838417053223,
+              "rmse": 3.3345069885253906,
+              "max_abs": 88.0
+            },
+            "previous_output_reproduced_exactly": true,
+            "vs_single_head_baseline": {
+              "rgb_mae": 0.0,
+              "rgb_rmse": 0.0,
+              "rgb_max_abs": 0.0,
+              "rgb_p99_abs": 0.0,
+              "highpass_mae": 0.0
+            }
+          },
+          "branched-ffn": {
+            "blocks": [
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              48,
+              49,
+              50,
+              51,
+              52,
+              53,
+              54,
+              55,
+              56,
+              57,
+              58,
+              59,
+              60,
+              61,
+              62,
+              63,
+              64,
+              65
+            ],
+            "mode": "ffn",
+            "vs_native": {
+              "rgb_mae": 0.0054541884678216655,
+              "rgb_rmse": 0.0077123829648126935,
+              "rgb_max_abs": 0.119873046875,
+              "rgb_p99_abs": 0.02685546875,
+              "highpass_mae": 0.002023671817409964
+            },
+            "decoder_vs_native": {
+              "mae": 2.1313042640686035,
+              "rmse": 3.2689261436462402,
+              "max_abs": 80.0
+            },
+            "vs_single_head_baseline": {
+              "rgb_mae": 0.0032366188014416723,
+              "rgb_rmse": 0.00450257450486973,
+              "rgb_max_abs": 0.0908203125,
+              "rgb_p99_abs": 0.01416015625,
+              "highpass_mae": 0.001603501505792846
+            }
+          },
+          "branched-attention": {
+            "blocks": [
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              48,
+              49,
+              50,
+              51,
+              52,
+              53,
+              54,
+              55,
+              56,
+              57,
+              58,
+              59,
+              60,
+              61,
+              62,
+              63,
+              64,
+              65
+            ],
+            "mode": "attention",
+            "vs_native": {
+              "rgb_mae": 0.005791864873776251,
+              "rgb_rmse": 0.008020744857282004,
+              "rgb_max_abs": 0.100341796875,
+              "rgb_p99_abs": 0.02685546875,
+              "highpass_mae": 0.0020271558839721777
+            },
+            "decoder_vs_native": {
+              "mae": 2.195538282394409,
+              "rmse": 3.339491605758667,
+              "max_abs": 80.0
+            },
+            "vs_single_head_baseline": {
+              "rgb_mae": 0.0032779017313759114,
+              "rgb_rmse": 0.004703997482890931,
+              "rgb_max_abs": 0.09912109375,
+              "rgb_p99_abs": 0.0159912109375,
+              "highpass_mae": 0.0016007921449511233
+            }
+          },
+          "branched-all": {
+            "blocks": [
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              48,
+              49,
+              50,
+              51,
+              52,
+              53,
+              54,
+              55,
+              56,
+              57,
+              58,
+              59,
+              60,
+              61,
+              62,
+              63,
+              64,
+              65
+            ],
+            "mode": "all",
+            "vs_native": {
+              "rgb_mae": 0.005481482972093923,
+              "rgb_rmse": 0.007506860614761982,
+              "rgb_max_abs": 0.12548828125,
+              "rgb_p99_abs": 0.024658203125,
+              "highpass_mae": 0.002020607533040826
+            },
+            "decoder_vs_native": {
+              "mae": 2.1344997882843018,
+              "rmse": 3.245823621749878,
+              "max_abs": 80.0
+            },
+            "vs_single_head_baseline": {
+              "rgb_mae": 0.003217518301278261,
+              "rgb_rmse": 0.0045554826116426935,
+              "rgb_max_abs": 0.093505859375,
+              "rgb_p99_abs": 0.0147705078125,
+              "highpass_mae": 0.0016039895960398296
+            }
+          },
+          "encoder-branched": {
+            "blocks": [
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22
+            ],
+            "mode": "all",
+            "vs_native": {
+              "rgb_mae": 0.005502931305423855,
+              "rgb_rmse": 0.007564601723581293,
+              "rgb_max_abs": 0.119384765625,
+              "rgb_p99_abs": 0.024658203125,
+              "highpass_mae": 0.0020212310507235413
+            },
+            "decoder_vs_native": {
+              "mae": 2.137784719467163,
+              "rmse": 3.2537922859191895,
+              "max_abs": 80.0
+            },
+            "vs_single_head_baseline": {
+              "rgb_mae": 0.003231857285236963,
+              "rgb_rmse": 0.004579762945220526,
+              "rgb_max_abs": 0.0946044921875,
+              "rgb_p99_abs": 0.014892578125,
+              "highpass_mae": 0.0016036712817608567
+            }
+          },
+          "decoder-branched": {
+            "blocks": [
+              48,
+              49,
+              50,
+              51,
+              52,
+              53,
+              54,
+              55,
+              56,
+              57,
+              58,
+              59,
+              60,
+              61,
+              62,
+              63,
+              64,
+              65
+            ],
+            "mode": "all",
+            "vs_native": {
+              "rgb_mae": 0.005807816781230087,
+              "rgb_rmse": 0.008040475274279892,
+              "rgb_max_abs": 0.1357421875,
+              "rgb_p99_abs": 0.02655029296875,
+              "highpass_mae": 0.002029313093655243
+            },
+            "decoder_vs_native": {
+              "mae": 2.1854262351989746,
+              "rmse": 3.3293256759643555,
+              "max_abs": 88.0
+            },
+            "vs_single_head_baseline": {
+              "rgb_mae": 0.002213306863966624,
+              "rgb_rmse": 0.003143186025154261,
+              "rgb_max_abs": 0.056884765625,
+              "rgb_p99_abs": 0.010498046875,
+              "highpass_mae": 0.001545077807463324
+            }
+          },
+          "heads-2": {
+            "blocks": [
+              5,
+              6,
+              7,
+              8,
+              62,
+              63,
+              64,
+              65
+            ],
+            "mode": "all",
+            "vs_native": {
+              "rgb_mae": 0.005376344273085303,
+              "rgb_rmse": 0.007563969658102701,
+              "rgb_max_abs": 0.10107421875,
+              "rgb_p99_abs": 0.02587890625,
+              "highpass_mae": 0.0020217482337930846
+            },
+            "decoder_vs_native": {
+              "mae": 2.116607427597046,
+              "rmse": 3.24245285987854,
+              "max_abs": 80.0
+            },
+            "vs_single_head_baseline": {
+              "rgb_mae": 0.0031968725973705726,
+              "rgb_rmse": 0.004425101040497831,
+              "rgb_max_abs": 0.094970703125,
+              "rgb_p99_abs": 0.01416015625,
+              "highpass_mae": 0.0016027478806246516
+            }
+          },
+          "heads-4": {
+            "blocks": [
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              56,
+              57,
+              58,
+              59,
+              60,
+              61
+            ],
+            "mode": "all",
+            "vs_native": {
+              "rgb_mae": 0.005946057715114022,
+              "rgb_rmse": 0.008195017262975382,
+              "rgb_max_abs": 0.112548828125,
+              "rgb_p99_abs": 0.0263671875,
+              "highpass_mae": 0.002032465897926375
+            },
+            "decoder_vs_native": {
+              "mae": 2.2038469314575195,
+              "rmse": 3.3540260791778564,
+              "max_abs": 80.0
+            },
+            "vs_single_head_baseline": {
+              "rgb_mae": 0.003097972186788181,
+              "rgb_rmse": 0.004407721478866534,
+              "rgb_max_abs": 0.08154296875,
+              "rgb_p99_abs": 0.014892578125,
+              "highpass_mae": 0.0015945545216649569
+            }
+          },
+          "heads-8": {
+            "blocks": [
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              48,
+              49,
+              50,
+              51,
+              52,
+              53,
+              54,
+              55
+            ],
+            "mode": "all",
+            "vs_native": {
+              "rgb_mae": 0.005589173148959154,
+              "rgb_rmse": 0.007494061515909681,
+              "rgb_max_abs": 0.119140625,
+              "rgb_p99_abs": 0.0234375,
+              "highpass_mae": 0.0020195476881491054
+            },
+            "decoder_vs_native": {
+              "mae": 2.1362462043762207,
+              "rmse": 3.2346348762512207,
+              "max_abs": 80.0
+            },
+            "vs_single_head_baseline": {
+              "rgb_mae": 0.0030413511635183736,
+              "rgb_rmse": 0.004271338769724445,
+              "rgb_max_abs": 0.0599365234375,
+              "rgb_p99_abs": 0.013671875,
+              "highpass_mae": 0.0015849792090381338
+            }
+          }
+        }
+      }
+    ],
+    "limitations": [
+      "Native arithmetic equivalence is a hypothesis; this is not a production kernel.",
+      "First-reset same-scene comparisons do not establish temporal or perceptual quality.",
+      "No latency improvement is claimed by these image comparisons."
+    ],
+    "peak_allocated_mib": 1124.83203125
+  },
+  "adapter_checks": {
+    "schema": 1,
+    "passed": true,
+    "source_commit": "0ca2deab092fe6f3e331bf4f616271dbc64521d0",
+    "weights_sha256": "fa6ebc71bc6f91347d51b3368b0ef6e952b6157b6d9a164e7db82cffb88d3143",
+    "gpu": "NVIDIA GeForce RTX 4070 Ti",
+    "torch": "2.7.1+cu128",
+    "reference_checks": [
+      {
+        "block": 5,
+        "heads": 2,
+        "shape": [
+          1,
+          17,
+          23,
+          64
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 6,
+        "heads": 2,
+        "shape": [
+          1,
+          17,
+          23,
+          64
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 7,
+        "heads": 2,
+        "shape": [
+          1,
+          17,
+          23,
+          64
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 8,
+        "heads": 2,
+        "shape": [
+          1,
+          17,
+          23,
+          64
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 9,
+        "heads": 4,
+        "shape": [
+          1,
+          17,
+          23,
+          128
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 10,
+        "heads": 4,
+        "shape": [
+          1,
+          17,
+          23,
+          128
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 11,
+        "heads": 4,
+        "shape": [
+          1,
+          17,
+          23,
+          128
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 12,
+        "heads": 4,
+        "shape": [
+          1,
+          17,
+          23,
+          128
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 13,
+        "heads": 4,
+        "shape": [
+          1,
+          17,
+          23,
+          128
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 14,
+        "heads": 4,
+        "shape": [
+          1,
+          17,
+          23,
+          128
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 15,
+        "heads": 8,
+        "shape": [
+          1,
+          17,
+          23,
+          256
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 16,
+        "heads": 8,
+        "shape": [
+          1,
+          17,
+          23,
+          256
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 17,
+        "heads": 8,
+        "shape": [
+          1,
+          17,
+          23,
+          256
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 18,
+        "heads": 8,
+        "shape": [
+          1,
+          17,
+          23,
+          256
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 19,
+        "heads": 8,
+        "shape": [
+          1,
+          17,
+          23,
+          256
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 20,
+        "heads": 8,
+        "shape": [
+          1,
+          17,
+          23,
+          256
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 21,
+        "heads": 8,
+        "shape": [
+          1,
+          17,
+          23,
+          256
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 22,
+        "heads": 8,
+        "shape": [
+          1,
+          17,
+          23,
+          256
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 48,
+        "heads": 8,
+        "shape": [
+          1,
+          17,
+          23,
+          256
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 49,
+        "heads": 8,
+        "shape": [
+          1,
+          17,
+          23,
+          256
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 50,
+        "heads": 8,
+        "shape": [
+          1,
+          17,
+          23,
+          256
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 51,
+        "heads": 8,
+        "shape": [
+          1,
+          17,
+          23,
+          256
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 52,
+        "heads": 8,
+        "shape": [
+          1,
+          17,
+          23,
+          256
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 53,
+        "heads": 8,
+        "shape": [
+          1,
+          17,
+          23,
+          256
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 54,
+        "heads": 8,
+        "shape": [
+          1,
+          17,
+          23,
+          256
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 55,
+        "heads": 8,
+        "shape": [
+          1,
+          17,
+          23,
+          256
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 56,
+        "heads": 4,
+        "shape": [
+          1,
+          17,
+          23,
+          128
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 57,
+        "heads": 4,
+        "shape": [
+          1,
+          17,
+          23,
+          128
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 58,
+        "heads": 4,
+        "shape": [
+          1,
+          17,
+          23,
+          128
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 59,
+        "heads": 4,
+        "shape": [
+          1,
+          17,
+          23,
+          128
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 60,
+        "heads": 4,
+        "shape": [
+          1,
+          17,
+          23,
+          128
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 61,
+        "heads": 4,
+        "shape": [
+          1,
+          17,
+          23,
+          128
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 62,
+        "heads": 2,
+        "shape": [
+          1,
+          17,
+          23,
+          64
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 63,
+        "heads": 2,
+        "shape": [
+          1,
+          17,
+          23,
+          64
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 64,
+        "heads": 2,
+        "shape": [
+          1,
+          17,
+          23,
+          64
+        ],
+        "reference_exact": true
+      },
+      {
+        "block": 65,
+        "heads": 2,
+        "shape": [
+          1,
+          17,
+          23,
+          64
+        ],
+        "reference_exact": true
+      }
+    ],
+    "chunking_checks": [
+      {
+        "block": 5,
+        "shape": [
+          2,
+          17,
+          23,
+          64
+        ],
+        "ffn_mma": true,
+        "attention_mma": false,
+        "chunking_exact": true,
+        "compact_bias_exact": true
+      },
+      {
+        "block": 5,
+        "shape": [
+          2,
+          17,
+          23,
+          64
+        ],
+        "ffn_mma": false,
+        "attention_mma": true,
+        "chunking_exact": true,
+        "compact_bias_exact": true
+      },
+      {
+        "block": 5,
+        "shape": [
+          2,
+          17,
+          23,
+          64
+        ],
+        "ffn_mma": true,
+        "attention_mma": true,
+        "chunking_exact": true,
+        "compact_bias_exact": true
+      },
+      {
+        "block": 6,
+        "shape": [
+          2,
+          17,
+          23,
+          64
+        ],
+        "ffn_mma": true,
+        "attention_mma": false,
+        "chunking_exact": true,
+        "compact_bias_exact": true
+      },
+      {
+        "block": 6,
+        "shape": [
+          2,
+          17,
+          23,
+          64
+        ],
+        "ffn_mma": false,
+        "attention_mma": true,
+        "chunking_exact": true,
+        "compact_bias_exact": true
+      },
+      {
+        "block": 6,
+        "shape": [
+          2,
+          17,
+          23,
+          64
+        ],
+        "ffn_mma": true,
+        "attention_mma": true,
+        "chunking_exact": true,
+        "compact_bias_exact": true
+      },
+      {
+        "block": 9,
+        "shape": [
+          2,
+          17,
+          23,
+          128
+        ],
+        "ffn_mma": true,
+        "attention_mma": false,
+        "chunking_exact": true,
+        "compact_bias_exact": true
+      },
+      {
+        "block": 9,
+        "shape": [
+          2,
+          17,
+          23,
+          128
+        ],
+        "ffn_mma": false,
+        "attention_mma": true,
+        "chunking_exact": true,
+        "compact_bias_exact": true
+      },
+      {
+        "block": 9,
+        "shape": [
+          2,
+          17,
+          23,
+          128
+        ],
+        "ffn_mma": true,
+        "attention_mma": true,
+        "chunking_exact": true,
+        "compact_bias_exact": true
+      },
+      {
+        "block": 10,
+        "shape": [
+          2,
+          17,
+          23,
+          128
+        ],
+        "ffn_mma": true,
+        "attention_mma": false,
+        "chunking_exact": true,
+        "compact_bias_exact": true
+      },
+      {
+        "block": 10,
+        "shape": [
+          2,
+          17,
+          23,
+          128
+        ],
+        "ffn_mma": false,
+        "attention_mma": true,
+        "chunking_exact": true,
+        "compact_bias_exact": true
+      },
+      {
+        "block": 10,
+        "shape": [
+          2,
+          17,
+          23,
+          128
+        ],
+        "ffn_mma": true,
+        "attention_mma": true,
+        "chunking_exact": true,
+        "compact_bias_exact": true
+      },
+      {
+        "block": 15,
+        "shape": [
+          2,
+          17,
+          23,
+          256
+        ],
+        "ffn_mma": true,
+        "attention_mma": false,
+        "chunking_exact": true,
+        "compact_bias_exact": true
+      },
+      {
+        "block": 15,
+        "shape": [
+          2,
+          17,
+          23,
+          256
+        ],
+        "ffn_mma": false,
+        "attention_mma": true,
+        "chunking_exact": true,
+        "compact_bias_exact": true
+      },
+      {
+        "block": 15,
+        "shape": [
+          2,
+          17,
+          23,
+          256
+        ],
+        "ffn_mma": true,
+        "attention_mma": true,
+        "chunking_exact": true,
+        "compact_bias_exact": true
+      },
+      {
+        "block": 16,
+        "shape": [
+          2,
+          17,
+          23,
+          256
+        ],
+        "ffn_mma": true,
+        "attention_mma": false,
+        "chunking_exact": true,
+        "compact_bias_exact": true
+      },
+      {
+        "block": 16,
+        "shape": [
+          2,
+          17,
+          23,
+          256
+        ],
+        "ffn_mma": false,
+        "attention_mma": true,
+        "chunking_exact": true,
+        "compact_bias_exact": true
+      },
+      {
+        "block": 16,
+        "shape": [
+          2,
+          17,
+          23,
+          256
+        ],
+        "ffn_mma": true,
+        "attention_mma": true,
+        "chunking_exact": true,
+        "compact_bias_exact": true
+      }
+    ],
+    "scope": "Reference wiring and numerical invariance only; does not establish native intermediate parity."
+  },
+  "observations": [
+    "The inspected two-head feed-forward path carries FP16 MMA accumulators across channel groups and branch contractions.",
+    "The diagnostic follows inferred mathematical mappings; complete native equivalence is not proven.",
+    "Two-head changes improve both tested RGB MAEs, while enabling every branched change worsens the original view.",
+    "No candidate passes native quality; no native application was launched or changed."
+  ]
+}

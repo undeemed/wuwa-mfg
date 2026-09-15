@@ -734,6 +734,28 @@ documents the arithmetic progression, packing tradeoff, complete-image checks,
 timing scopes and source. No app, game, native DLL, driver or installer setting
 was changed.
 
+## Branched arithmetic and shared attention bias
+
+Private inspection located the native 2/4/8-head kernels and confirmed carried
+FP16 MMA accumulators in the two-head feed-forward path. A diagnostic adapter
+tests that accumulation pattern in the 36 branched window blocks. Results are
+mixed: two-head changes reduce native RGB MAE from 0.005167 / 0.005831 to
+**0.005066 / 0.005376**, but changing every branched block worsens the original
+view. No native quality gate is passed and no model replacement is accepted.
+
+A separate kernel change shares each attention-bias matrix across windows.
+It preserves initial-accumulator ordering and every tested output. The larger
+attention-score graph falls from **0.247 ms to 0.129 ms**; the complete diagnostic
+two-head block improves by about **4%**, from 2.55 ms to 2.45 ms. All 18 complete
+candidate images remain identical after this optimization. These are research
+implementation timings, not native renderer gains; NVIDIA's approximately
+5.4 ms result remains unchanged.
+
+The [full experiment](../research/neural-latency/README.md#branched-blocks-and-shared-attention-bias)
+includes inspection provenance, the nine-candidate comparison, seed mapping
+tests, regression checks and explicit timing scopes. No application, game,
+native DLL, driver or installer setting was changed.
+
 ## Papers and what can transfer
 
 These papers provide research ideas. Their reported speedups are on other models

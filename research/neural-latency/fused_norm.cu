@@ -349,7 +349,7 @@ extern "C" __global__ void gaussian_noise_f32(float* output,unsigned width,unsig
 extern "C" __global__ void fp8_mma_f16(
     const unsigned char* a,const unsigned char* b,const unsigned short* seed,
     unsigned short* output,unsigned m,unsigned n,unsigned k,unsigned batches,
-    unsigned long long bstride,unsigned long long cstride) {
+    unsigned long long bstride,unsigned long long cstride,unsigned seed_batches) {
     const unsigned lane=threadIdx.x&31u,group=lane>>2,part=lane&3u;
     const unsigned tiles_m=(m+15)/16,tiles_n=(n+7)/8;
     const unsigned long long tile=(unsigned long long)blockIdx.x*4+(threadIdx.x>>5);
@@ -361,7 +361,8 @@ extern "C" __global__ void fp8_mma_f16(
     const unsigned ccol=column+part*2;
     const unsigned long long abase=(unsigned long long)batch*m*k;
     const unsigned long long bbase=(unsigned long long)batch*bstride;
-    const unsigned long long cbase=(unsigned long long)batch*cstride;
+    const unsigned seed_batch=!cstride || batch<seed_batches ? batch : batch%seed_batches;
+    const unsigned long long cbase=(unsigned long long)seed_batch*cstride;
     unsigned c0=0,c1=0;
     if(seed) {
         if(row<m && ccol<n)c0=seed[cbase+(unsigned long long)row*n+ccol];
@@ -401,7 +402,7 @@ extern "C" __global__ void fp8_mma_f16(
 extern "C" __global__ void half_mma_f16(
     const unsigned short* a,const unsigned short* b,const unsigned short* seed,
     unsigned short* output,unsigned m,unsigned n,unsigned k,unsigned batches,
-    unsigned long long bstride,unsigned long long cstride) {
+    unsigned long long bstride,unsigned long long cstride,unsigned seed_batches) {
     const unsigned lane=threadIdx.x&31u,group=lane>>2,part=lane&3u;
     const unsigned tiles_m=(m+15)/16,tiles_n=(n+7)/8;
     const unsigned long long tile=(unsigned long long)blockIdx.x*4+(threadIdx.x>>5);
@@ -411,7 +412,8 @@ extern "C" __global__ void half_mma_f16(
     const unsigned row=((tile/tiles_n)%tiles_m)*16+group;
     const unsigned column=(tile%tiles_n)*8,ccol=column+part*2;
     const unsigned long long abase=(unsigned long long)batch*m*k,bbase=(unsigned long long)batch*bstride;
-    const unsigned long long cbase=(unsigned long long)batch*cstride;
+    const unsigned seed_batch=!cstride || batch<seed_batches ? batch : batch%seed_batches;
+    const unsigned long long cbase=(unsigned long long)seed_batch*cstride;
     unsigned c0=0,c1=0;
     if(seed) {
         if(row<m && ccol<n)c0=seed[cbase+(unsigned long long)row*n+ccol];

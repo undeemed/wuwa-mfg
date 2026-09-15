@@ -100,6 +100,10 @@ The single-head arithmetic extension, FP8 operand packing kernel and associated
 checks retain the same Apache-2.0 attribution. The fused gate follows the pinned
 reference's operation order and explicit half rounding. No vendor instructions,
 learned weights, captured features or generated CUDA modules are included.
+The branched 2/4/8-head diagnostic likewise adapts the attributed reference's
+graph and window mapping under Apache-2.0. Its private native-inspection utility
+and shared-bias MMA extension contain no vendor instruction code. Only derived
+findings, numeric instruction counts, hashes and experiment results are published.
 Research papers are linked in the latency investigation; their reported results
 are not presented as performance claims for this toolkit.
 
