@@ -521,6 +521,28 @@ timing nor prefix equality establishes a native speedup. See the
 [direct-MMA experiment](../research/neural-latency/README.md#direct-tensor-core-accumulation)
 and its numeric evidence. The working game/runtime remains unchanged.
 
+## Separate native pooled features
+
+Two additional hidden-demo captures cover the complete first pooled tensor,
+including padded rows. Its layout differs from the full-resolution skip:
+two planes of 16 channels, rather than 512-byte spatial tiles. A fixed decoder
+now supplies an actual native intermediate target for subsequent model work.
+
+Direct tensor-core arithmetic plus horizontal-pair FP16 averaging matches
+99.07–99.09% of its bytes across the two views, with mean absolute error around
+0.00012. Padding and remaining arithmetic differences are included in those
+figures. This improves the reference for intermediate-feature distillation; it
+does not establish an accurate or faster replacement model.
+
+An additional diagnostic fed the exact native pooled tensor into the original
+reconstruction. Final RGB error still increased from 0.01435 to 0.01604 on the
+same captured image. Its other blocks and full-resolution skip were unchanged,
+so correcting this pooled path alone is insufficient. Capturing subsequent
+native intermediates and the complete skip can separate those remaining errors.
+The real native model still measured about 5.42 ms; the 3 ms quality-preserving
+target remains unmet. See the [pooling experiment](../research/neural-latency/README.md#separate-pooled-features-and-a-native-input-diagnostic)
+and [numeric evidence](../evidence/neural-model-research/native-pre-pool.json).
+
 ## Papers and what can transfer
 
 These papers provide research ideas. Their reported speedups are on other models

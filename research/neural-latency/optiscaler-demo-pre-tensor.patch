@@ -830,11 +830,11 @@ diff --git a/OptiScaler/dlssnr/DlssNr_DemoBufferProbe.h b/OptiScaler/dlssnr/Dlss
 new file mode 100644
 --- /dev/null
 +++ b/OptiScaler/dlssnr/DlssNr_DemoBufferProbe.h
-@@ -0,0 +1,344 @@
+@@ -0,0 +1,358 @@
 +#pragma once
 +
 +// GPL-3.0 demo research: map documented pointers and observe native barriers.
-+// The separate nr-pre-tensor-capture marker enables one fenced 32 MiB readback.
++// Mutually exclusive pre-tensor/pool markers enable one fenced bounded readback.
 +#include <d3d12.h>
 +#include <wrl/client.h>
 +#include <json.hpp>
@@ -862,6 +862,8 @@ new file mode 100644
 +    ID3D12CommandList* identity=nullptr;
 +    std::filesystem::path directory;
 +    UINT64 bytes=0;
++    bool pooled=false;
++    std::filesystem::path filename=L"pre-output-prefix.raw";
 +    bool enabled=false,attempted=false,recorded=false,submitted=false,discarded=false,written=false;
 +    nlohmann::json metadata;
 +};
@@ -907,9 +909,13 @@ new file mode 100644
 +    state->output << nlohmann::json({{"kind","configuration"},{"schema",1},
 +        {"retention_cap_bytes",1024ull*1024*1024},{"buffer_cap",128},
 +        {"scope","default-heap buffers created during direct NR calls; metadata only"}}).dump()<<'\n';
-+    if(std::filesystem::exists(runtime.parent_path()/L"nr-pre-tensor-capture.enable"))
++    const bool prefix=std::filesystem::exists(runtime.parent_path()/L"nr-pre-tensor-capture.enable");
++    const bool pool=std::filesystem::exists(runtime.parent_path()/L"nr-pre-pool-capture.enable");
++    if(prefix != pool)
 +    {
-+        state->shot.directory=runtime.parent_path()/L"nr-pre-tensor-capture";
++        state->shot.pooled=pool;
++        if(pool)state->shot.filename=L"pre-pool.raw";
++        state->shot.directory=runtime.parent_path()/(pool?L"nr-pre-pool-capture":L"nr-pre-tensor-capture");
 +        if(!std::filesystem::exists(state->shot.directory))
 +        { std::filesystem::create_directory(state->shot.directory);state->shot.enabled=true; }
 +    }
@@ -1091,7 +1097,7 @@ new file mode 100644
 +    if(completed==UINT64_MAX || completed<1)return;
 +    void* bytes=nullptr;D3D12_RANGE range{0,(SIZE_T)shot.bytes};
 +    if(FAILED(shot.readback->Map(0,&range,&bytes)))return;
-+    std::ofstream output(shot.directory/L"pre-output-prefix.raw",std::ios::binary);
++    std::ofstream output(shot.directory/shot.filename,std::ios::binary);
 +    output.write(static_cast<const char*>(bytes),std::streamsize(shot.bytes));output.close();
 +    D3D12_RANGE none{0,0};shot.readback->Unmap(0,&none);
 +    shot.metadata["gpu_completed"]=true;shot.metadata["complete"]=!output.fail();
@@ -1103,18 +1109,23 @@ new file mode 100644
 +    if(!state || !state->shot.enabled || state->shot.attempted || frame!=1 || size!=264 || !params || status!=0)return;
 +    std::lock_guard lock(state->mutex);auto& shot=state->shot;shot.attempted=true;
 +    const auto* data=static_cast<const unsigned char*>(params);
-+    UINT64 address=0;unsigned h=0,w=0,noise=0;
-+    memcpy(&address,data+216,8);memcpy(&h,data+208,4);memcpy(&w,data+212,4);memcpy(&noise,data+200,4);
++    UINT64 address=0;unsigned h=0,w=0,noise=0,poolH=0,poolW=0;
++    const unsigned pointerOffset=shot.pooled?248:216;
++    memcpy(&address,data+pointerOffset,8);memcpy(&h,data+208,4);memcpy(&w,data+212,4);memcpy(&noise,data+200,4);
++    memcpy(&poolH,data+256,4);memcpy(&poolW,data+260,4);
 +    auto fail=[&](const char* reason)
 +    { Event({{"kind","tensor_capture_skipped"},{"reason",reason}}); };
 +    if(!originalLegacy || !originalEnhanced || state->coverageGap || h!=1080 || w!=1920 || noise!=0)
 +    { fail("Unverified barrier coverage or first-frame extent/counter");return; }
++    if(shot.pooled && (poolH!=576 || poolW!=960))
++    { Event({{"kind","tensor_capture_skipped"},{"reason","Unverified pooled tensor extent"},
++             {"pool_height",poolH},{"pool_width",poolW}});return; }
 +    Buffer* found=nullptr;
 +    for(auto& buffer:state->buffers)
 +        if(address>=buffer.address && address-buffer.address<buffer.bytes){found=&buffer;break;}
 +    if(!found || !found->stateUsable || found->declaredState!=D3D12_RESOURCE_STATE_UNORDERED_ACCESS)
 +    { fail("Output allocation has no compatible observed UAV declaration");return; }
-+    const UINT64 offset=address-found->address,bytes=32ull*1024*1024;
++    const UINT64 offset=address-found->address,bytes=shot.pooled?UINT64(poolH)*poolW*32:32ull*1024*1024;
 +    if(found->bytes-offset<bytes){fail("Known allocation is too short for the bounded prefix");return;}
 +    Microsoft::WRL::ComPtr<ID3D12Device> device;
 +    if(FAILED(commands->GetDevice(IID_PPV_ARGS(&device))))return;
@@ -1135,8 +1146,11 @@ new file mode 100644
 +    shot.identity=Identity(commands);shot.bytes=bytes;shot.recorded=true;
 +    shot.metadata={{"schema",1},{"frame",frame},{"width",w},{"height",h},{"noise_counter",noise},
 +        {"buffer_id",found->id},{"allocation_offset",offset},{"bytes",bytes},{"gpu_completed",false},{"complete",false},
-+        {"file","pre-output-prefix.raw"},{"layout_verified",false},
-+        {"scope","32 MiB allocation prefix immediately after recognized first preprocessor; may include other scratch data"},
++        {"file",shot.filename.string()},{"layout_verified",false},{"pointer_argument_offset",pointerOffset},
++        {"tensor_kind",shot.pooled?"pooled":"full_resolution_skip_prefix"},
++        {"pool_height",poolH},{"pool_width",poolW},
++        {"scope",shot.pooled?"Separate pooled output immediately after recognized first preprocessor; layout requires offline verification":
++                            "32 MiB allocation prefix immediately after recognized first preprocessor; may include other scratch data"},
 +        {"state_contract","Observed whole-buffer UAV declaration with no split/alias/enhanced barriers or implementation gaps; restored to UAV"}};
 +    Event({{"kind","tensor_capture_recorded"},{"bytes",bytes},{"buffer_id",found->id},{"offset",offset}});
 +}

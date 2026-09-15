@@ -19,6 +19,7 @@ p.add_argument('--fused-publish',action='store_true',help='Fuse strided cosine n
 p.add_argument('--fused-roundtrip',action='store_true',help='Fuse clamp and E4M3 roundtrip without an intermediate FP8 allocation.')
 p.add_argument('--first-block-rounding',action='store_true',help='Experimental FP8 inputs to block-0 FFN/QKV branches; retain original residual operands.')
 p.add_argument('--mma-first-block',action='store_true',help='Experimental direct FP8 MMA and initial residual/bias for block 0 only.')
+p.add_argument('--native-pre-pool',type=Path,help='Diagnostic only: substitute the captured native block-1 input from this exact frame. Not a deployable model.')
 p.add_argument('--graph',action='store_true',help='Time fixed-shape CUDA Graph replay on the complete captured input.')
 p.add_argument('--profile',action='store_true',help='Trace one warmed graph replay after timing; requires --graph.')
 p.add_argument('--noise-frame',type=int,choices=range(4),default=0,
@@ -27,6 +28,8 @@ a=p.parse_args()
 if a.profile and not a.graph:p.error('--profile requires --graph')
 if a.mma_first_block and (a.first_block_rounding or a.precision!='fast'):
     p.error('--mma-first-block requires fast precision and cannot combine with --first-block-rounding')
+if a.native_pre_pool and (a.noise_frame!=0 or a.network_height!=1152):
+    p.error('--native-pre-pool requires noise frame 0 and --network-height 1152')
 a.output.mkdir(parents=True,exist_ok=False)
 sys.path.insert(0,str(a.source/'python'))
 metadata=json.loads((a.capture/'frame-0.json').read_text())
@@ -107,6 +110,31 @@ if a.mma_first_block:
         if head_count!=1:raise ValueError('MMA probe supports single-head block 0 only.')
         return mma_block(value,attention_mma=True,seed_residual=True,seed_logits=True)
     pipeline.model._window=mma_window
+if a.native_pre_pool:
+    from decode_pre_pool import load_pooled
+    from decode_pre_tensor import e4m3_lut
+    pooled_codes,pooled_hash=load_pooled(a.native_pre_pool)
+    pooled_frame=json.loads((a.native_pre_pool/'capture/frame-0.json').read_text())
+    if pooled_frame['controls']!=controls:
+        raise ValueError('Native activation controls differ from the target frame.')
+    for role in ('color','output'):
+        filename=Path(pooled_frame['resources'][role]['file'])
+        if filename.name!=str(filename):raise ValueError('Texture filename must be a basename.')
+        digest=hashlib.sha256((a.native_pre_pool/'capture'/filename).read_bytes()).hexdigest()
+        if digest!=hashes[role]:raise ValueError('Native activation must come from the exact paired frame.')
+    pooled_values=e4m3_lut()[pooled_codes]
+    if not np.isfinite(pooled_values).all():raise ValueError('Nonfinite native activation.')
+    native_pool=torch.from_numpy(pooled_values[None]).to('cuda',pipeline.dtype)
+    before_teacher=pipeline.model._window
+    def teacher_window(value,index,*,head_count,publish=True):
+        if index==1:
+            if value.shape!=native_pool.shape or head_count!=1:
+                raise ValueError('Unexpected first pooled-window input shape.')
+            value=native_pool
+        return before_teacher(value,index,head_count=head_count,publish=publish)
+    pipeline.model._window=teacher_window
+    stats['native_pre_pool_diagnostic']={'sha256':pooled_hash,'substituted_block_input':1,
+        'scope':'Uses a captured activation from this exact frame; cannot run independently or prove model quality/speed.'}
 automatic=AutomaticMask(controls['DLSSNR.SkinStructureStrength'],controls['DLSSNR.LocalStructureStrength']) if controls['DLSSNR.UseAutoMask'] else None
 prepared=pipeline.prepare(source,frame_index=a.noise_frame,normalized_style=controls['DLSSNR.Style']/128,
     local_tone_strength=controls['DLSSNR.LocalToneStrength'],

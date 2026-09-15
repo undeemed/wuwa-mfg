@@ -529,3 +529,71 @@ this is not native runtime latency. This candidate is not accepted or deployed.
 
 The full settings, per-channel errors, ULP counts, synthetic checks and image
 comparison are in [`first-block-mma.json`](../../evidence/neural-model-research/first-block-mma.json).
+
+## Separate pooled features and a native-input diagnostic
+
+The first block's pooled output has now been captured in two hidden demo views.
+It is a separate **17,694,720-byte tensor**, addressed by packed argument 248,
+with logical shape **576×960×32** for a 1920×1080 image. The existing 32 MiB
+skip prefix does not contain this tensor. Its physical layout is two
+576×960×16 channel planes, with logical channel bits selecting physical bits
+`[0,2,3,1]` inside each plane. It does not use the skip's 512-byte tile layout.
+`decode_pre_pool.py` applies that fixed bijection and compares every element,
+including the 36 padded rows. Those rows contain features, not all zeros.
+
+The combined `optiscaler-demo-pre-tensor.patch` now supports the separate
+`nr-pre-pool-capture.enable` marker. It is mutually exclusive with
+`nr-pre-tensor-capture.enable`: enabling both captures neither. The new mode
+requires the recognized first preprocessor, successful launch, first reset,
+zero noise counter, exact image/pool extents, a retained allocation and the
+existing observed UAV-state contract. It copies once, restores UAV state and
+maps only after the actual submitting queue's fence completes. Runtime metadata
+still says `layout_verified: false`; layout validation is an offline result.
+
+`collect_pre_pool.py` runs the original and west camera views for 25 seconds
+each. It requires the exact hidden-executable hash, rejects running games and
+conflicting experiments, archives private outputs and restores the demo's DLL,
+scene and markers. Use the already configured NVIDIA sample and a locally built
+capture DLL; this is not a WuWa install step.
+
+```powershell
+python collect_pre_pool.py --demo-dir D:\PrivateDemo\bin\ngx_dlss_demo --output-dir D:\PrivateResults --capture-dll D:\PrivateBuild\OptiScaler.dll --capture-sha256 <verified-build-sha256>
+.venv\Scripts\python probe_pre_pool_arithmetic.py --source MLX-DLSS --weights D:\PrivateWeights\logical.safetensors --trial D:\PrivateResults\trials\native-pre-pool-original --trial D:\PrivateResults\trials\native-pre-pool-west --output D:\PrivateResults\pool-arithmetic.json
+```
+
+Using the previously tested direct-MMA first block, pooling **unpublished FP16
+values** in horizontal pairs gives the closest result in both views. For a 2×2
+region with top row `a,c` and bottom row `b,d`, this is
+`((a+c)+(b+d))*0.25`, rounded in FP16 at each operation and then published as
+E4M3. The old reference uses `(((a+b)+c)+d)*0.25`.
+
+| Pooling order, same direct-MMA block | Original MAE | West MAE | Exact bytes, original / west |
+| --- | ---: | ---: | ---: |
+| Sequential, vertical first | 0.0001612 | 0.0001652 | 98.81% / 98.83% |
+| Paired vertical | 0.0001533 | 0.0001569 | 98.83% / 98.85% |
+| Paired horizontal | **0.0001169** | **0.0001192** | **99.07% / 99.09%** |
+| Paired diagonal | 0.0001536 | 0.0001570 | 98.83% / 98.85% |
+
+The original reconstruction's pooled tensor had MAE 0.00510 and 60.74% exact
+bytes on the original view. The new comparisons use all 17,694,720 elements per
+view, without refitting the layout on west. The west input differs from the
+older skip-prefix experiment, so it was reconstructed from its new paired
+capture rather than reusing an old reference array.
+
+To isolate the pooled path, `compare_capture.py --native-pre-pool <trial>` can
+substitute the **exact captured activation** at block 1. It verifies matching
+input/output texture hashes and control values, and requires noise frame zero
+and network height 1152. This uses information from the native runtime for that
+exact frame; it cannot run as an independent model or demonstrate a speedup.
+
+On the identical original image, this substitution still **worsened final RGB
+MAE from 0.01435 to 0.01604**. The full-resolution skip and remaining network
+retain their previous implementation. Fixing the pooled input alone therefore
+does not resolve the final-image mismatch; downstream and/or skip-path errors
+remain. The diagnostic graph took 190.66 ms. The real native capture runs stayed
+around **5.42 ms model / 5.62–5.63 ms total**, with only two sparse warm readings
+per view. No quality acceptance, native speedup or game deployment follows.
+
+Capture contracts, hashes, per-channel errors, padding results, pooling variants
+and the matched final-image diagnostic are published in
+[`native-pre-pool.json`](../../evidence/neural-model-research/native-pre-pool.json).
