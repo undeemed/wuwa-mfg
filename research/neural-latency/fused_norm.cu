@@ -56,3 +56,57 @@ extern "C" __global__ void cosine_norm_f16(const unsigned short* input, unsigned
 extern "C" __global__ void cosine_norm_f32(const float* input, float* output, unsigned rows) {
     norm32(input,output,rows);
 }
+
+__device__ __forceinline__ unsigned short half_bits(float x) {
+    unsigned short h;
+    asm("cvt.rn.f16.f32 %0, %1;" : "=h"(h) : "f"(x));
+    return h;
+}
+struct Pair { float a,b; };
+template<class T> __device__ Pair affine_pair(const T* x) {
+    float a = half_round(read_value(x[0])*0.044921875f + 1.30078125f);
+    float b = half_round(read_value(x[1])*0.044921875f + 1.30078125f);
+    a = a < 1.03125f ? 1.03125f : (a > 1.5693359375f ? 1.5693359375f : a);
+    b = b < 1.03125f ? 1.03125f : (b > 1.5693359375f ? 1.5693359375f : b);
+    const unsigned packed = (unsigned)half_bits(a) | ((unsigned)half_bits(b)<<16);
+    const unsigned transformed = (packed<<5) + 0x7ff88000u;
+    return {read_half((unsigned short)transformed),read_half((unsigned short)(transformed>>16))};
+}
+__device__ __forceinline__ float positive_e4m3(float x) {
+    const unsigned bits = __float_as_uint(x);
+    const float step = x < 0.015625f ? 0.001953125f : __uint_as_float((((bits>>23)&255)-3)<<23);
+    return __int2float_rn(__float2int_rn(x/step))*step;
+}
+template<class T> __device__ void softmax_rows(const T* input, T* output, unsigned rows, unsigned columns) {
+    const unsigned row = blockIdx.x;
+    if (row >= rows) return;
+    const unsigned thread = threadIdx.x, lane = thread%32, warp = thread/32;
+    const unsigned long long base = (unsigned long long)row*columns;
+    float sum = 0;
+    for (unsigned pair = thread; pair < columns/2; pair += blockDim.x) {
+        const auto value = affine_pair(input+base+pair*2);
+        sum += value.a + value.b;
+    }
+    for (unsigned offset=16; offset; offset/=2) sum += __shfl_down_sync(0xffffffffu,sum,offset);
+    __shared__ float partial[8];
+    if (!lane) partial[warp] = sum;
+    __syncthreads();
+    if (!warp) {
+        sum = lane < blockDim.x/32 ? partial[lane] : 0;
+        for (unsigned offset=16; offset; offset/=2) sum += __shfl_down_sync(0xffffffffu,sum,offset);
+        if (!lane) partial[0] = half_round(1.0f/half_round(sum));
+    }
+    __syncthreads();
+    const float reciprocal = partial[0];
+    for (unsigned pair = thread; pair < columns/2; pair += blockDim.x) {
+        const auto value = affine_pair(input+base+pair*2);
+        output[base+pair*2] = write_value<T>(positive_e4m3(half_round(value.a*reciprocal)));
+        output[base+pair*2+1] = write_value<T>(positive_e4m3(half_round(value.b*reciprocal)));
+    }
+}
+extern "C" __global__ void bit_affine_softmax_f16(const unsigned short* input, unsigned short* output, unsigned rows, unsigned columns) {
+    softmax_rows(input,output,rows,columns);
+}
+extern "C" __global__ void bit_affine_softmax_f32(const float* input, float* output, unsigned rows, unsigned columns) {
+    softmax_rows(input,output,rows,columns);
+}

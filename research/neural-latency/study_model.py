@@ -17,6 +17,7 @@ def main():
     p.add_argument('--image', type=Path)
     p.add_argument('--skip', default='31')
     p.add_argument('--fused-norm', action='store_true', help='Use the experimental local CUDA normalization kernel in graph mode.')
+    p.add_argument('--fused-softmax', action='store_true', help='Use the experimental bit-affine row kernel in graph mode.')
     a = p.parse_args()
     if a.output.exists():
         raise SystemExit('Output exists; use a fresh experiment path.')
@@ -108,14 +109,21 @@ def main():
                 'head_unequal': int(torch.count_nonzero(original != exact)),
                 'head_max_abs': float((original-exact).abs().max())}
             if a.mode == 'graph':
-                if a.fused_norm:
+                if a.fused_norm or a.fused_softmax:
                     from fused_norm import FusedNorm
                     fused = FusedNorm()
+                if a.fused_norm:
                     previous_norm = reference.vendor_cosine_normalize
                     def custom_norm(x):
                         return fused(x) if x.device.type == 'cuda' and x.shape[-1] == 32 else previous_norm(x)
                     reference.vendor_cosine_normalize = custom_norm
                 result['uses_fused_norm'] = a.fused_norm
+                if a.fused_softmax:
+                    previous_softmax = reference.vendor_approximate_softmax
+                    def custom_softmax(x):
+                        return fused.softmax(x) if x.device.type == 'cuda' and 2 <= x.shape[-1] <= 2048 and x.shape[-1]%2 == 0 else previous_softmax(x)
+                    reference.vendor_approximate_softmax = custom_softmax
+                result['uses_fused_softmax'] = a.fused_softmax
                 # Weights are immutable in this inference experiment. Hoist the
                 # CPU-created index and constant bias permutation out of capture.
                 bias_layout = reference.recover_attention_bias_layout

@@ -20,6 +20,10 @@ dist/
 *.ptx
 *.fatbin
 *.onnx
+*.raw
+*.npy
+*.npz
 research/**/local-weights/
+research/**/local-captures/
 research/**/MLX-DLSS/
 research/**/results/

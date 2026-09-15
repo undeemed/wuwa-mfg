@@ -1,0 +1,258 @@
+--- a/OptiScaler/dlssnr/DlssNr_CompatibilityRuntime.cpp
++++ b/OptiScaler/dlssnr/DlssNr_CompatibilityRuntime.cpp
+@@ -13,6 +13,7 @@
+ #include <set>
+ #include <condition_variable>
+ #include <atomic>
++#include "DlssNr_DemoCapture.h"
+ #pragma comment(lib, "psapi.lib")
+ 
+ namespace DlssNr
+@@ -142,6 +143,7 @@
+     try
+     {
+         auto path = std::filesystem::absolute(candidate).lexically_normal();
++        DemoCapture::Initialize(path);
+         auto loaded = liveModule.lock();
+         if (!loaded) moduleRetired.wait(lock, [&] { loaded = liveModule.lock(); return loaded || !moduleRegistered; });
+         if (loaded && !std::filesystem::equivalent(loaded->path, path)) return {};
+@@ -264,7 +266,10 @@
+ {
+     std::lock_guard lock(module->mutex);
+     CallerScope caller;
+-    return module->evaluate(commands, feature, params, nullptr);
++    DemoCapture::Begin(commands, params);
++    const auto result = module->evaluate(commands, feature, params, nullptr);
++    DemoCapture::End(commands, result);
++    return result;
+ }
+ 
+ NVSDK_NGX_Result CompatibilityRuntime::Release(NVSDK_NGX_Handle* feature)
+--- a/OptiScaler/shaders/dlssnr/DlssNr_Dx12_FinishedQueue.cpp
++++ b/OptiScaler/shaders/dlssnr/DlssNr_Dx12_FinishedQueue.cpp
+@@ -1,6 +1,7 @@
+ #include "pch.h"
+ #include "DlssNr_Dx12_State.h"
+ #include <dlssnr/DlssNr_StreamlinePicture.h>
++#include <dlssnr/DlssNr_DemoCapture.h>
+ 
+ void DlssNr_Dx12::ApplyStreamlineFinished(IDXGISwapChain* swapchain, ID3D12Resource* picture, ID3D12CommandQueue* queue)
+ {
+@@ -12,6 +13,7 @@
+ auto DlssNr_Dx12::State::FinishedPictureResetCommandList(ID3D12CommandList* cmd) -> void
+ {
+     std::lock_guard<std::recursive_mutex> lock(mutex);
++    DlssNr::DemoCapture::ResetRecording(cmd);
+     lifetime.ResetRecording(cmd);
+     if (enlarger) enlarger->lifetime.ResetRecording(cmd);
+     for (auto& old : retiredEnlargers) old->lifetime.ResetRecording(cmd);
+@@ -76,6 +78,7 @@
+ auto DlssNr_Dx12::State::FinishedPictureSubmitted(ID3D12CommandQueue* queue, UINT count, ID3D12CommandList* const* lists) -> void
+ {
+     std::lock_guard<std::recursive_mutex> lock(mutex);
++    DlssNr::DemoCapture::Submitted(queue, count, lists);
+     lifetime.Submitted(queue, count, lists);
+     if (enlarger) enlarger->lifetime.Submitted(queue, count, lists);
+     for (auto& old : retiredEnlargers) old->lifetime.Submitted(queue, count, lists);
+--- /dev/null
++++ b/OptiScaler/dlssnr/DlssNr_DemoCapture.h
+@@ -0,0 +1,199 @@
++#pragma once
++// GPL-3.0: research-only capture at the existing NR resource contract.
++// No heuristic frame delay: readback requires the actual queue's completed fence.
++#include <json.hpp>
++#include <nvsdk_ngx.h>
++#include <Util.h>
++#include <array>
++#include <fstream>
++#include <mutex>
++
++namespace DlssNr::DemoCapture
++{
++using Json = nlohmann::json;
++template<class T> using Ptr = Microsoft::WRL::ComPtr<T>;
++struct Shot
++{
++    Ptr<ID3D12Resource> source, readback;
++    D3D12_PLACED_SUBRESOURCE_FOOTPRINT layout{};
++    UINT rows = 0;
++    UINT64 rowBytes = 0, bytes = 0;
++    bool recorded = false;
++};
++struct Frame
++{
++    std::array<Shot, 4> shots;
++    Ptr<ID3D12Fence> fence;
++    ID3D12CommandList* identity = nullptr;
++    bool ended = false, submitted = false, written = false, discarded = false;
++    Json metadata;
++};
++struct Capture
++{
++    std::recursive_mutex mutex;
++    std::array<Frame,4> frames;
++    std::filesystem::path directory;
++    unsigned count = 0;
++    UINT64 allocated = 0;
++    bool enabled = false, started = false;
++};
++// Bounded process-lifetime owner also covers command lists whose submission or
++// Signal fails. Such resources are never freed merely because a timer elapsed.
++inline Capture* state = nullptr;
++inline thread_local Frame* active = nullptr;
++inline const char* names[] = {"color", "depth", "motion", "output"};
++
++inline ID3D12CommandList* Identity(ID3D12CommandList* commands)
++{
++    ID3D12CommandList* real = nullptr;
++    return Util::CheckForRealObject(__FUNCTION__, commands, (IUnknown**)&real) ? real : commands;
++}
++inline void Initialize(const std::filesystem::path& runtime)
++{
++    if (state) return;
++    wchar_t executable[32768]{};
++    if (!GetModuleFileNameW(nullptr, executable, (DWORD)std::size(executable)) ||
++        _wcsicmp(std::filesystem::path(executable).filename().c_str(), L"ngx_dlss_demo.exe") ||
++        !std::filesystem::exists(runtime.parent_path() / L"nr-model-capture.enable")) return;
++    state = new Capture;
++    state->directory = runtime.parent_path() / L"nr-model-capture";
++    if (std::filesystem::exists(state->directory))
++    { LOG_WARN("NR demo capture: directory already exists; refusing overwrite"); return; }
++    std::filesystem::create_directory(state->directory);
++    state->enabled = true;
++    LOG_INFO("NR demo capture: armed four frames starting at the first reset");
++}
++inline bool Allocate(ID3D12Device* device, ID3D12Resource* resource, Shot& shot)
++{
++    if (!resource) return false;
++    const auto desc = resource->GetDesc();
++    if (desc.Dimension != D3D12_RESOURCE_DIMENSION_TEXTURE2D || desc.SampleDesc.Count != 1 ||
++        desc.MipLevels != 1 || desc.DepthOrArraySize != 1 || desc.Width > 4096 || desc.Height > 4096) return false;
++    device->GetCopyableFootprints(&desc,0,1,0,&shot.layout,&shot.rows,&shot.rowBytes,&shot.bytes);
++    if (!shot.bytes || shot.bytes > 64ull*1024*1024 || state->allocated + shot.bytes > 512ull*1024*1024) return false;
++    D3D12_HEAP_PROPERTIES heap{}; heap.Type = D3D12_HEAP_TYPE_READBACK;
++    D3D12_RESOURCE_DESC buffer{}; buffer.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
++    buffer.Width = shot.bytes; buffer.Height = 1; buffer.DepthOrArraySize = 1;
++    buffer.MipLevels = 1; buffer.SampleDesc.Count = 1; buffer.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
++    if (FAILED(device->CreateCommittedResource(&heap,D3D12_HEAP_FLAG_NONE,&buffer,
++        D3D12_RESOURCE_STATE_COPY_DEST,nullptr,IID_PPV_ARGS(&shot.readback)))) return false;
++    shot.source = resource; state->allocated += shot.bytes;
++    return true;
++}
++inline void Record(ID3D12GraphicsCommandList* commands, Shot& shot, D3D12_RESOURCE_STATES before)
++{
++    D3D12_RESOURCE_BARRIER barrier{};
++    barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
++    barrier.Transition.pResource = shot.source.Get();
++    barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
++    barrier.Transition.StateBefore = before; barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_COPY_SOURCE;
++    commands->ResourceBarrier(1,&barrier);
++    D3D12_TEXTURE_COPY_LOCATION destination{}; destination.pResource = shot.readback.Get();
++    destination.Type = D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT; destination.PlacedFootprint = shot.layout;
++    D3D12_TEXTURE_COPY_LOCATION source{}; source.pResource = shot.source.Get();
++    source.Type = D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
++    commands->CopyTextureRegion(&destination,0,0,0,&source,nullptr);
++    std::swap(barrier.Transition.StateBefore,barrier.Transition.StateAfter);
++    commands->ResourceBarrier(1,&barrier); shot.recorded = true;
++}
++inline void Collect()
++{
++    for (unsigned i = 0; i < state->count; ++i)
++    {
++        auto& frame = state->frames[i];
++        if (!frame.submitted || frame.written || frame.discarded) continue;
++        const auto completed = frame.fence->GetCompletedValue();
++        if (completed == UINT64_MAX || completed < 1) continue;
++        bool success = true;
++        frame.metadata["gpu_completed"] = true;
++        for (unsigned j = 0; j < frame.shots.size(); ++j)
++        {
++            auto& shot = frame.shots[j];
++            if (!shot.recorded) { success = false; continue; }
++            void* bytes = nullptr; D3D12_RANGE range{0,size_t(shot.bytes)};
++            if (FAILED(shot.readback->Map(0,&range,&bytes))) { success = false; continue; }
++            const auto file = std::string(names[j]) + "-" + std::to_string(i) + ".raw";
++            std::ofstream output(state->directory/file,std::ios::binary|std::ios::trunc);
++            for (unsigned row = 0; row < shot.rows; ++row)
++                output.write(static_cast<char*>(bytes)+shot.layout.Offset+size_t(row)*shot.layout.Footprint.RowPitch,
++                             std::streamsize(shot.rowBytes));
++            output.close(); success = success && !output.fail();
++            D3D12_RANGE written{0,0}; shot.readback->Unmap(0,&written);
++            const auto desc = shot.source->GetDesc();
++            frame.metadata["resources"][names[j]] = {{"file",file},{"width",desc.Width},{"height",desc.Height},
++                {"format",(unsigned)desc.Format},{"row_bytes",shot.rowBytes},{"rows",shot.rows}};
++        }
++        frame.metadata["complete"] = success;
++        std::ofstream metadata(state->directory/("frame-"+std::to_string(i)+".json"));
++        metadata << frame.metadata.dump(2); metadata.close();
++        frame.written = true;
++        LOG_INFO("NR demo capture: frame {} read after GPU fence, complete={}",i,success);
++    }
++}
++inline void Begin(ID3D12GraphicsCommandList* commands, NVSDK_NGX_Parameter* parameters)
++{
++    active = nullptr;
++    if (!state || !state->enabled) return;
++    std::lock_guard lock(state->mutex); Collect();
++    if (state->count == state->frames.size()) return;
++    unsigned reset = 0;
++    if (parameters->Get("DLSSNR.Reset",&reset) != NVSDK_NGX_Result_Success) return;
++    if (!state->started && !reset) return;
++    state->started = true;
++    auto& frame = state->frames[state->count];
++    Ptr<ID3D12Device> device;
++    if (FAILED(commands->GetDevice(IID_PPV_ARGS(&device)))) { state->enabled = false; return; }
++    const char* keys[] = {"DLSSNR.Color","DLSSNR.Depth","DLSSNR.MVec","DLSSNR.Output"};
++    for (unsigned i = 0; i < 4; ++i)
++    {
++        ID3D12Resource* resource = nullptr;
++        if (parameters->Get(keys[i],&resource) != NVSDK_NGX_Result_Success || !Allocate(device.Get(),resource,frame.shots[i]))
++        { LOG_WARN("NR demo capture: unsupported resource {}",keys[i]); state->enabled = false; return; }
++    }
++    if (FAILED(device->CreateFence(0,D3D12_FENCE_FLAG_NONE,IID_PPV_ARGS(&frame.fence)))) { state->enabled = false; return; }
++    frame.identity = Identity(commands);
++    frame.metadata = {{"schema",1},{"index",state->count},{"gpu_completed",false}};
++    for (const char* key : {"DLSSNR.Width","DLSSNR.Height","DLSSNR.Reset","DLSSNR.Style","DLSSNR.UseAutoMask",
++         "DLSSNR.Hint.Render.Preset","DLSSNR.DepthInverted","DLSSNR.ColorSubrectBaseX","DLSSNR.ColorSubrectBaseY",
++         "DLSSNR.ColorSubrectWidth","DLSSNR.ColorSubrectHeight","DLSSNR.DepthSubrectBaseX","DLSSNR.DepthSubrectBaseY",
++         "DLSSNR.DepthSubrectWidth","DLSSNR.DepthSubrectHeight","DLSSNR.MVecSubrectBaseX","DLSSNR.MVecSubrectBaseY",
++         "DLSSNR.MVecSubrectWidth","DLSSNR.MVecSubrectHeight"})
++    { unsigned value = 0; if (parameters->Get(key,&value) == NVSDK_NGX_Result_Success) frame.metadata["controls"][key] = value; }
++    for (const char* key : {"DLSSNR.Intensity","DLSSNR.LocalStructureStrength","DLSSNR.LocalToneStrength",
++         "DLSSNR.SkinStructureStrength","DLSSNR.MVecScaleX","DLSSNR.MVecScaleY"})
++    { float value = 0; if (parameters->Get(key,&value) == NVSDK_NGX_Result_Success) frame.metadata["controls"][key] = value; }
++    for (unsigned i = 0; i < 3; ++i) Record(commands,frame.shots[i],D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
++    ++state->count; active = &frame;
++}
++inline void End(ID3D12GraphicsCommandList* commands, NVSDK_NGX_Result result)
++{
++    if (!active) return;
++    std::lock_guard lock(state->mutex);
++    active->metadata["evaluate_result"] = (unsigned)result;
++    if (result == NVSDK_NGX_Result_Success) Record(commands,active->shots[3],D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
++    active->ended = true; active = nullptr;
++}
++inline void Submitted(ID3D12CommandQueue* queue, UINT count, ID3D12CommandList* const* commands)
++{
++    if (!state) return;
++    std::lock_guard lock(state->mutex);
++    for (unsigned i = 0; i < state->count; ++i)
++    {
++        auto& frame = state->frames[i];
++        if (!frame.ended || frame.submitted || frame.discarded) continue;
++        for (UINT j = 0; j < count; ++j) if (Identity(commands[j]) == frame.identity)
++        {
++            frame.submitted = true;
++            if (FAILED(queue->Signal(frame.fence.Get(),1))) LOG_ERROR("NR demo capture: queue Signal failed; resource quarantined");
++            break;
++        }
++    }
++}
++inline void ResetRecording(ID3D12CommandList* commands)
++{
++    if (!state) return;
++    std::lock_guard lock(state->mutex);
++    for (unsigned i = 0; i < state->count; ++i)
++    { auto& frame = state->frames[i]; if (!frame.submitted && frame.identity == Identity(commands)) frame.discarded = true; }
++}
++}

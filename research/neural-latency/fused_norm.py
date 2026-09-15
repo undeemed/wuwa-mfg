@@ -45,9 +45,13 @@ class FusedNorm:
         self.launch = setup(self.driver,'cuLaunchKernel',[C.c_void_p,C.c_uint,C.c_uint,C.c_uint,C.c_uint,C.c_uint,C.c_uint,C.c_uint,C.c_void_p,C.POINTER(C.c_void_p),C.c_void_p])
         self.module = C.c_void_p(); check(load(C.byref(self.module),code,0,None,None),'cuModuleLoadDataEx')
         self.functions = {}
+        self.softmax_functions = {}
         for dtype, name in [(torch.float16,b'cosine_norm_f16'),(torch.float32,b'cosine_norm_f32')]:
             function = C.c_void_p(); check(lookup(C.byref(function),self.module,name),'cuModuleGetFunction')
             self.functions[dtype] = function
+        for dtype, name in [(torch.float16,b'bit_affine_softmax_f16'),(torch.float32,b'bit_affine_softmax_f32')]:
+            function = C.c_void_p(); check(lookup(C.byref(function),self.module,name),'cuModuleGetFunction')
+            self.softmax_functions[dtype] = function
         # Module stays alive until process exit, including any captured graphs.
 
     def __call__(self, x):
@@ -62,5 +66,23 @@ class FusedNorm:
         params = (C.c_void_p*3)(C.addressof(input_arg),C.addressof(output_arg),C.addressof(count_arg))
         stream = torch.cuda.current_stream(x.device)
         status = self.launch(self.functions[x.dtype],(rows*4+255)//256,1,1,256,1,1,0,C.c_void_p(stream.cuda_stream),params,None)
+        if status: raise RuntimeError(f'cuLaunchKernel failed: {status}')
+        return output
+
+    def softmax(self, x):
+        columns = x.shape[-1]
+        if x.device.type != 'cuda' or x.dtype not in self.softmax_functions or x.requires_grad or not 2 <= columns <= 2048 or columns%2:
+            raise ValueError('Expected inference-only CUDA float16/32 rows of even length 2..2048.')
+        x = x.contiguous()
+        output = torch.empty_like(x)
+        rows = x.numel()//columns
+        if not rows: return output
+        if rows >= 2**31: raise ValueError('Too many rows.')
+        input_arg, output_arg = C.c_void_p(x.data_ptr()), C.c_void_p(output.data_ptr())
+        count_arg, column_arg = C.c_uint(rows), C.c_uint(columns)
+        params = (C.c_void_p*4)(C.addressof(input_arg),C.addressof(output_arg),C.addressof(count_arg),C.addressof(column_arg))
+        threads = min(256,max(32,1 << (columns//2-1).bit_length()))
+        stream = torch.cuda.current_stream(x.device)
+        status = self.launch(self.softmax_functions[x.dtype],rows,1,1,threads,1,1,0,C.c_void_p(stream.cuda_stream),params,None)
         if status: raise RuntimeError(f'cuLaunchKernel failed: {status}')
         return output

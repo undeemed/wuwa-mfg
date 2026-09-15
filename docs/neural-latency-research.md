@@ -73,8 +73,9 @@ The local logical tensor file SHA-256 was
 `fa6ebc71bc6f91347d51b3368b0ef6e952b6157b6d9a164e7db82cffb88d3143`.
 The extraction result establishes layout compatibility, **not** matching image
 quality. Upstream's reconstruction has documented residual differences and
-control limitations. Vendor comparison on the intended style and temporal inputs
-is still required before it can serve as a trustworthy replacement or teacher.
+control limitations. The matched comparisons below also show residual errors.
+Captured vendor outputs remain the authoritative training targets; this
+reconstruction is not yet a validated replacement or equivalent teacher.
 
 ## Experiments completed in the reconstruction
 
@@ -106,7 +107,16 @@ numerical smoke test, not visual equivalence on gameplay.
    With this kernel inside CUDA Graph replay, the complete 320×320 synthetic
    model measured **53.04 ms**, with identical model-head output. The earlier
    replay without this fusion was 99.90 ms; these were separate process runs.
-4. **Removing a transformer block without training.** Skipping global block 31
+4. **Fused bit-affine softmax.** A second custom CUDA kernel preserves the
+   recovered packed-half transformation, reduction, reciprocal rounding and
+   E4M3 conversion. It matched 12,182,044 tested values across 92 cases: FP16/FP32,
+   even row lengths from 2 to 2048, five input scales and noncontiguous layouts.
+   The isolated `[32768,64]` operation measured **0.0332 ms versus 0.6669 ms** for
+   the reference. With normalization and softmax fused, the complete 320×320
+   synthetic CUDA Graph measured **42.73 ms**, with identical model-head output.
+   This improves the research implementation; NVIDIA already uses fused kernels,
+   and this is not a measured improvement to the vendor runtime.
+5. **Removing a transformer block without training.** Skipping global block 31
    changed the synthetic model head: MAE 0.1945, RMSE 0.3452 and maximum absolute
    error 3.042. These are raw head units, not display RGB metrics. This candidate
    was rejected. Deleting blocks alone is not a quality-preserving model.
@@ -115,6 +125,53 @@ All retained numerical records are in
 [`evidence/neural-model-research`](../evidence/neural-model-research).
 Source and reproduction instructions are in
 [`research/neural-latency`](../research/neural-latency).
+
+## Matched 1080p vendor comparisons
+
+A separate demo-only capture patch records four consecutive evaluations starting
+at the first reset. Color, depth and motion are copied before evaluation; output
+is copied afterward. The readbacks are mapped only after a fence signalled on
+the actual submitting queue completes. Copies restore each resource's expected
+state. Recorded controls include style, preset, masking, guide extents and reset.
+
+Two 25-second hidden-demo runs completed all four fenced captures each, with
+Natural style, preset 0 and a true 1920×1080 model extent. The first used automatic
+masking; the second disabled it only to diagnose reconstruction differences.
+Their sparse model intervals were approximately 5.46 ms, with about 0.20 ms
+around inference. These capture runs do not demonstrate a speedup over earlier
+runs. Each comparison used the exact color and vendor output from its own first
+reset frame. Raw textures and previews remain local and are not redistributed.
+
+| Reconstruction diagnostic | Mean absolute RGB error | RGB RMSE |
+| --- | ---: | ---: |
+| FP16, masking enabled, noise counter 0 | 0.01515 | 0.02237 |
+| FP32 reference precision | 0.01545 | 0.02248 |
+| FP32 with padded network height 1152 | 0.01479 | 0.02414 |
+| Masking disabled in both vendor and reconstruction | 0.01551 | 0.02291 |
+| Noise counter 1 | 0.01564 | 0.02309 |
+| Noise counter 2 | 0.01542 | 0.02255 |
+| Noise counter 3 | 0.01547 | 0.02282 |
+
+Errors are in normalized RGB units, not a perceptual quality percentage. The
+first row has 33.01 dB PSNR, 0.99776 RGB correlation and a maximum channel error
+of 0.16626. High correlation does not establish equivalence. FP32 did not remove
+the gap; larger padding lowered mean absolute error slightly while worsening
+RMSE and tail errors. Disabling masking and varying the noise counter also did
+not close it. None of these diagnostics was adopted as a fix.
+
+The original visible extent is preserved in every comparison. Default network
+padding is 1088×1920; the 1152-height variant adds padding without downscaling.
+The internal vendor noise counter has not been captured, so a reset frame is not
+proof of a matched noise state. The local weight file also differs from the hash
+used for upstream's reported golden comparisons. These remain possible sources
+of disagreement, alongside incomplete reconstruction behavior.
+
+The full-resolution Python runs took roughly 0.9–1.2 seconds of inference wall
+time. They are quality diagnostics, not an optimized runtime or a route already
+meeting the latency target. Only the first reset frame has been compared; motion
+and temporal quality remain unvalidated. Numeric records, capture hashes and
+controls are in
+[`matched-vendor-capture.json`](../evidence/neural-model-research/matched-vendor-capture.json).
 
 ## Papers and what can transfer
 
@@ -151,7 +208,10 @@ kernel timings locate costs; final claims require an uninstrumented comparison
 in the existing hidden demo. A single isolated-kernel speedup or reduced network
 resolution cannot be reported as meeting 3 ms.
 
-Remaining work: establish matched vendor/reconstruction captures, test the fused
-kernel on broader real inputs, build compatible fused attention/feed-forward
-operations, and evaluate trained smaller models against that quality baseline.
-There is currently no validated replacement to install in WuWa.
+Remaining work: extend matched captures to varied scenes and temporal sequences,
+resolve reconstruction differences, and build compatible fused attention and
+feed-forward operations. For model compression, train against actual vendor
+outputs and reserve separate sequences for validation. The smaller model must
+preserve fine detail and temporal stability, then meet the latency target in the
+existing hidden demo. There is currently no trained, validated replacement to
+install in WuWa.

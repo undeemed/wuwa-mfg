@@ -1,0 +1,784 @@
+{
+  "schema": 1,
+  "gpu": "NVIDIA GeForce RTX 4070 Ti",
+  "torch": "2.7.1+cu128",
+  "tests": [
+    {
+      "dtype": "torch.float16",
+      "columns": 2,
+      "scale": 0,
+      "unequal": 0,
+      "elements": 518,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 2,
+      "scale": 0.1,
+      "unequal": 0,
+      "elements": 518,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 2,
+      "scale": 1,
+      "unequal": 0,
+      "elements": 518,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 2,
+      "scale": 8,
+      "unequal": 0,
+      "elements": 518,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 2,
+      "scale": 32,
+      "unequal": 0,
+      "elements": 518,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 16,
+      "scale": 0,
+      "unequal": 0,
+      "elements": 4144,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 16,
+      "scale": 0.1,
+      "unequal": 0,
+      "elements": 4144,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 16,
+      "scale": 1,
+      "unequal": 0,
+      "elements": 4144,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 16,
+      "scale": 8,
+      "unequal": 0,
+      "elements": 4144,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 16,
+      "scale": 32,
+      "unequal": 0,
+      "elements": 4144,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 64,
+      "scale": 0,
+      "unequal": 0,
+      "elements": 16576,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 64,
+      "scale": 0.1,
+      "unequal": 0,
+      "elements": 16576,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 64,
+      "scale": 1,
+      "unequal": 0,
+      "elements": 16576,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 64,
+      "scale": 8,
+      "unequal": 0,
+      "elements": 16576,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 64,
+      "scale": 32,
+      "unequal": 0,
+      "elements": 16576,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 128,
+      "scale": 0,
+      "unequal": 0,
+      "elements": 33152,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 128,
+      "scale": 0.1,
+      "unequal": 0,
+      "elements": 33152,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 128,
+      "scale": 1,
+      "unequal": 0,
+      "elements": 33152,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 128,
+      "scale": 8,
+      "unequal": 0,
+      "elements": 33152,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 128,
+      "scale": 32,
+      "unequal": 0,
+      "elements": 33152,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 256,
+      "scale": 0,
+      "unequal": 0,
+      "elements": 66304,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 256,
+      "scale": 0.1,
+      "unequal": 0,
+      "elements": 66304,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 256,
+      "scale": 1,
+      "unequal": 0,
+      "elements": 66304,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 256,
+      "scale": 8,
+      "unequal": 0,
+      "elements": 66304,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 256,
+      "scale": 32,
+      "unequal": 0,
+      "elements": 66304,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 512,
+      "scale": 0,
+      "unequal": 0,
+      "elements": 132608,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 512,
+      "scale": 0.1,
+      "unequal": 0,
+      "elements": 132608,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 512,
+      "scale": 1,
+      "unequal": 0,
+      "elements": 132608,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 512,
+      "scale": 8,
+      "unequal": 0,
+      "elements": 132608,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 512,
+      "scale": 32,
+      "unequal": 0,
+      "elements": 132608,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 640,
+      "scale": 0,
+      "unequal": 0,
+      "elements": 165760,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 640,
+      "scale": 0.1,
+      "unequal": 0,
+      "elements": 165760,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 640,
+      "scale": 1,
+      "unequal": 0,
+      "elements": 165760,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 640,
+      "scale": 8,
+      "unequal": 0,
+      "elements": 165760,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 640,
+      "scale": 32,
+      "unequal": 0,
+      "elements": 165760,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 1024,
+      "scale": 0,
+      "unequal": 0,
+      "elements": 265216,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 1024,
+      "scale": 0.1,
+      "unequal": 0,
+      "elements": 265216,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 1024,
+      "scale": 1,
+      "unequal": 0,
+      "elements": 265216,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 1024,
+      "scale": 8,
+      "unequal": 0,
+      "elements": 265216,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 1024,
+      "scale": 32,
+      "unequal": 0,
+      "elements": 265216,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 2048,
+      "scale": 0,
+      "unequal": 0,
+      "elements": 530432,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 2048,
+      "scale": 0.1,
+      "unequal": 0,
+      "elements": 530432,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 2048,
+      "scale": 1,
+      "unequal": 0,
+      "elements": 530432,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 2048,
+      "scale": 8,
+      "unequal": 0,
+      "elements": 530432,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "columns": 2048,
+      "scale": 32,
+      "unequal": 0,
+      "elements": 530432,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float16",
+      "noncontiguous": true,
+      "unequal": 0,
+      "elements": 17472,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 2,
+      "scale": 0,
+      "unequal": 0,
+      "elements": 518,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 2,
+      "scale": 0.1,
+      "unequal": 0,
+      "elements": 518,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 2,
+      "scale": 1,
+      "unequal": 0,
+      "elements": 518,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 2,
+      "scale": 8,
+      "unequal": 0,
+      "elements": 518,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 2,
+      "scale": 32,
+      "unequal": 0,
+      "elements": 518,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 16,
+      "scale": 0,
+      "unequal": 0,
+      "elements": 4144,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 16,
+      "scale": 0.1,
+      "unequal": 0,
+      "elements": 4144,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 16,
+      "scale": 1,
+      "unequal": 0,
+      "elements": 4144,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 16,
+      "scale": 8,
+      "unequal": 0,
+      "elements": 4144,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 16,
+      "scale": 32,
+      "unequal": 0,
+      "elements": 4144,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 64,
+      "scale": 0,
+      "unequal": 0,
+      "elements": 16576,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 64,
+      "scale": 0.1,
+      "unequal": 0,
+      "elements": 16576,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 64,
+      "scale": 1,
+      "unequal": 0,
+      "elements": 16576,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 64,
+      "scale": 8,
+      "unequal": 0,
+      "elements": 16576,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 64,
+      "scale": 32,
+      "unequal": 0,
+      "elements": 16576,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 128,
+      "scale": 0,
+      "unequal": 0,
+      "elements": 33152,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 128,
+      "scale": 0.1,
+      "unequal": 0,
+      "elements": 33152,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 128,
+      "scale": 1,
+      "unequal": 0,
+      "elements": 33152,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 128,
+      "scale": 8,
+      "unequal": 0,
+      "elements": 33152,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 128,
+      "scale": 32,
+      "unequal": 0,
+      "elements": 33152,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 256,
+      "scale": 0,
+      "unequal": 0,
+      "elements": 66304,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 256,
+      "scale": 0.1,
+      "unequal": 0,
+      "elements": 66304,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 256,
+      "scale": 1,
+      "unequal": 0,
+      "elements": 66304,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 256,
+      "scale": 8,
+      "unequal": 0,
+      "elements": 66304,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 256,
+      "scale": 32,
+      "unequal": 0,
+      "elements": 66304,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 512,
+      "scale": 0,
+      "unequal": 0,
+      "elements": 132608,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 512,
+      "scale": 0.1,
+      "unequal": 0,
+      "elements": 132608,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 512,
+      "scale": 1,
+      "unequal": 0,
+      "elements": 132608,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 512,
+      "scale": 8,
+      "unequal": 0,
+      "elements": 132608,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 512,
+      "scale": 32,
+      "unequal": 0,
+      "elements": 132608,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 640,
+      "scale": 0,
+      "unequal": 0,
+      "elements": 165760,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 640,
+      "scale": 0.1,
+      "unequal": 0,
+      "elements": 165760,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 640,
+      "scale": 1,
+      "unequal": 0,
+      "elements": 165760,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 640,
+      "scale": 8,
+      "unequal": 0,
+      "elements": 165760,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 640,
+      "scale": 32,
+      "unequal": 0,
+      "elements": 165760,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 1024,
+      "scale": 0,
+      "unequal": 0,
+      "elements": 265216,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 1024,
+      "scale": 0.1,
+      "unequal": 0,
+      "elements": 265216,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 1024,
+      "scale": 1,
+      "unequal": 0,
+      "elements": 265216,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 1024,
+      "scale": 8,
+      "unequal": 0,
+      "elements": 265216,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 1024,
+      "scale": 32,
+      "unequal": 0,
+      "elements": 265216,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 2048,
+      "scale": 0,
+      "unequal": 0,
+      "elements": 530432,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 2048,
+      "scale": 0.1,
+      "unequal": 0,
+      "elements": 530432,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 2048,
+      "scale": 1,
+      "unequal": 0,
+      "elements": 530432,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 2048,
+      "scale": 8,
+      "unequal": 0,
+      "elements": 530432,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "columns": 2048,
+      "scale": 32,
+      "unequal": 0,
+      "elements": 530432,
+      "max_abs": 0.0
+    },
+    {
+      "dtype": "torch.float32",
+      "noncontiguous": true,
+      "unequal": 0,
+      "elements": 17472,
+      "max_abs": 0.0
+    }
+  ],
+  "total_elements": 12182044,
+  "all_equal": true,
+  "timing_shape": [
+    32768,
+    64
+  ],
+  "timings": {
+    "reference": {
+      "median_ms": 0.6669119894504547,
+      "samples_ms": [
+        1.2167999744415283,
+        1.1793279647827148,
+        1.1663360595703125,
+        1.172767996788025,
+        1.0782719850540161,
+        0.6062080264091492,
+        0.6359360218048096,
+        0.6246399879455566,
+        0.646016001701355,
+        0.6878079771995544,
+        0.6407359838485718,
+        0.6184319853782654
+      ]
+    },
+    "fused": {
+      "median_ms": 0.03315200097858906,
+      "samples_ms": [
+        0.03641600161790848,
+        0.048128001391887665,
+        0.037728000432252884,
+        0.03379200026392937,
+        0.03276799991726875,
+        0.03286400064826012,
+        0.03251200169324875,
+        0.033440001308918,
+        0.03174399957060814,
+        0.03171199932694435,
+        0.03283200040459633,
+        0.04368000105023384
+      ]
+    }
+  },
+  "scope": "PyTorch reconstruction only; not a NVIDIA DLL or game speedup."
+}

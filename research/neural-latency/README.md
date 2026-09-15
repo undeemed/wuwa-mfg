@@ -30,7 +30,8 @@ weights. Use a path outside a public repository for the two tensor files.
 .venv\Scripts\python study_model.py --source MLX-DLSS --weights local-weights\logical.safetensors --output results\audit.json --mode audit
 .venv\Scripts\python study_model.py --source MLX-DLSS --weights local-weights\logical.safetensors --output results\rounding.json --mode rounding
 .venv\Scripts\python test_fused_norm.py --source MLX-DLSS --output results\fused-norm.json
-.venv\Scripts\python study_model.py --source MLX-DLSS --weights local-weights\logical.safetensors --output results\graph.json --mode graph --fused-norm
+.venv\Scripts\python test_fused_softmax.py --source MLX-DLSS --output results\fused-softmax.json
+.venv\Scripts\python study_model.py --source MLX-DLSS --weights local-weights\logical.safetensors --output results\graph.json --mode graph --fused-norm --fused-softmax
 ```
 
 Run GPU experiments sequentially with the demo and game closed. The scripts exit
@@ -46,10 +47,11 @@ are excluded. Its default fixture is a deterministic 320×320 synthetic image.
 Neither option constitutes full-resolution or temporal quality validation.
 
 CUDA Graph mode hoists immutable attention-bias permutations out of inference.
-That cache is not suitable for training mutable weights. The custom kernel is
-inference-only and supports 32-channel FP16/FP32 tensors on Windows SM89. The
-tests cover the final partial thread group and noncontiguous layouts. Passing
-them does not prove every floating-point boundary case or vendor parity.
+That cache is not suitable for training mutable weights. The custom kernels are
+inference-only on Windows SM89: normalization supports 32-channel FP16/FP32
+tensors, and bit-affine softmax supports even row lengths 2–2048. Tests cover the
+final partial thread group and noncontiguous layouts. Passing them does not prove
+every floating-point boundary case, NaN behavior or vendor parity.
 
 ## Runtime kernel tracing in the existing demo
 
@@ -88,6 +90,44 @@ launch order, then groups GPU intervals. It discards evaluation 600 by default
 because that first timed evaluation allocates the query resources. Architecture
 selection remains unknown when NVAPI receives fatbins rather than bare ELF
 objects. Instrumented timings are diagnostic, not final speed claims.
+
+## Matched input/output capture in the existing demo
+
+[`optiscaler-demo-model-capture.patch`](optiscaler-demo-model-capture.patch) is a
+separate GPL-3.0 research patch on top of the same R4 compatibility source. Apply
+it to a separate source copy with `git apply --check` and `git apply`; use the
+Release x64 build procedure and DirectX-header override described above. The
+capture and kernel-probe patches have overlapping edit locations; their combined
+use has not been tested. The normal installer applies neither research patch.
+
+Back up the demo's `dxgi.dll`, then place the capture build there. The process
+must be named `ngx_dlss_demo.exe`, and `nr-model-capture.enable` must exist beside
+the NR DLL. Preserve the guarded hidden-demo EXE and use its existing bounded
+runner. The capture refuses to overwrite an existing `nr-model-capture` folder.
+It captures four evaluations starting at the first reset, with a total readback
+allocation cap of 512 MiB. Texture readback waits for actual GPU fence completion.
+`complete: true`, `gpu_completed: true` and `evaluate_result: 1` in each manifest
+are required before using that frame.
+
+After the run, move the capture folder to private storage, disable the marker
+and restore the original demo DLL. Keep this build out of WuWa. Raw captures
+contain rendered scene data and are deliberately excluded from publication.
+The local comparison tool reads the first frame without resizing its color:
+
+```powershell
+.venv\Scripts\python compare_capture.py --source MLX-DLSS --weights local-weights\logical.safetensors --capture D:\PrivateCaptures\natural --output results\natural --precision fast
+```
+
+`--inspect-only` validates the manifest and textures and writes previews without
+running the model. `--precision reference` tests FP32 arithmetic;
+`--network-height 1152` tests extra padding; `--noise-frame 1` tests an assumed
+noise counter from 0–3. Those switches are diagnostics, not recommended fixes.
+Use a fresh output directory for each run. The manifest does not expose the
+internal vendor noise counter. This tool supports only a first-reset comparison
+with preset 0 and RGBA16_FLOAT color/output textures, not temporal evaluation.
+It writes numeric metrics plus local previews and a NumPy reconstruction; do not
+commit the image data. `quality_gate_passed` remains false because a single frame
+cannot establish the required visual and temporal quality.
 
 No vendor binaries, tensor files, generated GPU objects or raw captures belong
 in this directory. See [third-party notices](../../THIRD_PARTY_NOTICES.md).
