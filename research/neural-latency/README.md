@@ -1671,3 +1671,87 @@ includes both calibration captures, seven new photo captures, all 36 new fenced
 frames, original/source hashes, matched training settings, all validation scores,
 timing samples and preserved game/demo files. **No replacement is installed,
 the native model remains about 5.4 ms, and the 3 ms/no-quality-loss goal is unmet.**
+
+## Optimization controls and decoder execution
+
+The mixed-data student's error increased on its training scenes as well as
+validation scenes. Two controlled runs therefore keep the 34-frame collection,
+width 16, loss, seed and 4,500 additional steps fixed, but use a learning rate
+of **0.0002 → 0.000002**, one tenth of the previous schedule. One starts from
+random weights; the other initializes from the earlier 30-view checkpoint.
+The latter starts a fresh optimizer and retains all thirty old native targets
+alongside the four new photo targets. Its total history is **9,000 steps**,
+including the original 4,500; it is not a compute-matched from-scratch comparison.
+
+| Model | Mean training MAE | Six Sponza validation MAE | Six photo validation MAE |
+| --- | ---: | ---: | ---: |
+| Previous 30-frame model | 0.013834 | **0.023124** | 0.041400 |
+| Mixed 34 frames, original learning rate | 0.028178 | 0.028038 | 0.027289 |
+| Mixed 34 frames, lower learning rate | 0.033189 | 0.029980 | **0.025402** |
+| Warm start, lower learning rate | **0.013030** | 0.023212 | 0.035708 |
+
+Training means cover different frame sets in the first row. Warm starting
+recovers most scene accuracy and fits the mixed training set better, but loses
+much of the photo improvement. None passes the native quality requirement.
+These outcomes do not establish a universal learning rate or a capacity limit.
+Keeping old examples during adaptation follows the general replay idea studied
+in [Experience Replay for Continual Learning](https://arxiv.org/abs/1811.11682).
+This supervised image experiment does not implement that paper's reinforcement
+learning algorithm or inherit its results.
+
+`train_student_collection.py` and `student_probe.py` now accept `--initial-lr`,
+`--final-lr` and `--initialize-from <private-student-run>`. Initialization checks
+architecture, controls, input dimensions and source training hashes. Those hashes
+must be a subset of the current training inputs and disjoint from validation.
+Only weights are loaded; source hashes and prior training steps are recorded.
+Defaults preserve the original training behavior.
+
+The separate execution experiment moves decoder 1×1 projections before nearest
+2× feature upsampling, reducing the number of projected positions by four.
+An original CUDA kernel combines nearest upsampling with skip addition. It
+preserves the FP16 addition rounding and handles strided NCHW inputs. Fifteen
+operator cases, including batches and three memory layouts, match Torch bits;
+six unsupported input cases are rejected.
+
+Although the projection move is algebraically equivalent, the wider model's
+final projection changes GPU rounding. On the first diagnostic image, 0.0199%
+of that projection's values change, with a maximum difference of 0.0004883.
+Moving all three projections changes each of twelve final width-32 images,
+with maximum RGB difference 0.0009766. The fusion itself matches the reordered
+Torch path bit-for-bit; the projection change causes the discrepancy.
+
+Keeping the wider model's final projection in its original position restores
+exact final output on all twelve checked images. Three width-16 checkpoints
+can move all three projections and retain exact output on all twelve images
+each. The final controlled run reports:
+
+| Checkpoint | Original full graph | Selected execution path | Full-image comparison |
+| --- | ---: | ---: | --- |
+| Width 16, original 30 frames | 1.227 ms | **1.139 ms** | 12/12 bit-identical |
+| Width 16, lower learning rate | 1.221 ms | **1.146 ms** | 12/12 bit-identical |
+| Width 16, warm start | 1.229 ms | **1.143 ms** | 12/12 bit-identical |
+| Width 32, original 30 frames | 2.000 ms | **1.928 ms** | 12/12 bit-identical; final projection unchanged |
+
+Every graph includes the full 1920×1080 student and output grade, has thirty
+timing samples and matches eager execution. Earlier runs and the failed
+all-projection width-32 path are retained in the evidence. Isolated stage
+timings varied substantially and are not used as the speedup claim.
+These measured student gains are **not** native NVIDIA runtime improvements.
+
+Decoder changes stay disabled by default. Research code can set
+`network.reorder_decoder = True`, `network.fused_decoder_backend = kernel`,
+and `network.decoder_reorder_stages = (0, 1, 2)` for the tested width-16 path
+or `(1, 2)` for the tested width-32 path. Other checkpoints, dimensions and
+devices require fresh comparison; these are measured cases, not a universal
+equivalence guarantee. No model or execution change is installed in the game.
+
+```text
+test_decoder_execution.py --base <private-trials-root> --photos <private-photo-extension-manifest> --model <label> <private-student-run> [--model <label> <another-run>] --output <new-private-report.json>
+```
+
+[Complete evidence](../../evidence/neural-model-research/optimization-and-decoder.json)
+records the two training runs, all twelve validation comparisons, three decoder
+experiments including the rounding investigation, source hashes and preserved
+runtime files. No sample or game launch was needed. Native latency remains
+about **5.4 ms**; image quality and application integration still prevent the
+**3 ms with no quality loss** objective from being considered achieved.

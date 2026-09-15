@@ -67,6 +67,22 @@ extern "C" __global__ void output_grade_f32(const float* input,float* output,
     grade_rgb(input,output,pixels,height,width,sb,sc,sh,sw,exposure,contrast,saturation);
 }
 
+// Nearest 2x upsample and skip addition with one final FP16 rounding.
+// Strided NCHW inputs; contiguous NHWC output exposed as NCHW by the loader.
+extern "C" __global__ void decoder_upscale_add_f16(
+    const unsigned short* input,const unsigned short* skip,unsigned short* output,
+    unsigned count,unsigned channels,unsigned height,unsigned width,
+    unsigned long long ib,unsigned long long ic,unsigned long long iy,unsigned long long ix,
+    unsigned long long sb,unsigned long long sc,unsigned long long sy,unsigned long long sx) {
+    const unsigned index=blockIdx.x*blockDim.x+threadIdx.x;
+    if(index>=count)return;
+    const unsigned channel=index%channels,pixel=index/channels;
+    const unsigned x=pixel%width,y=(pixel/width)%height,batch=pixel/(width*height);
+    const float a=read_half(input[batch*ib+channel*ic+(y/2)*iy+(x/2)*ix]);
+    const float b=read_half(skip[batch*sb+channel*sc+y*sy+x*sx]);
+    output[index]=write_value<unsigned short>(a+b);
+}
+
 // Bilinear coefficient interpolation, affine RGB correction and detail compose.
 // Finite FP16 operands. The dense 12-channel full-resolution field is not stored.
 extern "C" __global__ void affine_compose_f16(

@@ -860,6 +860,30 @@ attribution, output reproduction and preserved files. No native kernel change,
 game modification or model installation occurred. The native **5.4 ms** baseline
 and the unmet **3 ms with no quality drop** objective remain unchanged.
 
+## Training stability and decoder work
+
+Lowering the mixed-data learning rate alone improves photo agreement but further
+hurts scene agreement. Initializing from the earlier 30-view student recovers
+most scene accuracy, yet sacrifices much of the photo gain. Both complete
+4,500 additional steps; the warm start has 9,000 steps of total training history.
+All previous validation identities remain excluded. This isolates a training
+tradeoff, not a successful native-quality model.
+
+A separate decoder change reduces width-16 full-graph time from roughly
+**1.23 ms to 1.14 ms**, with bit-identical outputs across three checkpoints and
+twelve images each. It moves pointwise projections ahead of nearest feature
+upsampling and fuses the upsampling/skip addition. The width-32 model requires
+keeping its final projection in the original position to preserve output;
+that path reduces **2.00 ms to 1.93 ms**, with twelve matching images. Moving
+all its projections is faster but changes rounding and is not treated as exact.
+
+The [implementation and results](../research/neural-latency/README.md#optimization-controls-and-decoder-execution)
+and [numeric evidence](../evidence/neural-model-research/optimization-and-decoder.json)
+retain both failed and successful execution comparisons. These optimizations
+stay disabled by default and apply only to experimental student execution.
+They do not improve native NVIDIA latency, establish native image quality or
+include D3D12 integration. The full goal remains unmet.
+
 ## Papers and what can transfer
 
 These papers provide research ideas. Their reported speedups are on other models
@@ -871,6 +895,7 @@ and hardware; none establishes the target for this runtime.
 | [SageAttention2++](https://arxiv.org/html/2505.21136v3) | Use faster FP8 matrix instructions with FP16 accumulators and manage numerical range. | The inspected native code already uses this instruction family. The paper supports investigating accumulation and data movement, but its speedup over another attention implementation cannot be applied to this renderer. Our direct-MMA result improves a numerical reference, not native latency. |
 | [SmoothQuant](https://proceedings.mlr.press/v202/xiao23c/xiao23c.pdf) | Calibrate activation/weight scaling before lower-precision execution. | This runtime already invokes FP8-named kernels. LLM INT8 results do not imply a further lossless gain, and calibration must include renderer activations and controls. |
 | [Knowledge distillation](https://arxiv.org/abs/1503.02531) | Train a smaller student against the larger model's behavior. | A renderer needs matched pixels, detail and temporal consistency, not just matching classification probabilities. A trustworthy teacher and held-out sequences are prerequisites. |
+| [Experience Replay for Continual Learning](https://arxiv.org/abs/1811.11682) | Retain prior examples when adapting a model to new data. | Its reinforcement-learning results do not establish pixel fidelity. Our warm-start experiment retains old native targets, but still trades photo accuracy against scene accuracy; it is not an implementation of CLEAR. |
 | [The Unreasonable Ineffectiveness of the Deeper Layers](https://arxiv.org/abs/2403.17887) | Rank layer-removal sensitivity, then fine-tune to repair changes. | Its LLM question-answering results do not establish pixel fidelity. Our 59-block sweep found no single removal improving both native-view errors; the first fitted feature projection also failed native quality. |
 | [EfficientViT](https://openaccess.thecvf.com/content/ICCV2023/papers/Cai_EfficientViT_Lightweight_Multi-Scale_Attention_for_High-Resolution_Dense_Prediction_ICCV_2023_paper.pdf) | Hardware-friendly multiscale operators for dense, high-resolution prediction. | Replacing attention with linear attention changes the learned function; it is a student architecture to train and validate, not an interchangeable kernel. |
 | [TinyVLA](https://arxiv.org/html/2409.12514v3) | A compact backbone and task-specific decoder can reduce inference cost. | Fast robot action prediction does not require reproducing every image pixel. Borrow compact architecture design and task-specific training, not its quality claims. |

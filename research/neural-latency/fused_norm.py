@@ -82,7 +82,30 @@ class FusedNorm:
         check(lookup(C.byref(self.affine_function),self.module,b'affine_compose_f16'),'cuModuleGetFunction')
         self.pack_function=C.c_void_p()
         check(lookup(C.byref(self.pack_function),self.module,b'fp8_pack_f16'),'cuModuleGetFunction')
+        self.decoder_function=C.c_void_p()
+        check(lookup(C.byref(self.decoder_function),self.module,b'decoder_upscale_add_f16'),'cuModuleGetFunction')
         # Module stays alive until process exit, including any captured graphs.
+
+    def decoder_upscale_add(self,x,skip):
+        if any(t.device.type!='cuda' or t.device!=x.device or t.dtype!=torch.float16
+               or t.ndim!=4 or t.requires_grad for t in (x,skip)):
+            raise ValueError('Expected same-device inference-only CUDA NCHW FP16 tensors.')
+        batch,channels,height,width=skip.shape
+        if x.shape!=(batch,channels,height//2,width//2) or height%2 or width%2:
+            raise ValueError('The skip extent must be exactly twice the input in both spatial dimensions.')
+        count=skip.numel()
+        if not count or count>=2**31:
+            raise ValueError('Tensor exceeds the bounded launch extent.')
+        output=torch.empty((batch,height,width,channels),device=x.device,dtype=x.dtype).permute(0,3,1,2)
+        arguments=[C.c_void_p(t.data_ptr()) for t in (x,skip,output)]
+        arguments += [C.c_uint(v) for v in (count,channels,height,width)]
+        arguments += [C.c_ulonglong(s) for t in (x,skip) for s in t.stride()]
+        params=(C.c_void_p*len(arguments))(*(C.addressof(v) for v in arguments))
+        stream=torch.cuda.current_stream(x.device)
+        status=self.launch(self.decoder_function,(count+255)//256,1,1,256,1,1,0,
+                           C.c_void_p(stream.cuda_stream),params,None)
+        if status:raise RuntimeError(f'cuLaunchKernel failed: {status}')
+        return output
 
     def affine_compose(self,source,detail,coefficients):
         tensors=(source,detail,coefficients)

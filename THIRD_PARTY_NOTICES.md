@@ -144,6 +144,12 @@ The numerical evidence retains these sources, author credits, transformation
 description, original dimensions and file hashes. Photo terms are separate
 from the licenses on this repository's research code.
 
+The later decoder upsampling/skip-add kernel, execution diagnostics and training
+initialization controls are original Apache-2.0 research code. The collection
+wrapper retains its MIT license. They use separately installed PyTorch/CUDA
+interfaces and contain no vendor kernel instructions or learned weights. The
+replay paper is credited for its research idea; its implementation is not copied.
+
 The subsequent training extension uses four different photo identities. The
 three sources above remain excluded from training, including their lower-emission
 variants. Original and transformed training images and all weights remain private.

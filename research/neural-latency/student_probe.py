@@ -59,6 +59,9 @@ class HierarchicalStudent(nn.Module):
         if self.affine_head is not None:
             nn.init.zeros_(self.affine_head.weight);nn.init.zeros_(self.affine_head.bias)
         self.fused_affine_backend=None
+        self.reorder_decoder=False
+        self.decoder_reorder_stages=(0,1,2)
+        self.fused_decoder_backend=None
         self.global_attention=None
         if attention:
             from attention_student import GlobalAttention
@@ -77,8 +80,14 @@ class HierarchicalStudent(nn.Module):
         if self.global_attention is not None:value=self.global_attention(value)
         coefficients=self.affine_head(value) if self.affine_head is not None else None
         for i in (2,1,0):
-            value=self.up[i](F.interpolate(value,size=skips[i].shape[-2:],mode='nearest'))
-            value=self.decoder[i](value+skips[i])
+            if self.reorder_decoder and i in self.decoder_reorder_stages:
+                value=self.up[i](value)
+                value=(self.fused_decoder_backend.decoder_upscale_add(value,skips[i])
+                       if self.fused_decoder_backend is not None
+                       else F.interpolate(value,size=skips[i].shape[-2:],mode='nearest')+skips[i])
+            else:
+                value=self.up[i](F.interpolate(value,size=skips[i].shape[-2:],mode='nearest'))+skips[i]
+            value=self.decoder[i](value)
         residual=F.pixel_shuffle(self.head(value),4)[:,:,:height,:width]
         if coefficients is not None:
             if self.fused_affine_backend is not None:
@@ -110,9 +119,14 @@ def main():
     p.add_argument('--output-grade-contract',type=Path,help='Learn a pre-grading residual, then apply the observed output grade. Requires a separate validation view.')
     p.add_argument('--evaluate-all-training',action='store_true',help='Report every full training view after fitting; requires separate validation views.')
     p.add_argument('--data-description',help='Describe a mixed-content dataset; scene count is then left unspecified rather than assumed to be one.')
+    p.add_argument('--initial-lr',type=float,default=.002)
+    p.add_argument('--final-lr',type=float,default=.00002)
+    p.add_argument('--initialize-from',type=Path,help='Private matching student run; load weights only and start a fresh optimizer.')
     a=p.parse_args()
     if not 1<=a.steps<=10000 or not 1<=a.max_seconds<=600:
         raise SystemExit('Use a bounded training run.')
+    if not all(math.isfinite(v) for v in (a.initial_lr,a.final_lr)) or not 0<a.final_lr<=a.initial_lr<=.002:
+        raise SystemExit('Require finite learning rates with 0 < final <= initial <= .002.')
     if a.width not in (16,32,48,64) or not 1<=a.blocks<=8:
         raise SystemExit('Architecture exceeds the prototype bounds.')
     dilations=list(map(int,a.dilations.split(','))) if a.dilations else [1]*a.blocks
@@ -209,7 +223,7 @@ def main():
     model=(HierarchicalStudent(a.width,a.blocks,bool(a.noise_source),a.architecture=='hierarchical-affine',a.architecture=='hierarchical-attention') if a.architecture.startswith('hierarchical')
            else PixelStudent(a.width,a.blocks,bool(a.noise_source),dilations)).cuda().to(memory_format=torch.channels_last)
     if grade_parameters is not None:model=GradedStudent(model,grade_parameters)
-    optimizer=torch.optim.AdamW(model.parameters(),lr=0.002,weight_decay=0.0001)
+    optimizer=torch.optim.AdamW(model.parameters(),lr=a.initial_lr,weight_decay=0.0001)
     report={'schema':1,'gpu':torch.cuda.get_device_name(),'torch':torch.__version__,
         'capture_hashes':hashes,'training_capture_hashes':training_hashes,'validation_capture_hashes':validation_hashes,
         'controls':meta['controls'],'native_shape':[height,width],
@@ -226,8 +240,8 @@ def main():
                        'No temporal training or quality validation.',
                        'Torch timing excludes D3D12 integration and is not a hidden-demo benchmark.'],
         'training':[]}
-    report['optimization']={'initial_learning_rate':.002,'cosine_decay':a.cosine_lr,
-                            'final_learning_rate':.00002 if a.cosine_lr else .002}
+    report['optimization']={'initial_learning_rate':a.initial_lr,'cosine_decay':a.cosine_lr,
+                            'final_learning_rate':a.final_lr if a.cosine_lr else a.initial_lr}
     report['architecture']['variant']=a.architecture
     if grade_parameters is not None:
         report['architecture']['explicit_output_grading']=list(grade_parameters)
@@ -262,6 +276,21 @@ def main():
                 'timing_scope':'included in complete network and output-grading graph'}
     if noise is not None:
         report['limitations'].append('Noise is from the pinned reconstruction at counter 0; timing excludes its precomputation and input concatenation. No vendor intermediate feature parity is claimed.')
+    if a.initialize_from:
+        if a.initialize_from.resolve().is_relative_to(Path(__file__).resolve().parents[2]):
+            raise ValueError('Initialization checkpoints must remain private.')
+        origin=json.loads((a.initialize_from/'result.json').read_text())
+        checkpoint=torch.load(a.initialize_from/'student-private.pt',map_location='cpu',weights_only=True)
+        assert origin['architecture']==checkpoint['architecture']==report['architecture']
+        assert origin['controls']==report['controls'] and origin['native_shape']==report['native_shape']
+        origin_hashes={h['color'] for h in origin['training_capture_hashes']}
+        assert origin_hashes <= {h['color'] for h in training_hashes}
+        assert not origin_hashes & validation_inputs
+        model.load_state_dict(checkpoint['state_dict'],strict=True)
+        report['initialization']={'origin_result_sha256':hashlib.sha256((a.initialize_from/'result.json').read_bytes()).hexdigest(),
+            'origin_checkpoint_sha256':hashlib.sha256((a.initialize_from/'student-private.pt').read_bytes()).hexdigest(),
+            'origin_completed_steps':origin['completed_steps'],'origin_training_view_count':len(origin_hashes),
+            'fresh_optimizer':True,'origin_validation_overlap':False}
     with torch.no_grad():
         error=(validation['color'].clamp(0,1)-validation['output']).abs() if validation else (source.clamp(0,1)-target).abs()[:,:,:,holdout_start:]
         report['identity_holdout_mae']=float(error.mean())
@@ -286,7 +315,7 @@ def main():
         y=torch.cat(labels).contiguous(memory_format=torch.channels_last)
         optimizer.zero_grad(set_to_none=True)
         if a.cosine_lr:
-            lr=.00002+.5*(.002-.00002)*(1+math.cos(math.pi*step/max(1,a.steps-1)))
+            lr=a.final_lr+.5*(a.initial_lr-a.final_lr)*(1+math.cos(math.pi*step/max(1,a.steps-1)))
             for group in optimizer.param_groups:group['lr']=lr
         predicted=model(x)
         if a.loss_border:
