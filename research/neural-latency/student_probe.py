@@ -167,9 +167,9 @@ def main():
         raise SystemExit('Feature hints require the graded whole-frame hierarchical model and a finite weight in (0,1].')
     if a.width not in (16,32,48,64) or not 1<=a.blocks<=8:
         raise SystemExit('Architecture exceeds the prototype bounds.')
-    if a.paired_gradient and (a.architecture!='hierarchical' or not a.whole_frame or not a.output_grade_contract
+    if a.paired_gradient and (a.architecture not in ('hierarchical','hierarchical-film') or not a.whole_frame or not a.output_grade_contract
                              or a.feature_targets or a.noise_source):
-        raise SystemExit('Paired gradients require the plain graded whole-frame hierarchy without feature hints or noise.')
+        raise SystemExit('Paired gradients require the plain or conditioned graded whole-frame hierarchy without feature hints or noise.')
     dilations=list(map(int,a.dilations.split(','))) if a.dilations else [1]*a.blocks
     if len(dilations)!=a.blocks or any(d not in [1,2,4,8] for d in dilations):
         raise SystemExit('Expected one supported dilation per block.')

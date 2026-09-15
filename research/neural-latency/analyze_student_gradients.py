@@ -23,12 +23,12 @@ def main():
     torch.backends.cudnn.allow_tf32=False
     torch.backends.cudnn.benchmark=False
     record=read(args.model/'result.json');architecture=record['architecture']
-    assert architecture['variant']=='hierarchical' and architecture['width']==16 and architecture['blocks']==2
+    assert architecture['variant'] in ('hierarchical','hierarchical-film') and architecture['width']==16 and architecture['blocks']==2
     assert architecture['noise_channels']==0 and record['completed_steps']==4500
     pairs=training_pairs(args.base,args.photos,args.images,record)
     checkpoint=torch.load(args.model/'student-private.pt',map_location='cpu',weights_only=True)
     assert checkpoint['architecture']==architecture
-    model=GradedStudent(HierarchicalStudent(16,2),architecture['explicit_output_grading'])
+    model=GradedStudent(HierarchicalStudent(16,2,conditioned=architecture['variant']=='hierarchical-film'),architecture['explicit_output_grading'])
     model.load_state_dict(checkpoint['state_dict'],strict=True)
     model=model.cuda().float().eval().to(memory_format=torch.channels_last)
     parameters=list(model.parameters())
@@ -60,6 +60,7 @@ def main():
     assert all(torch.equal(v.cpu(),checkpoint['state_dict'][k]) for k,v in model.state_dict().items())
     report={'schema':1,'complete':True,'target_achieved':False,'quality_gate_passed':False,
         'model_result_sha256':sha(args.model/'result.json'),'checkpoint_sha256':sha(args.model/'student-private.pt'),
+        'architecture_variant':architecture['variant'],'parameters':sum(p.numel() for p in parameters),
         'gpu':torch.cuda.get_device_name(),'torch':torch.__version__,'training_only':True,
         'weights_unchanged':True,'parameter_grad_fields_unchanged':True,'optimizer_steps':0,
         'rows':rows,'pair_summaries':summaries,'mean_domain_gradient_cosine':mean_cosine,

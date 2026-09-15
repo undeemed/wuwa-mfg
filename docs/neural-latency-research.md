@@ -1057,6 +1057,32 @@ is claimed. The [method and commands](../research/neural-latency/README.md#spati
 and [numeric evidence](../evidence/neural-model-research/latent-context-exchange.json)
 include all comparisons and their limits. Game and driver state remain unchanged.
 
+## Paired conditioned training and native batching coverage
+
+The conditioned model still has some opposing scene/photo gradients. Two matched
+4,500-update runs compare ordinary paired averaging with PCGrad, using the same
+architecture and 9,000 sampled examples each. Both improve scene error relative
+to the ordinary conditioned baseline, but worsen both photo groups. Projection
+reduces the mean control's large older-photo regression while worsening scene
+and newer-photo errors. Neither run passes the quality requirement.
+
+The strongest regression occurs on the brighter landscape case. All sixteen
+training photo identities use emission 0.1, while validation includes 1.0 as well.
+This is a concrete coverage gap for a future training-data experiment, not proof
+that brightness is the sole cause. Existing kernels remain bit-exact across 64
+full-image comparisons and eight modes. The two optimized graphs take about
+1.00 ms, excluding application integration; the native runtime is unchanged.
+
+A separate read-only audit of existing native traces finds sixteen logged global
+UAV barriers among 158 successful single-kernel calls in six uncensored sampled
+frames. The marker cannot distinguish barriers inside a launch from those
+between launches, and the observer covers only selected resources. This trace
+therefore does not establish executable batches or a GPU speedup. The
+[method and results](../research/neural-latency/README.md#paired-training-of-the-conditioned-model)
+and [numeric evidence](../evidence/neural-model-research/paired-conditioning-and-launch-audit.json)
+record both investigations and the next evidence needed. No application was
+launched or game/driver state changed.
+
 ## Papers and what can transfer
 
 The joint [native feature supervision experiment](../research/neural-latency/README.md#native-intermediate-feature-supervision)

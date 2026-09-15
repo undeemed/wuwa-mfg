@@ -2349,3 +2349,99 @@ records the spatial diagnostic, mechanical checks, training, mixed validation,
 branch removal and kernel compatibility. No sample or game launch was needed;
 game, driver, native model and normal runtime files remain unchanged. **The
 3 ms/native-quality target remains unmet.**
+
+## Native launch batching: trace coverage
+
+A read-only audit checks whether the existing native traces justify combining
+the runtime's single-kernel launch calls. Six sampled frames before the event
+cap each contain 158 successful single-kernel calls and sixteen logged global
+UAV barriers. The associated chain markers repeat across these frames. Frame
+256 reaches the 4,096-event limit and has only twelve recorded barriers; it is
+excluded from claims about a complete recorded schedule.
+
+The observer source reveals two important limits. Its `before_chain` marker is
+set immediately before entering a native launch and remains set after it returns.
+It therefore cannot distinguish a barrier issued *inside* that launch from one
+issued between launches. It also records resource transitions only for registered
+NR-created buffers, together with selected UAV/aliasing events. Other resources
+and the complete D3D12 command stream are not covered.
+
+Consequently, the recorded markers are **not executable batching boundaries**.
+The audit does not regroup or remove any calls. A useful next capture must
+distinguish commands inside native launch APIs from those between them, cover
+all relevant resource/command ordering, and establish packed-argument lifetime
+and kernel-chain memory semantics before attempting a paired output/timing test.
+The recorded call durations are CPU submission times, not GPU overhead savings.
+
+```text
+audit_native_launch_batching.py --trial <private-native-buffer-barriers-trial> --output <fresh-private-report.json>
+```
+
+The script emits only source/input hashes, event counts, frame/chain markers and
+CPU duration sums. It does not export addresses, packed arguments or raw trace
+payloads. It launches no application and changes no runtime state.
+
+## Paired training of the conditioned model
+
+The gradient diagnostic now accepts the width-16 conditioned model. Across its
+46 training images, 242 of 480 scene/photo gradient pairs have negative cosine
+similarity. The mean domain gradients have cosine **−0.334**, compared with
+−0.929 in the earlier plain model. Conflicts remain, but are weaker. This does
+not establish the full curvature/magnitude conditions in the
+[PCGrad paper](https://arxiv.org/abs/2001.06782) or prove that projection will help.
+
+The existing paired method is now also available with
+`--architecture hierarchical-film --paired-gradient mean` or `pcgrad`. Its
+projection formula is unchanged. A native training-pair test verifies routing to
+all parameters, including the six conditioning parameter tensors. An initial
+repeat under ordinary GPU execution differed by at most 6.4e−10 in averaged FP32
+gradients. With deterministic execution enabled for this mechanical test,
+routing and the gradient of the combined loss match exactly. The test leaves
+weights unchanged; its deterministic settings do not alter subsequent training.
+
+```text
+test_paired_conditioning.py --base <private-demo-root> --photos <private-photo-manifest> --images <private-image-manifest> --model <private-width16-conditioned-model> --output <fresh-private-report.json>
+```
+
+Both new runs use 254,672 parameters, 4,500 updates, the same seed/data/schedule,
+and one scene plus one photo per update. They process **9,000 examples each** and
+weight the two domains equally. The ordinary conditioned baseline processed
+4,500 examples with uniform image sampling, so it is not the matched control.
+The paired-mean run took 175.78 seconds and PCGrad took 175.70 seconds. Mean
+training RGB MAE is 0.018406 and 0.021726, respectively, versus 0.028293 for the
+ordinary conditioned baseline. Better training fit does not establish quality.
+
+| Validation group | Original conditioned | Paired mean | Paired PCGrad | Earlier plain PCGrad |
+| --- | ---: | ---: | ---: | ---: |
+| Six scene views | 0.028421 | 0.023952 | 0.026154 | 0.026135 |
+| Six older photo cases | 0.021364 | 0.041857 | 0.024041 | 0.024762 |
+| Four newer photo cases | 0.022106 | 0.023593 | 0.028043 | 0.023897 |
+
+Lower MAE is better. Against its matched mean control, PCGrad improves the older
+photo mean by 42.56%, but worsens scene and newer-photo means by 9.19% and 18.86%.
+Against the original conditioned baseline, both runs improve scene error but
+worsen both photo groups. Neither is accepted or installed. The older plain
+PCGrad model has a different architecture and is included as a reference.
+
+The strongest mean-control regression is the bright landscape case, whose MAE
+rises from 0.016330 to 0.122262. For all three bright photo cases, paired mean
+averages 0.060762 versus the original's 0.024862; on their lower-emission versions,
+it averages 0.022951 versus 0.017866. The collection manifests confirm that all
+sixteen training photo identities use emission 0.1, while validation includes
+both 0.1 and 1.0. This identifies a coverage gap worth testing on **training
+identities**. It does not prove brightness is the only cause, and validation
+images must remain outside fitting.
+
+All 64 saved predictions reproduce exactly; the 32 results for the two old
+checkpoints match the preceding reports. Existing CUDA fusions remain bit-exact
+across 64 model/image pairs and eight execution modes. The paired models measure
+**0.9989 ms (mean)** and **1.0010 ms (PCGrad)** with all fusions in the alternating
+1080p student-plus-grade benchmark. Intervals average ten replays after warmup;
+they exclude application integration and are not individual-frame tail metrics.
+No new kernel or native-runtime acceleration is claimed.
+
+[Numerical evidence](../../evidence/neural-model-research/paired-conditioning-and-launch-audit.json)
+retains the gradient diagnostic, deterministic routing check, both training runs,
+all validation/subgroup results, fusion/timing checks and the native batching
+coverage audit above. No sample or game was launched; game, driver, native model
+and normal runtime state remain unchanged. **3 ms with native quality is unmet.**

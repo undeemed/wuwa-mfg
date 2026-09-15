@@ -232,3 +232,9 @@ trained weights are copied. The small CNN adaptation and measured results are
 our own experiment; the paper's benchmarks are not renderer quality claims.
 All private captured images, predictions, activations and trained weights remain
 outside this repository.
+
+The conditioned-model gradient-routing test and native launch-batching trace
+audit are original Apache-2.0 code. The training extension uses the previously
+credited PCGrad implementation without changing its projection formula. The
+native audit reads existing private metadata and the repository's original
+observer patch; it distributes no vendor code, arguments, addresses or binaries.
