@@ -302,3 +302,13 @@ trainer extension are original Apache-2.0 code. Data-curation discussion in
 and sampling coverage. The experiment does not copy the paper's code, use its
 weights or implement its retrieval pipeline. Private descriptors, trained weights
 and input/output pixels are not distributed.
+
+The region-context branch, independent attention/gradient tests, matched comparison,
+and process-local Python platform fallback are original Apache-2.0 research code.
+The branch is inspired by block selection in
+[MoBA](https://github.com/MoonshotAI/MoBA) and region routing in
+[BiFormer: Vision Transformer with Bi-Level Routing Attention](https://arxiv.org/pdf/2303.08810).
+It implements neither paper's complete model and copies no external implementation,
+weights or figures. The papers' benchmark gains are not transferred to this renderer.
+PyTorch supplies the existing attention and gather operators. No new CUDA kernel,
+vendor modification, captured image, feature tensor or trained weight is included.

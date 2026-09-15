@@ -3201,3 +3201,117 @@ includes cluster assignments/probabilities, actual draw counts, tests, training
 history, every validation image, timing intervals, source digests and preserved
 installation hashes. Descriptor vectors, weights and pixels remain private.
 No new capture, kernel change, application launch or game installation occurred.
+
+## Region-routed context with a matched dense control
+
+**Result: both candidates are rejected as replacements.** Routed attention saves
+0.129 ms relative to the matched dense model, but the overall quality gap remains.
+
+This model experiment asks whether selective context can improve the correction
+decoder's quality within the 3 ms budget. It draws on block selection in
+[MoBA](https://github.com/MoonshotAI/MoBA) and region routing in
+[BiFormer](https://arxiv.org/pdf/2303.08810). MoBA's authors require additional
+training; its long-context language-model speedups do not establish a renderer
+speedup. The original branch here is neither paper's complete architecture.
+
+The frozen first student and all seven feature paths remain intact. After the
+correction decoder's deepest projection, `RegionContext` normalizes the 96-channel
+features and forms 48-channel queries, keys and values with three heads. At
+1920x1080 input, that feature map is 34x60. Padding makes 135 regions of 4x4
+feature positions. The routed variant includes its own region and selects three
+others from FP32 dot products of region-average queries/keys. All spatial queries
+remain; only context keys/values are selected. Padding is excluded from both
+pooling and attention. Selection is discrete; the shared query/key projections
+receive gradients through token attention.
+
+The dense control uses identical initial weights and attends to every region.
+The routed branch actually gathers a smaller key/value array: 64 nominal
+positions per query region versus 2,160 padded positions for dense attention.
+This is not dense attention followed by a sparse mask. Both variants add 18,960
+parameters to the existing correction decoder, for 126,928 trainable parameters
+plus the unchanged 254,672-parameter first model. Existing PyTorch attention,
+gather and matrix operators perform the work; no new custom kernel is introduced.
+
+Both runs use the same 62 training captures, 4,500 updates, 9,000 examples,
+initialization seed, sample order, AdamW schedule and L1/gradient loss. Training
+features are cached, but inference recomputes the full first model and every
+feature. These 62 inputs still represent only 17 scene/photo identities. The 16
+validation images stay excluded from fitting; past validation scores have guided
+research, so this is not a fresh final acceptance set.
+
+| Mean RGB error | Frozen first | Previous correction | Dense context | Routed context |
+| --- | ---: | ---: | ---: | ---: |
+| All 62 training images, FP32 | 0.023332 | 0.020537 | 0.019669 | 0.020080 |
+| All 16 validation images, FP16 | 0.021956 | 0.022650 | 0.023174 | 0.023022 |
+| Six validation scenes | 0.026068 | 0.027157 | 0.026880 | 0.025626 |
+| Six earlier validation photos | 0.018731 | 0.018855 | 0.019882 | 0.020807 |
+| Four diverse validation photos | 0.020624 | 0.021582 | 0.022551 | 0.022438 |
+| Paired complete graph median, ms | 1.268 | 2.456 | 2.592 | 2.463 |
+
+The routed model improves scene error by 1.70% relative to the first model, but
+worsens the two photo groups by 11.09% and 8.80%. Eight validation images improve
+and eight regress; overall error rises 4.86%. Dense context improves nine images
+but raises overall error 5.55%. Routed error is 0.65% below the dense model's
+overall error, with mixed group results. These are changes in the measured error
+metric, not percentages of perceived image quality.
+
+The direct timing run alternates four complete graphs over 30 intervals, each
+averaging ten replays after warmup. Dense and routed p95 interval means are 2.696
+and 2.619 ms. The 0.129 ms median saving is about 5% of dense model time; reduced
+attention connections do not translate into an equivalent whole-model speedup.
+Separate evaluation runs have different timing medians, so the direct paired
+comparison is used for this claim. No game frame-tail or complete-pass result is
+inferred from these graph measurements.
+
+The precision audit reproduces every previous FP16 error exactly. FP32 overall
+errors are 0.023171 dense and 0.023022 routed, still above the first model's
+0.021957. FP16 changes selected region sets for 11 of 2,160 query regions across
+the 16 images; 99.873% of selected blocks remain shared, and mean output difference
+from FP32 is about 0.000099. Thus FP16 routing noise does not explain the observed
+aggregate regression. Disabling the learned branch raises FP32 error to 0.024245
+for dense and 0.024756 for routed. Both branches contribute within their fitted
+models, but neither produces a validated replacement. This is evidence for this
+specific experiment, not a rejection of sparse attention in general.
+
+The CPU test compares attention and input gradients against independent explicit
+softmax calculations, including odd dimensions, masked padding and batches. It
+checks that selecting every region recovers dense attention, poisoning padded
+tokens leaves valid results unchanged, and local regions are included without
+duplicates. A synthetic full-student test verifies matching initialization,
+neutral output, live/cached features, branch gradients, frozen first weights and
+strict checkpoint reload. GPU checks repeat neutral output in FP32/FP16 and
+verify existing fused operations against the unfused result.
+
+Evaluation records every reserved image. The precision audit reproduces FP16
+scores, checks FP32 quality, counts changes in selected region sets, and disables
+the trained context branch to measure its contribution. That last intervention
+tests sensitivity in the fitted model; it is not a separately trained ablation.
+The direct four-model timing comparison includes the first model, previous
+correction decoder, dense branch and routed branch on the same 1080p input.
+It includes scoring, top-k, gathers, attention and final composition. D3D12/game
+overhead and temporal acceptance remain outside this offline measurement.
+
+Run the new test, then train/evaluate each mode sequentially with fresh private
+output paths. The existing base, manifest and first-model arguments have the
+same meanings as above. `--no-save-predictions` retains scalar metrics without
+writing another set of private pixel arrays; checkpoint reload reproduces them.
+
+```text
+test_region_context_student.py --first <private-first-model> --output <fresh-private-tests.json>
+test_shared_feature_student.py --region-mode <dense-or-routed> --first <private-first-model> --capture <private-training-capture> --output <fresh-private-gpu-tests.json>
+train_shared_feature_student.py --region-mode <dense-or-routed> --base <private-demo-root> --photos <photo-manifest> --images <diverse-manifest> --brightness <brightness-manifest> --baseline <private-46-image-model> --first <private-first-model> --output <fresh-private-candidate>
+evaluate_progressive_student.py --region-mode <dense-or-routed> --no-save-predictions --base <private-demo-root> --lab <private-research-root> --photos <photo-manifest> --images <diverse-manifest> --first <private-first-model> --candidate <private-candidate> --output <fresh-private-evaluation>
+audit_shared_precision.py --region-mode <dense-or-routed> --base <private-demo-root> --lab <private-research-root> --photos <photo-manifest> --images <diverse-manifest> --first <private-first-model> --candidate <private-candidate> --evaluation <private-evaluation/result.json> --output <fresh-private-precision.json>
+compare_region_context.py --first <private-first-model> --shared <private-previous-correction-model> --shared-evaluation <previous-evaluation/result.json> --dense <private-dense-model> --dense-evaluation <dense-evaluation/result.json> --routed <private-routed-model> --routed-evaluation <routed-evaluation/result.json> --capture <private-training-capture> --output <fresh-private-comparison.json>
+```
+
+The host's WMI query stalled before the first test loaded PyTorch; a separate
+CIM query also stalled. The optional `run_without_wmi.py <script> <arguments>`
+wrapper uses Python's existing environment/Win32 platform-query fallback in that
+process. It changes no service, driver or Python installation. It is not needed
+on hosts where the normal query works.
+
+[Numeric evidence](../../evidence/neural-model-research/region-context.json)
+includes both complete training/evaluation records, checks, precision diagnostics,
+direct timing intervals, source digests and preserved game/demo hashes. Weights,
+captured images, feature tensors and route arrays remain private.

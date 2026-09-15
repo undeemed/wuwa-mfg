@@ -18,6 +18,7 @@ from student_training_pairs import sha, load_pair, rgb_loss
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     for name in ('first','capture','output'):parser.add_argument('--'+name,type=Path,required=True)
+    parser.add_argument('--region-mode',choices=('dense','routed'))
     args=parser.parse_args()
     assert not args.output.exists() and not args.output.resolve().is_relative_to(Path(__file__).resolve().parents[2])
     first,record=load_first(args.first)
@@ -26,7 +27,11 @@ def main():
     torch.manual_seed(28411)
     torch.backends.cudnn.benchmark=False;torch.backends.cudnn.allow_tf32=False;torch.backends.cuda.matmul.allow_tf32=False
     source,target=load_pair({'path':args.capture,'capture_hashes':hashes},controls)
-    model=SharedFeatureRefinement(first).cuda().to(memory_format=torch.channels_last)
+    if args.region_mode:
+        from region_context_student import RegionFeatureRefinement
+        model=RegionFeatureRefinement(first,args.region_mode)
+    else:model=SharedFeatureRefinement(first)
+    model=model.cuda().to(memory_format=torch.channels_last)
     saved={key:value.clone() for key,value in model.first.state_dict().items()}
     rows=[]
     for dtype in (torch.float32,torch.float16):
@@ -72,6 +77,9 @@ def main():
             'strict_roundtrip_exact':True,'existing_fusions_match_bitwise':True,'rejected_inputs':rejected,
             'parameters':{'frozen':sum(p.numel() for p in model.first.parameters()),'trainable':sum(p.numel() for p in model.refinement.parameters())},
             'scope':'One training image, two precisions and one disposable SGD step; no saved candidate or validation fitting.'}
+    if args.region_mode:
+        from region_context_student import architecture
+        report['region_context']=architecture(args.region_mode)
     args.output.write_text(json.dumps(report,indent=2,allow_nan=False)+'\n');print(json.dumps(report,indent=2))
 
 

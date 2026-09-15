@@ -9,14 +9,21 @@ Current work focuses on training a smaller model to reproduce the original
 output. Earlier kernel experiments remain documented below. Reduced resolution, skipped
 frames, weaker blending and a different visual style do not satisfy the target.
 
-The latest [training experiment](../research/neural-latency/README.md#training-coverage-and-cluster-sampling)
-audited the 62 training images, which come from one 3D scene and 16 photos, and
-tested a fixed mixture of uniform-image and uniform-cluster sampling. The model
-and training budget stayed unchanged. Validation error increased **5.37%** over
-uniform sampling and **8.71%** over the frozen first model, despite better training
-fit. This sampling rule is rejected. Full-1080p model graph time remains
-**2.173 ms**, excluding D3D12 integration. The quality gap and the complete-pass
-3 ms target remain unresolved.
+The latest [model experiment](../research/neural-latency/README.md#region-routed-context-with-a-matched-dense-control)
+adds a region-attention branch inspired by MoBA and BiFormer, with matched dense
+and routed training runs. The routed complete model takes **2.463 ms** versus
+**2.592 ms** for dense attention in the same timing comparison. It improves the
+scene validation group, but worsens both photo groups: overall RGB error is
+**4.86% higher** than the frozen first model. FP32 checks confirm that this is not
+explained by FP16 rounding. Both candidates are rejected as replacements. The
+quality gap and complete-pass 3 ms target remain unresolved; these timings exclude
+D3D12 integration, and the native runtime is unchanged.
+
+The preceding [sampling experiment](../research/neural-latency/README.md#training-coverage-and-cluster-sampling)
+also failed validation. The 62 training captures still come from one 3D scene and
+16 photos. Reweighting them or adding selective attention has not resolved the
+generalization gap; broader teacher-labeled training content remains the next
+data direction. No game installation or new kernel change was made.
 
 The earlier [native batching investigation](../research/neural-latency/README.md#rejected-native-batching-and-verified-overlap-differences)
 rejected an eight-kernel batcher after GPU errors and no completed image readback.

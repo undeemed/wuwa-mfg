@@ -101,6 +101,8 @@ def main():
     for name in ('base', 'lab', 'photos', 'images', 'first', 'candidate', 'output'):
         parser.add_argument('--' + name, type=Path, required=True)
     parser.add_argument('--shared-features', action='store_true', help='Evaluate the decoder that reuses first-stage features.')
+    parser.add_argument('--region-mode', choices=('dense','routed'), help='Evaluate the matched region-context variant.')
+    parser.add_argument('--no-save-predictions', action='store_true', help='Keep scalar metrics without new private image arrays.')
     args = parser.parse_args()
     assert not args.output.exists() and not args.output.resolve().is_relative_to(Path(__file__).resolve().parents[2])
     torch.backends.cudnn.benchmark = False
@@ -115,7 +117,13 @@ def main():
     assert candidate_record['first_result_sha256'] == sha(args.first / 'result.json')
     assert candidate_record['controls'] == record['controls'] and candidate_record['native_shape'] == [1080, 1920]
     assert candidate_record['training_capture_hashes'] == record['training_capture_hashes']
-    if args.shared_features:
+    if args.region_mode:
+        from region_context_student import RegionFeatureRefinement, architecture
+        from shared_feature_student import configure_shared
+        assert candidate_record['variant']=='region-context' and candidate_record['region_context']==architecture(args.region_mode)
+        candidate=RegionFeatureRefinement(second_first,args.region_mode)
+        configure_candidate=configure_shared
+    elif args.shared_features:
         from shared_feature_student import SharedFeatureRefinement, configure_shared
         assert candidate_record['variant'] == 'shared-features'
         candidate = SharedFeatureRefinement(second_first)
@@ -161,7 +169,8 @@ def main():
             assert all(same(model(source), references[name]) for name, model in models.items())
             produced = references['refined'][0].permute(1, 2, 0).float().cpu().numpy()
             assert np.isfinite(produced).all()
-            np.save(args.output / f'refined-{label}.npy', produced)
+            if not args.no_save_predictions:
+                np.save(args.output / f'refined-{label}.npy', produced)
             row = {'label': label, 'group': group, 'capture_hashes': hashes,
                    'first_saved_output_reproduced_exactly': True, 'existing_fusions_match_unfused_bitwise': True,
                    'models': {name: metrics(output, target) for name, output in references.items()}}
@@ -177,7 +186,7 @@ def main():
                           'improved_mae_count': sum(row['models']['refined']['mae'] < row['models']['first']['mae'] for row in subset),
                           'mae_change_percent': 100 * (means['refined']['mae'] / means['first']['mae'] - 1)}
     report = {'complete': True, 'target_achieved': False, 'quality_gate_passed': False,
-              'variant': 'shared-features' if args.shared_features else 'rgb-cascade',
+              'variant': 'region-context' if args.region_mode else ('shared-features' if args.shared_features else 'rgb-cascade'),
               'native_shape': [1080, 1920], 'gpu': torch.cuda.get_device_name(), 'torch': torch.__version__,
               'first_checkpoint_sha256': sha(args.first / 'student-private.pt'),
               'candidate_checkpoint_sha256': sha(args.candidate / 'student-private.pt'),
@@ -190,6 +199,8 @@ def main():
                               'Previously reserved validation images remain excluded from training, but their past scores informed research; this is not an independent final acceptance set.',
                               'The second stage adds 4500 updates and 9000 image examples on top of the existing trained base; this is not an equal-total-training-compute architecture comparison.',
                               'Pixel metrics do not establish perceptual equivalence. No replacement is accepted.']}
+    if args.region_mode:report['region_context']=architecture(args.region_mode)
+    report['predictions_saved']=not args.no_save_predictions
     (args.output / 'result.json').write_text(json.dumps(report, indent=2, allow_nan=False) + '\n')
     print(json.dumps({'summary': summary, 'timing': timings['summary']}, indent=2), flush=True)
 

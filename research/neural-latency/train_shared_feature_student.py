@@ -37,6 +37,7 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     for name in ('base','photos','images','brightness','baseline','first','output'):parser.add_argument('--'+name,type=Path,required=True)
     parser.add_argument('--coverage-sampling',type=Path,help='Optional preselected TRAIN-only cluster mixture report.')
+    parser.add_argument('--region-mode',choices=('dense','routed'),help='Optional matched region-context experiment.')
     args=parser.parse_args()
     assert not args.output.exists() and not args.output.resolve().is_relative_to(Path(__file__).resolve().parents[2])
     first,record=load_first(args.first)
@@ -51,7 +52,11 @@ def main():
     sampled_counts=np.zeros(62,dtype=np.int64)
     torch.manual_seed(28411);rng=np.random.default_rng(28411)
     torch.backends.cudnn.benchmark=False;torch.backends.cudnn.allow_tf32=False;torch.backends.cuda.matmul.allow_tf32=False
-    model=SharedFeatureRefinement(first).cuda().float().to(memory_format=torch.channels_last)
+    if args.region_mode:
+        from region_context_student import RegionFeatureRefinement
+        model=RegionFeatureRefinement(first,args.region_mode)
+    else:model=SharedFeatureRefinement(first)
+    model=model.cuda().float().to(memory_format=torch.channels_last)
     frozen={key:value.detach().cpu().clone() for key,value in model.first.state_dict().items()}
     views=[];initial=[]
     with torch.no_grad():
@@ -99,6 +104,11 @@ def main():
         report['optimization']['sampling']={'coverage_sha256':sha(args.coverage_sampling),'rule':coverage['sampling_rule'],
             'per_image_counts':sampled_counts.tolist(),'scene_probabilities':probabilities[0].tolist(),'photo_probabilities':probabilities[1].tolist(),
             'validation_or_target_used_to_select_probabilities':False}
+    if args.region_mode:
+        from region_context_student import architecture
+        report['variant']='region-context'
+        report['region_context']=architecture(args.region_mode)
+        report['sampled_counts']=sampled_counts.tolist()
     (args.output/'result.json').write_text(json.dumps(report,indent=2,allow_nan=False)+'\n')
     print(json.dumps({'completed_steps':4500,'training_seconds':elapsed,'mean_training_mae':sum(r['refined_mae'] for r in metrics)/62}),flush=True)
 
