@@ -1,0 +1,69 @@
+{
+  "schema": 1,
+  "observed_date": "2026-09-15",
+  "scope": "Two WuWa GameThread hang reports and one independent Windows WMI health query. Recovery has not been verified.",
+  "hang_reports": {
+    "count": 2,
+    "crash_type": "Hang",
+    "thread_name": "GameThread",
+    "same_leading_module_offset_sequence": true,
+    "stack_leaf_to_caller": [
+      {"module": "win32u", "rva": "0xad04"},
+      {"module": "combase", "rva": "0xa7aa4"},
+      {"module": "combase", "rva": "0xa7761"},
+      {"module": "combase", "rva": "0x37646"},
+      {"module": "combase", "rva": "0xa6a32"},
+      {"module": "combase", "rva": "0xa51aa"},
+      {"module": "combase", "rva": "0x3f863"},
+      {"module": "RPCRT4", "rva": "0x1526"},
+      {"module": "combase", "rva": "0xeb40b"},
+      {"module": "combase", "rva": "0x252472"},
+      {"module": "fastprox", "rva": "0x4cfa"},
+      {"module": "KRSDK", "rva": "0x126b52"},
+      {"module": "KRSDK", "rva": "0x125c8f"},
+      {"module": "KRSDK", "rva": "0xc8667"}
+    ],
+    "subsequent_termination_exception": "0x00004000",
+    "gpu_fault_proven_by_these_reports": false
+  },
+  "wmi_events": {
+    "log": "Microsoft-Windows-WMI-Activity/Operational",
+    "event_id": 5858,
+    "game_process_ids_matched_locally": true,
+    "queries": [
+      "SELECT * FROM Win32_ComputerSystemProduct",
+      "SELECT * FROM Win32_VideoController"
+    ],
+    "result_code": "0x80041032",
+    "meaning": "Call canceled; not evidence of repository corruption by itself"
+  },
+  "independent_probe": {
+    "query": "SELECT Version FROM Win32_OperatingSystem",
+    "operation_timeout_seconds": 5,
+    "process_deadline_seconds": 8,
+    "elapsed_seconds": 6.516,
+    "exit_code": 1,
+    "operation_timed_out": true,
+    "process_deadline_reached": false,
+    "error_hresult": "0x40004",
+    "output_returned": false,
+    "services_modified": false
+  },
+  "preservation": {
+    "installed_optiscaler_sha256": "b3b0857a6d94e4745b42f2bb3beb747c527548ceec0abff11afecf89a1f6a590",
+    "installed_config_sha256": "213fd3f55423a12c075a9d96c2f87df3ea86c3971e135aa89eab1ff9b6a34fa6",
+    "matches_previous_recorded_state": true,
+    "experimental_student_installed": false,
+    "game_files_modified": false
+  },
+  "conclusion": "The immediate blocking path is a WMI/COM hardware-information request. The initial cause inside Windows/provider infrastructure is not established.",
+  "recovery": {
+    "status": "Awaiting user-controlled Windows restart and fresh WMI/game checks",
+    "verified": false,
+    "diagnostic_session_elevated": false,
+    "running_wmi_dependency_observed": "vmms",
+    "services_force_stopped": false,
+    "wmi_repository_modified": false
+  },
+  "private_artifacts_excluded": ["raw crash dumps", "raw logs", "process IDs", "usernames", "absolute addresses", "private paths"]
+}

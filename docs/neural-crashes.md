@@ -89,6 +89,37 @@ The output-size tests cover 4K, ultrawide, DLSS input changes, invalid sizes/sca
 and uniform texture-limit handling. They verify dimensions, not model quality or
 performance at those dimensions.
 
+## GameThread hang while waiting for Windows hardware information
+
+Two later launches produced `Hang detected on GameThread`. Their saved thread
+stacks have the same leading module/offset sequence: the game's `KRSDK` calls
+`fastprox`, then Windows COM/RPC code waits in `win32u`. Render and RHI threads
+were also waiting. These reports identify a blocked CPU thread; they do not
+establish another GPU page fault or a slow neural inference.
+
+Windows WMI-Activity events matched the game process IDs and recorded canceled
+queries for `Win32_ComputerSystemProduct` and `Win32_VideoController`. Event code
+`0x80041032` means a canceled call, not proof of repository corruption; see
+[Microsoft's WMI error definitions](https://learn.microsoft.com/en-us/windows/win32/wmisdk/wmi-error-constants).
+A separate read-only query, `SELECT Version FROM Win32_OperatingSystem`, also
+failed with `Timed out` / `HRESULT 0x40004`. It used a five-second operation timeout
+inside an eight-second process deadline and returned after 6.52 seconds.
+
+Together, the stack and independent timeout identify the current blocker as a
+WMI/COM request that does not return. They do not identify which service/provider
+first caused it. The installed OptiScaler DLL and configuration hashes still
+matched the previously recorded build; the experimental student was not installed.
+[Sanitized evidence](../evidence/neural-wmi-hang.json) records the comparison.
+
+Recovery is **pending verification**. The user was asked to save work and restart
+Windows, then repeat the bounded WMI check before launching WuWa. The diagnostic
+session was not elevated, and the running WMI dependencies included Hyper-V
+management. No service was force-stopped. Microsoft documents that
+[stopping WMI also stops dependent services](https://learn.microsoft.com/en-us/windows/win32/wmisdk/starting-and-stopping-the-wmi-service),
+which require attention when restarting it. This investigation changed no game,
+driver, security setting or WMI repository. A successful reboot and fresh game
+session still need to be demonstrated.
+
 ## Practical prevention while testing
 
 Use the patched build and keep one neural pass. Set graphics/output resolution
