@@ -1,0 +1,237 @@
+{
+  "schema": 1,
+  "gpu": "NVIDIA GeForce RTX 4070 Ti",
+  "torch": "2.7.1+cu128",
+  "weights_sha256": "fa6ebc71bc6f91347d51b3368b0ef6e952b6157b6d9a164e7db82cffb88d3143",
+  "scope": "PyTorch reference research; not vendor parity or a game speedup.",
+  "cases": [
+    {
+      "block": 5,
+      "dtype": "torch.float16",
+      "scale": 0.1,
+      "elements": 98496,
+      "unequal": 0,
+      "mae": 0.0,
+      "max_abs": 0.0
+    },
+    {
+      "block": 5,
+      "dtype": "torch.float16",
+      "scale": 1,
+      "elements": 98496,
+      "unequal": 0,
+      "mae": 0.0,
+      "max_abs": 0.0
+    },
+    {
+      "block": 5,
+      "dtype": "torch.float16",
+      "scale": 4,
+      "elements": 98496,
+      "unequal": 0,
+      "mae": 0.0,
+      "max_abs": 0.0
+    },
+    {
+      "block": 5,
+      "dtype": "torch.float32",
+      "scale": 0.1,
+      "elements": 98496,
+      "unequal": 121,
+      "mae": 7.792367995307359e-08,
+      "max_abs": 0.00054931640625
+    },
+    {
+      "block": 5,
+      "dtype": "torch.float32",
+      "scale": 1,
+      "elements": 98496,
+      "unequal": 0,
+      "mae": 0.0,
+      "max_abs": 0.0
+    },
+    {
+      "block": 5,
+      "dtype": "torch.float32",
+      "scale": 4,
+      "elements": 98496,
+      "unequal": 0,
+      "mae": 0.0,
+      "max_abs": 0.0
+    },
+    {
+      "block": 9,
+      "dtype": "torch.float16",
+      "scale": 0.1,
+      "elements": 48768,
+      "unequal": 0,
+      "mae": 0.0,
+      "max_abs": 0.0
+    },
+    {
+      "block": 9,
+      "dtype": "torch.float16",
+      "scale": 1,
+      "elements": 48768,
+      "unequal": 0,
+      "mae": 0.0,
+      "max_abs": 0.0
+    },
+    {
+      "block": 9,
+      "dtype": "torch.float16",
+      "scale": 4,
+      "elements": 48768,
+      "unequal": 0,
+      "mae": 0.0,
+      "max_abs": 0.0
+    },
+    {
+      "block": 9,
+      "dtype": "torch.float32",
+      "scale": 0.1,
+      "elements": 48768,
+      "unequal": 0,
+      "mae": 0.0,
+      "max_abs": 0.0
+    },
+    {
+      "block": 9,
+      "dtype": "torch.float32",
+      "scale": 1,
+      "elements": 48768,
+      "unequal": 0,
+      "mae": 0.0,
+      "max_abs": 0.0
+    },
+    {
+      "block": 9,
+      "dtype": "torch.float32",
+      "scale": 4,
+      "elements": 48768,
+      "unequal": 127,
+      "mae": 4.186529986327514e-05,
+      "max_abs": 0.1087646484375
+    },
+    {
+      "block": 15,
+      "dtype": "torch.float16",
+      "scale": 0.1,
+      "elements": 56064,
+      "unequal": 0,
+      "mae": 0.0,
+      "max_abs": 0.0
+    },
+    {
+      "block": 15,
+      "dtype": "torch.float16",
+      "scale": 1,
+      "elements": 56064,
+      "unequal": 0,
+      "mae": 0.0,
+      "max_abs": 0.0
+    },
+    {
+      "block": 15,
+      "dtype": "torch.float16",
+      "scale": 4,
+      "elements": 56064,
+      "unequal": 0,
+      "mae": 0.0,
+      "max_abs": 0.0
+    },
+    {
+      "block": 15,
+      "dtype": "torch.float32",
+      "scale": 0.1,
+      "elements": 56064,
+      "unequal": 0,
+      "mae": 0.0,
+      "max_abs": 0.0
+    },
+    {
+      "block": 15,
+      "dtype": "torch.float32",
+      "scale": 1,
+      "elements": 56064,
+      "unequal": 0,
+      "mae": 0.0,
+      "max_abs": 0.0
+    },
+    {
+      "block": 15,
+      "dtype": "torch.float32",
+      "scale": 4,
+      "elements": 56064,
+      "unequal": 255,
+      "mae": 9.88035390037112e-06,
+      "max_abs": 0.011016845703125
+    },
+    {
+      "block": 23,
+      "dtype": "torch.float16",
+      "elements": 195072,
+      "unequal": 0,
+      "mae": 0.0,
+      "max_abs": 0.0
+    },
+    {
+      "block": 23,
+      "dtype": "torch.float32",
+      "elements": 195072,
+      "unequal": 1,
+      "mae": 1.0012328743869148e-08,
+      "max_abs": 0.001953125
+    }
+  ],
+  "full_model": {
+    "shape": [
+      1,
+      320,
+      320,
+      16
+    ],
+    "baseline": {
+      "median_ms": 42.57299041748047,
+      "samples_ms": [
+        42.60454559326172,
+        42.579551696777344,
+        42.56768035888672,
+        42.58201599121094,
+        42.57075119018555,
+        42.57356643676758,
+        42.57241439819336,
+        42.559486389160156,
+        42.58883285522461,
+        42.566654205322266,
+        42.57884979248047,
+        42.56358337402344
+      ]
+    },
+    "candidate": {
+      "median_ms": 18.299744606018066,
+      "samples_ms": [
+        18.265087127685547,
+        18.241472244262695,
+        18.245248794555664,
+        18.25177574157715,
+        18.327552795410156,
+        18.320032119750977,
+        18.297536849975586,
+        18.309120178222656,
+        18.304000854492188,
+        18.302976608276367,
+        18.272159576416016,
+        18.301952362060547
+      ]
+    },
+    "elements": 409600,
+    "unequal": 0,
+    "mae": 0.0,
+    "max_abs": 0.0
+  },
+  "all_tested_values_equal": false,
+  "fp16_tested_values_equal": true,
+  "fp32_replacement_rejected": true,
+  "quality_gate_passed": false
+}

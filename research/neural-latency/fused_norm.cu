@@ -110,3 +110,20 @@ extern "C" __global__ void bit_affine_softmax_f16(const unsigned short* input, u
 extern "C" __global__ void bit_affine_softmax_f32(const float* input, float* output, unsigned rows, unsigned columns) {
     softmax_rows(input,output,rows,columns);
 }
+
+template<class T> __device__ void quadratic_activation(const T* input, T* output, unsigned long long count) {
+    const unsigned long long i=(unsigned long long)blockIdx.x*blockDim.x+threadIdx.x;
+    if (i>=count) return;
+    const float raw=read_value(input[i]);
+    const float clamped=raw < -4.f ? -4.f : (raw > 4.f ? 4.f : raw);
+    const float magnitude=clamped < 0.f ? -clamped : clamped;
+    const float linear=half_round(magnitude*-0.055908203125f+0.447265625f);
+    const float gate=half_round(clamped*linear+0.89453125f);
+    output[i]=write_value<T>(raw*gate);
+}
+extern "C" __global__ void quadratic_activation_f16(const unsigned short* input,unsigned short* output,unsigned long long count) {
+    quadratic_activation(input,output,count);
+}
+extern "C" __global__ void quadratic_activation_f32(const float* input,float* output,unsigned long long count) {
+    quadratic_activation(input,output,count);
+}

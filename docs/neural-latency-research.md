@@ -120,6 +120,24 @@ numerical smoke test, not visual equivalence on gameplay.
    changed the synthetic model head: MAE 0.1945, RMSE 0.3452 and maximum absolute
    error 3.042. These are raw head units, not display RGB metrics. This candidate
    was rejected. Deleting blocks alone is not a quality-preserving model.
+6. **Batch independent feed-forward branches.** Eager profiling found 6,270
+   matrix-multiply calls in the small reference fixture. A candidate batches
+   independent branch products while keeping the original order of additions
+   across heads. In one warmed, same-process comparison, the 320×320 CUDA Graph
+   fell from **42.57 ms to 18.30 ms**, with identical model-head output. Tested
+   FP16 operations matched; FP32 cases had differences, so the comparison tool
+   keeps the original implementation for FP32. On the real 1080p captured input,
+   the batched FP16 reconstruction matched all **6,220,800 RGB values** from the
+   previous reconstruction. This does not remove its existing vendor mismatch.
+7. **Fuse the quadratic activation.** A local CUDA kernel preserves the
+   reference's half rounding, clamping and quadratic gate. All **8,640,830**
+   tested values matched, including every finite FP16 input, FP32 cases and
+   noncontiguous tensors. The isolated operation measured **0.0399 ms versus
+   0.9605 ms**. Combined with branch batching, the 320×320 graph reached
+   **10.86 ms**, with identical head output. At the actual 1920×1080 input,
+   padded to 1088×1920, the complete graph still took **226.92 ms**. Its RGB
+   output again matched the earlier reconstruction exactly. This full-resolution
+   result is far slower than NVIDIA and is not an installable improvement.
 
 All retained numerical records are in
 [`evidence/neural-model-research`](../evidence/neural-model-research).
@@ -173,6 +191,46 @@ and temporal quality remain unvalidated. Numeric records, capture hashes and
 controls are in
 [`matched-vendor-capture.json`](../evidence/neural-model-research/matched-vendor-capture.json).
 
+## First trained student experiments
+
+Two small convolutional students were trained directly against the captured
+NVIDIA RGB output. A reversible pixel-unshuffle packs each 4×4 input neighborhood
+into channels; the input image is not resized. A depthwise/pointwise residual
+network predicts a full-resolution RGB correction through pixel-shuffle. Training
+uses pixel and gradient losses. These are initial architecture experiments, not
+distilled replacements for individual transformer blocks.
+
+| Candidate | Training | Held-out RGB MAE | Unchanged-input MAE on the same holdout | PyTorch median at 1920×1080 |
+| --- | --- | ---: | ---: | ---: |
+| 32 channels, 4 blocks, 21,328 parameters | 1,500 steps; left part of one view | 0.05611 | 0.01986 | 0.94 ms |
+| 48 channels, 6 blocks, 64,032 parameters | 10,000 steps; two complete views | 0.02249 | 0.01996 | 2.29 ms |
+
+**Both candidates were rejected.** On their respective holdouts, even the
+unchanged source was closer to NVIDIA than the student prediction. The first
+used a spatially separated region; the second reserved a third camera view for
+evaluation. The larger student's held-out maximum channel error was 0.19958.
+Its higher training capacity and additional views did not establish preserved
+quality. A fast kernel interval cannot compensate for that failure.
+
+The extra views were collected by changing only the demo scene's camera target,
+then restoring its original bytes after the run. At position `[0,1.8,0]`, the
+original target was `[1,1.8,0]`, the second training target `[-1,1.8,0]`, and the
+held-out target `[0,1.8,-1]`. Each hidden run completed four fenced captures.
+All are views of **one Sponza scene**, not a diverse scene dataset. No temporal
+frames, disocclusions, faces or game UI were used to establish student quality.
+
+The two training runs took approximately 6.8 and 74.1 seconds. The second excluded
+a 32-pixel border from crop losses so padded patch edges were not treated as
+valid interior predictions. Timings above are 30 warmed FP16 CUDA Graph samples
+of the student, including its pixel rearrangement and RGB correction, but
+excluding D3D12 integration. They are not measurements in the application and do
+not satisfy the target. The small networks, source and numeric failures are
+documented; private trained weights and rendered images are not distributed.
+
+See [`student-probes.json`](../evidence/neural-model-research/student-probes.json),
+[`student-capture-views.json`](../evidence/neural-model-research/student-capture-views.json)
+and [`batched-ffn-full1080.json`](../evidence/neural-model-research/batched-ffn-full1080.json).
+
 ## Papers and what can transfer
 
 These papers provide research ideas. Their reported speedups are on other models
@@ -187,6 +245,7 @@ and hardware; none establishes the target for this runtime.
 | [TinyVLA](https://arxiv.org/html/2409.12514v3) | A compact backbone and task-specific decoder can reduce inference cost. | Fast robot action prediction does not require reproducing every image pixel. Borrow compact architecture design and task-specific training, not its quality claims. |
 | [V-JEPA 2](https://arxiv.org/html/2506.09985v1) | Predict compact latent representations and learn useful temporal structure. | Semantic latent accuracy does not establish correct fine texture or UI edges. A latent predictor could assist a student, but requires pixel and temporal losses and refresh on disocclusions. |
 | [ToCa](https://arxiv.org/html/2410.05317v1) | Selectively reuse features based on redundancy and error sensitivity. | Its reuse is across diffusion steps. This effect already uses one pass; across-frame reuse adds motion, disocclusion and noise-state problems. It must not simply retain an old rendered image. |
+| [Edge-Efficient Image Restoration](https://arxiv.org/abs/2605.02794) | Train replacement blocks against intermediate features, select combinations, then fine-tune the whole model. | Its transformer/SSM experiments use other restoration tasks and hardware. Here, the initial small CNNs fail the held-out image test; replacement blocks would need to retain learned context and be validated against actual vendor output. |
 
 ## Quality and performance acceptance
 

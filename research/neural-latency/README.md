@@ -31,7 +31,9 @@ weights. Use a path outside a public repository for the two tensor files.
 .venv\Scripts\python study_model.py --source MLX-DLSS --weights local-weights\logical.safetensors --output results\rounding.json --mode rounding
 .venv\Scripts\python test_fused_norm.py --source MLX-DLSS --output results\fused-norm.json
 .venv\Scripts\python test_fused_softmax.py --source MLX-DLSS --output results\fused-softmax.json
+.venv\Scripts\python test_fused_gate.py --source MLX-DLSS --output results\fused-gate.json
 .venv\Scripts\python study_model.py --source MLX-DLSS --weights local-weights\logical.safetensors --output results\graph.json --mode graph --fused-norm --fused-softmax
+.venv\Scripts\python test_batched_ffn.py --source MLX-DLSS --weights local-weights\logical.safetensors --output results\batched-gate.json --fused-gate
 ```
 
 Run GPU experiments sequentially with the demo and game closed. The scripts exit
@@ -52,6 +54,15 @@ inference-only on Windows SM89: normalization supports 32-channel FP16/FP32
 tensors, and bit-affine softmax supports even row lengths 2–2048. Tests cover the
 final partial thread group and noncontiguous layouts. Passing them does not prove
 every floating-point boundary case, NaN behavior or vendor parity.
+
+`test_batched_ffn.py` compares independent branch batching with the original
+reference and measures full synthetic-model graphs after replay warmup. Its
+FP32 tests deliberately expose rounding differences; `all_tested_values_equal`
+is therefore false in the retained evidence. Only the tested FP16 path is used
+by `compare_capture.py --batched-ffn`; FP32 falls back to the reference.
+`--profile` additionally records one eager execution with PyTorch's profiler.
+Its ATen and CUDA entries can overlap and must not be summed as disjoint costs.
+`--fused-gate` adds the separate activation kernel after the batching comparison.
 
 ## Runtime kernel tracing in the existing demo
 
@@ -116,6 +127,7 @@ The local comparison tool reads the first frame without resizing its color:
 
 ```powershell
 .venv\Scripts\python compare_capture.py --source MLX-DLSS --weights local-weights\logical.safetensors --capture D:\PrivateCaptures\natural --output results\natural --precision fast
+.venv\Scripts\python compare_capture.py --source MLX-DLSS --weights local-weights\logical.safetensors --capture D:\PrivateCaptures\natural --output results\natural-graph --precision fast --batched-ffn --fused-gate --graph
 ```
 
 `--inspect-only` validates the manifest and textures and writes previews without
@@ -128,6 +140,50 @@ with preset 0 and RGBA16_FLOAT color/output textures, not temporal evaluation.
 It writes numeric metrics plus local previews and a NumPy reconstruction; do not
 commit the image data. `quality_gate_passed` remains false because a single frame
 cannot establish the required visual and temporal quality.
+
+`--graph` times fixed-input CUDA Graph replay after warmup at the full captured
+extent. Its `network_timing_kind` distinguishes GPU intervals from the default
+eager wall time. The graph result still excludes D3D12 integration. Both batching
+and activation fusion are experimental options, not changes to the installed
+NVIDIA runtime.
+
+## Bounded student training probes
+
+`student_probe.py` trains a small residual CNN directly on local matched
+color/output textures. It needs PyTorch and NumPy but does not load the recovered
+model or its weights. Pixel-unshuffle retains every input pixel. The model is
+trained with RGB and gradient losses, then measured as an FP16 CUDA Graph at the
+unchanged 1920×1080 input. Both retained students failed the quality gate.
+
+For the first probe, train on the left part of the original view and reserve a
+separate right-hand region. To reproduce the original loss behavior, use zero
+crop border:
+
+```powershell
+.venv\Scripts\python student_probe.py --capture D:\PrivateCaptures\natural --output results\student-one --steps 1500 --max-seconds 120 --width 32 --blocks 4 --loss-border 0
+```
+
+For the second probe, obtain two extra camera views with the same capture build
+and controls. The sample loads `media/sponza.json`; back up its exact bytes before
+editing the active `Camera0` target. Keep position `[0,1.8,0]` and up `[0,1,0]`.
+Change only target `[1,1.8,0]` to `[-1,1.8,0]` for the second training view, or
+`[0,1.8,-1]` for validation. For each, use the existing guarded runner at 1920×1080,
+60 FPS, Natural style, preset 0 and automatic masking, for 25 seconds. Archive
+the four completed fenced captures before the next run, and restore the original
+scene bytes and demo DLL afterward. The existing hidden EXE must remain intact.
+All three views are still the same scene.
+
+```powershell
+.venv\Scripts\python student_probe.py --capture D:\PrivateCaptures\natural --extra-train-capture D:\PrivateCaptures\west --validation-capture D:\PrivateCaptures\north --output results\student-views --steps 10000 --max-seconds 120 --width 48 --blocks 6 --loss-border 32
+```
+
+With a separate validation capture, training uses complete images from the two
+training views. Controls and extents must match, and validation must have a
+different input hash. The 32-pixel crop border keeps padding artifacts out of
+the training loss. The report includes the unchanged-input baseline, holdout
+errors, training steps and timing samples. These limited probes provide neither
+temporal training nor cross-scene validation. Private checkpoints and NumPy
+outputs must remain local; only source and numeric evidence are published.
 
 No vendor binaries, tensor files, generated GPU objects or raw captures belong
 in this directory. See [third-party notices](../../THIRD_PARTY_NOTICES.md).

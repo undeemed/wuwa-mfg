@@ -12,6 +12,9 @@ p.add_argument('--output',type=Path,required=True)
 p.add_argument('--inspect-only',action='store_true')
 p.add_argument('--precision',choices=['fast','reference'],default='fast')
 p.add_argument('--network-height',type=int)
+p.add_argument('--batched-ffn',action='store_true',help='Experimental FP16 branch batching; FP32 keeps the reference.')
+p.add_argument('--fused-gate',action='store_true')
+p.add_argument('--graph',action='store_true',help='Time fixed-shape CUDA Graph replay on the complete captured input.')
 p.add_argument('--noise-frame',type=int,choices=range(4),default=0,
                help='Diagnostic noise counter; the vendor counter is not yet captured.')
 a=p.parse_args()
@@ -70,6 +73,14 @@ def cached_bias(bias):
     if key not in bias_cache:bias_cache[key]=bias_layout(bias)
     return bias_cache[key]
 reference.recover_attention_bias_layout=cached_bias
+if a.fused_gate:
+    reference.quadratic_gate_activation=fused.gate
+if a.batched_ffn:
+    import batched_ffn
+    original_branched=reference.branched_feed_forward
+    original_split=reference.split_group_feed_forward
+    reference.branched_feed_forward=lambda x,**kw: batched_ffn.branched_feed_forward(x,**kw) if x.dtype==torch.float16 else original_branched(x,**kw)
+    reference.split_group_feed_forward=lambda x,**kw: batched_ffn.split_group_feed_forward(x,**kw) if x.dtype==torch.float16 else original_split(x,**kw)
 automatic=AutomaticMask(controls['DLSSNR.SkinStructureStrength'],controls['DLSSNR.LocalStructureStrength']) if controls['DLSSNR.UseAutoMask'] else None
 prepared=pipeline.prepare(source,frame_index=a.noise_frame,normalized_style=controls['DLSSNR.Style']/128,
     local_tone_strength=controls['DLSSNR.LocalToneStrength'],
@@ -83,9 +94,32 @@ if a.network_height:
     stats['custom_network_height_diagnostic']=a.network_height
 print(f'Prepared actual model features {prepared.features.shape}; executing first-frame inference.',flush=True)
 start=time.perf_counter()
-head=pipeline.run_features(prepared.features)
-network_seconds=time.perf_counter()-start
-print(f'Inference complete after {network_seconds:.2f}s; comparing pixels.',flush=True)
+if a.graph:
+    with torch.inference_mode():
+        tensor=torch.from_numpy(prepared.features[None]).to('cuda',pipeline.dtype)
+        warmup=torch.cuda.Stream();warmup.wait_stream(torch.cuda.current_stream())
+        with torch.cuda.stream(warmup):
+            for _ in range(3):pipeline.model(tensor)
+        torch.cuda.current_stream().wait_stream(warmup)
+        graph=torch.cuda.CUDAGraph()
+        with torch.cuda.graph(graph):graph_output=pipeline.model(tensor)
+        for _ in range(5):graph.replay()
+        torch.cuda.synchronize()
+        samples=[]
+        for _ in range(20):
+            begin,end=torch.cuda.Event(enable_timing=True),torch.cuda.Event(enable_timing=True)
+            begin.record();graph.replay();end.record();end.synchronize();samples.append(begin.elapsed_time(end))
+        head=graph_output.float().cpu().numpy()[0]
+        stats['cuda_graph']={'median_ms':float(np.median(samples)),'p95_ms':float(np.percentile(samples,95)),
+                             'samples_ms':samples,'trial_wall_seconds':time.perf_counter()-start,
+                             'scope':'Fixed full-resolution input in PyTorch; no D3D12 integration or vendor speedup.'}
+        network_seconds=float(np.median(samples))/1000
+    stats['network_timing_kind']='CUDA Graph median GPU interval'
+else:
+    head=pipeline.run_features(prepared.features)
+    network_seconds=time.perf_counter()-start
+    stats['network_timing_kind']='Eager wall time, including output transfer'
+print(f'Model timing {network_seconds:.4f}s ({stats["network_timing_kind"]}); comparing pixels.',flush=True)
 result=pipeline.finish(prepared,head,intensity=controls['DLSSNR.Intensity'],network_seconds=network_seconds)
 predicted=result.image
 np.save(a.output/'reconstruction.npy',predicted)
@@ -100,6 +134,8 @@ def hp(x):
     return x[1:-1,1:-1]-(x[:-2,1:-1]+x[2:,1:-1]+x[1:-1,:-2]+x[1:-1,2:])*0.25
 stats.update(precision=a.precision,network_extent=list(result.network_extent),network_seconds=network_seconds,
              noise_frame=a.noise_frame,
+             batched_ffn=a.batched_ffn and a.precision=='fast',
+             fused_gate=a.fused_gate,
              weights_sha256=hashlib.sha256(a.weights.read_bytes()).hexdigest(),
              comparison={'rgb_mae':float(error.mean()),'rgb_rmse':mse**0.5,
              'rgb_max_abs':float(error.max()),'rgb_p99_abs':float(np.percentile(error,99)),
@@ -108,7 +144,7 @@ stats.update(precision=a.precision,network_extent=list(result.network_extent),ne
              'effect_correlation':corr(predicted-source,vendor-source),
              'highpass_correlation':corr(hp(predicted),hp(vendor)),
              'reconstruction_effect_mae':float(np.abs(predicted-source).mean())},
-             limitation='One first-reset scene; noise counter, controls and reconstruction remain unproven against vendor. Inference wall time is not a vendor-runtime benchmark. No speed/quality claim.',
+             limitation='One first-reset scene; noise counter, controls and reconstruction remain unproven against vendor. Reconstruction timing is not a vendor-runtime benchmark. No speed/quality claim.',
              peak_allocated_mib=torch.cuda.max_memory_allocated()/2**20)
 (a.output/'comparison.json').write_text(json.dumps(stats,indent=2))
 print(json.dumps(stats,indent=2),flush=True)

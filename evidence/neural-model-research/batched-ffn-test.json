@@ -1,0 +1,337 @@
+{
+  "schema": 1,
+  "gpu": "NVIDIA GeForce RTX 4070 Ti",
+  "torch": "2.7.1+cu128",
+  "weights_sha256": "fa6ebc71bc6f91347d51b3368b0ef6e952b6157b6d9a164e7db82cffb88d3143",
+  "scope": "PyTorch reference research; not vendor parity or a game speedup.",
+  "cases": [
+    {
+      "block": 5,
+      "dtype": "torch.float16",
+      "scale": 0.1,
+      "elements": 98496,
+      "unequal": 0,
+      "mae": 0.0,
+      "max_abs": 0.0
+    },
+    {
+      "block": 5,
+      "dtype": "torch.float16",
+      "scale": 1,
+      "elements": 98496,
+      "unequal": 0,
+      "mae": 0.0,
+      "max_abs": 0.0
+    },
+    {
+      "block": 5,
+      "dtype": "torch.float16",
+      "scale": 4,
+      "elements": 98496,
+      "unequal": 0,
+      "mae": 0.0,
+      "max_abs": 0.0
+    },
+    {
+      "block": 5,
+      "dtype": "torch.float32",
+      "scale": 0.1,
+      "elements": 98496,
+      "unequal": 121,
+      "mae": 7.792367995307359e-08,
+      "max_abs": 0.00054931640625
+    },
+    {
+      "block": 5,
+      "dtype": "torch.float32",
+      "scale": 1,
+      "elements": 98496,
+      "unequal": 0,
+      "mae": 0.0,
+      "max_abs": 0.0
+    },
+    {
+      "block": 5,
+      "dtype": "torch.float32",
+      "scale": 4,
+      "elements": 98496,
+      "unequal": 0,
+      "mae": 0.0,
+      "max_abs": 0.0
+    },
+    {
+      "block": 9,
+      "dtype": "torch.float16",
+      "scale": 0.1,
+      "elements": 48768,
+      "unequal": 0,
+      "mae": 0.0,
+      "max_abs": 0.0
+    },
+    {
+      "block": 9,
+      "dtype": "torch.float16",
+      "scale": 1,
+      "elements": 48768,
+      "unequal": 0,
+      "mae": 0.0,
+      "max_abs": 0.0
+    },
+    {
+      "block": 9,
+      "dtype": "torch.float16",
+      "scale": 4,
+      "elements": 48768,
+      "unequal": 0,
+      "mae": 0.0,
+      "max_abs": 0.0
+    },
+    {
+      "block": 9,
+      "dtype": "torch.float32",
+      "scale": 0.1,
+      "elements": 48768,
+      "unequal": 0,
+      "mae": 0.0,
+      "max_abs": 0.0
+    },
+    {
+      "block": 9,
+      "dtype": "torch.float32",
+      "scale": 1,
+      "elements": 48768,
+      "unequal": 0,
+      "mae": 0.0,
+      "max_abs": 0.0
+    },
+    {
+      "block": 9,
+      "dtype": "torch.float32",
+      "scale": 4,
+      "elements": 48768,
+      "unequal": 127,
+      "mae": 4.186529986327514e-05,
+      "max_abs": 0.1087646484375
+    },
+    {
+      "block": 15,
+      "dtype": "torch.float16",
+      "scale": 0.1,
+      "elements": 56064,
+      "unequal": 0,
+      "mae": 0.0,
+      "max_abs": 0.0
+    },
+    {
+      "block": 15,
+      "dtype": "torch.float16",
+      "scale": 1,
+      "elements": 56064,
+      "unequal": 0,
+      "mae": 0.0,
+      "max_abs": 0.0
+    },
+    {
+      "block": 15,
+      "dtype": "torch.float16",
+      "scale": 4,
+      "elements": 56064,
+      "unequal": 0,
+      "mae": 0.0,
+      "max_abs": 0.0
+    },
+    {
+      "block": 15,
+      "dtype": "torch.float32",
+      "scale": 0.1,
+      "elements": 56064,
+      "unequal": 0,
+      "mae": 0.0,
+      "max_abs": 0.0
+    },
+    {
+      "block": 15,
+      "dtype": "torch.float32",
+      "scale": 1,
+      "elements": 56064,
+      "unequal": 0,
+      "mae": 0.0,
+      "max_abs": 0.0
+    },
+    {
+      "block": 15,
+      "dtype": "torch.float32",
+      "scale": 4,
+      "elements": 56064,
+      "unequal": 255,
+      "mae": 9.88035390037112e-06,
+      "max_abs": 0.011016845703125
+    },
+    {
+      "block": 23,
+      "dtype": "torch.float16",
+      "elements": 195072,
+      "unequal": 0,
+      "mae": 0.0,
+      "max_abs": 0.0
+    },
+    {
+      "block": 23,
+      "dtype": "torch.float32",
+      "elements": 195072,
+      "unequal": 1,
+      "mae": 1.0012328743869148e-08,
+      "max_abs": 0.001953125
+    }
+  ],
+  "profile_top_ops": [
+    {
+      "self_cuda_us": 14873.894000000038,
+      "calls": 8099,
+      "name": "aten::copy_"
+    },
+    {
+      "self_cuda_us": 12338.641000000844,
+      "calls": 6270,
+      "name": "aten::mm"
+    },
+    {
+      "self_cuda_us": 9988.666000000667,
+      "calls": 5731,
+      "name": "_ZN7cutlass7Kernel2I66cutlass_80_wmma_tensorop_f16_s161616gemm_f16_32x32_128x2_nn_align8EEvNT_6ParamsE"
+    },
+    {
+      "self_cuda_us": 8808.22200000182,
+      "calls": 7823,
+      "name": "aten::add"
+    },
+    {
+      "self_cuda_us": 6071.394000001075,
+      "calls": 2882,
+      "name": "_ZN2at6native27unrolled_elementwise_kernelIZZZNS0_23direct_copy_kernel_cudaERNS_18TensorIteratorBaseEENKUlvE1_clEvENKUlvE5_clEvEUlfE_St5arrayIPcLy2EELi4E23TrivialOffsetCalculatorILi1EjESB_NS0_6memory12LoadWithCastILi1EEENSC_13StoreWithCastILi1EEEEEviT_T0_T2_T3_T4_T5_"
+    },
+    {
+      "self_cuda_us": 5134.250000000848,
+      "calls": 2973,
+      "name": "aten::mul"
+    },
+    {
+      "self_cuda_us": 4591.6310000005105,
+      "calls": 4906,
+      "name": "_ZN2at6native29vectorized_elementwise_kernelILi4ENS0_15CUDAFunctor_addIN3c104HalfEEESt5arrayIPcLy3EEEEviT0_T1_"
+    },
+    {
+      "self_cuda_us": 3201.098000000129,
+      "calls": 1406,
+      "name": "_ZN2at6native27unrolled_elementwise_kernelIZZZNS0_23direct_copy_kernel_cudaERNS_18TensorIteratorBaseEENKUlvE1_clEvENKUlvE8_clEvEUlN3c104HalfEE_St5arrayIPcLy2EELi4E23TrivialOffsetCalculatorILi1EjESD_NS0_6memory12LoadWithCastILi1EEENSE_13StoreWithCastILi1EEEEEviT_T0_T2_T3_T4_T5_"
+    },
+    {
+      "self_cuda_us": 2913.497000000538,
+      "calls": 1828,
+      "name": "_ZN2at6native29vectorized_elementwise_kernelILi4ENS0_21CUDAFunctorOnSelf_addIfEESt5arrayIPcLy2EEEEviT0_T1_"
+    },
+    {
+      "self_cuda_us": 2890.7500000009604,
+      "calls": 2328,
+      "name": "aten::clamp"
+    },
+    {
+      "self_cuda_us": 2629.6769999977623,
+      "calls": 1898,
+      "name": "_ZN2at6native29vectorized_elementwise_kernelILi4EZNS0_24float16_copy_kernel_cudaERNS_18TensorIteratorBaseEEUlfE_St5arrayIPcLy2EEEEviT0_T1_"
+    },
+    {
+      "self_cuda_us": 2599.6430000012624,
+      "calls": 2214,
+      "name": "_ZN2at6native29vectorized_elementwise_kernelILi4EZZZNS0_49_GLOBAL__N__97375e57_16_TensorCompare_cu_71e06f4e19launch_clamp_scalarERNS_18TensorIteratorBaseEN3c106ScalarES6_NS0_6detail11ClampLimitsEENKUlvE_clEvENKUlvE6_clEvEUlNS5_4HalfEE_St5arrayIPcLy2EEEEviT0_T1_"
+    },
+    {
+      "self_cuda_us": 1783.7290000014,
+      "calls": 1406,
+      "name": "_ZN2at6native29vectorized_elementwise_kernelILi4EZNS0_23float8_copy_kernel_cudaERNS_18TensorIteratorBaseEEUlN3c104HalfEE_St5arrayIPcLy2EEEEviT0_T1_"
+    },
+    {
+      "self_cuda_us": 1671.18399999951,
+      "calls": 914,
+      "name": "_ZN2at6native29vectorized_elementwise_kernelILi4ENS0_13BinaryFunctorIfffNS0_15binary_internal10MulFunctorIfEEEESt5arrayIPcLy3EEEEviT0_T1_"
+    },
+    {
+      "self_cuda_us": 1369.9769999995915,
+      "calls": 914,
+      "name": "_ZN2at6native29vectorized_elementwise_kernelILi4ENS0_13BinaryFunctorIN3c104HalfES4_S4_NS0_15binary_internal10MulFunctorIfEEEESt5arrayIPcLy3EEEEviT0_T1_"
+    },
+    {
+      "self_cuda_us": 1358.1490000013873,
+      "calls": 914,
+      "name": "_ZN2at6native29vectorized_elementwise_kernelILi4ENS0_13AUnaryFunctorIfffNS0_15binary_internal10MulFunctorIfEEEESt5arrayIPcLy2EEEEviT0_T1_"
+    },
+    {
+      "self_cuda_us": 1149.8519999996133,
+      "calls": 485,
+      "name": "_ZN2at6native18elementwise_kernelILi128ELi4EZNS0_22gpu_kernel_impl_nocastIZZZNS0_23direct_copy_kernel_cudaERNS_18TensorIteratorBaseEENKUlvE1_clEvENKUlvE8_clEvEUlN3c104HalfEE_EEvS4_RKT_EUliE_EEviT1_"
+    },
+    {
+      "self_cuda_us": 946.4510000012688,
+      "calls": 1828,
+      "name": "aten::abs"
+    },
+    {
+      "self_cuda_us": 946.4510000012688,
+      "calls": 914,
+      "name": "_ZN2at6native29vectorized_elementwise_kernelILi4ENS0_10AbsFunctorIN3c104HalfEEESt5arrayIPcLy2EEEEviT0_T1_"
+    },
+    {
+      "self_cuda_us": 868.5960000008527,
+      "calls": 960,
+      "name": "_ZN2at6native29vectorized_elementwise_kernelILi4ENS0_21CUDAFunctorOnSelf_addIN3c104HalfEEESt5arrayIPcLy2EEEEviT0_T1_"
+    }
+  ],
+  "full_model": {
+    "shape": [
+      1,
+      320,
+      320,
+      16
+    ],
+    "baseline": {
+      "median_ms": 42.57155227661133,
+      "samples_ms": [
+        120.72345733642578,
+        42.50214385986328,
+        42.49599838256836,
+        42.534912109375,
+        42.609214782714844,
+        42.56528091430664,
+        42.57356643676758,
+        42.57689666748047,
+        42.56972885131836,
+        42.571327209472656,
+        42.583744049072266,
+        42.57177734375
+      ]
+    },
+    "candidate": {
+      "median_ms": 18.526991844177246,
+      "samples_ms": [
+        31.356128692626953,
+        18.588863372802734,
+        18.56051254272461,
+        18.510271072387695,
+        18.543712615966797,
+        18.586368560791016,
+        18.568511962890625,
+        18.482559204101562,
+        18.453983306884766,
+        18.48543930053711,
+        18.459104537963867,
+        18.481855392456055
+      ]
+    },
+    "elements": 409600,
+    "unequal": 0,
+    "mae": 0.0,
+    "max_abs": 0.0
+  },
+  "all_tested_values_equal": false,
+  "quality_gate_passed": false
+}

@@ -1,0 +1,192 @@
+{
+  "schema": 1,
+  "quality_gate_passed": false,
+  "comparisons": [
+    {
+      "schema": 1,
+      "capture_hashes": {
+        "color": "2e44a6a5e2730c21f7f2b4610b0a3c0af6fc94e2f51601f2ab2fa3fa679cf7f6",
+        "output": "13668520132202f28b6b584aff445e6982d17ece0430c9c134b7c2ef85b68d2b"
+      },
+      "source_shape": [
+        1080,
+        1920,
+        3
+      ],
+      "controls": {
+        "DLSSNR.ColorSubrectBaseX": 0,
+        "DLSSNR.ColorSubrectBaseY": 0,
+        "DLSSNR.ColorSubrectHeight": 1080,
+        "DLSSNR.ColorSubrectWidth": 1920,
+        "DLSSNR.DepthInverted": 0,
+        "DLSSNR.DepthSubrectBaseX": 0,
+        "DLSSNR.DepthSubrectBaseY": 0,
+        "DLSSNR.DepthSubrectHeight": 540,
+        "DLSSNR.DepthSubrectWidth": 960,
+        "DLSSNR.Height": 1080,
+        "DLSSNR.Hint.Render.Preset": 0,
+        "DLSSNR.Intensity": 1.0,
+        "DLSSNR.LocalStructureStrength": 1.0,
+        "DLSSNR.LocalToneStrength": 1.0,
+        "DLSSNR.MVecScaleX": 2.0,
+        "DLSSNR.MVecScaleY": 2.0,
+        "DLSSNR.MVecSubrectBaseX": 0,
+        "DLSSNR.MVecSubrectBaseY": 0,
+        "DLSSNR.MVecSubrectHeight": 540,
+        "DLSSNR.MVecSubrectWidth": 960,
+        "DLSSNR.Reset": 1,
+        "DLSSNR.SkinStructureStrength": -1.0,
+        "DLSSNR.Style": 1,
+        "DLSSNR.UseAutoMask": 1,
+        "DLSSNR.Width": 1920
+      },
+      "input_mean": 0.2175561487674713,
+      "input_range": [
+        -0.057281494140625,
+        1.107421875
+      ],
+      "vendor_effect_mae": 0.04437996447086334,
+      "vendor_range": [
+        0.0,
+        0.91357421875
+      ],
+      "quality_gate_passed": false,
+      "precision": "fast",
+      "network_extent": [
+        1088,
+        1920
+      ],
+      "network_seconds": 0.7164487000118243,
+      "noise_frame": 0,
+      "batched_ffn": true,
+      "weights_sha256": "fa6ebc71bc6f91347d51b3368b0ef6e952b6157b6d9a164e7db82cffb88d3143",
+      "comparison": {
+        "rgb_mae": 0.015148261561989784,
+        "rgb_rmse": 0.022372259915421924,
+        "rgb_max_abs": 0.166259765625,
+        "rgb_p99_abs": 0.0693359375,
+        "psnr_db": 33.005802875756714,
+        "rgb_correlation": 0.9977564348667832,
+        "effect_correlation": 0.9377319251980138,
+        "highpass_correlation": 0.9735717434269928,
+        "reconstruction_effect_mae": 0.043202225118875504
+      },
+      "limitation": "One first-reset scene. Matches the earlier reconstruction, not the vendor output. PyTorch timing excludes D3D12 integration.",
+      "peak_allocated_mib": 1256.08154296875,
+      "reference_comparison": {
+        "elements": 6220800,
+        "unequal": 0,
+        "max_abs": 0.0,
+        "mae": 0.0
+      }
+    },
+    {
+      "schema": 1,
+      "capture_hashes": {
+        "color": "2e44a6a5e2730c21f7f2b4610b0a3c0af6fc94e2f51601f2ab2fa3fa679cf7f6",
+        "output": "13668520132202f28b6b584aff445e6982d17ece0430c9c134b7c2ef85b68d2b"
+      },
+      "source_shape": [
+        1080,
+        1920,
+        3
+      ],
+      "controls": {
+        "DLSSNR.ColorSubrectBaseX": 0,
+        "DLSSNR.ColorSubrectBaseY": 0,
+        "DLSSNR.ColorSubrectHeight": 1080,
+        "DLSSNR.ColorSubrectWidth": 1920,
+        "DLSSNR.DepthInverted": 0,
+        "DLSSNR.DepthSubrectBaseX": 0,
+        "DLSSNR.DepthSubrectBaseY": 0,
+        "DLSSNR.DepthSubrectHeight": 540,
+        "DLSSNR.DepthSubrectWidth": 960,
+        "DLSSNR.Height": 1080,
+        "DLSSNR.Hint.Render.Preset": 0,
+        "DLSSNR.Intensity": 1.0,
+        "DLSSNR.LocalStructureStrength": 1.0,
+        "DLSSNR.LocalToneStrength": 1.0,
+        "DLSSNR.MVecScaleX": 2.0,
+        "DLSSNR.MVecScaleY": 2.0,
+        "DLSSNR.MVecSubrectBaseX": 0,
+        "DLSSNR.MVecSubrectBaseY": 0,
+        "DLSSNR.MVecSubrectHeight": 540,
+        "DLSSNR.MVecSubrectWidth": 960,
+        "DLSSNR.Reset": 1,
+        "DLSSNR.SkinStructureStrength": -1.0,
+        "DLSSNR.Style": 1,
+        "DLSSNR.UseAutoMask": 1,
+        "DLSSNR.Width": 1920
+      },
+      "input_mean": 0.2175561487674713,
+      "input_range": [
+        -0.057281494140625,
+        1.107421875
+      ],
+      "vendor_effect_mae": 0.04437996447086334,
+      "vendor_range": [
+        0.0,
+        0.91357421875
+      ],
+      "quality_gate_passed": false,
+      "cuda_graph": {
+        "median_ms": 226.91788482666016,
+        "p95_ms": 226.99469451904298,
+        "samples_ms": [
+          226.90383911132812,
+          226.9468231201172,
+          226.93568420410156,
+          226.88243103027344,
+          226.8948516845703,
+          226.9091796875,
+          226.93682861328125,
+          226.90357971191406,
+          226.96022033691406,
+          226.9870147705078,
+          226.97325134277344,
+          226.96441650390625,
+          226.8528594970703,
+          226.89280700683594,
+          226.86207580566406,
+          226.90771484375,
+          226.8966064453125,
+          227.14060974121094,
+          226.9265899658203,
+          226.93478393554688
+        ],
+        "trial_wall_seconds": 6.689670199993998,
+        "scope": "Fixed full-resolution input in PyTorch; no D3D12 integration or vendor speedup."
+      },
+      "network_timing_kind": "CUDA Graph median GPU interval",
+      "precision": "fast",
+      "network_extent": [
+        1088,
+        1920
+      ],
+      "network_seconds": 0.22691788482666014,
+      "noise_frame": 0,
+      "batched_ffn": true,
+      "fused_gate": true,
+      "weights_sha256": "fa6ebc71bc6f91347d51b3368b0ef6e952b6157b6d9a164e7db82cffb88d3143",
+      "comparison": {
+        "rgb_mae": 0.015148261561989784,
+        "rgb_rmse": 0.022372259915421924,
+        "rgb_max_abs": 0.166259765625,
+        "rgb_p99_abs": 0.0693359375,
+        "psnr_db": 33.005802875756714,
+        "rgb_correlation": 0.9977564348667832,
+        "effect_correlation": 0.9377319251980138,
+        "highpass_correlation": 0.9735717434269928,
+        "reconstruction_effect_mae": 0.043202225118875504
+      },
+      "limitation": "One first-reset scene. Matches the earlier reconstruction, not the vendor output. PyTorch timing excludes D3D12 integration.",
+      "peak_allocated_mib": 1147.93408203125,
+      "reference_comparison": {
+        "elements": 6220800,
+        "unequal": 0,
+        "max_abs": 0.0,
+        "mae": 0.0
+      }
+    }
+  ]
+}

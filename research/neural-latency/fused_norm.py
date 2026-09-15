@@ -46,12 +46,16 @@ class FusedNorm:
         self.module = C.c_void_p(); check(load(C.byref(self.module),code,0,None,None),'cuModuleLoadDataEx')
         self.functions = {}
         self.softmax_functions = {}
+        self.gate_functions = {}
         for dtype, name in [(torch.float16,b'cosine_norm_f16'),(torch.float32,b'cosine_norm_f32')]:
             function = C.c_void_p(); check(lookup(C.byref(function),self.module,name),'cuModuleGetFunction')
             self.functions[dtype] = function
         for dtype, name in [(torch.float16,b'bit_affine_softmax_f16'),(torch.float32,b'bit_affine_softmax_f32')]:
             function = C.c_void_p(); check(lookup(C.byref(function),self.module,name),'cuModuleGetFunction')
             self.softmax_functions[dtype] = function
+        for dtype, name in [(torch.float16,b'quadratic_activation_f16'),(torch.float32,b'quadratic_activation_f32')]:
+            function = C.c_void_p(); check(lookup(C.byref(function),self.module,name),'cuModuleGetFunction')
+            self.gate_functions[dtype] = function
         # Module stays alive until process exit, including any captured graphs.
 
     def __call__(self, x):
@@ -67,6 +71,21 @@ class FusedNorm:
         stream = torch.cuda.current_stream(x.device)
         status = self.launch(self.functions[x.dtype],(rows*4+255)//256,1,1,256,1,1,0,C.c_void_p(stream.cuda_stream),params,None)
         if status: raise RuntimeError(f'cuLaunchKernel failed: {status}')
+        return output
+
+    def gate(self, x):
+        if x.device.type != 'cuda' or x.dtype not in self.gate_functions or x.requires_grad:
+            raise ValueError('Expected inference-only CUDA float16/float32.')
+        x=x.contiguous()
+        output=torch.empty_like(x)
+        count=x.numel()
+        if not count:return output
+        if count>=2**38:raise ValueError('Tensor exceeds bounded launch size.')
+        input_arg,output_arg,count_arg=C.c_void_p(x.data_ptr()),C.c_void_p(output.data_ptr()),C.c_ulonglong(count)
+        params=(C.c_void_p*3)(C.addressof(input_arg),C.addressof(output_arg),C.addressof(count_arg))
+        stream=torch.cuda.current_stream(x.device)
+        status=self.launch(self.gate_functions[x.dtype],(count+255)//256,1,1,256,1,1,0,C.c_void_p(stream.cuda_stream),params,None)
+        if status:raise RuntimeError(f'cuLaunchKernel failed: {status}')
         return output
 
     def softmax(self, x):

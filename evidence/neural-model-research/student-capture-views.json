@@ -1,0 +1,196 @@
+{
+  "schema": 1,
+  "scope": "Additional camera views of Sponza, not separate scenes.",
+  "views": [
+    {
+      "view": "west",
+      "camera": {
+        "restored_after_trial": true,
+        "scene": "Sponza",
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "target": [
+          -1,
+          1.8,
+          0
+        ],
+        "position": [
+          0,
+          1.8,
+          0
+        ]
+      },
+      "completed_fenced_frames": 4,
+      "capture_summary": {
+        "schema": 1,
+        "capture_hashes": {
+          "color": "5a3292ed2faf5fb6e1290d0a9c0e7f672995bc05480e0466dea0f10271074ca4",
+          "output": "42d040613e5bd3b3dac82ed254908976971d1fdcd374084ba09cb63a3f3f0004"
+        },
+        "source_shape": [
+          1080,
+          1920,
+          3
+        ],
+        "controls": {
+          "DLSSNR.ColorSubrectBaseX": 0,
+          "DLSSNR.ColorSubrectBaseY": 0,
+          "DLSSNR.ColorSubrectHeight": 1080,
+          "DLSSNR.ColorSubrectWidth": 1920,
+          "DLSSNR.DepthInverted": 0,
+          "DLSSNR.DepthSubrectBaseX": 0,
+          "DLSSNR.DepthSubrectBaseY": 0,
+          "DLSSNR.DepthSubrectHeight": 540,
+          "DLSSNR.DepthSubrectWidth": 960,
+          "DLSSNR.Height": 1080,
+          "DLSSNR.Hint.Render.Preset": 0,
+          "DLSSNR.Intensity": 1.0,
+          "DLSSNR.LocalStructureStrength": 1.0,
+          "DLSSNR.LocalToneStrength": 1.0,
+          "DLSSNR.MVecScaleX": 2.0,
+          "DLSSNR.MVecScaleY": 2.0,
+          "DLSSNR.MVecSubrectBaseX": 0,
+          "DLSSNR.MVecSubrectBaseY": 0,
+          "DLSSNR.MVecSubrectHeight": 540,
+          "DLSSNR.MVecSubrectWidth": 960,
+          "DLSSNR.Reset": 1,
+          "DLSSNR.SkinStructureStrength": -1.0,
+          "DLSSNR.Style": 1,
+          "DLSSNR.UseAutoMask": 1,
+          "DLSSNR.Width": 1920
+        },
+        "input_mean": 0.23937906324863434,
+        "input_range": [
+          -0.05914306640625,
+          1.1455078125
+        ],
+        "vendor_effect_mae": 0.055536556988954544,
+        "vendor_range": [
+          0.0,
+          0.91455078125
+        ],
+        "quality_gate_passed": false
+      },
+      "runtime_file_sha256": {
+        "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+        "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+        "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+      },
+      "sparse_gpu_timing": {
+        "total_ms": {
+          "median": 5.63,
+          "min": 5.63,
+          "max": 5.63
+        },
+        "model_ms": {
+          "median": 5.43,
+          "min": 5.43,
+          "max": 5.43
+        },
+        "surrounding_ms": {
+          "median": 0.2,
+          "min": 0.2,
+          "max": 0.2
+        }
+      }
+    },
+    {
+      "view": "north",
+      "camera": {
+        "restored_after_trial": true,
+        "scene": "Sponza",
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "target": [
+          0,
+          1.8,
+          -1
+        ],
+        "position": [
+          0,
+          1.8,
+          0
+        ]
+      },
+      "completed_fenced_frames": 4,
+      "capture_summary": {
+        "schema": 1,
+        "capture_hashes": {
+          "color": "584c107ead68fca78c3eee0190d715e51c1f76392dc03c09050b5f572afa075e",
+          "output": "10bf20e6b20b3b56a31dca40dd829ff260061998d7fa18eafa306f56d525ca3a"
+        },
+        "source_shape": [
+          1080,
+          1920,
+          3
+        ],
+        "controls": {
+          "DLSSNR.ColorSubrectBaseX": 0,
+          "DLSSNR.ColorSubrectBaseY": 0,
+          "DLSSNR.ColorSubrectHeight": 1080,
+          "DLSSNR.ColorSubrectWidth": 1920,
+          "DLSSNR.DepthInverted": 0,
+          "DLSSNR.DepthSubrectBaseX": 0,
+          "DLSSNR.DepthSubrectBaseY": 0,
+          "DLSSNR.DepthSubrectHeight": 540,
+          "DLSSNR.DepthSubrectWidth": 960,
+          "DLSSNR.Height": 1080,
+          "DLSSNR.Hint.Render.Preset": 0,
+          "DLSSNR.Intensity": 1.0,
+          "DLSSNR.LocalStructureStrength": 1.0,
+          "DLSSNR.LocalToneStrength": 1.0,
+          "DLSSNR.MVecScaleX": 2.0,
+          "DLSSNR.MVecScaleY": 2.0,
+          "DLSSNR.MVecSubrectBaseX": 0,
+          "DLSSNR.MVecSubrectBaseY": 0,
+          "DLSSNR.MVecSubrectHeight": 540,
+          "DLSSNR.MVecSubrectWidth": 960,
+          "DLSSNR.Reset": 1,
+          "DLSSNR.SkinStructureStrength": -1.0,
+          "DLSSNR.Style": 1,
+          "DLSSNR.UseAutoMask": 1,
+          "DLSSNR.Width": 1920
+        },
+        "input_mean": 0.10449481755495071,
+        "input_range": [
+          -0.03173828125,
+          0.467529296875
+        ],
+        "vendor_effect_mae": 0.01997419260442257,
+        "vendor_range": [
+          0.0,
+          0.4912109375
+        ],
+        "quality_gate_passed": false
+      },
+      "runtime_file_sha256": {
+        "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+        "dxgi.dll": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545",
+        "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+      },
+      "sparse_gpu_timing": {
+        "total_ms": {
+          "median": 5.635,
+          "min": 5.63,
+          "max": 5.64
+        },
+        "model_ms": {
+          "median": 5.43,
+          "min": 5.43,
+          "max": 5.43
+        },
+        "surrounding_ms": {
+          "median": 0.20500000000000002,
+          "min": 0.2,
+          "max": 0.21
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,148 @@
+{
+  "schema": 1,
+  "gpu": "NVIDIA GeForce RTX 4070 Ti",
+  "torch": "2.7.1+cu128",
+  "tests": [
+    {
+      "label": "all finite FP16 bit patterns",
+      "dtype": "torch.float16",
+      "elements": 63488,
+      "unequal": 0,
+      "max_finite_abs": 0.0,
+      "matching_nonfinite_outputs": 903
+    },
+    {
+      "label": "finite FP16 values as FP32",
+      "dtype": "torch.float32",
+      "elements": 63488,
+      "unequal": 0,
+      "max_finite_abs": 0.0,
+      "matching_nonfinite_outputs": 903
+    },
+    {
+      "label": "random scale 0.001",
+      "dtype": "torch.float16",
+      "elements": 1048579,
+      "unequal": 0,
+      "max_finite_abs": 0.0,
+      "matching_nonfinite_outputs": 0
+    },
+    {
+      "label": "random scale 1",
+      "dtype": "torch.float16",
+      "elements": 1048579,
+      "unequal": 0,
+      "max_finite_abs": 0.0,
+      "matching_nonfinite_outputs": 0
+    },
+    {
+      "label": "random scale 4",
+      "dtype": "torch.float16",
+      "elements": 1048579,
+      "unequal": 0,
+      "max_finite_abs": 0.0,
+      "matching_nonfinite_outputs": 0
+    },
+    {
+      "label": "random scale 100",
+      "dtype": "torch.float16",
+      "elements": 1048579,
+      "unequal": 0,
+      "max_finite_abs": 0.0,
+      "matching_nonfinite_outputs": 0
+    },
+    {
+      "label": "noncontiguous",
+      "dtype": "torch.float16",
+      "elements": 62611,
+      "unequal": 0,
+      "max_finite_abs": 0.0,
+      "matching_nonfinite_outputs": 0
+    },
+    {
+      "label": "random scale 0.001",
+      "dtype": "torch.float32",
+      "elements": 1048579,
+      "unequal": 0,
+      "max_finite_abs": 0.0,
+      "matching_nonfinite_outputs": 0
+    },
+    {
+      "label": "random scale 1",
+      "dtype": "torch.float32",
+      "elements": 1048579,
+      "unequal": 0,
+      "max_finite_abs": 0.0,
+      "matching_nonfinite_outputs": 0
+    },
+    {
+      "label": "random scale 4",
+      "dtype": "torch.float32",
+      "elements": 1048579,
+      "unequal": 0,
+      "max_finite_abs": 0.0,
+      "matching_nonfinite_outputs": 0
+    },
+    {
+      "label": "random scale 100",
+      "dtype": "torch.float32",
+      "elements": 1048579,
+      "unequal": 0,
+      "max_finite_abs": 0.0,
+      "matching_nonfinite_outputs": 0
+    },
+    {
+      "label": "noncontiguous",
+      "dtype": "torch.float32",
+      "elements": 62611,
+      "unequal": 0,
+      "max_finite_abs": 0.0,
+      "matching_nonfinite_outputs": 0
+    }
+  ],
+  "all_equal": true,
+  "total_elements": 8640830,
+  "timing_shape": [
+    1,
+    256,
+    256,
+    128
+  ],
+  "timings": {
+    "reference": {
+      "median_ms": 0.9605119824409485,
+      "samples_ms": [
+        0.9646080136299133,
+        0.9605119824409485,
+        0.9621120095252991,
+        0.9616000056266785,
+        0.9593600034713745,
+        0.9642879962921143,
+        0.9582719802856445,
+        0.9605119824409485,
+        0.9635840058326721,
+        0.9594879746437073,
+        0.9584640264511108,
+        0.9590719938278198
+      ]
+    },
+    "fused": {
+      "median_ms": 0.03993599861860275,
+      "samples_ms": [
+        0.04153599962592125,
+        0.040832001715898514,
+        0.03993599861860275,
+        0.03891199827194214,
+        0.03884800150990486,
+        0.043007999658584595,
+        0.04057599976658821,
+        0.03993599861860275,
+        0.039583999663591385,
+        0.038943998515605927,
+        0.03891199827194214,
+        0.04092799872159958
+      ]
+    }
+  },
+  "scope": "Recovered PyTorch operation only; no vendor runtime speedup claim."
+}
