@@ -1,0 +1,512 @@
+{
+  "schema": 1,
+  "gpu": "NVIDIA GeForce RTX 4070 Ti",
+  "torch": "2.7.1+cu128",
+  "parameters": [
+    0.9330329895019531,
+    -0.25,
+    0.8999999761581421
+  ],
+  "tests": [
+    {
+      "label": "partial block planar",
+      "shape": [
+        2,
+        3,
+        19,
+        37
+      ],
+      "stride": [
+        2109,
+        703,
+        37,
+        1
+      ],
+      "dtype": "torch.float16",
+      "parameters": [
+        0.9330329895019531,
+        -0.25,
+        0.8999999761581421
+      ],
+      "unequal": 0,
+      "max_abs": 0.0,
+      "elements": 4218
+    },
+    {
+      "label": "partial block interleaved",
+      "shape": [
+        2,
+        3,
+        19,
+        37
+      ],
+      "stride": [
+        2109,
+        1,
+        111,
+        3
+      ],
+      "dtype": "torch.float16",
+      "parameters": [
+        0.9330329895019531,
+        -0.25,
+        0.8999999761581421
+      ],
+      "unequal": 0,
+      "max_abs": 0.0,
+      "elements": 4218
+    },
+    {
+      "label": "sliced and transposed",
+      "shape": [
+        2,
+        3,
+        18,
+        10
+      ],
+      "stride": [
+        2109,
+        703,
+        2,
+        74
+      ],
+      "dtype": "torch.float16",
+      "parameters": [
+        0.9330329895019531,
+        -0.25,
+        0.8999999761581421
+      ],
+      "unequal": 0,
+      "max_abs": 0.0,
+      "elements": 1080
+    },
+    {
+      "label": "broadcast channel and batch",
+      "shape": [
+        3,
+        3,
+        19,
+        37
+      ],
+      "stride": [
+        0,
+        0,
+        37,
+        1
+      ],
+      "dtype": "torch.float16",
+      "parameters": [
+        0.9330329895019531,
+        -0.25,
+        0.8999999761581421
+      ],
+      "unequal": 0,
+      "max_abs": 0.0,
+      "elements": 6327
+    },
+    {
+      "label": "parameter boundaries",
+      "shape": [
+        2,
+        3,
+        19,
+        37
+      ],
+      "stride": [
+        2109,
+        703,
+        37,
+        1
+      ],
+      "dtype": "torch.float16",
+      "parameters": [
+        1.0,
+        0.0,
+        1.0
+      ],
+      "unequal": 0,
+      "max_abs": 0.0,
+      "elements": 4218
+    },
+    {
+      "label": "parameter boundaries",
+      "shape": [
+        2,
+        3,
+        19,
+        37
+      ],
+      "stride": [
+        2109,
+        703,
+        37,
+        1
+      ],
+      "dtype": "torch.float16",
+      "parameters": [
+        2.0,
+        1.0,
+        0.0
+      ],
+      "unequal": 0,
+      "max_abs": 0.0,
+      "elements": 4218
+    },
+    {
+      "label": "parameter boundaries",
+      "shape": [
+        2,
+        3,
+        19,
+        37
+      ],
+      "stride": [
+        2109,
+        703,
+        37,
+        1
+      ],
+      "dtype": "torch.float16",
+      "parameters": [
+        0.25,
+        -1.0,
+        0.5
+      ],
+      "unequal": 0,
+      "max_abs": 0.0,
+      "elements": 4218
+    },
+    {
+      "label": "partial block planar",
+      "shape": [
+        2,
+        3,
+        19,
+        37
+      ],
+      "stride": [
+        2109,
+        703,
+        37,
+        1
+      ],
+      "dtype": "torch.float32",
+      "parameters": [
+        0.9330329895019531,
+        -0.25,
+        0.8999999761581421
+      ],
+      "unequal": 0,
+      "max_abs": 0.0,
+      "elements": 4218
+    },
+    {
+      "label": "partial block interleaved",
+      "shape": [
+        2,
+        3,
+        19,
+        37
+      ],
+      "stride": [
+        2109,
+        1,
+        111,
+        3
+      ],
+      "dtype": "torch.float32",
+      "parameters": [
+        0.9330329895019531,
+        -0.25,
+        0.8999999761581421
+      ],
+      "unequal": 0,
+      "max_abs": 0.0,
+      "elements": 4218
+    },
+    {
+      "label": "sliced and transposed",
+      "shape": [
+        2,
+        3,
+        18,
+        10
+      ],
+      "stride": [
+        2109,
+        703,
+        2,
+        74
+      ],
+      "dtype": "torch.float32",
+      "parameters": [
+        0.9330329895019531,
+        -0.25,
+        0.8999999761581421
+      ],
+      "unequal": 0,
+      "max_abs": 0.0,
+      "elements": 1080
+    },
+    {
+      "label": "broadcast channel and batch",
+      "shape": [
+        3,
+        3,
+        19,
+        37
+      ],
+      "stride": [
+        0,
+        0,
+        37,
+        1
+      ],
+      "dtype": "torch.float32",
+      "parameters": [
+        0.9330329895019531,
+        -0.25,
+        0.8999999761581421
+      ],
+      "unequal": 0,
+      "max_abs": 0.0,
+      "elements": 6327
+    },
+    {
+      "label": "parameter boundaries",
+      "shape": [
+        2,
+        3,
+        19,
+        37
+      ],
+      "stride": [
+        2109,
+        703,
+        37,
+        1
+      ],
+      "dtype": "torch.float32",
+      "parameters": [
+        1.0,
+        0.0,
+        1.0
+      ],
+      "unequal": 0,
+      "max_abs": 0.0,
+      "elements": 4218
+    },
+    {
+      "label": "parameter boundaries",
+      "shape": [
+        2,
+        3,
+        19,
+        37
+      ],
+      "stride": [
+        2109,
+        703,
+        37,
+        1
+      ],
+      "dtype": "torch.float32",
+      "parameters": [
+        2.0,
+        1.0,
+        0.0
+      ],
+      "unequal": 0,
+      "max_abs": 0.0,
+      "elements": 4218
+    },
+    {
+      "label": "parameter boundaries",
+      "shape": [
+        2,
+        3,
+        19,
+        37
+      ],
+      "stride": [
+        2109,
+        703,
+        37,
+        1
+      ],
+      "dtype": "torch.float32",
+      "parameters": [
+        0.25,
+        -1.0,
+        0.5
+      ],
+      "unequal": 0,
+      "max_abs": 0.0,
+      "elements": 4218
+    },
+    {
+      "label": "all finite half patterns in mixed RGB",
+      "shape": [
+        1,
+        3,
+        1,
+        63488
+      ],
+      "stride": [
+        190464,
+        63488,
+        63488,
+        1
+      ],
+      "dtype": "torch.float16",
+      "parameters": [
+        0.9330329895019531,
+        -0.25,
+        0.8999999761581421
+      ],
+      "unequal": 0,
+      "max_abs": 0.0,
+      "elements": 190464
+    },
+    {
+      "label": "finite half patterns promoted to float",
+      "shape": [
+        1,
+        3,
+        1,
+        63488
+      ],
+      "stride": [
+        190464,
+        63488,
+        63488,
+        1
+      ],
+      "dtype": "torch.float32",
+      "parameters": [
+        0.9330329895019531,
+        -0.25,
+        0.8999999761581421
+      ],
+      "unequal": 0,
+      "max_abs": 0.0,
+      "elements": 190464
+    },
+    {
+      "label": "full 1080p",
+      "shape": [
+        1,
+        3,
+        1080,
+        1920
+      ],
+      "stride": [
+        6220800,
+        1,
+        5760,
+        3
+      ],
+      "dtype": "torch.float16",
+      "parameters": [
+        0.9330329895019531,
+        -0.25,
+        0.8999999761581421
+      ],
+      "unequal": 0,
+      "max_abs": 0.0,
+      "elements": 6220800
+    }
+  ],
+  "all_equal": true,
+  "graph_matches_torch": true,
+  "timing_shape": [
+    1,
+    3,
+    1080,
+    1920
+  ],
+  "graph_timings": {
+    "torch": {
+      "median_ms": 1.3158400058746338,
+      "p95_ms": 1.3275376081466674,
+      "samples_ms": [
+        1.3197439908981323,
+        1.3178880214691162,
+        1.3148159980773926,
+        1.3096959590911865,
+        1.3289920091629028,
+        1.325760006904602,
+        1.316864013671875,
+        1.3174400329589844,
+        1.3148159980773926,
+        1.3135360479354858,
+        1.313599944114685,
+        1.316864013671875,
+        1.3165760040283203,
+        1.3148159980773926,
+        1.3158400058746338,
+        1.3186559677124023,
+        1.3199360370635986,
+        1.3127360343933105,
+        1.3137919902801514,
+        1.3158400058746338,
+        1.3165119886398315,
+        1.3188799619674683,
+        1.3127679824829102,
+        1.311743974685669,
+        1.3165119886398315,
+        1.311743974685669,
+        1.3158400058746338,
+        1.3363200426101685,
+        1.311743974685669,
+        1.311743974685669
+      ]
+    },
+    "fused": {
+      "median_ms": 0.022207999601960182,
+      "p95_ms": 0.02252800017595291,
+      "samples_ms": [
+        0.026623999699950218,
+        0.022175999358296394,
+        0.022272000089287758,
+        0.021503999829292297,
+        0.021503999829292297,
+        0.021503999829292297,
+        0.02252800017595291,
+        0.02252800017595291,
+        0.022207999601960182,
+        0.02252800017595291,
+        0.02239999920129776,
+        0.021727999672293663,
+        0.02223999984562397,
+        0.021503999829292297,
+        0.02163200080394745,
+        0.02252800017595291,
+        0.02236800082027912,
+        0.02252800017595291,
+        0.022143999114632607,
+        0.021503999829292297,
+        0.02160000056028366,
+        0.022207999601960182,
+        0.021503999829292297,
+        0.021727999672293663,
+        0.02252800017595291,
+        0.022175999358296394,
+        0.02223999984562397,
+        0.02160000056028366,
+        0.02236800082027912,
+        0.022207999601960182
+      ]
+    }
+  },
+  "scope": "Finite-input grading approximation only; not native bit parity or a complete renderer benchmark.",
+  "target_achieved": false,
+  "quality_gate_passed": false,
+  "published_source_sha256": {
+    "fused_norm.py": "82f85bd47a18e22e841c5543c9c92f872d01ae4f52c892ba81095f8bccd69462",
+    "fused_norm.cu": "75e3093cece63fae6803e2d80f57dfed1c3f96595603733976ce7d02900cf31d",
+    "output_grade.py": "a4f8c6ee272cec6ae384dca930838ed9a3a9f4e2f2c708d71c5aa7fd824a71ab",
+    "test_output_grade.py": "eba2c892448835f9a86895aeb4c881e41bc2b70c60472ec3734458f4486944d5",
+    "compare_output_grade.py": "189ba5fc33f7caebf1a4d265c8bb87f111ad00513dc6f57f2788302777bcab4e"
+  }
+}

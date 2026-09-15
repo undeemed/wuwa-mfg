@@ -92,6 +92,8 @@ def main():
     p.add_argument('--cosine-lr',action='store_true',help='Decay learning rate from .002 to .00002 over the bounded steps.')
     p.add_argument('--architecture',choices=['local','hierarchical'],default='local')
     p.add_argument('--whole-frame',action='store_true',help='Train complete views, batch 1; requires a separate validation view.')
+    p.add_argument('--output-grade-contract',type=Path,help='Learn a pre-grading residual, then apply the observed output grade. Requires a separate validation view.')
+    p.add_argument('--evaluate-all-training',action='store_true',help='Report every full training view after fitting; requires separate validation views.')
     a=p.parse_args()
     if not 1<=a.steps<=10000 or not 1<=a.max_seconds<=600:
         raise SystemExit('Use a bounded training run.')
@@ -107,6 +109,10 @@ def main():
         raise SystemExit('Extra validation views require a primary validation capture.')
     if a.architecture=='hierarchical' and a.dilations:
         raise SystemExit('The hierarchical model uses its fixed multiscale topology, not a dilation list.')
+    if a.output_grade_contract and not a.validation_capture:
+        raise SystemExit('Output-grading experiments require a separate validation view.')
+    if a.evaluate_all_training and not a.validation_capture:
+        raise SystemExit('Full training-view evaluation requires separate validation views.')
     noise=None
     if a.noise_source:
         sys.path.insert(0,str(a.noise_source/'python'))
@@ -115,6 +121,13 @@ def main():
     meta=json.loads((a.capture/'frame-0.json').read_text())
     assert meta['complete'] and meta['gpu_completed'] and meta['evaluate_result']==1
     assert meta['controls']['DLSSNR.Reset']==1
+    grade_parameters=None
+    if a.output_grade_contract:
+        from compare_output_grade import read_capture
+        from output_grade import GradedStudent,contract_parameters,grade_torch
+        grade_controls,_,grade_capture_hashes=read_capture(a.output_grade_contract/'capture')
+        assert grade_controls==meta['controls'], 'Observed grade controls must match the training data.'
+        grade_parameters=contract_parameters(a.output_grade_contract)
     torch.manual_seed(28411)
     rng=np.random.default_rng(28411)
     torch.backends.cuda.matmul.allow_tf32=False
@@ -175,6 +188,7 @@ def main():
         extra_validation.append((pair,pair_hashes))
     model=(HierarchicalStudent(a.width,a.blocks,bool(a.noise_source)) if a.architecture=='hierarchical'
            else PixelStudent(a.width,a.blocks,bool(a.noise_source),dilations)).cuda().to(memory_format=torch.channels_last)
+    if grade_parameters is not None:model=GradedStudent(model,grade_parameters)
     optimizer=torch.optim.AdamW(model.parameters(),lr=0.002,weight_decay=0.0001)
     report={'schema':1,'gpu':torch.cuda.get_device_name(),'torch':torch.__version__,
         'capture_hashes':hashes,'training_capture_hashes':training_hashes,'validation_capture_hashes':validation_hashes,
@@ -195,6 +209,12 @@ def main():
     report['optimization']={'initial_learning_rate':.002,'cosine_decay':a.cosine_lr,
                             'final_learning_rate':.00002 if a.cosine_lr else .002}
     report['architecture']['variant']=a.architecture
+    if grade_parameters is not None:
+        report['architecture']['explicit_output_grading']=list(grade_parameters)
+        report['output_grading']={'parameters':list(grade_parameters),'observed_capture_hashes':grade_capture_hashes,
+            'scope':'Unfitted algebraic approximation from the same runtime controls; other camera views reuse the parameters by inference.',
+            'training':'Differentiable FP32 operations after the clamped learned residual.',
+            'inference':'FP16 network, FP32 grading, FP16 final storage; all included in graph timing.'}
     report['data_split']['whole_frame_training']=a.whole_frame
     report['data_split']['validation_view_count']=len(validation_inputs)
     if a.whole_frame:report['data_split']['patch']=[height,width]
@@ -209,6 +229,10 @@ def main():
     with torch.no_grad():
         error=(validation['color'].clamp(0,1)-validation['output']).abs() if validation else (source.clamp(0,1)-target).abs()[:,:,:,holdout_start:]
         report['identity_holdout_mae']=float(error.mean())
+        if grade_parameters is not None:
+            pair=validation if validation else images
+            graded_error=(grade_torch(pair['color'],grade_parameters)-pair['output']).abs()
+            report['grade_only_holdout_mae']=float(graded_error.mean())
     torch.cuda.synchronize()
     started=time.perf_counter()
     for step in range(a.steps):
@@ -252,6 +276,17 @@ def main():
     x=images['input'].half().contiguous(memory_format=torch.channels_last)
     with torch.inference_mode():
         predicted=inference(x)
+        if grade_parameters is not None:
+            from fused_norm import FusedNorm
+            from test_output_grade import graph_measure
+            report['unfused_grade_graph_timing'],_=graph_measure(inference,x)
+            inference.fused_backend=FusedNorm()
+            fused_predicted=inference(x)
+            report['output_grading']['fused_matches_torch']=bool(torch.equal(fused_predicted,predicted))
+            report['output_grading']['fused_max_abs']=float((fused_predicted-predicted).abs().max())
+            if not report['output_grading']['fused_matches_torch']:
+                raise RuntimeError('Fused grading changed this complete student output.')
+            predicted=fused_predicted
         error=(predicted.float()-target).abs()
         def metrics(region):
             err=error[:,:,:,region]
@@ -274,7 +309,17 @@ def main():
                 error=(extra_output.float()-pair['output']).abs()
                 report['extra_validation'].append({'capture_hashes':pair_hashes,'quality':metrics(slice(None)),
                     'identity_mae':float((pair['color'].clamp(0,1)-pair['output']).abs().mean())})
+                if grade_parameters is not None:
+                    report['extra_validation'][-1]['grade_only_mae']=float((grade_torch(pair['color'],grade_parameters)-pair['output']).abs().mean())
                 np.save(a.output/f'extra-validation-{index}.npy',extra_output[0].permute(1,2,0).float().cpu().numpy())
+        if a.evaluate_all_training:
+            report['training_view_evaluation']=[]
+            for (train_input,train_target,_),train_hashes in zip(training_views,training_hashes):
+                train_output=inference(train_input.half().contiguous(memory_format=torch.channels_last))
+                error=(train_output.float()-train_target).abs()
+                report['training_view_evaluation'].append({'capture_hashes':train_hashes,
+                    'mae':float(error.mean()),'rmse':float(error.square().mean().sqrt())})
+            report['mean_training_view_mae']=statistics.mean(item['mae'] for item in report['training_view_evaluation'])
         warmup=torch.cuda.Stream();warmup.wait_stream(torch.cuda.current_stream())
         with torch.cuda.stream(warmup):
             for _ in range(3):inference(x)

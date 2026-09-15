@@ -755,3 +755,96 @@ testing whether a smaller learned component preserves detail and motion; this
 is a research direction, not a demonstrated replacement. Complete numerical
 results and contracts are in
 [`native-output-grading.json`](../../evidence/neural-model-research/native-output-grading.json).
+
+## Explicit grading in a small student and a fused GPU implementation
+
+`output_grade.py` supplies a differentiable version of the observed exposure,
+contrast and saturation. `student_probe.py --output-grade-contract <trial>` wraps
+the existing student so it learns the residual **before** that known grading.
+The stage is computed in FP32; inference uses an FP16 network and stores the
+graded result in FP16. The controls remain fixed to the validated observation.
+This is an experiment, not a change to the NVIDIA model or game integration.
+
+`FusedNorm.output_grade` reads strided NCHW RGB directly and writes interleaved
+RGB in one CUDA launch. It uses separate arithmetic operations to preserve the
+Torch grading result, including its final FP16 conversion. This is our algebraic
+approximation of grading, not a claim of bit-exact native color processing.
+The function is for finite inference inputs on the tested Windows SM89 setup.
+
+`test_output_grade.py` checks 17 cases with 6,658,722 channel values: planar,
+interleaved, sliced, transposed and broadcast inputs; parameter boundaries;
+mixed colors containing every finite FP16 value; and a full 1920×1080 image.
+All tested FP16/FP32 outputs match Torch exactly. At 1080p, warm CUDA Graph
+intervals were **1.316 ms** for the separate Torch operations and **0.0222 ms**
+for the fused operation. These measure only grading in this process, not the
+native renderer or application latency.
+
+```powershell
+.venv\Scripts\python test_output_grade.py --contract-trial D:\PrivateResults\trials\native-output-contract --output D:\PrivateResults\fused-grade.json
+```
+
+The first matched training test retains the previous six training views, two
+validation views, width 16, two blocks per stage, 1,500 steps, fixed seed,
+whole-image batches and cosine learning-rate schedule. Adding explicit grading
+**worsens** validation MAE from **0.02285 / 0.02318** to **0.02793 / 0.02790**.
+Grading the original input alone is closer at **0.01706 / 0.01963**. Thus the
+known color operation improves the initial baseline but does not make this
+trained small model accurate. Around 67% of the new north-view squared error
+lies at spatial wavelengths of at least 256 pixels, pointing to broad changes
+in tone/structure as a remaining problem. This FFT diagnostic does not measure
+perceptual or temporal quality.
+
+For those same trained weights, including grading in the complete student graph
+takes **2.503 ms** with Torch operations and **1.214 ms** with the fused kernel.
+The outputs match exactly. That is a usable optimization for the research
+student, but the student fails quality and has no D3D12 integration. It is not a
+3 ms replacement for the native renderer.
+
+To improve data coverage, `collect_demo_views.py --views-file <json>` accepts a
+bounded camera list. The included
+[`translated-training.json`](capture-viewsets/translated-training.json) adds
+twelve training views from two translated positions. Collection still uses only
+the verified hidden demo and restores the scene, DLL and marker. Private output
+inside the repository is rejected. `audit_teacher_views.py` checks restoration
+records, runtime hashes, controls, texture sizes, completed fences and separation
+from the existing validation images. Only frame zero is used for these student
+tests; the other captured frames do not establish temporal training.
+
+All twelve added views passed this audit, giving **18 distinct training inputs**
+and the same two validation inputs. The following runs use the same architecture
+family, seed, controls, full-image batches, loss and cosine schedule. The
+4,500-step runs increase total training updates; the eighteen-view version has
+approximately the same updates per image as the original six-view, 1,500-step
+run. They are separate runs from the same seeded initialization.
+
+| Training views | Steps | Width | Mean training MAE | North MAE | Shifted north MAE | Full student graph ms |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 6 | 1,500 | 16 | Not measured across all six | 0.02793 | 0.02790 | 1.214 |
+| 18 | 1,500 | 16 | 0.02747 | 0.01953 | 0.02112 | 1.213 |
+| 6 | 4,500 | 16 | 0.00771 | 0.02398 | 0.02688 | 1.216 |
+| 18 | 4,500 | 16 | 0.01193 | **0.01558** | **0.01953** | 1.221 |
+| 18 | 4,500 | 32 | 0.01036 | 0.01626 | 0.01974 | 1.970 |
+
+More scene coverage improves both validation errors at each training length.
+Increasing width from 223,440 to 871,792 parameters improves fitting of the
+training views but slightly worsens both validation results. That distinction
+matters: a larger model alone is not the next demonstrated quality improvement.
+The width-32 model takes 3.247 ms with separate Torch grading and 1.970 ms with
+the fused operation, with identical tested output. All reported graph times
+include the complete student and grading, but exclude application integration.
+
+Use `--evaluate-all-training` to report every training view after fitting. A
+typical graded run adds these options to the existing hierarchical-student
+command, with each extra training image supplied through
+`--extra-train-capture`:
+
+```powershell
+--architecture hierarchical --width 16 --blocks 2 --whole-frame --batch 1 --loss-border 0 --steps 4500 --max-seconds 180 --cosine-lr --evaluate-all-training --output-grade-contract D:\PrivateResults\trials\native-output-contract
+```
+
+The models remain rejected for the requested no-quality-loss replacement.
+These repeatedly consulted validation cameras are not an independent final
+test set, and they do not cover other scenes or motion. The new evidence is in
+[`fused-output-grade.json`](../../evidence/neural-model-research/fused-output-grade.json),
+[`teacher-translated-views.json`](../../evidence/neural-model-research/teacher-translated-views.json)
+and [`student-explicit-grading.json`](../../evidence/neural-model-research/student-explicit-grading.json).

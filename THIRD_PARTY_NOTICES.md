@@ -75,6 +75,10 @@ disassembly, CUDA modules, model weights or captured tensors are included.
 The output-grading comparison is an original Apache-2.0 algebraic implementation
 of the observed color operations. It does not contain NVIDIA instruction code
 and does not claim bit-exact reproduction of NVIDIA's output stage.
+Its differentiable student wrapper and fused CUDA version use the same license.
+The camera-collection audit and numeric camera-pose list contain no sample
+assets or captured images. HDRNet is cited as a research direction; no HDRNet
+source, weights or image dataset is included.
 The direct FP8/FP16 MMA diagnostic follows the public NVIDIA PTX ISA fragment
 layout and instruction interface. Its block-0 scheduling adapts the same pinned
 MLX-DLSS reference and retains the research files' Apache-2.0 notices.

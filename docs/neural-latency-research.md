@@ -590,6 +590,34 @@ without losing quality is still untested. See the
 [output-grading experiment](../research/neural-latency/README.md#output-grading-changes-the-earlier-image-comparisons)
 and [complete numeric evidence](../evidence/neural-model-research/native-output-grading.json).
 
+## Student grading fusion and expanded training coverage
+
+The observed color operations now have a differentiable training implementation
+and a fused CUDA inference implementation. The latter matches our Torch
+approximation exactly in 17 finite-input cases and the tested complete student
+outputs. Its isolated 1080p graph interval is 0.0222 ms versus 1.316 ms for the
+separate Torch operations. This does not accelerate NVIDIA's existing kernel.
+
+Adding the known grading to the small six-view student did not improve its
+quality. Twelve additional hidden-demo camera captures expanded training to
+eighteen views, while preserving the same two validation images. At 4,500
+training steps, this reduced validation MAE from **0.02398 / 0.02688** with six
+views to **0.01558 / 0.01953** with eighteen. Increasing the student's width then
+improved training error but slightly worsened both validation errors.
+
+The complete width-16 student and grading take about **1.22 ms** in Torch CUDA
+Graph timing; width 32 takes **1.97 ms**. Neither is a validated renderer:
+quality still differs, application integration is absent, and this is one
+scene without temporal validation. Repeatedly using these validation cameras
+also means they cannot serve as the independent final quality test. No student
+was installed in WuWa. The native runtime remains around 5.4 ms.
+
+The [full experiment and numeric evidence](../research/neural-latency/README.md#explicit-grading-in-a-small-student-and-a-fused-gpu-implementation)
+record the data split, exact-output checks, training ablations and timing scope.
+The next model work needs better generalization and detail preservation, with
+broader data and independent sequences; simply adding width is not supported
+by this comparison.
+
 ## Papers and what can transfer
 
 These papers provide research ideas. Their reported speedups are on other models
@@ -608,6 +636,7 @@ and hardware; none establishes the target for this runtime.
 | [Edge-Efficient Image Restoration](https://arxiv.org/abs/2605.02794) | Train replacement blocks against intermediate features, select combinations, then fine-tune the whole model. | Its transformer/SSM experiments use other restoration tasks and hardware. Here, the initial small CNNs fail the held-out image test; replacement blocks would need to retain learned context and be validated against actual vendor output. |
 | [Simple Baselines for Image Restoration / NAFNet](https://arxiv.org/abs/2204.04676) | Simple multiplicative gates can replace some expensive nonlinear components in a trained restoration architecture. | This suggests a student design; substituting gates into the trained vendor graph would change its function. No NAFNet replacement has been validated here. |
 | [Real Image Denoising with Knowledge Distillation for High-Performance Mobile NPUs](https://arxiv.org/abs/2605.03680) | Choose operators for the target device and expand training context while distilling a smaller network. | Its mobile-NPU denoising metrics do not prove renderer quality on Ada GPUs. Our wider-context candidate still failed, so the paper's success cannot be transferred without evidence. |
+| [Deep Bilateral Learning / HDRNet](https://groups.csail.mit.edu/graphics/hdrnet/data/hdrnet.pdf) | Predict compact, content-dependent color transforms and apply them to full-resolution pixels. | Its pointwise transform assumptions limit newly created detail. This suggests separating color processing from learned detail, not replacing the complete neural effect with a color filter. Our fixed-grading student test is not an HDRNet implementation. |
 
 ## Quality and performance acceptance
 

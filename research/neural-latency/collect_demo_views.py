@@ -8,6 +8,7 @@ Raw captures stay in the chosen private output directory; do not publish them.
 import argparse
 import hashlib
 import json
+import math
 from pathlib import Path
 import re
 import subprocess
@@ -41,6 +42,27 @@ def camera_scene(original, position, target):
     return text.encode('utf-8')
 
 
+def read_viewset(path):
+    value=json.loads(path.read_text())
+    if not isinstance(value,list) or not 1<=len(value)<=24:
+        raise ValueError('A bounded view set must contain 1..24 poses.')
+    views=[];names=set()
+    for item in value:
+        if set(item)!={'name','pos','target','split'}:
+            raise ValueError('Expected name, pos, target and split only.')
+        name,position,target,split=(item[k] for k in ('name','pos','target','split'))
+        if not re.fullmatch('[a-z0-9-]+',name) or name in names or split not in ('train','validation'):
+            raise ValueError('Invalid or duplicate view name/split.')
+        for vector in (position,target):
+            if not isinstance(vector,list) or len(vector)!=3 or any(
+                isinstance(v,bool) or not isinstance(v,(int,float)) or not math.isfinite(v) or abs(v)>50 for v in vector):
+                raise ValueError('Camera coordinates must be three finite numbers within the scene bounds.')
+        if sum((a-b)**2 for a,b in zip(position,target))<.01 or (position[0]==target[0] and position[2]==target[2]):
+            raise ValueError('Camera direction must be nonzero and not parallel to its up vector.')
+        names.add(name);views.append((name,position,target,split))
+    return views
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--demo-dir', required=True, type=Path)
@@ -48,11 +70,15 @@ def main():
     parser.add_argument('--capture-dll', required=True, type=Path)
     parser.add_argument('--capture-sha256', required=True)
     parser.add_argument('--prefix', default='teacher-views')
+    parser.add_argument('--views-file',type=Path,help='Optional bounded JSON camera list; defaults to the original five poses.')
     args = parser.parse_args()
     if not re.fullmatch('[a-z0-9-]+', args.prefix):
         parser.error('Use a simple lowercase trial prefix.')
     demo = args.demo_dir.resolve()
     output = args.output_dir.resolve()
+    if output.is_relative_to(Path(__file__).resolve().parents[2]):
+        raise ValueError('Private teacher images must remain outside the repository.')
+    views=read_viewset(args.views_file) if args.views_file else VIEWS
     scene = demo.parent.parent / 'media' / 'sponza.json'
     runner = Path(__file__).resolve().parents[2] / 'tools' / 'run_neural_demo_trial.py'
     if sha256((demo / 'ngx_dlss_demo.exe').read_bytes()) != HIDDEN_EXE_SHA256:
@@ -73,7 +99,7 @@ def main():
     capture = demo / 'nr-model-capture'
     if capture.exists():
         raise SystemExit('Archive the existing capture directory first.')
-    for name, *_ in VIEWS:
+    for name, *_ in views:
         if (output / 'trials' / (args.prefix + '-' + name)).exists():
             raise SystemExit('Use a fresh prefix; a destination trial already exists.')
     marker = demo / 'nr-model-capture.enable'
@@ -81,7 +107,7 @@ def main():
     original_scene = scene.read_bytes()
     original_dll = (demo / 'dxgi.dll').read_bytes()
     # Validate the scene transformation before installing the capture build.
-    camera_scene(original_scene, VIEWS[0][1], VIEWS[0][2])
+    camera_scene(original_scene, views[0][1], views[0][2])
     manifest_path = output / (args.prefix + '-manifest.json')
     if manifest_path.exists():
         raise SystemExit('Refusing to overwrite a collection manifest.')
@@ -90,10 +116,11 @@ def main():
         'scene_original_sha256': sha256(original_scene),
         'capture_dll_sha256': sha256(capture_dll), 'views': [],
         'limitation': 'First-reset teacher images in one scene; not temporal or cross-scene validation.'}
+    if args.views_file:manifest['viewset_sha256']=sha256(args.views_file.read_bytes())
     try:
         (demo / 'dxgi.dll').write_bytes(capture_dll)
         marker.write_text('Private fenced teacher capture\n')
-        for name, position, target, split in VIEWS:
+        for name, position, target, split in views:
             label = args.prefix + '-' + name
             changed_scene = camera_scene(original_scene, position, target)
             scene.write_bytes(changed_scene)

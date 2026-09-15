@@ -1,0 +1,644 @@
+{
+  "schema": 1,
+  "quality_gate_passed": false,
+  "scene_count": 1,
+  "collection_manifest_sha256": "70592b23dbc13dd00b3f3aa8a146646c223d97e2e0900f4fdcdcd0575ca302f1",
+  "viewset_sha256": "9316a67afc730adb9ee00478612785698d61da8f5ce25fbba2e60fcb9982be02",
+  "existing_training_views": 6,
+  "unchanged_validation_views": 2,
+  "views": [
+    {
+      "label": "teacher-translated-left-east",
+      "split": "train",
+      "pos": [
+        -3,
+        1.8,
+        0
+      ],
+      "target": [
+        -2,
+        1.8,
+        0
+      ],
+      "scene_sha256": "20e966d8801dc2a93a0b9ce2821438a3735dc49f42fb2b9aecd09e5169310bbf",
+      "capture_hashes": {
+        "color": "5de11f09a67c5e03acd2269c85b64a546218cff7772d91c31cf1b08ec6b2ccbc",
+        "output": "2a44509b6a7b93b8501381187036c9b54da17d73e40093e6407497d1128d3164"
+      },
+      "complete_fenced_frames": [
+        {
+          "index": 0,
+          "reset": 1
+        },
+        {
+          "index": 1,
+          "reset": 0
+        },
+        {
+          "index": 2,
+          "reset": 0
+        },
+        {
+          "index": 3,
+          "reset": 0
+        }
+      ],
+      "rgb_statistics": {
+        "color": {
+          "mean": 0.23549669981002808,
+          "std": 0.2344082146883011,
+          "min": -0.06591796875,
+          "max": 1.1181640625
+        },
+        "output": {
+          "mean": 0.2363237589597702,
+          "std": 0.20408844947814941,
+          "min": 0.0,
+          "max": 0.9150390625
+        }
+      }
+    },
+    {
+      "label": "teacher-translated-left-northeast",
+      "split": "train",
+      "pos": [
+        -3,
+        1.8,
+        0
+      ],
+      "target": [
+        -2,
+        1.8,
+        -1
+      ],
+      "scene_sha256": "3257618eb7ea270acc514855655c32d2557b88279b94fadb4d814e79f730b476",
+      "capture_hashes": {
+        "color": "9b4379a5baacc89bf9a23952bd4984d9a78d006cf1aa004dc039f7731cf39352",
+        "output": "a8d17ac54406ea33b589fd96f9f81d6b5366c21e5782d161b7024c922b052b7f"
+      },
+      "complete_fenced_frames": [
+        {
+          "index": 0,
+          "reset": 1
+        },
+        {
+          "index": 1,
+          "reset": 0
+        },
+        {
+          "index": 2,
+          "reset": 0
+        },
+        {
+          "index": 3,
+          "reset": 0
+        }
+      ],
+      "rgb_statistics": {
+        "color": {
+          "mean": 0.18356530368328094,
+          "std": 0.1813732534646988,
+          "min": -0.031402587890625,
+          "max": 1.1376953125
+        },
+        "output": {
+          "mean": 0.18703928589820862,
+          "std": 0.16915607452392578,
+          "min": 0.0,
+          "max": 0.912109375
+        }
+      }
+    },
+    {
+      "label": "teacher-translated-left-north",
+      "split": "train",
+      "pos": [
+        -3,
+        1.8,
+        0
+      ],
+      "target": [
+        -3,
+        1.8,
+        -1
+      ],
+      "scene_sha256": "7d263d1b44243831813b73edd1c0da6a0e3eec8889b8999300178b6046dad764",
+      "capture_hashes": {
+        "color": "83c5e825ee18a238bd87af5411b4315590f164415832788faaecd7e29ba46598",
+        "output": "61d708cc63c85825a2577a99d0782481ace12cfe8ff423dcb37275b9ddafcabf"
+      },
+      "complete_fenced_frames": [
+        {
+          "index": 0,
+          "reset": 1
+        },
+        {
+          "index": 1,
+          "reset": 0
+        },
+        {
+          "index": 2,
+          "reset": 0
+        },
+        {
+          "index": 3,
+          "reset": 0
+        }
+      ],
+      "rgb_statistics": {
+        "color": {
+          "mean": 0.1288096308708191,
+          "std": 0.09636375308036804,
+          "min": -0.03704833984375,
+          "max": 0.48388671875
+        },
+        "output": {
+          "mean": 0.13859978318214417,
+          "std": 0.10146953165531158,
+          "min": 0.0,
+          "max": 0.54736328125
+        }
+      }
+    },
+    {
+      "label": "teacher-translated-left-northwest",
+      "split": "train",
+      "pos": [
+        -3,
+        1.8,
+        0
+      ],
+      "target": [
+        -4,
+        1.8,
+        -1
+      ],
+      "scene_sha256": "5b59e67ec6da23546717fdfcc3abc6edde44c4177eb86ca6b7fb2d5566d0eb1a",
+      "capture_hashes": {
+        "color": "50585653ae9d032acca0296d5b35cf7dc4019172dbca37888b2ee3bfec79ef04",
+        "output": "631a5e9f2f8809deced19f120569fcf22621080548d6eb8a5d48e22d1949f60e"
+      },
+      "complete_fenced_frames": [
+        {
+          "index": 0,
+          "reset": 1
+        },
+        {
+          "index": 1,
+          "reset": 0
+        },
+        {
+          "index": 2,
+          "reset": 0
+        },
+        {
+          "index": 3,
+          "reset": 0
+        }
+      ],
+      "rgb_statistics": {
+        "color": {
+          "mean": 0.1891908347606659,
+          "std": 0.16433918476104736,
+          "min": -0.037872314453125,
+          "max": 1.1435546875
+        },
+        "output": {
+          "mean": 0.19488027691841125,
+          "std": 0.15719181299209595,
+          "min": 0.0,
+          "max": 0.9130859375
+        }
+      }
+    },
+    {
+      "label": "teacher-translated-left-west",
+      "split": "train",
+      "pos": [
+        -3,
+        1.8,
+        0
+      ],
+      "target": [
+        -4,
+        1.8,
+        0
+      ],
+      "scene_sha256": "97034ee87aaa23befbaf339c7ed40e39a0aa8839e4265e7f181aec8440d4c198",
+      "capture_hashes": {
+        "color": "b095223d223d70b27532f26c0e22858de9da9898e8411a5b75b101a980b2face",
+        "output": "9a867cfa000ea5b622f84a3cfa37630c16e89607ced6ea8bc7fa0f895edffbb9"
+      },
+      "complete_fenced_frames": [
+        {
+          "index": 0,
+          "reset": 1
+        },
+        {
+          "index": 1,
+          "reset": 0
+        },
+        {
+          "index": 2,
+          "reset": 0
+        },
+        {
+          "index": 3,
+          "reset": 0
+        }
+      ],
+      "rgb_statistics": {
+        "color": {
+          "mean": 0.22398172318935394,
+          "std": 0.21856656670570374,
+          "min": -0.060089111328125,
+          "max": 1.1591796875
+        },
+        "output": {
+          "mean": 0.22479158639907837,
+          "std": 0.19362986087799072,
+          "min": 0.0,
+          "max": 0.91455078125
+        }
+      }
+    },
+    {
+      "label": "teacher-translated-left-southwest",
+      "split": "train",
+      "pos": [
+        -3,
+        1.8,
+        0
+      ],
+      "target": [
+        -4,
+        1.8,
+        1
+      ],
+      "scene_sha256": "7474271488c7e93534e63c628aaf0bcdfec52aa55311f89a9ff9f0e03968683b",
+      "capture_hashes": {
+        "color": "3d73b62af1fb7e4c3ea46f2f80038c79c8bd3b0fcd215a8ac49e358f9da9e808",
+        "output": "efcbc12dd20bbd0e7c01f09c48f5662fedaa9624e7f4d9b659ecd7fb3e857f57"
+      },
+      "complete_fenced_frames": [
+        {
+          "index": 0,
+          "reset": 1
+        },
+        {
+          "index": 1,
+          "reset": 0
+        },
+        {
+          "index": 2,
+          "reset": 0
+        },
+        {
+          "index": 3,
+          "reset": 0
+        }
+      ],
+      "rgb_statistics": {
+        "color": {
+          "mean": 0.18292413651943207,
+          "std": 0.21386438608169556,
+          "min": -0.06829833984375,
+          "max": 1.138671875
+        },
+        "output": {
+          "mean": 0.18651635944843292,
+          "std": 0.1930363029241562,
+          "min": 0.0,
+          "max": 0.91650390625
+        }
+      }
+    },
+    {
+      "label": "teacher-translated-left-south",
+      "split": "train",
+      "pos": [
+        -3,
+        1.8,
+        0
+      ],
+      "target": [
+        -3,
+        1.8,
+        1
+      ],
+      "scene_sha256": "4468fb140a83a0943b9c1f81ff403704e47ad3c06853a8eb214e94974f914653",
+      "capture_hashes": {
+        "color": "6b792009748a3dad1b76aaea904a76e0b5d325e59efb86fc4b1efaab1b37480d",
+        "output": "a59b5a4fa64884f6023281284a7de0647bf5fa66ec99e7617da22a38dc0b6d5c"
+      },
+      "complete_fenced_frames": [
+        {
+          "index": 0,
+          "reset": 1
+        },
+        {
+          "index": 1,
+          "reset": 0
+        },
+        {
+          "index": 2,
+          "reset": 0
+        },
+        {
+          "index": 3,
+          "reset": 0
+        }
+      ],
+      "rgb_statistics": {
+        "color": {
+          "mean": 0.13971605896949768,
+          "std": 0.130940243601799,
+          "min": -0.056488037109375,
+          "max": 1.1181640625
+        },
+        "output": {
+          "mean": 0.14728491008281708,
+          "std": 0.12597019970417023,
+          "min": 0.0,
+          "max": 0.91650390625
+        }
+      }
+    },
+    {
+      "label": "teacher-translated-left-southeast",
+      "split": "train",
+      "pos": [
+        -3,
+        1.8,
+        0
+      ],
+      "target": [
+        -2,
+        1.8,
+        1
+      ],
+      "scene_sha256": "3f919938f92dacb24de7a31113a1f6473754e2be806db3f5a6a68a3d6f90aec3",
+      "capture_hashes": {
+        "color": "fdae01c0f5c0fa8ab4f6aaa30df022e2d835e39ff7ddd718cfb9afac91640421",
+        "output": "1304717d8cb7ae013e46cfbecf9c000fd580667f89ba91aae974a25350f71625"
+      },
+      "complete_fenced_frames": [
+        {
+          "index": 0,
+          "reset": 1
+        },
+        {
+          "index": 1,
+          "reset": 0
+        },
+        {
+          "index": 2,
+          "reset": 0
+        },
+        {
+          "index": 3,
+          "reset": 0
+        }
+      ],
+      "rgb_statistics": {
+        "color": {
+          "mean": 0.226077139377594,
+          "std": 0.22785736620426178,
+          "min": -0.08160400390625,
+          "max": 1.1435546875
+        },
+        "output": {
+          "mean": 0.22516022622585297,
+          "std": 0.1994493156671524,
+          "min": 0.0,
+          "max": 0.91796875
+        }
+      }
+    },
+    {
+      "label": "teacher-translated-right-east",
+      "split": "train",
+      "pos": [
+        3,
+        1.8,
+        0
+      ],
+      "target": [
+        4,
+        1.8,
+        0
+      ],
+      "scene_sha256": "0ea082c5528f7e28f482274115c27e61d1e4b3105fc023dcb9f099605e0bf6b3",
+      "capture_hashes": {
+        "color": "15f32702df477c9a31a76a84d5f2990374cf311535757ac854928e26e449d968",
+        "output": "21a4d6d6206019e65ac6b44ebaec2738d1646cc85447ce7a23e95746e7f3e3c9"
+      },
+      "complete_fenced_frames": [
+        {
+          "index": 0,
+          "reset": 1
+        },
+        {
+          "index": 1,
+          "reset": 0
+        },
+        {
+          "index": 2,
+          "reset": 0
+        },
+        {
+          "index": 3,
+          "reset": 0
+        }
+      ],
+      "rgb_statistics": {
+        "color": {
+          "mean": 0.21972836554050446,
+          "std": 0.19820740818977356,
+          "min": -0.08184814453125,
+          "max": 1.09765625
+        },
+        "output": {
+          "mean": 0.22278080880641937,
+          "std": 0.18311016261577606,
+          "min": 0.0,
+          "max": 0.91796875
+        }
+      }
+    },
+    {
+      "label": "teacher-translated-right-west",
+      "split": "train",
+      "pos": [
+        3,
+        1.8,
+        0
+      ],
+      "target": [
+        2,
+        1.8,
+        0
+      ],
+      "scene_sha256": "354c8584ddf3f8dd3c7fcbe0d6b392069e354a74c7625efdd702f3a8185c571d",
+      "capture_hashes": {
+        "color": "3cc3c866987e43c2b1a9a8850f3103e1efb0449b55fd9a40cd3fea956b1b6fe1",
+        "output": "e1998768dd68043e92830ebe383e2aaceab2e71b70d7db64c511200ec2dfb1c3"
+      },
+      "complete_fenced_frames": [
+        {
+          "index": 0,
+          "reset": 1
+        },
+        {
+          "index": 1,
+          "reset": 0
+        },
+        {
+          "index": 2,
+          "reset": 0
+        },
+        {
+          "index": 3,
+          "reset": 0
+        }
+      ],
+      "rgb_statistics": {
+        "color": {
+          "mean": 0.23579008877277374,
+          "std": 0.24041146039962769,
+          "min": -0.07275390625,
+          "max": 1.146484375
+        },
+        "output": {
+          "mean": 0.23833855986595154,
+          "std": 0.2105039656162262,
+          "min": 0.0,
+          "max": 0.916015625
+        }
+      }
+    },
+    {
+      "label": "teacher-translated-right-southeast",
+      "split": "train",
+      "pos": [
+        3,
+        1.8,
+        0
+      ],
+      "target": [
+        4,
+        1.8,
+        1
+      ],
+      "scene_sha256": "6c531fe7de23d7bdadb1d2a9cabf53f39a86a487c8ccff95a67ee5663e504c72",
+      "capture_hashes": {
+        "color": "9a5b464bcad2066a8e1cd8ef52db3c68ccc90253a315c2ba981921a55864f55f",
+        "output": "5f678e7ecbd4b491ccc438bb28450ad75c4d4b5cd9d6bab6dd9331e5ce83381a"
+      },
+      "complete_fenced_frames": [
+        {
+          "index": 0,
+          "reset": 1
+        },
+        {
+          "index": 1,
+          "reset": 0
+        },
+        {
+          "index": 2,
+          "reset": 0
+        },
+        {
+          "index": 3,
+          "reset": 0
+        }
+      ],
+      "rgb_statistics": {
+        "color": {
+          "mean": 0.1800457090139389,
+          "std": 0.18153291940689087,
+          "min": -0.0765380859375,
+          "max": 1.1435546875
+        },
+        "output": {
+          "mean": 0.1844465732574463,
+          "std": 0.1739402562379837,
+          "min": 0.0,
+          "max": 0.91845703125
+        }
+      }
+    },
+    {
+      "label": "teacher-translated-right-southwest",
+      "split": "train",
+      "pos": [
+        3,
+        1.8,
+        0
+      ],
+      "target": [
+        2,
+        1.8,
+        1
+      ],
+      "scene_sha256": "1ee39f5f055cec36dea142cb711e3fdeb7932a1152ad7a56e89488001ac5bdc6",
+      "capture_hashes": {
+        "color": "70747879e3292e5bbe3c5d2fe00cdbd5454e60bc18bb38f59181651c097d9cd9",
+        "output": "4d3d4137951dfabc2c726200a15ecbe2e5e247c8c45c1689e8e2527b01c77ecb"
+      },
+      "complete_fenced_frames": [
+        {
+          "index": 0,
+          "reset": 1
+        },
+        {
+          "index": 1,
+          "reset": 0
+        },
+        {
+          "index": 2,
+          "reset": 0
+        },
+        {
+          "index": 3,
+          "reset": 0
+        }
+      ],
+      "rgb_statistics": {
+        "color": {
+          "mean": 0.22529937326908112,
+          "std": 0.24332556128501892,
+          "min": -0.0826416015625,
+          "max": 1.1435546875
+        },
+        "output": {
+          "mean": 0.22205309569835663,
+          "std": 0.21785500645637512,
+          "min": 0.0,
+          "max": 0.91796875
+        }
+      }
+    }
+  ],
+  "scope": "First-reset full-resolution training images in the existing scene; no temporal/cross-scene acceptance.",
+  "total_training_views": 18,
+  "validation_overlap": false,
+  "all_input_variances_positive": true,
+  "published_source_sha256": {
+    "collect_demo_views.py": "087b80bd09355822754c38431e987c32eb51d28233c25e01b6e2bc83e01b6387",
+    "audit_teacher_views.py": "5821591e80906af4ad487d8d7f05dea3db5505a98174e7124b839cef78e2dec6",
+    "capture-viewsets/translated-training.json": "9316a67afc730adb9ee00478612785698d61da8f5ce25fbba2e60fcb9982be02"
+  },
+  "preserved_state": {
+    "game_dxgi": "b3b0857a6d94e4745b42f2bb3beb747c527548ceec0abff11afecf89a1f6a590",
+    "game_ini": "213fd3f55423a12c075a9d96c2f87df3ea86c3971e135aa89eab1ff9b6a34fa6",
+    "game_nr": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927",
+    "demo_dxgi": "b3b0857a6d94e4745b42f2bb3beb747c527548ceec0abff11afecf89a1f6a590",
+    "demo_nr": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927",
+    "demo_hidden_exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+    "demo_scene": "389da6d234662bb88714b4240384ce63739ff06c7e75ff6014fcd2bab574f547",
+    "no_active_research_markers": true,
+    "captures_archived": true,
+    "normal_native_sources_unchanged": true
+  }
+}

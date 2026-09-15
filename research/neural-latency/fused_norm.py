@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 """Load a locally compiled kernel into the current PyTorch CUDA process only."""
 import ctypes as C
+import math
 import os
 from pathlib import Path
 import torch
@@ -52,6 +53,7 @@ class FusedNorm:
         self.gate_functions = {}
         self.publish_functions = {}
         self.roundtrip_functions = {}
+        self.grade_functions = {}
         for dtype, name in [(torch.float16,b'cosine_norm_f16'),(torch.float32,b'cosine_norm_f32')]:
             function = C.c_void_p(); check(lookup(C.byref(function),self.module,name),'cuModuleGetFunction')
             self.functions[dtype] = function
@@ -67,6 +69,9 @@ class FusedNorm:
         for dtype, name in [(torch.float16,b'fp8_roundtrip_f16'),(torch.float32,b'fp8_roundtrip_f32')]:
             function = C.c_void_p(); check(lookup(C.byref(function),self.module,name),'cuModuleGetFunction')
             self.roundtrip_functions[dtype] = function
+        for dtype,name in [(torch.float16,b'output_grade_f16'),(torch.float32,b'output_grade_f32')]:
+            function=C.c_void_p();check(lookup(C.byref(function),self.module,name),'cuModuleGetFunction')
+            self.grade_functions[dtype]=function
         self.noise_function = C.c_void_p()
         check(lookup(C.byref(self.noise_function),self.module,b'gaussian_noise_f32'),'cuModuleGetFunction')
         self.mma_function = C.c_void_p()
@@ -74,6 +79,29 @@ class FusedNorm:
         self.half_mma_function = C.c_void_p()
         check(lookup(C.byref(self.half_mma_function),self.module,b'half_mma_f16'),'cuModuleGetFunction')
         # Module stays alive until process exit, including any captured graphs.
+
+    def output_grade(self,x,parameters):
+        if (x.device.type!='cuda' or x.ndim!=4 or x.shape[1]!=3
+                or x.dtype not in self.grade_functions or x.requires_grad):
+            raise ValueError('Expected inference-only CUDA NCHW RGB float16/32.')
+        exposure,contrast,saturation=parameters
+        if not (all(math.isfinite(v) for v in parameters) and 0<exposure<=16
+                and -1<=contrast<=1 and 0<=saturation<=1):
+            raise ValueError('Unsupported finite grading parameters.')
+        batch,_,height,width=x.shape
+        pixels=batch*height*width
+        if not pixels or pixels>=2**31:raise ValueError('Image exceeds the bounded launch extent.')
+        output=torch.empty((batch,height,width,3),device=x.device,dtype=x.dtype).permute(0,3,1,2)
+        arguments=[C.c_void_p(x.data_ptr()),C.c_void_p(output.data_ptr()),
+                   C.c_uint(pixels),C.c_uint(height),C.c_uint(width),
+                   *(C.c_ulonglong(s) for s in x.stride()),
+                   C.c_float(exposure),C.c_float(contrast),C.c_float(saturation)]
+        params=(C.c_void_p*len(arguments))(*(C.addressof(v) for v in arguments))
+        stream=torch.cuda.current_stream(x.device)
+        status=self.launch(self.grade_functions[x.dtype],(pixels+255)//256,1,1,256,1,1,0,
+                           C.c_void_p(stream.cuda_stream),params,None)
+        if status:raise RuntimeError(f'cuLaunchKernel failed: {status}')
+        return output
 
     def mma(self, a, b, seed=None):
         if (a.device.type!='cuda' or b.device!=a.device or a.ndim<2 or b.ndim<2

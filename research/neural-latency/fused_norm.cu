@@ -2,6 +2,7 @@
 // Operation order adapted from iamwavecut/MLX-DLSS, pinned in the research README.
 // Fused inference implementation of the recovered 32-channel half fragment tree.
 // No weights, proprietary machine code, or CUDA toolkit headers are included.
+// Output grading below implements our algebraic approximation of observed controls.
 __device__ __forceinline__ float half_round(float x) {
     unsigned short h;
     float y;
@@ -21,6 +22,49 @@ template<> __device__ unsigned short write_value<unsigned short>(float x) {
     unsigned short h;
     asm("cvt.rn.f16.f32 %0, %1;" : "=h"(h) : "f"(x));
     return h;
+}
+
+template<class T> __device__ float grade_read(T x) { return (float)x; }
+template<> __device__ float grade_read<unsigned short>(unsigned short x) { return read_half(x); }
+template<class T> __device__ T grade_write(float x) { return (T)x; }
+template<> __device__ unsigned short grade_write<unsigned short>(float x) { return write_value<unsigned short>(x); }
+__device__ float grade_clamp(float x) { return fminf(1.f,fmaxf(0.f,x)); }
+template<class T> __device__ void grade_rgb(const T* input,T* output,
+    unsigned pixels,unsigned height,unsigned width,
+    unsigned long long sb,unsigned long long sc,unsigned long long sh,unsigned long long sw,
+    float exposure,float contrast,float saturation) {
+    const unsigned pixel=blockIdx.x*blockDim.x+threadIdx.x;
+    if(pixel>=pixels)return;
+    const unsigned column=pixel%width,row=(pixel/width)%height,batch=pixel/(width*height);
+    const unsigned long long base=batch*sb+row*sh+column*sw;
+    float rgb[3];
+    #pragma unroll
+    for(unsigned channel=0;channel<3;++channel) {
+        float x=grade_clamp(grade_read(input[base+channel*sc]));
+        x=grade_clamp(x*exposure);
+        // Compiled with --fmad=false to match the separate Torch operations.
+        const float delta=x*x*(3.f-2.f*x)-x;
+        rgb[channel]=grade_clamp(x+contrast*delta);
+    }
+    const float high=fmaxf(rgb[0],fmaxf(rgb[1],rgb[2]));
+    const float low=fminf(rgb[0],fminf(rgb[1],rgb[2]));
+    const float lightness=(high+low)*.5f;
+    #pragma unroll
+    for(unsigned channel=0;channel<3;++channel)
+        output[(unsigned long long)pixel*3+channel]=grade_write<T>(
+            grade_clamp(lightness+saturation*(rgb[channel]-lightness)));
+}
+extern "C" __global__ void output_grade_f16(const unsigned short* input,unsigned short* output,
+    unsigned pixels,unsigned height,unsigned width,
+    unsigned long long sb,unsigned long long sc,unsigned long long sh,unsigned long long sw,
+    float exposure,float contrast,float saturation) {
+    grade_rgb(input,output,pixels,height,width,sb,sc,sh,sw,exposure,contrast,saturation);
+}
+extern "C" __global__ void output_grade_f32(const float* input,float* output,
+    unsigned pixels,unsigned height,unsigned width,
+    unsigned long long sb,unsigned long long sc,unsigned long long sh,unsigned long long sw,
+    float exposure,float contrast,float saturation) {
+    grade_rgb(input,output,pixels,height,width,sb,sc,sh,sw,exposure,contrast,saturation);
 }
 template<class T, bool Publish=false> __device__ void norm32(
     const T* input, T* output, unsigned rows, const T* scale=nullptr,
