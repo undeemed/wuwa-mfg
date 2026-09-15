@@ -1,0 +1,18 @@
+--- a/OptiScaler/dlssnr/DlssNr_DemoKernelProbe.h
++++ b/OptiScaler/dlssnr/DlssNr_DemoKernelProbe.h
+@@ -16,6 +16,7 @@
+ #include <cmath>
+ #include "DlssNr_DemoBufferProbe.h"
+ #include "DlssNr_DemoCommandProbe.h"
++#include "DlssNr_DemoApiProbe.h"
+ 
+ namespace DlssNr::DemoKernelProbe
+ {
+@@ -390,6 +391,7 @@
+ inline void* __cdecl ResolveNvapi(unsigned id)
+ {
+     auto result = originalQuery(id);
++    result=DemoApiProbe::Resolve(id,result);
+     if (!result) return nullptr;
+     switch (id)
+     {

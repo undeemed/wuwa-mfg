@@ -9,6 +9,16 @@ Two routes are being investigated: execute the existing mathematics faster, and
 train a smaller network to reproduce its output. Reduced resolution, skipped
 frames, weaker blending and a different visual style do not satisfy the target.
 
+The latest [native batching investigation](../research/neural-latency/README.md#rejected-native-batching-and-verified-overlap-differences)
+rejected an eight-kernel batcher after GPU errors and no completed image readback.
+It preserved observed barriers and received successful API results, which proved
+insufficient. A bounded original producer/consumer test then showed an overlap
+difference: a later producer satisfied an earlier waiter in 10/10 individual-call
+trials, but 0/10 batched trials. Static native polling loops make changed scheduling
+a plausible explanation, not a proven native dependency cycle. The pass-through
+API observer still produced four byte-identical reference frames. Generic batching
+is retired, normal files are restored, and no native speedup is claimed.
+
 ## Measurements from the actual runtime
 
 The [hidden NVIDIA demo](neural-demo-benchmark.md) ran the SF-v2 runtime, Natural

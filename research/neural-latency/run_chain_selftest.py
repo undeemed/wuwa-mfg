@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: Apache-2.0
 """Run the original dependency workload inside the exact hidden NVIDIA sample."""
-import argparse,json,subprocess,sys
+import argparse,json,re,subprocess,sys
 from pathlib import Path
 from collect_demo_photo_training import read,sha,dump
 from collect_demo_views import HIDDEN_EXE_SHA256
@@ -9,7 +9,11 @@ from collect_demo_views import HIDDEN_EXE_SHA256
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     for n in ('demo-dir','base','dll','cubin','output'):p.add_argument('--'+n,type=Path,required=True)
-    p.add_argument('--dll-sha256',required=True);p.add_argument('--cubin-sha256',required=True);a=p.parse_args()
+    p.add_argument('--dll-sha256',required=True);p.add_argument('--cubin-sha256',required=True)
+    p.add_argument('--stress',action='store_true');p.add_argument('--overlap',action='store_true')
+    p.add_argument('--label',default='native-chain-selftest');a=p.parse_args()
+    assert not a.overlap or a.stress
+    assert re.fullmatch('[a-z0-9-]+',a.label)
     repo=Path(__file__).resolve().parents[2];demo=a.demo_dir.resolve();base=a.base.resolve()
     assert not base.is_relative_to(repo) and not a.output.resolve().is_relative_to(repo) and not a.output.exists()
     assert sha(demo/'ngx_dlss_demo.exe')==HIDDEN_EXE_SHA256 and sha(a.dll)==a.dll_sha256 and sha(a.cubin)==a.cubin_sha256
@@ -19,8 +23,10 @@ def main():
     assert not any((demo/n).exists() for n in artifacts)
     normal=(demo/'dxgi.dll').read_bytes();ini=(demo/'OptiScaler.ini').read_bytes()
     assert sha(demo/'dxgi.dll')=='b3b0857a6d94e4745b42f2bb3beb747c527548ceec0abff11afecf89a1f6a590'
-    label='native-chain-selftest';a.output.mkdir(parents=True)
+    label=a.label;a.output.mkdir(parents=True)
     markers=['nr-kernel-probe.enable','nr-chain-selftest.enable']
+    if a.stress:markers.append('nr-chain-stress.enable')
+    if a.overlap:markers.append('nr-chain-overlap.enable')
     try:
         (demo/'dxgi.dll').write_bytes(a.dll.read_bytes());(demo/'nr-chain-selftest.cubin').write_bytes(a.cubin.read_bytes())
         for n in markers:(demo/n).write_text('Original bounded integer dependency workload\n')

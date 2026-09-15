@@ -1,0 +1,96 @@
+--- a/OptiScaler/dlssnr/DlssNr_DemoBufferProbe.h
++++ b/OptiScaler/dlssnr/DlssNr_DemoBufferProbe.h
+@@ -11,6 +11,7 @@
+ #include <vector>
+ #include <detours/detours.h>
+ #include <Util.h>
++#include "DlssNr_DemoBatch.h"
+ 
+ namespace DlssNr::DemoBufferProbe
+ {
+@@ -161,6 +162,7 @@
+ };
+ inline void STDMETHODCALLTYPE LegacyBarriers(ID3D12GraphicsCommandList* commands,UINT count,const D3D12_RESOURCE_BARRIER* barriers)
+ {
++    DemoBatch::Boundary(commands,26);
+     try
+     {
+         if(state && state->enabled && barriers && count<=4096)
+@@ -199,6 +201,7 @@
+ }
+ inline void STDMETHODCALLTYPE EnhancedBarriers(ID3D12GraphicsCommandList7* commands,UINT count,const D3D12_BARRIER_GROUP* groups)
+ {
++    DemoBatch::Boundary(commands,80);
+     try
+     {
+         if(state && state->enabled && groups && count<=4096)
+--- a/OptiScaler/dlssnr/DlssNr_DemoKernelProbe.h
++++ b/OptiScaler/dlssnr/DlssNr_DemoKernelProbe.h
+@@ -353,6 +353,7 @@
+             record["output_scalar_candidate"]=fields;
+             record["output_offsets_source"]="Exact SF-v2 SM89 output-kernel instruction types; offsets relative to packed arguments; semantics require validation";
+         }
++        if(DemoBatch::wanted.load())record["status_scope"]="Queue request acceptance only; see nr-batch-report.json for real API results.";
+         contract << record.dump() << '\n';
+     }
+ }
+@@ -366,7 +367,7 @@
+     NvAPI_Status status;
+     { DemoCommandProbe::LaunchScope commandScope(chain+1,count,false);
+       const auto* submitted=DemoCommandProbe::CopyArguments(kernels,count);
+-      DemoBufferProbe::LaunchOrderScope order; status = originalLaunch(commands, submitted, count); }
++      DemoBufferProbe::LaunchOrderScope order; status = DemoBatch::Submit(commands, submitted, count, originalLaunch); }
+     const auto cpuUs=std::chrono::duration<double,std::micro>(std::chrono::steady_clock::now()-started).count();
+     AfterLaunch(commands, index, status);
+     Record(kernels, count, status);
+@@ -380,7 +381,7 @@
+     DemoBufferProbe::BeforeKernel(frame,chain+1);
+     const auto started = std::chrono::steady_clock::now();
+     NvAPI_Status status;
+-    { DemoCommandProbe::LaunchScope commandScope(chain+1,count,true); DemoBufferProbe::LaunchOrderScope order; status = originalLaunchEx(commands, kernels, count); }
++    { DemoCommandProbe::LaunchScope commandScope(chain+1,count,true); DemoBufferProbe::LaunchOrderScope order; DemoBatch::BeforeExtended(); status = originalLaunchEx(commands, kernels, count); }
+     const auto cpuUs=std::chrono::duration<double,std::micro>(std::chrono::steady_clock::now()-started).count();
+     AfterLaunch(commands, index, status);
+     Record(kernels, count, status);
+@@ -460,6 +461,8 @@
+             importSlot = slot;
+             enabled = true;
+             DemoCommandProbe::Configure(runtimePath.parent_path());
++            DemoBatch::Configure(runtimePath.parent_path());
++            DemoCommandProbe::commandBoundary=&DemoBatch::Boundary;
+             wantsTiming = std::filesystem::exists(runtimePath.parent_path() / L"nr-kernel-timing.enable");
+             forceSm89 = std::filesystem::exists(runtimePath.parent_path() / L"nr-force-sm89.enable");
+             timingPath = runtimePath.parent_path() / L"nr-kernel-timing.csv";
+@@ -494,9 +497,14 @@
+     DemoCommandProbe::Begin(commands,frame,capture);
+     DemoBufferProbe::EvaluationOrder(frame,capture,true);
+     BeginTimings(commands);
++    DemoBatch::Begin(commands,frame,capture,DemoCommandProbe::attached && !DemoCommandProbe::coverageGap.load() &&
++        DemoBufferProbe::state && DemoBufferProbe::state->enabled && !DemoBufferProbe::state->coverageGap &&
++        DemoBufferProbe::originalLegacy && DemoBufferProbe::originalEnhanced &&
++        !DemoBufferProbe::state->shot.enabled && !wantsTiming && !forceSm89);
+ }
+ inline void End()
+ {
++    DemoBatch::End();
+     if (enabled && timing && timing->active)
+     {
+         std::lock_guard lock(mutex);
+--- a/OptiScaler/dlssnr/DlssNr_DemoCommandProbe.h
++++ b/OptiScaler/dlssnr/DlssNr_DemoCommandProbe.h
+@@ -27,6 +27,7 @@
+ inline std::atomic<unsigned> activeFrame=0,activeChain=0,ownerThread=0;
+ inline std::atomic<void*> activeCommands=nullptr;
+ inline thread_local unsigned launchDepth=0,methodDepth=0;
++inline void(*commandBoundary)(ID3D12GraphicsCommandList*,unsigned)=nullptr;
+ inline std::array<void*,86> targets{};
+ inline std::unordered_map<void*,unsigned> attachedTargets;
+ inline size_t retainedBytes=0;
+@@ -79,6 +80,7 @@
+     inline static Fn original=nullptr;
+     static R STDMETHODCALLTYPE Call(C* object,Args... args)
+     {
++        if(commandBoundary && !launchDepth)commandBoundary(static_cast<ID3D12GraphicsCommandList*>(object),Slot);
+         Note(Slot,object);
+         struct Depth {Depth(){++methodDepth;}~Depth(){--methodDepth;}} depth;
+         return original(object,args...);

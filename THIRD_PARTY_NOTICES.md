@@ -269,3 +269,12 @@ GPL-3.0-only code using separately installed DirectX/NVIDIA interfaces and
 Microsoft Detours. Their Python collectors and analyzer are original
 Apache-2.0 code. No vendor implementation, binary, packed argument data or GPU
 address is distributed.
+
+The rejected native batcher, pass-through API observer and bounded overlap
+selftest helpers/patches are original GPL-3.0-only extensions. The integer stress
+and producer/consumer CUDA workloads, compiler/runner extensions, synchronization
+inspection utility and numeric analyzer are original Apache-2.0 code. NVIDIA
+NVAPI and DirectX supply external interface declarations; no vendor implementation
+is copied. Private kernel extraction is read-only and only numeric instruction
+counts are published. No vendor disassembly, binary, weights, captured pixels,
+packed arguments or GPU addresses are distributed.

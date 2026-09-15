@@ -2817,7 +2817,8 @@ All eight output comparisons are exact. This validates the observer and copied
 arguments for the tested sequence. It does **not** establish safe real-model
 batching, a universal interface guarantee or a native speedup. The earlier
 integer-chain selftest and this controlled native comparison provide prerequisites
-for the next batching experiment; no kernel calls are merged yet.
+for the subsequent batching experiment described below. This replay study itself
+does not merge kernel calls.
 
 The command observer is an add-on to the existing pre-tensor and launch-order
 patches. Copy its header into `OptiScaler/dlssnr`, then apply
@@ -2845,3 +2846,96 @@ launches and no driver changes. No binaries or private inputs are distributed.
 records the rejected spectral model, native trace, input/history qualifications,
 controlled output comparisons, source hashes and preserved state. The 3 ms at
 1920×1080 goal with unchanged native quality remains unmet.
+
+## Rejected native batching and verified overlap differences
+
+The first actual native batch experiment **failed and is not an installation
+option**. [`DlssNr_DemoBatch.h`](DlssNr_DemoBatch.h) owns every packed argument
+block and launch structure, retains them through process exit, caps batches at
+eight kernels, and flushes before observed command/barrier boundaries. It changes
+neither model weights nor kernel arithmetic. Nevertheless, preserving those
+boundaries does not preserve all GPU scheduling behavior.
+
+The same-DLL reference run completed normally. In the candidate, each of four
+recorded evaluations reduced 158 requests to 31 real driver calls. All calls
+returned success; all twenty observed barriers and required command boundaries
+were preserved, and recorded launch metadata matched the reference. But **zero
+fenced image captures completed**, and seven `nvlddmkm` event-153 errors appeared
+during the trial. The private-desktop monitor then failed while enumerating
+windows. No speed measurement or quality pass is claimed. The batch report's
+`complete_through_last_evaluation` field means CPU recording completion only.
+
+The runner terminated the sample. Immediate DLL restoration encountered a
+temporary image-file lock; after confirming the process had exited, recovery
+restored the normal DLL/INI and archived the failed trial. The collector now
+retries restoration for up to ten seconds and archives evidence even if restoring
+a file fails. It never retries an application launch because of this error.
+
+[`DlssNr_DemoApiProbe.h`](DlssNr_DemoApiProbe.h) then observed selected NVAPI
+descriptor/module interfaces without changing submissions. Its fixed-input
+outputs are byte-identical to the reference in all four frames. On the first
+evaluation, descriptor calls occur before the first launch and after launches
+1, 156 and 157; later selected evaluations mostly reuse descriptors. These
+locations already had preserved boundaries, so the observed descriptor calls do
+not explain the failure. Several resolved interfaces remain unwrapped, including
+an identifier absent from the public interface table. This is not complete API
+coverage. Signatures and identifiers use the separately installed
+[NVIDIA NVAPI interface](https://docs.nvidia.com/nvapi/nvapi_8h.html); its declarations
+do not establish interchangeable scheduling semantics.
+
+Two original workloads expose why that distinction matters:
+
+| Workload | Individual calls with barriers | Individual calls without barriers | One batched call |
+|---|---|---|---|
+| Forward integer dependencies, 48 configurations | 48/48 exact | 48/48 had mismatches | 48/48 exact |
+| Earlier waiter needs a later producer, 10 trials | Producer observed 0/10 | Producer observed 10/10 | Producer observed 0/10 |
+
+[`chain_order_stress.cu`](chain_order_stress.cu) adds uneven block latency and
+dynamic shared memory. It covers 1,024 / 65,536 / 262,144 elements, chains of
+2 / 3 / 8 / 17 kernels, uniform or varying 64/128/256-thread blocks, and one or
+two distinct modules. All 144 GPU executions complete. A second run repeats all
+48 configurations with the same pass/fail pattern; mismatch totals in the
+unsynchronized mode vary, as expected for a race.
+
+[`chain_overlap_test.cu`](chain_overlap_test.cu) reverses the dependency: the
+first kernel polls a flag that the second kernel sets. A fixed deadline of four
+million GPU clock cycles bounds every wait. All thirty trials complete with
+successful API results. Individual calls without a barrier allow the producer
+to satisfy the waiter; batching does not in these tests. Deadline expiry is an
+observed scheduling result, not a GPU hang or a performance measurement.
+
+Read-only [`inspect_native_sync.py`](inspect_native_sync.py) finds three short
+global-memory polling back edges in each of the first native chained and
+downsample-wait kernels, plus strong global stores in the input-view and chained
+kernels. The extracted code stays private. These facts support a scheduling
+hypothesis for the failed native batch: added ordering can prevent progress in
+a pipeline that depends on overlap. **The exact native dependency cycle and
+fault cause are not proven.** Neither the passing integer chains nor these
+polling counts justify merging arbitrary native kernels.
+
+The batch header and [`optiscaler-demo-batch.patch`](optiscaler-demo-batch.patch)
+are retained solely to document the rejected experiment. They apply after the
+pre-tensor, launch-order, command-probe and input-replay patches. The API observer
+uses that same base plus [`optiscaler-demo-api-probe.patch`](optiscaler-demo-api-probe.patch),
+without the batching patch. The original ordering tests use the pre-tensor and
+chain-selftest patches; the overlap helper additionally uses
+[`optiscaler-demo-chain-overlap.patch`](optiscaler-demo-chain-overlap.patch).
+Copy each referenced helper header into `OptiScaler/dlssnr` before building a
+separate research DLL. No research build replaces the working game installation.
+
+```text
+collect_native_input_replay.py --observer-only --label-prefix native-api-observer --demo-dir <existing-hidden-demo> --base <private-trial-root> --source <fenced-four-frame-capture> --dll <checked-api-observer-build> --dll-sha256 <checked-hash> --output <fresh-private-report.json>
+compile_chain_order_test.py --stress --overlap --output <private-cubin>
+run_chain_selftest.py --stress --overlap --label native-chain-overlap --demo-dir <existing-hidden-demo> --base <private-trial-root> --dll <checked-overlap-build> --dll-sha256 <checked-hash> --cubin <private-cubin> --cubin-sha256 <checked-hash> --output <fresh-private-directory>
+inspect_native_sync.py --cubin <pinned-private-module> --nvdisasm <installed-tool> --output <fresh-private-directory>
+analyze_native_batch.py --base <private-trial-root> --lab <private-research-root> --nvapi-interface <installed-interface-header> --output <fresh-private-analysis.json>
+```
+
+[Numeric evidence](../../evidence/neural-model-research/native-batching-and-overlap.json)
+records the failure, recovery, image checks, both ordering runs, bounded overlap
+results, static counts and source hashes. Five sample launches used the checked
+hidden executable and inactive private desktop; no game launches or driver-setting
+changes occurred. The kernel route must preserve concurrency as well as arithmetic.
+Generic batching is retired; native speed remains unaccelerated. The smaller
+models remain fast but below the required quality, so the full 1080p/3 ms target
+is still open.

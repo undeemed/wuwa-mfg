@@ -1,0 +1,6203 @@
+{
+  "complete": true,
+  "target_achieved": false,
+  "quality_gate_passed": false,
+  "native_runtime_accelerated": false,
+  "new_sample_launches": 5,
+  "new_game_launches": 0,
+  "native_batch_candidate_rejected": true,
+  "native_batch": {
+    "partitions": [
+      {
+        "frame": 1,
+        "kernels": 158,
+        "real_api_calls": 31,
+        "batch_end_chain_indices": [
+          1,
+          2,
+          3,
+          7,
+          11,
+          17,
+          25,
+          33,
+          41,
+          49,
+          57,
+          58,
+          59,
+          67,
+          75,
+          83,
+          91,
+          99,
+          100,
+          108,
+          116,
+          124,
+          132,
+          133,
+          141,
+          147,
+          151,
+          155,
+          156,
+          157,
+          158
+        ],
+        "required_command_and_barrier_boundaries": [
+          1,
+          2,
+          3,
+          7,
+          11,
+          17,
+          25,
+          58,
+          59,
+          99,
+          100,
+          133,
+          141,
+          147,
+          151,
+          155,
+          156,
+          157,
+          158
+        ],
+        "all_observed_boundaries_preserved": true,
+        "launch_metadata_unchanged": true,
+        "real_api_statuses_all_zero": true,
+        "gpu_completion_established": false
+      },
+      {
+        "frame": 2,
+        "kernels": 158,
+        "real_api_calls": 31,
+        "batch_end_chain_indices": [
+          1,
+          2,
+          3,
+          7,
+          11,
+          17,
+          25,
+          33,
+          41,
+          49,
+          57,
+          58,
+          59,
+          67,
+          75,
+          83,
+          91,
+          99,
+          100,
+          108,
+          116,
+          124,
+          132,
+          133,
+          141,
+          147,
+          151,
+          155,
+          156,
+          157,
+          158
+        ],
+        "required_command_and_barrier_boundaries": [
+          1,
+          2,
+          3,
+          7,
+          11,
+          17,
+          25,
+          58,
+          59,
+          99,
+          100,
+          133,
+          141,
+          147,
+          151,
+          155,
+          156,
+          157,
+          158
+        ],
+        "all_observed_boundaries_preserved": true,
+        "launch_metadata_unchanged": true,
+        "real_api_statuses_all_zero": true,
+        "gpu_completion_established": false
+      },
+      {
+        "frame": 3,
+        "kernels": 158,
+        "real_api_calls": 31,
+        "batch_end_chain_indices": [
+          1,
+          2,
+          3,
+          7,
+          11,
+          17,
+          25,
+          33,
+          41,
+          49,
+          57,
+          58,
+          59,
+          67,
+          75,
+          83,
+          91,
+          99,
+          100,
+          108,
+          116,
+          124,
+          132,
+          133,
+          141,
+          147,
+          151,
+          155,
+          156,
+          157,
+          158
+        ],
+        "required_command_and_barrier_boundaries": [
+          1,
+          2,
+          3,
+          7,
+          11,
+          17,
+          25,
+          58,
+          59,
+          99,
+          100,
+          133,
+          141,
+          147,
+          151,
+          155,
+          156,
+          157,
+          158
+        ],
+        "all_observed_boundaries_preserved": true,
+        "launch_metadata_unchanged": true,
+        "real_api_statuses_all_zero": true,
+        "gpu_completion_established": false
+      },
+      {
+        "frame": 4,
+        "kernels": 158,
+        "real_api_calls": 31,
+        "batch_end_chain_indices": [
+          1,
+          2,
+          3,
+          7,
+          11,
+          17,
+          25,
+          33,
+          41,
+          49,
+          57,
+          58,
+          59,
+          67,
+          75,
+          83,
+          91,
+          99,
+          100,
+          108,
+          116,
+          124,
+          132,
+          133,
+          141,
+          147,
+          151,
+          155,
+          156,
+          157,
+          158
+        ],
+        "required_command_and_barrier_boundaries": [
+          1,
+          2,
+          3,
+          7,
+          11,
+          17,
+          25,
+          58,
+          59,
+          99,
+          100,
+          133,
+          141,
+          147,
+          151,
+          155,
+          156,
+          157,
+          158
+        ],
+        "all_observed_boundaries_preserved": true,
+        "launch_metadata_unchanged": true,
+        "real_api_statuses_all_zero": true,
+        "gpu_completion_established": false
+      }
+    ],
+    "runtime_report": {
+      "batch_limit": 8,
+      "complete_through_last_evaluation": true,
+      "last_completed_evaluation": 4,
+      "native_runtime_accelerated": false,
+      "quality_gate_passed": false,
+      "real_api_calls": 124,
+      "requested_kernels": 632,
+      "retained_argument_bytes": 48288,
+      "retained_chunks": 124,
+      "retention_limit_bytes": 67108864,
+      "sampled_evaluations": [
+        {
+          "complete": true,
+          "fallback_calls": 0,
+          "flushes": [
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 4,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 4,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 6,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 6,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 4,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 4,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            }
+          ],
+          "frame": 1,
+          "real_api_calls": 31,
+          "requested_kernels": 158,
+          "submitted_kernels": 158
+        },
+        {
+          "complete": true,
+          "fallback_calls": 0,
+          "flushes": [
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 4,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 4,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 6,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 6,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 4,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 4,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            }
+          ],
+          "frame": 2,
+          "real_api_calls": 31,
+          "requested_kernels": 158,
+          "submitted_kernels": 158
+        },
+        {
+          "complete": true,
+          "fallback_calls": 0,
+          "flushes": [
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 4,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 4,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 6,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 6,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 4,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 4,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            }
+          ],
+          "frame": 3,
+          "real_api_calls": 31,
+          "requested_kernels": 158,
+          "submitted_kernels": 158
+        },
+        {
+          "complete": true,
+          "fallback_calls": 0,
+          "flushes": [
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 4,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 4,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 6,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 0,
+              "reason": "batch limit",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 8,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 6,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 4,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 4,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            },
+            {
+              "count": 1,
+              "method_slot": 26,
+              "reason": "command boundary",
+              "status": 0
+            }
+          ],
+          "frame": 4,
+          "real_api_calls": 31,
+          "requested_kernels": 158,
+          "submitted_kernels": 158
+        }
+      ],
+      "schema": 1,
+      "status_scope": "Queued requests may return NVAPI_OK before submission; only real flush statuses establish API acceptance.",
+      "submitted_kernels": 632,
+      "target_achieved": false
+    },
+    "fenced_output_frames": 0,
+    "correlated_driver_events": [
+      {
+        "time": "2026-09-15T14:34:39.4357938-05:00",
+        "Id": 153,
+        "provider": "nvlddmkm"
+      },
+      {
+        "time": "2026-09-15T14:34:39.4352931-05:00",
+        "Id": 153,
+        "provider": "nvlddmkm"
+      },
+      {
+        "time": "2026-09-15T14:34:39.4312923-05:00",
+        "Id": 153,
+        "provider": "nvlddmkm"
+      },
+      {
+        "time": "2026-09-15T14:34:39.4212905-05:00",
+        "Id": 153,
+        "provider": "nvlddmkm"
+      },
+      {
+        "time": "2026-09-15T14:34:39.4122832-05:00",
+        "Id": 153,
+        "provider": "nvlddmkm"
+      },
+      {
+        "time": "2026-09-15T14:34:39.4037788-05:00",
+        "Id": 153,
+        "provider": "nvlddmkm"
+      },
+      {
+        "time": "2026-09-15T14:34:39.3942743-05:00",
+        "Id": 153,
+        "provider": "nvlddmkm"
+      }
+    ],
+    "recovery": {
+      "normal_demo_dll_restored": true,
+      "normal_demo_ini_restored": true,
+      "active_markers": 0,
+      "fenced_capture_metadata_count": 0,
+      "candidate_rejected": true,
+      "quality_gate_passed": false,
+      "target_achieved": false
+    },
+    "speedup_measured": false
+  },
+  "api_observer": {
+    "resolutions": [
+      {
+        "id": 2905181503,
+        "available": true,
+        "wrapped": false,
+        "public_name": "not in public interface table"
+      },
+      {
+        "id": 22079528,
+        "available": true,
+        "wrapped": false,
+        "public_name": "NvAPI_Initialize"
+      },
+      {
+        "id": 868693388,
+        "available": false,
+        "wrapped": false,
+        "public_name": "not in public interface table"
+      },
+      {
+        "id": 1497269828,
+        "available": false,
+        "wrapped": false,
+        "public_name": "not in public interface table"
+      },
+      {
+        "id": 110417198,
+        "available": true,
+        "wrapped": false,
+        "public_name": "NvAPI_DRS_CreateSession"
+      },
+      {
+        "id": 928890219,
+        "available": true,
+        "wrapped": false,
+        "public_name": "NvAPI_DRS_LoadSettings"
+      },
+      {
+        "id": 3666110112,
+        "available": true,
+        "wrapped": false,
+        "public_name": "NvAPI_DRS_GetBaseProfile"
+      },
+      {
+        "id": 4008011442,
+        "available": true,
+        "wrapped": false,
+        "public_name": "NvAPI_DRS_FindApplicationByName"
+      },
+      {
+        "id": 499590687,
+        "available": true,
+        "wrapped": false,
+        "public_name": "NvAPI_D3D12_CreateCubinComputeShaderWithName"
+      },
+      {
+        "id": 827400475,
+        "available": true,
+        "wrapped": false,
+        "public_name": "NvAPI_D3D12_CreateCubinComputeShaderEx"
+      },
+      {
+        "id": 698310620,
+        "available": true,
+        "wrapped": false,
+        "public_name": "NvAPI_D3D12_CreateCubinComputeShaderExV2"
+      },
+      {
+        "id": 849340128,
+        "available": true,
+        "wrapped": true,
+        "public_name": "NvAPI_D3D12_GetCudaMergedTextureSamplerObject"
+      },
+      {
+        "id": 232440372,
+        "available": true,
+        "wrapped": true,
+        "public_name": "NvAPI_D3D12_GetCudaIndependentDescriptorObject"
+      },
+      {
+        "id": 2904188797,
+        "available": true,
+        "wrapped": true,
+        "public_name": "NvAPI_D3D12_CreateCuModule"
+      },
+      {
+        "id": 613889336,
+        "available": true,
+        "wrapped": false,
+        "public_name": "NvAPI_D3D12_LaunchCuKernelChain"
+      },
+      {
+        "id": 3853292063,
+        "available": true,
+        "wrapped": false,
+        "public_name": "NvAPI_EnumPhysicalGPUs"
+      },
+      {
+        "id": 2916484305,
+        "available": true,
+        "wrapped": false,
+        "public_name": "NvAPI_GetLogicalGPUFromPhysicalGPU"
+      },
+      {
+        "id": 2217412206,
+        "available": true,
+        "wrapped": false,
+        "public_name": "NvAPI_GPU_GetLogicalGpuInfo"
+      },
+      {
+        "id": 3626392868,
+        "available": true,
+        "wrapped": false,
+        "public_name": "NvAPI_GPU_GetArchInfo"
+      },
+      {
+        "id": 32011092,
+        "available": true,
+        "wrapped": false,
+        "public_name": "NvAPI_D3D12_GetGraphicsCapabilities"
+      },
+      {
+        "id": 1851697627,
+        "available": true,
+        "wrapped": false,
+        "public_name": "NvAPI_D3D12_CaptureUAVInfo"
+      },
+      {
+        "id": 3796069922,
+        "available": true,
+        "wrapped": true,
+        "public_name": "NvAPI_D3D12_CreateCuFunction"
+      }
+    ],
+    "rows": [
+      {
+        "frame": 1,
+        "calls": [
+          {
+            "after_chain": 0,
+            "api": "NvAPI_D3D12_GetCudaMergedTextureSamplerObject"
+          },
+          {
+            "after_chain": 0,
+            "api": "NvAPI_D3D12_GetCudaIndependentDescriptorObject"
+          },
+          {
+            "after_chain": 1,
+            "api": "NvAPI_D3D12_GetCudaIndependentDescriptorObject"
+          },
+          {
+            "after_chain": 156,
+            "api": "NvAPI_D3D12_GetCudaMergedTextureSamplerObject"
+          },
+          {
+            "after_chain": 156,
+            "api": "NvAPI_D3D12_GetCudaIndependentDescriptorObject"
+          },
+          {
+            "after_chain": 157,
+            "api": "NvAPI_D3D12_GetCudaIndependentDescriptorObject"
+          },
+          {
+            "after_chain": 157,
+            "api": "NvAPI_D3D12_GetCudaMergedTextureSamplerObject"
+          }
+        ],
+        "all_statuses_zero": true
+      },
+      {
+        "frame": 2,
+        "calls": [
+          {
+            "after_chain": 1,
+            "api": "NvAPI_D3D12_GetCudaMergedTextureSamplerObject"
+          },
+          {
+            "after_chain": 1,
+            "api": "NvAPI_D3D12_GetCudaMergedTextureSamplerObject"
+          }
+        ],
+        "all_statuses_zero": true
+      },
+      {
+        "frame": 3,
+        "calls": [
+          {
+            "after_chain": 1,
+            "api": "NvAPI_D3D12_GetCudaMergedTextureSamplerObject"
+          }
+        ],
+        "all_statuses_zero": true
+      },
+      {
+        "frame": 4,
+        "calls": [
+          {
+            "after_chain": 1,
+            "api": "NvAPI_D3D12_GetCudaMergedTextureSamplerObject"
+          }
+        ],
+        "all_statuses_zero": true
+      },
+      {
+        "frame": 64,
+        "calls": [
+          {
+            "after_chain": 1,
+            "api": "NvAPI_D3D12_GetCudaMergedTextureSamplerObject"
+          }
+        ],
+        "all_statuses_zero": true
+      },
+      {
+        "frame": 128,
+        "calls": [
+          {
+            "after_chain": 1,
+            "api": "NvAPI_D3D12_GetCudaMergedTextureSamplerObject"
+          }
+        ],
+        "all_statuses_zero": true
+      },
+      {
+        "frame": 256,
+        "calls": [
+          {
+            "after_chain": 1,
+            "api": "NvAPI_D3D12_GetCudaMergedTextureSamplerObject"
+          }
+        ],
+        "all_statuses_zero": true
+      }
+    ],
+    "fixed_input_comparisons": [
+      {
+        "frame": 0,
+        "inputs_and_prior_history_exact": true,
+        "output_byte_exact": true,
+        "resource_sha256": {
+          "color": "2e44a6a5e2730c21f7f2b4610b0a3c0af6fc94e2f51601f2ab2fa3fa679cf7f6",
+          "depth": "7964628b74267c111dda3f78cfc0f125be9249a2b52bf088addffa00d269b9e0",
+          "motion": "a39ad299333d960ccfd582ad11b95fc6ac2c2467c26ea1926c1acb379c608199",
+          "output": "13668520132202f28b6b584aff445e6982d17ece0430c9c134b7c2ef85b68d2b"
+        }
+      },
+      {
+        "frame": 1,
+        "inputs_and_prior_history_exact": true,
+        "output_byte_exact": true,
+        "resource_sha256": {
+          "color": "2c9a111e96b8cf0ac715fe75654abc25fdd2e98358d9e6b09fbe0c50577bbd4b",
+          "depth": "04c770996e0494458db8cba1e90999d21b7f224c4b7ca2232388021deeb9f0a5",
+          "motion": "7a2b0439c0740ecc6cf5a37a4776e7b23ce14b41f2f12467914ac03fd0013c11",
+          "output": "f820eb5f02cfbedaffc38a5b4d461839af771832ec732bfc578741cfc0dfc5b4"
+        }
+      },
+      {
+        "frame": 2,
+        "inputs_and_prior_history_exact": true,
+        "output_byte_exact": true,
+        "resource_sha256": {
+          "color": "7a61c58e20cb85e0e9abae98b628a0d25e31ecaf8fc800b7bcc0f1aa4b633767",
+          "depth": "42f64df453db24e5bf776ed5b2ff6a51da53b5b0bced69acad0ea5019e1ecadc",
+          "motion": "9bf5549591fe7078847ea251890a7f450479db5be9228a6eb5fd717973f40915",
+          "output": "324d99c6a4ab8b21c9c0de61ad5940791f22eb5fe2dc6c4035645d4ff3a94718"
+        }
+      },
+      {
+        "frame": 3,
+        "inputs_and_prior_history_exact": true,
+        "output_byte_exact": true,
+        "resource_sha256": {
+          "color": "939417960cb11e80271402a5838ac1167cb4bd4d2ff2e5a4db7ceb4645b9c8f0",
+          "depth": "cb41ae5164e0c984c00aedcaaaf55a73cd752acdc21b7569688b9fccd92adeeb",
+          "motion": "bcde0fb0d08bf8f3752b4171897ce5ee44ac1158f1740821827ad76f8802b2f0",
+          "output": "d76db3fa43bac93d63beb0383d98d984b8da865b4e2ae34575b28e57b62fb5c8"
+        }
+      }
+    ],
+    "complete_api_coverage_established": false
+  },
+  "ordering_tests": [
+    {
+      "label": "native-chain-stress",
+      "summary": {
+        "serial_barriers": {
+          "cases": 48,
+          "cases_with_mismatches": 0,
+          "mismatched_elements": 0
+        },
+        "serial_without_barriers": {
+          "cases": 48,
+          "cases_with_mismatches": 48,
+          "mismatched_elements": 2511864
+        },
+        "batched": {
+          "cases": 48,
+          "cases_with_mismatches": 0,
+          "mismatched_elements": 0
+        }
+      },
+      "evidence": {
+        "complete": true,
+        "test_completed": true,
+        "test": {
+          "cases": [
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 1024,
+              "kernels": 2,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 558
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 1024,
+              "kernels": 3,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 1024
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 1024,
+              "kernels": 8,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 1024
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 1024,
+              "kernels": 17,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 1024
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 65536,
+              "kernels": 2,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 9204
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 65536,
+              "kernels": 3,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 25243
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 65536,
+              "kernels": 8,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 60499
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 65536,
+              "kernels": 17,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 65473
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 262144,
+              "kernels": 2,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 23912
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 262144,
+              "kernels": 3,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 51557
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 262144,
+              "kernels": 8,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 169405
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 262144,
+              "kernels": 17,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 242634
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 1024,
+              "kernels": 2,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 399
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 1024,
+              "kernels": 3,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 1024
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 1024,
+              "kernels": 8,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 1024
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 1024,
+              "kernels": 17,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 1024
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 65536,
+              "kernels": 2,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 8168
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 65536,
+              "kernels": 3,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 22169
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 65536,
+              "kernels": 8,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 59262
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 65536,
+              "kernels": 17,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 65415
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 262144,
+              "kernels": 2,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 2322
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 262144,
+              "kernels": 3,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 46917
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 262144,
+              "kernels": 8,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 154986
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 262144,
+              "kernels": 17,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 235482
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 1024,
+              "kernels": 2,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 549
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 1024,
+              "kernels": 3,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 1024
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 1024,
+              "kernels": 8,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 1024
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 1024,
+              "kernels": 17,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 1024
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 65536,
+              "kernels": 2,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 9081
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 65536,
+              "kernels": 3,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 25216
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 65536,
+              "kernels": 8,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 60664
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 65536,
+              "kernels": 17,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 65402
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 262144,
+              "kernels": 2,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 24238
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 262144,
+              "kernels": 3,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 50735
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 262144,
+              "kernels": 8,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 169260
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 262144,
+              "kernels": 17,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 241988
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 1024,
+              "kernels": 2,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 398
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 1024,
+              "kernels": 3,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 1024
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 1024,
+              "kernels": 8,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 1024
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 1024,
+              "kernels": 17,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 1024
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 65536,
+              "kernels": 2,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 8209
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 65536,
+              "kernels": 3,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 22257
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 65536,
+              "kernels": 8,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 59625
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 65536,
+              "kernels": 17,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 65399
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 262144,
+              "kernels": 2,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 13018
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 262144,
+              "kernels": 3,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 47089
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 262144,
+              "kernels": 8,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 157461
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 262144,
+              "kernels": 17,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 235382
+              }
+            }
+          ],
+          "complete": true,
+          "distinct_function_handles": true,
+          "distinct_module_handles": true,
+          "function_status": [
+            0,
+            0
+          ],
+          "module_status": 0,
+          "native_kernels_modified": false,
+          "original_workload_only": true,
+          "quality_gate_passed": false,
+          "schema": 1,
+          "second_module_status": [
+            0,
+            0,
+            0
+          ],
+          "stress_workload": true,
+          "target_achieved": false
+        },
+        "target_achieved": false,
+        "quality_gate_passed": false,
+        "native_runtime_accelerated": false,
+        "new_sample_launches": 1,
+        "new_game_launches": 0,
+        "runtime_sha256": {
+          "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+          "dxgi.dll": "fba9fe04861252651baa1928d6e3938f00e4005bcba79f011d225e6eaba714ab",
+          "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+        },
+        "cubin_sha256": "e0692e23ece67fe4408f98f0fb2cbfd99ca4aa7e94eb7a7b3d9871184f7fa648",
+        "inactive_desktop_observations": 5,
+        "all_demo_windows_hidden_and_off_input_desktop": true,
+        "normal_dll_ini_restored": true,
+        "scope": "Original integer kernels on fresh private buffers. No native model kernels are changed; finite tests cannot establish universal NVAPI ordering guarantees."
+      }
+    },
+    {
+      "label": "native-chain-overlap",
+      "summary": {
+        "serial_barriers": {
+          "cases": 48,
+          "cases_with_mismatches": 0,
+          "mismatched_elements": 0
+        },
+        "serial_without_barriers": {
+          "cases": 48,
+          "cases_with_mismatches": 48,
+          "mismatched_elements": 2529016
+        },
+        "batched": {
+          "cases": 48,
+          "cases_with_mismatches": 0,
+          "mismatched_elements": 0
+        }
+      },
+      "evidence": {
+        "complete": true,
+        "test_completed": true,
+        "test": {
+          "cases": [
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 1024,
+              "kernels": 2,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 540
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 1024,
+              "kernels": 3,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 1024
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 1024,
+              "kernels": 8,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 1024
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 1024,
+              "kernels": 17,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 1024
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 65536,
+              "kernels": 2,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 9186
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 65536,
+              "kernels": 3,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 25987
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 65536,
+              "kernels": 8,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 60810
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 65536,
+              "kernels": 17,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 65406
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 262144,
+              "kernels": 2,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 24278
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 262144,
+              "kernels": 3,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 52699
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 262144,
+              "kernels": 8,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 169069
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 262144,
+              "kernels": 17,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 242851
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 1024,
+              "kernels": 2,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 400
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 1024,
+              "kernels": 3,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 1024
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 1024,
+              "kernels": 8,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 1024
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 1024,
+              "kernels": 17,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 1024
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 65536,
+              "kernels": 2,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 8226
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 65536,
+              "kernels": 3,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 22189
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 65536,
+              "kernels": 8,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 59566
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 65536,
+              "kernels": 17,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 65398
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 262144,
+              "kernels": 2,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 14449
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 262144,
+              "kernels": 3,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 47269
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 262144,
+              "kernels": 8,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 157207
+              }
+            },
+            {
+              "alternating_modules": false,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 262144,
+              "kernels": 17,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 234933
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 1024,
+              "kernels": 2,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 551
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 1024,
+              "kernels": 3,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 1024
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 1024,
+              "kernels": 8,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 1024
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 1024,
+              "kernels": 17,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 1024
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 65536,
+              "kernels": 2,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 9109
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 65536,
+              "kernels": 3,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 25850
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 65536,
+              "kernels": 8,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 60467
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 65536,
+              "kernels": 17,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 65381
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 262144,
+              "kernels": 2,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 22601
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 262144,
+              "kernels": 3,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 51085
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 262144,
+              "kernels": 8,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 170924
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 262144,
+              "kernels": 17,
+              "mixed_block_sizes": false,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 241896
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 1024,
+              "kernels": 2,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 399
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 1024,
+              "kernels": 3,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 1024
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 1024,
+              "kernels": 8,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 1024
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 1024,
+              "kernels": 17,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 1024
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 65536,
+              "kernels": 2,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 8248
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 65536,
+              "kernels": 3,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 22040
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 65536,
+              "kernels": 8,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 59776
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 65536,
+              "kernels": 17,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 65416
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 262144,
+              "kernels": 2,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0
+                ],
+                "mismatched_elements": 13911
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 262144,
+              "kernels": 3,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 47275
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 262144,
+              "kernels": 8,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 156035
+              }
+            },
+            {
+              "alternating_modules": true,
+              "batched": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "elements": 262144,
+              "kernels": 17,
+              "mixed_block_sizes": true,
+              "serial_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 0
+              },
+              "serial_without_barriers": {
+                "gpu_completed": true,
+                "launch_statuses": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "mismatched_elements": 235301
+              }
+            }
+          ],
+          "complete": true,
+          "distinct_function_handles": true,
+          "distinct_module_handles": true,
+          "function_status": [
+            0,
+            0
+          ],
+          "module_status": 0,
+          "native_kernels_modified": false,
+          "original_workload_only": true,
+          "overlap": [
+            {
+              "deadline_cycles": 4000000,
+              "gpu_completed": true,
+              "iteration": 0,
+              "launch_statuses": [
+                0,
+                0,
+                0
+              ],
+              "mode": "serial_barriers",
+              "producer_observed_before_deadline": false
+            },
+            {
+              "deadline_cycles": 4000000,
+              "gpu_completed": true,
+              "iteration": 0,
+              "launch_statuses": [
+                0,
+                0,
+                0
+              ],
+              "mode": "serial_without_barriers",
+              "producer_observed_before_deadline": true
+            },
+            {
+              "deadline_cycles": 4000000,
+              "gpu_completed": true,
+              "iteration": 0,
+              "launch_statuses": [
+                0,
+                0
+              ],
+              "mode": "batched",
+              "producer_observed_before_deadline": false
+            },
+            {
+              "deadline_cycles": 4000000,
+              "gpu_completed": true,
+              "iteration": 1,
+              "launch_statuses": [
+                0,
+                0,
+                0
+              ],
+              "mode": "serial_barriers",
+              "producer_observed_before_deadline": false
+            },
+            {
+              "deadline_cycles": 4000000,
+              "gpu_completed": true,
+              "iteration": 1,
+              "launch_statuses": [
+                0,
+                0,
+                0
+              ],
+              "mode": "serial_without_barriers",
+              "producer_observed_before_deadline": true
+            },
+            {
+              "deadline_cycles": 4000000,
+              "gpu_completed": true,
+              "iteration": 1,
+              "launch_statuses": [
+                0,
+                0
+              ],
+              "mode": "batched",
+              "producer_observed_before_deadline": false
+            },
+            {
+              "deadline_cycles": 4000000,
+              "gpu_completed": true,
+              "iteration": 2,
+              "launch_statuses": [
+                0,
+                0,
+                0
+              ],
+              "mode": "serial_barriers",
+              "producer_observed_before_deadline": false
+            },
+            {
+              "deadline_cycles": 4000000,
+              "gpu_completed": true,
+              "iteration": 2,
+              "launch_statuses": [
+                0,
+                0,
+                0
+              ],
+              "mode": "serial_without_barriers",
+              "producer_observed_before_deadline": true
+            },
+            {
+              "deadline_cycles": 4000000,
+              "gpu_completed": true,
+              "iteration": 2,
+              "launch_statuses": [
+                0,
+                0
+              ],
+              "mode": "batched",
+              "producer_observed_before_deadline": false
+            },
+            {
+              "deadline_cycles": 4000000,
+              "gpu_completed": true,
+              "iteration": 3,
+              "launch_statuses": [
+                0,
+                0,
+                0
+              ],
+              "mode": "serial_barriers",
+              "producer_observed_before_deadline": false
+            },
+            {
+              "deadline_cycles": 4000000,
+              "gpu_completed": true,
+              "iteration": 3,
+              "launch_statuses": [
+                0,
+                0,
+                0
+              ],
+              "mode": "serial_without_barriers",
+              "producer_observed_before_deadline": true
+            },
+            {
+              "deadline_cycles": 4000000,
+              "gpu_completed": true,
+              "iteration": 3,
+              "launch_statuses": [
+                0,
+                0
+              ],
+              "mode": "batched",
+              "producer_observed_before_deadline": false
+            },
+            {
+              "deadline_cycles": 4000000,
+              "gpu_completed": true,
+              "iteration": 4,
+              "launch_statuses": [
+                0,
+                0,
+                0
+              ],
+              "mode": "serial_barriers",
+              "producer_observed_before_deadline": false
+            },
+            {
+              "deadline_cycles": 4000000,
+              "gpu_completed": true,
+              "iteration": 4,
+              "launch_statuses": [
+                0,
+                0,
+                0
+              ],
+              "mode": "serial_without_barriers",
+              "producer_observed_before_deadline": true
+            },
+            {
+              "deadline_cycles": 4000000,
+              "gpu_completed": true,
+              "iteration": 4,
+              "launch_statuses": [
+                0,
+                0
+              ],
+              "mode": "batched",
+              "producer_observed_before_deadline": false
+            },
+            {
+              "deadline_cycles": 4000000,
+              "gpu_completed": true,
+              "iteration": 5,
+              "launch_statuses": [
+                0,
+                0,
+                0
+              ],
+              "mode": "serial_barriers",
+              "producer_observed_before_deadline": false
+            },
+            {
+              "deadline_cycles": 4000000,
+              "gpu_completed": true,
+              "iteration": 5,
+              "launch_statuses": [
+                0,
+                0,
+                0
+              ],
+              "mode": "serial_without_barriers",
+              "producer_observed_before_deadline": true
+            },
+            {
+              "deadline_cycles": 4000000,
+              "gpu_completed": true,
+              "iteration": 5,
+              "launch_statuses": [
+                0,
+                0
+              ],
+              "mode": "batched",
+              "producer_observed_before_deadline": false
+            },
+            {
+              "deadline_cycles": 4000000,
+              "gpu_completed": true,
+              "iteration": 6,
+              "launch_statuses": [
+                0,
+                0,
+                0
+              ],
+              "mode": "serial_barriers",
+              "producer_observed_before_deadline": false
+            },
+            {
+              "deadline_cycles": 4000000,
+              "gpu_completed": true,
+              "iteration": 6,
+              "launch_statuses": [
+                0,
+                0,
+                0
+              ],
+              "mode": "serial_without_barriers",
+              "producer_observed_before_deadline": true
+            },
+            {
+              "deadline_cycles": 4000000,
+              "gpu_completed": true,
+              "iteration": 6,
+              "launch_statuses": [
+                0,
+                0
+              ],
+              "mode": "batched",
+              "producer_observed_before_deadline": false
+            },
+            {
+              "deadline_cycles": 4000000,
+              "gpu_completed": true,
+              "iteration": 7,
+              "launch_statuses": [
+                0,
+                0,
+                0
+              ],
+              "mode": "serial_barriers",
+              "producer_observed_before_deadline": false
+            },
+            {
+              "deadline_cycles": 4000000,
+              "gpu_completed": true,
+              "iteration": 7,
+              "launch_statuses": [
+                0,
+                0,
+                0
+              ],
+              "mode": "serial_without_barriers",
+              "producer_observed_before_deadline": true
+            },
+            {
+              "deadline_cycles": 4000000,
+              "gpu_completed": true,
+              "iteration": 7,
+              "launch_statuses": [
+                0,
+                0
+              ],
+              "mode": "batched",
+              "producer_observed_before_deadline": false
+            },
+            {
+              "deadline_cycles": 4000000,
+              "gpu_completed": true,
+              "iteration": 8,
+              "launch_statuses": [
+                0,
+                0,
+                0
+              ],
+              "mode": "serial_barriers",
+              "producer_observed_before_deadline": false
+            },
+            {
+              "deadline_cycles": 4000000,
+              "gpu_completed": true,
+              "iteration": 8,
+              "launch_statuses": [
+                0,
+                0,
+                0
+              ],
+              "mode": "serial_without_barriers",
+              "producer_observed_before_deadline": true
+            },
+            {
+              "deadline_cycles": 4000000,
+              "gpu_completed": true,
+              "iteration": 8,
+              "launch_statuses": [
+                0,
+                0
+              ],
+              "mode": "batched",
+              "producer_observed_before_deadline": false
+            },
+            {
+              "deadline_cycles": 4000000,
+              "gpu_completed": true,
+              "iteration": 9,
+              "launch_statuses": [
+                0,
+                0,
+                0
+              ],
+              "mode": "serial_barriers",
+              "producer_observed_before_deadline": false
+            },
+            {
+              "deadline_cycles": 4000000,
+              "gpu_completed": true,
+              "iteration": 9,
+              "launch_statuses": [
+                0,
+                0,
+                0
+              ],
+              "mode": "serial_without_barriers",
+              "producer_observed_before_deadline": true
+            },
+            {
+              "deadline_cycles": 4000000,
+              "gpu_completed": true,
+              "iteration": 9,
+              "launch_statuses": [
+                0,
+                0
+              ],
+              "mode": "batched",
+              "producer_observed_before_deadline": false
+            }
+          ],
+          "quality_gate_passed": false,
+          "schema": 1,
+          "second_module_status": [
+            0,
+            0,
+            0
+          ],
+          "stress_workload": true,
+          "target_achieved": false
+        },
+        "target_achieved": false,
+        "quality_gate_passed": false,
+        "native_runtime_accelerated": false,
+        "new_sample_launches": 1,
+        "new_game_launches": 0,
+        "runtime_sha256": {
+          "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+          "dxgi.dll": "cf92d833f222e86b09a0353c68d8c1a3f6836d36631cb40e546151ef2d8b2ad0",
+          "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+        },
+        "cubin_sha256": "393b4570ef94e52761f8c11d03c0f77628a8af1486cb55cc043dd97788d89ffd",
+        "inactive_desktop_observations": 5,
+        "all_demo_windows_hidden_and_off_input_desktop": true,
+        "normal_dll_ini_restored": true,
+        "scope": "Original integer kernels on fresh private buffers. No native model kernels are changed; finite tests cannot establish universal NVAPI ordering guarantees."
+      }
+    }
+  ],
+  "bounded_overlap_summary": {
+    "serial_barriers": {
+      "trials": 10,
+      "producer_observed_before_deadline": 0
+    },
+    "serial_without_barriers": {
+      "trials": 10,
+      "producer_observed_before_deadline": 10
+    },
+    "batched": {
+      "trials": 10,
+      "producer_observed_before_deadline": 0
+    }
+  },
+  "static_sync_inspection": {
+    "complete": true,
+    "native_files_modified": false,
+    "target_achieved": false,
+    "quality_gate_passed": false,
+    "cubin_sha256": "676d04897fe88e3b21f766b89da72b85f468fa414835b02a8d9215aaa4fb3b1e",
+    "nvdisasm_sha256": "f0ab98df225b9f2568e8f56c24a919a4e1362425fb7c02101afbf85022324add",
+    "kernels": [
+      {
+        "name": "cc_tinlayout_fused_pre_block_swin_1h_32_1_ds_fp8",
+        "symbol_index": 124,
+        "kernel_bytes": 59648,
+        "instruction_count": 3728,
+        "instruction_families": {
+          "BAR": 3,
+          "BRA": 30,
+          "BSSY": 11,
+          "BSYNC": 11,
+          "CALL": 1,
+          "DEPBAR": 4,
+          "EXIT": 7,
+          "F2F": 4,
+          "F2FP": 451,
+          "F2I": 8,
+          "FADD": 39,
+          "FFMA": 42,
+          "FMNMX": 13,
+          "FMUL": 66,
+          "FRND": 2,
+          "FSEL": 16,
+          "FSETP": 11,
+          "HADD2": 193,
+          "HFMA2": 352,
+          "HMMA": 16,
+          "HMNMX2": 402,
+          "HMUL2": 396,
+          "I2F": 8,
+          "I2FP": 8,
+          "IABS": 9,
+          "IADD3": 69,
+          "IMAD": 357,
+          "IMNMX": 6,
+          "ISETP": 119,
+          "LDG": 53,
+          "LDS": 16,
+          "LEA": 134,
+          "LOP3": 82,
+          "MOVM": 32,
+          "MUFU": 60,
+          "NOP": 10,
+          "P2R": 1,
+          "PLOP3": 12,
+          "PRMT": 66,
+          "QMMA": 256,
+          "S2R": 12,
+          "S2UR": 1,
+          "SEL": 111,
+          "SHF": 47,
+          "SHFL": 80,
+          "STG": 68,
+          "STS": 2,
+          "TEX": 13,
+          "UIADD3": 1,
+          "UIMAD": 2,
+          "UISETP": 2,
+          "ULDC": 6,
+          "ULEA": 2,
+          "ULOP3": 1,
+          "UMOV": 1,
+          "USEL": 2,
+          "USHF": 1
+        },
+        "bounded_span_polling_back_edges": [],
+        "strong_gpu_stores": 0,
+        "disassembler_diagnostics": "nvdisasm warning : Disassembling Std Elf to Old format or Old Elf to Std format not supported yet, switching to Std format\r\nnvdisasm warning : Dataflow analysis disabled due to previous warnings\r\n"
+      },
+      {
+        "name": "cc_tinlayout_fused_swin_1h_32_1_inpview_tilesync_fp8",
+        "symbol_index": 96,
+        "kernel_bytes": 45056,
+        "instruction_count": 2816,
+        "instruction_families": {
+          "BAR": 1,
+          "BRA": 5,
+          "CS2R": 4,
+          "ERRBAR": 1,
+          "EXIT": 2,
+          "F2FP": 435,
+          "HADD2": 164,
+          "HFMA2": 352,
+          "HMNMX2": 402,
+          "HMUL2": 384,
+          "IADD3": 18,
+          "IMAD": 128,
+          "ISETP": 57,
+          "LDG": 67,
+          "LEA": 81,
+          "LOP3": 88,
+          "MEMBAR": 1,
+          "MOVM": 32,
+          "MUFU": 36,
+          "NOP": 13,
+          "P2R": 10,
+          "PLOP3": 52,
+          "PRMT": 43,
+          "QMMA": 256,
+          "S2R": 5,
+          "S2UR": 2,
+          "SEL": 54,
+          "SHF": 9,
+          "SHFL": 48,
+          "STG": 5,
+          "UIADD3": 11,
+          "UIMAD": 6,
+          "UISETP": 10,
+          "ULDC": 6,
+          "ULEA": 8,
+          "UMOV": 3,
+          "UPLOP3": 4,
+          "USEL": 1,
+          "USHF": 12
+        },
+        "bounded_span_polling_back_edges": [],
+        "strong_gpu_stores": 1,
+        "disassembler_diagnostics": "nvdisasm warning : Disassembling Std Elf to Old format or Old Elf to Std format not supported yet, switching to Std format\r\nnvdisasm warning : Dataflow analysis disabled due to previous warnings\r\n"
+      },
+      {
+        "name": "cc_tinlayout_fused_swin_1h_32_1_chained_fp8",
+        "symbol_index": 106,
+        "kernel_bytes": 42880,
+        "instruction_count": 2680,
+        "instruction_families": {
+          "BAR": 2,
+          "BRA": 11,
+          "BSSY": 1,
+          "BSYNC": 1,
+          "ERRBAR": 1,
+          "EXIT": 2,
+          "F2FP": 439,
+          "HADD2": 164,
+          "HFMA2": 352,
+          "HMNMX2": 402,
+          "HMUL2": 384,
+          "IADD3": 7,
+          "IMAD": 74,
+          "IMNMX": 3,
+          "ISETP": 6,
+          "LDG": 57,
+          "LEA": 78,
+          "LOP3": 18,
+          "MEMBAR": 1,
+          "MOVM": 32,
+          "MUFU": 36,
+          "NANOSLEEP": 1,
+          "NOP": 15,
+          "PLOP3": 8,
+          "PRMT": 43,
+          "QMMA": 256,
+          "R2UR": 4,
+          "S2R": 8,
+          "S2UR": 4,
+          "SEL": 32,
+          "SHF": 10,
+          "SHFL": 48,
+          "STG": 5,
+          "UIADD3": 25,
+          "UIMAD": 14,
+          "UISETP": 34,
+          "ULDC": 11,
+          "ULEA": 16,
+          "ULOP3": 2,
+          "UMOV": 10,
+          "UP2UR": 2,
+          "UPLOP3": 20,
+          "UPRMT": 4,
+          "USEL": 13,
+          "USHF": 22,
+          "WARPSYNC": 1,
+          "YIELD": 1
+        },
+        "bounded_span_polling_back_edges": [
+          {
+            "instruction_span": 4,
+            "global_loads": 1,
+            "strong_gpu_loads": 1,
+            "sleep_instructions": 1
+          },
+          {
+            "instruction_span": 14,
+            "global_loads": 2,
+            "strong_gpu_loads": 2,
+            "sleep_instructions": 1
+          },
+          {
+            "instruction_span": 21,
+            "global_loads": 2,
+            "strong_gpu_loads": 2,
+            "sleep_instructions": 1
+          }
+        ],
+        "strong_gpu_stores": 1,
+        "disassembler_diagnostics": "nvdisasm warning : Disassembling Std Elf to Old format or Old Elf to Std format not supported yet, switching to Std format\r\nnvdisasm warning : Dataflow analysis disabled due to previous warnings\r\n"
+      },
+      {
+        "name": "cc_tinlayout_fused_swin_1h_32_1_ds_wait_fp8",
+        "symbol_index": 94,
+        "kernel_bytes": 57088,
+        "instruction_count": 3568,
+        "instruction_families": {
+          "BAR": 2,
+          "BRA": 30,
+          "BSSY": 11,
+          "BSYNC": 11,
+          "EXIT": 7,
+          "F2FP": 463,
+          "F2I": 8,
+          "HADD2": 188,
+          "HFMA2": 352,
+          "HMNMX2": 402,
+          "HMUL2": 392,
+          "I2F": 8,
+          "IABS": 9,
+          "IADD3": 85,
+          "IMAD": 297,
+          "IMNMX": 6,
+          "ISETP": 98,
+          "LDG": 61,
+          "LEA": 121,
+          "LOP3": 61,
+          "MOVM": 32,
+          "MUFU": 44,
+          "NANOSLEEP": 1,
+          "NOP": 10,
+          "PLOP3": 20,
+          "PRMT": 47,
+          "QMMA": 264,
+          "R2UR": 4,
+          "S2R": 8,
+          "S2UR": 6,
+          "SEL": 109,
+          "SHF": 26,
+          "SHFL": 80,
+          "STG": 72,
+          "UIADD3": 30,
+          "UIMAD": 19,
+          "UISETP": 44,
+          "ULDC": 21,
+          "ULEA": 25,
+          "ULOP3": 3,
+          "UMOV": 15,
+          "UP2UR": 2,
+          "UPLOP3": 21,
+          "UPRMT": 4,
+          "USEL": 17,
+          "USHF": 30,
+          "WARPSYNC": 1,
+          "YIELD": 1
+        },
+        "bounded_span_polling_back_edges": [
+          {
+            "instruction_span": 4,
+            "global_loads": 1,
+            "strong_gpu_loads": 1,
+            "sleep_instructions": 1
+          },
+          {
+            "instruction_span": 14,
+            "global_loads": 2,
+            "strong_gpu_loads": 2,
+            "sleep_instructions": 1
+          },
+          {
+            "instruction_span": 21,
+            "global_loads": 2,
+            "strong_gpu_loads": 2,
+            "sleep_instructions": 1
+          }
+        ],
+        "strong_gpu_stores": 0,
+        "disassembler_diagnostics": "nvdisasm warning : Disassembling Std Elf to Old format or Old Elf to Std format not supported yet, switching to Std format\r\nnvdisasm warning : Dataflow analysis disabled due to previous warnings\r\n"
+      }
+    ],
+    "scope": "Static polling-loop evidence only. No source operands, instruction encodings, addresses, images or weights are published; no producer/consumer dependency-cycle proof."
+  },
+  "limitations": [
+    "API success and CPU recording completion do not prove GPU completion.",
+    "Finite original integer tests are not a native-kernel scheduling guarantee.",
+    "Native polling loops and the bounded overlap experiment can support a scheduling hypothesis, but do not prove the exact native dependency cycle.",
+    "Unwrapped resolved APIs, device/resource operations and internal driver behavior remain outside complete coverage.",
+    "No neural model weights, arithmetic, game installation or driver settings were modified."
+  ],
+  "builds": {
+    "batch-probe": {
+      "complete": true,
+      "dll_sha256": "3af54061f8cbdbbf3cb49d910b5f3c2008f60f6b91b54a7a0df5f846f399af6f",
+      "patch_lf_sha256": "6258f040d44bcc7a82674c5c418ab3880d0fd12efa3e4d1ce34daf9a52ddc713",
+      "batch_header_sha256": "a35901e4a02b70079d1f736590ac621de766fd207eaf408a7b656dea16a8096e"
+    },
+    "api-probe": {
+      "complete": true,
+      "dll_sha256": "b30184da093ff151278f0b33a321e67893abee0d3e629fe34ec384d2ee14213d",
+      "patch_lf_sha256": "bd60ca15e97bab64139e7bf1896316888a34944a02e29736f4724fc54673dad3",
+      "api_header_sha256": "ea152d2d6f276f5df0fad7f8a26da92bbaa294442f23a916558fad3da1d1c545"
+    },
+    "chain-stress": {
+      "complete": true,
+      "dll_sha256": "fba9fe04861252651baa1928d6e3938f00e4005bcba79f011d225e6eaba714ab",
+      "patch_lf_sha256": "82a4983f9f2fecb80586c22adc3625938be1725adc1ec56c4799c1906add436b",
+      "selftest_header_sha256": "1381014df9d283af2a048b2d7c6a95cdd2c2d9aed521a6cd14738fee23030bed"
+    },
+    "chain-overlap": {
+      "complete": true,
+      "dll_sha256": "cf92d833f222e86b09a0353c68d8c1a3f6836d36631cb40e546151ef2d8b2ad0",
+      "patch_lf_sha256": "82a4983f9f2fecb80586c22adc3625938be1725adc1ec56c4799c1906add436b",
+      "selftest_header_sha256": "d5799c5dbf82b9553951e065f68ea43e253f0d1247631aad86385bcd14e4867b"
+    }
+  },
+  "original_workload_compilation": {
+    "stress": {
+      "complete": true,
+      "source_sha256": "6a0b4d8bb3b5f799867e0162ff9f7387cb028e0d3a3504f0852743698c3598c7",
+      "cubin_sha256": "e0692e23ece67fe4408f98f0fb2cbfd99ca4aa7e94eb7a7b3d9871184f7fa648",
+      "cubin_bytes": 5408,
+      "options": [
+        "--gpu-architecture=sm_89",
+        "--std=c++17",
+        "--fmad=false"
+      ],
+      "gpu_execution": false,
+      "original_workload_only": true,
+      "stress": true
+    },
+    "overlap": {
+      "complete": true,
+      "source_sha256": "69f3e4db146b575b3165d787e506c855bb894bb623604a106638b961c3c7e287",
+      "cubin_sha256": "393b4570ef94e52761f8c11d03c0f77628a8af1486cb55cc043dd97788d89ffd",
+      "cubin_bytes": 10528,
+      "options": [
+        "--gpu-architecture=sm_89",
+        "--std=c++17",
+        "--fmad=false"
+      ],
+      "gpu_execution": false,
+      "original_workload_only": true,
+      "stress": true,
+      "overlap": true,
+      "input_sha256": {
+        "chain_order_stress.cu": "6a0b4d8bb3b5f799867e0162ff9f7387cb028e0d3a3504f0852743698c3598c7",
+        "chain_overlap_test.cu": "5df13ab9579279bcd221273b289ba131d329a5de53a387b7de49c1d279334341"
+      }
+    }
+  },
+  "source_git_lf_sha256": {
+    "research/neural-latency/DlssNr_DemoBatch.h": "a35901e4a02b70079d1f736590ac621de766fd207eaf408a7b656dea16a8096e",
+    "research/neural-latency/DlssNr_DemoApiProbe.h": "ea152d2d6f276f5df0fad7f8a26da92bbaa294442f23a916558fad3da1d1c545",
+    "research/neural-latency/DlssNr_DemoChainSelftest.h": "1381014df9d283af2a048b2d7c6a95cdd2c2d9aed521a6cd14738fee23030bed",
+    "research/neural-latency/DlssNr_DemoChainOverlap.h": "d8baeb8548ed09cc4bf32cab4251f852fe071853ab7a31cd6838a1296e3e7901",
+    "research/neural-latency/optiscaler-demo-batch.patch": "6258f040d44bcc7a82674c5c418ab3880d0fd12efa3e4d1ce34daf9a52ddc713",
+    "research/neural-latency/optiscaler-demo-api-probe.patch": "bd60ca15e97bab64139e7bf1896316888a34944a02e29736f4724fc54673dad3",
+    "research/neural-latency/optiscaler-demo-chain-overlap.patch": "788426c7896631c67505c6fb855ddc91a8a52a66d77816d74dd0591dd4a8539e",
+    "research/neural-latency/optiscaler-demo-chain-selftest.patch": "82a4983f9f2fecb80586c22adc3625938be1725adc1ec56c4799c1906add436b",
+    "research/neural-latency/chain_order_test.cu": "0283b49f205780d80a5cc0ece53da3d7f83c33ae288c7b074704d0244a3e5f80",
+    "research/neural-latency/chain_order_stress.cu": "6a0b4d8bb3b5f799867e0162ff9f7387cb028e0d3a3504f0852743698c3598c7",
+    "research/neural-latency/chain_overlap_test.cu": "5df13ab9579279bcd221273b289ba131d329a5de53a387b7de49c1d279334341",
+    "research/neural-latency/compile_chain_order_test.py": "3489026afdaa066848c6d4735a9c1ce6e542e2a07235ea04003ad73793f436c7",
+    "research/neural-latency/run_chain_selftest.py": "0d0b6bdadcbae662c32b8db749813a5676f87ab614aad190e9bce67f64d39605",
+    "research/neural-latency/analyze_native_batch.py": "2064c6c9049f38db1a33ea3cfb29d615a4dc787bf53d02b0b1c1e9843d47331c",
+    "research/neural-latency/inspect_native_sync.py": "4cfc8ce992cc44989bd8b67b01817aa781fa3eced4c6baebc895c98d6b21fc44",
+    "research/neural-latency/inspect_pre_kernel.py": "37932169a82f24dac23fb2c9d0b0f865ad329e9a770a51f2a929cce9c3528dc3",
+    "research/neural-latency/collect_native_input_replay.py": "6790002e2203b36ad7121344abcdff8ed4edd163aa579383a730a8c5a885a173",
+    "research/neural-latency/DlssNr_DemoCommandProbe.h": "92c2bed54554d44552d4b73f6c4a5b8c3becb70ea7a6a21702d548c2b5d618e7",
+    "research/neural-latency/DlssNr_DemoInputReplay.h": "aa2e0a3aff5b702394117f2e83768be5c8762ca6c1dabaa03f885259aeb8f3d4",
+    "research/neural-latency/optiscaler-demo-command-probe.patch": "4f0bb7cae8087d639190beb56fd41544b6a50ea66d2296781d91c5aa6503be31",
+    "research/neural-latency/optiscaler-demo-input-replay.patch": "b5947b5930531f74ac0ccedf8a1a7d84c7fc5f4445507bf21fc4cebf56957e54",
+    "research/neural-latency/optiscaler-demo-launch-order.patch": "5c074ba8039c836e1dd1276575b525ac2733d55950d02013327e2a9204107a5e",
+    "research/neural-latency/optiscaler-demo-pre-tensor.patch": "f551029757098831a716c74e0167b618f3d1f100721e7d55023eb5889b5de926",
+    "tools/run_neural_demo_trial.py": "89843898caca25b0e9e8d5833efd75bb051e0df803a446778d886fb0bddebc34",
+    "tools/isolated_demo_process.py": "0ac8fc90b6cce4fd9da87fdb77675456a67bb293b306326ba6a3e1101f9c9f6e"
+  },
+  "normal_state": {
+    "game_dxgi": "b3b0857a6d94e4745b42f2bb3beb747c527548ceec0abff11afecf89a1f6a590",
+    "game_ini": "213fd3f55423a12c075a9d96c2f87df3ea86c3971e135aa89eab1ff9b6a34fa6",
+    "game_nr": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927",
+    "demo_dxgi": "b3b0857a6d94e4745b42f2bb3beb747c527548ceec0abff11afecf89a1f6a590",
+    "demo_nr": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927",
+    "demo_hidden_exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+    "demo_scene": "389da6d234662bb88714b4240384ce63739ff06c7e75ff6014fcd2bab574f547",
+    "demo_ini": "8ac6219a0f4090297a87cc753aa3efee6b4c87111dffed5d9d314fb73ebffc62",
+    "normal_native_sources_unchanged": true,
+    "no_active_research_markers": true,
+    "captures_archived": true,
+    "no_staged_image_assets": true
+  },
+  "successful_trial_proofs": {
+    "native-batch-replay-original": {
+      "inactive_desktop_observations": 5,
+      "all_windows_hidden": true,
+      "runtime_sha256": {
+        "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+        "dxgi.dll": "3af54061f8cbdbbf3cb49d910b5f3c2008f60f6b91b54a7a0df5f846f399af6f",
+        "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+      }
+    },
+    "native-api-observer-original": {
+      "inactive_desktop_observations": 5,
+      "all_windows_hidden": true,
+      "runtime_sha256": {
+        "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+        "dxgi.dll": "b30184da093ff151278f0b33a321e67893abee0d3e629fe34ec384d2ee14213d",
+        "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+      }
+    },
+    "native-chain-stress": {
+      "inactive_desktop_observations": 5,
+      "all_windows_hidden": true,
+      "runtime_sha256": {
+        "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+        "dxgi.dll": "fba9fe04861252651baa1928d6e3938f00e4005bcba79f011d225e6eaba714ab",
+        "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+      }
+    },
+    "native-chain-overlap": {
+      "inactive_desktop_observations": 5,
+      "all_windows_hidden": true,
+      "runtime_sha256": {
+        "ngx_dlss_demo.exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+        "dxgi.dll": "cf92d833f222e86b09a0353c68d8c1a3f6836d36631cb40e546151ef2d8b2ad0",
+        "nvngx_dlssnr.dll": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927"
+      }
+    }
+  },
+  "restoration_helper_tests": [
+    {
+      "injected_failures": 0,
+      "error_type": "PermissionError",
+      "write_attempts": 2,
+      "retry_delays": 0,
+      "raised": null,
+      "written_files": [
+        "OptiScaler.ini",
+        "dxgi.dll"
+      ]
+    },
+    {
+      "injected_failures": 3,
+      "error_type": "PermissionError",
+      "write_attempts": 5,
+      "retry_delays": 3,
+      "raised": null,
+      "written_files": [
+        "OptiScaler.ini",
+        "dxgi.dll"
+      ]
+    },
+    {
+      "injected_failures": 41,
+      "error_type": "PermissionError",
+      "write_attempts": 41,
+      "retry_delays": 40,
+      "raised": "PermissionError",
+      "written_files": []
+    },
+    {
+      "injected_failures": 1,
+      "error_type": "OSError",
+      "write_attempts": 1,
+      "retry_delays": 0,
+      "raised": "OSError",
+      "written_files": []
+    }
+  ],
+  "all_overlay_patches_apply": true,
+  "failed_trial_monitor_note": "The exact hidden EXE/private-desktop runner was used, but enumeration failed after GPU errors; no completed monitoring result or GPU image is asserted for that trial."
+}

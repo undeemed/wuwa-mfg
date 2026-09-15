@@ -27,6 +27,7 @@ struct State
     HANDLE event=nullptr;
     UINT64 fenceValue=0;
     NVDX_ObjectHandle module{},fill{},mix{};
+    NVDX_ObjectHandle secondModule{},secondFill{},secondMix{};
     std::vector<unsigned char> cubin;
 };
 // Retain resources/module/arguments until process exit, including timeout paths.
@@ -42,9 +43,11 @@ inline void Run(ID3D12GraphicsCommandList* parent,
     if(attempted || directory.empty() || !createModule || !createFunction || !launch ||
        !std::filesystem::exists(directory/L"nr-chain-selftest.enable"))return;
     attempted=true;
+    const bool stress=std::filesystem::exists(directory/L"nr-chain-stress.enable");
     nlohmann::json report={{"schema",1},{"complete",false},{"original_workload_only",true},
         {"native_kernels_modified",false},{"target_achieved",false},{"quality_gate_passed",false},
         {"cases",nlohmann::json::array()}};
+    report["stress_workload"]=stress;
     const auto output=directory/L"nr-chain-selftest.json";
     if(std::filesystem::exists(output))return;
     const auto save=[&]() {std::ofstream file(output);file<<report.dump(2)<<'\n';};
@@ -57,7 +60,7 @@ inline void Run(ID3D12GraphicsCommandList* parent,
         state=new State;
         const auto cubinPath=directory/L"nr-chain-selftest.cubin";
         const auto bytes=std::filesystem::file_size(cubinPath);
-        require(bytes==4456,"unexpected original test cubin size");
+        require(stress?(bytes>0 && bytes<1024*1024):bytes==4456,"unexpected original test cubin size");
         state->cubin.resize(size_t(bytes));std::ifstream blob(cubinPath,std::ios::binary);
         require(bool(blob.read(reinterpret_cast<char*>(state->cubin.data()),bytes)),"read test cubin");
         require(SUCCEEDED(parent->GetDevice(IID_PPV_ARGS(&state->device))),"GetDevice");
@@ -66,6 +69,16 @@ inline void Run(ID3D12GraphicsCommandList* parent,
         const auto fillStatus=createFunction(state->device.Get(),state->module,"chain_fill",&state->fill);
         const auto mixStatus=createFunction(state->device.Get(),state->module,"chain_mix",&state->mix);
         report["function_status"]={fillStatus,mixStatus};require(fillStatus==NVAPI_OK && mixStatus==NVAPI_OK,"CreateCuFunction");
+        if(stress)
+        {
+            const auto m=createModule(state->device.Get(),state->cubin.data(),NvU32(bytes),&state->secondModule);
+            require(m==NVAPI_OK,"second module");
+            const auto f=createFunction(state->device.Get(),state->secondModule,"chain_fill",&state->secondFill);
+            const auto x=createFunction(state->device.Get(),state->secondModule,"chain_mix",&state->secondMix);
+            report["second_module_status"]={m,f,x};require(f==NVAPI_OK && x==NVAPI_OK,"second functions");
+            report["distinct_module_handles"]=state->module!=state->secondModule;
+            report["distinct_function_handles"]=state->fill!=state->secondFill && state->mix!=state->secondMix;
+        }
         D3D12_COMMAND_QUEUE_DESC q{};q.Type=D3D12_COMMAND_LIST_TYPE_DIRECT;
         require(SUCCEEDED(state->device->CreateCommandQueue(&q,IID_PPV_ARGS(&state->queue))),"queue");
         require(SUCCEEDED(state->device->CreateCommandAllocator(q.Type,IID_PPV_ARGS(&state->allocator))),"allocator");
@@ -84,6 +97,8 @@ inline void Run(ID3D12GraphicsCommandList* parent,
                 type==D3D12_HEAP_TYPE_DEFAULT?D3D12_RESOURCE_STATE_UNORDERED_ACCESS:D3D12_RESOURCE_STATE_COPY_DEST,
                 nullptr,IID_PPV_ARGS(&result))),"buffer");
         };
+        for(unsigned modulePattern=0;modulePattern<(stress?2u:1u);++modulePattern)
+        for(unsigned layout=0;layout<(stress?2u:1u);++layout)
         for(unsigned count:{1024u,65536u,262144u})for(unsigned kernels:{2u,3u,8u,17u})
         {
             constexpr unsigned seed=74123;
@@ -95,8 +110,11 @@ inline void Run(ID3D12GraphicsCommandList* parent,
                 expected.swap(next);
             }
             nlohmann::json row={{"elements",count},{"kernels",kernels}};
-            for(bool batched:{false,true})
+            if(stress){row["alternating_modules"]=modulePattern!=0;row["mixed_block_sizes"]=layout!=0;}
+            for(unsigned modeIndex=0;modeIndex<3;++modeIndex)
             {
+                if(!stress && modeIndex==1)continue;
+                const bool batched=modeIndex==2;
                 // Fresh resources give both modes the same explicit initial
                 // states; no assumption about state decay between submissions.
                 buffer(D3D12_HEAP_TYPE_DEFAULT,state->a);buffer(D3D12_HEAP_TYPE_DEFAULT,state->b);buffer(D3D12_HEAP_TYPE_READBACK,state->readback);
@@ -109,6 +127,12 @@ inline void Run(ID3D12GraphicsCommandList* parent,
                 {
                     auto& arg=(*args)[i];auto& call=(*calls)[i];
                     call.hFunction=i?state->mix:state->fill;call.gridDim={(count+255)/256,1,1};call.blockDim={256,1,1};
+                    if(stress)
+                    {
+                        const unsigned block=layout?(64u<<(i%3)):256u;
+                        call.gridDim={(count+block-1)/block,1,1};call.blockDim={block,1,1};call.dynSharedMemBytes=block*4;
+                        if(modulePattern && i%2)call.hFunction=i?state->secondMix:state->secondFill;
+                    }
                     call.pParams=arg.data();call.paramSize=i?24:16;
                     if(!i){memcpy(arg.data(),&addressA,8);memcpy(arg.data()+8,&count,4);memcpy(arg.data()+12,&seed,4);}
                     else
@@ -122,9 +146,10 @@ inline void Run(ID3D12GraphicsCommandList* parent,
                 else for(unsigned i=0;i<kernels;++i)
                 {
                     statuses.push_back(launch(state->commands.Get(),calls->data()+i,1));
-                    D3D12_RESOURCE_BARRIER u{};u.Type=D3D12_RESOURCE_BARRIER_TYPE_UAV;state->commands->ResourceBarrier(1,&u);
+                    if(modeIndex==0)
+                    {D3D12_RESOURCE_BARRIER u{};u.Type=D3D12_RESOURCE_BARRIER_TYPE_UAV;state->commands->ResourceBarrier(1,&u);}
                 }
-                const char* mode=batched?"batched":"serial_barriers";row[mode]["launch_statuses"]=statuses;
+                const char* mode=batched?"batched":modeIndex==0?"serial_barriers":"serial_without_barriers";row[mode]["launch_statuses"]=statuses;
                 for(auto status:statuses)require(status==NVAPI_OK,"LaunchCuKernelChain");
                 auto* finalResource=kernels%2?state->a.Get():state->b.Get();
                 D3D12_RESOURCE_BARRIER barrier{};barrier.Type=D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
