@@ -5,11 +5,20 @@ target has not been achieved.** The current NVIDIA runtime remains about 5.4–6
 the separate NVIDIA DLSS Sample. None of the experiments below replaces the
 working WuWa installation or changes the installer defaults.
 
-Two routes are being investigated: execute the existing mathematics faster, and
-train a smaller network to reproduce its output. Reduced resolution, skipped
+Current work focuses on training a smaller model to reproduce the original
+output. Earlier kernel experiments remain documented below. Reduced resolution, skipped
 frames, weaker blending and a different visual style do not satisfy the target.
 
-The latest [native batching investigation](../research/neural-latency/README.md#rejected-native-batching-and-verified-overlap-differences)
+The latest [model experiment](../research/neural-latency/README.md#frozen-base-progressive-correction)
+kept the best student frozen and trained a second residual stage. Both stages
+together took **2.824 ms**, compared with **1.101 ms** for the first stage alone
+in the same paired test. Across 16 validation images, average RGB error improved
+only **0.23%**, six images regressed, and mean edge error increased. This candidate
+is rejected as a replacement: it spends most of the remaining time budget without
+closing the quality gap. These are full-1080p model graph timings, excluding
+D3D12 integration; they do not establish the 3 ms complete-pass target.
+
+The earlier [native batching investigation](../research/neural-latency/README.md#rejected-native-batching-and-verified-overlap-differences)
 rejected an eight-kernel batcher after GPU errors and no completed image readback.
 It preserved observed barriers and received successful API results, which proved
 insufficient. A bounded original producer/consumer test then showed an overlap
@@ -1202,6 +1211,8 @@ and hardware; none establishes the target for this runtime.
 | [SageAttention2++](https://arxiv.org/html/2505.21136v3) | Use faster FP8 matrix instructions with FP16 accumulators and manage numerical range. | The inspected native code already uses this instruction family. The paper supports investigating accumulation and data movement, but its speedup over another attention implementation cannot be applied to this renderer. Our direct-MMA result improves a numerical reference, not native latency. |
 | [SmoothQuant](https://proceedings.mlr.press/v202/xiao23c/xiao23c.pdf) | Calibrate activation/weight scaling before lower-precision execution. | This runtime already invokes FP8-named kernels. LLM INT8 results do not imply a further lossless gain, and calibration must include renderer activations and controls. |
 | [Knowledge distillation](https://arxiv.org/abs/1503.02531) | Train a smaller student against the larger model's behavior. | A renderer needs matched pixels, detail and temporal consistency, not just matching classification probabilities. A trustworthy teacher and held-out sequences are prerequisites. |
+| [MPRNet](https://arxiv.org/html/2102.02808v1) | Refine an image through supervised residual stages that retain access to the original input and exchange features. | Our frozen-base correction experiment tests a simpler cascade without cross-stage feature fusion; it is not MPRNet. The paper cautions that passing only the preceding output is insufficient. Its restoration results do not establish fidelity to this renderer. |
+| [Tiny Recursive Models](https://arxiv.org/html/2510.04871v1) | Revisit a predicted answer with a small network and retained latent state. | Puzzle accuracy and parameter efficiency do not imply low image-processing latency. Reviewed as motivation for refinement; no TRM or recursive inference implementation is included, and every additional pass must fit the full latency budget. |
 | [Gradient Surgery / PCGrad](https://arxiv.org/abs/2001.06782) | Adjust conflicting training gradients without adding inference work. | Our matched two-domain test improves scene error but worsens photo error. Negative alignment alone does not prove the paper's full conditions or guarantee renderer quality. |
 | [FiLM](https://arxiv.org/abs/1709.07871) | Condition feature channels using learned affine transformations. | Our image-conditioned decoder improves scene and older-photo errors but slightly worsens the newer-photo mean. Visual-reasoning performance does not establish native renderer quality. |
 | [Perceiver IO](https://arxiv.org/abs/2107.14795) | Exchange spatial information through a compact latent array and output queries. | Our small CNN branch improves newer-photo error but worsens the other groups. Its efficient attention interface does not establish equivalent renderer quality. |
@@ -1238,9 +1249,8 @@ kernel timings locate costs; final claims require an uninstrumented comparison
 in the existing hidden demo. A single isolated-kernel speedup or reduced network
 resolution cannot be reported as meeting 3 ms.
 
-Remaining work: extend matched captures to varied scenes and temporal sequences,
-resolve reconstruction differences, and build compatible fused attention and
-feed-forward operations. For model compression, train against actual vendor
+Remaining work: improve the student's fidelity and extend matched captures to
+varied scenes and temporal sequences. For model compression, train against actual vendor
 outputs and reserve separate sequences for validation. The smaller model must
 preserve fine detail and temporal stability, then meet the latency target in the
 existing hidden demo. There is currently no trained, validated replacement to

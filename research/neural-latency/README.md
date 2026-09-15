@@ -2939,3 +2939,87 @@ changes occurred. The kernel route must preserve concurrency as well as arithmet
 Generic batching is retired; native speed remains unaccelerated. The smaller
 models remain fast but below the required quality, so the full 1080p/3 ms target
 is still open.
+
+## Frozen-base progressive correction
+
+This model-only experiment is **rejected as a replacement**. It fits under 3 ms
+in an isolated model graph, but does not close the image-quality gap and leaves
+little time for application integration. No game, demo, native DLL, driver setting
+or existing kernel implementation was changed or launched for this experiment.
+
+`progressive_student.py` freezes the best brightness-trained student (254,672
+parameters). A new 255,440-parameter conditioned residual stage receives its
+ungraded RGB prediction and the original RGB input. Both inputs enter at
+1920×1080; a reversible 4× pixel rearrangement feeds a six-channel stem into the
+existing hierarchical architecture. The second stage predicts a residual on top
+of the first result, and the existing output grade is applied once at the end.
+This is not a reduced-resolution inference test.
+
+The new head starts at zero. Mechanical tests verify exact neutral output in
+FP32 and FP16, nonzero head gradients, no first-stage gradients or weight changes,
+strict checkpoint round trips, input guards and equivalence to the existing
+inference fusions. Training uses the same 62 audited images and excludes all 16
+validation identities. It adds 4,500 updates / 9,000 sampled examples using the
+existing paired-domain mean gradient, seed, optimizer schedule and RGB/edge loss.
+The first output is cached in FP32 only during fitting. Inference runs both
+networks on each input; it has no cached teacher pixels or first-stage outputs.
+The base already received its own training, so this is not an equal-total-training
+comparison against a model trained from scratch.
+
+| Measurement | Frozen first model | First model + correction |
+| --- | ---: | ---: |
+| Mean RGB error, all 16 validation images | 0.021956 | 0.021904 |
+| Mean RGB error, six scene images | 0.026068 | 0.025973 |
+| Mean RGB error, six earlier photos | 0.018731 | 0.018696 |
+| Mean RGB error, four diverse photos | 0.020624 | 0.020614 |
+| Mean edge error, all validation images | 0.007307 | 0.007326 |
+| Full-1080p model graph median | 1.101 ms | 2.824 ms |
+| p95 of ten-replay interval means | 1.152 ms | 2.857 ms |
+
+Ten images improve in RGB MAE and six regress. The overall MAE improvement is
+only 0.23%; mean edge error increases in every group. The evaluator reproduces
+all 16 previously saved first-model predictions exactly, then confirms both
+models' existing fused paths match their unfused outputs bitwise on all 16 inputs.
+Timing alternates 30 pairs after warmup and includes both models, intermediate
+concatenation and final grading. It excludes D3D12 integration, and the p95 is
+not a per-frame latency percentile. Validation images stayed out of training,
+but their historical scores influenced research choices; they are not a fresh
+final acceptance set. Motion and perceptual equivalence remain unvalidated.
+
+The training-only diagnostic reproduces all 62 fitted outputs exactly. All 122
+parameter tensors in the correction stage changed, and the 16 features entering
+its head retain spatial variation. Its average output adjustment is just
+0.000717 versus a remaining baseline RGB error of 0.023332. Average cosine
+alignment between its adjustment and the desired correction is 0.0459. Thus the
+network did learn an image-dependent correction, but that correction is small
+and weakly aligned with the remaining error. This does not prove an irreducible
+error floor or identify a unique optimization failure.
+
+The motivating [MPRNet paper](https://arxiv.org/html/2102.02808v1) uses original-input
+access, supervised stages and cross-stage features, and cautions against passing
+only the preceding prediction. This simpler experiment does not implement its
+attention, cross-stage feature fusion or training procedure. A possible next
+model experiment is to preserve useful intermediate features for correction;
+the paper does not guarantee that it will satisfy this renderer's quality target.
+[Tiny Recursive Models](https://arxiv.org/html/2510.04871v1) was also reviewed for
+iterative refinement with latent state. Its puzzle results do not imply renderer
+accuracy or latency, and no TRM implementation is claimed here.
+
+Run these tools sequentially with the game and demo closed. All output paths
+must be outside the public repository. The `--baseline` input is the earlier
+46-image conditioned model; `--first` is the best 62-image brightness model.
+The private research root supplied as `--lab` contains the original illumination
+audit and baseline records. Existing captures and manifests are required.
+
+```text
+test_progressive_student.py --first <private-first-model> --capture <training-capture> --output <fresh-private-tests.json>
+train_progressive_student.py --base <private-demo-root> --photos <photo-manifest> --images <diverse-manifest> --brightness <brightness-manifest> --baseline <private-46-image-model> --first <private-first-model> --output <fresh-private-candidate>
+evaluate_progressive_student.py --base <private-demo-root> --lab <private-research-root> --photos <photo-manifest> --images <diverse-manifest> --first <private-first-model> --candidate <private-candidate> --output <fresh-private-evaluation>
+analyze_progressive_student.py --base <private-demo-root> --photos <photo-manifest> --images <diverse-manifest> --brightness <brightness-manifest> --baseline <private-46-image-model> --first <private-first-model> --candidate <private-candidate> --output <fresh-private-diagnostic.json>
+```
+
+[Numeric evidence](../../evidence/neural-model-research/progressive-student.json)
+includes all image metrics, training history, mechanical checks, timing intervals,
+scalar diagnostics, source digests and preserved installation hashes. Captures,
+activation arrays and trained weights remain private. There is no accepted
+replacement or new installer option from this experiment.

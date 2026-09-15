@@ -1,0 +1,3452 @@
+{
+  "schema": 1,
+  "target_achieved": false,
+  "quality_gate_passed": false,
+  "candidate_installed": false,
+  "scope": "Model-only frozen-base correction experiment. No new kernel work or application launches.",
+  "research_sources": [
+    {
+      "url": "https://arxiv.org/html/2102.02808v1",
+      "use": "Motivates residual stages with original-input access; this implementation does not implement MPRNet, cross-stage feature fusion, or its reported results."
+    },
+    {
+      "url": "https://arxiv.org/html/2510.04871v1",
+      "use": "Reviewed iterative answer refinement with latent state; no recursive reasoning or TRM implementation is claimed."
+    }
+  ],
+  "mechanical_tests": {
+    "complete": true,
+    "target_achieved": false,
+    "quality_gate_passed": false,
+    "training_capture_hashes": {
+      "color": "2e44a6a5e2730c21f7f2b4610b0a3c0af6fc94e2f51601f2ab2fa3fa679cf7f6",
+      "output": "13668520132202f28b6b584aff445e6982d17ece0430c9c134b7c2ef85b68d2b"
+    },
+    "first_checkpoint_sha256": "5591e5ee782668956f8a99424e6e1c701951d10490d4e569038fb0d528913283",
+    "cases": [
+      {
+        "dtype": "torch.float32",
+        "neutral_output_exact": true,
+        "cached_output_exact": true
+      },
+      {
+        "dtype": "torch.float16",
+        "neutral_output_exact": true,
+        "cached_output_exact": true
+      }
+    ],
+    "first_stage_unchanged": true,
+    "first_stage_has_gradients": false,
+    "head_gradient_norm": 0.0017499035457149148,
+    "strict_roundtrip_exact": true,
+    "all_fusion_output_exact": true,
+    "rejected_inputs": [
+      "channels",
+      "shape",
+      "dtype"
+    ],
+    "scope": "One training image, two precisions and one disposable local step. No validation image or saved candidate used."
+  },
+  "training": {
+    "complete": true,
+    "target_achieved": false,
+    "quality_gate_passed": false,
+    "completed_steps": 4500,
+    "training_seconds": 220.44161989999702,
+    "native_shape": [
+      1080,
+      1920
+    ],
+    "controls": {
+      "DLSSNR.ColorSubrectBaseX": 0,
+      "DLSSNR.ColorSubrectBaseY": 0,
+      "DLSSNR.ColorSubrectHeight": 1080,
+      "DLSSNR.ColorSubrectWidth": 1920,
+      "DLSSNR.DepthInverted": 0,
+      "DLSSNR.DepthSubrectBaseX": 0,
+      "DLSSNR.DepthSubrectBaseY": 0,
+      "DLSSNR.DepthSubrectHeight": 540,
+      "DLSSNR.DepthSubrectWidth": 960,
+      "DLSSNR.Height": 1080,
+      "DLSSNR.Hint.Render.Preset": 0,
+      "DLSSNR.Intensity": 1.0,
+      "DLSSNR.LocalStructureStrength": 1.0,
+      "DLSSNR.LocalToneStrength": 1.0,
+      "DLSSNR.MVecScaleX": 2.0,
+      "DLSSNR.MVecScaleY": 2.0,
+      "DLSSNR.MVecSubrectBaseX": 0,
+      "DLSSNR.MVecSubrectBaseY": 0,
+      "DLSSNR.MVecSubrectHeight": 540,
+      "DLSSNR.MVecSubrectWidth": 960,
+      "DLSSNR.Reset": 1,
+      "DLSSNR.SkinStructureStrength": -1.0,
+      "DLSSNR.Style": 1,
+      "DLSSNR.UseAutoMask": 1,
+      "DLSSNR.Width": 1920
+    },
+    "first_checkpoint_sha256": "5591e5ee782668956f8a99424e6e1c701951d10490d4e569038fb0d528913283",
+    "first_result_sha256": "7b7cdfb6533d4cbdd82aecb7836769c330569682b7b5243ab8ce8cefd5244db5",
+    "first_stage_unchanged": true,
+    "first_stage_has_gradients": false,
+    "parameters": {
+      "frozen": 254672,
+      "trainable": 255440
+    },
+    "training_capture_hashes": [
+      {
+        "color": "2e44a6a5e2730c21f7f2b4610b0a3c0af6fc94e2f51601f2ab2fa3fa679cf7f6",
+        "output": "13668520132202f28b6b584aff445e6982d17ece0430c9c134b7c2ef85b68d2b"
+      },
+      {
+        "color": "5a3292ed2faf5fb6e1290d0a9c0e7f672995bc05480e0466dea0f10271074ca4",
+        "output": "42d040613e5bd3b3dac82ed254908976971d1fdcd374084ba09cb63a3f3f0004"
+      },
+      {
+        "color": "d2ae1d4ac3eecdd016d78c45f209a1b05226e292fe71d9c0ffeaf9c13d44fd1a",
+        "output": "865392ee835b618b3f03556c1ddba2890b4e4dda31ecf6f213a0cdc13c4ed944"
+      },
+      {
+        "color": "3d23dc0613c3f28ca10e0cde8cc23f3dd8b29e2c5a8844ac413b1ab295142784",
+        "output": "71d3160242fc2f1dfc4981d5aae6a18eeddccfe41731468723f7e67e2710eca5"
+      },
+      {
+        "color": "1d047a54cd2d48c97c6584de1e99230d302c0c87e35c3a96ef410489e4aaf6f3",
+        "output": "4ea2e4fbf267b748c22511f776afeac1db5fdb4585232dd7484918ac0cb0d265"
+      },
+      {
+        "color": "2395ba423bb8ccaedab929a00969edd41df43ba532682d4190ac48e13da95f7c",
+        "output": "e263ce78605640d67dce9997b8badfbceeb86406055c48f910b1b449e4f2bd7a"
+      },
+      {
+        "color": "5de11f09a67c5e03acd2269c85b64a546218cff7772d91c31cf1b08ec6b2ccbc",
+        "output": "2a44509b6a7b93b8501381187036c9b54da17d73e40093e6407497d1128d3164"
+      },
+      {
+        "color": "9b4379a5baacc89bf9a23952bd4984d9a78d006cf1aa004dc039f7731cf39352",
+        "output": "a8d17ac54406ea33b589fd96f9f81d6b5366c21e5782d161b7024c922b052b7f"
+      },
+      {
+        "color": "83c5e825ee18a238bd87af5411b4315590f164415832788faaecd7e29ba46598",
+        "output": "61d708cc63c85825a2577a99d0782481ace12cfe8ff423dcb37275b9ddafcabf"
+      },
+      {
+        "color": "50585653ae9d032acca0296d5b35cf7dc4019172dbca37888b2ee3bfec79ef04",
+        "output": "631a5e9f2f8809deced19f120569fcf22621080548d6eb8a5d48e22d1949f60e"
+      },
+      {
+        "color": "b095223d223d70b27532f26c0e22858de9da9898e8411a5b75b101a980b2face",
+        "output": "9a867cfa000ea5b622f84a3cfa37630c16e89607ced6ea8bc7fa0f895edffbb9"
+      },
+      {
+        "color": "3d73b62af1fb7e4c3ea46f2f80038c79c8bd3b0fcd215a8ac49e358f9da9e808",
+        "output": "efcbc12dd20bbd0e7c01f09c48f5662fedaa9624e7f4d9b659ecd7fb3e857f57"
+      },
+      {
+        "color": "6b792009748a3dad1b76aaea904a76e0b5d325e59efb86fc4b1efaab1b37480d",
+        "output": "a59b5a4fa64884f6023281284a7de0647bf5fa66ec99e7617da22a38dc0b6d5c"
+      },
+      {
+        "color": "fdae01c0f5c0fa8ab4f6aaa30df022e2d835e39ff7ddd718cfb9afac91640421",
+        "output": "1304717d8cb7ae013e46cfbecf9c000fd580667f89ba91aae974a25350f71625"
+      },
+      {
+        "color": "15f32702df477c9a31a76a84d5f2990374cf311535757ac854928e26e449d968",
+        "output": "21a4d6d6206019e65ac6b44ebaec2738d1646cc85447ce7a23e95746e7f3e3c9"
+      },
+      {
+        "color": "3cc3c866987e43c2b1a9a8850f3103e1efb0449b55fd9a40cd3fea956b1b6fe1",
+        "output": "e1998768dd68043e92830ebe383e2aaceab2e71b70d7db64c511200ec2dfb1c3"
+      },
+      {
+        "color": "9a5b464bcad2066a8e1cd8ef52db3c68ccc90253a315c2ba981921a55864f55f",
+        "output": "5f678e7ecbd4b491ccc438bb28450ad75c4d4b5cd9d6bab6dd9331e5ce83381a"
+      },
+      {
+        "color": "70747879e3292e5bbe3c5d2fe00cdbd5454e60bc18bb38f59181651c097d9cd9",
+        "output": "4d3d4137951dfabc2c726200a15ecbe2e5e247c8c45c1689e8e2527b01c77ecb"
+      },
+      {
+        "color": "596f9a25a382295f5abc9902944850b6af25962323828c097118da76479c1556",
+        "output": "1283ae05882472638a42b2766f2d234f85f57dc8878d4678c37cc3edb91ec8bd"
+      },
+      {
+        "color": "88a5ddbdc3d2e8548e30e1e152f92dc89527d516c8313b496e3395df09456f06",
+        "output": "8ebc238d7db0accde71d2d8759a820cca291ed79bdb7d64723a552461168f6a3"
+      },
+      {
+        "color": "360a739198086b110a442c7ee3e708b81da4441660b82bfc9695ffa3bf4715f5",
+        "output": "5b32b0c97fdf3094112c61f5145fabdea5b954a3d03e6cb032a3a1af01c0259d"
+      },
+      {
+        "color": "fd38ae04f24fde89463011afede652240c6fe3597c62b2dc805fe62f33db2d08",
+        "output": "3a20ea061e9dc84479440965a9e0014a6052b4a5fa17d456f87459ce6dac583c"
+      },
+      {
+        "color": "bcff97e701de0cb6c0da423167f6c0096d64c455969ba6d528cffd3eb6b486b4",
+        "output": "859979ebf978edca683adb46fe3681d5d59e3e1345e90f9dba4d7608379c5119"
+      },
+      {
+        "color": "df6272610fa50b9dfa8491e471aef120fc6165dcb946b49992c815b89a97e6dc",
+        "output": "f8f203a5b70f583aaaaae5d781e46702d97ceb54344fc9a3b544520933f1a320"
+      },
+      {
+        "color": "44f4e9a90dbef9581a873c1321407277e58f100cd16d1c76fb716a5e3deafdad",
+        "output": "30d6238f20cdd6bfcc2eab7e4c4a51ebe16533020f6b5719cb6461cf753e3903"
+      },
+      {
+        "color": "ec9b20370d5e9b6a89fa8fc9b138d5b6b8af492508e41e69ca197c159a31c876",
+        "output": "09f81e847a97333cbb7c5f6e74cb12cc938671af4cf494b2a5336e3c2c458b59"
+      },
+      {
+        "color": "84b010b308a5e65b226af1acee6ac44d554b1624b71edebb97e413e72e8f3dc9",
+        "output": "cba912532a04728e4f02de44ab4d8727f6b7bff6532ad28a1948c975c516c7cb"
+      },
+      {
+        "color": "ff41ad82010ec2ebfcb52b9da86cc7a62b79f96ebb65535a7f602005b121d284",
+        "output": "1071abffa45cf79ad6053898c0b02f461f65afa6be8e752374859eb6a429de3f"
+      },
+      {
+        "color": "34995fad95433d7e18ad6f8aa8a5d4441566ae9957c4989eb911d352c2506a46",
+        "output": "75cc08cdc98f8fca52fb171fe7827232d7397aab73543dbbc48a2f6487859125"
+      },
+      {
+        "color": "04eae772d7ccfa83a92963b327a74c1c2a6702fb13dacc0d8be20d7bfc5b6299",
+        "output": "6f9268dfb195984bb9a23d09f3654d731cf895bdbaf70699db64b62740b9a38f"
+      },
+      {
+        "color": "3871e72a3c211fdc24e999fde53e28ec10c3d3ab33895049965fa2fdbec63e2c",
+        "output": "d679c6c531daaa6b4c21846f5bf909766dcee619384c74299a075da7c640f70f"
+      },
+      {
+        "color": "a3c93b102dd81e3fd909a56e9b601b97377c258231dc364ac016cfa67aee0d98",
+        "output": "a792b98415ef9fb61873ba5b928e0f5ec586c1f7d5c967e49463b5b0ead06685"
+      },
+      {
+        "color": "4b206a9282a7e1937d39d72fefe6ba16403ecf9c1cd272b11ac0555abd3a24e5",
+        "output": "f0bc7f9afecc5ca65c8b796e904a60c551e9825a3c638c89f9c361101abd811d"
+      },
+      {
+        "color": "3fb30ea75a3e3aa36933f4900a7ddc4d8e9b5748c5507e83f9a511d7f15bc46c",
+        "output": "27b9eae7c47f7cea01ce4798992a89c3c6afc8188b0fc630cba7ce4181b1cbfe"
+      },
+      {
+        "color": "ff161f553d6abefc44ef4a94aa97443bb06a49fe5186c61b716f739c6f6e17ba",
+        "output": "52de33d92985c150012991bda1bd6a3af2fa15111526d3f0471ff868037a4bfa"
+      },
+      {
+        "color": "7f14403921fe29a0e097781195a13c742a65c39d27b9cb21315049ab03c3287f",
+        "output": "86078d2c5c1523eeaa7496628eeccab7c4673da2df1cac39cdf058d93a266f0c"
+      },
+      {
+        "color": "64fee6701ecc57f5f82108dad8a7cc0ea736d38f7e19e727aabc4d02c1af79c6",
+        "output": "64291a7886965e7537ed4bdb58bc38dbff54ea1ecc08d33cc3d9aeb9e9dab7e1"
+      },
+      {
+        "color": "39b6d7f109bf1c1504eb86531f1831fe552a8080091e89aa821e87ceffc4bd7b",
+        "output": "56b71109d2c34aab2ada95e797136182f3f1768ef8d4520b78d9fdf02390e5f6"
+      },
+      {
+        "color": "53ea95ee426669e8e514077be8983a51a9ed8fbb4600a4310537d3c97449c101",
+        "output": "7b124f5c138c91d15e2dfd8fab9e8171c99534b470873dceef0bb300587d60e9"
+      },
+      {
+        "color": "d97cfbb7c75e775e4798f1251806de7c84c5d9ae141a706345c8089171678924",
+        "output": "044d591e92741403c4dbeeafe01af4b75eb8960d3930c6da7f546db12bb174cd"
+      },
+      {
+        "color": "4c92b39370bbe62f5dae7b937de0171ef6736571201423ec1e55268f2e02b83b",
+        "output": "6b42d31592cbc4fcb7b36453d61e3e579f3a73ac21385b50d6c04d9bc786bbe7"
+      },
+      {
+        "color": "f2145c6412a5e81cb86c48e2d304404ddefc5394b139417a669146081e1631ae",
+        "output": "a68c52b4fc06babc750d01493957be1b4e394d0d00fa85e26a676acb0b267c26"
+      },
+      {
+        "color": "111d7eaa792a3d17e375d5b83998e57217e29ce000499bfda0cc56ca8f95816a",
+        "output": "e6000ce639c9df7969ba2b2eaccc71483c1565bcdda1a2fa544857ebd8df89f2"
+      },
+      {
+        "color": "0c9b4eacbb4b33f101970d2b17de5d6aec5698b3a5c560ed4d981d1f3ed7401d",
+        "output": "465ebd18e4db65cdc4b82def8a307f713c23c476cea5d59f8a6ba1d418e4a3a0"
+      },
+      {
+        "color": "6940831713f52497069972c96bf3f4ddeaf6fb2966daae2d56914b8d87b5aa4f",
+        "output": "4c323ac99536d945dedb5d4236b92ce9faaa7732b019892777d920574faabaf7"
+      },
+      {
+        "color": "5fe01636707f4b60d05624399c483b7336d97e61528c23a0f70f3936019380b0",
+        "output": "cc64ae2448628272dc3c8c22e57579df5537e61a410c6e7341035e277f7e1cbb"
+      },
+      {
+        "color": "c48298ece113d670b0d631c18fcef1ecee85ff9709bbffe8ec2ed6075f7ad7ba",
+        "output": "3679878badb1bb17b5affa35be0431ac6b5f19d1ee1acd3f571b6f5c581b82cf"
+      },
+      {
+        "color": "9ba28fbcc5784306e9f3120b251cf3ba865ff0483114bca809a78bd01ece8fec",
+        "output": "a136519b2d2c9de4a18166deb5c4b6064d2e6a05337bd51b9a91003341b1a8f7"
+      },
+      {
+        "color": "8399476381fb024cf9107a5291681645637155c99701b2f313dc92d03b07a643",
+        "output": "3f74820a66bd300607bd84748944b896e40359813fafa530a2ac36b43ad6c632"
+      },
+      {
+        "color": "b4c19c0ba00ce98ca3a9168bfbb6e61efcb4421bcb44d222146c3e5406e0a366",
+        "output": "3e7343f50135d2d1aa932c2ee1043fbc58e8c30adcbf833e66834595245bb337"
+      },
+      {
+        "color": "f4ee061a5c9e737c26949b1d9110d927b3f816d308ed5de3a72b1b78462a69bd",
+        "output": "dffc97d5cb261f8d1dd3d142f3c91c6b0099234e7c5e6010896eacdc7fce7987"
+      },
+      {
+        "color": "fb299e5a7e64de6dda1d296e868563ac84097ae0207b638b6299a83ca9a59be5",
+        "output": "71d8b5fa038810e9ceed7f65dac0c3da6184b03cced63ae869f3516ebd6788c7"
+      },
+      {
+        "color": "a738660ae2484876c6b84a370f08aaa5826bb409e76a12d089728e1f77c2fe00",
+        "output": "ea9b8ee9300c8386799a1ed74a083e1ec34dcefff5f732ad7a21f2e38973f60c"
+      },
+      {
+        "color": "5232ec969ab056e56d802074a72162680d1904360b7d3a73b362fbf081b97a41",
+        "output": "651b386b9a0ab3470b0860530bc6f176747bb4129ac7cf0b402da6c732d2d1e8"
+      },
+      {
+        "color": "cd70226bb7b3564de5ed6cf66f028e97c089798fb5a4294fb748b2cd2f955393",
+        "output": "f04b0d7060c522ad60d7ab976ddfd2056270cd5b83692ff5ad9d0843f1761d81"
+      },
+      {
+        "color": "ae8ca8dbf0e022fbb1f6cec14855c4d269bce91f399e8437ed20cad629734ca6",
+        "output": "493e7b20712bca43c426aafcaf737a38711cbdb6c1b1f8a725d453158e8620f7"
+      },
+      {
+        "color": "4f26fd95bc0b24848b7f38988609ff5578649ac34041fd7ad3333cd032073041",
+        "output": "836f5fd61ca027216b38abf454ee394ebb764f34d0319821659f1ae851e30d56"
+      },
+      {
+        "color": "80a4c23bbbf82e5fef01bed35b198fa5abd5482bd0ec0c342b2955b35c34d825",
+        "output": "206ec668ad5c6eefbc87eb3702932955ea4191f91e2721a5580180c854005fb0"
+      },
+      {
+        "color": "d46c7093e1ceeddd1a9a8e706aec1c9506b34d0c71a1f579bb044c4153da68c7",
+        "output": "223950d18f443917c1e7607d66d7f8c8d94d94bf7279c3eeeca455d2304db852"
+      },
+      {
+        "color": "7d52a355ae128d345df29d8f005f0ab0f25f9c267549509f5fd15758f6f5b509",
+        "output": "096b954c940c811d6d7e4735ad52ddde914698fe95706746fb35d089640c8ad5"
+      },
+      {
+        "color": "930b308c0a81c93483af3ba6871d9fedc9cdc9af17fe79540fb68fc6c56fd7fa",
+        "output": "751421d8094481b53de79e5d6aa97ac8dae7b07e2ba7b7f706ccb7a6520c3a21"
+      },
+      {
+        "color": "8894f959fe901c76a0c743683d322d3edbbdea2f0477566388f73ae91dd89f8d",
+        "output": "e14f51eab0401cc0d4eca5e1b7398d0318d7ac51d7840738713fa56bb9dd9d92"
+      }
+    ],
+    "validation_capture_hashes": {
+      "color": "584c107ead68fca78c3eee0190d715e51c1f76392dc03c09050b5f572afa075e",
+      "output": "10bf20e6b20b3b56a31dca40dd829ff260061998d7fa18eafa306f56d525ca3a"
+    },
+    "extra_validation_hashes": [
+      {
+        "color": "721e179eda73cb100b0afad0894313bbae3a79f5ddffe7fb80dcef448e1282e1",
+        "output": "32ff6ac02eaedd341702bbce4d7aecbefc416cc2604e640814acdca718f4cf2a"
+      },
+      {
+        "color": "72ea0a80f42db07ca3206415e6dcf5a6731d568bfb312232b800a74b5fe86a5d",
+        "output": "c340167f486527ada9844e30bf8d926d8da26469fb23f052a49b4e8dabb36c00"
+      },
+      {
+        "color": "d55760855801f6f13bde735009f7aa8bf441b09d029c5f19bba290dbd9bba8a7",
+        "output": "afa0d89796b9a294ed2be40b353dd870d16c826a86f1614178810aa0c6a1eba3"
+      },
+      {
+        "color": "ce5e35c020ddc18ee2c33c84c5638e639a40b1af0669db6f528704e2333d9611",
+        "output": "07b6b385703687102b597cddf0b3312fd0c8c3891234a0d5c0ea61d09ba1d702"
+      },
+      {
+        "color": "ec96364768db3b4fd5f306cb1c3ccd77d4dc03a0965a8d6602ce87cbe6fb8a2e",
+        "output": "e8ebdcfeb6d46d5272d2fd2be9fc872af09dbdf9f603e3599d1b88819e147d4c"
+      },
+      {
+        "color": "d60ec44402a02d7e03fc0be790deefbcc5110dc7002be1d8a2031243ce602862",
+        "output": "cb75f15d16ab5f4ac082a5a7272c13aab748cae4037ac27059333d2348c7d969"
+      },
+      {
+        "color": "071ec0aae77b6e15909c3f7b79ed0c619e4359289d37e46094e4f0e941978d19",
+        "output": "fe55fe61e495fa68e16c9d743f926cab52233fc946adf436619591ed1dbbb795"
+      },
+      {
+        "color": "ce88cebb0be45aefb048a3ae4e87b83c56776ef4ff3f11d454ce0bc7d61734d1",
+        "output": "7890ee1902560f34f54766f349d4306fa910d81b788b4f2eff7a070072c2f4a4"
+      },
+      {
+        "color": "8675250f022e482d5a01d8e287b2bafc844baf561090d30d1a9488b0656ca309",
+        "output": "5a61cc6d78a4a4a0d45ea60f04dcbefc6516a10f2456334b9394dcb003992812"
+      },
+      {
+        "color": "f783346fc093b8f8b61a4f77376e8ac9e0170ba1aa3f6f8063ff2aa5075151cb",
+        "output": "397f02d8e46dfe8171b77ff400eb0cd200527bad0e95dc862eaea21f37483093"
+      },
+      {
+        "color": "25fe2d0b191d1c31efa9ca0bff7ecf75585296631930e318c6fc1e6a3c212015",
+        "output": "e0f64756c7243ffdcaccd52f2df9bc49f7fa514747be48be65ce5661c0c7581c"
+      },
+      {
+        "color": "e7a63502657c1d957e2340622bcf2fec67266ef9375cda3f3d2cfca48803e9d4",
+        "output": "8f771e46ab78f64595c272f4238c402eb4b36469c52790ef0bfe950aa27b93c3"
+      },
+      {
+        "color": "400f68a2ed7a175a66d28efb3ee13b04415a6077f6b9ed38d5654e14b7458ebd",
+        "output": "e18e03c18d3ae5444c44db0325a918cadea5c4a6b953ba94bf197bb302a294cb"
+      },
+      {
+        "color": "4a922ad9e1e26560cdc917a60fb13fdb358cf1275628c823038b3c2d9278d9c3",
+        "output": "e483e2d868f94e1817e33a4984fc7eb6447f34eb3f8dd0fead278513638ade97"
+      },
+      {
+        "color": "33acd586d4f1fc5fe871095f71706a24f6b568d24390499b19077a649e5136ed",
+        "output": "97fee64e2ac2c101b3c564f5cf769e727770acb6fe2c6a00b0b651054b2e37c6"
+      }
+    ],
+    "training": [
+      {
+        "step": 1,
+        "loss": 0.03962980955839157,
+        "pixel_mae": 0.03732451796531677,
+        "seconds": 0.19938389999151696
+      },
+      {
+        "step": 101,
+        "loss": 0.02540394477546215,
+        "pixel_mae": 0.022855505347251892,
+        "seconds": 5.038484599994263
+      },
+      {
+        "step": 201,
+        "loss": 0.023754874244332314,
+        "pixel_mae": 0.02156900241971016,
+        "seconds": 10.000836999999592
+      },
+      {
+        "step": 301,
+        "loss": 0.034990668296813965,
+        "pixel_mae": 0.03247414901852608,
+        "seconds": 14.893451999989338
+      },
+      {
+        "step": 401,
+        "loss": 0.02291259542107582,
+        "pixel_mae": 0.020655520260334015,
+        "seconds": 19.787376599997515
+      },
+      {
+        "step": 501,
+        "loss": 0.02482862025499344,
+        "pixel_mae": 0.022305067628622055,
+        "seconds": 24.727065599989146
+      },
+      {
+        "step": 601,
+        "loss": 0.02775265835225582,
+        "pixel_mae": 0.025500282645225525,
+        "seconds": 29.593591799988644
+      },
+      {
+        "step": 701,
+        "loss": 0.027180837467312813,
+        "pixel_mae": 0.024854864925146103,
+        "seconds": 34.507574199989904
+      },
+      {
+        "step": 801,
+        "loss": 0.0350627526640892,
+        "pixel_mae": 0.03253336623311043,
+        "seconds": 39.45808209999814
+      },
+      {
+        "step": 901,
+        "loss": 0.024655602872371674,
+        "pixel_mae": 0.022114042192697525,
+        "seconds": 44.362349999995786
+      },
+      {
+        "step": 1001,
+        "loss": 0.027311040088534355,
+        "pixel_mae": 0.02487482875585556,
+        "seconds": 49.22439869999653
+      },
+      {
+        "step": 1101,
+        "loss": 0.03333425521850586,
+        "pixel_mae": 0.030567370355129242,
+        "seconds": 54.09423189998779
+      },
+      {
+        "step": 1201,
+        "loss": 0.02374815195798874,
+        "pixel_mae": 0.021793494001030922,
+        "seconds": 59.013541999986046
+      },
+      {
+        "step": 1301,
+        "loss": 0.018494796007871628,
+        "pixel_mae": 0.016784952953457832,
+        "seconds": 63.84118409999064
+      },
+      {
+        "step": 1401,
+        "loss": 0.02732493355870247,
+        "pixel_mae": 0.02414282038807869,
+        "seconds": 68.75743879999209
+      },
+      {
+        "step": 1501,
+        "loss": 0.030124329030513763,
+        "pixel_mae": 0.027425643056631088,
+        "seconds": 73.66260979999788
+      },
+      {
+        "step": 1601,
+        "loss": 0.03128881752490997,
+        "pixel_mae": 0.028884487226605415,
+        "seconds": 78.6340315999987
+      },
+      {
+        "step": 1701,
+        "loss": 0.02633873000741005,
+        "pixel_mae": 0.024141384288668633,
+        "seconds": 83.60134489998745
+      },
+      {
+        "step": 1801,
+        "loss": 0.024350285530090332,
+        "pixel_mae": 0.0220537967979908,
+        "seconds": 88.50244279998878
+      },
+      {
+        "step": 1901,
+        "loss": 0.031061572954058647,
+        "pixel_mae": 0.028482109308242798,
+        "seconds": 93.43343199999072
+      },
+      {
+        "step": 2001,
+        "loss": 0.03073887526988983,
+        "pixel_mae": 0.028011886402964592,
+        "seconds": 98.31759690000035
+      },
+      {
+        "step": 2101,
+        "loss": 0.021526731550693512,
+        "pixel_mae": 0.019027452915906906,
+        "seconds": 103.28829539999424
+      },
+      {
+        "step": 2201,
+        "loss": 0.042914967983961105,
+        "pixel_mae": 0.04030001908540726,
+        "seconds": 108.17081159999361
+      },
+      {
+        "step": 2301,
+        "loss": 0.016558034345507622,
+        "pixel_mae": 0.014841494150459766,
+        "seconds": 113.02921069999866
+      },
+      {
+        "step": 2401,
+        "loss": 0.02950359508395195,
+        "pixel_mae": 0.026823054999113083,
+        "seconds": 117.88899479999964
+      },
+      {
+        "step": 2501,
+        "loss": 0.01429194025695324,
+        "pixel_mae": 0.012484047561883926,
+        "seconds": 122.78470149998611
+      },
+      {
+        "step": 2601,
+        "loss": 0.031425993889570236,
+        "pixel_mae": 0.028978804126381874,
+        "seconds": 127.71398979998776
+      },
+      {
+        "step": 2701,
+        "loss": 0.016005784273147583,
+        "pixel_mae": 0.01403830200433731,
+        "seconds": 132.57373579998966
+      },
+      {
+        "step": 2801,
+        "loss": 0.01781897433102131,
+        "pixel_mae": 0.016204848885536194,
+        "seconds": 137.3909805999865
+      },
+      {
+        "step": 2901,
+        "loss": 0.024521084502339363,
+        "pixel_mae": 0.02246866375207901,
+        "seconds": 142.20628839998972
+      },
+      {
+        "step": 3001,
+        "loss": 0.027759425342082977,
+        "pixel_mae": 0.025157678872346878,
+        "seconds": 147.021356199999
+      },
+      {
+        "step": 3101,
+        "loss": 0.026156848296523094,
+        "pixel_mae": 0.023645585402846336,
+        "seconds": 151.89093179999327
+      },
+      {
+        "step": 3201,
+        "loss": 0.02296498417854309,
+        "pixel_mae": 0.020457187667489052,
+        "seconds": 156.7368129999959
+      },
+      {
+        "step": 3301,
+        "loss": 0.015465562231838703,
+        "pixel_mae": 0.013782603666186333,
+        "seconds": 161.5675087999989
+      },
+      {
+        "step": 3401,
+        "loss": 0.028592217713594437,
+        "pixel_mae": 0.025802437216043472,
+        "seconds": 166.3823180999898
+      },
+      {
+        "step": 3501,
+        "loss": 0.019875071942806244,
+        "pixel_mae": 0.018203996121883392,
+        "seconds": 171.31500449999294
+      },
+      {
+        "step": 3601,
+        "loss": 0.0252130925655365,
+        "pixel_mae": 0.02260071597993374,
+        "seconds": 176.2820481999952
+      },
+      {
+        "step": 3701,
+        "loss": 0.023080239072442055,
+        "pixel_mae": 0.021022528409957886,
+        "seconds": 181.18590309999126
+      },
+      {
+        "step": 3801,
+        "loss": 0.022389192134141922,
+        "pixel_mae": 0.019970450550317764,
+        "seconds": 186.13255359999312
+      },
+      {
+        "step": 3901,
+        "loss": 0.029330991208553314,
+        "pixel_mae": 0.026693038642406464,
+        "seconds": 191.0609390999889
+      },
+      {
+        "step": 4001,
+        "loss": 0.024801287800073624,
+        "pixel_mae": 0.02199934422969818,
+        "seconds": 196.00939979999384
+      },
+      {
+        "step": 4101,
+        "loss": 0.03528669476509094,
+        "pixel_mae": 0.032448530197143555,
+        "seconds": 200.9706465999916
+      },
+      {
+        "step": 4201,
+        "loss": 0.021830059587955475,
+        "pixel_mae": 0.020083487033843994,
+        "seconds": 205.7690939999884
+      },
+      {
+        "step": 4301,
+        "loss": 0.01913803443312645,
+        "pixel_mae": 0.0174370389431715,
+        "seconds": 210.84773029999633
+      },
+      {
+        "step": 4401,
+        "loss": 0.03008667379617691,
+        "pixel_mae": 0.027872499078512192,
+        "seconds": 215.51625819999026
+      },
+      {
+        "step": 4500,
+        "loss": 0.03965623676776886,
+        "pixel_mae": 0.03724817931652069,
+        "seconds": 220.44152480000048
+      }
+    ],
+    "training_image_metrics": [
+      {
+        "label": "model-capture-natural",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "2e44a6a5e2730c21f7f2b4610b0a3c0af6fc94e2f51601f2ab2fa3fa679cf7f6",
+          "output": "13668520132202f28b6b584aff445e6982d17ece0430c9c134b7c2ef85b68d2b"
+        },
+        "initial_base_mae": 0.02389662340283394,
+        "refined_mae": 0.02384730987250805
+      },
+      {
+        "label": "model-capture-natural-west",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "5a3292ed2faf5fb6e1290d0a9c0e7f672995bc05480e0466dea0f10271074ca4",
+          "output": "42d040613e5bd3b3dac82ed254908976971d1fdcd374084ba09cb63a3f3f0004"
+        },
+        "initial_base_mae": 0.0269320011138916,
+        "refined_mae": 0.026896486058831215
+      },
+      {
+        "label": "teacher-natural-northeast",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "d2ae1d4ac3eecdd016d78c45f209a1b05226e292fe71d9c0ffeaf9c13d44fd1a",
+          "output": "865392ee835b618b3f03556c1ddba2890b4e4dda31ecf6f213a0cdc13c4ed944"
+        },
+        "initial_base_mae": 0.024634476751089096,
+        "refined_mae": 0.02433626912534237
+      },
+      {
+        "label": "teacher-natural-northwest",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "3d23dc0613c3f28ca10e0cde8cc23f3dd8b29e2c5a8844ac413b1ab295142784",
+          "output": "71d3160242fc2f1dfc4981d5aae6a18eeddccfe41731468723f7e67e2710eca5"
+        },
+        "initial_base_mae": 0.026721930131316185,
+        "refined_mae": 0.02665117010474205
+      },
+      {
+        "label": "teacher-natural-southeast",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "1d047a54cd2d48c97c6584de1e99230d302c0c87e35c3a96ef410489e4aaf6f3",
+          "output": "4ea2e4fbf267b748c22511f776afeac1db5fdb4585232dd7484918ac0cb0d265"
+        },
+        "initial_base_mae": 0.026366841048002243,
+        "refined_mae": 0.02633441425859928
+      },
+      {
+        "label": "teacher-natural-southwest",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "2395ba423bb8ccaedab929a00969edd41df43ba532682d4190ac48e13da95f7c",
+          "output": "e263ce78605640d67dce9997b8badfbceeb86406055c48f910b1b449e4f2bd7a"
+        },
+        "initial_base_mae": 0.026358742266893387,
+        "refined_mae": 0.026296213269233704
+      },
+      {
+        "label": "teacher-translated-left-east",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "5de11f09a67c5e03acd2269c85b64a546218cff7772d91c31cf1b08ec6b2ccbc",
+          "output": "2a44509b6a7b93b8501381187036c9b54da17d73e40093e6407497d1128d3164"
+        },
+        "initial_base_mae": 0.02621483989059925,
+        "refined_mae": 0.02618715912103653
+      },
+      {
+        "label": "teacher-translated-left-northeast",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "9b4379a5baacc89bf9a23952bd4984d9a78d006cf1aa004dc039f7731cf39352",
+          "output": "a8d17ac54406ea33b589fd96f9f81d6b5366c21e5782d161b7024c922b052b7f"
+        },
+        "initial_base_mae": 0.025177529081702232,
+        "refined_mae": 0.025017639622092247
+      },
+      {
+        "label": "teacher-translated-left-north",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "83c5e825ee18a238bd87af5411b4315590f164415832788faaecd7e29ba46598",
+          "output": "61d708cc63c85825a2577a99d0782481ace12cfe8ff423dcb37275b9ddafcabf"
+        },
+        "initial_base_mae": 0.0133766308426857,
+        "refined_mae": 0.013222146779298782
+      },
+      {
+        "label": "teacher-translated-left-northwest",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "50585653ae9d032acca0296d5b35cf7dc4019172dbca37888b2ee3bfec79ef04",
+          "output": "631a5e9f2f8809deced19f120569fcf22621080548d6eb8a5d48e22d1949f60e"
+        },
+        "initial_base_mae": 0.026918118819594383,
+        "refined_mae": 0.02686554566025734
+      },
+      {
+        "label": "teacher-translated-left-west",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "b095223d223d70b27532f26c0e22858de9da9898e8411a5b75b101a980b2face",
+          "output": "9a867cfa000ea5b622f84a3cfa37630c16e89607ced6ea8bc7fa0f895edffbb9"
+        },
+        "initial_base_mae": 0.026400698348879814,
+        "refined_mae": 0.026355264708399773
+      },
+      {
+        "label": "teacher-translated-left-southwest",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "3d73b62af1fb7e4c3ea46f2f80038c79c8bd3b0fcd215a8ac49e358f9da9e808",
+          "output": "efcbc12dd20bbd0e7c01f09c48f5662fedaa9624e7f4d9b659ecd7fb3e857f57"
+        },
+        "initial_base_mae": 0.02831706777215004,
+        "refined_mae": 0.028249425813555717
+      },
+      {
+        "label": "teacher-translated-left-south",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "6b792009748a3dad1b76aaea904a76e0b5d325e59efb86fc4b1efaab1b37480d",
+          "output": "a59b5a4fa64884f6023281284a7de0647bf5fa66ec99e7617da22a38dc0b6d5c"
+        },
+        "initial_base_mae": 0.015420423820614815,
+        "refined_mae": 0.015581920742988586
+      },
+      {
+        "label": "teacher-translated-left-southeast",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "fdae01c0f5c0fa8ab4f6aaa30df022e2d835e39ff7ddd718cfb9afac91640421",
+          "output": "1304717d8cb7ae013e46cfbecf9c000fd580667f89ba91aae974a25350f71625"
+        },
+        "initial_base_mae": 0.029546400532126427,
+        "refined_mae": 0.029611242935061455
+      },
+      {
+        "label": "teacher-translated-right-east",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "15f32702df477c9a31a76a84d5f2990374cf311535757ac854928e26e449d968",
+          "output": "21a4d6d6206019e65ac6b44ebaec2738d1646cc85447ce7a23e95746e7f3e3c9"
+        },
+        "initial_base_mae": 0.024397047236561775,
+        "refined_mae": 0.024299075827002525
+      },
+      {
+        "label": "teacher-translated-right-west",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "3cc3c866987e43c2b1a9a8850f3103e1efb0449b55fd9a40cd3fea956b1b6fe1",
+          "output": "e1998768dd68043e92830ebe383e2aaceab2e71b70d7db64c511200ec2dfb1c3"
+        },
+        "initial_base_mae": 0.02625209279358387,
+        "refined_mae": 0.026244137436151505
+      },
+      {
+        "label": "teacher-translated-right-southeast",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "9a5b464bcad2066a8e1cd8ef52db3c68ccc90253a315c2ba981921a55864f55f",
+          "output": "5f678e7ecbd4b491ccc438bb28450ad75c4d4b5cd9d6bab6dd9331e5ce83381a"
+        },
+        "initial_base_mae": 0.02202991396188736,
+        "refined_mae": 0.021862003952264786
+      },
+      {
+        "label": "teacher-translated-right-southwest",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "70747879e3292e5bbe3c5d2fe00cdbd5454e60bc18bb38f59181651c097d9cd9",
+          "output": "4d3d4137951dfabc2c726200a15ecbe2e5e247c8c45c1689e8e2527b01c77ecb"
+        },
+        "initial_base_mae": 0.03067815490067005,
+        "refined_mae": 0.03060390055179596
+      },
+      {
+        "label": "teacher-illumination-dim-east",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "596f9a25a382295f5abc9902944850b6af25962323828c097118da76479c1556",
+          "output": "1283ae05882472638a42b2766f2d234f85f57dc8878d4678c37cc3edb91ec8bd"
+        },
+        "initial_base_mae": 0.021847812458872795,
+        "refined_mae": 0.021692173555493355
+      },
+      {
+        "label": "teacher-illumination-dim-west",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "88a5ddbdc3d2e8548e30e1e152f92dc89527d516c8313b496e3395df09456f06",
+          "output": "8ebc238d7db0accde71d2d8759a820cca291ed79bdb7d64723a552461168f6a3"
+        },
+        "initial_base_mae": 0.02586594596505165,
+        "refined_mae": 0.02578987553715706
+      },
+      {
+        "label": "teacher-illumination-dim-northeast",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "360a739198086b110a442c7ee3e708b81da4441660b82bfc9695ffa3bf4715f5",
+          "output": "5b32b0c97fdf3094112c61f5145fabdea5b954a3d03e6cb032a3a1af01c0259d"
+        },
+        "initial_base_mae": 0.021141011267900467,
+        "refined_mae": 0.020895633846521378
+      },
+      {
+        "label": "teacher-illumination-dim-southwest",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "fd38ae04f24fde89463011afede652240c6fe3597c62b2dc805fe62f33db2d08",
+          "output": "3a20ea061e9dc84479440965a9e0014a6052b4a5fa17d456f87459ce6dac583c"
+        },
+        "initial_base_mae": 0.02302630804479122,
+        "refined_mae": 0.023074336349964142
+      },
+      {
+        "label": "teacher-illumination-bright-east",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "bcff97e701de0cb6c0da423167f6c0096d64c455969ba6d528cffd3eb6b486b4",
+          "output": "859979ebf978edca683adb46fe3681d5d59e3e1345e90f9dba4d7608379c5119"
+        },
+        "initial_base_mae": 0.029464298859238625,
+        "refined_mae": 0.02947489731013775
+      },
+      {
+        "label": "teacher-illumination-bright-west",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "df6272610fa50b9dfa8491e471aef120fc6165dcb946b49992c815b89a97e6dc",
+          "output": "f8f203a5b70f583aaaaae5d781e46702d97ceb54344fc9a3b544520933f1a320"
+        },
+        "initial_base_mae": 0.03281307592988014,
+        "refined_mae": 0.032808568328619
+      },
+      {
+        "label": "teacher-illumination-bright-northeast",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "44f4e9a90dbef9581a873c1321407277e58f100cd16d1c76fb716a5e3deafdad",
+          "output": "30d6238f20cdd6bfcc2eab7e4c4a51ebe16533020f6b5719cb6461cf753e3903"
+        },
+        "initial_base_mae": 0.030383523553609848,
+        "refined_mae": 0.030266854912042618
+      },
+      {
+        "label": "teacher-illumination-bright-southwest",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "ec9b20370d5e9b6a89fa8fc9b138d5b6b8af492508e41e69ca197c159a31c876",
+          "output": "09f81e847a97333cbb7c5f6e74cb12cc938671af4cf494b2a5336e3c2c458b59"
+        },
+        "initial_base_mae": 0.029855569824576378,
+        "refined_mae": 0.0297817662358284
+      },
+      {
+        "label": "teacher-illumination-low-sun-east",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "84b010b308a5e65b226af1acee6ac44d554b1624b71edebb97e413e72e8f3dc9",
+          "output": "cba912532a04728e4f02de44ab4d8727f6b7bff6532ad28a1948c975c516c7cb"
+        },
+        "initial_base_mae": 0.022597841918468475,
+        "refined_mae": 0.022438134998083115
+      },
+      {
+        "label": "teacher-illumination-low-sun-west",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "ff41ad82010ec2ebfcb52b9da86cc7a62b79f96ebb65535a7f602005b121d284",
+          "output": "1071abffa45cf79ad6053898c0b02f461f65afa6be8e752374859eb6a429de3f"
+        },
+        "initial_base_mae": 0.024736162275075912,
+        "refined_mae": 0.024729320779442787
+      },
+      {
+        "label": "teacher-illumination-low-sun-northeast",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "34995fad95433d7e18ad6f8aa8a5d4441566ae9957c4989eb911d352c2506a46",
+          "output": "75cc08cdc98f8fca52fb171fe7827232d7397aab73543dbbc48a2f6487859125"
+        },
+        "initial_base_mae": 0.023082461208105087,
+        "refined_mae": 0.022727783769369125
+      },
+      {
+        "label": "teacher-illumination-low-sun-southwest",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "04eae772d7ccfa83a92963b327a74c1c2a6702fb13dacc0d8be20d7bfc5b6299",
+          "output": "6f9268dfb195984bb9a23d09f3654d731cf895bdbaf70699db64b62740b9a38f"
+        },
+        "initial_base_mae": 0.020869513973593712,
+        "refined_mae": 0.020905984565615654
+      },
+      {
+        "label": "teacher-photo-tenth-snow-cat",
+        "group": "photos",
+        "capture_hashes": {
+          "color": "3871e72a3c211fdc24e999fde53e28ec10c3d3ab33895049965fa2fdbec63e2c",
+          "output": "d679c6c531daaa6b4c21846f5bf909766dcee619384c74299a075da7c640f70f"
+        },
+        "initial_base_mae": 0.015530938282608986,
+        "refined_mae": 0.015398245304822922
+      },
+      {
+        "label": "teacher-photo-tenth-bridge",
+        "group": "photos",
+        "capture_hashes": {
+          "color": "a3c93b102dd81e3fd909a56e9b601b97377c258231dc364ac016cfa67aee0d98",
+          "output": "a792b98415ef9fb61873ba5b928e0f5ec586c1f7d5c967e49463b5b0ead06685"
+        },
+        "initial_base_mae": 0.031136425212025642,
+        "refined_mae": 0.031086068600416183
+      },
+      {
+        "label": "teacher-photo-tenth-lake",
+        "group": "photos",
+        "capture_hashes": {
+          "color": "4b206a9282a7e1937d39d72fefe6ba16403ecf9c1cd272b11ac0555abd3a24e5",
+          "output": "f0bc7f9afecc5ca65c8b796e904a60c551e9825a3c638c89f9c361101abd811d"
+        },
+        "initial_base_mae": 0.01648966781795025,
+        "refined_mae": 0.016519013792276382
+      },
+      {
+        "label": "teacher-photo-tenth-cupola",
+        "group": "photos",
+        "capture_hashes": {
+          "color": "3fb30ea75a3e3aa36933f4900a7ddc4d8e9b5748c5507e83f9a511d7f15bc46c",
+          "output": "27b9eae7c47f7cea01ce4798992a89c3c6afc8188b0fc630cba7ce4181b1cbfe"
+        },
+        "initial_base_mae": 0.012734154239296913,
+        "refined_mae": 0.012714718468487263
+      },
+      {
+        "label": "teacher-diverse-forest",
+        "group": "photos",
+        "capture_hashes": {
+          "color": "ff161f553d6abefc44ef4a94aa97443bb06a49fe5186c61b716f739c6f6e17ba",
+          "output": "52de33d92985c150012991bda1bd6a3af2fa15111526d3f0471ff868037a4bfa"
+        },
+        "initial_base_mae": 0.01902732066810131,
+        "refined_mae": 0.018991565331816673
+      },
+      {
+        "label": "teacher-diverse-palace",
+        "group": "photos",
+        "capture_hashes": {
+          "color": "7f14403921fe29a0e097781195a13c742a65c39d27b9cb21315049ab03c3287f",
+          "output": "86078d2c5c1523eeaa7496628eeccab7c4673da2df1cac39cdf058d93a266f0c"
+        },
+        "initial_base_mae": 0.03803199157118797,
+        "refined_mae": 0.03800656273961067
+      },
+      {
+        "label": "teacher-diverse-concert",
+        "group": "photos",
+        "capture_hashes": {
+          "color": "64fee6701ecc57f5f82108dad8a7cc0ea736d38f7e19e727aabc4d02c1af79c6",
+          "output": "64291a7886965e7537ed4bdb58bc38dbff54ea1ecc08d33cc3d9aeb9e9dab7e1"
+        },
+        "initial_base_mae": 0.026220856234431267,
+        "refined_mae": 0.026259101927280426
+      },
+      {
+        "label": "teacher-diverse-cloisters",
+        "group": "photos",
+        "capture_hashes": {
+          "color": "39b6d7f109bf1c1504eb86531f1831fe552a8080091e89aa821e87ceffc4bd7b",
+          "output": "56b71109d2c34aab2ada95e797136182f3f1768ef8d4520b78d9fdf02390e5f6"
+        },
+        "initial_base_mae": 0.03684099018573761,
+        "refined_mae": 0.03682132810354233
+      },
+      {
+        "label": "teacher-diverse-night-city",
+        "group": "photos",
+        "capture_hashes": {
+          "color": "53ea95ee426669e8e514077be8983a51a9ed8fbb4600a4310537d3c97449c101",
+          "output": "7b124f5c138c91d15e2dfd8fab9e8171c99534b470873dceef0bb300587d60e9"
+        },
+        "initial_base_mae": 0.021135060116648674,
+        "refined_mae": 0.02113546058535576
+      },
+      {
+        "label": "teacher-diverse-sunflower",
+        "group": "photos",
+        "capture_hashes": {
+          "color": "d97cfbb7c75e775e4798f1251806de7c84c5d9ae141a706345c8089171678924",
+          "output": "044d591e92741403c4dbeeafe01af4b75eb8960d3930c6da7f546db12bb174cd"
+        },
+        "initial_base_mae": 0.020191602408885956,
+        "refined_mae": 0.02020627073943615
+      },
+      {
+        "label": "teacher-diverse-retriever",
+        "group": "photos",
+        "capture_hashes": {
+          "color": "4c92b39370bbe62f5dae7b937de0171ef6736571201423ec1e55268f2e02b83b",
+          "output": "6b42d31592cbc4fcb7b36453d61e3e579f3a73ac21385b50d6c04d9bc786bbe7"
+        },
+        "initial_base_mae": 0.025792039930820465,
+        "refined_mae": 0.025781219825148582
+      },
+      {
+        "label": "teacher-diverse-dunes",
+        "group": "photos",
+        "capture_hashes": {
+          "color": "f2145c6412a5e81cb86c48e2d304404ddefc5394b139417a669146081e1631ae",
+          "output": "a68c52b4fc06babc750d01493957be1b4e394d0d00fa85e26a676acb0b267c26"
+        },
+        "initial_base_mae": 0.0055673629976809025,
+        "refined_mae": 0.005583113059401512
+      },
+      {
+        "label": "teacher-diverse-watkins",
+        "group": "photos",
+        "capture_hashes": {
+          "color": "111d7eaa792a3d17e375d5b83998e57217e29ce000499bfda0cc56ca8f95816a",
+          "output": "e6000ce639c9df7969ba2b2eaccc71483c1565bcdda1a2fa544857ebd8df89f2"
+        },
+        "initial_base_mae": 0.01199161633849144,
+        "refined_mae": 0.012039159424602985
+      },
+      {
+        "label": "teacher-diverse-foale",
+        "group": "photos",
+        "capture_hashes": {
+          "color": "0c9b4eacbb4b33f101970d2b17de5d6aec5698b3a5c560ed4d981d1f3ed7401d",
+          "output": "465ebd18e4db65cdc4b82def8a307f713c23c476cea5d59f8a6ba1d418e4a3a0"
+        },
+        "initial_base_mae": 0.013980752788484097,
+        "refined_mae": 0.013925655744969845
+      },
+      {
+        "label": "teacher-diverse-berries",
+        "group": "photos",
+        "capture_hashes": {
+          "color": "6940831713f52497069972c96bf3f4ddeaf6fb2966daae2d56914b8d87b5aa4f",
+          "output": "4c323ac99536d945dedb5d4236b92ce9faaa7732b019892777d920574faabaf7"
+        },
+        "initial_base_mae": 0.024880344048142433,
+        "refined_mae": 0.024830391630530357
+      },
+      {
+        "label": "teacher-diverse-aerial",
+        "group": "photos",
+        "capture_hashes": {
+          "color": "5fe01636707f4b60d05624399c483b7336d97e61528c23a0f70f3936019380b0",
+          "output": "cc64ae2448628272dc3c8c22e57579df5537e61a410c6e7341035e277f7e1cbb"
+        },
+        "initial_base_mae": 0.004534561187028885,
+        "refined_mae": 0.004577501676976681
+      },
+      {
+        "label": "teacher-bright-snow-cat",
+        "group": "bright-photos",
+        "capture_hashes": {
+          "color": "c48298ece113d670b0d631c18fcef1ecee85ff9709bbffe8ec2ed6075f7ad7ba",
+          "output": "3679878badb1bb17b5affa35be0431ac6b5f19d1ee1acd3f571b6f5c581b82cf"
+        },
+        "initial_base_mae": 0.024250736460089684,
+        "refined_mae": 0.023988036438822746
+      },
+      {
+        "label": "teacher-bright-bridge",
+        "group": "bright-photos",
+        "capture_hashes": {
+          "color": "9ba28fbcc5784306e9f3120b251cf3ba865ff0483114bca809a78bd01ece8fec",
+          "output": "a136519b2d2c9de4a18166deb5c4b6064d2e6a05337bd51b9a91003341b1a8f7"
+        },
+        "initial_base_mae": 0.017511779442429543,
+        "refined_mae": 0.017517628148198128
+      },
+      {
+        "label": "teacher-bright-lake",
+        "group": "bright-photos",
+        "capture_hashes": {
+          "color": "8399476381fb024cf9107a5291681645637155c99701b2f313dc92d03b07a643",
+          "output": "3f74820a66bd300607bd84748944b896e40359813fafa530a2ac36b43ad6c632"
+        },
+        "initial_base_mae": 0.02504877559840679,
+        "refined_mae": 0.025006858631968498
+      },
+      {
+        "label": "teacher-bright-cupola",
+        "group": "bright-photos",
+        "capture_hashes": {
+          "color": "b4c19c0ba00ce98ca3a9168bfbb6e61efcb4421bcb44d222146c3e5406e0a366",
+          "output": "3e7343f50135d2d1aa932c2ee1043fbc58e8c30adcbf833e66834595245bb337"
+        },
+        "initial_base_mae": 0.014130421914160252,
+        "refined_mae": 0.014175166375935078
+      },
+      {
+        "label": "teacher-bright-forest",
+        "group": "bright-photos",
+        "capture_hashes": {
+          "color": "f4ee061a5c9e737c26949b1d9110d927b3f816d308ed5de3a72b1b78462a69bd",
+          "output": "dffc97d5cb261f8d1dd3d142f3c91c6b0099234e7c5e6010896eacdc7fce7987"
+        },
+        "initial_base_mae": 0.017370471730828285,
+        "refined_mae": 0.017351001501083374
+      },
+      {
+        "label": "teacher-bright-palace",
+        "group": "bright-photos",
+        "capture_hashes": {
+          "color": "fb299e5a7e64de6dda1d296e868563ac84097ae0207b638b6299a83ca9a59be5",
+          "output": "71d8b5fa038810e9ceed7f65dac0c3da6184b03cced63ae869f3516ebd6788c7"
+        },
+        "initial_base_mae": 0.024047324433922768,
+        "refined_mae": 0.024045977741479874
+      },
+      {
+        "label": "teacher-bright-concert",
+        "group": "bright-photos",
+        "capture_hashes": {
+          "color": "a738660ae2484876c6b84a370f08aaa5826bb409e76a12d089728e1f77c2fe00",
+          "output": "ea9b8ee9300c8386799a1ed74a083e1ec34dcefff5f732ad7a21f2e38973f60c"
+        },
+        "initial_base_mae": 0.02724090963602066,
+        "refined_mae": 0.02721717767417431
+      },
+      {
+        "label": "teacher-bright-cloisters",
+        "group": "bright-photos",
+        "capture_hashes": {
+          "color": "5232ec969ab056e56d802074a72162680d1904360b7d3a73b362fbf081b97a41",
+          "output": "651b386b9a0ab3470b0860530bc6f176747bb4129ac7cf0b402da6c732d2d1e8"
+        },
+        "initial_base_mae": 0.03811262175440788,
+        "refined_mae": 0.03811400756239891
+      },
+      {
+        "label": "teacher-bright-night-city",
+        "group": "bright-photos",
+        "capture_hashes": {
+          "color": "cd70226bb7b3564de5ed6cf66f028e97c089798fb5a4294fb748b2cd2f955393",
+          "output": "f04b0d7060c522ad60d7ab976ddfd2056270cd5b83692ff5ad9d0843f1761d81"
+        },
+        "initial_base_mae": 0.042517416179180145,
+        "refined_mae": 0.04252081736922264
+      },
+      {
+        "label": "teacher-bright-sunflower",
+        "group": "bright-photos",
+        "capture_hashes": {
+          "color": "ae8ca8dbf0e022fbb1f6cec14855c4d269bce91f399e8437ed20cad629734ca6",
+          "output": "493e7b20712bca43c426aafcaf737a38711cbdb6c1b1f8a725d453158e8620f7"
+        },
+        "initial_base_mae": 0.019409162923693657,
+        "refined_mae": 0.01933010295033455
+      },
+      {
+        "label": "teacher-bright-retriever",
+        "group": "bright-photos",
+        "capture_hashes": {
+          "color": "4f26fd95bc0b24848b7f38988609ff5578649ac34041fd7ad3333cd032073041",
+          "output": "836f5fd61ca027216b38abf454ee394ebb764f34d0319821659f1ae851e30d56"
+        },
+        "initial_base_mae": 0.013590619899332523,
+        "refined_mae": 0.013617915101349354
+      },
+      {
+        "label": "teacher-bright-dunes",
+        "group": "bright-photos",
+        "capture_hashes": {
+          "color": "80a4c23bbbf82e5fef01bed35b198fa5abd5482bd0ec0c342b2955b35c34d825",
+          "output": "206ec668ad5c6eefbc87eb3702932955ea4191f91e2721a5580180c854005fb0"
+        },
+        "initial_base_mae": 0.00630281213670969,
+        "refined_mae": 0.006290181539952755
+      },
+      {
+        "label": "teacher-bright-watkins",
+        "group": "bright-photos",
+        "capture_hashes": {
+          "color": "d46c7093e1ceeddd1a9a8e706aec1c9506b34d0c71a1f579bb044c4153da68c7",
+          "output": "223950d18f443917c1e7607d66d7f8c8d94d94bf7279c3eeeca455d2304db852"
+        },
+        "initial_base_mae": 0.0482821948826313,
+        "refined_mae": 0.04830629751086235
+      },
+      {
+        "label": "teacher-bright-foale",
+        "group": "bright-photos",
+        "capture_hashes": {
+          "color": "7d52a355ae128d345df29d8f005f0ab0f25f9c267549509f5fd15758f6f5b509",
+          "output": "096b954c940c811d6d7e4735ad52ddde914698fe95706746fb35d089640c8ad5"
+        },
+        "initial_base_mae": 0.019114943221211433,
+        "refined_mae": 0.0191878043115139
+      },
+      {
+        "label": "teacher-bright-berries",
+        "group": "bright-photos",
+        "capture_hashes": {
+          "color": "930b308c0a81c93483af3ba6871d9fedc9cdc9af17fe79540fb68fc6c56fd7fa",
+          "output": "751421d8094481b53de79e5d6aa97ac8dae7b07e2ba7b7f706ccb7a6520c3a21"
+        },
+        "initial_base_mae": 0.028446396812796593,
+        "refined_mae": 0.028227513656020164
+      },
+      {
+        "label": "teacher-bright-aerial",
+        "group": "bright-photos",
+        "capture_hashes": {
+          "color": "8894f959fe901c76a0c743683d322d3edbbdea2f0477566388f73ae91dd89f8d",
+          "output": "e14f51eab0401cc0d4eca5e1b7398d0318d7ac51d7840738713fa56bb9dd9d92"
+        },
+        "initial_base_mae": 0.001828181673772633,
+        "refined_mae": 0.001830971334129572
+      }
+    ],
+    "optimization": {
+      "updates": 4500,
+      "examples": 9000,
+      "seed": 28411,
+      "initial_lr": 0.002,
+      "final_lr": 2e-05,
+      "optimizer": "AdamW",
+      "weight_decay": 0.0001,
+      "domain_weights": [
+        0.5,
+        0.5
+      ],
+      "loss": "L1 + 0.25 * horizontal and vertical gradient L1"
+    },
+    "scope": "Frozen first student plus a newly trained full-resolution conditioned residual stage. FP32 first-stage outputs are cached only for fitting. Both stages run during inference; no teacher pixels are inputs."
+  },
+  "training_summary": {
+    "all": {
+      "count": 62,
+      "first_mae": 0.023332475979376825,
+      "refined_mae": 0.02328466920692834
+    },
+    "scene": {
+      "count": 30,
+      "first_mae": 0.025177435266474882,
+      "refined_mae": 0.025101555200914543
+    },
+    "photos": {
+      "count": 16,
+      "first_mae": 0.020255355251720175,
+      "refined_mae": 0.02024221105966717
+    },
+    "bright-photos": {
+      "count": 16,
+      "first_mae": 0.022950298043724615,
+      "refined_mae": 0.022920466115465388
+    }
+  },
+  "evaluation": {
+    "complete": true,
+    "target_achieved": false,
+    "quality_gate_passed": false,
+    "native_shape": [
+      1080,
+      1920
+    ],
+    "gpu": "NVIDIA GeForce RTX 4070 Ti",
+    "torch": "2.7.1+cu128",
+    "first_checkpoint_sha256": "5591e5ee782668956f8a99424e6e1c701951d10490d4e569038fb0d528913283",
+    "candidate_checkpoint_sha256": "ad826c1a985a5d904b4019fe0c41396caa1b1730fc103070fe4991c8f1734f80",
+    "candidate_result_sha256": "cef6930f81cf93391e050c5cea38a33f1acc20ee1d59ce5cb490bfc88d70f3cd",
+    "frozen_first_state_exact": true,
+    "training_count": 62,
+    "validation_count": 16,
+    "validation_training_overlap": false,
+    "validation": [
+      {
+        "label": "north",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "584c107ead68fca78c3eee0190d715e51c1f76392dc03c09050b5f572afa075e",
+          "output": "10bf20e6b20b3b56a31dca40dd829ff260061998d7fa18eafa306f56d525ca3a"
+        },
+        "first_saved_output_reproduced_exactly": true,
+        "existing_fusions_match_unfused_bitwise": true,
+        "models": {
+          "first": {
+            "mae": 0.01854042522609234,
+            "rmse": 0.025587173178792,
+            "p99": 0.078521728515625,
+            "gradient_error": 0.008372742682695389
+          },
+          "refined": {
+            "mae": 0.01833169162273407,
+            "rmse": 0.02560046687722206,
+            "p99": 0.0791015625,
+            "gradient_error": 0.008396627381443977
+          }
+        }
+      },
+      {
+        "label": "shifted-north",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "721e179eda73cb100b0afad0894313bbae3a79f5ddffe7fb80dcef448e1282e1",
+          "output": "32ff6ac02eaedd341702bbce4d7aecbefc416cc2604e640814acdca718f4cf2a"
+        },
+        "first_saved_output_reproduced_exactly": true,
+        "existing_fusions_match_unfused_bitwise": true,
+        "models": {
+          "first": {
+            "mae": 0.0190802700817585,
+            "rmse": 0.026311218738555908,
+            "p99": 0.0810546875,
+            "gradient_error": 0.008257521316409111
+          },
+          "refined": {
+            "mae": 0.019110223278403282,
+            "rmse": 0.026432933285832405,
+            "p99": 0.0814208984375,
+            "gradient_error": 0.00826944038271904
+          }
+        }
+      },
+      {
+        "label": "teacher-illumination-validation-dim",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "72ea0a80f42db07ca3206415e6dcf5a6731d568bfb312232b800a74b5fe86a5d",
+          "output": "c340167f486527ada9844e30bf8d926d8da26469fb23f052a49b4e8dabb36c00"
+        },
+        "first_saved_output_reproduced_exactly": true,
+        "existing_fusions_match_unfused_bitwise": true,
+        "models": {
+          "first": {
+            "mae": 0.027692001312971115,
+            "rmse": 0.039426062256097794,
+            "p99": 0.12249755859375,
+            "gradient_error": 0.009882261045277119
+          },
+          "refined": {
+            "mae": 0.027495428919792175,
+            "rmse": 0.03936781734228134,
+            "p99": 0.12237548828125,
+            "gradient_error": 0.009891998022794724
+          }
+        }
+      },
+      {
+        "label": "teacher-illumination-validation-bright",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "d55760855801f6f13bde735009f7aa8bf441b09d029c5f19bba290dbd9bba8a7",
+          "output": "afa0d89796b9a294ed2be40b353dd870d16c826a86f1614178810aa0c6a1eba3"
+        },
+        "first_saved_output_reproduced_exactly": true,
+        "existing_fusions_match_unfused_bitwise": true,
+        "models": {
+          "first": {
+            "mae": 0.03907367214560509,
+            "rmse": 0.05259615555405617,
+            "p99": 0.1558837890625,
+            "gradient_error": 0.013720735907554626
+          },
+          "refined": {
+            "mae": 0.03903903067111969,
+            "rmse": 0.052556365728378296,
+            "p99": 0.15576171875,
+            "gradient_error": 0.013720212504267693
+          }
+        }
+      },
+      {
+        "label": "teacher-illumination-validation-low-sun",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "ce5e35c020ddc18ee2c33c84c5638e639a40b1af0669db6f528704e2333d9611",
+          "output": "07b6b385703687102b597cddf0b3312fd0c8c3891234a0d5c0ea61d09ba1d702"
+        },
+        "first_saved_output_reproduced_exactly": true,
+        "existing_fusions_match_unfused_bitwise": true,
+        "models": {
+          "first": {
+            "mae": 0.025685990229249,
+            "rmse": 0.03583623468875885,
+            "p99": 0.1197509765625,
+            "gradient_error": 0.008772940374910831
+          },
+          "refined": {
+            "mae": 0.02556162327528,
+            "rmse": 0.03583768010139465,
+            "p99": 0.12005615234375,
+            "gradient_error": 0.00878656841814518
+          }
+        }
+      },
+      {
+        "label": "teacher-illumination-validation-neutral",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "ec96364768db3b4fd5f306cb1c3ccd77d4dc03a0965a8d6602ce87cbe6fb8a2e",
+          "output": "e8ebdcfeb6d46d5272d2fd2be9fc872af09dbdf9f603e3599d1b88819e147d4c"
+        },
+        "first_saved_output_reproduced_exactly": true,
+        "existing_fusions_match_unfused_bitwise": true,
+        "models": {
+          "first": {
+            "mae": 0.02633526921272278,
+            "rmse": 0.03675543889403343,
+            "p99": 0.114501953125,
+            "gradient_error": 0.013033213093876839
+          },
+          "refined": {
+            "mae": 0.026298699900507927,
+            "rmse": 0.0367480032145977,
+            "p99": 0.114501953125,
+            "gradient_error": 0.01303164754062891
+          }
+        }
+      },
+      {
+        "label": "teacher-photo-portrait",
+        "group": "previous-photos",
+        "capture_hashes": {
+          "color": "d60ec44402a02d7e03fc0be790deefbcc5110dc7002be1d8a2031243ce602862",
+          "output": "cb75f15d16ab5f4ac082a5a7272c13aab748cae4037ac27059333d2348c7d969"
+        },
+        "first_saved_output_reproduced_exactly": true,
+        "existing_fusions_match_unfused_bitwise": true,
+        "models": {
+          "first": {
+            "mae": 0.03448612987995148,
+            "rmse": 0.05086212232708931,
+            "p99": 0.17291259765625,
+            "gradient_error": 0.00749803613871336
+          },
+          "refined": {
+            "mae": 0.034455690532922745,
+            "rmse": 0.05089539662003517,
+            "p99": 0.17303466796875,
+            "gradient_error": 0.0075209978967905045
+          }
+        }
+      },
+      {
+        "label": "teacher-photo-tenth-portrait",
+        "group": "previous-photos",
+        "capture_hashes": {
+          "color": "071ec0aae77b6e15909c3f7b79ed0c619e4359289d37e46094e4f0e941978d19",
+          "output": "fe55fe61e495fa68e16c9d743f926cab52233fc946adf436619591ed1dbbb795"
+        },
+        "first_saved_output_reproduced_exactly": true,
+        "existing_fusions_match_unfused_bitwise": true,
+        "models": {
+          "first": {
+            "mae": 0.021468892693519592,
+            "rmse": 0.028045648708939552,
+            "p99": 0.08251953125,
+            "gradient_error": 0.004593945108354092
+          },
+          "refined": {
+            "mae": 0.021547332406044006,
+            "rmse": 0.028134142979979515,
+            "p99": 0.08251953125,
+            "gradient_error": 0.004599888809025288
+          }
+        }
+      },
+      {
+        "label": "teacher-photo-landscape",
+        "group": "previous-photos",
+        "capture_hashes": {
+          "color": "ce88cebb0be45aefb048a3ae4e87b83c56776ef4ff3f11d454ce0bc7d61734d1",
+          "output": "7890ee1902560f34f54766f349d4306fa910d81b788b4f2eff7a070072c2f4a4"
+        },
+        "first_saved_output_reproduced_exactly": true,
+        "existing_fusions_match_unfused_bitwise": true,
+        "models": {
+          "first": {
+            "mae": 0.012646102346479893,
+            "rmse": 0.02132313698530197,
+            "p99": 0.083740234375,
+            "gradient_error": 0.005694116465747356
+          },
+          "refined": {
+            "mae": 0.012679614126682281,
+            "rmse": 0.021263636648654938,
+            "p99": 0.0831298828125,
+            "gradient_error": 0.005735175684094429
+          }
+        }
+      },
+      {
+        "label": "teacher-photo-tenth-landscape",
+        "group": "previous-photos",
+        "capture_hashes": {
+          "color": "8675250f022e482d5a01d8e287b2bafc844baf561090d30d1a9488b0656ca309",
+          "output": "5a61cc6d78a4a4a0d45ea60f04dcbefc6516a10f2456334b9394dcb003992812"
+        },
+        "first_saved_output_reproduced_exactly": true,
+        "existing_fusions_match_unfused_bitwise": true,
+        "models": {
+          "first": {
+            "mae": 0.014582511968910694,
+            "rmse": 0.01862284354865551,
+            "p99": 0.0504150390625,
+            "gradient_error": 0.005512066185474396
+          },
+          "refined": {
+            "mae": 0.014620179310441017,
+            "rmse": 0.018659468740224838,
+            "p99": 0.05035400390625,
+            "gradient_error": 0.005513738375157118
+          }
+        }
+      },
+      {
+        "label": "teacher-photo-cat",
+        "group": "previous-photos",
+        "capture_hashes": {
+          "color": "f783346fc093b8f8b61a4f77376e8ac9e0170ba1aa3f6f8063ff2aa5075151cb",
+          "output": "397f02d8e46dfe8171b77ff400eb0cd200527bad0e95dc862eaea21f37483093"
+        },
+        "first_saved_output_reproduced_exactly": true,
+        "existing_fusions_match_unfused_bitwise": true,
+        "models": {
+          "first": {
+            "mae": 0.014672803692519665,
+            "rmse": 0.02221078798174858,
+            "p99": 0.07861328125,
+            "gradient_error": 0.0034453044645488262
+          },
+          "refined": {
+            "mae": 0.014621214009821415,
+            "rmse": 0.0221487358212471,
+            "p99": 0.078125,
+            "gradient_error": 0.00349086569622159
+          }
+        }
+      },
+      {
+        "label": "teacher-photo-tenth-cat",
+        "group": "previous-photos",
+        "capture_hashes": {
+          "color": "25fe2d0b191d1c31efa9ca0bff7ecf75585296631930e318c6fc1e6a3c212015",
+          "output": "e0f64756c7243ffdcaccd52f2df9bc49f7fa514747be48be65ce5661c0c7581c"
+        },
+        "first_saved_output_reproduced_exactly": true,
+        "existing_fusions_match_unfused_bitwise": true,
+        "models": {
+          "first": {
+            "mae": 0.014528381638228893,
+            "rmse": 0.020402129739522934,
+            "p99": 0.059326171875,
+            "gradient_error": 0.002285987138748169
+          },
+          "refined": {
+            "mae": 0.014254162088036537,
+            "rmse": 0.020339235663414,
+            "p99": 0.059326171875,
+            "gradient_error": 0.002303134184330702
+          }
+        }
+      },
+      {
+        "label": "teacher-diverse-library",
+        "group": "diverse-photos",
+        "capture_hashes": {
+          "color": "e7a63502657c1d957e2340622bcf2fec67266ef9375cda3f3d2cfca48803e9d4",
+          "output": "8f771e46ab78f64595c272f4238c402eb4b36469c52790ef0bfe950aa27b93c3"
+        },
+        "first_saved_output_reproduced_exactly": true,
+        "existing_fusions_match_unfused_bitwise": true,
+        "models": {
+          "first": {
+            "mae": 0.03748704120516777,
+            "rmse": 0.05028826370835304,
+            "p99": 0.158447265625,
+            "gradient_error": 0.014673465862870216
+          },
+          "refined": {
+            "mae": 0.03742397949099541,
+            "rmse": 0.05020887032151222,
+            "p99": 0.158447265625,
+            "gradient_error": 0.01469767652451992
+          }
+        }
+      },
+      {
+        "label": "teacher-diverse-beach",
+        "group": "diverse-photos",
+        "capture_hashes": {
+          "color": "400f68a2ed7a175a66d28efb3ee13b04415a6077f6b9ed38d5654e14b7458ebd",
+          "output": "e18e03c18d3ae5444c44db0325a918cadea5c4a6b953ba94bf197bb302a294cb"
+        },
+        "first_saved_output_reproduced_exactly": true,
+        "existing_fusions_match_unfused_bitwise": true,
+        "models": {
+          "first": {
+            "mae": 0.012348943389952183,
+            "rmse": 0.018136609345674515,
+            "p99": 0.05517578125,
+            "gradient_error": 0.004611945245414972
+          },
+          "refined": {
+            "mae": 0.012354739010334015,
+            "rmse": 0.018077073618769646,
+            "p99": 0.0550537109375,
+            "gradient_error": 0.004662301391363144
+          }
+        }
+      },
+      {
+        "label": "teacher-diverse-cassidy",
+        "group": "diverse-photos",
+        "capture_hashes": {
+          "color": "4a922ad9e1e26560cdc917a60fb13fdb358cf1275628c823038b3c2d9278d9c3",
+          "output": "e483e2d868f94e1817e33a4984fc7eb6447f34eb3f8dd0fead278513638ade97"
+        },
+        "first_saved_output_reproduced_exactly": true,
+        "existing_fusions_match_unfused_bitwise": true,
+        "models": {
+          "first": {
+            "mae": 0.019789062440395355,
+            "rmse": 0.02699047140777111,
+            "p99": 0.08935546875,
+            "gradient_error": 0.004480413626879454
+          },
+          "refined": {
+            "mae": 0.01983748748898506,
+            "rmse": 0.02701021358370781,
+            "p99": 0.0888671875,
+            "gradient_error": 0.004497805144637823
+          }
+        }
+      },
+      {
+        "label": "teacher-diverse-dunes-other",
+        "group": "diverse-photos",
+        "capture_hashes": {
+          "color": "33acd586d4f1fc5fe871095f71706a24f6b568d24390499b19077a649e5136ed",
+          "output": "97fee64e2ac2c101b3c564f5cf769e727770acb6fe2c6a00b0b651054b2e37c6"
+        },
+        "first_saved_output_reproduced_exactly": true,
+        "existing_fusions_match_unfused_bitwise": true,
+        "models": {
+          "first": {
+            "mae": 0.012871741317212582,
+            "rmse": 0.01647523045539856,
+            "p99": 0.04443359375,
+            "gradient_error": 0.0020815376192331314
+          },
+          "refined": {
+            "mae": 0.01284018438309431,
+            "rmse": 0.016421165317296982,
+            "p99": 0.0439453125,
+            "gradient_error": 0.0021024439483880997
+          }
+        }
+      }
+    ],
+    "summary": {
+      "all": {
+        "count": 16,
+        "means": {
+          "first": {
+            "mae": 0.021955577423796058,
+            "rmse": 0.030616845469921827,
+            "p99": 0.09669685363769531,
+            "gradient_error": 0.007307264517294243
+          },
+          "refined": {
+            "mae": 0.02190445503219962,
+            "rmse": 0.030606325366534293,
+            "p99": 0.09662628173828125,
+            "gradient_error": 0.007326282619033009
+          }
+        },
+        "improved_mae_count": 10,
+        "mae_change_percent": -0.23284466907724788
+      },
+      "scene": {
+        "count": 6,
+        "means": {
+          "first": {
+            "mae": 0.026067938034733135,
+            "rmse": 0.036085380551715694,
+            "p99": 0.11203511555989583,
+            "gradient_error": 0.010339902403453985
+          },
+          "refined": {
+            "mae": 0.025972782944639523,
+            "rmse": 0.036090544424951077,
+            "p99": 0.11220296223958333,
+            "gradient_error": 0.010349415708333254
+          }
+        },
+        "improved_mae_count": 5,
+        "mae_change_percent": -0.3650272989249359
+      },
+      "previous-photos": {
+        "count": 6,
+        "means": {
+          "first": {
+            "mae": 0.018730803703268368,
+            "rmse": 0.026911111548542976,
+            "p99": 0.087921142578125,
+            "gradient_error": 0.0048382425835977
+          },
+          "refined": {
+            "mae": 0.018696365412324667,
+            "rmse": 0.026906769412259262,
+            "p99": 0.08774820963541667,
+            "gradient_error": 0.004860633440936605
+          }
+        },
+        "improved_mae_count": 3,
+        "mae_change_percent": -0.18385912045884023
+      },
+      "diverse-photos": {
+        "count": 4,
+        "means": {
+          "first": {
+            "mae": 0.020624197088181973,
+            "rmse": 0.027972643729299307,
+            "p99": 0.08685302734375,
+            "gradient_error": 0.0064618405885994434
+          },
+          "refined": {
+            "mae": 0.0206140975933522,
+            "rmse": 0.027929330710321665,
+            "p99": 0.086578369140625,
+            "gradient_error": 0.006490056752227247
+          }
+        },
+        "improved_mae_count": 2,
+        "mae_change_percent": -0.04896915398253654
+      }
+    },
+    "timing": {
+      "measurements": [
+        {
+          "order": [
+            "first",
+            "refined"
+          ],
+          "ms_per_replay": {
+            "first": 1.081753635406494,
+            "refined": 2.788044738769531
+          }
+        },
+        {
+          "order": [
+            "refined",
+            "first"
+          ],
+          "ms_per_replay": {
+            "refined": 2.7800575256347657,
+            "first": 1.122201633453369
+          }
+        },
+        {
+          "order": [
+            "first",
+            "refined"
+          ],
+          "ms_per_replay": {
+            "first": 1.0907391548156737,
+            "refined": 2.7800319671630858
+          }
+        },
+        {
+          "order": [
+            "refined",
+            "first"
+          ],
+          "ms_per_replay": {
+            "refined": 2.84979190826416,
+            "first": 1.1118592262268066
+          }
+        },
+        {
+          "order": [
+            "first",
+            "refined"
+          ],
+          "ms_per_replay": {
+            "first": 1.0798687934875488,
+            "refined": 2.816204833984375
+          }
+        },
+        {
+          "order": [
+            "refined",
+            "first"
+          ],
+          "ms_per_replay": {
+            "refined": 2.8588640213012697,
+            "first": 1.1200511932373047
+          }
+        },
+        {
+          "order": [
+            "first",
+            "refined"
+          ],
+          "ms_per_replay": {
+            "first": 1.0743807792663573,
+            "refined": 2.8233728408813477
+          }
+        },
+        {
+          "order": [
+            "refined",
+            "first"
+          ],
+          "ms_per_replay": {
+            "refined": 2.8224096298217773,
+            "first": 1.0933216094970704
+          }
+        },
+        {
+          "order": [
+            "first",
+            "refined"
+          ],
+          "ms_per_replay": {
+            "first": 1.1179007530212401,
+            "refined": 2.8540927886962892
+          }
+        },
+        {
+          "order": [
+            "refined",
+            "first"
+          ],
+          "ms_per_replay": {
+            "refined": 2.818739128112793,
+            "first": 1.1055999755859376
+          }
+        },
+        {
+          "order": [
+            "first",
+            "refined"
+          ],
+          "ms_per_replay": {
+            "first": 1.1494239807128905,
+            "refined": 2.8483200073242188
+          }
+        },
+        {
+          "order": [
+            "refined",
+            "first"
+          ],
+          "ms_per_replay": {
+            "refined": 2.871360015869141,
+            "first": 1.154047966003418
+          }
+        },
+        {
+          "order": [
+            "first",
+            "refined"
+          ],
+          "ms_per_replay": {
+            "first": 1.0914496421813964,
+            "refined": 2.8220287322998048
+          }
+        },
+        {
+          "order": [
+            "refined",
+            "first"
+          ],
+          "ms_per_replay": {
+            "refined": 2.8348415374755858,
+            "first": 1.1482111930847168
+          }
+        },
+        {
+          "order": [
+            "first",
+            "refined"
+          ],
+          "ms_per_replay": {
+            "first": 1.0903552055358887,
+            "refined": 2.8135295867919923
+          }
+        },
+        {
+          "order": [
+            "refined",
+            "first"
+          ],
+          "ms_per_replay": {
+            "refined": 2.83768310546875,
+            "first": 1.1370495796203612
+          }
+        },
+        {
+          "order": [
+            "first",
+            "refined"
+          ],
+          "ms_per_replay": {
+            "first": 1.0910592079162598,
+            "refined": 2.778828811645508
+          }
+        },
+        {
+          "order": [
+            "refined",
+            "first"
+          ],
+          "ms_per_replay": {
+            "refined": 2.814975929260254,
+            "first": 1.0747648239135743
+          }
+        },
+        {
+          "order": [
+            "first",
+            "refined"
+          ],
+          "ms_per_replay": {
+            "first": 1.0978303909301759,
+            "refined": 2.834534454345703
+          }
+        },
+        {
+          "order": [
+            "refined",
+            "first"
+          ],
+          "ms_per_replay": {
+            "refined": 2.8451839447021485,
+            "first": 1.1757344245910644
+          }
+        },
+        {
+          "order": [
+            "first",
+            "refined"
+          ],
+          "ms_per_replay": {
+            "first": 1.1039456367492675,
+            "refined": 2.830335998535156
+          }
+        },
+        {
+          "order": [
+            "refined",
+            "first"
+          ],
+          "ms_per_replay": {
+            "refined": 2.8236799240112305,
+            "first": 1.1241472244262696
+          }
+        },
+        {
+          "order": [
+            "first",
+            "refined"
+          ],
+          "ms_per_replay": {
+            "first": 1.0849984169006348,
+            "refined": 2.8138240814208983
+          }
+        },
+        {
+          "order": [
+            "refined",
+            "first"
+          ],
+          "ms_per_replay": {
+            "refined": 2.8460031509399415,
+            "first": 1.1221952438354492
+          }
+        },
+        {
+          "order": [
+            "first",
+            "refined"
+          ],
+          "ms_per_replay": {
+            "first": 1.084825611114502,
+            "refined": 2.8492799758911134
+          }
+        },
+        {
+          "order": [
+            "refined",
+            "first"
+          ],
+          "ms_per_replay": {
+            "refined": 2.820403289794922,
+            "first": 1.125068759918213
+          }
+        },
+        {
+          "order": [
+            "first",
+            "refined"
+          ],
+          "ms_per_replay": {
+            "first": 1.0867712020874023,
+            "refined": 2.8122943878173827
+          }
+        },
+        {
+          "order": [
+            "refined",
+            "first"
+          ],
+          "ms_per_replay": {
+            "refined": 2.823676872253418,
+            "first": 1.120358371734619
+          }
+        },
+        {
+          "order": [
+            "first",
+            "refined"
+          ],
+          "ms_per_replay": {
+            "first": 1.080793571472168,
+            "refined": 2.827980804443359
+          }
+        },
+        {
+          "order": [
+            "refined",
+            "first"
+          ],
+          "ms_per_replay": {
+            "refined": 2.793040084838867,
+            "first": 1.092915153503418
+          }
+        }
+      ],
+      "all_graphs_match_eager_bitwise": true,
+      "warmup_replays_per_model": 40,
+      "replays_per_interval": 10,
+      "alternating_pairs": 30,
+      "summary": {
+        "first": {
+          "median_ms": 1.1008880138397217,
+          "p95_interval_ms": 1.1519671726226806
+        },
+        "refined": {
+          "median_ms": 2.8235248565673827,
+          "p95_interval_ms": 2.8567169666290284
+        }
+      }
+    },
+    "timing_scope": "FP16 full-1920x1080 input through both models, intermediate concatenation, and one final grade. No cached first output during inference. Existing fusions reused unchanged.",
+    "limitations": [
+      "No D3D12 integration or game/temporal acceptance. Native runtime is unchanged.",
+      "p95 is over ten-replay interval averages, not individual frame tails.",
+      "Previously reserved validation images remain excluded from training, but their past scores informed research; this is not an independent final acceptance set.",
+      "The second stage adds 4500 updates and 9000 image examples on top of the existing trained base; this is not an equal-total-training-compute architecture comparison.",
+      "Pixel metrics do not establish perceptual equivalence. No replacement is accepted."
+    ]
+  },
+  "training_diagnostic": {
+    "complete": true,
+    "target_achieved": false,
+    "quality_gate_passed": false,
+    "scope": "FP32 training-only evaluation; no optimizer step, validation inference or parameter change.",
+    "candidate_checkpoint_sha256": "ad826c1a985a5d904b4019fe0c41396caa1b1730fc103070fe4991c8f1734f80",
+    "validation_count_excluded": 16,
+    "training_count": 62,
+    "all_training_predictions_reproduced_exactly": true,
+    "parameter_changes": {
+      "changed_tensor_count": 122,
+      "total_tensor_count": 122,
+      "stem_weight_rms_change": 0.03824630379676819,
+      "head_weight_rms_change": 0.031476445496082306,
+      "head_bias_rms_change": 0.0034449684899300337
+    },
+    "across_images_head_mean_std": 0.0018626601668074727,
+    "within_image_mean_head_phase_std": 0.00046288922608401926,
+    "summary": {
+      "all": {
+        "count": 62,
+        "first_mae": 0.023332475979376825,
+        "refined_mae": 0.02328466920692834,
+        "adjustment_mae": 0.0007166228315327317,
+        "adjustment_to_error_mae_ratio": 0.03801559858144291,
+        "adjustment_desired_cosine": 0.04587005190138194,
+        "head_rms": 0.003996662964533654,
+        "head_spatial_rms": 0.002686071001657946,
+        "head_spatial_energy_fraction": 0.44283548406054896,
+        "head_phase_mean_std": 0.00046288922608401926,
+        "head_feature_spatial_std_mean": 0.026717736475890683,
+        "head_feature_nearly_constant_count": 0
+      },
+      "scene": {
+        "count": 30,
+        "first_mae": 0.025177435266474882,
+        "refined_mae": 0.025101555200914543,
+        "adjustment_mae": 0.000937232919386588,
+        "adjustment_to_error_mae_ratio": 0.03960295480986436,
+        "adjustment_desired_cosine": 0.03953574203963702,
+        "head_rms": 0.005244216819604238,
+        "head_spatial_rms": 0.003850160298558573,
+        "head_spatial_energy_fraction": 0.5759193604191144,
+        "head_phase_mean_std": 0.00045251260065318395,
+        "head_feature_spatial_std_mean": 0.0382505244265,
+        "head_feature_nearly_constant_count": 0
+      },
+      "photos": {
+        "count": 16,
+        "first_mae": 0.020255355251720175,
+        "refined_mae": 0.02024221105966717,
+        "adjustment_mae": 0.0005458344094222412,
+        "adjustment_to_error_mae_ratio": 0.034768068813718855,
+        "adjustment_desired_cosine": 0.029244848934467882,
+        "head_rms": 0.0030298169294837862,
+        "head_spatial_rms": 0.0019924563384847715,
+        "head_spatial_energy_fraction": 0.40481036249548197,
+        "head_phase_mean_std": 0.0004798008976649726,
+        "head_feature_spatial_std_mean": 0.02078558038920164,
+        "head_feature_nearly_constant_count": 0
+      },
+      "bright-photos": {
+        "count": 16,
+        "first_mae": 0.022950298043724615,
+        "refined_mae": 0.022920466115465388,
+        "adjustment_mae": 0.00047376733891724143,
+        "adjustment_to_error_mae_ratio": 0.03828683542087674,
+        "adjustment_desired_cosine": 0.07437208585906774,
+        "head_rms": 0.002624345521326177,
+        "head_spatial_rms": 0.001197018233142444,
+        "head_spatial_energy_fraction": 0.23132833745330572,
+        "head_phase_mean_std": 0.00046543372718588216,
+        "head_feature_spatial_std_mean": 0.01102591515518725,
+        "head_feature_nearly_constant_count": 0
+      }
+    },
+    "training": [
+      {
+        "label": "model-capture-natural",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "2e44a6a5e2730c21f7f2b4610b0a3c0af6fc94e2f51601f2ab2fa3fa679cf7f6",
+          "output": "13668520132202f28b6b584aff445e6982d17ece0430c9c134b7c2ef85b68d2b"
+        },
+        "first_mae": 0.02389662340283394,
+        "refined_mae": 0.02384730987250805,
+        "adjustment_mae": 0.0008986195316538215,
+        "adjustment_to_error_mae_ratio": 0.03760445490479469,
+        "adjustment_desired_cosine": 0.018350722268223763,
+        "head_rms": 0.005020414479076862,
+        "head_spatial_rms": 0.004220503382384777,
+        "head_spatial_energy_fraction": 0.706723153591156,
+        "head_phase_mean_std": 0.000358224002411589,
+        "head_feature_spatial_std_mean": 0.04217197000980377,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "model-capture-natural-west",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "5a3292ed2faf5fb6e1290d0a9c0e7f672995bc05480e0466dea0f10271074ca4",
+          "output": "42d040613e5bd3b3dac82ed254908976971d1fdcd374084ba09cb63a3f3f0004"
+        },
+        "first_mae": 0.0269320011138916,
+        "refined_mae": 0.026896486058831215,
+        "adjustment_mae": 0.0007435706211254001,
+        "adjustment_to_error_mae_ratio": 0.027609186246991158,
+        "adjustment_desired_cosine": 0.06128394603729248,
+        "head_rms": 0.004112831316888332,
+        "head_spatial_rms": 0.0035003800876438618,
+        "head_spatial_energy_fraction": 0.7243502140045166,
+        "head_phase_mean_std": 0.00026331673143431544,
+        "head_feature_spatial_std_mean": 0.036419834941625595,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-natural-northeast",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "d2ae1d4ac3eecdd016d78c45f209a1b05226e292fe71d9c0ffeaf9c13d44fd1a",
+          "output": "865392ee835b618b3f03556c1ddba2890b4e4dda31ecf6f213a0cdc13c4ed944"
+        },
+        "first_mae": 0.024634476751089096,
+        "refined_mae": 0.02433626912534237,
+        "adjustment_mae": 0.001045586192049086,
+        "adjustment_to_error_mae_ratio": 0.04244402050971985,
+        "adjustment_desired_cosine": 0.07023688405752182,
+        "head_rms": 0.005952414125204086,
+        "head_spatial_rms": 0.004478770773857832,
+        "head_spatial_energy_fraction": 0.5661498308181763,
+        "head_phase_mean_std": 0.0004913178272545338,
+        "head_feature_spatial_std_mean": 0.04338301345705986,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-natural-northwest",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "3d23dc0613c3f28ca10e0cde8cc23f3dd8b29e2c5a8844ac413b1ab295142784",
+          "output": "71d3160242fc2f1dfc4981d5aae6a18eeddccfe41731468723f7e67e2710eca5"
+        },
+        "first_mae": 0.026721930131316185,
+        "refined_mae": 0.02665117010474205,
+        "adjustment_mae": 0.0010577893117442727,
+        "adjustment_to_error_mae_ratio": 0.039585065096616745,
+        "adjustment_desired_cosine": 0.0007694397354498506,
+        "head_rms": 0.006017637904733419,
+        "head_spatial_rms": 0.004603052511811256,
+        "head_spatial_energy_fraction": 0.5851130485534668,
+        "head_phase_mean_std": 0.0005061391275376081,
+        "head_feature_spatial_std_mean": 0.04451361671090126,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-natural-southeast",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "1d047a54cd2d48c97c6584de1e99230d302c0c87e35c3a96ef410489e4aaf6f3",
+          "output": "4ea2e4fbf267b748c22511f776afeac1db5fdb4585232dd7484918ac0cb0d265"
+        },
+        "first_mae": 0.026366841048002243,
+        "refined_mae": 0.02633441425859928,
+        "adjustment_mae": 0.0009378485847264528,
+        "adjustment_to_error_mae_ratio": 0.035569243133068085,
+        "adjustment_desired_cosine": 0.002559209708124399,
+        "head_rms": 0.005254189018160105,
+        "head_spatial_rms": 0.004306429997086525,
+        "head_spatial_energy_fraction": 0.6717743277549744,
+        "head_phase_mean_std": 0.0003348934405948967,
+        "head_feature_spatial_std_mean": 0.042652666568756104,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-natural-southwest",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "2395ba423bb8ccaedab929a00969edd41df43ba532682d4190ac48e13da95f7c",
+          "output": "e263ce78605640d67dce9997b8badfbceeb86406055c48f910b1b449e4f2bd7a"
+        },
+        "first_mae": 0.026358742266893387,
+        "refined_mae": 0.026296213269233704,
+        "adjustment_mae": 0.0007530448492616415,
+        "adjustment_to_error_mae_ratio": 0.028569074347615242,
+        "adjustment_desired_cosine": 0.05798066779971123,
+        "head_rms": 0.004142496734857559,
+        "head_spatial_rms": 0.0034724376164376736,
+        "head_spatial_energy_fraction": 0.7026588916778564,
+        "head_phase_mean_std": 0.00025445083156228065,
+        "head_feature_spatial_std_mean": 0.035819217562675476,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-translated-left-east",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "5de11f09a67c5e03acd2269c85b64a546218cff7772d91c31cf1b08ec6b2ccbc",
+          "output": "2a44509b6a7b93b8501381187036c9b54da17d73e40093e6407497d1128d3164"
+        },
+        "first_mae": 0.02621483989059925,
+        "refined_mae": 0.02618715912103653,
+        "adjustment_mae": 0.0007744243484921753,
+        "adjustment_to_error_mae_ratio": 0.02954144962131977,
+        "adjustment_desired_cosine": -0.012508663348853588,
+        "head_rms": 0.0042828782461583614,
+        "head_spatial_rms": 0.0036425862926989794,
+        "head_spatial_energy_fraction": 0.7233496308326721,
+        "head_phase_mean_std": 0.00026511342730373144,
+        "head_feature_spatial_std_mean": 0.03728209435939789,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-translated-left-northeast",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "9b4379a5baacc89bf9a23952bd4984d9a78d006cf1aa004dc039f7731cf39352",
+          "output": "a8d17ac54406ea33b589fd96f9f81d6b5366c21e5782d161b7024c922b052b7f"
+        },
+        "first_mae": 0.025177529081702232,
+        "refined_mae": 0.025017639622092247,
+        "adjustment_mae": 0.0009759006788954139,
+        "adjustment_to_error_mae_ratio": 0.03876078128814697,
+        "adjustment_desired_cosine": 0.02817021869122982,
+        "head_rms": 0.005566965788602829,
+        "head_spatial_rms": 0.004299862310290337,
+        "head_spatial_energy_fraction": 0.5965845584869385,
+        "head_phase_mean_std": 0.00043476265273056924,
+        "head_feature_spatial_std_mean": 0.04189183935523033,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-translated-left-north",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "83c5e825ee18a238bd87af5411b4315590f164415832788faaecd7e29ba46598",
+          "output": "61d708cc63c85825a2577a99d0782481ace12cfe8ff423dcb37275b9ddafcabf"
+        },
+        "first_mae": 0.0133766308426857,
+        "refined_mae": 0.013222146779298782,
+        "adjustment_mae": 0.0010994645999744534,
+        "adjustment_to_error_mae_ratio": 0.08219294250011444,
+        "adjustment_desired_cosine": 0.08665472269058228,
+        "head_rms": 0.006045164540410042,
+        "head_spatial_rms": 0.0027611933182924986,
+        "head_spatial_energy_fraction": 0.20863030850887299,
+        "head_phase_mean_std": 0.0007481230422854424,
+        "head_feature_spatial_std_mean": 0.025669556111097336,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-translated-left-northwest",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "50585653ae9d032acca0296d5b35cf7dc4019172dbca37888b2ee3bfec79ef04",
+          "output": "631a5e9f2f8809deced19f120569fcf22621080548d6eb8a5d48e22d1949f60e"
+        },
+        "first_mae": 0.026918118819594383,
+        "refined_mae": 0.02686554566025734,
+        "adjustment_mae": 0.0008366272086277604,
+        "adjustment_to_error_mae_ratio": 0.031080449000000954,
+        "adjustment_desired_cosine": 0.03458729386329651,
+        "head_rms": 0.004727691411972046,
+        "head_spatial_rms": 0.003393596038222313,
+        "head_spatial_energy_fraction": 0.5152547955513,
+        "head_phase_mean_std": 0.0003542271151673049,
+        "head_feature_spatial_std_mean": 0.033349715173244476,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-translated-left-west",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "b095223d223d70b27532f26c0e22858de9da9898e8411a5b75b101a980b2face",
+          "output": "9a867cfa000ea5b622f84a3cfa37630c16e89607ced6ea8bc7fa0f895edffbb9"
+        },
+        "first_mae": 0.026400698348879814,
+        "refined_mae": 0.026355264708399773,
+        "adjustment_mae": 0.0007743103778921068,
+        "adjustment_to_error_mae_ratio": 0.02932916209101677,
+        "adjustment_desired_cosine": 0.06084001436829567,
+        "head_rms": 0.004358605947345495,
+        "head_spatial_rms": 0.0036378067452460527,
+        "head_spatial_energy_fraction": 0.6966009140014648,
+        "head_phase_mean_std": 0.0002959535922855139,
+        "head_feature_spatial_std_mean": 0.03741789981722832,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-translated-left-southwest",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "3d73b62af1fb7e4c3ea46f2f80038c79c8bd3b0fcd215a8ac49e358f9da9e808",
+          "output": "efcbc12dd20bbd0e7c01f09c48f5662fedaa9624e7f4d9b659ecd7fb3e857f57"
+        },
+        "first_mae": 0.02831706777215004,
+        "refined_mae": 0.028249425813555717,
+        "adjustment_mae": 0.0009703864343464375,
+        "adjustment_to_error_mae_ratio": 0.03426860645413399,
+        "adjustment_desired_cosine": 0.13848917186260223,
+        "head_rms": 0.005498391576111317,
+        "head_spatial_rms": 0.004406675696372986,
+        "head_spatial_energy_fraction": 0.6423192024230957,
+        "head_phase_mean_std": 0.00042676174780353904,
+        "head_feature_spatial_std_mean": 0.04390083998441696,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-translated-left-south",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "6b792009748a3dad1b76aaea904a76e0b5d325e59efb86fc4b1efaab1b37480d",
+          "output": "a59b5a4fa64884f6023281284a7de0647bf5fa66ec99e7617da22a38dc0b6d5c"
+        },
+        "first_mae": 0.015420423820614815,
+        "refined_mae": 0.015581920742988586,
+        "adjustment_mae": 0.0010328341741114855,
+        "adjustment_to_error_mae_ratio": 0.0669783279299736,
+        "adjustment_desired_cosine": -0.06602730602025986,
+        "head_rms": 0.005566465202718973,
+        "head_spatial_rms": 0.003150343196466565,
+        "head_spatial_energy_fraction": 0.3202998638153076,
+        "head_phase_mean_std": 0.0005743021611124277,
+        "head_feature_spatial_std_mean": 0.03057035617530346,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-translated-left-southeast",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "fdae01c0f5c0fa8ab4f6aaa30df022e2d835e39ff7ddd718cfb9afac91640421",
+          "output": "1304717d8cb7ae013e46cfbecf9c000fd580667f89ba91aae974a25350f71625"
+        },
+        "first_mae": 0.029546400532126427,
+        "refined_mae": 0.029611242935061455,
+        "adjustment_mae": 0.0008069328614510596,
+        "adjustment_to_error_mae_ratio": 0.027310699224472046,
+        "adjustment_desired_cosine": -0.06564977020025253,
+        "head_rms": 0.0044939895160496235,
+        "head_spatial_rms": 0.0037695979699492455,
+        "head_spatial_energy_fraction": 0.7036002278327942,
+        "head_phase_mean_std": 0.00027093602693639696,
+        "head_feature_spatial_std_mean": 0.03860069811344147,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-translated-right-east",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "15f32702df477c9a31a76a84d5f2990374cf311535757ac854928e26e449d968",
+          "output": "21a4d6d6206019e65ac6b44ebaec2738d1646cc85447ce7a23e95746e7f3e3c9"
+        },
+        "first_mae": 0.024397047236561775,
+        "refined_mae": 0.024299075827002525,
+        "adjustment_mae": 0.0007569739245809615,
+        "adjustment_to_error_mae_ratio": 0.031027276068925858,
+        "adjustment_desired_cosine": 0.0993361547589302,
+        "head_rms": 0.004288767464458942,
+        "head_spatial_rms": 0.0034729798790067434,
+        "head_spatial_energy_fraction": 0.6557518243789673,
+        "head_phase_mean_std": 0.00028253241907805204,
+        "head_feature_spatial_std_mean": 0.03515278175473213,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-translated-right-west",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "3cc3c866987e43c2b1a9a8850f3103e1efb0449b55fd9a40cd3fea956b1b6fe1",
+          "output": "e1998768dd68043e92830ebe383e2aaceab2e71b70d7db64c511200ec2dfb1c3"
+        },
+        "first_mae": 0.02625209279358387,
+        "refined_mae": 0.026244137436151505,
+        "adjustment_mae": 0.0008011138997972012,
+        "adjustment_to_error_mae_ratio": 0.030516192317008972,
+        "adjustment_desired_cosine": -0.00505966879427433,
+        "head_rms": 0.004397631157189608,
+        "head_spatial_rms": 0.0037586656399071217,
+        "head_spatial_energy_fraction": 0.7305160760879517,
+        "head_phase_mean_std": 0.0002655299613252282,
+        "head_feature_spatial_std_mean": 0.0383942574262619,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-translated-right-southeast",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "9a5b464bcad2066a8e1cd8ef52db3c68ccc90253a315c2ba981921a55864f55f",
+          "output": "5f678e7ecbd4b491ccc438bb28450ad75c4d4b5cd9d6bab6dd9331e5ce83381a"
+        },
+        "first_mae": 0.02202991396188736,
+        "refined_mae": 0.021862003952264786,
+        "adjustment_mae": 0.001017445232719183,
+        "adjustment_to_error_mae_ratio": 0.046184711158275604,
+        "adjustment_desired_cosine": 0.0715479627251625,
+        "head_rms": 0.005790672264993191,
+        "head_spatial_rms": 0.0044876579195261,
+        "head_spatial_energy_fraction": 0.600594699382782,
+        "head_phase_mean_std": 0.0004927362315356731,
+        "head_feature_spatial_std_mean": 0.04392469674348831,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-translated-right-southwest",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "70747879e3292e5bbe3c5d2fe00cdbd5454e60bc18bb38f59181651c097d9cd9",
+          "output": "4d3d4137951dfabc2c726200a15ecbe2e5e247c8c45c1689e8e2527b01c77ecb"
+        },
+        "first_mae": 0.03067815490067005,
+        "refined_mae": 0.03060390055179596,
+        "adjustment_mae": 0.0009048910578712821,
+        "adjustment_to_error_mae_ratio": 0.029496267437934875,
+        "adjustment_desired_cosine": 0.03794808313250542,
+        "head_rms": 0.004979277960956097,
+        "head_spatial_rms": 0.004246930126100779,
+        "head_spatial_energy_fraction": 0.7274740934371948,
+        "head_phase_mean_std": 0.0003708407166413963,
+        "head_feature_spatial_std_mean": 0.04290910065174103,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-illumination-dim-east",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "596f9a25a382295f5abc9902944850b6af25962323828c097118da76479c1556",
+          "output": "1283ae05882472638a42b2766f2d234f85f57dc8878d4678c37cc3edb91ec8bd"
+        },
+        "first_mae": 0.021847812458872795,
+        "refined_mae": 0.021692173555493355,
+        "adjustment_mae": 0.0013900356134399772,
+        "adjustment_to_error_mae_ratio": 0.06362356245517731,
+        "adjustment_desired_cosine": 0.05549750104546547,
+        "head_rms": 0.007878313772380352,
+        "head_spatial_rms": 0.006374137941747904,
+        "head_spatial_energy_fraction": 0.6546005606651306,
+        "head_phase_mean_std": 0.0006002952577546239,
+        "head_feature_spatial_std_mean": 0.06166250258684158,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-illumination-dim-west",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "88a5ddbdc3d2e8548e30e1e152f92dc89527d516c8313b496e3395df09456f06",
+          "output": "8ebc238d7db0accde71d2d8759a820cca291ed79bdb7d64723a552461168f6a3"
+        },
+        "first_mae": 0.02586594596505165,
+        "refined_mae": 0.02578987553715706,
+        "adjustment_mae": 0.00125356565695256,
+        "adjustment_to_error_mae_ratio": 0.04846394062042236,
+        "adjustment_desired_cosine": 0.08983999490737915,
+        "head_rms": 0.0070297978818416595,
+        "head_spatial_rms": 0.005737953819334507,
+        "head_spatial_energy_fraction": 0.6662364602088928,
+        "head_phase_mean_std": 0.0005046598962508142,
+        "head_feature_spatial_std_mean": 0.055758193135261536,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-illumination-dim-northeast",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "360a739198086b110a442c7ee3e708b81da4441660b82bfc9695ffa3bf4715f5",
+          "output": "5b32b0c97fdf3094112c61f5145fabdea5b954a3d03e6cb032a3a1af01c0259d"
+        },
+        "first_mae": 0.021141011267900467,
+        "refined_mae": 0.020895633846521378,
+        "adjustment_mae": 0.00155916647054255,
+        "adjustment_to_error_mae_ratio": 0.073750801384449,
+        "adjustment_desired_cosine": 0.06132801994681358,
+        "head_rms": 0.008794290944933891,
+        "head_spatial_rms": 0.006042514927685261,
+        "head_spatial_energy_fraction": 0.4720997214317322,
+        "head_phase_mean_std": 0.0008588189957663417,
+        "head_feature_spatial_std_mean": 0.05967789515852928,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-illumination-dim-southwest",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "fd38ae04f24fde89463011afede652240c6fe3597c62b2dc805fe62f33db2d08",
+          "output": "3a20ea061e9dc84479440965a9e0014a6052b4a5fa17d456f87459ce6dac583c"
+        },
+        "first_mae": 0.02302630804479122,
+        "refined_mae": 0.023074336349964142,
+        "adjustment_mae": 0.0012645816896110773,
+        "adjustment_to_error_mae_ratio": 0.05491899326443672,
+        "adjustment_desired_cosine": 0.026190677657723427,
+        "head_rms": 0.00706443889066577,
+        "head_spatial_rms": 0.005610376596450806,
+        "head_spatial_energy_fraction": 0.6307084560394287,
+        "head_phase_mean_std": 0.0005112013313919306,
+        "head_feature_spatial_std_mean": 0.05455214902758598,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-illumination-bright-east",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "bcff97e701de0cb6c0da423167f6c0096d64c455969ba6d528cffd3eb6b486b4",
+          "output": "859979ebf978edca683adb46fe3681d5d59e3e1345e90f9dba4d7608379c5119"
+        },
+        "first_mae": 0.029464298859238625,
+        "refined_mae": 0.02947489731013775,
+        "adjustment_mae": 0.0005822494276799262,
+        "adjustment_to_error_mae_ratio": 0.019761184230446815,
+        "adjustment_desired_cosine": -0.017944402992725372,
+        "head_rms": 0.003217843361198902,
+        "head_spatial_rms": 0.002754467772319913,
+        "head_spatial_energy_fraction": 0.7327327132225037,
+        "head_phase_mean_std": 0.00031637022038921714,
+        "head_feature_spatial_std_mean": 0.029383283108472824,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-illumination-bright-west",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "df6272610fa50b9dfa8491e471aef120fc6165dcb946b49992c815b89a97e6dc",
+          "output": "f8f203a5b70f583aaaaae5d781e46702d97ceb54344fc9a3b544520933f1a320"
+        },
+        "first_mae": 0.03281307592988014,
+        "refined_mae": 0.032808568328619,
+        "adjustment_mae": 0.00046807629405520856,
+        "adjustment_to_error_mae_ratio": 0.01426493190228939,
+        "adjustment_desired_cosine": 0.03633179888129234,
+        "head_rms": 0.0026025634724646807,
+        "head_spatial_rms": 0.002181846648454666,
+        "head_spatial_energy_fraction": 0.7028226852416992,
+        "head_phase_mean_std": 0.0003342351410537958,
+        "head_feature_spatial_std_mean": 0.02461003139615059,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-illumination-bright-northeast",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "44f4e9a90dbef9581a873c1321407277e58f100cd16d1c76fb716a5e3deafdad",
+          "output": "30d6238f20cdd6bfcc2eab7e4c4a51ebe16533020f6b5719cb6461cf753e3903"
+        },
+        "first_mae": 0.030383523553609848,
+        "refined_mae": 0.030266854912042618,
+        "adjustment_mae": 0.0007077831542119384,
+        "adjustment_to_error_mae_ratio": 0.02329496666789055,
+        "adjustment_desired_cosine": 0.02444140985608101,
+        "head_rms": 0.00401785783469677,
+        "head_spatial_rms": 0.003227891633287072,
+        "head_spatial_energy_fraction": 0.6454295516014099,
+        "head_phase_mean_std": 0.0002939668484032154,
+        "head_feature_spatial_std_mean": 0.032505571842193604,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-illumination-bright-southwest",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "ec9b20370d5e9b6a89fa8fc9b138d5b6b8af492508e41e69ca197c159a31c876",
+          "output": "09f81e847a97333cbb7c5f6e74cb12cc938671af4cf494b2a5336e3c2c458b59"
+        },
+        "first_mae": 0.029855569824576378,
+        "refined_mae": 0.0297817662358284,
+        "adjustment_mae": 0.00048395927296951413,
+        "adjustment_to_error_mae_ratio": 0.01621001586318016,
+        "adjustment_desired_cosine": 0.10155732929706573,
+        "head_rms": 0.0026974885258823633,
+        "head_spatial_rms": 0.002272263402119279,
+        "head_spatial_energy_fraction": 0.7095746994018555,
+        "head_phase_mean_std": 0.00033401191467419267,
+        "head_feature_spatial_std_mean": 0.024883747100830078,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-illumination-low-sun-east",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "84b010b308a5e65b226af1acee6ac44d554b1624b71edebb97e413e72e8f3dc9",
+          "output": "cba912532a04728e4f02de44ab4d8727f6b7bff6532ad28a1948c975c516c7cb"
+        },
+        "first_mae": 0.022597841918468475,
+        "refined_mae": 0.022438134998083115,
+        "adjustment_mae": 0.0010880170157179236,
+        "adjustment_to_error_mae_ratio": 0.048146944493055344,
+        "adjustment_desired_cosine": 0.07806991040706635,
+        "head_rms": 0.0061386944726109505,
+        "head_spatial_rms": 0.0031750372145324945,
+        "head_spatial_energy_fraction": 0.2675134539604187,
+        "head_phase_mean_std": 0.0007630942272953689,
+        "head_feature_spatial_std_mean": 0.029844114556908607,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-illumination-low-sun-west",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "ff41ad82010ec2ebfcb52b9da86cc7a62b79f96ebb65535a7f602005b121d284",
+          "output": "1071abffa45cf79ad6053898c0b02f461f65afa6be8e752374859eb6a429de3f"
+        },
+        "first_mae": 0.024736162275075912,
+        "refined_mae": 0.024729320779442787,
+        "adjustment_mae": 0.0009671636507846415,
+        "adjustment_to_error_mae_ratio": 0.039099179208278656,
+        "adjustment_desired_cosine": 0.021068520843982697,
+        "head_rms": 0.005390695296227932,
+        "head_spatial_rms": 0.0026585382875055075,
+        "head_spatial_energy_fraction": 0.2432182878255844,
+        "head_phase_mean_std": 0.0006198787596076727,
+        "head_feature_spatial_std_mean": 0.02556070312857628,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-illumination-low-sun-northeast",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "34995fad95433d7e18ad6f8aa8a5d4441566ae9957c4989eb911d352c2506a46",
+          "output": "75cc08cdc98f8fca52fb171fe7827232d7397aab73543dbbc48a2f6487859125"
+        },
+        "first_mae": 0.023082461208105087,
+        "refined_mae": 0.022727783769369125,
+        "adjustment_mae": 0.0011397142661735415,
+        "adjustment_to_error_mae_ratio": 0.04937576875090599,
+        "adjustment_desired_cosine": 0.10001672804355621,
+        "head_rms": 0.006411893758922815,
+        "head_spatial_rms": 0.0033379823435097933,
+        "head_spatial_energy_fraction": 0.27101629972457886,
+        "head_phase_mean_std": 0.0007964875549077988,
+        "head_feature_spatial_std_mean": 0.03132614493370056,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-illumination-low-sun-southwest",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "04eae772d7ccfa83a92963b327a74c1c2a6702fb13dacc0d8be20d7bfc5b6299",
+          "output": "6f9268dfb195984bb9a23d09f3654d731cf895bdbaf70699db64b62740b9a38f"
+        },
+        "first_mae": 0.020869513973593712,
+        "refined_mae": 0.020905984565615654,
+        "adjustment_mae": 0.001024911180138588,
+        "adjustment_to_error_mae_ratio": 0.049110446125268936,
+        "adjustment_desired_cosine": -0.009834310039877892,
+        "head_rms": 0.005586141720414162,
+        "head_spatial_rms": 0.002522328868508339,
+        "head_spatial_energy_fraction": 0.20388226211071014,
+        "head_phase_mean_std": 0.0006521968171000481,
+        "head_feature_spatial_std_mean": 0.023727241903543472,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-photo-tenth-snow-cat",
+        "group": "photos",
+        "capture_hashes": {
+          "color": "3871e72a3c211fdc24e999fde53e28ec10c3d3ab33895049965fa2fdbec63e2c",
+          "output": "d679c6c531daaa6b4c21846f5bf909766dcee619384c74299a075da7c640f70f"
+        },
+        "first_mae": 0.015530938282608986,
+        "refined_mae": 0.015398245304822922,
+        "adjustment_mae": 0.00045070695341564715,
+        "adjustment_to_error_mae_ratio": 0.029019944369792938,
+        "adjustment_desired_cosine": 0.12128112465143204,
+        "head_rms": 0.002508198842406273,
+        "head_spatial_rms": 0.0009156049345619977,
+        "head_spatial_energy_fraction": 0.1332577019929886,
+        "head_phase_mean_std": 0.000390203291317448,
+        "head_feature_spatial_std_mean": 0.008679849095642567,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-photo-tenth-bridge",
+        "group": "photos",
+        "capture_hashes": {
+          "color": "a3c93b102dd81e3fd909a56e9b601b97377c258231dc364ac016cfa67aee0d98",
+          "output": "a792b98415ef9fb61873ba5b928e0f5ec586c1f7d5c967e49463b5b0ead06685"
+        },
+        "first_mae": 0.031136425212025642,
+        "refined_mae": 0.031086068600416183,
+        "adjustment_mae": 0.0004136442730668932,
+        "adjustment_to_error_mae_ratio": 0.013284899294376373,
+        "adjustment_desired_cosine": 0.12615515291690826,
+        "head_rms": 0.0022750261705368757,
+        "head_spatial_rms": 0.0008474471978843212,
+        "head_spatial_energy_fraction": 0.13875623047351837,
+        "head_phase_mean_std": 0.0004509022692218423,
+        "head_feature_spatial_std_mean": 0.009049072861671448,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-photo-tenth-lake",
+        "group": "photos",
+        "capture_hashes": {
+          "color": "4b206a9282a7e1937d39d72fefe6ba16403ecf9c1cd272b11ac0555abd3a24e5",
+          "output": "f0bc7f9afecc5ca65c8b796e904a60c551e9825a3c638c89f9c361101abd811d"
+        },
+        "first_mae": 0.01648966781795025,
+        "refined_mae": 0.016519013792276382,
+        "adjustment_mae": 0.00045001081889495254,
+        "adjustment_to_error_mae_ratio": 0.027290472760796547,
+        "adjustment_desired_cosine": -0.061492446810007095,
+        "head_rms": 0.0024174374993890524,
+        "head_spatial_rms": 0.0019355365075170994,
+        "head_spatial_energy_fraction": 0.6410504579544067,
+        "head_phase_mean_std": 0.0003998839238192886,
+        "head_feature_spatial_std_mean": 0.022213000804185867,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-photo-tenth-cupola",
+        "group": "photos",
+        "capture_hashes": {
+          "color": "3fb30ea75a3e3aa36933f4900a7ddc4d8e9b5748c5507e83f9a511d7f15bc46c",
+          "output": "27b9eae7c47f7cea01ce4798992a89c3c6afc8188b0fc630cba7ce4181b1cbfe"
+        },
+        "first_mae": 0.012734154239296913,
+        "refined_mae": 0.012714718468487263,
+        "adjustment_mae": 0.0012386777671054006,
+        "adjustment_to_error_mae_ratio": 0.09727209061384201,
+        "adjustment_desired_cosine": 0.03157002106308937,
+        "head_rms": 0.006438124924898148,
+        "head_spatial_rms": 0.005428503267467022,
+        "head_spatial_energy_fraction": 0.7109538912773132,
+        "head_phase_mean_std": 0.000494288164190948,
+        "head_feature_spatial_std_mean": 0.052904099225997925,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-diverse-forest",
+        "group": "photos",
+        "capture_hashes": {
+          "color": "ff161f553d6abefc44ef4a94aa97443bb06a49fe5186c61b716f739c6f6e17ba",
+          "output": "52de33d92985c150012991bda1bd6a3af2fa15111526d3f0471ff868037a4bfa"
+        },
+        "first_mae": 0.01902732066810131,
+        "refined_mae": 0.018991565331816673,
+        "adjustment_mae": 0.0007190228789113462,
+        "adjustment_to_error_mae_ratio": 0.03778897225856781,
+        "adjustment_desired_cosine": 0.07634851336479187,
+        "head_rms": 0.003874928457662463,
+        "head_spatial_rms": 0.00297731626778841,
+        "head_spatial_energy_fraction": 0.5903677344322205,
+        "head_phase_mean_std": 0.00034592580050230026,
+        "head_feature_spatial_std_mean": 0.031309857964515686,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-diverse-palace",
+        "group": "photos",
+        "capture_hashes": {
+          "color": "7f14403921fe29a0e097781195a13c742a65c39d27b9cb21315049ab03c3287f",
+          "output": "86078d2c5c1523eeaa7496628eeccab7c4673da2df1cac39cdf058d93a266f0c"
+        },
+        "first_mae": 0.03803199157118797,
+        "refined_mae": 0.03800656273961067,
+        "adjustment_mae": 0.00035539749660529196,
+        "adjustment_to_error_mae_ratio": 0.00934469886124134,
+        "adjustment_desired_cosine": 0.05712934583425522,
+        "head_rms": 0.0021500573493540287,
+        "head_spatial_rms": 0.0012723862892016768,
+        "head_spatial_energy_fraction": 0.35021746158599854,
+        "head_phase_mean_std": 0.00044732599053531885,
+        "head_feature_spatial_std_mean": 0.013272369280457497,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-diverse-concert",
+        "group": "photos",
+        "capture_hashes": {
+          "color": "64fee6701ecc57f5f82108dad8a7cc0ea736d38f7e19e727aabc4d02c1af79c6",
+          "output": "64291a7886965e7537ed4bdb58bc38dbff54ea1ecc08d33cc3d9aeb9e9dab7e1"
+        },
+        "first_mae": 0.026220856234431267,
+        "refined_mae": 0.026259101927280426,
+        "adjustment_mae": 0.0005899296374991536,
+        "adjustment_to_error_mae_ratio": 0.022498488426208496,
+        "adjustment_desired_cosine": -0.04197930172085762,
+        "head_rms": 0.003288817126303911,
+        "head_spatial_rms": 0.002586247632279992,
+        "head_spatial_energy_fraction": 0.6183876395225525,
+        "head_phase_mean_std": 0.00032212701626122,
+        "head_feature_spatial_std_mean": 0.027288973331451416,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-diverse-cloisters",
+        "group": "photos",
+        "capture_hashes": {
+          "color": "39b6d7f109bf1c1504eb86531f1831fe552a8080091e89aa821e87ceffc4bd7b",
+          "output": "56b71109d2c34aab2ada95e797136182f3f1768ef8d4520b78d9fdf02390e5f6"
+        },
+        "first_mae": 0.03684099018573761,
+        "refined_mae": 0.03682132810354233,
+        "adjustment_mae": 0.00038502924144268036,
+        "adjustment_to_error_mae_ratio": 0.010451110079884529,
+        "adjustment_desired_cosine": -0.032018281519412994,
+        "head_rms": 0.002174591412767768,
+        "head_spatial_rms": 0.001623662537895143,
+        "head_spatial_energy_fraction": 0.5574888586997986,
+        "head_phase_mean_std": 0.00042212981497868896,
+        "head_feature_spatial_std_mean": 0.01944832317531109,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-diverse-night-city",
+        "group": "photos",
+        "capture_hashes": {
+          "color": "53ea95ee426669e8e514077be8983a51a9ed8fbb4600a4310537d3c97449c101",
+          "output": "7b124f5c138c91d15e2dfd8fab9e8171c99534b470873dceef0bb300587d60e9"
+        },
+        "first_mae": 0.021135060116648674,
+        "refined_mae": 0.02113546058535576,
+        "adjustment_mae": 0.0013130448060110211,
+        "adjustment_to_error_mae_ratio": 0.06212638318538666,
+        "adjustment_desired_cosine": 0.03444695100188255,
+        "head_rms": 0.007245706394314766,
+        "head_spatial_rms": 0.004998857155442238,
+        "head_spatial_energy_fraction": 0.4759705066680908,
+        "head_phase_mean_std": 0.000730405212379992,
+        "head_feature_spatial_std_mean": 0.047500379383563995,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-diverse-sunflower",
+        "group": "photos",
+        "capture_hashes": {
+          "color": "d97cfbb7c75e775e4798f1251806de7c84c5d9ae141a706345c8089171678924",
+          "output": "044d591e92741403c4dbeeafe01af4b75eb8960d3930c6da7f546db12bb174cd"
+        },
+        "first_mae": 0.020191602408885956,
+        "refined_mae": 0.02020627073943615,
+        "adjustment_mae": 0.00035248728818260133,
+        "adjustment_to_error_mae_ratio": 0.01745712384581566,
+        "adjustment_desired_cosine": 0.006835456006228924,
+        "head_rms": 0.002040321473032236,
+        "head_spatial_rms": 0.0009913191897794604,
+        "head_spatial_energy_fraction": 0.23606404662132263,
+        "head_phase_mean_std": 0.0005209892988204956,
+        "head_feature_spatial_std_mean": 0.012445468455553055,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-diverse-retriever",
+        "group": "photos",
+        "capture_hashes": {
+          "color": "4c92b39370bbe62f5dae7b937de0171ef6736571201423ec1e55268f2e02b83b",
+          "output": "6b42d31592cbc4fcb7b36453d61e3e579f3a73ac21385b50d6c04d9bc786bbe7"
+        },
+        "first_mae": 0.025792039930820465,
+        "refined_mae": 0.025781219825148582,
+        "adjustment_mae": 0.00041291138040833175,
+        "adjustment_to_error_mae_ratio": 0.01600925624370575,
+        "adjustment_desired_cosine": 0.0608159601688385,
+        "head_rms": 0.0024394895881414413,
+        "head_spatial_rms": 0.0013221631525084376,
+        "head_spatial_energy_fraction": 0.2937461733818054,
+        "head_phase_mean_std": 0.00044223410077393055,
+        "head_feature_spatial_std_mean": 0.01205371506512165,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-diverse-dunes",
+        "group": "photos",
+        "capture_hashes": {
+          "color": "f2145c6412a5e81cb86c48e2d304404ddefc5394b139417a669146081e1631ae",
+          "output": "a68c52b4fc06babc750d01493957be1b4e394d0d00fa85e26a676acb0b267c26"
+        },
+        "first_mae": 0.0055673629976809025,
+        "refined_mae": 0.005583113059401512,
+        "adjustment_mae": 0.00024161970941349864,
+        "adjustment_to_error_mae_ratio": 0.04339930787682533,
+        "adjustment_desired_cosine": -0.032551657408475876,
+        "head_rms": 0.001511988928541541,
+        "head_spatial_rms": 0.0006149419932626188,
+        "head_spatial_energy_fraction": 0.16541354358196259,
+        "head_phase_mean_std": 0.0004204025899525732,
+        "head_feature_spatial_std_mean": 0.007201697677373886,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-diverse-watkins",
+        "group": "photos",
+        "capture_hashes": {
+          "color": "111d7eaa792a3d17e375d5b83998e57217e29ce000499bfda0cc56ca8f95816a",
+          "output": "e6000ce639c9df7969ba2b2eaccc71483c1565bcdda1a2fa544857ebd8df89f2"
+        },
+        "first_mae": 0.01199161633849144,
+        "refined_mae": 0.012039159424602985,
+        "adjustment_mae": 0.0005719746113754809,
+        "adjustment_to_error_mae_ratio": 0.047697875648736954,
+        "adjustment_desired_cosine": -0.048409588634967804,
+        "head_rms": 0.0030958668794482946,
+        "head_spatial_rms": 0.002257205545902252,
+        "head_spatial_energy_fraction": 0.5315910577774048,
+        "head_phase_mean_std": 0.0002743143995758146,
+        "head_feature_spatial_std_mean": 0.025304719805717468,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-diverse-foale",
+        "group": "photos",
+        "capture_hashes": {
+          "color": "0c9b4eacbb4b33f101970d2b17de5d6aec5698b3a5c560ed4d981d1f3ed7401d",
+          "output": "465ebd18e4db65cdc4b82def8a307f713c23c476cea5d59f8a6ba1d418e4a3a0"
+        },
+        "first_mae": 0.013980752788484097,
+        "refined_mae": 0.013925655744969845,
+        "adjustment_mae": 0.0005622661556117237,
+        "adjustment_to_error_mae_ratio": 0.04021715745329857,
+        "adjustment_desired_cosine": 0.053678907454013824,
+        "head_rms": 0.0029792306013405323,
+        "head_spatial_rms": 0.0023798879701644182,
+        "head_spatial_energy_fraction": 0.6381235122680664,
+        "head_phase_mean_std": 0.0003250067529734224,
+        "head_feature_spatial_std_mean": 0.02523922547698021,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-diverse-berries",
+        "group": "photos",
+        "capture_hashes": {
+          "color": "6940831713f52497069972c96bf3f4ddeaf6fb2966daae2d56914b8d87b5aa4f",
+          "output": "4c323ac99536d945dedb5d4236b92ce9faaa7732b019892777d920574faabaf7"
+        },
+        "first_mae": 0.024880344048142433,
+        "refined_mae": 0.024830391630530357,
+        "adjustment_mae": 0.00037033253465779126,
+        "adjustment_to_error_mae_ratio": 0.014884542673826218,
+        "adjustment_desired_cosine": 0.08115352690219879,
+        "head_rms": 0.002227115212008357,
+        "head_spatial_rms": 0.0012957468861714005,
+        "head_spatial_energy_fraction": 0.3384971022605896,
+        "head_phase_mean_std": 0.0011964594013988972,
+        "head_feature_spatial_std_mean": 0.014440428465604782,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-diverse-aerial",
+        "group": "photos",
+        "capture_hashes": {
+          "color": "5fe01636707f4b60d05624399c483b7336d97e61528c23a0f70f3936019380b0",
+          "output": "cc64ae2448628272dc3c8c22e57579df5537e61a410c6e7341035e277f7e1cbb"
+        },
+        "first_mae": 0.004534561187028885,
+        "refined_mae": 0.004577501676976681,
+        "adjustment_mae": 0.00030629499815404415,
+        "adjustment_to_error_mae_ratio": 0.0675467774271965,
+        "adjustment_desired_cosine": 0.034953899681568146,
+        "head_rms": 0.0018101700115948915,
+        "head_spatial_rms": 0.0004324748879298568,
+        "head_spatial_energy_fraction": 0.05707988142967224,
+        "head_phase_mean_std": 0.0004942163359373808,
+        "head_feature_spatial_std_mean": 0.004218106158077717,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-bright-snow-cat",
+        "group": "bright-photos",
+        "capture_hashes": {
+          "color": "c48298ece113d670b0d631c18fcef1ecee85ff9709bbffe8ec2ed6075f7ad7ba",
+          "output": "3679878badb1bb17b5affa35be0431ac6b5f19d1ee1acd3f571b6f5c581b82cf"
+        },
+        "first_mae": 0.024250736460089684,
+        "refined_mae": 0.023988036438822746,
+        "adjustment_mae": 0.0004953109310008585,
+        "adjustment_to_error_mae_ratio": 0.020424572750926018,
+        "adjustment_desired_cosine": 0.07134371250867844,
+        "head_rms": 0.00275976350530982,
+        "head_spatial_rms": 0.001488426816649735,
+        "head_spatial_energy_fraction": 0.2908782362937927,
+        "head_phase_mean_std": 0.0003955847059842199,
+        "head_feature_spatial_std_mean": 0.01381712593138218,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-bright-bridge",
+        "group": "bright-photos",
+        "capture_hashes": {
+          "color": "9ba28fbcc5784306e9f3120b251cf3ba865ff0483114bca809a78bd01ece8fec",
+          "output": "a136519b2d2c9de4a18166deb5c4b6064d2e6a05337bd51b9a91003341b1a8f7"
+        },
+        "first_mae": 0.017511779442429543,
+        "refined_mae": 0.017517628148198128,
+        "adjustment_mae": 0.0004896204918622971,
+        "adjustment_to_error_mae_ratio": 0.027959493920207024,
+        "adjustment_desired_cosine": 0.09490615874528885,
+        "head_rms": 0.0026649245992302895,
+        "head_spatial_rms": 0.001304851146414876,
+        "head_spatial_energy_fraction": 0.23974637687206268,
+        "head_phase_mean_std": 0.00035412306897342205,
+        "head_feature_spatial_std_mean": 0.011592458002269268,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-bright-lake",
+        "group": "bright-photos",
+        "capture_hashes": {
+          "color": "8399476381fb024cf9107a5291681645637155c99701b2f313dc92d03b07a643",
+          "output": "3f74820a66bd300607bd84748944b896e40359813fafa530a2ac36b43ad6c632"
+        },
+        "first_mae": 0.02504877559840679,
+        "refined_mae": 0.025006858631968498,
+        "adjustment_mae": 0.00048265248187817633,
+        "adjustment_to_error_mae_ratio": 0.01926850527524948,
+        "adjustment_desired_cosine": 0.14190849661827087,
+        "head_rms": 0.0026602763682603836,
+        "head_spatial_rms": 0.0011218508007004857,
+        "head_spatial_energy_fraction": 0.17783476412296295,
+        "head_phase_mean_std": 0.0003950765240006149,
+        "head_feature_spatial_std_mean": 0.009640879929065704,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-bright-cupola",
+        "group": "bright-photos",
+        "capture_hashes": {
+          "color": "b4c19c0ba00ce98ca3a9168bfbb6e61efcb4421bcb44d222146c3e5406e0a366",
+          "output": "3e7343f50135d2d1aa932c2ee1043fbc58e8c30adcbf833e66834595245bb337"
+        },
+        "first_mae": 0.014130421914160252,
+        "refined_mae": 0.014175166375935078,
+        "adjustment_mae": 0.00040975993033498526,
+        "adjustment_to_error_mae_ratio": 0.028998421505093575,
+        "adjustment_desired_cosine": -0.07264244556427002,
+        "head_rms": 0.0023202109150588512,
+        "head_spatial_rms": 0.0016705936286598444,
+        "head_spatial_energy_fraction": 0.5184259414672852,
+        "head_phase_mean_std": 0.0004669744230341166,
+        "head_feature_spatial_std_mean": 0.020426474511623383,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-bright-forest",
+        "group": "bright-photos",
+        "capture_hashes": {
+          "color": "f4ee061a5c9e737c26949b1d9110d927b3f816d308ed5de3a72b1b78462a69bd",
+          "output": "dffc97d5cb261f8d1dd3d142f3c91c6b0099234e7c5e6010896eacdc7fce7987"
+        },
+        "first_mae": 0.017370471730828285,
+        "refined_mae": 0.017351001501083374,
+        "adjustment_mae": 0.0004572377656586468,
+        "adjustment_to_error_mae_ratio": 0.026322701945900917,
+        "adjustment_desired_cosine": 0.038462281227111816,
+        "head_rms": 0.002551256911829114,
+        "head_spatial_rms": 0.000951667781919241,
+        "head_spatial_energy_fraction": 0.13914330303668976,
+        "head_phase_mean_std": 0.00047465256648138165,
+        "head_feature_spatial_std_mean": 0.008083202876150608,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-bright-palace",
+        "group": "bright-photos",
+        "capture_hashes": {
+          "color": "fb299e5a7e64de6dda1d296e868563ac84097ae0207b638b6299a83ca9a59be5",
+          "output": "71d8b5fa038810e9ceed7f65dac0c3da6184b03cced63ae869f3516ebd6788c7"
+        },
+        "first_mae": 0.024047324433922768,
+        "refined_mae": 0.024045977741479874,
+        "adjustment_mae": 0.000495259475428611,
+        "adjustment_to_error_mae_ratio": 0.02059520035982132,
+        "adjustment_desired_cosine": 0.0797363892197609,
+        "head_rms": 0.0027249478735029697,
+        "head_spatial_rms": 0.0013878947356715798,
+        "head_spatial_energy_fraction": 0.25941595435142517,
+        "head_phase_mean_std": 0.00030850330949760973,
+        "head_feature_spatial_std_mean": 0.01183021068572998,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-bright-concert",
+        "group": "bright-photos",
+        "capture_hashes": {
+          "color": "a738660ae2484876c6b84a370f08aaa5826bb409e76a12d089728e1f77c2fe00",
+          "output": "ea9b8ee9300c8386799a1ed74a083e1ec34dcefff5f732ad7a21f2e38973f60c"
+        },
+        "first_mae": 0.02724090963602066,
+        "refined_mae": 0.02721717767417431,
+        "adjustment_mae": 0.0004837332817260176,
+        "adjustment_to_error_mae_ratio": 0.017757603898644447,
+        "adjustment_desired_cosine": 0.034646157175302505,
+        "head_rms": 0.0028273966163396835,
+        "head_spatial_rms": 0.001461321022361517,
+        "head_spatial_energy_fraction": 0.26712700724601746,
+        "head_phase_mean_std": 0.0003260555677115917,
+        "head_feature_spatial_std_mean": 0.011196726933121681,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-bright-cloisters",
+        "group": "bright-photos",
+        "capture_hashes": {
+          "color": "5232ec969ab056e56d802074a72162680d1904360b7d3a73b362fbf081b97a41",
+          "output": "651b386b9a0ab3470b0860530bc6f176747bb4129ac7cf0b402da6c732d2d1e8"
+        },
+        "first_mae": 0.03811262175440788,
+        "refined_mae": 0.03811400756239891,
+        "adjustment_mae": 0.0005043441196903586,
+        "adjustment_to_error_mae_ratio": 0.013232994824647903,
+        "adjustment_desired_cosine": -0.0066640377044677734,
+        "head_rms": 0.002841182053089142,
+        "head_spatial_rms": 0.0015038247220218182,
+        "head_spatial_energy_fraction": 0.28015366196632385,
+        "head_phase_mean_std": 0.00033557857386767864,
+        "head_feature_spatial_std_mean": 0.013425460085272789,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-bright-night-city",
+        "group": "bright-photos",
+        "capture_hashes": {
+          "color": "cd70226bb7b3564de5ed6cf66f028e97c089798fb5a4294fb748b2cd2f955393",
+          "output": "f04b0d7060c522ad60d7ab976ddfd2056270cd5b83692ff5ad9d0843f1761d81"
+        },
+        "first_mae": 0.042517416179180145,
+        "refined_mae": 0.04252081736922264,
+        "adjustment_mae": 0.00040632326272316277,
+        "adjustment_to_error_mae_ratio": 0.009556631557643414,
+        "adjustment_desired_cosine": 0.006553489714860916,
+        "head_rms": 0.0024488097988069057,
+        "head_spatial_rms": 0.0019174254266545177,
+        "head_spatial_energy_fraction": 0.6130937337875366,
+        "head_phase_mean_std": 0.0004314991529099643,
+        "head_feature_spatial_std_mean": 0.0213626679033041,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-bright-sunflower",
+        "group": "bright-photos",
+        "capture_hashes": {
+          "color": "ae8ca8dbf0e022fbb1f6cec14855c4d269bce91f399e8437ed20cad629734ca6",
+          "output": "493e7b20712bca43c426aafcaf737a38711cbdb6c1b1f8a725d453158e8620f7"
+        },
+        "first_mae": 0.019409162923693657,
+        "refined_mae": 0.01933010295033455,
+        "adjustment_mae": 0.00047784546040929854,
+        "adjustment_to_error_mae_ratio": 0.024619581177830696,
+        "adjustment_desired_cosine": 0.2531878352165222,
+        "head_rms": 0.0025274697691202164,
+        "head_spatial_rms": 0.0010015848092734814,
+        "head_spatial_energy_fraction": 0.15703754127025604,
+        "head_phase_mean_std": 0.0002121639990946278,
+        "head_feature_spatial_std_mean": 0.009263178333640099,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-bright-retriever",
+        "group": "bright-photos",
+        "capture_hashes": {
+          "color": "4f26fd95bc0b24848b7f38988609ff5578649ac34041fd7ad3333cd032073041",
+          "output": "836f5fd61ca027216b38abf454ee394ebb764f34d0319821659f1ae851e30d56"
+        },
+        "first_mae": 0.013590619899332523,
+        "refined_mae": 0.013617915101349354,
+        "adjustment_mae": 0.00047360098687931895,
+        "adjustment_to_error_mae_ratio": 0.03484763577580452,
+        "adjustment_desired_cosine": 0.11356483399868011,
+        "head_rms": 0.0027231192216277122,
+        "head_spatial_rms": 0.0014053857885301113,
+        "head_spatial_energy_fraction": 0.26635313034057617,
+        "head_phase_mean_std": 0.0004850992700085044,
+        "head_feature_spatial_std_mean": 0.011545367538928986,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-bright-dunes",
+        "group": "bright-photos",
+        "capture_hashes": {
+          "color": "80a4c23bbbf82e5fef01bed35b198fa5abd5482bd0ec0c342b2955b35c34d825",
+          "output": "206ec668ad5c6eefbc87eb3702932955ea4191f91e2721a5580180c854005fb0"
+        },
+        "first_mae": 0.00630281213670969,
+        "refined_mae": 0.006290181539952755,
+        "adjustment_mae": 0.00043597424519248307,
+        "adjustment_to_error_mae_ratio": 0.06917138397693634,
+        "adjustment_desired_cosine": 0.05319149047136307,
+        "head_rms": 0.002396751195192337,
+        "head_spatial_rms": 0.0005584394093602896,
+        "head_spatial_energy_fraction": 0.05428829416632652,
+        "head_phase_mean_std": 0.0004361700266599655,
+        "head_feature_spatial_std_mean": 0.005100824870169163,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-bright-watkins",
+        "group": "bright-photos",
+        "capture_hashes": {
+          "color": "d46c7093e1ceeddd1a9a8e706aec1c9506b34d0c71a1f579bb044c4153da68c7",
+          "output": "223950d18f443917c1e7607d66d7f8c8d94d94bf7279c3eeeca455d2304db852"
+        },
+        "first_mae": 0.0482821948826313,
+        "refined_mae": 0.04830629751086235,
+        "adjustment_mae": 0.0004850483383052051,
+        "adjustment_to_error_mae_ratio": 0.010046112351119518,
+        "adjustment_desired_cosine": -0.14703337848186493,
+        "head_rms": 0.002595271449536085,
+        "head_spatial_rms": 0.0011223768815398216,
+        "head_spatial_energy_fraction": 0.18703024089336395,
+        "head_phase_mean_std": 0.0004306048504076898,
+        "head_feature_spatial_std_mean": 0.010014720261096954,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-bright-foale",
+        "group": "bright-photos",
+        "capture_hashes": {
+          "color": "7d52a355ae128d345df29d8f005f0ab0f25f9c267549509f5fd15758f6f5b509",
+          "output": "096b954c940c811d6d7e4735ad52ddde914698fe95706746fb35d089640c8ad5"
+        },
+        "first_mae": 0.019114943221211433,
+        "refined_mae": 0.0191878043115139,
+        "adjustment_mae": 0.0004571755416691303,
+        "adjustment_to_error_mae_ratio": 0.02391717955470085,
+        "adjustment_desired_cosine": 0.05052648112177849,
+        "head_rms": 0.002518916269764304,
+        "head_spatial_rms": 0.000825145049020648,
+        "head_spatial_energy_fraction": 0.10730826109647751,
+        "head_phase_mean_std": 0.0004103817918803543,
+        "head_feature_spatial_std_mean": 0.0077752526849508286,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-bright-berries",
+        "group": "bright-photos",
+        "capture_hashes": {
+          "color": "930b308c0a81c93483af3ba6871d9fedc9cdc9af17fe79540fb68fc6c56fd7fa",
+          "output": "751421d8094481b53de79e5d6aa97ac8dae7b07e2ba7b7f706ccb7a6520c3a21"
+        },
+        "first_mae": 0.028446396812796593,
+        "refined_mae": 0.028227513656020164,
+        "adjustment_mae": 0.0005774407181888819,
+        "adjustment_to_error_mae_ratio": 0.020299257710576057,
+        "adjustment_desired_cosine": 0.45254945755004883,
+        "head_rms": 0.0029809107072651386,
+        "head_spatial_rms": 0.0009977133013308048,
+        "head_spatial_energy_fraction": 0.11202464997768402,
+        "head_phase_mean_std": 0.0012745902640745044,
+        "head_feature_spatial_std_mean": 0.007602794095873833,
+        "head_feature_nearly_constant_count": 0
+      },
+      {
+        "label": "teacher-bright-aerial",
+        "group": "bright-photos",
+        "capture_hashes": {
+          "color": "8894f959fe901c76a0c743683d322d3edbbdea2f0477566388f73ae91dd89f8d",
+          "output": "e14f51eab0401cc0d4eca5e1b7398d0318d7ac51d7840738713fa56bb9dd9d92"
+        },
+        "first_mae": 0.001828181673772633,
+        "refined_mae": 0.001830971334129572,
+        "adjustment_mae": 0.000448950391728431,
+        "adjustment_to_error_mae_ratio": 0.24557209014892578,
+        "adjustment_desired_cosine": 0.025716451928019524,
+        "head_rms": 0.0024483210872858763,
+        "head_spatial_rms": 0.0004337904101703316,
+        "head_spatial_energy_fraction": 0.03139230236411095,
+        "head_phase_mean_std": 0.0007098815403878689,
+        "head_feature_spatial_std_mean": 0.0037372978404164314,
+        "head_feature_nearly_constant_count": 0
+      }
+    ],
+    "limitations": [
+      "Scalar variation and alignment describe the correction but do not prove why training converged there.",
+      "The head includes 4x4 pixel-shuffle phases; per-channel mean offsets need not be a spatially uniform RGB correction.",
+      "No claim that a small correction establishes an irreducible quality limit."
+    ]
+  },
+  "preserved_state": {
+    "game_dxgi": "b3b0857a6d94e4745b42f2bb3beb747c527548ceec0abff11afecf89a1f6a590",
+    "game_ini": "213fd3f55423a12c075a9d96c2f87df3ea86c3971e135aa89eab1ff9b6a34fa6",
+    "game_nr": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927",
+    "demo_dxgi": "b3b0857a6d94e4745b42f2bb3beb747c527548ceec0abff11afecf89a1f6a590",
+    "demo_ini": "8ac6219a0f4090297a87cc753aa3efee6b4c87111dffed5d9d314fb73ebffc62",
+    "demo_nr": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927",
+    "demo_hidden_exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+    "demo_scene": "389da6d234662bb88714b4240384ce63739ff06c7e75ff6014fcd2bab574f547",
+    "normal_native_sources_unchanged": true,
+    "no_active_research_markers": true,
+    "no_app_launches_this_experiment": true
+  },
+  "listed_source_sha256_git_lf": {
+    "research/neural-latency/progressive_student.py": "313beda21814fe48711c88d2a8cf2d41585dc0b42e91f277688dab55cc960817",
+    "research/neural-latency/train_progressive_student.py": "debaf6492b903a5048479b0140da624e58effd5fb57e77f705e8bb9d777f7aa1",
+    "research/neural-latency/test_progressive_student.py": "dbffcbccce7f1119dbd599d44cd9eda9a0f21e7e9aa51220903cae965c7b96ea",
+    "research/neural-latency/evaluate_progressive_student.py": "97a62a2333a2ba55099bea373d0417ed66c0e0a6b7c5ed3ce60cbe2ec973ea6f",
+    "research/neural-latency/analyze_progressive_student.py": "c3ab56c04244a6a22af98809665fab781bc80dd627f97d1a1c12680c2d1e423b",
+    "research/neural-latency/student_probe.py": "91ba7dd8d4f31535dc11d09eb8e49133eaf0b9385cd783573c37947d3f52672e",
+    "research/neural-latency/output_grade.py": "a67c613077f46c11d237ad70caa5ce748045bed05f4cddc83158896fff446d88",
+    "research/neural-latency/student_training_pairs.py": "9f1823f1574ede397ec415e5db5cbe7b290e33623e4a571341b32725d6fc589c",
+    "research/neural-latency/paired_gradient.py": "61475341ba15d948d090b715f582b1ff5c21df9fd9d55d9ddcc4af377b03b6f9",
+    "research/neural-latency/compare_output_grade.py": "189ba5fc33f7caebf1a4d265c8bb87f111ad00513dc6f57f2788302777bcab4e",
+    "research/neural-latency/collect_training_brightness.py": "c761a7dc48491f08506bb2e22a67b002139829a080aa05314c310c8a2160d0d0",
+    "research/neural-latency/collect_demo_photo_training.py": "3081960672239500c8f18abe940ec87642cdefdd6ee8117b457a31cf8d7ed924",
+    "research/neural-latency/collect_diverse_images.py": "3c2b8161308ecfacb01e6b6a915383ce925de88ee3ce908dd04497e9ab48c557",
+    "research/neural-latency/train_student_collection.py": "72e9159f80e47cb7e8357edaaa987a186290a3c29a2c548be767b16e11f9a9f7",
+    "research/neural-latency/fused_norm.py": "3a2aa9341a797cddc782ae2f5e123cc7d7b36c431d85d38462a498a7ce21d1d3",
+    "research/neural-latency/fused_norm.cu": "577de892470ec01ccb55058ddf30574dd082ade94d39b627a95cc063e38f98cc",
+    "research/neural-latency/test_student_output.py": "f134e86880b17a4a5bda37a11ba9dc997a6f7e4f4fe4fce6f31032586eb0fa7c"
+  },
+  "publication_scope": "Original source and numeric metadata only. Weights, input/output pixels, activations and vendor implementation stay private."
+}

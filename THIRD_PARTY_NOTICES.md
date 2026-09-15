@@ -278,3 +278,13 @@ NVAPI and DirectX supply external interface declarations; no vendor implementati
 is copied. Private kernel extraction is read-only and only numeric instruction
 counts are published. No vendor disassembly, binary, weights, captured pixels,
 packed arguments or GPU addresses are distributed.
+
+The frozen-base progressive student, trainer, mechanical checks and evaluator are
+original Apache-2.0 research code. The experiment is inspired by residual stages
+and original-input access in Zamir et al.,
+[Multi-Stage Progressive Image Restoration](https://arxiv.org/html/2102.02808v1).
+It does not implement MPRNet or copy its code, weights or figures. Jolicoeur-Martineau's
+[Less is More: Recursive Reasoning with Tiny Networks](https://arxiv.org/html/2510.04871v1)
+was reviewed for iterative refinement ideas; no TRM implementation or transferred
+benchmark result is claimed. The existing training images, teacher captures and
+both student checkpoints remain private.
