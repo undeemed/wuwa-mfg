@@ -29,6 +29,7 @@ def main():
                         help='Diagnostic cuBLAS FP16 accumulation; does not prove the native reduction order.')
     parser.add_argument('--mma', action='store_true', help='Also compare direct FP8 MMA with optional initial residual/bias.')
     parser.add_argument('--mma-adapter', action='store_true', help='Test the fully seeded MMA path with a direct FP16 input projection; requires --mma.')
+    parser.add_argument('--whole-skip', action='store_true', help='Compare the complete first-block skip from a pre-stem capture instead of a 32 MiB prefix.')
     args = parser.parse_args()
     if args.mma_adapter and not args.mma:parser.error('--mma-adapter requires --mma')
     if args.output.exists():
@@ -49,7 +50,13 @@ def main():
             from mma_first_block import MmaFirstBlock
             mma_block = MmaFirstBlock(reference, pipeline.model, kernel)
         for trial in args.trial:
-            native, digest = load_prefix(trial)
+            if args.whole_skip:
+                from decode_pre_stem import read_stem_parts
+                skip, _, stem_hashes = read_stem_parts(trial)
+                native = np.frombuffer(skip,np.uint8).reshape(-1,512)
+                digest = stem_hashes['skip_sha256']
+            else:
+                native, digest = load_prefix(trial)
             capture = trial / 'capture'
             frame = json.loads((capture / 'frame-0.json').read_text())
             controls = frame['controls']
@@ -69,7 +76,8 @@ def main():
                 local_tone_strength=controls['DLSSNR.LocalToneStrength'],
                 local_structure_strength=controls['DLSSNR.LocalStructureStrength'], automatic_mask=automatic)
             noise_delta = np.abs(gpu_noise.cpu().numpy() - features[..., :3])
-            record = {'native_prefix_sha256': digest, 'input_sha256': hashlib.sha256(raw).hexdigest(),
+            record = {'native_skip_sha256' if args.whole_skip else 'native_prefix_sha256': digest,
+                      'input_sha256': hashlib.sha256(raw).hexdigest(),
                       'noise_cuda_vs_numpy': {'per_channel_mae': noise_delta.mean(axis=(0, 1)).tolist(),
                                              'per_channel_max': noise_delta.max(axis=(0, 1)).tolist()},
                       'variants': {}}
@@ -121,7 +129,8 @@ def main():
     report = {'schema': 1, 'weights_sha256': hashlib.sha256(args.weights.read_bytes()).hexdigest(),
               'cublas_fp16_accumulation': torch.backends.cuda.matmul.allow_fp16_accumulation,
               'source_commit': '0ca2deab092fe6f3e331bf4f616271dbc64521d0', 'records': records,
-              'quality_gate_passed': False, 'limitations': [
+              'quality_gate_passed': False, 'whole_skip': args.whole_skip, 'limitations': [
+                  'The complete first-block skip at reset zero is compared.' if args.whole_skip else
                   'Only the captured prefix of the first-block skip at reset zero is compared.',
                   'Branch-input E4M3 rounding preserves separate unquantized residual operands.',
                   'Noise agreement with NumPy alone cannot prove native noise equality.',

@@ -543,6 +543,26 @@ The real native model still measured about 5.42 ms; the 3 ms quality-preserving
 target remains unmet. See the [pooling experiment](../research/neural-latency/README.md#separate-pooled-features-and-a-native-input-diagnostic)
 and [numeric evidence](../evidence/neural-model-research/native-pre-pool.json).
 
+## Complete first-block substitution
+
+The complete skip and pool were subsequently captured together in two hidden
+demo views. The reconstructed first block matches about 99.34–99.35% of the full
+skip bytes, now including previously uncaptured rows. Substituting both exact
+native outputs still worsens final RGB error in both views. This moves the next
+numerical investigation to the remaining network and output composition; it
+does not establish that the first block alone was the cause.
+
+Enabling full FP16 cuBLAS accumulation throughout the reconstruction reduced its
+graph time from about 190.6 to 185.2 ms but slightly worsened image error in both
+views. With a captured native first block it improved image error slightly,
+still far short of matching the native result. Neither candidate is accepted.
+The native runtime remained around 5.46 ms for the model and 5.66 ms total.
+
+The [complete-capture experiment](../research/neural-latency/README.md#complete-first-block-capture-and-full-network-accumulation)
+documents the capture guards, decoder, paired comparisons and limitations.
+Its lower timings when using stored native activations are diagnostic only;
+they cannot be reported as a usable renderer speedup.
+
 ## Papers and what can transfer
 
 These papers provide research ideas. Their reported speedups are on other models

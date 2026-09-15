@@ -12,6 +12,7 @@ p.add_argument('--capture',type=Path,required=True)
 p.add_argument('--output',type=Path,required=True)
 p.add_argument('--inspect-only',action='store_true')
 p.add_argument('--precision',choices=['fast','reference'],default='fast')
+p.add_argument('--fp16-accumulation',action='store_true',help='Process-local cuBLAS FP16 accumulation diagnostic; does not change the NVIDIA runtime.')
 p.add_argument('--network-height',type=int)
 p.add_argument('--batched-ffn',action='store_true',help='Experimental FP16 branch batching; FP32 keeps the reference.')
 p.add_argument('--fused-gate',action='store_true')
@@ -20,16 +21,20 @@ p.add_argument('--fused-roundtrip',action='store_true',help='Fuse clamp and E4M3
 p.add_argument('--first-block-rounding',action='store_true',help='Experimental FP8 inputs to block-0 FFN/QKV branches; retain original residual operands.')
 p.add_argument('--mma-first-block',action='store_true',help='Experimental direct FP8 MMA and initial residual/bias for block 0 only.')
 p.add_argument('--native-pre-pool',type=Path,help='Diagnostic only: substitute the captured native block-1 input from this exact frame. Not a deployable model.')
+p.add_argument('--native-pre-stem',type=Path,help='Diagnostic only: substitute the complete captured native first-block skip and pool from this exact frame.')
 p.add_argument('--graph',action='store_true',help='Time fixed-shape CUDA Graph replay on the complete captured input.')
 p.add_argument('--profile',action='store_true',help='Trace one warmed graph replay after timing; requires --graph.')
 p.add_argument('--noise-frame',type=int,choices=range(4),default=0,
                help='Noise counter, default 0; verify against a companion native launch-contract trace when available.')
 a=p.parse_args()
 if a.profile and not a.graph:p.error('--profile requires --graph')
+if a.fp16_accumulation and a.precision!='fast':p.error('--fp16-accumulation requires fast precision')
 if a.mma_first_block and (a.first_block_rounding or a.precision!='fast'):
     p.error('--mma-first-block requires fast precision and cannot combine with --first-block-rounding')
-if a.native_pre_pool and (a.noise_frame!=0 or a.network_height!=1152):
-    p.error('--native-pre-pool requires noise frame 0 and --network-height 1152')
+if (a.native_pre_pool or a.native_pre_stem) and (a.noise_frame!=0 or a.network_height!=1152):
+    p.error('Native activation diagnostics require noise frame 0 and --network-height 1152')
+if a.native_pre_stem and (a.native_pre_pool or a.mma_first_block or a.first_block_rounding):
+    p.error('--native-pre-stem cannot combine with other first-block substitutions')
 a.output.mkdir(parents=True,exist_ok=False)
 sys.path.insert(0,str(a.source/'python'))
 metadata=json.loads((a.capture/'frame-0.json').read_text())
@@ -65,6 +70,7 @@ print(json.dumps(stats,indent=2),flush=True)
 if a.inspect_only:raise SystemExit()
 import torch
 torch.backends.cuda.matmul.allow_tf32=False
+torch.backends.cuda.matmul.allow_fp16_accumulation=a.fp16_accumulation
 from mlxdlss import model as reference
 from mlxdlss.pipeline import NeuralRenderingPipeline
 from mlxdlss.features import AutomaticMask,NetworkGeometry,make_features
@@ -110,23 +116,42 @@ if a.mma_first_block:
         if head_count!=1:raise ValueError('MMA probe supports single-head block 0 only.')
         return mma_block(value,attention_mma=True,seed_residual=True,seed_logits=True)
     pipeline.model._window=mma_window
-if a.native_pre_pool:
+if a.native_pre_pool or a.native_pre_stem:
     from decode_pre_pool import load_pooled
     from decode_pre_tensor import e4m3_lut
-    pooled_codes,pooled_hash=load_pooled(a.native_pre_pool)
-    pooled_frame=json.loads((a.native_pre_pool/'capture/frame-0.json').read_text())
+    native_trial=a.native_pre_stem or a.native_pre_pool
+    native_skip=None
+    if a.native_pre_stem:
+        from decode_pre_stem import load_stem
+        skip_codes,pooled_codes,stem_hashes=load_stem(native_trial)
+        skip_values=e4m3_lut().astype(np.float16)[skip_codes]
+        if not np.isfinite(skip_values).all():raise ValueError('Nonfinite native skip.')
+        native_skip=torch.from_numpy(skip_values[None]).to('cuda',pipeline.dtype)
+        pooled_hash=stem_hashes['pool_sha256']
+        stats['native_pre_stem_diagnostic']={**stem_hashes,
+            'scope':'Complete captured first-block skip and pool from this exact frame; not an independent model.'}
+        del skip_codes,skip_values
+    else:
+        pooled_codes,pooled_hash=load_pooled(native_trial)
+    pooled_frame=json.loads((native_trial/'capture/frame-0.json').read_text())
+    if not (pooled_frame['complete'] and pooled_frame['gpu_completed'] and pooled_frame['evaluate_result']==1):
+        raise ValueError('The paired native activation frame did not complete successfully.')
     if pooled_frame['controls']!=controls:
         raise ValueError('Native activation controls differ from the target frame.')
     for role in ('color','output'):
         filename=Path(pooled_frame['resources'][role]['file'])
         if filename.name!=str(filename):raise ValueError('Texture filename must be a basename.')
-        digest=hashlib.sha256((a.native_pre_pool/'capture'/filename).read_bytes()).hexdigest()
+        digest=hashlib.sha256((native_trial/'capture'/filename).read_bytes()).hexdigest()
         if digest!=hashes[role]:raise ValueError('Native activation must come from the exact paired frame.')
-    pooled_values=e4m3_lut()[pooled_codes]
+    pooled_values=e4m3_lut().astype(np.float16)[pooled_codes]
     if not np.isfinite(pooled_values).all():raise ValueError('Nonfinite native activation.')
     native_pool=torch.from_numpy(pooled_values[None]).to('cuda',pipeline.dtype)
     before_teacher=pipeline.model._window
     def teacher_window(value,index,*,head_count,publish=True):
+        if index==0 and native_skip is not None:
+            if value.shape!=native_skip.shape or head_count!=1:
+                raise ValueError('Unexpected first-block skip shape.')
+            return native_skip
         if index==1:
             if value.shape!=native_pool.shape or head_count!=1:
                 raise ValueError('Unexpected first pooled-window input shape.')
@@ -201,6 +226,7 @@ def corr(x,y):
 def hp(x):
     return x[1:-1,1:-1]-(x[:-2,1:-1]+x[2:,1:-1]+x[1:-1,:-2]+x[1:-1,2:])*0.25
 stats.update(precision=a.precision,network_extent=list(result.network_extent),network_seconds=network_seconds,
+             cublas_fp16_accumulation=torch.backends.cuda.matmul.allow_fp16_accumulation,
              noise_frame=a.noise_frame,
              batched_ffn=a.batched_ffn and a.precision=='fast',
              fused_gate=a.fused_gate,

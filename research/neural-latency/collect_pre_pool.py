@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: MIT
-"""Capture private first-block pooled features in two hidden NVIDIA demo views.
+"""Capture private first-block features in two hidden NVIDIA demo views.
 
 Requires the combined optiscaler-demo-pre-tensor.patch capture build. This tool
 never launches a game. Raw tensors and textures must remain outside this repo.
@@ -27,8 +27,15 @@ def main():
     parser.add_argument('--output-dir', type=Path, required=True)
     parser.add_argument('--capture-dll', type=Path, required=True)
     parser.add_argument('--capture-sha256', required=True)
-    parser.add_argument('--prefix', default='native-pre-pool')
+    parser.add_argument('--prefix')
+    parser.add_argument('--stem', action='store_true', help='Capture the complete skip and pooled output together.')
     args = parser.parse_args()
+    args.prefix = args.prefix or ('native-pre-stem' if args.stem else 'native-pre-pool')
+    markers = tuple(name.replace('pre-pool', 'pre-stem') for name in MARKERS) if args.stem else MARKERS
+    artifacts = dict(ARTIFACTS)
+    if args.stem:
+        del artifacts['nr-pre-pool-capture']
+        artifacts['nr-pre-stem-capture'] = 'pre-stem'
     import re
     if not re.fullmatch('[a-z0-9-]+', args.prefix):
         parser.error('Use a simple lowercase trial prefix.')
@@ -47,7 +54,8 @@ def main():
     if sha256(capture_dll) != args.capture_sha256.lower():
         raise ValueError('Capture DLL hash mismatch.')
     for name in (*MARKERS, *ARTIFACTS, 'nr-kernel-timing.enable',
-                 'nr-force-sm89.enable', 'nr-pre-tensor-capture.enable', 'nr-pre-tensor-capture'):
+                 'nr-force-sm89.enable', 'nr-pre-tensor-capture.enable', 'nr-pre-tensor-capture',
+                 'nr-pre-stem-capture.enable', 'nr-pre-stem-capture'):
         if (demo / name).exists():
             raise FileExistsError('Archive or disable previous experiment: ' + name)
     views = [('original', None), ('west', [-1, 1.8, 0])]
@@ -61,14 +69,15 @@ def main():
     if manifest_path.exists():
         raise FileExistsError(manifest_path)
     output.mkdir(parents=True, exist_ok=True)
-    manifest = {'schema': 1, 'capture_dll_sha256': sha256(capture_dll),
+    manifest = {'schema': 1, 'mode': 'complete_first_block' if args.stem else 'pooled',
+                'capture_dll_sha256': sha256(capture_dll),
                 'original_dll_sha256': sha256(original_dll),
                 'original_scene_sha256': sha256(original_scene), 'views': []}
     trial = None
     def archive():
         if trial is None or not trial.exists():
             return
-        for source_name, target_name in ARTIFACTS.items():
+        for source_name, target_name in artifacts.items():
             source, target = demo / source_name, trial / target_name
             if not source.resolve().is_relative_to(demo) or not target.resolve().is_relative_to(output):
                 raise ValueError('Archive paths escaped their intended roots.')
@@ -78,8 +87,8 @@ def main():
                 source.rename(target)
     try:
         (demo / 'dxgi.dll').write_bytes(capture_dll)
-        for name in MARKERS:
-            (demo / name).write_text('One-shot private pooled-tensor capture\n')
+        for name in markers:
+            (demo / name).write_text('One-shot private first-block capture\n')
         for name, direction in views:
             scene.write_bytes(original_scene if direction is None else
                               camera_scene(original_scene, [0, 1.8, 0], direction))
@@ -95,21 +104,29 @@ def main():
             archive()
             if run.returncode:
                 raise RuntimeError('Hidden demo runner failed: ' + label)
-            meta = json.loads((trial / 'pre-pool/metadata.json').read_text())
+            tensor_dir = trial / ('pre-stem' if args.stem else 'pre-pool')
+            meta = json.loads((tensor_dir / 'metadata.json').read_text())
+            expected_bytes = 1152*1920*32 + 576*960*32 if args.stem else 576*960*32
+            expected_filename = 'pre-stem.raw' if args.stem else 'pre-pool.raw'
             if not (meta['complete'] and meta['gpu_completed'] and meta['frame'] == 1
-                    and meta['noise_counter'] == 0 and meta['tensor_kind'] == 'pooled'
+                    and meta['noise_counter'] == 0 and meta['tensor_kind'] == manifest['mode']
+                    and meta['pointer_argument_offset'] == (216 if args.stem else 248)
                     and [meta['width'], meta['height']] == [1920, 1080]
                     and [meta['pool_width'], meta['pool_height']] == [960, 576]
-                    and meta['bytes'] == 960*576*32 and meta['file'] == 'pre-pool.raw'):
-                raise ValueError('Pooled capture contract failed.')
-            raw = (trial / 'pre-pool/pre-pool.raw').read_bytes()
+                    and meta['bytes'] == expected_bytes and meta['file'] == expected_filename):
+                raise ValueError('First-block capture contract failed.')
+            if args.stem and not ([meta['skip_width'], meta['skip_height']] == [1920,1152]
+                                 and meta['skip_bytes'] == 1152*1920*32 and meta['pool_bytes'] == 576*960*32):
+                raise ValueError('Complete skip/pool partition contract failed.')
+            raw = (tensor_dir / expected_filename).read_bytes()
             if len(raw) != meta['bytes']:
-                raise ValueError('Truncated pooled tensor.')
+                raise ValueError('Truncated first-block tensor.')
             frame = json.loads((trial / 'capture/frame-0.json').read_text())
             if not (frame['complete'] and frame['gpu_completed'] and frame['evaluate_result'] == 1
                     and frame['controls']['DLSSNR.Reset'] == 1):
                 raise ValueError('Paired first-reset textures are incomplete.')
-            record = {'view': name, 'label': label, 'pooled_sha256': sha256(raw), 'capture_hashes': {}}
+            record = {'view': name, 'label': label,
+                      'stem_sha256' if args.stem else 'pooled_sha256': sha256(raw), 'capture_hashes': {}}
             for role in ('color', 'output'):
                 resource = frame['resources'][role]
                 if [resource['width'], resource['height']] != [1920, 1080]:
@@ -125,7 +142,7 @@ def main():
         # Restore configuration before archiving diagnostics, even on failure.
         scene.write_bytes(original_scene)
         (demo / 'dxgi.dll').write_bytes(original_dll)
-        for name in MARKERS:
+        for name in markers:
             (demo / name).unlink(missing_ok=True)
         archive()
         if scene.read_bytes() != original_scene or (demo / 'dxgi.dll').read_bytes() != original_dll:

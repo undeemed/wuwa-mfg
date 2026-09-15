@@ -597,3 +597,72 @@ per view. No quality acceptance, native speedup or game deployment follows.
 Capture contracts, hashes, per-channel errors, padding results, pooling variants
 and the matched final-image diagnostic are published in
 [`native-pre-pool.json`](../../evidence/neural-model-research/native-pre-pool.json).
+
+## Complete first-block capture and full-network accumulation
+
+The complete full-resolution skip is **70,778,880 bytes**, immediately followed
+by the **17,694,720-byte pool** in the observed allocation. The combined capture
+patch adds `nr-pre-stem-capture.enable` to copy their contiguous 88,473,600-byte
+range once. Exactly one of the prefix, pool or complete-first-block markers must
+be enabled. The new mode additionally verifies the 1152×1920 skip extent,
+576×960 pool extent, exact pointer separation and retained allocation bounds.
+It uses the same submitting-queue fence and restores UAV state after the copy.
+This remains a hidden-demo research feature, not a game configuration.
+
+`collect_pre_pool.py --stem` collects both original and west views with this
+mode. Its default trial prefix becomes `native-pre-stem`. `decode_pre_stem.py`
+separates the payload and applies the independently established skip and pool
+layouts. The skip prefixes match the earlier native prefix captures byte for
+byte; all decoded values are finite. The new original-view texture differs
+slightly from the earlier capture, so all image comparisons below were rerun
+against the new paired input and native output.
+
+```powershell
+python collect_pre_pool.py --stem --demo-dir D:\PrivateDemo\bin\ngx_dlss_demo --output-dir D:\PrivateResults --capture-dll D:\PrivateBuild\OptiScaler.dll --capture-sha256 <verified-build-sha256>
+.venv\Scripts\python probe_pre_tensor_arithmetic.py --whole-skip --fp16-accumulation --mma --mma-adapter --source MLX-DLSS --weights D:\PrivateWeights\logical.safetensors --trial D:\PrivateResults\trials\native-pre-stem-original --trial D:\PrivateResults\trials\native-pre-stem-west --output D:\PrivateResults\whole-skip.json
+```
+
+The best direct-MMA first block matches **99.34% / 99.35%** of the complete skip's
+bytes in original / west, with MAE **0.000123 / 0.000126**. This comparison covers
+every 70,778,880-byte skip, including the bottom rows missing from the old prefix.
+It is still not exact arithmetic or final-image quality acceptance.
+
+`compare_capture.py --native-pre-stem <trial>` substitutes both decoded native
+first-block outputs: the full-resolution skip and the input to block 1. It
+requires matching captured input/output hashes, control values, reset/noise
+conditions and dimensions. The resulting program uses known activations from
+that exact frame; it cannot run as an independent renderer. The flag cannot be
+combined with other first-block substitutions.
+
+An additional `--fp16-accumulation` option tests the process-local cuBLAS setting
+throughout the reconstruction. It requires `--precision fast` and records the
+actual backend setting. The default explicitly leaves full FP16 accumulation
+disabled. This is separate from the direct FP8 MMA diagnostic, and neither flag
+changes the native NVIDIA runtime.
+
+All rows use 1920×1080 inputs with the same 1152×1920 padded network extent and
+existing pointwise/FFN fusions. Each view's comparisons share identical input,
+native target and controls:
+
+| Reconstruction condition | RGB MAE, original | RGB MAE, west | Graph ms, original / west |
+| --- | ---: | ---: | ---: |
+| Previous implementation | **0.01425** | **0.01647** | 190.58 / 190.61 |
+| Exact native first-block outputs | 0.01632 | 0.01757 | 170.10 / 170.09 |
+| Full FP16 accumulation | 0.01445 | 0.01663 | 185.16 / 185.23 |
+| Exact native first block + full FP16 accumulation | 0.01618 | 0.01745 | 164.70 / 164.73 |
+
+Exact first-block outputs alone do not fix the final image. Remaining network
+operations and final composition need validation. Full FP16 accumulation helps
+slightly when the native first block is supplied, but worsens the independent
+reconstruction. Neither is accepted. The reduced diagnostic graph times partly
+come from substituting captured activations instead of calculating the first
+block; **they are not deployable speedups**. Even the independent reconstruction
+remains around 185 ms, far slower than the native runtime.
+
+The actual hidden-demo captures measured about **5.46 ms model / 5.66 ms total**,
+with only two sparse warm readings per view. First-frame barrier logs showed one
+global UAV barrier at each of 16 distinct chain positions; these logs did not
+identify consecutive duplicate barriers to remove. No barrier-removal patch was
+made. Source restoration, capture contracts, complete skip comparisons and all
+eight matched image tests are recorded in
+[`native-pre-stem.json`](../../evidence/neural-model-research/native-pre-stem.json).
