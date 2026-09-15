@@ -10,3 +10,6 @@ dist/
 *status.json
 *state.json
 *.log
+.build/
+*.dmp
+*.nv-gpudmp

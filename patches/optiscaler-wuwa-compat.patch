@@ -1,0 +1,935 @@
+diff --git a/OptiScaler/Config.cpp b/OptiScaler/Config.cpp
+index a4d7e35..ca217c9 100644
+--- a/OptiScaler/Config.cpp
++++ b/OptiScaler/Config.cpp
+@@ -68,6 +68,7 @@ bool Config::Reload(std::filesystem::path iniPath)
+         // Frame Generation
+         {
+             FGEnabled.set_from_config(readBool("FrameGen", "Enabled"));
++            ExternalFrameGeneration.set_from_config(readBool("FrameGen", "External"));
+             FGDebugView.set_from_config(readBool("FrameGen", "DebugView"));
+ 
+             if (auto FGInputString = readString("FrameGen", "FGInput"); FGInputString.has_value())
+@@ -344,6 +345,7 @@ bool Config::Reload(std::filesystem::path iniPath)
+             DlssNrCompareTags.set_from_config(readBool("DlssNr", "CompareTags"));
+             DlssNrTagScale.set_from_config(readFloat("DlssNr", "TagScale"));
+             DlssNrWorkingScale.set_from_config(readFloat("DlssNr", "WorkingScale"));
++            DlssNrWorkingScaleRelativeToOutput.set_from_config(readBool("DlssNr", "WorkingScaleRelativeToOutput"));
+ 
+             if (auto v = readEnum<Scaler>("DlssNr", "ScalingDownscaler"))
+                 DlssNrScalingDownscaler.set_from_config(*v);
+@@ -974,6 +976,7 @@ bool Config::SaveIni()
+     // Frame Generation
+     {
+         ini.SetValue("FrameGen", "Enabled", GetBoolValue(Instance()->FGEnabled.value_for_config()).c_str());
++        ini.SetValue("FrameGen", "External", GetBoolValue(Instance()->ExternalFrameGeneration.value_for_config()).c_str());
+         // Discard settings from removed fork-only frame-generation extensions.
+         ini.Delete("FrameGen", "External");
+         for (const auto* key : { "AdaBlackwellKernels", "AmpereMfgUnlock", "AmpereMfgMaxFrames",
+@@ -1293,6 +1296,8 @@ bool Config::SaveIni()
+     ini.SetValue("DlssNr", "TagScale",
+                  GetFloatValue(Instance()->DlssNrTagScale.value_for_config()).c_str());
+     ini.SetValue("DlssNr", "WorkingScale", GetFloatValue(Instance()->DlssNrWorkingScale.value_for_config()).c_str());
++    ini.SetValue("DlssNr", "WorkingScaleRelativeToOutput",
++                 GetBoolValue(Instance()->DlssNrWorkingScaleRelativeToOutput.value_for_config()).c_str());
+     ini.SetValue("DlssNr", "ScalingDownscaler", GetIntValue(Instance()->DlssNrScalingDownscaler).c_str());
+     ini.SetValue("DlssNr", "AutoCapture", GetBoolValue(Instance()->DlssNrAutoCapture.value_for_config()).c_str());
+ 
+diff --git a/OptiScaler/Config.h b/OptiScaler/Config.h
+index 51906c6..f22eb13 100644
+--- a/OptiScaler/Config.h
++++ b/OptiScaler/Config.h
+@@ -393,6 +393,8 @@ class Config
+     // only the model's contribution is computed small and enlarged, so the picture underneath is
+     // untouched whatever this is set to. 1.0 is full resolution and behaves exactly as before.
+     CustomOptional<float> DlssNrWorkingScale { 1.0f };
++    // DX12: interpret WorkingScale relative to the game's output, including before SR.
++    CustomOptional<bool> DlssNrWorkingScaleRelativeToOutput { false };
+ 
+     // Filter used for NR supersampling (working scale > 1): the model runs above native, and this is
+     // the downscaler that averages its answer back to native. Independent of OutputScalingDownscaler
+@@ -778,6 +780,8 @@ class Config
+     CustomOptional<int> LateAsiPluginsDelay { 30 };
+ 
+     // Frame Generation
++    // Startup-only compatibility mode: a separate mod owns native FG and Streamline.
++    CustomOptional<bool> ExternalFrameGeneration { false };
+     CustomOptional<FGInput> FGInput { FGInput::NoFG };
+     CustomOptional<FGOutput> FGOutput { FGOutput::NoFG };
+     CustomOptional<FGNvngxReplacement> FGNvngxReplacement { FGNvngxReplacement::None };
+diff --git a/OptiScaler/dllmain.cpp b/OptiScaler/dllmain.cpp
+index f4522d9..c3d55f2 100644
+--- a/OptiScaler/dllmain.cpp
++++ b/OptiScaler/dllmain.cpp
+@@ -1859,6 +1859,14 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
+ #endif
+ 
+         // Initial state of FG
++        if (Config::Instance()->ExternalFrameGeneration.value_or_default())
++        {
++            Config::Instance()->FGEnabled.set_volatile_value(false);
++            Config::Instance()->FGInput.set_volatile_value(FGInput::NoFG);
++            Config::Instance()->FGOutput.set_volatile_value(FGOutput::NoFG);
++            Config::Instance()->FGNvngxReplacement.set_volatile_value(FGNvngxReplacement::None);
++            spdlog::info("External FG compatibility: native Streamline/NvAPI ownership preserved; NR uses the NGX upscaling path.");
++        }
+         State::Instance().activeFgInput = Config::Instance()->FGInput.value_or_default();
+         State::Instance().activeFgOutput = Config::Instance()->FGOutput.value_or_default();
+         State::Instance().activeFgNvngx = Config::Instance()->FGNvngxReplacement.value_or_default();
+diff --git a/OptiScaler/dlssnr/DlssNr_DispatchSlots.h b/OptiScaler/dlssnr/DlssNr_DispatchSlots.h
+new file mode 100644
+index 0000000..505fb62
+--- /dev/null
++++ b/OptiScaler/dlssnr/DlssNr_DispatchSlots.h
+@@ -0,0 +1,35 @@
++#pragma once
++#include <array>
++#include <atomic>
++#include <cstdint>
++#include <memory>
++#include <optional>
++
++namespace DlssNr
++{
++// Owner serializes allocation. Completion may be delivered from a queue/reset notification.
++// A slot contains both GPU-visible descriptors and mapped upload constants.
++template <uint32_t Count> class DispatchSlots
++{
++    static_assert(Count > 0);
++    std::array<std::shared_ptr<std::atomic_bool>, Count> ready {};
++    uint32_t next = 0;
++  public:
++    struct Allocation { uint32_t index; std::shared_ptr<std::atomic_bool> completion; };
++    bool Busy(uint32_t index) const
++    { return index < Count && ready[index] && !ready[index]->load(); }
++    std::optional<Allocation> Acquire()
++    {
++        for (uint32_t offset = 0; offset < Count; ++offset)
++        {
++            const auto index = (next + offset) % Count;
++            if (Busy(index)) continue;
++            auto completion = std::make_shared<std::atomic_bool>(false);
++            ready[index] = completion;
++            next = (index + 1) % Count;
++            return Allocation { index, std::move(completion) };
++        }
++        return std::nullopt;
++    }
++};
++}
+diff --git a/OptiScaler/dlssnr/DlssNr_MenuInput.cpp b/OptiScaler/dlssnr/DlssNr_MenuInput.cpp
+index 04b1908..dca225a 100644
+--- a/OptiScaler/dlssnr/DlssNr_MenuInput.cpp
++++ b/OptiScaler/dlssnr/DlssNr_MenuInput.cpp
+@@ -16,6 +16,12 @@ void RenderInput(Config* config, float menuResScale)
+ {
+     // Resolution changes rebuild model resources; commit only after releasing the slider.
+     static int pendingScale = -1;
++    bool outputRelative = config->DlssNrWorkingScaleRelativeToOutput.value_or_default();
++    if (ImGui::Checkbox("Scale relative to output (DX12)", &outputRelative))
++    {
++        config->DlssNrWorkingScaleRelativeToOutput = outputRelative;
++        pendingScale = -1;
++    }
+ 
+     int scalePercent =
+         pendingScale >= 0 ? pendingScale : (int) lroundf(config->DlssNrWorkingScale.value_or_default() * 100.0f);
+@@ -29,9 +35,11 @@ void RenderInput(Config* config, float menuResScale)
+         pendingScale = -1;
+     }
+ 
+-    HelpMarker("50% halves width and height. 100% uses the full input size.");
++    HelpMarker(outputRelative
++        ? "DX12: 100% uses the game's output dimensions, even before SR. 50% halves both axes. Pixel cost scales with the square of this percentage. Missing output dimensions fall back to input."
++        : "50% halves width and height. 100% uses the full input size.");
+ 
+-    if (scalePercent > 100)
++    if (scalePercent > 100 || outputRelative)
+     {
+         static const char* dsNames[] = { "FSR1",     "Bicubic", "Catmull-Rom", "Lanczos2",
+                                          "Lanczos3", "Kaiser2", "Kaiser3",     "MAGIC" };
+@@ -42,10 +50,10 @@ void RenderInput(Config* config, float menuResScale)
+         if (ImGui::Combo("Downscaler (NR)", &ds, dsNames, IM_ARRAYSIZE(dsNames)))
+             config->DlssNrScalingDownscaler = (Scaler) ds;
+ 
+-        HelpMarker("Downsampling filter for resolutions above 100%.");
++        HelpMarker("Filter used when the model is larger than the active input, including output-relative pre-SR.");
+     }
+     {
+-        const bool reduced = config->DlssNrWorkingScale.value_or_default() < 0.999f;
++        const bool reduced = outputRelative || config->DlssNrWorkingScale.value_or_default() < 0.999f;
+ 
+         if (!reduced)
+             ImGui::BeginDisabled();
+diff --git a/OptiScaler/dlssnr/DlssNr_WorkingExtent.h b/OptiScaler/dlssnr/DlssNr_WorkingExtent.h
+new file mode 100644
+index 0000000..af45cf2
+--- /dev/null
++++ b/OptiScaler/dlssnr/DlssNr_WorkingExtent.h
+@@ -0,0 +1,36 @@
++// SPDX-License-Identifier: GPL-3.0-only
++#pragma once
++#include <algorithm>
++#include <cmath>
++#include <cstdint>
++#include <optional>
++
++namespace DlssNr
++{
++struct WorkingExtent
++{
++    uint32_t width, height;
++    float sourceScale;
++    bool outputRelative;
++};
++
++// Width and height share one scale. Round only at the final pixel boundary.
++// The output basis is independent of DLSS quality/DRS input dimensions.
++inline std::optional<WorkingExtent> ResolveWorkingExtent(uint32_t sourceWidth, uint32_t sourceHeight,
++    uint32_t outputWidth, uint32_t outputHeight, float scale, bool relativeToOutput)
++{
++    if (!sourceWidth || !sourceHeight) return std::nullopt;
++    if (!std::isfinite(scale)) scale = 1.0f;
++    scale = std::clamp(scale, 0.25f, 2.0f);
++    const bool useOutput = relativeToOutput && outputWidth && outputHeight;
++    const auto basisWidth = useOutput ? outputWidth : sourceWidth;
++    const auto basisHeight = useOutput ? outputHeight : sourceHeight;
++    // D3D12's 2D texture dimension limit. Uniformly reduce both axes if necessary.
++    constexpr double limit = 16384.0;
++    const double effective = std::min({ double(scale), limit / basisWidth, limit / basisHeight });
++    const auto width = uint32_t(std::max(1.0, std::floor(basisWidth * effective + 0.5)));
++    const auto height = uint32_t(std::max(1.0, std::floor(basisHeight * effective + 0.5)));
++    return WorkingExtent { width, height,
++        std::max(float(width) / sourceWidth, float(height) / sourceHeight), useOutput };
++}
++}
+diff --git a/OptiScaler/hooks/ExternalFgLifetime.h b/OptiScaler/hooks/ExternalFgLifetime.h
+new file mode 100644
+index 0000000..95364a3
+--- /dev/null
++++ b/OptiScaler/hooks/ExternalFgLifetime.h
+@@ -0,0 +1,37 @@
++#pragma once
++
++#include <windows.h>
++#include <algorithm>
++#include <cwctype>
++#include <string>
++
++enum class ExternalFgRetention { Skipped, Retained, Failed };
++
++// Streamline plugins may keep interfaces implemented by sl.common across NGX initialization.
++// In external-FG mode, preserve those interfaces until process exit, without replacing them.
++inline ExternalFgRetention RetainExternalFgCommon(
++    HMODULE module, bool external,
++    decltype(&GetModuleHandleExW) retain = &GetModuleHandleExW)
++{
++    if (!external || !module || !retain)
++        return ExternalFgRetention::Skipped;
++    wchar_t buffer[MAX_PATH];
++    const auto count = GetModuleFileNameW(module, buffer, MAX_PATH);
++    if (!count || count >= MAX_PATH)
++        return ExternalFgRetention::Skipped;
++    std::wstring path(buffer, count);
++    std::transform(path.begin(), path.end(), path.begin(), [](wchar_t ch) {
++        return ch == L'/' ? L'\\' : static_cast<wchar_t>(std::towlower(ch));
++    });
++    const auto slash = path.find_last_of(L'\\');
++    const auto filename = path.substr(slash == std::wstring::npos ? 0 : slash + 1);
++    const bool common = filename == L"sl.common.dll" ||
++        (filename.ends_with(L".dll") &&
++         path.find(L"\\nvidia\\ngx\\models\\sl_common_0\\versions\\") != std::wstring::npos);
++    if (!common)
++        return ExternalFgRetention::Skipped;
++    HMODULE held = nullptr;
++    return retain(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_PIN,
++                  reinterpret_cast<LPCWSTR>(module), &held)
++        ? ExternalFgRetention::Retained : ExternalFgRetention::Failed;
++}
+diff --git a/OptiScaler/hooks/LibraryLoad_Hooks.cpp b/OptiScaler/hooks/LibraryLoad_Hooks.cpp
+index 0a4c3f1..d3f4b01 100644
+--- a/OptiScaler/hooks/LibraryLoad_Hooks.cpp
++++ b/OptiScaler/hooks/LibraryLoad_Hooks.cpp
+@@ -1,5 +1,6 @@
+ #include "pch.h"
+ #include "LibraryLoad_Hooks.h"
++#include "ExternalFgLifetime.h"
+ #if defined(OPTISCALER_RTX40_MFG)
+ #include <framegen/dlssg/MfgUnlock.h>
+ #endif
+@@ -58,6 +59,17 @@ HMODULE LibraryLoadHooks::LoadLibraryCheckW(std::wstring libName, LPCWSTR lpLibF
+     auto normalizedPath = path.wstring();
+     to_lower_in_place(normalizedPath);
+ 
++    if (Config::Instance()->ExternalFrameGeneration.value_or_default())
++    {
++        const auto filename = std::filesystem::path(normalizedPath).filename().wstring();
++        const bool streamline = filename.starts_with(L"sl.") && filename.ends_with(L".dll");
++        const bool otaFg = normalizedPath.contains(L"\\versions\\") &&
++            (normalizedPath.contains(L"\\sl_") || normalizedPath.contains(L"\\dlssg\\"));
++        // Preserve the game's existing loader chain. _nvngx remains intercepted for NR/SR.
++        if (streamline || otaFg || filename == L"nvngx_dlssg.dll" || filename == L"nvapi64.dll")
++            return nullptr;
++    }
++
+     std::filesystem::path localSlPath(Config::Instance()->MainDllPath.value());
+     localSlPath = localSlPath / L"streamline"; // Hardcoded streamline folder
+     auto normalizedLocalSlPath = localSlPath.lexically_normal();
+@@ -617,6 +629,15 @@ HMODULE LibraryLoadHooks::LoadLibraryCheckW(std::wstring libName, LPCWSTR lpLibF
+ 
+ std::optional<NTSTATUS> LibraryLoadHooks::FreeLibrary(PVOID lpLibrary)
+ {
++    // Keep the normal FreeLibrary result/refcount operation. Pinning only the common plugin
++    // prevents its vtables from becoming dangling pointers in an externally owned DLSS-G plugin.
++    const auto retained = RetainExternalFgCommon(static_cast<HMODULE>(lpLibrary),
++        Config::Instance()->ExternalFrameGeneration.value_or_default(), KernelBaseProxy::GetModuleHandleExW_());
++    if (retained == ExternalFgRetention::Retained)
++        LOG_INFO("External FG: retained Streamline common module before unload: {:p}", lpLibrary);
++    else if (retained == ExternalFgRetention::Failed)
++        LOG_WARN("External FG: could not retain Streamline common module: {:p}, error {}", lpLibrary, GetLastError());
++
+     std::optional<NTSTATUS> result;
+ 
+     if (lpLibrary == dllModule)
+diff --git a/OptiScaler/hooks/Streamline_Hooks.cpp b/OptiScaler/hooks/Streamline_Hooks.cpp
+index 38e2ee4..2e79a80 100644
+--- a/OptiScaler/hooks/Streamline_Hooks.cpp
++++ b/OptiScaler/hooks/Streamline_Hooks.cpp
+@@ -1862,6 +1862,9 @@ void StreamlineHooks::unhookInterposer()
+ // Call it just after sl.interposer's load or if sl.interposer is already loaded
+ void StreamlineHooks::hookInterposer(HMODULE slInterposer)
+ {
++    if (Config::Instance()->ExternalFrameGeneration.value_or_default())
++        return;
++
+     LOG_FUNC();
+ 
+     if (!slInterposer)
+@@ -2083,6 +2086,9 @@ void StreamlineHooks::unhookDlss()
+ 
+ void StreamlineHooks::hookDlss(HMODULE slDlss)
+ {
++    if (Config::Instance()->ExternalFrameGeneration.value_or_default())
++        return;
++
+     LOG_FUNC();
+ 
+     if (!slDlss)
+@@ -2136,6 +2142,9 @@ void StreamlineHooks::unhookDlssg()
+ 
+ void StreamlineHooks::hookDlssg(HMODULE slDlssg)
+ {
++    if (Config::Instance()->ExternalFrameGeneration.value_or_default())
++        return;
++
+     LOG_FUNC();
+ 
+     if (!slDlssg)
+@@ -2187,6 +2196,9 @@ void StreamlineHooks::unhookLocalDlssg()
+ 
+ void StreamlineHooks::hookLocalDlssg(HMODULE slDlssg)
+ {
++    if (Config::Instance()->ExternalFrameGeneration.value_or_default())
++        return;
++
+     LOG_FUNC();
+ 
+     if (!slDlssg)
+@@ -2238,6 +2250,9 @@ void StreamlineHooks::unhookReflex()
+ 
+ void StreamlineHooks::hookReflex(HMODULE slReflex)
+ {
++    if (Config::Instance()->ExternalFrameGeneration.value_or_default())
++        return;
++
+     LOG_FUNC();
+ 
+     if (!slReflex)
+@@ -2294,6 +2309,9 @@ void StreamlineHooks::unhookPcl()
+ 
+ void StreamlineHooks::hookPcl(HMODULE slPcl)
+ {
++    if (Config::Instance()->ExternalFrameGeneration.value_or_default())
++        return;
++
+     LOG_FUNC();
+ 
+     if (!slPcl)
+@@ -2352,6 +2370,9 @@ void StreamlineHooks::unhookCommon()
+ 
+ void StreamlineHooks::hookCommon(HMODULE slCommon)
+ {
++    if (Config::Instance()->ExternalFrameGeneration.value_or_default())
++        return;
++
+     LOG_FUNC();
+ 
+     if (!slCommon)
+diff --git a/OptiScaler/inputs/NVNGX_DLSS_Dx12.cpp b/OptiScaler/inputs/NVNGX_DLSS_Dx12.cpp
+index d230ae6..d2f0e02 100644
+--- a/OptiScaler/inputs/NVNGX_DLSS_Dx12.cpp
++++ b/OptiScaler/inputs/NVNGX_DLSS_Dx12.cpp
+@@ -479,6 +479,17 @@ NVSDK_NGX_API NVSDK_NGX_Result NVSDK_NGX_D3D12_GetParameters(NVSDK_NGX_Parameter
+     if (OutParameters == nullptr)
+         return NVSDK_NGX_Result_FAIL_InvalidParameter;
+ 
++    if (Config::Instance()->ExternalFrameGeneration.value_or_default())
++    {
++        *OutParameters = nullptr;
++        if (!NVNGXProxy::InitDx12(D3D12Device) || !NVNGXProxy::D3D12_GetParameters())
++            return NVSDK_NGX_Result_Fail;
++        const auto result = NVNGXProxy::D3D12_GetParameters()(OutParameters);
++        if (result == NVSDK_NGX_Result_Success && *OutParameters)
++            SetNGXParamAllocType(**OutParameters, NGX_AllocTypes::NVPersistent);
++        return result;
++    }
++
+     // If DLSS is enabled and the real DLSS module is loaded, get native NGX table
+     if (Config::Instance()->DLSSEnabled.value_or_default() && NVNGXProxy::NVNGXModule() != nullptr &&
+         NVNGXProxy::D3D12_GetParameters() != nullptr)
+@@ -519,6 +530,25 @@ NVSDK_NGX_API NVSDK_NGX_Result NVSDK_NGX_D3D12_GetCapabilityParameters(NVSDK_NGX
+     if (OutParameters == nullptr)
+         return NVSDK_NGX_Result_FAIL_InvalidParameter;
+ 
++    if (Config::Instance()->ExternalFrameGeneration.value_or_default())
++    {
++        // The native table includes the existing unlocker's FG capabilities. Do not synthesize
++        // a fallback table or reinitialize its feature values through OptiScaler.
++        *OutParameters = nullptr;
++        if (!NVNGXProxy::InitDx12(D3D12Device) || !NVNGXProxy::D3D12_GetCapabilityParameters())
++            return NVSDK_NGX_Result_Fail;
++        const auto result = NVNGXProxy::D3D12_GetCapabilityParameters()(OutParameters);
++        if (result == NVSDK_NGX_Result_Success && *OutParameters)
++        {
++            SetNGXParamAllocType(**OutParameters, NGX_AllocTypes::NVDynamic);
++            int maximum = -1;
++            const auto queried = (*OutParameters)->Get("DLSSG.MultiFrameCountMax", &maximum);
++            LOG_INFO("External FG: native DX12 capability table, generated-frame maximum {}, query result {:X}",
++                     maximum, (unsigned int) queried);
++        }
++        return result;
++    }
++
+     // Get native DLSS params if DLSS is enabled and the module is loaded
+     if (Config::Instance()->DLSSEnabled.value_or_default() && NVNGXProxy::NVNGXModule() != nullptr &&
+         NVNGXProxy::IsDx12Inited() && NVNGXProxy::D3D12_GetCapabilityParameters() != nullptr)
+@@ -583,6 +613,15 @@ NVSDK_NGX_API NVSDK_NGX_Result NVSDK_NGX_D3D12_PopulateParameters_Impl(NVSDK_NGX
+     if (InParameters == nullptr)
+         return NVSDK_NGX_Result_Fail;
+ 
++    if (Config::Instance()->ExternalFrameGeneration.value_or_default())
++    {
++        if (!NVNGXProxy::InitDx12(D3D12Device))
++            return NVSDK_NGX_Result_Fail;
++        auto original = reinterpret_cast<PFN_D3D12_PopulateParameters_Impl>(KernelBaseProxy::GetProcAddress_()(
++            NVNGXProxy::NVNGXModule(), "NVSDK_NGX_D3D12_PopulateParameters_Impl"));
++        return original ? original(InParameters) : NVSDK_NGX_Result_Fail;
++    }
++
+     InitNGXParameters(InParameters, API::DX12);
+ 
+     if (State::Instance().activeFgNvngx != FGNvngxReplacement::None)
+@@ -1144,6 +1183,12 @@ NVSDK_NGX_API NVSDK_NGX_Result NVSDK_NGX_D3D12_EvaluateFeature(ID3D12GraphicsCom
+ 
+     const auto tracked = HandleToFeature.Read(handleId);
+     const auto feature = tracked.feature;
++    if (cfg.ExternalFrameGeneration.value_or_default() && feature == NVSDK_NGX_Feature_FrameGeneration)
++    {
++        auto original = NVNGXProxy::D3D12_EvaluateFeature();
++        return original ? original(InCmdList, InFeatureHandle, InParameters, InCallback)
++                        : NVSDK_NGX_Result_FAIL_FeatureNotFound;
++    }
+     bool nrUpscale = feature == NVSDK_NGX_Feature_SuperSampling || feature == NVSDK_NGX_Feature_RayReconstruction;
+     bool rayReconstruction = feature == NVSDK_NGX_Feature_RayReconstruction;
+     // A live OptiScaler backend is additional evidence, especially if the
+@@ -1238,6 +1283,16 @@ NVSDK_NGX_API NVSDK_NGX_Result NVSDK_NGX_D3D12_GetScratchBufferSize(NVSDK_NGX_Fe
+     if (OutSizeInBytes == nullptr)
+         return NVSDK_NGX_Result_FAIL_InvalidParameter;
+ 
++    if (Config::Instance()->ExternalFrameGeneration.value_or_default() &&
++        InFeatureId == NVSDK_NGX_Feature_FrameGeneration)
++    {
++        if (!NVNGXProxy::InitDx12(D3D12Device))
++            return NVSDK_NGX_Result_Fail;
++        auto original = reinterpret_cast<PFN_D3D12_GetScratchBufferSize>(KernelBaseProxy::GetProcAddress_()(
++            NVNGXProxy::NVNGXModule(), "NVSDK_NGX_D3D12_GetScratchBufferSize"));
++        return original ? original(InFeatureId, InParameters, OutSizeInBytes) : NVSDK_NGX_Result_Fail;
++    }
++
+     if (State::Instance().activeFgNvngx != FGNvngxReplacement::None && InFeatureId == NVSDK_NGX_Feature_FrameGeneration)
+     {
+         return Nvngx_FG::D3D12_GetScratchBufferSize(InFeatureId, InParameters, OutSizeInBytes);
+diff --git a/OptiScaler/nvapi/NvApiHooks.cpp b/OptiScaler/nvapi/NvApiHooks.cpp
+index 5b70eb3..08c6631 100644
+--- a/OptiScaler/nvapi/NvApiHooks.cpp
++++ b/OptiScaler/nvapi/NvApiHooks.cpp
+@@ -269,6 +269,9 @@ void* __stdcall NvApiHooks::hkNvAPI_QueryInterface(unsigned int InterfaceId)
+ // Requires HMODULE to make sure nvapi is loaded before calling this function
+ void NvApiHooks::Hook(HMODULE nvapiModule)
+ {
++    if (Config::Instance()->ExternalFrameGeneration.value_or_default())
++        return;
++
+     if (o_NvAPI_QueryInterface != nullptr)
+         return;
+ 
+diff --git a/OptiScaler/proxies/NVNGX_Proxy.h b/OptiScaler/proxies/NVNGX_Proxy.h
+index 562af04..25fbbb8 100644
+--- a/OptiScaler/proxies/NVNGX_Proxy.h
++++ b/OptiScaler/proxies/NVNGX_Proxy.h
+@@ -91,6 +91,9 @@ inline static NVSDK_NGX_Result __stdcall Hooked_Vulkan_GetFeatureRequirements(
+ 
+ inline static void HookNgxApi(HMODULE nvngx)
+ {
++    if (Config::Instance()->ExternalFrameGeneration.value_or_default())
++        return;
++
+     if (Original_D3D11_GetFeatureRequirements != nullptr || Original_D3D12_GetFeatureRequirements != nullptr)
+         return;
+ 
+diff --git a/OptiScaler/shaders/dlssnr/DlssNr_Dx12.cpp b/OptiScaler/shaders/dlssnr/DlssNr_Dx12.cpp
+index ae89310..a7d511a 100644
+--- a/OptiScaler/shaders/dlssnr/DlssNr_Dx12.cpp
++++ b/OptiScaler/shaders/dlssnr/DlssNr_Dx12.cpp
+@@ -170,6 +170,24 @@ DlssNr_Dx12::DlssNr_Dx12(std::string InName, ID3D12Device* InDevice)
+     nrOwners.push_back(this);
+ }
+ 
++std::optional<uint32_t> DlssNr_Dx12::AcquireDispatchSlot(ID3D12GraphicsCommandList* commands)
++{
++    _state->lifetime.Collect();
++    auto slot = _dispatchSlots.Acquire();
++    if (!slot)
++    {
++        if (++_slotStalls == 1 || _slotStalls % 300 == 0)
++            LOG_WARN("DLSS-NR descriptor backpressure: skipped dispatch; all {} slots still in use ({} skips)",
++                     DLSSNR_NUM_OF_HEAPS, _slotStalls);
++        return std::nullopt;
++    }
++    _state->lifetime.Record(commands);
++    // Reuse requires recording reset/destruction AND every submitted fence to finish.
++    // Uses the existing tracker/queue notifications; no new hooks, queue waits or frame-count guess.
++    _state->lifetime.Retire([done = slot->completion] { done->store(true); });
++    return slot->index;
++}
++
+ bool DlssNr_Dx12::DispatchPass(ID3D12GraphicsCommandList* InCmdList, const DlssNrConstants& InConstants,
+                                ID3D12Resource* InSource, ID3D12Resource* InModel, ID3D12Resource* InOriginal,
+                                ID3D12Resource* InMotion, ID3D12Resource* InPrevEdit, ID3D12Resource* OutTarget,
+@@ -182,9 +200,10 @@ bool DlssNr_Dx12::DispatchPass(ID3D12GraphicsCommandList* InCmdList, const DlssN
+         return false;
+ 
+     const bool reuse = immutableSlot && *immutableSlot != UINT32_MAX;
+-    const uint32_t slot = reuse ? *immutableSlot : _heapIndex;
+-    if (!reuse)
+-        _heapIndex = (_heapIndex + 1) % DLSSNR_NUM_OF_HEAPS;
++    if (reuse && !_dispatchSlots.Busy(*immutableSlot)) return false;
++    const auto reserved = reuse ? std::optional<uint32_t>(*immutableSlot) : AcquireDispatchSlot(InCmdList);
++    if (!reserved) return false;
++    const uint32_t slot = *reserved;
+ 
+     FrameDescriptorHeap& currentHeap = _frameHeaps[slot];
+     if (!reuse)
+@@ -328,8 +347,9 @@ bool DlssNr_Dx12::DispatchResidualPass(ID3D12GraphicsCommandList* InCmdList, con
+         OutTarget == nullptr)
+         return false;
+ 
+-    const uint32_t slot = _heapIndex;
+-    _heapIndex = (_heapIndex + 1) % DLSSNR_NUM_OF_HEAPS;
++    const auto reserved = AcquireDispatchSlot(InCmdList);
++    if (!reserved) return false;
++    const uint32_t slot = *reserved;
+ 
+     FrameDescriptorHeap& currentHeap = _frameHeaps[slot];
+ 
+diff --git a/OptiScaler/shaders/dlssnr/DlssNr_Dx12.h b/OptiScaler/shaders/dlssnr/DlssNr_Dx12.h
+index 7881e3f..81161f2 100644
+--- a/OptiScaler/shaders/dlssnr/DlssNr_Dx12.h
++++ b/OptiScaler/shaders/dlssnr/DlssNr_Dx12.h
+@@ -20,6 +20,7 @@
+ #include "DlssNr_Common.h"
+ #include <dlssnr/DlssNrFeature_Dx12.h>
+ #include <memory>
++#include <dlssnr/DlssNr_DispatchSlots.h>
+ 
+ #include <d3d12.h>
+ #include <d3dx/d3dx12.h>
+@@ -45,7 +46,9 @@ class DlssNr_Dx12 : public Shader_Dx12, public DlssNr_Common
+     // encode and downsample would run with the resolve's parameters.
+     ID3D12Resource* _constantBuffers[DLSSNR_NUM_OF_HEAPS] = {};
+ 
+-    uint32_t _heapIndex = 0;
++    DlssNr::DispatchSlots<DLSSNR_NUM_OF_HEAPS> _dispatchSlots;
++    uint64_t _slotStalls = 0;
++    std::optional<uint32_t> AcquireDispatchSlot(ID3D12GraphicsCommandList* commands);
+ 
+     // The shader reads five inputs and writes two, and not every mode uses all of them. Unused slots
+     // still need a view bound -- an unbound descriptor is not an empty read, it is a read from
+diff --git a/OptiScaler/shaders/dlssnr/DlssNr_Dx12_Encode.cpp b/OptiScaler/shaders/dlssnr/DlssNr_Dx12_Encode.cpp
+index 9acf429..9b1b38f 100644
+--- a/OptiScaler/shaders/dlssnr/DlssNr_Dx12_Encode.cpp
++++ b/OptiScaler/shaders/dlssnr/DlssNr_Dx12_Encode.cpp
+@@ -1,7 +1,7 @@
+ #include "pch.h"
+ #include "DlssNr_Dx12_State.h"
+ 
+-void DlssNr_Dx12::State::EncodeInput(EncodeContext& context)
++bool DlssNr_Dx12::State::EncodeInput(EncodeContext& context)
+ {
+     const auto& cfg = *Config::Instance();
+     const auto& frame = context.frame;
+@@ -61,12 +61,15 @@ void DlssNr_Dx12::State::EncodeInput(EncodeContext& context)
+ 
+         const D3D12_RESOURCE_STATES priorTargetState = targetState;
+         TransitionTarget(D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
+-        shader.DispatchPass(cmdList, meterParams, target, nullptr, nullptr, (ID3D12Resource*) frame.ExposureTexture,
++        const bool metered = shader.DispatchPass(cmdList, meterParams, target, nullptr, nullptr, (ID3D12Resource*) frame.ExposureTexture,
+                             nullptr, nr.meter, nullptr);
+         TransitionTarget(priorTargetState);
+ 
+-        CopyMeterToReadback(cmdList, device, true);
+-        ConsumeMeterReadback();
++        if (metered)
++        {
++            CopyMeterToReadback(cmdList, device, true);
++            ConsumeMeterReadback();
++        }
+     }
+ 
+     nr.gamePreExposure = frame.PreExposure;
+@@ -175,8 +178,8 @@ void DlssNr_Dx12::State::EncodeInput(EncodeContext& context)
+     encodeParams.Height = height;
+ 
+     TransitionTarget(D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
+-    shader.DispatchPass(cmdList, encodeParams, target, nullptr, nullptr, nullptr, exposureTex, nr.colorCopy,
+-                        nr.hdrCopy);
++    if (!shader.DispatchPass(cmdList, encodeParams, target, nullptr, nullptr, nullptr, exposureTex, nr.colorCopy,
++                             nr.hdrCopy)) return false;
+ 
+     if (targetSupportsUav)
+         TransitionTarget(D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+@@ -255,15 +258,22 @@ void DlssNr_Dx12::State::EncodeInput(EncodeContext& context)
+             down.Mode = DlssNrMode_Downsample;
+             down.Width = workWidth;
+             down.Height = workHeight;
+-            shader.DispatchPass(cmdList, down, modelInput, nullptr, nullptr, nullptr, nullptr, nr.colorSmall,
+-                                nullptr);
++            if (!shader.DispatchPass(cmdList, down, modelInput, nullptr, nullptr, nullptr, nullptr, nr.colorSmall,
++                                     nullptr))
++            {
++                Barrier(cmdList, nr.colorCopy, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE,
++                        D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
++                Barrier(cmdList, nr.hdrCopy, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE,
++                        D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
++                return false;
++            }
+             Barrier(cmdList, nr.colorSmall, D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
+                     D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
+         }
+ 
+         modelInput = nr.colorSmall;
+     }
+-
++    return true;
+ }
+ 
+ DlssNrConstants DlssNr_Dx12::State::MakeResolveConstants(const EncodeContext& context, unsigned int effectivePasses)
+diff --git a/OptiScaler/shaders/dlssnr/DlssNr_Dx12_Run.cpp b/OptiScaler/shaders/dlssnr/DlssNr_Dx12_Run.cpp
+index 5bec9d8..88ee624 100644
+--- a/OptiScaler/shaders/dlssnr/DlssNr_Dx12_Run.cpp
++++ b/OptiScaler/shaders/dlssnr/DlssNr_Dx12_Run.cpp
+@@ -1,5 +1,6 @@
+ #include "pch.h"
+ #include "DlssNr_Dx12_State.h"
++#include <dlssnr/DlssNr_WorkingExtent.h>
+ 
+ auto DlssNr_Dx12::State::Run(ID3D12GraphicsCommandList* cmdList, ID3D12Resource* colour, ID3D12Resource* depth, ID3D12Resource* motion,
+              ID3D12Resource* output, const DlssNrFrameInfo& frame, ID3D12CommandQueue* timingQueue) -> void
+@@ -142,13 +143,23 @@ auto DlssNr_Dx12::State::Run(ID3D12GraphicsCommandList* cmdList, ID3D12Resource*
+         return;
+     }
+ 
+-    // Only the model runs at working resolution; source and composition remain at native size.
+-    float workScale = cfg.DlssNrWorkingScale.value_or_default();
+-    if (!std::isfinite(workScale))
+-        workScale = 1.0f;
+-    workScale = workScale < 0.25f ? 0.25f : (workScale > 2.0f ? 2.0f : workScale);
+-    const auto workWidth = (unsigned int) (width * workScale + 0.5f);
+-    const auto workHeight = (unsigned int) (height * workScale + 0.5f);
++    // Model resolution may use output pixels even when its input is the pre-SR colour.
++    // Composition still returns to that input; preserve the existing supersample path
++    // using the effective model/source ratio, not the user's output-relative fraction.
++    const auto work = DlssNr::ResolveWorkingExtent(width, height, frame.OutputWidth, frame.OutputHeight,
++        cfg.DlssNrWorkingScale.value_or_default(), cfg.DlssNrWorkingScaleRelativeToOutput.value_or_default());
++    if (!work)
++    {
++        ReportSkipOnce("the neural working extent is invalid");
++        device->Release();
++        return;
++    }
++    const auto workWidth = work->width, workHeight = work->height;
++    const auto workScale = work->sourceScale;
++    if (nr.workWidth != workWidth || nr.workHeight != workHeight || nr.width != width || nr.height != height)
++        LOG_INFO("DLSS-NR resolution: input {}x{}, output {}x{}, model {}x{}, basis {}",
++            width, height, frame.OutputWidth, frame.OutputHeight, workWidth, workHeight,
++            work->outputRelative ? "output" : "input");
+     const bool reduced = workWidth != width || workHeight != height;
+     if (!PrepareRunModels(cmdList, device, frame, desc, { width, height }, { workWidth, workHeight },
+                           workScale, requestedPasses))
+@@ -243,7 +254,17 @@ auto DlssNr_Dx12::State::Run(ID3D12GraphicsCommandList* cmdList, ID3D12Resource*
+     };
+ 
+     EncodeContext encoded { cmdList, device, target, targetState, frame, workScale, targetSupportsUav };
+-    EncodeInput(encoded);
++    if (!EncodeInput(encoded))
++    {
++        targetState = encoded.targetState;
++        nr.reset = true;
++        modelRunning = false;
++        ReportSkipOnce("NR encode skipped; GPU descriptor slots unavailable");
++        FinishColor(false);
++        EndGpuTiming(cmdList, timingQueue);
++        device->Release();
++        return;
++    }
+     targetState = encoded.targetState;
+     const auto whitePoint = encoded.whitePoint;
+     auto* exposureTex = encoded.exposureTex;
+diff --git a/OptiScaler/shaders/dlssnr/DlssNr_Dx12_State.h b/OptiScaler/shaders/dlssnr/DlssNr_Dx12_State.h
+index 167f226..274f98e 100644
+--- a/OptiScaler/shaders/dlssnr/DlssNr_Dx12_State.h
++++ b/OptiScaler/shaders/dlssnr/DlssNr_Dx12_State.h
+@@ -466,7 +466,7 @@ struct DlssNr_Dx12::State
+         ID3D12Resource* exposureTex = nullptr;
+         ID3D12Resource* modelInput = nullptr;
+     };
+-    void EncodeInput(EncodeContext& context);
++    bool EncodeInput(EncodeContext& context);
+     DlssNrConstants MakeResolveConstants(const EncodeContext& context, unsigned int effectivePasses);
+     void EndGpuTiming(ID3D12GraphicsCommandList* cmdList, ID3D12CommandQueue* timingQueue);
+ 
+diff --git a/tests/external_fg_lifetime_smoke.cpp b/tests/external_fg_lifetime_smoke.cpp
+new file mode 100644
+index 0000000..9278202
+--- /dev/null
++++ b/tests/external_fg_lifetime_smoke.cpp
+@@ -0,0 +1,44 @@
++#include "../OptiScaler/hooks/ExternalFgLifetime.h"
++#include <cassert>
++#include <filesystem>
++#include <iostream>
++
++static HMODULE Load(const std::filesystem::path& path)
++{
++    auto module = LoadLibraryW(path.c_str());
++    assert(module);
++    return module;
++}
++
++int wmain(int argc, wchar_t** argv)
++{
++    assert(argc == 2);
++    const std::filesystem::path root(argv[1]);
++    const auto common = root / "sl.common.dll";
++    auto module = Load(common);
++    assert(RetainExternalFgCommon(module, false) == ExternalFgRetention::Skipped);
++    assert(FreeLibrary(module));
++    assert(GetModuleHandleW(common.c_str()) == nullptr);
++
++    module = Load(root / "unrelated.dll");
++    assert(RetainExternalFgCommon(module, true) == ExternalFgRetention::Skipped);
++    assert(FreeLibrary(module));
++    assert(GetModuleHandleW((root / "unrelated.dll").c_str()) == nullptr);
++
++    module = Load(root / "NVIDIA/NGX/models/sl_dlss_g_0/versions/test/files/190_E658703.dll");
++    assert(RetainExternalFgCommon(module, true) == ExternalFgRetention::Skipped);
++    assert(FreeLibrary(module));
++
++    for (const auto& path : {common, root / "NVIDIA/NGX/models/sl_common_0/versions/test/files/190_E658703.dll"})
++    {
++        module = Load(path);
++        auto function = reinterpret_cast<int(*)()>(GetProcAddress(module, "ReadCommonInterface"));
++        assert(function && function() == 73);
++        assert(RetainExternalFgCommon(module, true) == ExternalFgRetention::Retained);
++        assert(FreeLibrary(module));
++        assert(GetModuleHandleW(path.c_str()) == module);
++        // The original function pointer must remain callable after the caller releases its reference.
++        assert(function() == 73);
++    }
++    std::cout << "External FG DLL lifetime: disabled/unrelated/DLSS-G exclusions and both common retention cases passed\n";
++}
+diff --git a/tests/external_fg_lifetime_stub.cpp b/tests/external_fg_lifetime_stub.cpp
+new file mode 100644
+index 0000000..29aa611
+--- /dev/null
++++ b/tests/external_fg_lifetime_stub.cpp
+@@ -0,0 +1 @@
++extern "C" __declspec(dllexport) int ReadCommonInterface() { return 73; }
+diff --git a/tests/nr_dispatch_slots_smoke.cpp b/tests/nr_dispatch_slots_smoke.cpp
+new file mode 100644
+index 0000000..d01e5a2
+--- /dev/null
++++ b/tests/nr_dispatch_slots_smoke.cpp
+@@ -0,0 +1,62 @@
++// Isolated WARP regression using production slot allocation and completion tracking.
++#include <windows.h>
++#include <d3d12.h>
++#include <dxgi1_4.h>
++#include <wrl/client.h>
++#include <cstdio>
++#include <stdexcept>
++#include <dlssnr/DlssNr_DispatchSlots.h>
++#include <dlssnr/DlssNr_GpuLifetime.h>
++using Microsoft::WRL::ComPtr;
++static void check(HRESULT hr) { if (FAILED(hr)) throw std::runtime_error("D3D12 call failed"); }
++static void expect(bool ok, const char* why) { if (!ok) throw std::runtime_error(why); }
++int main() try
++{
++    ComPtr<IDXGIFactory4> factory; ComPtr<IDXGIAdapter> adapter; ComPtr<ID3D12Device> device;
++    check(CreateDXGIFactory1(IID_PPV_ARGS(&factory)));
++    check(factory->EnumWarpAdapter(IID_PPV_ARGS(&adapter)));
++    check(D3D12CreateDevice(adapter.Get(), D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&device)));
++    ComPtr<ID3D12CommandQueue> queue; D3D12_COMMAND_QUEUE_DESC desc {};
++    check(device->CreateCommandQueue(&desc, IID_PPV_ARGS(&queue)));
++    ComPtr<ID3D12CommandAllocator> allocator; ComPtr<ID3D12GraphicsCommandList> commands;
++    check(device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&allocator)));
++    check(device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, allocator.Get(), nullptr, IID_PPV_ARGS(&commands)));
++    check(commands->Close()); ID3D12CommandList* lists[] { commands.Get() };
++    DlssNr::GpuLifetime life; DlssNr::DispatchSlots<96> slots;
++    auto fill = [&] {
++        for (unsigned i = 0; i < 96; ++i) {
++            auto slot = slots.Acquire(); expect(slot.has_value(), "free slot missing");
++            life.Record(commands.Get());
++            life.Retire([done=slot->completion] { done->store(true); });
++        }
++    };
++    fill();
++    expect(!slots.Acquire(), "97th allocation reused a live descriptor/constants slot");
++    for (unsigned i=0; i<1000; ++i) life.Collect();
++    expect(!slots.Acquire(), "CPU progress made unsubmitted descriptors reusable");
++    life.ResetRecording(commands.Get()); fill();
++    ComPtr<ID3D12Fence> gate, drain;
++    check(device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&gate)));
++    check(device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&drain)));
++    check(queue->Wait(gate.Get(), 1)); queue->ExecuteCommandLists(1, lists);
++    life.Submitted(queue.Get(), 1, lists); life.ResetRecording(commands.Get());
++    const bool blockedWasSafe = !slots.Acquire();
++    // Always unblock the isolated software queue before reporting a failure.
++    check(gate->Signal(1)); check(queue->Signal(drain.Get(), 1));
++    HANDLE event=CreateEventW(nullptr,FALSE,FALSE,nullptr);
++    check(drain->SetEventOnCompletion(1,event));
++    const auto waited=WaitForSingleObject(event,5000); CloseHandle(event);
++    expect(waited==WAIT_OBJECT_0,"WARP queue did not drain");
++    expect(blockedWasSafe,"reset recycled descriptors while submitted work was blocked");
++    life.Collect(); fill();
++    queue->ExecuteCommandLists(1, lists); life.Submitted(queue.Get(),1,lists);
++    check(queue->Signal(drain.Get(),2));
++    event=CreateEventW(nullptr,FALSE,FALSE,nullptr); check(drain->SetEventOnCompletion(2,event));
++    const auto waitedAgain=WaitForSingleObject(event,5000); CloseHandle(event);
++    expect(waitedAgain==WAIT_OBJECT_0,"second WARP drain failed");
++    life.Collect(); expect(!slots.Acquire(),"completed but replayable list lost its descriptors");
++    life.ResetRecording(commands.Get()); life.Collect();
++    expect(slots.Acquire().has_value(),"completed closed recording did not release descriptors");
++    std::puts("PASS: 96-slot overflow, unsubmitted work, blocked GPU after reset, replay, and completed reuse");
++    return 0;
++} catch (const std::exception& e) { std::fprintf(stderr,"FAIL: %s\n",e.what()); return 1; }
+diff --git a/tests/nr_working_extent_smoke.cpp b/tests/nr_working_extent_smoke.cpp
+new file mode 100644
+index 0000000..f956bf9
+--- /dev/null
++++ b/tests/nr_working_extent_smoke.cpp
+@@ -0,0 +1,31 @@
++// SPDX-License-Identifier: GPL-3.0-only
++#include "../OptiScaler/dlssnr/DlssNr_WorkingExtent.h"
++#include <cassert>
++#include <limits>
++#include <iostream>
++int main()
++{
++    using DlssNr::ResolveWorkingExtent;
++    auto full = ResolveWorkingExtent(2562, 1442, 3840, 2160, 1.0f, true);
++    assert(full && full->width == 3840 && full->height == 2160 && full->sourceScale > 1 && full->outputRelative);
++    auto smaller = ResolveWorkingExtent(1920, 1080, 3840, 2160, 0.75f, true);
++    assert(smaller->width == 2880 && smaller->height == 1620);
++    auto drs = ResolveWorkingExtent(1280, 720, 3840, 2160, 0.75f, true);
++    assert(drs->width == smaller->width && drs->height == smaller->height);
++    auto half = ResolveWorkingExtent(2562, 1442, 3840, 2160, 0.5f, true);
++    assert(half->width == 1920 && half->height == 1080 && half->sourceScale < 1);
++    auto legacy = ResolveWorkingExtent(2562, 1442, 3840, 2160, 0.5f, false);
++    assert(legacy->width == 1281 && legacy->height == 721 && !legacy->outputRelative);
++    auto missing = ResolveWorkingExtent(2562, 1442, 0, 2160, 1.0f, true);
++    assert(missing->width == 2562 && missing->height == 1442 && !missing->outputRelative);
++    auto invalid = ResolveWorkingExtent(2562, 1442, 3840, 2160, std::numeric_limits<float>::quiet_NaN(), true);
++    assert(invalid->width == 3840 && invalid->height == 2160);
++    auto tiny = ResolveWorkingExtent(1, 1, 0, 0, -1, true);
++    assert(tiny->width == 1 && tiny->height == 1);
++    auto limited = ResolveWorkingExtent(2562, 1442, 16384, 8192, 2, true);
++    assert(limited->width == 16384 && limited->height == 8192);
++    auto ultrawide = ResolveWorkingExtent(2294, 960, 3440, 1440, 0.75f, true);
++    assert(ultrawide->width == 2580 && ultrawide->height == 1080);
++    assert(!ResolveWorkingExtent(0, 1442, 3840, 2160, 1, true));
++    std::cout << "NR output-relative extent regression passed\n";
++}
+diff --git a/tests/run_external_fg_lifetime.ps1 b/tests/run_external_fg_lifetime.ps1
+new file mode 100644
+index 0000000..5e2d92b
+--- /dev/null
++++ b/tests/run_external_fg_lifetime.ps1
+@@ -0,0 +1,16 @@
++$ErrorActionPreference = 'Stop'
++$build = Join-Path ([IO.Path]::GetTempPath()) ('external-fg-lifetime-' + [guid]::NewGuid())
++New-Item -ItemType Directory -Path $build | Out-Null
++& cl.exe /nologo /std:c++20 /EHsc /W4 /LD "/Fo$build/" "/Fe$build/stub.dll" "$PSScriptRoot/external_fg_lifetime_stub.cpp" /link "/IMPLIB:$build/stub.lib"
++if ($LASTEXITCODE -ne 0) { throw 'Lifetime stub build failed.' }
++foreach ($name in @('sl.common.dll','unrelated.dll',
++    'NVIDIA/NGX/models/sl_dlss_g_0/versions/test/files/190_E658703.dll',
++    'NVIDIA/NGX/models/sl_common_0/versions/test/files/190_E658703.dll')) {
++    $dest = Join-Path $build $name
++    New-Item -ItemType Directory -Path (Split-Path -Parent $dest) -Force | Out-Null
++    Copy-Item -LiteralPath (Join-Path $build 'stub.dll') -Destination $dest
++}
++& cl.exe /nologo /std:c++20 /EHsc /W4 /DNOMINMAX "/Fo$build/" "/Fe$build/smoke.exe" "$PSScriptRoot/external_fg_lifetime_smoke.cpp"
++if ($LASTEXITCODE -ne 0) { throw 'Lifetime test compilation failed.' }
++& "$build/smoke.exe" $build
++if ($LASTEXITCODE -ne 0) { throw 'External FG lifetime regression failed.' }
+diff --git a/tests/run_nr_dispatch_slots.ps1 b/tests/run_nr_dispatch_slots.ps1
+new file mode 100644
+index 0000000..2aa0abc
+--- /dev/null
++++ b/tests/run_nr_dispatch_slots.ps1
+@@ -0,0 +1,22 @@
++param([switch]$LegacyControl)
++$ErrorActionPreference = 'Stop'
++$repo = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
++$build = Join-Path ([IO.Path]::GetTempPath()) ('nr-dispatch-slots-' + [guid]::NewGuid())
++New-Item -ItemType Directory -Path $build | Out-Null
++Set-Content -LiteralPath (Join-Path $build 'pch.h') -Value '// Isolated production helper.'
++Set-Content -LiteralPath (Join-Path $build 'Util.h') -Value '#include <unknwn.h>
++namespace Util { inline bool CheckForRealObject(const char*, IUnknown*, IUnknown**) { return false; } }'
++if ($LegacyControl) {
++    New-Item -ItemType Directory -Path (Join-Path $build 'dlssnr') | Out-Null
++    $header = Get-Content -LiteralPath (Join-Path $repo 'OptiScaler/dlssnr/DlssNr_DispatchSlots.h') -Raw
++    # Negative control reproduces the original unchecked wrapping allocator.
++    $header.Replace('if (Busy(index)) continue;', '// Original ring ignored in-flight ownership.') | Set-Content -LiteralPath (Join-Path $build 'dlssnr/DlssNr_DispatchSlots.h')
++}
++& cl.exe /nologo /std:c++20 /EHsc /W4 /DNOMINMAX "/I$build" "/I$repo/OptiScaler" "/Fo$build/" "/Fe$build/smoke.exe" `
++    "$PSScriptRoot/nr_dispatch_slots_smoke.cpp" "$repo/OptiScaler/dlssnr/DlssNr_GpuLifetime.cpp" d3d12.lib dxgi.lib ole32.lib
++if ($LASTEXITCODE -ne 0) { throw 'Slot regression compilation failed.' }
++& "$build/smoke.exe"
++if ($LegacyControl) {
++    if ($LASTEXITCODE -eq 0) { throw 'Negative control unexpectedly passed.' }
++    Write-Output 'Negative control failed as expected.'
++} elseif ($LASTEXITCODE -ne 0) { throw 'Slot regression failed.' }
+diff --git a/tests/run_nr_working_extent.ps1 b/tests/run_nr_working_extent.ps1
+new file mode 100644
+index 0000000..23e02c0
+--- /dev/null
++++ b/tests/run_nr_working_extent.ps1
+@@ -0,0 +1,7 @@
++$ErrorActionPreference = 'Stop'
++$build = Join-Path ([IO.Path]::GetTempPath()) ('nr-extent-' + [guid]::NewGuid())
++New-Item -ItemType Directory -Path $build | Out-Null
++& cl.exe /nologo /std:c++20 /EHsc /W4 /DNOMINMAX "/Fo$build/" "/Fe$build/smoke.exe" "$PSScriptRoot/nr_working_extent_smoke.cpp"
++if ($LASTEXITCODE -ne 0) { throw 'NR extent test compilation failed.' }
++& "$build/smoke.exe"
++if ($LASTEXITCODE -ne 0) { throw 'NR extent regression failed.' }

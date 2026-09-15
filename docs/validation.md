@@ -23,3 +23,23 @@ These are status observations plus human visual reports, not an independent fram
 The packaged installer was not run to overwrite the tester's already-working game or change its live profiles. Windows/NVIDIA mutation paths are therefore validated by API inspection and simulated failure tests, while the installed DLL and final settings have the separate gameplay evidence above.
 
 Sanitized aggregate data is in [`evidence/session-summary.json`](../evidence/session-summary.json). Raw game logs, screenshots, user paths, machine identifiers and original registry/profile backups are intentionally not published.
+
+## Version 0.2.0 neural extension
+
+The full suite now contains **43 passing tests**, including the exact upstream
+RTXMFG binary test and 15 neural install/config/rollback tests. Neural mutation
+tests use synthetic bundles and temporary game folders. Packaging the actual
+locally built OptiScaler DLL with the pinned upstream backends and NR runtime also
+passed bundle validation; no proprietary file is included in the public release.
+
+The source patch builds in Release x64. Its descriptor regression rejects the old
+allocator as a negative control; the guarded test and production GPU-lifetime
+regression pass on WARP. Output-extent tests pass for 4K, ultrawide, changing DLSS
+input size, invalid inputs and uniform limits. These tests do not establish neural
+visual quality, latency or stability in WuWa.
+
+Revision 2 ran NR at 1281×721 alongside actual 6x before a transition GPU crash.
+Revision 3 adds the reproduced descriptor-lifetime guard; its initial game run
+showed actual 6x and roughly 4 ms NR timing with no new crash during observation.
+Exact-trigger repetition and full-output-resolution gameplay validation remain
+pending. See [the complete findings](neural-crashes.md) and [work history](investigation-history.md).

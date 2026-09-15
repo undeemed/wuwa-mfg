@@ -1,0 +1,41 @@
+{
+  "date": "2026-09-15",
+  "physical_gpu": "RTX 4070 Ti 12 GB",
+  "driver": "616.92",
+  "base_source_commit": "8802b2b470db0462fa1ed03a125e793a7c06d735",
+  "revision_2_nr_on": {
+    "model_dimensions": [1281, 721],
+    "pre_sr_passes": 1,
+    "recent_total_ms": [3.90, 3.91],
+    "recent_model_ms": [3.35, 3.37],
+    "active_actual_frames_presented": 6,
+    "crash": "GPU MMU invalid write during a reported graphics/settings/window transition",
+    "exact_faulting_shader_or_resource": "not identified"
+  },
+  "revision_3_initial_run": {
+    "model_dimensions": [1281, 721],
+    "active_actual_frames_presented_observed": 6,
+    "recent_nr_total_ms_approx": 4.0,
+    "new_crash_during_observation": false,
+    "exact_trigger_repetition_user_confirmed": false,
+    "separate_20_second_capture": "FG off; excluded from active multiplier evidence"
+  },
+  "tests": {
+    "toolkit_tests_including_exact_rtxmfg_release": 43,
+    "unchecked_slot_allocator_negative_control": "fails at live 97th allocation, as expected",
+    "guarded_gpu_slot_test": "passed on WARP",
+    "upstream_gpu_lifetime_test": "passed on WARP",
+    "external_common_module_lifetime_test": "passed using synthetic DLLs",
+    "output_extent_test": "passed",
+    "release_x64_source_build": "passed with upstream warnings",
+    "clean_base_patch_application": "passed",
+    "real_local_bundle_packaging_and_hash_check": "passed"
+  },
+  "full_output_resolution_gameplay": "pending",
+  "limitations": [
+    "One tested hardware/driver configuration",
+    "No independent frame uniqueness or input latency measurement",
+    "GPU slot defect reproduced, but exact prior game fault attribution remains unproven",
+    "No long-term or anti-cheat safety qualification"
+  ]
+}

@@ -1,7 +1,7 @@
 [project]
 name = "wuwa-mfg"
-version = "0.1.0"
-description = "Reproducible RTXMFG startup timing patch and reversible WuWa setup"
+version = "0.2.0"
+description = "WuWa Experience Toolkit: DLSS MFG, experimental neural rendering, reversible setup and diagnostics"
 requires-python = ">=3.10"
 license = "MIT"
 

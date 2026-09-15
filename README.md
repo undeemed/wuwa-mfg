@@ -1,8 +1,26 @@
-# Wuthering Waves DLSS Multi Frame Generation Unlock (RTXMFG)
+# WuWa Experience Toolkit — DLSS MFG + Neural Rendering
 
-**Unlock DLSS Multi Frame Generation 3x/4x/5x/6x in Wuthering Waves (WuWa) using RTXMFG, GPU-name spoofing, and targeted mod/driver tweaks.**
+**Get more from Wuthering Waves on older-generation RTX hardware: RTXMFG
+3x/4x/5x/6x unlock via GPU-name spoofing and targeted tweaks, with an optional
+neural rendering engine and controls for quality versus performance.**
 
-WuWa MFG provides a guided Windows installer for the tested **NVIDIA GeForce RTX 4070 Ti**, part of the **RTX 40 series**. It combines RTX 5080 display-name spoofing with a custom RTXMFG binary patch and NVIDIA Frame Generation profile settings. The installer includes automatic backups, rollback, and runtime frame-count verification.
+The project remains `wuwa-mfg`. It now contains both the original MFG installer and
+the source changes, build tools, setup and crash investigation for running
+OptiScaler Neural Rendering alongside it. The validated hardware is **RTX 4070 Ti
+with NVIDIA driver 616.92**; support for all older RTX cards is a goal, not a claim.
+
+| Feature | Status | Start here |
+| --- | --- | --- |
+| RTXMFG 3x/4x/5x/6x | 3x and 6x verified in runtime; 4x and 5x tester-reported | [Guided MFG setup](#install-the-wuwa-dlss-mfg-unlock) |
+| Optional neural engine + MFG | Model runs alongside actual 6x; transition stability experimental | [Neural setup and source build](docs/neural-rendering.md) |
+| Model resolution control | DX12 scale relative to game output: full resolution or proportional fractions | [Resolution settings](docs/neural-rendering.md#model-resolution-relative-to-output) |
+| Backups, restore and verification | Separate controls for MFG and NR, with hash checks | [Recovery](#undo) |
+
+[Download toolkit](https://github.com/undeemed/wuwa-mfg/releases/latest) ·
+[Neural rendering](docs/neural-rendering.md) · [Crash findings](docs/neural-crashes.md) ·
+[All investigation work](docs/investigation-history.md) · [Validation](docs/validation.md)
+
+## DLSS Multi Frame Generation unlock
 
 The working setup combines three parts:
 
@@ -12,7 +30,7 @@ The working setup combines three parts:
 
 **Choose 3x, 4x, 5x or 6x in the game.** RTXMFG runs in Follow game mode, so control stays with WuWa. Setup handles the binary patch automatically and offers GPU-name spoofing during installation.
 
-Tested on an **RTX 4070 Ti with driver 616.92**: 3x and 6x were confirmed in runtime telemetry; 4x and 5x were reported working by the tester. This first release is experimental and restricted to the [validated configuration](#supported-configuration-in-010).
+Tested on an **RTX 4070 Ti with driver 616.92**: 3x and 6x were confirmed in runtime telemetry; 4x and 5x were reported working by the tester. The installer is experimental and restricted to the [validated configuration](#supported-configuration).
 
 [Download WuWa DLSS MFG Unlock](https://github.com/undeemed/wuwa-mfg/releases/latest) · [Installation guide](#install-the-wuwa-dlss-mfg-unlock) · [How the RTXMFG patch works](docs/technical.md) · [Compatibility and test results](docs/validation.md) · [Troubleshooting](docs/troubleshooting.md)
 
@@ -20,7 +38,7 @@ Tested on an **RTX 4070 Ti with driver 616.92**: 3x and 6x were confirmed in run
 
 ## Install the WuWa DLSS MFG unlock
 
-1. Download **WuWa-MFG-0.1.0.zip** from Releases and extract the entire folder somewhere you can keep it.
+1. Download **WuWa-Experience-Toolkit-0.2.0.zip** from Releases and extract the entire folder somewhere you can keep it.
 2. Close Wuthering Waves. Double-click **Setup.cmd**, choose **Install**, and approve the normal Windows administrator prompt.
 3. Setup finds Steam libraries automatically. For another launcher, paste the WuWa folder when prompted. It must resolve to `Client/Binaries/Win64/Client-Win64-Shipping.exe`.
 4. If WuWa currently offers only an on/off FG switch, choose **yes** for GPU-name spoofing (the optional RTX 5080 display-name aliases). The tested setup used this to expose the native multiplier menu. Review the target and type `INSTALL`.
@@ -41,7 +59,9 @@ The patcher from the published **v0.1.0 setup ZIP** was tested against a fresh u
 
 The separate [`patches/early-wrapper-preparation.patch`](patches/early-wrapper-preparation.patch) file expresses the same change in C++ for developers rebuilding upstream source. Setup uses the Python binary patcher above; users running **Setup.cmd → Install** do not need to apply the source `.patch` file manually.
 
-## Supported configuration in 0.1.0
+<a id="supported-configuration-in-010"></a>
+
+## Supported configuration
 
 | Component | Validated configuration |
 | --- | --- |
@@ -57,7 +77,7 @@ Setup refuses unvalidated GPU/driver/cache combinations and unknown proxy DLL co
 
 This is a third-party game mod, **not official DLSS 5 or an anti-cheat-approved feature**. Account safety has not been established. The installer does not alter anti-cheat, kernel drivers, hardware IDs, or Windows security settings; RTXMFG still modifies the game's graphics pipeline in memory.
 
-## What setup changes
+## What MFG setup changes
 
 - Installs one patched `winmm.dll` beside WuWa's shipping EXE.
 - Sets `RTXMFG-Universal.json` to **Follow game**, Preset B. It does not force a multiplier or invent a dynamic FPS target. The saved `multiplier: 4` field is ignored while Follow game is enabled.
@@ -70,7 +90,7 @@ Follow game accepts supported choices made by WuWa. Dynamic mode is followed **o
 
 ### Can I use DLSS Multi Frame Generation on an RTX 40-series GPU?
 
-This project's working WuWa configuration was tested on an **RTX 4070 Ti with NVIDIA driver 616.92**. Runtime captures confirmed 3x and 6x; the tester also reported 4x and 5x working. The installer currently accepts only the [validated GPU, driver and NVIDIA cache builds](#supported-configuration-in-010). Other RTX 40-series cards need separate validation.
+This project's working WuWa configuration was tested on an **RTX 4070 Ti with NVIDIA driver 616.92**. Runtime captures confirmed 3x and 6x; the tester also reported 4x and 5x working. The installer currently accepts only the [validated GPU, driver and NVIDIA cache builds](#supported-configuration). Other RTX 40-series cards need separate validation.
 
 ### Why does Wuthering Waves only show Frame Generation on/off or stay at 2x?
 
@@ -84,11 +104,34 @@ Yes. Setup downloads the pinned upstream DLL, applies this project's binary patc
 
 Select the multiplier in WuWa's graphics settings. **Follow game** leaves control with the game; dynamic mode is followed only when WuWa requests it. A 6x multiplier means up to five generated frames plus one rendered frame, not six times the input responsiveness or a guaranteed sixfold FPS increase. Use the installer's **Verify** action to check runtime counts, and check visible motion separately.
 
+## Add the neural engine
+
+Use the [neural setup guide](docs/neural-rendering.md) to build the pinned OptiScaler
+source with this project's compatibility patch. **Setup.cmd → 5** installs the local
+bundle; **6/7** enable or disable NR at the next launch, **8** restores the add-on,
+**9** reads its status and **10** changes its output resolution scale. **F8** is the
+neural toggle, with restart-based controls available if WuWa does not receive it.
+
+NR starts off. The profile uses one pre-SR pass and 100% of the game output for the
+model. At 4K that is 3840 × 2160. Lower the scale to 75% or 50% if delay is excessive;
+both dimensions follow the output proportionally. Full-resolution model quality and
+performance require game testing, and the game still uses its chosen DLSS render scale.
+
+The compatibility patch keeps RTXMFG in charge of FG, fixes an observed stale-module
+reference, and guards a reproduced GPU descriptor/constant-slot lifetime defect.
+The [crash report](docs/neural-crashes.md) distinguishes those findings from the GPU
+fault whose exact shader/resource remains unidentified. NR is **experimental**, with
+no claim that every settings/window transition is stable.
+
+This is community neural rendering integration, not an official or bundled “leaked
+DLSS 5” release. The proprietary NR runtime must be supplied separately. Source,
+patches and build/setup scripts are included; NVIDIA and compiled model DLLs are not.
+
 <a id="undo"></a>
 
 ## Uninstall and restore the previous configuration
 
-Close WuWa, open **Setup.cmd → Restore**, review the target, and type `RESTORE`.
+Close WuWa. If the managed neural add-on is installed, use **Setup.cmd → 8** first. Then open **Setup.cmd → 3**, review the MFG target, and type `RESTORE`. To keep the add-on installed but disable NR, use **7** instead.
 
 Original files, the two profile settings at both scopes, and any changed descriptions are saved **before changes begin** in `%ProgramData%\WuWaMFG\state.json`. Restore keeps the backup. Restart Windows after restoring descriptions. If a file or setting changed since installation, rollback stops rather than overwriting that change; see [recovery instructions](docs/troubleshooting.md).
 
@@ -116,6 +159,7 @@ The input and output are checked against known SHA-256 digests. The output must 
 
 - [dashdogy/RTX40MFG-Unlock](https://github.com/dashdogy/RTX40MFG-Unlock/tree/v1.3.3), by Michael Robles: RTXMFG itself, its loader, wrapper/provider patches, configuration and telemetry. MIT licensed. This project adds a small startup timing change and packaging; it does not claim authorship of RTXMFG.
 - [FirstEverTech/RTX4000-MFG-Unlock](https://github.com/FirstEverTech/RTX4000-MFG-Unlock): research that motivated testing NVIDIA's global profile controls. Its native override alone did not produce the successful WuWa result reported here.
+- [OptiScaler Neural Rendering](https://github.com/wilsjo2/OptiScaler-DLSSNR-PreSR-Multipass): the neural engine, model integration and upstream GPU lifetime framework. The complete WuWa compatibility diff is published here with GPL-3.0 attribution.
 - [NVIDIA NVAPI](https://github.com/NVIDIA/nvapi): DRS interface definitions.
 
-[MIT license](LICENSE) for this project's source. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and `licenses/` for upstream notices. NVIDIA, Kuro Games and RTXMFG's maintainers do not endorse this project.
+[MIT license](LICENSE) for the toolkit Python/setup code and RTXMFG changes. The OptiScaler-derived source patch and included regression changes are [GPL-3.0](licenses/OptiScaler-GPL-3.0.txt). See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and `licenses/` for upstream notices. NVIDIA, Kuro Games and RTXMFG's maintainers do not endorse this project.

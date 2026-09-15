@@ -1,20 +1,26 @@
-param([ValidateSet('menu','install','verify','restore','doctor')][string]$Action = 'menu')
+param([ValidateSet('menu','install','verify','restore','doctor','neural-install','neural-on','neural-off','neural-restore','neural-status','neural-scale')][string]$Action = 'menu')
 $ErrorActionPreference = 'Stop'
 try {
     if (-not [Environment]::Is64BitOperatingSystem) { throw '64-bit Windows is required.' }
     if ($Action -eq 'menu') {
-        Write-Host "`nWuWa MFG 0.1.0 - experimental setup`n"
-        Write-Host '1. Install (game must be closed)'
+        Write-Host "`nWuWa Experience Toolkit 0.2.0`n"
+        Write-Host '1. Install MFG unlock (game must be closed)'
         Write-Host '2. Verify actual runtime frame counts'
-        Write-Host '3. Restore the previous setup'
+        Write-Host '3. Restore the previous MFG setup'
         Write-Host '4. Diagnose compatibility (read only)'
+        Write-Host '5. Install experimental neural rendering from a local build'
+        Write-Host '6. Enable neural rendering at next launch (game closed)'
+        Write-Host '7. Disable neural rendering at next launch (game closed)'
+        Write-Host '8. Restore/remove the neural add-on (game closed)'
+        Write-Host '9. Neural rendering status (read only)'
+        Write-Host '10. Set neural model resolution as a fraction of output (game closed)'
         Write-Host 'Q. Exit'
         $choice = Read-Host 'Choose'
-        $Action = switch ($choice) { '1' {'install'} '2' {'verify'} '3' {'restore'} '4' {'doctor'} default { exit 0 } }
+        $Action = switch ($choice) { '1' {'install'} '2' {'verify'} '3' {'restore'} '4' {'doctor'} '5' {'neural-install'} '6' {'neural-on'} '7' {'neural-off'} '8' {'neural-restore'} '9' {'neural-status'} '10' {'neural-scale'} default { exit 0 } }
     }
     $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
     $principal = [Security.Principal.WindowsPrincipal]::new($identity)
-    if ($Action -in @('install','restore') -and -not $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    if ($Action -in @('install','restore','neural-install','neural-on','neural-off','neural-restore','neural-scale') -and -not $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
         # Only mutating actions request the standard Windows UAC prompt.
         $arguments = '-NoProfile -ExecutionPolicy Bypass -File "{0}" -Action {1}' -f $PSCommandPath, $Action
         $child = Start-Process -FilePath 'powershell.exe' -ArgumentList $arguments -Verb RunAs -Wait -PassThru

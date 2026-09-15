@@ -1,5 +1,11 @@
 # Troubleshooting and recovery
 
+For the optional neural engine, see [NR setup/recovery](neural-rendering.md) and
+[the crash investigation](neural-crashes.md). NR and MFG have separate controls:
+disable NR with Setup option 7, remove it with 8, then restore MFG with 3 if needed.
+NR resolution uses option 10. Full output resolution costs substantially more
+than the earlier 1281×721 model setting; reduce both axes proportionally if slow.
+
 ## Only an on/off switch appears
 
 The tested PC needed the optional RTX 5080 display-name aliases, followed by a Windows restart, before WuWa exposed its multiplier choices. The aliases change description strings only; they do not provide MFG by themselves. If you skipped them, restore the managed installation first, archive its restored backup folder, then reinstall and select the aliases. Avoid applying unrelated GPU spoofing tools.

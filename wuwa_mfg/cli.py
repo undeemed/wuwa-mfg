@@ -69,12 +69,15 @@ def verify(game, seconds):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="WuWa MFG experimental setup (MIT)")
-    parser.add_argument("action", choices=("install", "restore", "verify", "doctor", "patch"))
+    parser = argparse.ArgumentParser(description="WuWa Experience Toolkit: MFG and experimental neural rendering")
+    parser.add_argument("action", choices=("install", "restore", "verify", "doctor", "patch",
+        "neural-install", "neural-on", "neural-off", "neural-restore", "neural-status", "neural-scale"))
     parser.add_argument("--game", help="WuWa root, Client/Binaries/Win64, or shipping EXE")
     parser.add_argument("--seconds", type=int, default=30, help="Verify duration (1-300 seconds)")
     parser.add_argument("--input", type=Path, help="Original v1.3.3 DLL for offline patching")
     parser.add_argument("--output", type=Path, help="New output file for offline patching")
+    parser.add_argument("--bundle", type=Path, help="Locally built NR bundle folder")
+    parser.add_argument("--scale", type=float, help="NR output resolution fraction, 0.25 to 1.0")
     args = parser.parse_args()
     try:
         if args.action == "patch":
@@ -90,6 +93,10 @@ def main():
         from .windows import WindowsBackend, is_admin
         backend = WindowsBackend()
         state_path = Path(os.environ["ProgramData"]) / "WuWaMFG/state.json"
+        neural_state = state_path.with_name('neural.json')
+        if args.action.startswith('neural-'):
+            from .neural_cli import run
+            return run(args, backend, neural_state, choose_game, is_admin)
         if args.action == "doctor":
             report = {"installer_version": __version__}
             try:
@@ -110,6 +117,8 @@ def main():
         if not is_admin():
             raise RuntimeError("Use Setup.cmd to request the normal administrator prompt for Install/Restore.")
         if args.action == "restore":
+            if neural_state.exists():
+                raise RuntimeError('Restore the neural add-on first with neural-restore, then restore MFG.')
             if not state_path.exists():
                 raise RuntimeError("No installer backup found. An existing manual setup is left untouched.")
             state = json.loads(state_path.read_text())

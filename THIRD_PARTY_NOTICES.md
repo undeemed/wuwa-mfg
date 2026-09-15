@@ -10,7 +10,30 @@ Copyright (c) 2026 Michael Robles. MIT license, reproduced in [licenses/RTXMFG-M
 
 The installer downloads the original release and modifies its wrapper-preparation predicate. The source-level diff, identifiers and exact-build binary patch are derived from this work. The project neither redistributes the upstream DLL in its setup ZIP nor claims it as original work. Its license notice accompanies the patch scripts.
 
-## NVIDIA NVAPI
+## OptiScaler Neural Rendering
+
+The source patch `patches/optiscaler-wuwa-compat.patch` modifies
+[wilsjo2/OptiScaler-DLSSNR-PreSR-Multipass](https://github.com/wilsjo2/OptiScaler-DLSSNR-PreSR-Multipass),
+tag `v0.8.4`, commit `8802b2b470db0462fa1ed03a125e793a7c06d735`.
+It includes the WuWa compatibility changes and regression tests. These OptiScaler-derived
+changes are **GPL-3.0**, not covered by the toolkit's MIT license.
+See [the complete license](licenses/OptiScaler-GPL-3.0.txt) and upstream's
+[credits and component notices](https://github.com/wilsjo2/OptiScaler-DLSSNR-PreSR-Multipass/tree/v0.8.4/Licenses).
+The build script fetches the exact upstream source and submodules, applies the public patch,
+and compiles locally. Retain upstream notices in any redistribution and comply with each component's license.
+
+OptiScaler is built on [OptiScaler/OptiScaler](https://github.com/OptiScaler/OptiScaler),
+with Neural Rendering work from [Dagherbou/OptiScaler](https://github.com/Dagherbou/OptiScaler)
+and colour-processing work from [RenoDX](https://github.com/clshortfuse/renodx).
+This toolkit adds WuWa integration; it does not claim authorship of those projects or NVIDIA's model.
+
+`nvngx_dlssnr.dll`, NVIDIA models, game DLLs, and compiled OptiScaler/backend DLLs are
+**not distributed** in this repository or its setup archive. The NR runtime is supplied
+separately by the user. A hash identifies the tested file; it grants no redistribution rights.
+The source build uses [Microsoft DirectX-Headers](https://github.com/microsoft/DirectX-Headers)
+tag `v1.619.5`, commit `ee479f0bd5f7b884f202bcf0c3f076cc050dd256`, under its upstream MIT license.
+
+## NVIDIA NVAPI interface
 
 Upstream: https://github.com/NVIDIA/nvapi
 
