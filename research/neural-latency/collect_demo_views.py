@@ -66,7 +66,7 @@ def main():
     if sha256(capture_dll) != args.capture_sha256.lower():
         raise SystemExit('Capture DLL hash mismatch.')
     for name in ('nr-kernel-probe.enable', 'nr-kernel-timing.enable',
-                 'nr-force-sm89.enable', 'nr-buffer-probe.enable'):
+                 'nr-force-sm89.enable', 'nr-buffer-probe.enable', 'nr-pre-tensor-capture.enable'):
         if (demo / name).exists():
             raise SystemExit('Disable other demo experiments before collecting views: ' + name)
     capture = demo / 'nr-model-capture'

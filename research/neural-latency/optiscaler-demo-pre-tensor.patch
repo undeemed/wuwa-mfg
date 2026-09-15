@@ -1,0 +1,1177 @@
+diff --git a/OptiScaler/dlssnr/DlssNr_CompatibilityRuntime.cpp b/OptiScaler/dlssnr/DlssNr_CompatibilityRuntime.cpp
+--- a/OptiScaler/dlssnr/DlssNr_CompatibilityRuntime.cpp
++++ b/OptiScaler/dlssnr/DlssNr_CompatibilityRuntime.cpp
+@@ -13,6 +13,9 @@
+ #include <set>
+ #include <condition_variable>
+ #include <atomic>
++#include "DlssNr_DemoKernelProbe.h"
++#include "DlssNr_DemoCapture.h"
++#include "DlssNr_DemoBufferProbe.h"
+ #pragma comment(lib, "psapi.lib")
+ 
+ namespace DlssNr
+@@ -118,6 +121,8 @@
+     ~Module()
+     {
+         std::lock_guard registryLock(registryMutex);
++        DemoKernelProbe::Uninstall();
++        DemoBufferProbe::DetachCommandList();
+         for (const auto& binding : imports)
+             ReplaceImport(binding.slot.address, binding.slot.wide ? reinterpret_cast<void*>(&CallerPath) : reinterpret_cast<void*>(&CallerPathA),
+                           binding.original);
+@@ -142,6 +147,8 @@
+     try
+     {
+         auto path = std::filesystem::absolute(candidate).lexically_normal();
++        DemoCapture::Initialize(path);
++        DemoBufferProbe::Initialize(path);
+         auto loaded = liveModule.lock();
+         if (!loaded) moduleRetired.wait(lock, [&] { loaded = liveModule.lock(); return loaded || !moduleRegistered; });
+         if (loaded && !std::filesystem::equivalent(loaded->path, path)) return {};
+@@ -164,6 +171,7 @@
+                     LOG_ERROR("NR compatibility: cannot load {} ({})", path.string(), error);
+                 return {};
+             }
++            DemoKernelProbe::Install(loaded->handle, path);
+             auto symbol = [&](const char* name) { return GetProcAddress(loaded->handle, name); };
+             loaded->init = reinterpret_cast<Module::Init>(symbol("NVSDK_NGX_D3D12_Init_Ext"));
+             loaded->create = reinterpret_cast<decltype(loaded->create)>(symbol("NVSDK_NGX_D3D12_CreateFeature"));
+@@ -217,6 +225,7 @@
+         auto result = allocate(&owner->capabilities);
+         if (result != NVSDK_NGX_Result_Success || !owner->capabilities) return {};
+         CallerScope caller;
++        DemoBufferProbe::RuntimeScope researchCall;
+         const auto writablePath = dataPath.empty() ? std::filesystem::temp_directory_path() : dataPath;
+         result = loaded->init(0x24480451ull, writablePath.c_str(), device, 0x15, owner->capabilities);
+         LOG_INFO("NR compatibility: Init_Ext result=0x{:08X}", (unsigned)result);
+@@ -237,6 +246,7 @@
+ {
+     std::lock_guard lock(module->mutex);
+     CallerScope caller;
++    DemoBufferProbe::RuntimeScope researchCall;
+     if (initialized)
+     {
+         if (!module->borrowed)
+@@ -256,6 +266,8 @@
+ {
+     std::lock_guard lock(module->mutex);
+     CallerScope caller;
++    DemoBufferProbe::RuntimeScope researchCall;
++    DemoBufferProbe::AttachCommandList(commands);
+     return module->create(commands, (NVSDK_NGX_Feature)18, params, feature);
+ }
+ 
+@@ -264,13 +276,21 @@
+ {
+     std::lock_guard lock(module->mutex);
+     CallerScope caller;
+-    return module->evaluate(commands, feature, params, nullptr);
++    DemoBufferProbe::RuntimeScope researchCall;
++    DemoBufferProbe::AttachCommandList(commands);
++    DemoCapture::Begin(commands, params);
++    DemoKernelProbe::Begin(commands);
++    const auto result = module->evaluate(commands, feature, params, nullptr);
++    DemoKernelProbe::End();
++    DemoCapture::End(commands, result);
++    return result;
+ }
+ 
+ NVSDK_NGX_Result CompatibilityRuntime::Release(NVSDK_NGX_Handle* feature)
+ {
+     std::lock_guard lock(module->mutex);
+     CallerScope caller;
++    DemoBufferProbe::RuntimeScope researchCall;
+     return module->release(feature);
+ }
+ }
+diff --git a/OptiScaler/shaders/dlssnr/DlssNr_Dx12_FinishedQueue.cpp b/OptiScaler/shaders/dlssnr/DlssNr_Dx12_FinishedQueue.cpp
+--- a/OptiScaler/shaders/dlssnr/DlssNr_Dx12_FinishedQueue.cpp
++++ b/OptiScaler/shaders/dlssnr/DlssNr_Dx12_FinishedQueue.cpp
+@@ -1,6 +1,8 @@
+ #include "pch.h"
+ #include "DlssNr_Dx12_State.h"
+ #include <dlssnr/DlssNr_StreamlinePicture.h>
++#include <dlssnr/DlssNr_DemoKernelProbe.h>
++#include <dlssnr/DlssNr_DemoCapture.h>
+ 
+ void DlssNr_Dx12::ApplyStreamlineFinished(IDXGISwapChain* swapchain, ID3D12Resource* picture, ID3D12CommandQueue* queue)
+ {
+@@ -12,6 +14,9 @@
+ auto DlssNr_Dx12::State::FinishedPictureResetCommandList(ID3D12CommandList* cmd) -> void
+ {
+     std::lock_guard<std::recursive_mutex> lock(mutex);
++    DlssNr::DemoKernelProbe::ResetRecording(cmd);
++    DlssNr::DemoCapture::ResetRecording(cmd);
++    DlssNr::DemoBufferProbe::TensorReset(cmd);
+     lifetime.ResetRecording(cmd);
+     if (enlarger) enlarger->lifetime.ResetRecording(cmd);
+     for (auto& old : retiredEnlargers) old->lifetime.ResetRecording(cmd);
+@@ -76,6 +81,9 @@
+ auto DlssNr_Dx12::State::FinishedPictureSubmitted(ID3D12CommandQueue* queue, UINT count, ID3D12CommandList* const* lists) -> void
+ {
+     std::lock_guard<std::recursive_mutex> lock(mutex);
++    DlssNr::DemoKernelProbe::Submitted(queue, count, lists);
++    DlssNr::DemoCapture::Submitted(queue, count, lists);
++    DlssNr::DemoBufferProbe::TensorSubmitted(queue, count, lists);
+     lifetime.Submitted(queue, count, lists);
+     if (enlarger) enlarger->lifetime.Submitted(queue, count, lists);
+     for (auto& old : retiredEnlargers) old->lifetime.Submitted(queue, count, lists);
+diff --git a/OptiScaler/hooks/D3D12_Hooks.cpp b/OptiScaler/hooks/D3D12_Hooks.cpp
+--- a/OptiScaler/hooks/D3D12_Hooks.cpp
++++ b/OptiScaler/hooks/D3D12_Hooks.cpp
+@@ -1,6 +1,7 @@
+ #include "pch.h"
+ #include "D3D12_Hooks.h"
+ #include <dlssnr/DlssNr_ExposureScan.h>
++#include <dlssnr/DlssNr_DemoBufferProbe.h>
+ 
+ #include <Util.h>
+ #include <Config.h>
+@@ -1789,6 +1790,9 @@
+     // not match, and it does nothing at all unless Neural Rendering is running.
+     if (SUCCEEDED(created) && ppvResource != nullptr)
+         DlssNr::ExposureScan::NoteResource(pDesc, (ID3D12Resource*) *ppvResource);
++    if (SUCCEEDED(created) && ppvResource && pHeapProperties)
++        DlssNr::DemoBufferProbe::NoteResource(device,pHeapProperties->Type,pDesc,InitialResourceState,
++                                             (IUnknown*)*ppvResource,"committed");
+ 
+     return created;
+ }
+@@ -1824,6 +1828,9 @@
+ 
+     if (SUCCEEDED(created) && ppvResource != nullptr)
+         DlssNr::ExposureScan::NoteResource(pDesc, (ID3D12Resource*) *ppvResource);
++    if (SUCCEEDED(created) && ppvResource && pHeap)
++        DlssNr::DemoBufferProbe::NoteResource(device,pHeap->GetDesc().Properties.Type,pDesc,InitialState,
++                                             (IUnknown*)*ppvResource,"placed");
+ 
+     return created;
+ }
+diff --git a/OptiScaler/dlssnr/DlssNr_DemoCapture.h b/OptiScaler/dlssnr/DlssNr_DemoCapture.h
+new file mode 100644
+--- /dev/null
++++ b/OptiScaler/dlssnr/DlssNr_DemoCapture.h
+@@ -0,0 +1,199 @@
++#pragma once
++// GPL-3.0: research-only capture at the existing NR resource contract.
++// No heuristic frame delay: readback requires the actual queue's completed fence.
++#include <json.hpp>
++#include <nvsdk_ngx.h>
++#include <Util.h>
++#include <array>
++#include <fstream>
++#include <mutex>
++
++namespace DlssNr::DemoCapture
++{
++using Json = nlohmann::json;
++template<class T> using Ptr = Microsoft::WRL::ComPtr<T>;
++struct Shot
++{
++    Ptr<ID3D12Resource> source, readback;
++    D3D12_PLACED_SUBRESOURCE_FOOTPRINT layout{};
++    UINT rows = 0;
++    UINT64 rowBytes = 0, bytes = 0;
++    bool recorded = false;
++};
++struct Frame
++{
++    std::array<Shot, 4> shots;
++    Ptr<ID3D12Fence> fence;
++    ID3D12CommandList* identity = nullptr;
++    bool ended = false, submitted = false, written = false, discarded = false;
++    Json metadata;
++};
++struct Capture
++{
++    std::recursive_mutex mutex;
++    std::array<Frame,4> frames;
++    std::filesystem::path directory;
++    unsigned count = 0;
++    UINT64 allocated = 0;
++    bool enabled = false, started = false;
++};
++// Bounded process-lifetime owner also covers command lists whose submission or
++// Signal fails. Such resources are never freed merely because a timer elapsed.
++inline Capture* state = nullptr;
++inline thread_local Frame* active = nullptr;
++inline const char* names[] = {"color", "depth", "motion", "output"};
++
++inline ID3D12CommandList* Identity(ID3D12CommandList* commands)
++{
++    ID3D12CommandList* real = nullptr;
++    return Util::CheckForRealObject(__FUNCTION__, commands, (IUnknown**)&real) ? real : commands;
++}
++inline void Initialize(const std::filesystem::path& runtime)
++{
++    if (state) return;
++    wchar_t executable[32768]{};
++    if (!GetModuleFileNameW(nullptr, executable, (DWORD)std::size(executable)) ||
++        _wcsicmp(std::filesystem::path(executable).filename().c_str(), L"ngx_dlss_demo.exe") ||
++        !std::filesystem::exists(runtime.parent_path() / L"nr-model-capture.enable")) return;
++    state = new Capture;
++    state->directory = runtime.parent_path() / L"nr-model-capture";
++    if (std::filesystem::exists(state->directory))
++    { LOG_WARN("NR demo capture: directory already exists; refusing overwrite"); return; }
++    std::filesystem::create_directory(state->directory);
++    state->enabled = true;
++    LOG_INFO("NR demo capture: armed four frames starting at the first reset");
++}
++inline bool Allocate(ID3D12Device* device, ID3D12Resource* resource, Shot& shot)
++{
++    if (!resource) return false;
++    const auto desc = resource->GetDesc();
++    if (desc.Dimension != D3D12_RESOURCE_DIMENSION_TEXTURE2D || desc.SampleDesc.Count != 1 ||
++        desc.MipLevels != 1 || desc.DepthOrArraySize != 1 || desc.Width > 4096 || desc.Height > 4096) return false;
++    device->GetCopyableFootprints(&desc,0,1,0,&shot.layout,&shot.rows,&shot.rowBytes,&shot.bytes);
++    if (!shot.bytes || shot.bytes > 64ull*1024*1024 || state->allocated + shot.bytes > 512ull*1024*1024) return false;
++    D3D12_HEAP_PROPERTIES heap{}; heap.Type = D3D12_HEAP_TYPE_READBACK;
++    D3D12_RESOURCE_DESC buffer{}; buffer.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
++    buffer.Width = shot.bytes; buffer.Height = 1; buffer.DepthOrArraySize = 1;
++    buffer.MipLevels = 1; buffer.SampleDesc.Count = 1; buffer.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
++    if (FAILED(device->CreateCommittedResource(&heap,D3D12_HEAP_FLAG_NONE,&buffer,
++        D3D12_RESOURCE_STATE_COPY_DEST,nullptr,IID_PPV_ARGS(&shot.readback)))) return false;
++    shot.source = resource; state->allocated += shot.bytes;
++    return true;
++}
++inline void Record(ID3D12GraphicsCommandList* commands, Shot& shot, D3D12_RESOURCE_STATES before)
++{
++    D3D12_RESOURCE_BARRIER barrier{};
++    barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
++    barrier.Transition.pResource = shot.source.Get();
++    barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
++    barrier.Transition.StateBefore = before; barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_COPY_SOURCE;
++    commands->ResourceBarrier(1,&barrier);
++    D3D12_TEXTURE_COPY_LOCATION destination{}; destination.pResource = shot.readback.Get();
++    destination.Type = D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT; destination.PlacedFootprint = shot.layout;
++    D3D12_TEXTURE_COPY_LOCATION source{}; source.pResource = shot.source.Get();
++    source.Type = D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
++    commands->CopyTextureRegion(&destination,0,0,0,&source,nullptr);
++    std::swap(barrier.Transition.StateBefore,barrier.Transition.StateAfter);
++    commands->ResourceBarrier(1,&barrier); shot.recorded = true;
++}
++inline void Collect()
++{
++    for (unsigned i = 0; i < state->count; ++i)
++    {
++        auto& frame = state->frames[i];
++        if (!frame.submitted || frame.written || frame.discarded) continue;
++        const auto completed = frame.fence->GetCompletedValue();
++        if (completed == UINT64_MAX || completed < 1) continue;
++        bool success = true;
++        frame.metadata["gpu_completed"] = true;
++        for (unsigned j = 0; j < frame.shots.size(); ++j)
++        {
++            auto& shot = frame.shots[j];
++            if (!shot.recorded) { success = false; continue; }
++            void* bytes = nullptr; D3D12_RANGE range{0,size_t(shot.bytes)};
++            if (FAILED(shot.readback->Map(0,&range,&bytes))) { success = false; continue; }
++            const auto file = std::string(names[j]) + "-" + std::to_string(i) + ".raw";
++            std::ofstream output(state->directory/file,std::ios::binary|std::ios::trunc);
++            for (unsigned row = 0; row < shot.rows; ++row)
++                output.write(static_cast<char*>(bytes)+shot.layout.Offset+size_t(row)*shot.layout.Footprint.RowPitch,
++                             std::streamsize(shot.rowBytes));
++            output.close(); success = success && !output.fail();
++            D3D12_RANGE written{0,0}; shot.readback->Unmap(0,&written);
++            const auto desc = shot.source->GetDesc();
++            frame.metadata["resources"][names[j]] = {{"file",file},{"width",desc.Width},{"height",desc.Height},
++                {"format",(unsigned)desc.Format},{"row_bytes",shot.rowBytes},{"rows",shot.rows}};
++        }
++        frame.metadata["complete"] = success;
++        std::ofstream metadata(state->directory/("frame-"+std::to_string(i)+".json"));
++        metadata << frame.metadata.dump(2); metadata.close();
++        frame.written = true;
++        LOG_INFO("NR demo capture: frame {} read after GPU fence, complete={}",i,success);
++    }
++}
++inline void Begin(ID3D12GraphicsCommandList* commands, NVSDK_NGX_Parameter* parameters)
++{
++    active = nullptr;
++    if (!state || !state->enabled) return;
++    std::lock_guard lock(state->mutex); Collect();
++    if (state->count == state->frames.size()) return;
++    unsigned reset = 0;
++    if (parameters->Get("DLSSNR.Reset",&reset) != NVSDK_NGX_Result_Success) return;
++    if (!state->started && !reset) return;
++    state->started = true;
++    auto& frame = state->frames[state->count];
++    Ptr<ID3D12Device> device;
++    if (FAILED(commands->GetDevice(IID_PPV_ARGS(&device)))) { state->enabled = false; return; }
++    const char* keys[] = {"DLSSNR.Color","DLSSNR.Depth","DLSSNR.MVec","DLSSNR.Output"};
++    for (unsigned i = 0; i < 4; ++i)
++    {
++        ID3D12Resource* resource = nullptr;
++        if (parameters->Get(keys[i],&resource) != NVSDK_NGX_Result_Success || !Allocate(device.Get(),resource,frame.shots[i]))
++        { LOG_WARN("NR demo capture: unsupported resource {}",keys[i]); state->enabled = false; return; }
++    }
++    if (FAILED(device->CreateFence(0,D3D12_FENCE_FLAG_NONE,IID_PPV_ARGS(&frame.fence)))) { state->enabled = false; return; }
++    frame.identity = Identity(commands);
++    frame.metadata = {{"schema",1},{"index",state->count},{"gpu_completed",false}};
++    for (const char* key : {"DLSSNR.Width","DLSSNR.Height","DLSSNR.Reset","DLSSNR.Style","DLSSNR.UseAutoMask",
++         "DLSSNR.Hint.Render.Preset","DLSSNR.DepthInverted","DLSSNR.ColorSubrectBaseX","DLSSNR.ColorSubrectBaseY",
++         "DLSSNR.ColorSubrectWidth","DLSSNR.ColorSubrectHeight","DLSSNR.DepthSubrectBaseX","DLSSNR.DepthSubrectBaseY",
++         "DLSSNR.DepthSubrectWidth","DLSSNR.DepthSubrectHeight","DLSSNR.MVecSubrectBaseX","DLSSNR.MVecSubrectBaseY",
++         "DLSSNR.MVecSubrectWidth","DLSSNR.MVecSubrectHeight"})
++    { unsigned value = 0; if (parameters->Get(key,&value) == NVSDK_NGX_Result_Success) frame.metadata["controls"][key] = value; }
++    for (const char* key : {"DLSSNR.Intensity","DLSSNR.LocalStructureStrength","DLSSNR.LocalToneStrength",
++         "DLSSNR.SkinStructureStrength","DLSSNR.MVecScaleX","DLSSNR.MVecScaleY"})
++    { float value = 0; if (parameters->Get(key,&value) == NVSDK_NGX_Result_Success) frame.metadata["controls"][key] = value; }
++    for (unsigned i = 0; i < 3; ++i) Record(commands,frame.shots[i],D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
++    ++state->count; active = &frame;
++}
++inline void End(ID3D12GraphicsCommandList* commands, NVSDK_NGX_Result result)
++{
++    if (!active) return;
++    std::lock_guard lock(state->mutex);
++    active->metadata["evaluate_result"] = (unsigned)result;
++    if (result == NVSDK_NGX_Result_Success) Record(commands,active->shots[3],D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
++    active->ended = true; active = nullptr;
++}
++inline void Submitted(ID3D12CommandQueue* queue, UINT count, ID3D12CommandList* const* commands)
++{
++    if (!state) return;
++    std::lock_guard lock(state->mutex);
++    for (unsigned i = 0; i < state->count; ++i)
++    {
++        auto& frame = state->frames[i];
++        if (!frame.ended || frame.submitted || frame.discarded) continue;
++        for (UINT j = 0; j < count; ++j) if (Identity(commands[j]) == frame.identity)
++        {
++            frame.submitted = true;
++            if (FAILED(queue->Signal(frame.fence.Get(),1))) LOG_ERROR("NR demo capture: queue Signal failed; resource quarantined");
++            break;
++        }
++    }
++}
++inline void ResetRecording(ID3D12CommandList* commands)
++{
++    if (!state) return;
++    std::lock_guard lock(state->mutex);
++    for (unsigned i = 0; i < state->count; ++i)
++    { auto& frame = state->frames[i]; if (!frame.submitted && frame.identity == Identity(commands)) frame.discarded = true; }
++}
++}
+diff --git a/OptiScaler/dlssnr/DlssNr_DemoKernelProbe.h b/OptiScaler/dlssnr/DlssNr_DemoKernelProbe.h
+new file mode 100644
+--- /dev/null
++++ b/OptiScaler/dlssnr/DlssNr_DemoKernelProbe.h
+@@ -0,0 +1,469 @@
++#pragma once
++
++// Research observer for the separate NVIDIA demo only. It forwards complete
++// launch chains unchanged. The contract extension reads only whitelisted CPU
++// scalar parameters and module headers, never GPU memory or weight buffers.
++// A separate opt-in marker tests submitting only an existing SM89 cubin entry.
++#include <nvapi.h>
++#include <psapi.h>
++#include <mutex>
++#include <fstream>
++#include <iomanip>
++#include <unordered_map>
++#include <Util.h>
++#include <json.hpp>
++#include <chrono>
++#include "DlssNr_DemoBufferProbe.h"
++
++namespace DlssNr::DemoKernelProbe
++{
++inline std::recursive_mutex mutex;
++inline bool enabled = false;
++inline std::ofstream output;
++inline std::ofstream contract;
++inline bool forceSm89 = false;
++// Retain any filtered module payload through process lifetime. No on-disk
++// NVIDIA binary is modified; normal observer mode never enters this branch.
++inline std::vector<std::vector<unsigned char>> selectedModuleBlobs;
++inline void** importSlot = nullptr;
++inline decltype(&GetProcAddress) originalResolve = &GetProcAddress;
++using Query = void* (__cdecl*)(unsigned);
++inline Query originalQuery = nullptr;
++inline decltype(&NvAPI_D3D12_CreateCuModule) originalModule = nullptr;
++inline decltype(&NvAPI_D3D12_CreateCuFunction) originalFunction = nullptr;
++inline decltype(&NvAPI_D3D12_LaunchCuKernelChain) originalLaunch = nullptr;
++inline decltype(&NvAPI_D3D12_LaunchCuKernelChainEx) originalLaunchEx = nullptr;
++inline std::unordered_map<NVDX_ObjectHandle, unsigned> modules;
++struct FunctionInfo { unsigned sm; std::string name; };
++inline std::unordered_map<NVDX_ObjectHandle, FunctionInfo> functions;
++inline unsigned evaluations = 0;
++inline thread_local unsigned frame = 0, chain = 0;
++inline thread_local bool capture = false;
++struct Timings
++{
++    Microsoft::WRL::ComPtr<ID3D12QueryHeap> heap;
++    Microsoft::WRL::ComPtr<ID3D12Resource> readback;
++    Microsoft::WRL::ComPtr<ID3D12Fence> fence;
++    ID3D12CommandList* identity = nullptr; // identity only; not dereferenced
++    ID3D12GraphicsCommandList* recording = nullptr;
++    UINT64 fenceValue = 0, frequency = 0;
++    unsigned frame = 0;
++    bool occupied = false, ended = false, submitted = false, active = false;
++    struct Call { std::string name; unsigned count; int status; };
++    std::vector<Call> calls;
++    std::ofstream output;
++};
++// Demo process lifetime. Never free a query resource while its command list could
++// still execute, including a failed queue Signal or an interrupted trial.
++inline Timings* timing = nullptr;
++inline bool wantsTiming = false;
++inline std::filesystem::path timingPath;
++inline void CollectTimings()
++{
++    if (!timing || !timing->occupied || !timing->submitted) return;
++    const auto complete = timing->fence->GetCompletedValue();
++    if (complete == UINT64_MAX || complete < timing->fenceValue || !timing->frequency) return;
++    UINT64* stamps = nullptr;
++    D3D12_RANGE range{ 0, timing->calls.size() * 16 };
++    if (FAILED(timing->readback->Map(0, &range, reinterpret_cast<void**>(&stamps)))) return;
++    for (size_t i = 0; i < timing->calls.size(); ++i)
++    {
++        const auto& item = timing->calls[i];
++        if (!stamps[i*2] || stamps[i*2+1] < stamps[i*2]) continue;
++        timing->output << timing->frame << ',' << i + 1 << ',' << item.count << ',' << item.status << ','
++            << (double(stamps[i*2+1] - stamps[i*2]) * 1000.0 / double(timing->frequency)) << ','
++            << std::quoted(item.name) << '\n';
++    }
++    D3D12_RANGE written{0, 0}; timing->readback->Unmap(0, &written);
++    timing->output.flush();
++    LOG_INFO("NR demo probe: evaluation {} collected {} GPU chain timings", timing->frame, timing->calls.size());
++    timing->occupied = false;
++}
++inline void BeginTimings(ID3D12GraphicsCommandList* commands)
++{
++    if (!wantsTiming) return;
++    CollectTimings();
++    if (frame < 600 || frame % 120 || (timing && timing->occupied)) return;
++    if (!timing)
++    {
++        timing = new Timings;
++        Microsoft::WRL::ComPtr<ID3D12Device> device;
++        if (FAILED(commands->GetDevice(IID_PPV_ARGS(&device)))) { wantsTiming = false; return; }
++        D3D12_QUERY_HEAP_DESC query{D3D12_QUERY_HEAP_TYPE_TIMESTAMP, 4096, 0};
++        D3D12_HEAP_PROPERTIES heap{}; heap.Type = D3D12_HEAP_TYPE_READBACK;
++        D3D12_RESOURCE_DESC buffer{}; buffer.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
++        buffer.Width = 4096*8; buffer.Height = 1; buffer.DepthOrArraySize = 1;
++        buffer.MipLevels = 1; buffer.SampleDesc.Count = 1; buffer.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
++        if (FAILED(device->CreateQueryHeap(&query, IID_PPV_ARGS(&timing->heap))) ||
++            FAILED(device->CreateCommittedResource(&heap, D3D12_HEAP_FLAG_NONE, &buffer,
++                D3D12_RESOURCE_STATE_COPY_DEST, nullptr, IID_PPV_ARGS(&timing->readback))) ||
++            FAILED(device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&timing->fence))))
++        { wantsTiming = false; return; }
++        timing->output.open(timingPath, std::ios::trunc);
++        if (!timing->output) { wantsTiming = false; return; }
++        timing->output << "frame,chain,kernels,status,gpu_ms,names\n";
++    }
++    timing->identity = commands;
++    ID3D12GraphicsCommandList* real = nullptr;
++    if (Util::CheckForRealObject(__FUNCTION__, commands, (IUnknown**)&real)) timing->identity = real;
++    timing->recording = commands;
++    timing->frame = frame; timing->calls.clear();
++    timing->occupied = timing->active = true;
++    timing->submitted = timing->ended = false;
++    ++timing->fenceValue;
++}
++template<class T> inline unsigned BeforeLaunch(ID3D12GraphicsCommandList* commands, const T* kernels, unsigned count)
++{
++    if (!timing || !timing->active || commands != timing->recording || !kernels || timing->calls.size() >= 2048) return UINT_MAX;
++    std::lock_guard lock(mutex);
++    Timings::Call call{}; call.count = count;
++    for (unsigned i = 0; i < count; ++i)
++    {
++        if (i) call.name += '|';
++        auto it = functions.find(kernels[i].hFunction);
++        call.name += it == functions.end() ? "unresolved" : it->second.name;
++    }
++    auto index = unsigned(timing->calls.size()); timing->calls.push_back(std::move(call));
++    commands->EndQuery(timing->heap.Get(), D3D12_QUERY_TYPE_TIMESTAMP, index * 2);
++    return index;
++}
++inline void AfterLaunch(ID3D12GraphicsCommandList* commands, unsigned index, NvAPI_Status status)
++{
++    if (index == UINT_MAX) return;
++    commands->EndQuery(timing->heap.Get(), D3D12_QUERY_TYPE_TIMESTAMP, index*2+1);
++    timing->calls[index].status = status;
++}
++inline void Submitted(ID3D12CommandQueue* queue, UINT count, ID3D12CommandList* const* lists)
++{
++    if (!enabled || !timing) return;
++    std::lock_guard lock(mutex);
++    if (!timing->occupied || !timing->ended || timing->submitted) return;
++    for (UINT i = 0; i < count; ++i)
++    {
++        ID3D12CommandList* real = nullptr;
++        auto identity = Util::CheckForRealObject(__FUNCTION__, lists[i], (IUnknown**)&real) ? real : lists[i];
++        if (identity != timing->identity) continue;
++        timing->submitted = true;
++        if (FAILED(queue->GetTimestampFrequency(&timing->frequency))) timing->frequency = 0;
++        // Caller runs after the real ExecuteCommandLists. Signal failure keeps
++        // this slot quarantined; it must not be recycled as discarded work.
++        if (FAILED(queue->Signal(timing->fence.Get(), timing->fenceValue))) timing->frequency = 0;
++        break;
++    }
++}
++inline void ResetRecording(ID3D12CommandList* commands)
++{
++    if (!enabled || !timing) return;
++    std::lock_guard lock(mutex);
++    ID3D12CommandList* real = nullptr;
++    auto identity = Util::CheckForRealObject(__FUNCTION__, commands, (IUnknown**)&real) ? real : commands;
++    if (timing->occupied && !timing->submitted && identity == timing->identity)
++        timing->occupied = timing->active = false;
++}
++
++inline std::vector<unsigned char> SelectSm89(const void* blob, NvU32 bytes)
++{
++    if (!forceSm89 || !blob || bytes < 16) return {};
++    const auto* data=static_cast<const unsigned char*>(blob);
++    unsigned magic=0;unsigned short version=0,header=0;unsigned long long length=0;
++    memcpy(&magic,data,4);memcpy(&version,data+4,2);memcpy(&header,data+6,2);memcpy(&length,data+8,8);
++    if (magic!=0xba55ed50u || version!=1 || header!=16 || length>bytes-header) return {};
++    const size_t end=header+size_t(length);
++    // Some callers supply a zero-padded allocation. Never discard unknown data.
++    for (size_t i=end;i<bytes;++i) if (data[i]) return {};
++    size_t offset=header, selected=0, selectedBytes=0;
++    unsigned matches=0;
++    while (offset<end)
++    {
++        if (end-offset<32) return {};
++        unsigned short kind=0;unsigned entryHeader=0,architecture=0;unsigned long long payload=0;
++        memcpy(&kind,data+offset,2);memcpy(&entryHeader,data+offset+4,4);
++        memcpy(&payload,data+offset+8,8);memcpy(&architecture,data+offset+28,4);
++        if (entryHeader<32 || entryHeader>512 || entryHeader>end-offset || payload>end-offset-entryHeader) return {};
++        if (kind==2 && architecture==89) { selected=offset;selectedBytes=entryHeader+size_t(payload);++matches; }
++        offset+=entryHeader+size_t(payload);
++    }
++    if (matches!=1 || offset!=end) return {};
++    std::vector<unsigned char> result(data,data+header);
++    result.insert(result.end(),data+selected,data+selected+selectedBytes);
++    const unsigned long long newLength=selectedBytes;memcpy(result.data()+8,&newLength,8);
++    return result;
++}
++
++inline NvAPI_Status __cdecl CreateModule(ID3D12Device* device, const void* blob, NvU32 bytes,
++                                        NVDX_ObjectHandle* result)
++{
++    auto selected=SelectSm89(blob,bytes);
++    const bool filtered=!selected.empty();
++    const void* submitted=blob;NvU32 submittedBytes=bytes;
++    if (filtered)
++    {
++        std::lock_guard lock(mutex);
++        selectedModuleBlobs.push_back(std::move(selected));
++        submitted=selectedModuleBlobs.back().data();submittedBytes=NvU32(selectedModuleBlobs.back().size());
++    }
++    const auto status = originalModule(device, submitted, submittedBytes, result);
++    unsigned sm = 0;
++    if (blob && bytes >= 64 && !memcmp(blob, "\x7f" "ELF", 4))
++    { unsigned flags; memcpy(&flags, static_cast<const char*>(blob) + 48, 4); sm = (flags >> 8) & 255; }
++    std::lock_guard lock(mutex);
++    nlohmann::json module = {{"kind","module"},{"bytes",bytes},{"status",status},{"architecture_selection","unknown"}};
++    module["force_sm89_requested"]=forceSm89;
++    module["filtered_to_sm89"]=filtered;
++    module["submitted_bytes"]=submittedBytes;
++    if (filtered && status==NVAPI_OK) module["architecture_selection"]="only SM89 cubin entry submitted";
++    if (blob && bytes >= 16)
++    {
++        const auto* data = static_cast<const unsigned char*>(blob);
++        unsigned magic = 0; memcpy(&magic,data,4); module["magic"] = magic;
++        if (magic == 0xba55ed50u)
++        {
++            unsigned short header = 0, version=0; unsigned long long length = 0;
++            memcpy(&version,data+4,2); memcpy(&header,data+6,2); memcpy(&length,data+8,8);
++            module["fatbin_version"]=version;
++            module["fatbin_header_bytes"]=header;
++            module["fatbin_payload_bytes"]=length;
++            if (header >= 16 && header <= bytes && length <= bytes-header)
++            {
++                auto architectures = nlohmann::json::array();
++                size_t offset = header, end = header+size_t(length);
++                bool trailingZero=true;
++                for(size_t i=end;i<bytes;++i) if(data[i]) { trailingZero=false;break; }
++                module["trailing_bytes"]=bytes-end;
++                module["trailing_bytes_all_zero"]=trailingZero;
++                for (unsigned n=0; n<64 && offset < end; ++n)
++                {
++                    if (end-offset < 32) break;
++                    unsigned entryHeader=0, architecture=0; unsigned long long payload=0;
++                    memcpy(&entryHeader,data+offset+4,4); memcpy(&payload,data+offset+8,8);
++                    memcpy(&architecture,data+offset+28,4);
++                    if (entryHeader < 32 || entryHeader > 512 || entryHeader > end-offset || payload > end-offset-entryHeader) break;
++                    architectures.push_back(architecture);
++                    offset += entryHeader+size_t(payload);
++                }
++                module["fatbin_architectures"] = architectures;
++                module["fatbin_walk_complete"] = offset == end;
++            }
++        }
++    }
++    contract << module.dump() << '\n'; contract.flush();
++    if (status == NVAPI_OK && result) modules[*result] = sm;
++    output << "module,0,0,0," << sm << ',' << bytes << ",0,0,0,0,0,0,0," << status << ",\"\"\n";
++    output.flush();
++    return status;
++}
++
++inline NvAPI_Status __cdecl CreateFunction(ID3D12Device* device, NVDX_ObjectHandle module,
++                                          const char* name, NVDX_ObjectHandle* result)
++{
++    const auto status = originalFunction(device, module, name, result);
++    std::lock_guard lock(mutex);
++    if (status == NVAPI_OK && name && result) functions[*result] = { modules[module], name };
++    return status;
++}
++
++template<class T> inline void Record(const T* kernels, NvU32 count, NvAPI_Status status)
++{
++    if (!capture || !kernels) return;
++    std::lock_guard lock(mutex);
++    ++chain;
++    for (NvU32 i = 0; i < count; ++i)
++    {
++        const auto it = functions.find(kernels[i].hFunction);
++        const auto info = it == functions.end() ? FunctionInfo{0, "unresolved"} : it->second;
++        const auto& k = kernels[i];
++        output << "launch," << frame << ',' << chain << ',' << i << ',' << info.sm << ',' << count << ','
++               << k.gridDim.x << ',' << k.gridDim.y << ',' << k.gridDim.z << ','
++               << k.blockDim.x << ',' << k.blockDim.y << ',' << k.blockDim.z << ','
++               << k.dynSharedMemBytes << ',' << status << ',' << std::quoted(info.name) << '\n';
++    }
++}
++
++template<class T> inline void RecordContract(ID3D12GraphicsCommandList* commands,const T* kernels, NvU32 count, const char* api, NvAPI_Status status, double cpuUs)
++{
++    if (!capture || !kernels || count > 2048) return;
++    std::lock_guard lock(mutex);
++    for (NvU32 i=0; i<count; ++i)
++    {
++        const auto& k=kernels[i];
++        const auto it=functions.find(k.hFunction);
++        const auto name=it==functions.end() ? std::string("unresolved") : it->second.name;
++        DemoBufferProbe::Observe(name,k.pParams,k.paramSize,frame,chain);
++        if(name=="cc_tinlayout_fused_pre_block_swin_1h_32_1_ds_fp8" && count==1)
++            DemoBufferProbe::CaptureTensor(commands,k.pParams,k.paramSize,frame,status);
++        nlohmann::json record={{"kind","launch"},{"frame",frame},{"chain",chain},{"kernel",i},
++            {"name",name},{"api",api},{"status",status},{"chain_cpu_us",cpuUs},
++            {"param_bytes",k.paramSize},{"has_packed_params",k.pParams!=nullptr},
++            {"grid",{k.gridDim.x,k.gridDim.y,k.gridDim.z}},{"block",{k.blockDim.x,k.blockDim.y,k.blockDim.z}}};
++        if constexpr (std::is_same_v<T,NVAPI_CU_KERNEL_LAUNCH_PARAMS_EX>) record["has_pointer_params"]=k.kernelParams!=nullptr;
++        // Offsets from the pinned independent preprocessor recovery, relative
++        // to its 264-byte packed launch block. Require exact kernel and extent.
++        if (name=="cc_tinlayout_fused_pre_block_swin_1h_32_1_ds_fp8" && k.pParams && k.paramSize==264)
++        {
++            const auto* params=static_cast<const unsigned char*>(k.pParams);
++            nlohmann::json fields;
++            const char* floatNames[]={"mvec_x","mvec_y","tone","structure","style","skin_structure","auto_structure","rgb_scale"};
++            const unsigned floatOffsets[]={160,164,172,176,180,184,188,196};
++            for (unsigned j=0;j<std::size(floatOffsets);++j)
++            { float value=0;memcpy(&value,params+floatOffsets[j],4);fields[floatNames[j]]=value; }
++            const char* uintNames[]={"depth_inverted","auto_enabled","noise_counter","height","width"};
++            const unsigned uintOffsets[]={168,192,200,208,212};
++            for (unsigned j=0;j<std::size(uintOffsets);++j)
++            { unsigned value=0;memcpy(&value,params+uintOffsets[j],4);fields[uintNames[j]]=value; }
++            record["preprocessor_scalar_candidate"]=fields;
++            record["scalar_offsets_source"]="MLX-DLSS 0ca2deab preprocessor parameter map; requires sanity checks";
++        }
++        contract << record.dump() << '\n';
++    }
++}
++
++inline NvAPI_Status __cdecl Launch(ID3D12GraphicsCommandList* commands,
++                                   const NVAPI_CU_KERNEL_LAUNCH_PARAMS* kernels, NvU32 count)
++{
++    const auto index = BeforeLaunch(commands, kernels, count);
++    DemoBufferProbe::BeforeKernel(frame,chain+1);
++    const auto started = std::chrono::steady_clock::now();
++    const auto status = originalLaunch(commands, kernels, count);
++    const auto cpuUs=std::chrono::duration<double,std::micro>(std::chrono::steady_clock::now()-started).count();
++    AfterLaunch(commands, index, status);
++    Record(kernels, count, status);
++    RecordContract(commands,kernels,count,"chain",status,cpuUs);
++    return status;
++}
++inline NvAPI_Status __cdecl LaunchEx(ID3D12GraphicsCommandList* commands,
++                                     const NVAPI_CU_KERNEL_LAUNCH_PARAMS_EX* kernels, NvU32 count)
++{
++    const auto index = BeforeLaunch(commands, kernels, count);
++    DemoBufferProbe::BeforeKernel(frame,chain+1);
++    const auto started = std::chrono::steady_clock::now();
++    const auto status = originalLaunchEx(commands, kernels, count);
++    const auto cpuUs=std::chrono::duration<double,std::micro>(std::chrono::steady_clock::now()-started).count();
++    AfterLaunch(commands, index, status);
++    Record(kernels, count, status);
++    RecordContract(commands,kernels,count,"chain_ex",status,cpuUs);
++    return status;
++}
++inline void* __cdecl ResolveNvapi(unsigned id)
++{
++    auto result = originalQuery(id);
++    if (!result) return nullptr;
++    switch (id)
++    {
++    case 0xad1a677d: originalModule = reinterpret_cast<decltype(originalModule)>(result); return reinterpret_cast<void*>(&CreateModule);
++    case 0xe2436e22: originalFunction = reinterpret_cast<decltype(originalFunction)>(result); return reinterpret_cast<void*>(&CreateFunction);
++    case 0x24973538: originalLaunch = reinterpret_cast<decltype(originalLaunch)>(result); return reinterpret_cast<void*>(&Launch);
++    case 0x846a9bf0: originalLaunchEx = reinterpret_cast<decltype(originalLaunchEx)>(result); return reinterpret_cast<void*>(&LaunchEx);
++    default: return result;
++    }
++}
++inline FARPROC WINAPI Resolve(HMODULE module, LPCSTR name)
++{
++    const auto result = originalResolve(module, name);
++    if (result && reinterpret_cast<uintptr_t>(name) > 65535 && !strcmp(name, "nvapi_QueryInterface"))
++    { originalQuery = reinterpret_cast<Query>(result); return reinterpret_cast<FARPROC>(&ResolveNvapi); }
++    return result;
++}
++
++inline void Install(HMODULE runtime, const std::filesystem::path& runtimePath)
++{
++    std::lock_guard lock(mutex);
++    wchar_t executable[32768]{};
++    if (!GetModuleFileNameW(nullptr, executable, (DWORD)std::size(executable))) return;
++    if (_wcsicmp(std::filesystem::path(executable).filename().c_str(), L"ngx_dlss_demo.exe")) return;
++    if (!std::filesystem::exists(runtimePath.parent_path() / L"nr-kernel-probe.enable")) return;
++    if (enabled) return;
++    MODULEINFO info{};
++    if (!GetModuleInformation(GetCurrentProcess(), runtime, &info, sizeof(info))) return;
++    auto base = static_cast<unsigned char*>(info.lpBaseOfDll);
++    const size_t size = info.SizeOfImage;
++    auto inside = [&](size_t rva, size_t length) { return rva < size && length <= size - rva; };
++    if (!inside(0, sizeof(IMAGE_DOS_HEADER))) return;
++    auto dos = reinterpret_cast<IMAGE_DOS_HEADER*>(base);
++    if (dos->e_magic != IMAGE_DOS_SIGNATURE || dos->e_lfanew < 0 || !inside(dos->e_lfanew, sizeof(IMAGE_NT_HEADERS64))) return;
++    auto nt = reinterpret_cast<IMAGE_NT_HEADERS64*>(base + dos->e_lfanew);
++    if (nt->Signature != IMAGE_NT_SIGNATURE || nt->OptionalHeader.Magic != IMAGE_NT_OPTIONAL_HDR64_MAGIC) return;
++    auto directory = nt->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT];
++    if (!directory.VirtualAddress || !inside(directory.VirtualAddress, directory.Size)) return;
++    for (size_t pos = directory.VirtualAddress; inside(pos, sizeof(IMAGE_IMPORT_DESCRIPTOR)) &&
++         pos + sizeof(IMAGE_IMPORT_DESCRIPTOR) <= size_t(directory.VirtualAddress) + directory.Size; pos += sizeof(IMAGE_IMPORT_DESCRIPTOR))
++    {
++        auto desc = reinterpret_cast<IMAGE_IMPORT_DESCRIPTOR*>(base + pos);
++        if (!desc->Name) break;
++        if (!desc->OriginalFirstThunk || !desc->FirstThunk) continue;
++        for (size_t i = 0; ; ++i)
++        {
++            const size_t named = desc->OriginalFirstThunk + i * sizeof(IMAGE_THUNK_DATA64);
++            const size_t bound = desc->FirstThunk + i * sizeof(IMAGE_THUNK_DATA64);
++            if (!inside(named, sizeof(IMAGE_THUNK_DATA64)) || !inside(bound, sizeof(void*))) break;
++            auto thunk = reinterpret_cast<IMAGE_THUNK_DATA64*>(base + named);
++            if (!thunk->u1.AddressOfData) break;
++            if (IMAGE_SNAP_BY_ORDINAL64(thunk->u1.Ordinal)) continue;
++            auto rva = size_t(thunk->u1.AddressOfData);
++            constexpr char symbol[] = "GetProcAddress";
++            if (!inside(rva, 2 + sizeof(symbol)) || memcmp(base + rva + 2, symbol, sizeof(symbol))) continue;
++            auto slot = reinterpret_cast<void**>(base + bound);
++            if (!*slot) return;
++            output.open(runtimePath.parent_path() / L"nr-kernel-probe.csv", std::ios::trunc);
++            if (!output) return;
++            contract.open(runtimePath.parent_path()/L"nr-launch-contract.jsonl",std::ios::trunc);
++            if (!contract) { output.close(); return; }
++            originalResolve = reinterpret_cast<decltype(originalResolve)>(*slot);
++            DWORD protection = 0, ignored = 0;
++            if (!VirtualProtect(slot, sizeof(void*), PAGE_READWRITE, &protection)) { output.close(); return; }
++            const auto old = InterlockedCompareExchangePointer(slot, reinterpret_cast<void*>(&Resolve), reinterpret_cast<void*>(originalResolve));
++            VirtualProtect(slot, sizeof(void*), protection, &ignored);
++            if (old != reinterpret_cast<void*>(originalResolve)) { output.close(); return; }
++            importSlot = slot;
++            enabled = true;
++            wantsTiming = std::filesystem::exists(runtimePath.parent_path() / L"nr-kernel-timing.enable");
++            forceSm89 = std::filesystem::exists(runtimePath.parent_path() / L"nr-force-sm89.enable");
++            timingPath = runtimePath.parent_path() / L"nr-kernel-timing.csv";
++            output << "kind,frame,chain,kernel,sm,count_or_bytes,grid_x,grid_y,grid_z,block_x,block_y,block_z,shared_bytes,status,name\n";
++            output.flush();
++            LOG_INFO("NR demo probe: pass-through kernel metadata enabled");
++            return;
++        }
++    }
++    LOG_WARN("NR demo probe: GetProcAddress import was not found");
++}
++inline void Uninstall()
++{
++    std::lock_guard lock(mutex);
++    if (!enabled) return;
++    DWORD protection = 0, ignored = 0;
++    if (VirtualProtect(importSlot, sizeof(void*), PAGE_READWRITE, &protection))
++    {
++        InterlockedCompareExchangePointer(importSlot, reinterpret_cast<void*>(originalResolve), reinterpret_cast<void*>(&Resolve));
++        VirtualProtect(importSlot, sizeof(void*), protection, &ignored);
++    }
++    enabled = false; importSlot = nullptr; output.close(); contract.close();
++    modules.clear(); functions.clear();
++}
++inline void Begin(ID3D12GraphicsCommandList* commands)
++{
++    DemoBufferProbe::CollectTensor();
++    if (!enabled) return;
++    std::lock_guard lock(mutex);
++    frame = ++evaluations; chain = 0;
++    capture = frame <= 4 || frame == 64 || frame == 128 || frame == 256;
++    BeginTimings(commands);
++}
++inline void End()
++{
++    if (enabled && timing && timing->active)
++    {
++        std::lock_guard lock(mutex);
++        if (!timing->calls.empty())
++        {
++            timing->recording->ResolveQueryData(timing->heap.Get(), D3D12_QUERY_TYPE_TIMESTAMP,
++                0, unsigned(timing->calls.size())*2, timing->readback.Get(), 0);
++            timing->ended = true;
++        }
++        else timing->occupied = false;
++        timing->active = false;
++    }
++    if (capture)
++    { std::lock_guard lock(mutex); output.flush(); contract.flush(); LOG_INFO("NR demo probe: evaluation {} captured {} chains", frame, chain); }
++    capture = false;
++}
++}
+diff --git a/OptiScaler/dlssnr/DlssNr_DemoBufferProbe.h b/OptiScaler/dlssnr/DlssNr_DemoBufferProbe.h
+new file mode 100644
+--- /dev/null
++++ b/OptiScaler/dlssnr/DlssNr_DemoBufferProbe.h
+@@ -0,0 +1,344 @@
++#pragma once
++
++// GPL-3.0 demo research: map documented pointers and observe native barriers.
++// The separate nr-pre-tensor-capture marker enables one fenced 32 MiB readback.
++#include <d3d12.h>
++#include <wrl/client.h>
++#include <json.hpp>
++#include <filesystem>
++#include <fstream>
++#include <mutex>
++#include <vector>
++#include <detours/detours.h>
++#include <Util.h>
++
++namespace DlssNr::DemoBufferProbe
++{
++struct Buffer
++{
++    Microsoft::WRL::ComPtr<ID3D12Resource> resource;
++    UINT64 address=0,bytes=0;
++    unsigned id=0;
++    D3D12_RESOURCE_STATES declaredState=D3D12_RESOURCE_STATE_COMMON;
++    bool stateUsable=true;
++};
++struct TensorShot
++{
++    Microsoft::WRL::ComPtr<ID3D12Resource> readback;
++    Microsoft::WRL::ComPtr<ID3D12Fence> fence;
++    ID3D12CommandList* identity=nullptr;
++    std::filesystem::path directory;
++    UINT64 bytes=0;
++    bool enabled=false,attempted=false,recorded=false,submitted=false,discarded=false,written=false;
++    nlohmann::json metadata;
++};
++struct Registry
++{
++    std::recursive_mutex mutex;
++    std::ofstream output;
++    std::vector<Buffer> buffers;
++    UINT64 retainedBytes=0;
++    bool enabled=false;
++    unsigned frame=0,chain=0,barrierEvents=0,legacyCalls=0,enhancedCalls=0;
++    bool coverageGap=false;
++    TensorShot shot;
++};
++// Process-lifetime retention prevents stale/recycled address matches. The cap
++// bounds this diagnostic overhead; it must never be used as a game feature.
++inline Registry* state=nullptr;
++inline thread_local unsigned callDepth=0;
++using LegacyBarrierFn=void(STDMETHODCALLTYPE*)(ID3D12GraphicsCommandList*,UINT,const D3D12_RESOURCE_BARRIER*);
++using EnhancedBarrierFn=void(STDMETHODCALLTYPE*)(ID3D12GraphicsCommandList7*,UINT,const D3D12_BARRIER_GROUP*);
++inline LegacyBarrierFn originalLegacy=nullptr;
++inline EnhancedBarrierFn originalEnhanced=nullptr;
++inline void* legacyTarget=nullptr;
++inline void* enhancedTarget=nullptr;
++struct RuntimeScope
++{
++    RuntimeScope() { ++callDepth; }
++    ~RuntimeScope() { --callDepth; }
++};
++inline void Initialize(const std::filesystem::path& runtime)
++{
++    if(state)return;
++    wchar_t executable[32768]{};
++    if(!GetModuleFileNameW(nullptr,executable,(DWORD)std::size(executable)) ||
++       _wcsicmp(std::filesystem::path(executable).filename().c_str(),L"ngx_dlss_demo.exe") ||
++       !std::filesystem::exists(runtime.parent_path()/L"nr-buffer-probe.enable"))return;
++    state=new Registry;
++    const auto path=runtime.parent_path()/L"nr-buffer-probe.jsonl";
++    if(std::filesystem::exists(path))return;
++    state->output.open(path);
++    if(!state->output)return;
++    state->enabled=true;
++    state->output << nlohmann::json({{"kind","configuration"},{"schema",1},
++        {"retention_cap_bytes",1024ull*1024*1024},{"buffer_cap",128},
++        {"scope","default-heap buffers created during direct NR calls; metadata only"}}).dump()<<'\n';
++    if(std::filesystem::exists(runtime.parent_path()/L"nr-pre-tensor-capture.enable"))
++    {
++        state->shot.directory=runtime.parent_path()/L"nr-pre-tensor-capture";
++        if(!std::filesystem::exists(state->shot.directory))
++        { std::filesystem::create_directory(state->shot.directory);state->shot.enabled=true; }
++    }
++}
++inline void NoteResource(ID3D12Device* device,D3D12_HEAP_TYPE heapType,
++                         const D3D12_RESOURCE_DESC* desc,D3D12_RESOURCE_STATES initial,
++                         IUnknown* created,const char* creation)
++{
++    if(!state || !state->enabled || !callDepth || !desc || !created ||
++       heapType!=D3D12_HEAP_TYPE_DEFAULT || desc->Dimension!=D3D12_RESOURCE_DIMENSION_BUFFER)return;
++    std::lock_guard lock(state->mutex);
++    if(!desc->Width || desc->Width>512ull*1024*1024 || state->buffers.size()>=128 ||
++       desc->Width>1024ull*1024*1024-state->retainedBytes)
++    {
++        state->output<<nlohmann::json({{"kind","buffer_omitted"},{"bytes",desc->Width},
++            {"reason","bounded retention cap"}}).dump()<<'\n';return;
++    }
++    Buffer buffer;
++    if(FAILED(created->QueryInterface(IID_PPV_ARGS(&buffer.resource))))return;
++    Microsoft::WRL::ComPtr<ID3D12Device> owner;
++    if(FAILED(buffer.resource->GetDevice(IID_PPV_ARGS(&owner))) || owner.Get()!=device)return;
++    buffer.address=buffer.resource->GetGPUVirtualAddress();buffer.bytes=desc->Width;buffer.declaredState=initial;
++    if(!buffer.address)return;
++    for(const auto& known:state->buffers)if(known.resource.Get()==buffer.resource.Get())return;
++    buffer.id=(unsigned)state->buffers.size();state->retainedBytes+=buffer.bytes;
++    state->output<<nlohmann::json({{"kind","buffer"},{"id",buffer.id},{"bytes",buffer.bytes},
++        {"initial_state",(unsigned)initial},{"flags",(unsigned)desc->Flags},{"creation",creation},
++        {"retained_total_bytes",state->retainedBytes}}).dump()<<'\n';
++    state->buffers.push_back(std::move(buffer));state->output.flush();
++}
++inline nlohmann::json Locate(UINT64 address)
++{
++    for(const auto& buffer:state->buffers)
++        if(address>=buffer.address && address-buffer.address<buffer.bytes)
++            return {{"matched",true},{"buffer_id",buffer.id},{"offset",address-buffer.address},
++                    {"remaining_bytes",buffer.bytes-(address-buffer.address)}};
++    return {{"matched",false}};
++}
++inline int ResourceId(ID3D12Resource* resource)
++{
++    if(!resource)return -1;
++    for(const auto& buffer:state->buffers)if(buffer.resource.Get()==resource)return (int)buffer.id;
++    return -1;
++}
++inline void Event(nlohmann::json record)
++{
++    if(state->barrierEvents>=4096)return;
++    record["frame"]=state->frame;record["before_chain"]=state->chain;
++    record["inside_nr"]=callDepth!=0;record["event"]=++state->barrierEvents;
++    state->output<<record.dump()<<'\n';state->output.flush();
++}
++inline void STDMETHODCALLTYPE LegacyBarriers(ID3D12GraphicsCommandList* commands,UINT count,const D3D12_RESOURCE_BARRIER* barriers)
++{
++    try
++    {
++        if(state && state->enabled && barriers && count<=4096)
++        {
++            std::lock_guard lock(state->mutex);++state->legacyCalls;
++            for(UINT i=0;i<count;++i)
++            {
++                const auto& b=barriers[i];int id=-1;
++                if(b.Type==D3D12_RESOURCE_BARRIER_TYPE_TRANSITION && (id=ResourceId(b.Transition.pResource))>=0)
++                {
++                    auto& buffer=state->buffers[id];
++                    if(b.Flags!=D3D12_RESOURCE_BARRIER_FLAG_NONE ||
++                       b.Transition.Subresource!=D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES)buffer.stateUsable=false;
++                    buffer.declaredState=b.Transition.StateAfter;
++                    Event({{"kind","legacy_transition"},{"buffer_id",id},{"before",(unsigned)b.Transition.StateBefore},
++                        {"after",(unsigned)b.Transition.StateAfter},{"subresource",b.Transition.Subresource},{"flags",(unsigned)b.Flags}});
++                }
++                else if(b.Type==D3D12_RESOURCE_BARRIER_TYPE_UAV &&
++                        ((id=ResourceId(b.UAV.pResource))>=0 || (!b.UAV.pResource && callDepth)))
++                    Event({{"kind","legacy_uav"},{"buffer_id",id},{"global",b.UAV.pResource==nullptr},{"flags",(unsigned)b.Flags}});
++                else if(b.Type==D3D12_RESOURCE_BARRIER_TYPE_ALIASING)
++                {
++                    const auto before=ResourceId(b.Aliasing.pResourceBefore),after=ResourceId(b.Aliasing.pResourceAfter);
++                    if(before>=0)state->buffers[before].stateUsable=false;
++                    if(after>=0)state->buffers[after].stateUsable=false;
++                    if(!b.Aliasing.pResourceBefore || !b.Aliasing.pResourceAfter)state->coverageGap=true;
++                    if(before>=0 || after>=0)Event({{"kind","legacy_aliasing"},{"before_id",before},{"after_id",after}});
++                }
++            }
++        }
++    }
++    catch(...) { if(state)state->coverageGap=true; } // Always forward the original call.
++    originalLegacy(commands,count,barriers);
++}
++inline void STDMETHODCALLTYPE EnhancedBarriers(ID3D12GraphicsCommandList7* commands,UINT count,const D3D12_BARRIER_GROUP* groups)
++{
++    try
++    {
++        if(state && state->enabled && groups && count<=4096)
++        {
++            std::lock_guard lock(state->mutex);++state->enhancedCalls;
++            for(UINT i=0;i<count;++i)
++            {
++                const auto& group=groups[i];if(group.NumBarriers>4096)continue;
++                if(group.Type==D3D12_BARRIER_TYPE_BUFFER && group.pBufferBarriers)
++                    for(UINT j=0;j<group.NumBarriers;++j)
++                    {
++                        const auto& b=group.pBufferBarriers[j];const auto id=ResourceId(b.pResource);
++                        if(id>=0)state->buffers[id].stateUsable=false;
++                        if(id>=0)Event({{"kind","enhanced_buffer"},{"buffer_id",id},
++                            {"sync_before",(UINT64)b.SyncBefore},{"sync_after",(UINT64)b.SyncAfter},
++                            {"access_before",(UINT64)b.AccessBefore},{"access_after",(UINT64)b.AccessAfter},
++                            {"offset",b.Offset},{"size",b.Size}});
++                    }
++                else if(group.Type==D3D12_BARRIER_TYPE_GLOBAL && group.pGlobalBarriers && callDepth)
++                {
++                    state->coverageGap=true;
++                    for(UINT j=0;j<group.NumBarriers;++j)
++                    {
++                        const auto& b=group.pGlobalBarriers[j];
++                        Event({{"kind","enhanced_global"},{"sync_before",(UINT64)b.SyncBefore},{"sync_after",(UINT64)b.SyncAfter},
++                            {"access_before",(UINT64)b.AccessBefore},{"access_after",(UINT64)b.AccessAfter}});
++                    }
++                }
++            }
++        }
++    }
++    catch(...) { if(state)state->coverageGap=true; }
++    originalEnhanced(commands,count,groups);
++}
++inline void AttachCommandList(ID3D12GraphicsCommandList* commands)
++{
++    if(!state || !state->enabled || !commands)return;
++    std::lock_guard lock(state->mutex);
++    const auto legacy=(*reinterpret_cast<void***>(commands))[26];
++    if(originalLegacy)
++    {
++        if(legacy!=legacyTarget)
++        { state->coverageGap=true;Event({{"kind","barrier_coverage_gap"},{"reason","different legacy implementation"}}); }
++        return;
++    }
++    Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList7> newer;
++    const auto newerResult=commands->QueryInterface(IID_PPV_ARGS(&newer));
++    legacyTarget=legacy;originalLegacy=reinterpret_cast<LegacyBarrierFn>(legacy);
++    if(SUCCEEDED(newerResult))
++    {
++        enhancedTarget=(*reinterpret_cast<void***>(newer.Get()))[80];
++        originalEnhanced=reinterpret_cast<EnhancedBarrierFn>(enhancedTarget);
++    }
++    auto error=DetourTransactionBegin();
++    if(error==NO_ERROR)
++    {
++        error=DetourUpdateThread(GetCurrentThread());
++        if(error==NO_ERROR)error=DetourAttach(reinterpret_cast<PVOID*>(&originalLegacy),LegacyBarriers);
++        if(error==NO_ERROR && originalEnhanced)error=DetourAttach(reinterpret_cast<PVOID*>(&originalEnhanced),EnhancedBarriers);
++        if(error==NO_ERROR)error=DetourTransactionCommit();else DetourTransactionAbort();
++    }
++    if(error!=NO_ERROR){originalLegacy=nullptr;originalEnhanced=nullptr;}
++    Event({{"kind","barrier_hooks"},{"status",error},{"legacy",originalLegacy!=nullptr},{"enhanced",originalEnhanced!=nullptr},
++        {"scope","observed command-list implementations only; no implicit state tracking"}});
++}
++inline void DetachCommandList()
++{
++    if(!originalLegacy)return;
++    DetourTransactionBegin();DetourUpdateThread(GetCurrentThread());
++    DetourDetach(reinterpret_cast<PVOID*>(&originalLegacy),LegacyBarriers);
++    if(originalEnhanced)DetourDetach(reinterpret_cast<PVOID*>(&originalEnhanced),EnhancedBarriers);
++    if(DetourTransactionCommit()==NO_ERROR){originalLegacy=nullptr;originalEnhanced=nullptr;}
++}
++inline void BeforeKernel(unsigned frame,unsigned chain)
++{
++    if(!state || !state->enabled)return;
++    std::lock_guard lock(state->mutex);state->frame=frame;state->chain=chain;
++}
++inline ID3D12CommandList* Identity(ID3D12CommandList* commands)
++{
++    ID3D12CommandList* real=nullptr;
++    return Util::CheckForRealObject(__FUNCTION__,commands,(IUnknown**)&real)?real:commands;
++}
++inline void CollectTensor()
++{
++    if(!state)return;
++    std::lock_guard lock(state->mutex);auto& shot=state->shot;
++    if(!shot.submitted || shot.discarded || shot.written)return;
++    const auto completed=shot.fence->GetCompletedValue();
++    if(completed==UINT64_MAX || completed<1)return;
++    void* bytes=nullptr;D3D12_RANGE range{0,(SIZE_T)shot.bytes};
++    if(FAILED(shot.readback->Map(0,&range,&bytes)))return;
++    std::ofstream output(shot.directory/L"pre-output-prefix.raw",std::ios::binary);
++    output.write(static_cast<const char*>(bytes),std::streamsize(shot.bytes));output.close();
++    D3D12_RANGE none{0,0};shot.readback->Unmap(0,&none);
++    shot.metadata["gpu_completed"]=true;shot.metadata["complete"]=!output.fail();
++    std::ofstream meta(shot.directory/L"metadata.json");meta<<shot.metadata.dump(2);meta.close();
++    shot.written=true;
++}
++inline void CaptureTensor(ID3D12GraphicsCommandList* commands,const void* params,unsigned size,unsigned frame,unsigned status)
++{
++    if(!state || !state->shot.enabled || state->shot.attempted || frame!=1 || size!=264 || !params || status!=0)return;
++    std::lock_guard lock(state->mutex);auto& shot=state->shot;shot.attempted=true;
++    const auto* data=static_cast<const unsigned char*>(params);
++    UINT64 address=0;unsigned h=0,w=0,noise=0;
++    memcpy(&address,data+216,8);memcpy(&h,data+208,4);memcpy(&w,data+212,4);memcpy(&noise,data+200,4);
++    auto fail=[&](const char* reason)
++    { Event({{"kind","tensor_capture_skipped"},{"reason",reason}}); };
++    if(!originalLegacy || !originalEnhanced || state->coverageGap || h!=1080 || w!=1920 || noise!=0)
++    { fail("Unverified barrier coverage or first-frame extent/counter");return; }
++    Buffer* found=nullptr;
++    for(auto& buffer:state->buffers)
++        if(address>=buffer.address && address-buffer.address<buffer.bytes){found=&buffer;break;}
++    if(!found || !found->stateUsable || found->declaredState!=D3D12_RESOURCE_STATE_UNORDERED_ACCESS)
++    { fail("Output allocation has no compatible observed UAV declaration");return; }
++    const UINT64 offset=address-found->address,bytes=32ull*1024*1024;
++    if(found->bytes-offset<bytes){fail("Known allocation is too short for the bounded prefix");return;}
++    Microsoft::WRL::ComPtr<ID3D12Device> device;
++    if(FAILED(commands->GetDevice(IID_PPV_ARGS(&device))))return;
++    D3D12_HEAP_PROPERTIES heap{};heap.Type=D3D12_HEAP_TYPE_READBACK;
++    D3D12_RESOURCE_DESC desc{};desc.Dimension=D3D12_RESOURCE_DIMENSION_BUFFER;desc.Width=bytes;
++    desc.Height=1;desc.DepthOrArraySize=1;desc.MipLevels=1;desc.SampleDesc.Count=1;desc.Layout=D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
++    if(FAILED(device->CreateCommittedResource(&heap,D3D12_HEAP_FLAG_NONE,&desc,D3D12_RESOURCE_STATE_COPY_DEST,
++        nullptr,IID_PPV_ARGS(&shot.readback))) || FAILED(device->CreateFence(0,D3D12_FENCE_FLAG_NONE,IID_PPV_ARGS(&shot.fence))))
++    { fail("Readback/fence allocation failed");return; }
++    // Observed UAV declarations, no incompatible intervening barriers. If the
++    // buffer decayed between submissions, UAV remains a valid promotable BeforeState.
++    D3D12_RESOURCE_BARRIER barrier{};barrier.Type=D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
++    barrier.Transition={found->resource.Get(),D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES,
++        D3D12_RESOURCE_STATE_UNORDERED_ACCESS,D3D12_RESOURCE_STATE_COPY_SOURCE};
++    commands->ResourceBarrier(1,&barrier);
++    commands->CopyBufferRegion(shot.readback.Get(),0,found->resource.Get(),offset,bytes);
++    std::swap(barrier.Transition.StateBefore,barrier.Transition.StateAfter);commands->ResourceBarrier(1,&barrier);
++    shot.identity=Identity(commands);shot.bytes=bytes;shot.recorded=true;
++    shot.metadata={{"schema",1},{"frame",frame},{"width",w},{"height",h},{"noise_counter",noise},
++        {"buffer_id",found->id},{"allocation_offset",offset},{"bytes",bytes},{"gpu_completed",false},{"complete",false},
++        {"file","pre-output-prefix.raw"},{"layout_verified",false},
++        {"scope","32 MiB allocation prefix immediately after recognized first preprocessor; may include other scratch data"},
++        {"state_contract","Observed whole-buffer UAV declaration with no split/alias/enhanced barriers or implementation gaps; restored to UAV"}};
++    Event({{"kind","tensor_capture_recorded"},{"bytes",bytes},{"buffer_id",found->id},{"offset",offset}});
++}
++inline void TensorSubmitted(ID3D12CommandQueue* queue,UINT count,ID3D12CommandList* const* commands)
++{
++    if(!state)return;
++    std::lock_guard lock(state->mutex);auto& shot=state->shot;
++    if(!shot.recorded || shot.submitted || shot.discarded)return;
++    for(UINT i=0;i<count;++i)if(Identity(commands[i])==shot.identity)
++    {
++        shot.submitted=true;
++        if(FAILED(queue->Signal(shot.fence.Get(),1)))shot.discarded=true;
++        break;
++    }
++}
++inline void TensorReset(ID3D12CommandList* commands)
++{
++    if(!state)return;
++    std::lock_guard lock(state->mutex);auto& shot=state->shot;
++    if(shot.recorded && !shot.submitted && Identity(commands)==shot.identity)shot.discarded=true;
++}
++inline void Observe(const std::string& name,const void* params,unsigned size,unsigned frame,unsigned chain)
++{
++    if(!state || !state->enabled || !params || size!=264 ||
++       name!="cc_tinlayout_fused_pre_block_swin_1h_32_1_ds_fp8")return;
++    std::lock_guard lock(state->mutex);
++    const auto* data=static_cast<const unsigned char*>(params);
++    UINT64 output=0,weights=0;unsigned height=0,width=0;
++    memcpy(&output,data+216,8);memcpy(&weights,data+224,8);
++    memcpy(&height,data+208,4);memcpy(&width,data+212,4);
++    state->output<<nlohmann::json({{"kind","known_tensor_ranges"},{"frame",frame},{"chain",chain},
++        {"height",height},{"width",width},{"output_tensor",Locate(output)},
++        {"weight_tensor",Locate(weights)},{"registered_buffers",state->buffers.size()},
++        {"legacy_calls",state->legacyCalls},{"enhanced_calls",state->enhancedCalls},{"barrier_events",state->barrierEvents},
++        {"limitation","Range matches do not establish tensor layout or current resource state"}}).dump()<<'\n';
++    state->output.flush();
++}
++}

@@ -1,0 +1,297 @@
+{
+  "schema": 1,
+  "gpu": "NVIDIA GeForce RTX 4070 Ti",
+  "torch": "2.7.1+cu128",
+  "capture_hashes": {
+    "color": "2e44a6a5e2730c21f7f2b4610b0a3c0af6fc94e2f51601f2ab2fa3fa679cf7f6",
+    "output": "13668520132202f28b6b584aff445e6982d17ece0430c9c134b7c2ef85b68d2b"
+  },
+  "training_capture_hashes": [
+    {
+      "color": "2e44a6a5e2730c21f7f2b4610b0a3c0af6fc94e2f51601f2ab2fa3fa679cf7f6",
+      "output": "13668520132202f28b6b584aff445e6982d17ece0430c9c134b7c2ef85b68d2b"
+    },
+    {
+      "color": "5a3292ed2faf5fb6e1290d0a9c0e7f672995bc05480e0466dea0f10271074ca4",
+      "output": "42d040613e5bd3b3dac82ed254908976971d1fdcd374084ba09cb63a3f3f0004"
+    },
+    {
+      "color": "d2ae1d4ac3eecdd016d78c45f209a1b05226e292fe71d9c0ffeaf9c13d44fd1a",
+      "output": "865392ee835b618b3f03556c1ddba2890b4e4dda31ecf6f213a0cdc13c4ed944"
+    },
+    {
+      "color": "3d23dc0613c3f28ca10e0cde8cc23f3dd8b29e2c5a8844ac413b1ab295142784",
+      "output": "71d3160242fc2f1dfc4981d5aae6a18eeddccfe41731468723f7e67e2710eca5"
+    },
+    {
+      "color": "1d047a54cd2d48c97c6584de1e99230d302c0c87e35c3a96ef410489e4aaf6f3",
+      "output": "4ea2e4fbf267b748c22511f776afeac1db5fdb4585232dd7484918ac0cb0d265"
+    },
+    {
+      "color": "2395ba423bb8ccaedab929a00969edd41df43ba532682d4190ac48e13da95f7c",
+      "output": "e263ce78605640d67dce9997b8badfbceeb86406055c48f910b1b449e4f2bd7a"
+    }
+  ],
+  "validation_capture_hashes": {
+    "color": "584c107ead68fca78c3eee0190d715e51c1f76392dc03c09050b5f572afa075e",
+    "output": "10bf20e6b20b3b56a31dca40dd829ff260061998d7fa18eafa306f56d525ca3a"
+  },
+  "controls": {
+    "DLSSNR.ColorSubrectBaseX": 0,
+    "DLSSNR.ColorSubrectBaseY": 0,
+    "DLSSNR.ColorSubrectHeight": 1080,
+    "DLSSNR.ColorSubrectWidth": 1920,
+    "DLSSNR.DepthInverted": 0,
+    "DLSSNR.DepthSubrectBaseX": 0,
+    "DLSSNR.DepthSubrectBaseY": 0,
+    "DLSSNR.DepthSubrectHeight": 540,
+    "DLSSNR.DepthSubrectWidth": 960,
+    "DLSSNR.Height": 1080,
+    "DLSSNR.Hint.Render.Preset": 0,
+    "DLSSNR.Intensity": 1.0,
+    "DLSSNR.LocalStructureStrength": 1.0,
+    "DLSSNR.LocalToneStrength": 1.0,
+    "DLSSNR.MVecScaleX": 2.0,
+    "DLSSNR.MVecScaleY": 2.0,
+    "DLSSNR.MVecSubrectBaseX": 0,
+    "DLSSNR.MVecSubrectBaseY": 0,
+    "DLSSNR.MVecSubrectHeight": 540,
+    "DLSSNR.MVecSubrectWidth": 960,
+    "DLSSNR.Reset": 1,
+    "DLSSNR.SkinStructureStrength": -1.0,
+    "DLSSNR.Style": 1,
+    "DLSSNR.UseAutoMask": 1,
+    "DLSSNR.Width": 1920
+  },
+  "native_shape": [
+    1080,
+    1920
+  ],
+  "architecture": {
+    "type": "four-level hierarchical residual CNN with global context gate",
+    "width": 16,
+    "blocks": 2,
+    "parameters": 224208,
+    "shuffle_factor": 4,
+    "noise_channels": 3,
+    "input_receptive_field_pixels": "whole image via global context gate",
+    "variant": "hierarchical",
+    "widths": [
+      16,
+      32,
+      64,
+      96
+    ],
+    "blocks_per_stage": 2,
+    "internal_downsampling": "learned features only; original pixels retained through input rearrangement and residual path"
+  },
+  "data_split": {
+    "scene_count": 1,
+    "training_view_count": 6,
+    "train_columns": [
+      0,
+      1920
+    ],
+    "holdout_columns": null,
+    "separate_validation_view": true,
+    "patch": [
+      1080,
+      1920
+    ],
+    "batch": 1,
+    "no_resize": true,
+    "loss_border": 0,
+    "whole_frame_training": true,
+    "validation_view_count": 2
+  },
+  "quality_gate_passed": false,
+  "limitations": [
+    "One scene and first-reset frames only; a spatial or camera holdout is not cross-scene generalization.",
+    "No temporal training or quality validation.",
+    "Torch timing excludes D3D12 integration and is not a hidden-demo benchmark.",
+    "Noise is from the pinned reconstruction at counter 0; timing excludes its precomputation and input concatenation. No vendor intermediate feature parity is claimed."
+  ],
+  "training": [
+    {
+      "step": 1,
+      "loss": 0.04718116670846939,
+      "pixel_mae": 0.04434926435351372,
+      "seconds": 0.24339669999608304
+    },
+    {
+      "step": 101,
+      "loss": 0.03640386089682579,
+      "pixel_mae": 0.03350772708654404,
+      "seconds": 1.8339130999956978
+    },
+    {
+      "step": 201,
+      "loss": 0.039798617362976074,
+      "pixel_mae": 0.036330316215753555,
+      "seconds": 3.4274833999952534
+    },
+    {
+      "step": 301,
+      "loss": 0.03232324868440628,
+      "pixel_mae": 0.02960294485092163,
+      "seconds": 5.021958099998301
+    },
+    {
+      "step": 401,
+      "loss": 0.031142234802246094,
+      "pixel_mae": 0.028416592627763748,
+      "seconds": 6.619964299999992
+    },
+    {
+      "step": 501,
+      "loss": 0.025218332186341286,
+      "pixel_mae": 0.022276822477579117,
+      "seconds": 8.207904900002177
+    },
+    {
+      "step": 601,
+      "loss": 0.023760825395584106,
+      "pixel_mae": 0.020304186269640923,
+      "seconds": 9.802308800004539
+    },
+    {
+      "step": 701,
+      "loss": 0.02430577017366886,
+      "pixel_mae": 0.020510617643594742,
+      "seconds": 11.40423390000069
+    },
+    {
+      "step": 801,
+      "loss": 0.01827554777264595,
+      "pixel_mae": 0.015633756294846535,
+      "seconds": 13.001509099995019
+    },
+    {
+      "step": 901,
+      "loss": 0.0218538586050272,
+      "pixel_mae": 0.018078377470374107,
+      "seconds": 14.596804600005271
+    },
+    {
+      "step": 1001,
+      "loss": 0.01965029165148735,
+      "pixel_mae": 0.016724197193980217,
+      "seconds": 16.19394500000635
+    },
+    {
+      "step": 1101,
+      "loss": 0.015757987275719643,
+      "pixel_mae": 0.013132515363395214,
+      "seconds": 17.794627800001763
+    },
+    {
+      "step": 1201,
+      "loss": 0.019627679139375687,
+      "pixel_mae": 0.016196852549910545,
+      "seconds": 19.3904945999966
+    },
+    {
+      "step": 1301,
+      "loss": 0.016376037150621414,
+      "pixel_mae": 0.013381407596170902,
+      "seconds": 20.984020899995812
+    },
+    {
+      "step": 1401,
+      "loss": 0.020673539489507675,
+      "pixel_mae": 0.016895100474357605,
+      "seconds": 22.576620000007097
+    },
+    {
+      "step": 1500,
+      "loss": 0.02050727605819702,
+      "pixel_mae": 0.016728078946471214,
+      "seconds": 24.158220700002857
+    }
+  ],
+  "optimization": {
+    "initial_learning_rate": 0.002,
+    "cosine_decay": true,
+    "final_learning_rate": 2e-05
+  },
+  "identity_holdout_mae": 0.019964119419455528,
+  "completed_steps": 1500,
+  "training_seconds": 24.158300800001598,
+  "quality": {
+    "train_region": {
+      "mae": 0.014350670389831066,
+      "rmse": 0.021341805159013058,
+      "p99": 0.07598876953125,
+      "max_abs": 0.270263671875,
+      "psnr_db": 33.41537698647652
+    },
+    "whole_frame": {
+      "mae": 0.014350670389831066,
+      "rmse": 0.021341805159013058,
+      "p99": 0.07598876953125,
+      "max_abs": 0.270263671875,
+      "psnr_db": 33.41537698647652
+    },
+    "heldout_camera": {
+      "mae": 0.02566184662282467,
+      "rmse": 0.03681250457933653,
+      "p99": 0.113525390625,
+      "max_abs": 0.1807861328125,
+      "psnr_db": 28.68009267688453
+    }
+  },
+  "extra_validation": [
+    {
+      "capture_hashes": {
+        "color": "721e179eda73cb100b0afad0894313bbae3a79f5ddffe7fb80dcef448e1282e1",
+        "output": "32ff6ac02eaedd341702bbce4d7aecbefc416cc2604e640814acdca718f4cf2a"
+      },
+      "quality": {
+        "mae": 0.025804422795772552,
+        "rmse": 0.03828682706797208,
+        "p99": 0.1243896484375,
+        "max_abs": 0.2584228515625,
+        "psnr_db": 28.339012466187192
+      },
+      "identity_mae": 0.021868281066417694
+    }
+  ],
+  "torch_graph_timing": {
+    "median_ms": 1.4663679599761963,
+    "p95_ms": 1.4744447946548462,
+    "samples_ms": [
+      1.4735360145568848,
+      1.4663679599761963,
+      1.4673919677734375,
+      1.4663679599761963,
+      1.462272047996521,
+      1.4659520387649536,
+      1.4755840301513672,
+      1.474303960800171,
+      1.4663679599761963,
+      1.4672960042953491,
+      1.469215989112854,
+      1.46943998336792,
+      1.4659839868545532,
+      1.473088026046753,
+      1.4643199443817139,
+      1.468384027481079,
+      1.4643199443817139,
+      1.462272047996521,
+      1.4642560482025146,
+      1.4660160541534424,
+      1.467039942741394,
+      1.474560022354126,
+      1.4663679599761963,
+      1.462272047996521,
+      1.4612480401992798,
+      1.4704639911651611,
+      1.4673919677734375,
+      1.4643199443817139,
+      1.462272047996521,
+      1.4672640562057495
+    ],
+    "output_matches_eager": true
+  },
+  "peak_allocated_mib": 1462.97998046875
+}

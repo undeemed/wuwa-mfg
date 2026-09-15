@@ -337,3 +337,64 @@ state or intermediate numerical equivalence. Do not infer a safe readback state
 from the recorded creation state. The underlying reconstruction remains
 numerically different from the vendor. Results are in
 [`native-buffer-ranges.json`](../../evidence/neural-model-research/native-buffer-ranges.json).
+
+## Guarded native preprocessor capture
+
+[`optiscaler-demo-pre-tensor.patch`](optiscaler-demo-pre-tensor.patch) extends the
+combined research build with legacy/enhanced barrier observation and one optional
+allocation-prefix capture. Apply it directly to normal R4 source. It includes the
+earlier research patches; do not stack them. Build Release x64 with the existing
+procedure. The patch follows OptiScaler's GPL-3.0 license.
+
+For metadata only, enable the same three markers as the buffer-range trial.
+The command-list hook observes the implementations presented during feature
+creation/evaluation. It records at most 4,096 relevant barrier events. The
+`before_chain` field is the most recently entered native call's CPU context;
+it does not independently prove the next GPU operation. Resource creation,
+split/aliasing transitions, enhanced barriers and implementation gaps inform a
+conservative capture guard. This is not a general D3D12 state tracker.
+
+The separate `nr-pre-tensor-capture.enable` marker opts into one **32 MiB** copy
+from the known output pointer immediately after the recognized preprocessor on
+evaluation 1. It requires the exact packed-argument size, 1920×1080 extent, noise
+counter zero, a retained allocation large enough for the prefix, observed
+whole-buffer UAV state, and no unsupported barrier/implementation conditions.
+The source transitions UAV → COPY_SOURCE → UAV around the copy. Microsoft's
+[buffer promotion/decay rules](https://learn.microsoft.com/en-us/windows/win32/direct3d12/using-resource-barriers-to-synchronize-resource-states-in-direct3d-12#performance-implications)
+allow a promotable BeforeState when a buffer has decayed to COMMON. This research
+contract is specific to the observed runtime, not a license to guess arbitrary
+resource states.
+
+Readback occurs only after the submitting queue signals its fence and that fence
+completes. Reset before submission discards the capture; failed signal/device
+removal cannot authorize mapping. The allocation stays retained for process
+lifetime. `nr-pre-tensor-capture/metadata.json` identifies completion; its raw
+file remains private. An existing capture directory disables a new capture.
+
+Run the existing guarded hidden demo for 25 seconds with Natural style, preset 0,
+masking on and 60 FPS. Archive the texture captures, pre-tensor folder and all
+metadata, then restore the demo DLL and disable all four experiment markers.
+Architecture selection and per-kernel timing remain disabled. Do not install this
+build in WuWa. The first two matched frames equaled the earlier baseline byte for
+byte; later frames had unmatched inputs and were excluded.
+
+`probe_pre_tensor_layout.py` compares the prefix against the reconstructed
+adapter, first block and pooled outputs. The 1152-row hypothesis comes from the
+native launch grid; it is not proof of logical extent. The tool searches declared
+tile-axis permutations and optionally split channel axes. All 14,040 tested
+candidates failed to establish a convincing match. This does not localize the
+arithmetic error: the tensor location/layout is still unverified.
+
+```powershell
+.venv\Scripts\python probe_pre_tensor_layout.py --source MLX-DLSS --weights D:\PrivateWeights\logical.safetensors --trial D:\PrivateTrials\native-pre-tensor --output D:\PrivateResults\pre-layout --split-channels
+```
+
+The tool writes private reconstructed arrays plus numeric metrics. Publish only
+metrics, never the prefix or arrays. See
+[`native-pre-tensor.json`](../../evidence/neural-model-research/native-pre-tensor.json).
+
+The hierarchical noise-conditioned follow-up uses the six-view width-16 command
+above with `--noise-source MLX-DLSS`. It ran in 1.47 ms but worsened both holdouts;
+it was rejected. Noise preparation and application integration are excluded from
+that timing. Its full numeric record is
+[`student-hierarchical-noise.json`](../../evidence/neural-model-research/student-hierarchical-noise.json).

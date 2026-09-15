@@ -1,0 +1,1728 @@
+{
+  "schema": 1,
+  "quality_gate_passed": false,
+  "native_tensor_capture": {
+    "allocation_offset": 388096,
+    "buffer_id": 1,
+    "bytes": 33554432,
+    "complete": true,
+    "file": "pre-output-prefix.raw",
+    "frame": 1,
+    "gpu_completed": true,
+    "height": 1080,
+    "layout_verified": false,
+    "noise_counter": 0,
+    "schema": 1,
+    "scope": "32 MiB allocation prefix immediately after recognized first preprocessor; may include other scratch data",
+    "state_contract": "Observed whole-buffer UAV declaration with no split/alias/enhanced barriers or implementation gaps; restored to UAV",
+    "width": 1920,
+    "sha256": "a2a640ecd7262d413bc735b4971d44d26c399b40172a807390acb22d74808fe2"
+  },
+  "trials": [
+    {
+      "trial": "native-buffer-barriers",
+      "dll_sha256": "5dd1ee2f6bf19da60d9900d6cc2e5538839b50e74ee60ad774f356d6fc08bc77",
+      "sparse_gpu_timing": {
+        "total_ms": {
+          "median": 5.615,
+          "min": 5.61,
+          "max": 5.62
+        },
+        "model_ms": {
+          "median": 5.41,
+          "min": 5.4,
+          "max": 5.42
+        },
+        "surrounding_ms": {
+          "median": 0.2,
+          "min": 0.2,
+          "max": 0.2
+        }
+      },
+      "timing_samples": 2,
+      "event_counts": {
+        "configuration": 1,
+        "barrier_hooks": 1,
+        "buffer": 2,
+        "legacy_transition": 3,
+        "legacy_uav": 4092,
+        "known_tensor_ranges": 7
+      },
+      "initialization_and_first_evaluation": [
+        {
+          "buffer_cap": 128,
+          "kind": "configuration",
+          "retention_cap_bytes": 1073741824,
+          "schema": 1,
+          "scope": "default-heap buffers created during direct NR calls; metadata only"
+        },
+        {
+          "before_chain": 1,
+          "enhanced": true,
+          "event": 1,
+          "frame": 0,
+          "inside_nr": true,
+          "kind": "barrier_hooks",
+          "legacy": true,
+          "scope": "observed command-list implementations only; no implicit state tracking",
+          "status": 0
+        },
+        {
+          "bytes": 147719680,
+          "creation": "committed",
+          "flags": 4,
+          "id": 0,
+          "initial_state": 0,
+          "kind": "buffer",
+          "retained_total_bytes": 147719680
+        },
+        {
+          "after": 1024,
+          "before": 0,
+          "before_chain": 1,
+          "buffer_id": 0,
+          "event": 2,
+          "flags": 0,
+          "frame": 0,
+          "inside_nr": true,
+          "kind": "legacy_transition",
+          "subresource": 4294967295
+        },
+        {
+          "after": 8,
+          "before": 1024,
+          "before_chain": 1,
+          "buffer_id": 0,
+          "event": 3,
+          "flags": 0,
+          "frame": 0,
+          "inside_nr": true,
+          "kind": "legacy_transition",
+          "subresource": 4294967295
+        },
+        {
+          "bytes": 212519936,
+          "creation": "committed",
+          "flags": 4,
+          "id": 1,
+          "initial_state": 0,
+          "kind": "buffer",
+          "retained_total_bytes": 360239616
+        },
+        {
+          "after": 8,
+          "before": 0,
+          "before_chain": 1,
+          "buffer_id": 1,
+          "event": 4,
+          "flags": 0,
+          "frame": 0,
+          "inside_nr": true,
+          "kind": "legacy_transition",
+          "subresource": 4294967295
+        },
+        {
+          "before_chain": 1,
+          "buffer_id": -1,
+          "event": 5,
+          "flags": 0,
+          "frame": 1,
+          "global": true,
+          "inside_nr": true,
+          "kind": "legacy_uav"
+        },
+        {
+          "before_chain": 2,
+          "buffer_id": -1,
+          "event": 6,
+          "flags": 0,
+          "frame": 1,
+          "global": true,
+          "inside_nr": true,
+          "kind": "legacy_uav"
+        },
+        {
+          "barrier_events": 6,
+          "chain": 3,
+          "enhanced_calls": 0,
+          "frame": 1,
+          "height": 1080,
+          "kind": "known_tensor_ranges",
+          "legacy_calls": 104,
+          "limitation": "Range matches do not establish tensor layout or current resource state",
+          "output_tensor": {
+            "buffer_id": 1,
+            "matched": true,
+            "offset": 388096,
+            "remaining_bytes": 212131840
+          },
+          "registered_buffers": 2,
+          "weight_tensor": {
+            "buffer_id": 0,
+            "matched": true,
+            "offset": 0,
+            "remaining_bytes": 147719680
+          },
+          "width": 1920
+        },
+        {
+          "before_chain": 3,
+          "buffer_id": -1,
+          "event": 7,
+          "flags": 0,
+          "frame": 1,
+          "global": true,
+          "inside_nr": true,
+          "kind": "legacy_uav"
+        },
+        {
+          "before_chain": 7,
+          "buffer_id": -1,
+          "event": 8,
+          "flags": 0,
+          "frame": 1,
+          "global": true,
+          "inside_nr": true,
+          "kind": "legacy_uav"
+        },
+        {
+          "before_chain": 11,
+          "buffer_id": -1,
+          "event": 9,
+          "flags": 0,
+          "frame": 1,
+          "global": true,
+          "inside_nr": true,
+          "kind": "legacy_uav"
+        },
+        {
+          "before_chain": 17,
+          "buffer_id": -1,
+          "event": 10,
+          "flags": 0,
+          "frame": 1,
+          "global": true,
+          "inside_nr": true,
+          "kind": "legacy_uav"
+        },
+        {
+          "before_chain": 25,
+          "buffer_id": -1,
+          "event": 11,
+          "flags": 0,
+          "frame": 1,
+          "global": true,
+          "inside_nr": true,
+          "kind": "legacy_uav"
+        },
+        {
+          "before_chain": 58,
+          "buffer_id": -1,
+          "event": 12,
+          "flags": 0,
+          "frame": 1,
+          "global": true,
+          "inside_nr": true,
+          "kind": "legacy_uav"
+        },
+        {
+          "before_chain": 59,
+          "buffer_id": -1,
+          "event": 13,
+          "flags": 0,
+          "frame": 1,
+          "global": true,
+          "inside_nr": true,
+          "kind": "legacy_uav"
+        },
+        {
+          "before_chain": 99,
+          "buffer_id": -1,
+          "event": 14,
+          "flags": 0,
+          "frame": 1,
+          "global": true,
+          "inside_nr": true,
+          "kind": "legacy_uav"
+        },
+        {
+          "before_chain": 100,
+          "buffer_id": -1,
+          "event": 15,
+          "flags": 0,
+          "frame": 1,
+          "global": true,
+          "inside_nr": true,
+          "kind": "legacy_uav"
+        },
+        {
+          "before_chain": 133,
+          "buffer_id": -1,
+          "event": 16,
+          "flags": 0,
+          "frame": 1,
+          "global": true,
+          "inside_nr": true,
+          "kind": "legacy_uav"
+        },
+        {
+          "before_chain": 141,
+          "buffer_id": -1,
+          "event": 17,
+          "flags": 0,
+          "frame": 1,
+          "global": true,
+          "inside_nr": true,
+          "kind": "legacy_uav"
+        },
+        {
+          "before_chain": 147,
+          "buffer_id": -1,
+          "event": 18,
+          "flags": 0,
+          "frame": 1,
+          "global": true,
+          "inside_nr": true,
+          "kind": "legacy_uav"
+        },
+        {
+          "before_chain": 151,
+          "buffer_id": -1,
+          "event": 19,
+          "flags": 0,
+          "frame": 1,
+          "global": true,
+          "inside_nr": true,
+          "kind": "legacy_uav"
+        },
+        {
+          "before_chain": 155,
+          "buffer_id": -1,
+          "event": 20,
+          "flags": 0,
+          "frame": 1,
+          "global": true,
+          "inside_nr": true,
+          "kind": "legacy_uav"
+        }
+      ],
+      "known_tensor_ranges": [
+        {
+          "barrier_events": 6,
+          "chain": 3,
+          "enhanced_calls": 0,
+          "frame": 1,
+          "height": 1080,
+          "kind": "known_tensor_ranges",
+          "legacy_calls": 104,
+          "limitation": "Range matches do not establish tensor layout or current resource state",
+          "output_tensor": {
+            "buffer_id": 1,
+            "matched": true,
+            "offset": 388096,
+            "remaining_bytes": 212131840
+          },
+          "registered_buffers": 2,
+          "weight_tensor": {
+            "buffer_id": 0,
+            "matched": true,
+            "offset": 0,
+            "remaining_bytes": 147719680
+          },
+          "width": 1920
+        },
+        {
+          "barrier_events": 22,
+          "chain": 3,
+          "enhanced_calls": 0,
+          "frame": 2,
+          "height": 1080,
+          "kind": "known_tensor_ranges",
+          "legacy_calls": 229,
+          "limitation": "Range matches do not establish tensor layout or current resource state",
+          "output_tensor": {
+            "buffer_id": 1,
+            "matched": true,
+            "offset": 388096,
+            "remaining_bytes": 212131840
+          },
+          "registered_buffers": 2,
+          "weight_tensor": {
+            "buffer_id": 0,
+            "matched": true,
+            "offset": 0,
+            "remaining_bytes": 147719680
+          },
+          "width": 1920
+        },
+        {
+          "barrier_events": 38,
+          "chain": 3,
+          "enhanced_calls": 0,
+          "frame": 3,
+          "height": 1080,
+          "kind": "known_tensor_ranges",
+          "legacy_calls": 354,
+          "limitation": "Range matches do not establish tensor layout or current resource state",
+          "output_tensor": {
+            "buffer_id": 1,
+            "matched": true,
+            "offset": 388096,
+            "remaining_bytes": 212131840
+          },
+          "registered_buffers": 2,
+          "weight_tensor": {
+            "buffer_id": 0,
+            "matched": true,
+            "offset": 0,
+            "remaining_bytes": 147719680
+          },
+          "width": 1920
+        },
+        {
+          "barrier_events": 54,
+          "chain": 3,
+          "enhanced_calls": 0,
+          "frame": 4,
+          "height": 1080,
+          "kind": "known_tensor_ranges",
+          "legacy_calls": 479,
+          "limitation": "Range matches do not establish tensor layout or current resource state",
+          "output_tensor": {
+            "buffer_id": 1,
+            "matched": true,
+            "offset": 388096,
+            "remaining_bytes": 212131840
+          },
+          "registered_buffers": 2,
+          "weight_tensor": {
+            "buffer_id": 0,
+            "matched": true,
+            "offset": 0,
+            "remaining_bytes": 147719680
+          },
+          "width": 1920
+        },
+        {
+          "barrier_events": 1014,
+          "chain": 3,
+          "enhanced_calls": 0,
+          "frame": 64,
+          "height": 1080,
+          "kind": "known_tensor_ranges",
+          "legacy_calls": 7620,
+          "limitation": "Range matches do not establish tensor layout or current resource state",
+          "output_tensor": {
+            "buffer_id": 1,
+            "matched": true,
+            "offset": 388096,
+            "remaining_bytes": 212131840
+          },
+          "registered_buffers": 2,
+          "weight_tensor": {
+            "buffer_id": 0,
+            "matched": true,
+            "offset": 0,
+            "remaining_bytes": 147719680
+          },
+          "width": 1920
+        },
+        {
+          "barrier_events": 2038,
+          "chain": 3,
+          "enhanced_calls": 0,
+          "frame": 128,
+          "height": 1080,
+          "kind": "known_tensor_ranges",
+          "legacy_calls": 15236,
+          "limitation": "Range matches do not establish tensor layout or current resource state",
+          "output_tensor": {
+            "buffer_id": 1,
+            "matched": true,
+            "offset": 388096,
+            "remaining_bytes": 212131840
+          },
+          "registered_buffers": 2,
+          "weight_tensor": {
+            "buffer_id": 0,
+            "matched": true,
+            "offset": 0,
+            "remaining_bytes": 147719680
+          },
+          "width": 1920
+        },
+        {
+          "barrier_events": 4086,
+          "chain": 3,
+          "enhanced_calls": 0,
+          "frame": 256,
+          "height": 1080,
+          "kind": "known_tensor_ranges",
+          "legacy_calls": 30468,
+          "limitation": "Range matches do not establish tensor layout or current resource state",
+          "output_tensor": {
+            "buffer_id": 1,
+            "matched": true,
+            "offset": 388096,
+            "remaining_bytes": 212131840
+          },
+          "registered_buffers": 2,
+          "weight_tensor": {
+            "buffer_id": 0,
+            "matched": true,
+            "offset": 0,
+            "remaining_bytes": 147719680
+          },
+          "width": 1920
+        }
+      ],
+      "limitations": [
+        "Barrier events capped at4096; hooks cover observed implementations only.",
+        "Sparse instrumented timings are not a speedup claim."
+      ]
+    },
+    {
+      "trial": "native-pre-tensor",
+      "dll_sha256": "f71fc563e71776b4a1f7175df06237548f702db8e6b15581624c0f8384f3d48c",
+      "sparse_gpu_timing": {
+        "total_ms": {
+          "median": 5.65,
+          "min": 5.65,
+          "max": 5.65
+        },
+        "model_ms": {
+          "median": 5.45,
+          "min": 5.45,
+          "max": 5.45
+        },
+        "surrounding_ms": {
+          "median": 0.2,
+          "min": 0.2,
+          "max": 0.2
+        }
+      },
+      "timing_samples": 2,
+      "event_counts": {
+        "configuration": 1,
+        "barrier_hooks": 1,
+        "buffer": 2,
+        "legacy_transition": 5,
+        "legacy_uav": 4089,
+        "known_tensor_ranges": 7,
+        "tensor_capture_recorded": 1
+      },
+      "initialization_and_first_evaluation": [
+        {
+          "buffer_cap": 128,
+          "kind": "configuration",
+          "retention_cap_bytes": 1073741824,
+          "schema": 1,
+          "scope": "default-heap buffers created during direct NR calls; metadata only"
+        },
+        {
+          "before_chain": 1,
+          "enhanced": true,
+          "event": 1,
+          "frame": 0,
+          "inside_nr": true,
+          "kind": "barrier_hooks",
+          "legacy": true,
+          "scope": "observed command-list implementations only; no implicit state tracking",
+          "status": 0
+        },
+        {
+          "bytes": 147719680,
+          "creation": "committed",
+          "flags": 4,
+          "id": 0,
+          "initial_state": 0,
+          "kind": "buffer",
+          "retained_total_bytes": 147719680
+        },
+        {
+          "after": 1024,
+          "before": 0,
+          "before_chain": 1,
+          "buffer_id": 0,
+          "event": 2,
+          "flags": 0,
+          "frame": 0,
+          "inside_nr": true,
+          "kind": "legacy_transition",
+          "subresource": 4294967295
+        },
+        {
+          "after": 8,
+          "before": 1024,
+          "before_chain": 1,
+          "buffer_id": 0,
+          "event": 3,
+          "flags": 0,
+          "frame": 0,
+          "inside_nr": true,
+          "kind": "legacy_transition",
+          "subresource": 4294967295
+        },
+        {
+          "bytes": 212519936,
+          "creation": "committed",
+          "flags": 4,
+          "id": 1,
+          "initial_state": 0,
+          "kind": "buffer",
+          "retained_total_bytes": 360239616
+        },
+        {
+          "after": 8,
+          "before": 0,
+          "before_chain": 1,
+          "buffer_id": 1,
+          "event": 4,
+          "flags": 0,
+          "frame": 0,
+          "inside_nr": true,
+          "kind": "legacy_transition",
+          "subresource": 4294967295
+        },
+        {
+          "before_chain": 1,
+          "buffer_id": -1,
+          "event": 5,
+          "flags": 0,
+          "frame": 1,
+          "global": true,
+          "inside_nr": true,
+          "kind": "legacy_uav"
+        },
+        {
+          "before_chain": 2,
+          "buffer_id": -1,
+          "event": 6,
+          "flags": 0,
+          "frame": 1,
+          "global": true,
+          "inside_nr": true,
+          "kind": "legacy_uav"
+        },
+        {
+          "barrier_events": 6,
+          "chain": 3,
+          "enhanced_calls": 0,
+          "frame": 1,
+          "height": 1080,
+          "kind": "known_tensor_ranges",
+          "legacy_calls": 104,
+          "limitation": "Range matches do not establish tensor layout or current resource state",
+          "output_tensor": {
+            "buffer_id": 1,
+            "matched": true,
+            "offset": 388096,
+            "remaining_bytes": 212131840
+          },
+          "registered_buffers": 2,
+          "weight_tensor": {
+            "buffer_id": 0,
+            "matched": true,
+            "offset": 0,
+            "remaining_bytes": 147719680
+          },
+          "width": 1920
+        },
+        {
+          "after": 2048,
+          "before": 8,
+          "before_chain": 3,
+          "buffer_id": 1,
+          "event": 7,
+          "flags": 0,
+          "frame": 1,
+          "inside_nr": true,
+          "kind": "legacy_transition",
+          "subresource": 4294967295
+        },
+        {
+          "after": 8,
+          "before": 2048,
+          "before_chain": 3,
+          "buffer_id": 1,
+          "event": 8,
+          "flags": 0,
+          "frame": 1,
+          "inside_nr": true,
+          "kind": "legacy_transition",
+          "subresource": 4294967295
+        },
+        {
+          "before_chain": 3,
+          "buffer_id": 1,
+          "bytes": 33554432,
+          "event": 9,
+          "frame": 1,
+          "inside_nr": true,
+          "kind": "tensor_capture_recorded",
+          "offset": 388096
+        },
+        {
+          "before_chain": 3,
+          "buffer_id": -1,
+          "event": 10,
+          "flags": 0,
+          "frame": 1,
+          "global": true,
+          "inside_nr": true,
+          "kind": "legacy_uav"
+        },
+        {
+          "before_chain": 7,
+          "buffer_id": -1,
+          "event": 11,
+          "flags": 0,
+          "frame": 1,
+          "global": true,
+          "inside_nr": true,
+          "kind": "legacy_uav"
+        },
+        {
+          "before_chain": 11,
+          "buffer_id": -1,
+          "event": 12,
+          "flags": 0,
+          "frame": 1,
+          "global": true,
+          "inside_nr": true,
+          "kind": "legacy_uav"
+        },
+        {
+          "before_chain": 17,
+          "buffer_id": -1,
+          "event": 13,
+          "flags": 0,
+          "frame": 1,
+          "global": true,
+          "inside_nr": true,
+          "kind": "legacy_uav"
+        },
+        {
+          "before_chain": 25,
+          "buffer_id": -1,
+          "event": 14,
+          "flags": 0,
+          "frame": 1,
+          "global": true,
+          "inside_nr": true,
+          "kind": "legacy_uav"
+        },
+        {
+          "before_chain": 58,
+          "buffer_id": -1,
+          "event": 15,
+          "flags": 0,
+          "frame": 1,
+          "global": true,
+          "inside_nr": true,
+          "kind": "legacy_uav"
+        },
+        {
+          "before_chain": 59,
+          "buffer_id": -1,
+          "event": 16,
+          "flags": 0,
+          "frame": 1,
+          "global": true,
+          "inside_nr": true,
+          "kind": "legacy_uav"
+        },
+        {
+          "before_chain": 99,
+          "buffer_id": -1,
+          "event": 17,
+          "flags": 0,
+          "frame": 1,
+          "global": true,
+          "inside_nr": true,
+          "kind": "legacy_uav"
+        },
+        {
+          "before_chain": 100,
+          "buffer_id": -1,
+          "event": 18,
+          "flags": 0,
+          "frame": 1,
+          "global": true,
+          "inside_nr": true,
+          "kind": "legacy_uav"
+        },
+        {
+          "before_chain": 133,
+          "buffer_id": -1,
+          "event": 19,
+          "flags": 0,
+          "frame": 1,
+          "global": true,
+          "inside_nr": true,
+          "kind": "legacy_uav"
+        },
+        {
+          "before_chain": 141,
+          "buffer_id": -1,
+          "event": 20,
+          "flags": 0,
+          "frame": 1,
+          "global": true,
+          "inside_nr": true,
+          "kind": "legacy_uav"
+        },
+        {
+          "before_chain": 147,
+          "buffer_id": -1,
+          "event": 21,
+          "flags": 0,
+          "frame": 1,
+          "global": true,
+          "inside_nr": true,
+          "kind": "legacy_uav"
+        },
+        {
+          "before_chain": 151,
+          "buffer_id": -1,
+          "event": 22,
+          "flags": 0,
+          "frame": 1,
+          "global": true,
+          "inside_nr": true,
+          "kind": "legacy_uav"
+        },
+        {
+          "before_chain": 155,
+          "buffer_id": -1,
+          "event": 23,
+          "flags": 0,
+          "frame": 1,
+          "global": true,
+          "inside_nr": true,
+          "kind": "legacy_uav"
+        }
+      ],
+      "known_tensor_ranges": [
+        {
+          "barrier_events": 6,
+          "chain": 3,
+          "enhanced_calls": 0,
+          "frame": 1,
+          "height": 1080,
+          "kind": "known_tensor_ranges",
+          "legacy_calls": 104,
+          "limitation": "Range matches do not establish tensor layout or current resource state",
+          "output_tensor": {
+            "buffer_id": 1,
+            "matched": true,
+            "offset": 388096,
+            "remaining_bytes": 212131840
+          },
+          "registered_buffers": 2,
+          "weight_tensor": {
+            "buffer_id": 0,
+            "matched": true,
+            "offset": 0,
+            "remaining_bytes": 147719680
+          },
+          "width": 1920
+        },
+        {
+          "barrier_events": 25,
+          "chain": 3,
+          "enhanced_calls": 0,
+          "frame": 2,
+          "height": 1080,
+          "kind": "known_tensor_ranges",
+          "legacy_calls": 231,
+          "limitation": "Range matches do not establish tensor layout or current resource state",
+          "output_tensor": {
+            "buffer_id": 1,
+            "matched": true,
+            "offset": 388096,
+            "remaining_bytes": 212131840
+          },
+          "registered_buffers": 2,
+          "weight_tensor": {
+            "buffer_id": 0,
+            "matched": true,
+            "offset": 0,
+            "remaining_bytes": 147719680
+          },
+          "width": 1920
+        },
+        {
+          "barrier_events": 41,
+          "chain": 3,
+          "enhanced_calls": 0,
+          "frame": 3,
+          "height": 1080,
+          "kind": "known_tensor_ranges",
+          "legacy_calls": 356,
+          "limitation": "Range matches do not establish tensor layout or current resource state",
+          "output_tensor": {
+            "buffer_id": 1,
+            "matched": true,
+            "offset": 388096,
+            "remaining_bytes": 212131840
+          },
+          "registered_buffers": 2,
+          "weight_tensor": {
+            "buffer_id": 0,
+            "matched": true,
+            "offset": 0,
+            "remaining_bytes": 147719680
+          },
+          "width": 1920
+        },
+        {
+          "barrier_events": 57,
+          "chain": 3,
+          "enhanced_calls": 0,
+          "frame": 4,
+          "height": 1080,
+          "kind": "known_tensor_ranges",
+          "legacy_calls": 484,
+          "limitation": "Range matches do not establish tensor layout or current resource state",
+          "output_tensor": {
+            "buffer_id": 1,
+            "matched": true,
+            "offset": 388096,
+            "remaining_bytes": 212131840
+          },
+          "registered_buffers": 2,
+          "weight_tensor": {
+            "buffer_id": 0,
+            "matched": true,
+            "offset": 0,
+            "remaining_bytes": 147719680
+          },
+          "width": 1920
+        },
+        {
+          "barrier_events": 1017,
+          "chain": 3,
+          "enhanced_calls": 0,
+          "frame": 64,
+          "height": 1080,
+          "kind": "known_tensor_ranges",
+          "legacy_calls": 7626,
+          "limitation": "Range matches do not establish tensor layout or current resource state",
+          "output_tensor": {
+            "buffer_id": 1,
+            "matched": true,
+            "offset": 388096,
+            "remaining_bytes": 212131840
+          },
+          "registered_buffers": 2,
+          "weight_tensor": {
+            "buffer_id": 0,
+            "matched": true,
+            "offset": 0,
+            "remaining_bytes": 147719680
+          },
+          "width": 1920
+        },
+        {
+          "barrier_events": 2041,
+          "chain": 3,
+          "enhanced_calls": 0,
+          "frame": 128,
+          "height": 1080,
+          "kind": "known_tensor_ranges",
+          "legacy_calls": 15242,
+          "limitation": "Range matches do not establish tensor layout or current resource state",
+          "output_tensor": {
+            "buffer_id": 1,
+            "matched": true,
+            "offset": 388096,
+            "remaining_bytes": 212131840
+          },
+          "registered_buffers": 2,
+          "weight_tensor": {
+            "buffer_id": 0,
+            "matched": true,
+            "offset": 0,
+            "remaining_bytes": 147719680
+          },
+          "width": 1920
+        },
+        {
+          "barrier_events": 4089,
+          "chain": 3,
+          "enhanced_calls": 0,
+          "frame": 256,
+          "height": 1080,
+          "kind": "known_tensor_ranges",
+          "legacy_calls": 30474,
+          "limitation": "Range matches do not establish tensor layout or current resource state",
+          "output_tensor": {
+            "buffer_id": 1,
+            "matched": true,
+            "offset": 388096,
+            "remaining_bytes": 212131840
+          },
+          "registered_buffers": 2,
+          "weight_tensor": {
+            "buffer_id": 0,
+            "matched": true,
+            "offset": 0,
+            "remaining_bytes": 147719680
+          },
+          "width": 1920
+        }
+      ],
+      "limitations": [
+        "Barrier events capped at4096; hooks cover observed implementations only.",
+        "Sparse instrumented timings are not a speedup claim."
+      ]
+    }
+  ],
+  "matched_capture_comparisons": [
+    {
+      "reference": "launch-contract-natural",
+      "candidate": "native-buffer-barriers",
+      "comparison_available": true,
+      "frames": [
+        {
+          "index": 0,
+          "controls_match": true,
+          "recorded_scalars_match": true,
+          "texture_formats_match": true,
+          "texture_bytes_match": {
+            "color": false,
+            "depth": true,
+            "motion": false,
+            "output": false
+          },
+          "input_and_recorded_history_match": false,
+          "paired_output_bytes_match": null
+        },
+        {
+          "index": 1,
+          "controls_match": true,
+          "recorded_scalars_match": true,
+          "texture_formats_match": true,
+          "texture_bytes_match": {
+            "color": false,
+            "depth": true,
+            "motion": false,
+            "output": false
+          },
+          "input_and_recorded_history_match": false,
+          "paired_output_bytes_match": null
+        },
+        {
+          "index": 2,
+          "controls_match": true,
+          "recorded_scalars_match": true,
+          "texture_formats_match": true,
+          "texture_bytes_match": {
+            "color": false,
+            "depth": true,
+            "motion": false,
+            "output": false
+          },
+          "input_and_recorded_history_match": false,
+          "paired_output_bytes_match": null
+        },
+        {
+          "index": 3,
+          "controls_match": true,
+          "recorded_scalars_match": true,
+          "texture_formats_match": true,
+          "texture_bytes_match": {
+            "color": false,
+            "depth": true,
+            "motion": true,
+            "output": false
+          },
+          "input_and_recorded_history_match": false,
+          "paired_output_bytes_match": null
+        }
+      ],
+      "quality_gate_passed": false,
+      "limitation": "First four frames of one static scene; later unmatched inputs are excluded."
+    },
+    {
+      "reference": "launch-contract-natural",
+      "candidate": "native-pre-tensor",
+      "comparison_available": true,
+      "frames": [
+        {
+          "index": 0,
+          "controls_match": true,
+          "recorded_scalars_match": true,
+          "texture_formats_match": true,
+          "texture_bytes_match": {
+            "color": true,
+            "depth": true,
+            "motion": true,
+            "output": true
+          },
+          "input_and_recorded_history_match": true,
+          "paired_output_bytes_match": true
+        },
+        {
+          "index": 1,
+          "controls_match": true,
+          "recorded_scalars_match": true,
+          "texture_formats_match": true,
+          "texture_bytes_match": {
+            "color": true,
+            "depth": true,
+            "motion": true,
+            "output": true
+          },
+          "input_and_recorded_history_match": true,
+          "paired_output_bytes_match": true
+        },
+        {
+          "index": 2,
+          "controls_match": true,
+          "recorded_scalars_match": true,
+          "texture_formats_match": true,
+          "texture_bytes_match": {
+            "color": false,
+            "depth": true,
+            "motion": false,
+            "output": false
+          },
+          "input_and_recorded_history_match": false,
+          "paired_output_bytes_match": null
+        },
+        {
+          "index": 3,
+          "controls_match": true,
+          "recorded_scalars_match": true,
+          "texture_formats_match": true,
+          "texture_bytes_match": {
+            "color": false,
+            "depth": true,
+            "motion": true,
+            "output": false
+          },
+          "input_and_recorded_history_match": false,
+          "paired_output_bytes_match": null
+        }
+      ],
+      "quality_gate_passed": false,
+      "limitation": "First four frames of one static scene; later unmatched inputs are excluded."
+    }
+  ],
+  "layout_diagnostics": [
+    {
+      "schema": 1,
+      "native_prefix_sha256": "a2a640ecd7262d413bc735b4971d44d26c399b40172a807390acb22d74808fe2",
+      "input_sha256": "2e44a6a5e2730c21f7f2b4610b0a3c0af6fc94e2f51601f2ab2fa3fa679cf7f6",
+      "weights_sha256": "fa6ebc71bc6f91347d51b3368b0ef6e952b6157b6d9a164e7db82cffb88d3143",
+      "network_extent_hypothesis": [
+        1152,
+        1920
+      ],
+      "prefix_bytes": 33554432,
+      "candidate_count": 1080,
+      "axis_names": [
+        "tile_y",
+        "tile_x",
+        "inner_y",
+        "inner_x",
+        "channel"
+      ],
+      "top_candidates": [
+        {
+          "stage": "block0",
+          "tile": 4,
+          "axis_order": [
+            0,
+            1,
+            3,
+            2,
+            4
+          ],
+          "search_sample": {
+            "correlation": 0.07209272565675987,
+            "mae": 0.3102588653564453,
+            "rmse": 0.43077454804052284,
+            "exact_byte_fraction": 0.0225830078125,
+            "finite_fraction": 1.0
+          },
+          "fresh_sample": {
+            "correlation": 0.07091970076838774,
+            "mae": 0.31445780396461487,
+            "rmse": 0.4371298869298915,
+            "exact_byte_fraction": 0.024169921875,
+            "finite_fraction": 1.0
+          }
+        },
+        {
+          "stage": "block0",
+          "tile": 8,
+          "axis_order": [
+            0,
+            2,
+            3,
+            1,
+            4
+          ],
+          "search_sample": {
+            "correlation": 0.06506673343847282,
+            "mae": 0.3142201900482178,
+            "rmse": 0.4295506655038513,
+            "exact_byte_fraction": 0.01220703125,
+            "finite_fraction": 1.0
+          },
+          "fresh_sample": {
+            "correlation": 0.037721208096352356,
+            "mae": 0.32480600476264954,
+            "rmse": 0.4435797600612931,
+            "exact_byte_fraction": 0.011627197265625,
+            "finite_fraction": 1.0
+          }
+        },
+        {
+          "stage": "block0",
+          "tile": 4,
+          "axis_order": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "search_sample": {
+            "correlation": 0.06420022355492662,
+            "mae": 0.3106963634490967,
+            "rmse": 0.4296077063554614,
+            "exact_byte_fraction": 0.0206298828125,
+            "finite_fraction": 1.0
+          },
+          "fresh_sample": {
+            "correlation": 0.07260874697466738,
+            "mae": 0.31338945031166077,
+            "rmse": 0.4353220969962777,
+            "exact_byte_fraction": 0.0238800048828125,
+            "finite_fraction": 1.0
+          }
+        },
+        {
+          "stage": "block0",
+          "tile": 4,
+          "axis_order": [
+            0,
+            2,
+            3,
+            1,
+            4
+          ],
+          "search_sample": {
+            "correlation": 0.06403528576143179,
+            "mae": 0.31586647033691406,
+            "rmse": 0.4315447636135575,
+            "exact_byte_fraction": 0.0147705078125,
+            "finite_fraction": 1.0
+          },
+          "fresh_sample": {
+            "correlation": 0.04458497191888262,
+            "mae": 0.3230295777320862,
+            "rmse": 0.44032185570877286,
+            "exact_byte_fraction": 0.0123443603515625,
+            "finite_fraction": 1.0
+          }
+        },
+        {
+          "stage": "block0",
+          "tile": 16,
+          "axis_order": [
+            0,
+            3,
+            1,
+            2,
+            4
+          ],
+          "search_sample": {
+            "correlation": 0.05791921978889522,
+            "mae": 0.3179805278778076,
+            "rmse": 0.4327075483920617,
+            "exact_byte_fraction": 0.0107421875,
+            "finite_fraction": 1.0
+          },
+          "fresh_sample": {
+            "correlation": 0.029123893551219224,
+            "mae": 0.3261619806289673,
+            "rmse": 0.4456047775445861,
+            "exact_byte_fraction": 0.0117340087890625,
+            "finite_fraction": 1.0
+          }
+        },
+        {
+          "stage": "adapter",
+          "tile": 4,
+          "axis_order": [
+            3,
+            2,
+            1,
+            0,
+            4
+          ],
+          "search_sample": {
+            "correlation": 0.05609064806226194,
+            "mae": 0.33559298515319824,
+            "rmse": 0.4712230617385188,
+            "exact_byte_fraction": 0.0123291015625,
+            "finite_fraction": 1.0
+          },
+          "fresh_sample": {
+            "correlation": 0.012482462208268581,
+            "mae": 0.3410166800022125,
+            "rmse": 0.4780515533990561,
+            "exact_byte_fraction": 0.0110321044921875,
+            "finite_fraction": 1.0
+          }
+        },
+        {
+          "stage": "block0",
+          "tile": 4,
+          "axis_order": [
+            0,
+            3,
+            2,
+            1,
+            4
+          ],
+          "search_sample": {
+            "correlation": 0.05458533887175418,
+            "mae": 0.3133111000061035,
+            "rmse": 0.4279660844928759,
+            "exact_byte_fraction": 0.01220703125,
+            "finite_fraction": 1.0
+          },
+          "fresh_sample": {
+            "correlation": 0.030837650571055166,
+            "mae": 0.32474926114082336,
+            "rmse": 0.44399105477831285,
+            "exact_byte_fraction": 0.0115814208984375,
+            "finite_fraction": 1.0
+          }
+        },
+        {
+          "stage": "pool",
+          "tile": 8,
+          "axis_order": [
+            0,
+            1,
+            3,
+            4,
+            2
+          ],
+          "search_sample": {
+            "correlation": 0.054328695651511785,
+            "mae": 0.36925196647644043,
+            "rmse": 0.674179119454338,
+            "exact_byte_fraction": 0.011474609375,
+            "finite_fraction": 1.0
+          },
+          "fresh_sample": {
+            "correlation": 0.05059678490308247,
+            "mae": 0.3684851825237274,
+            "rmse": 0.67303286193532,
+            "exact_byte_fraction": 0.01141357421875,
+            "finite_fraction": 1.0
+          }
+        },
+        {
+          "stage": "pool",
+          "tile": 8,
+          "axis_order": [
+            0,
+            1,
+            2,
+            4,
+            3
+          ],
+          "search_sample": {
+            "correlation": 0.05252041735273394,
+            "mae": 0.37040066719055176,
+            "rmse": 0.6737783928500248,
+            "exact_byte_fraction": 0.0103759765625,
+            "finite_fraction": 1.0
+          },
+          "fresh_sample": {
+            "correlation": 0.04644240947183021,
+            "mae": 0.3717346489429474,
+            "rmse": 0.6812446730344879,
+            "exact_byte_fraction": 0.0115509033203125,
+            "finite_fraction": 1.0
+          }
+        },
+        {
+          "stage": "adapter",
+          "tile": 16,
+          "axis_order": [
+            1,
+            0,
+            3,
+            2,
+            4
+          ],
+          "search_sample": {
+            "correlation": 0.052461111702810266,
+            "mae": 0.33519434928894043,
+            "rmse": 0.46741663070786355,
+            "exact_byte_fraction": 0.0108642578125,
+            "finite_fraction": 1.0
+          },
+          "fresh_sample": {
+            "correlation": 0.02086380762799906,
+            "mae": 0.33930888772010803,
+            "rmse": 0.4767185512280409,
+            "exact_byte_fraction": 0.0117340087890625,
+            "finite_fraction": 1.0
+          }
+        }
+      ],
+      "quality_gate_passed": false,
+      "layout_verified": false,
+      "limitations": [
+        "Allocation prefix may span multiple tensors or unpublished scratch data.",
+        "Only simple tiled axis permutations searched; packed lane/channel maps and tensor offsets are not covered.",
+        "Reference first block is not numerically proven against NVIDIA.",
+        "Fresh samples can overlap the search sample; no data fitting or quality acceptance is performed.",
+        "This is not a model-performance benchmark."
+      ]
+    },
+    {
+      "schema": 1,
+      "native_prefix_sha256": "a2a640ecd7262d413bc735b4971d44d26c399b40172a807390acb22d74808fe2",
+      "input_sha256": "2e44a6a5e2730c21f7f2b4610b0a3c0af6fc94e2f51601f2ab2fa3fa679cf7f6",
+      "weights_sha256": "fa6ebc71bc6f91347d51b3368b0ef6e952b6157b6d9a164e7db82cffb88d3143",
+      "network_extent_hypothesis": [
+        1152,
+        1920
+      ],
+      "prefix_bytes": 33554432,
+      "candidate_count": 14040,
+      "axis_names": [
+        "tile_y",
+        "tile_x",
+        "inner_y",
+        "inner_x",
+        "channel_or_channel_high",
+        "channel_low_when_split"
+      ],
+      "top_candidates": [
+        {
+          "stage": "block0",
+          "tile": 4,
+          "axis_order": [
+            0,
+            1,
+            3,
+            5,
+            2,
+            4
+          ],
+          "channel_split": [
+            2,
+            16
+          ],
+          "search_sample": {
+            "correlation": 0.1444963434749002,
+            "mae": 0.2830641269683838,
+            "rmse": 0.4112035940724373,
+            "exact_byte_fraction": 0.0504150390625,
+            "finite_fraction": 1.0
+          },
+          "fresh_sample": {
+            "correlation": 0.1490187839676328,
+            "mae": 0.287200391292572,
+            "rmse": 0.4183464025074302,
+            "exact_byte_fraction": 0.0545806884765625,
+            "finite_fraction": 1.0
+          }
+        },
+        {
+          "stage": "block0",
+          "tile": 4,
+          "axis_order": [
+            0,
+            1,
+            4,
+            3,
+            2,
+            5
+          ],
+          "channel_split": [
+            2,
+            16
+          ],
+          "search_sample": {
+            "correlation": 0.13828862663043137,
+            "mae": 0.2945094108581543,
+            "rmse": 0.4146280767048045,
+            "exact_byte_fraction": 0.0479736328125,
+            "finite_fraction": 1.0
+          },
+          "fresh_sample": {
+            "correlation": 0.13609917153136486,
+            "mae": 0.2976609766483307,
+            "rmse": 0.4202456655791117,
+            "exact_byte_fraction": 0.0502777099609375,
+            "finite_fraction": 1.0
+          }
+        },
+        {
+          "stage": "block0",
+          "tile": 4,
+          "axis_order": [
+            0,
+            1,
+            2,
+            5,
+            3,
+            4
+          ],
+          "channel_split": [
+            2,
+            16
+          ],
+          "search_sample": {
+            "correlation": 0.13271144603677437,
+            "mae": 0.2833104133605957,
+            "rmse": 0.41258064550963675,
+            "exact_byte_fraction": 0.05224609375,
+            "finite_fraction": 1.0
+          },
+          "fresh_sample": {
+            "correlation": 0.13618331501572092,
+            "mae": 0.2889191508293152,
+            "rmse": 0.42040706330445393,
+            "exact_byte_fraction": 0.05133056640625,
+            "finite_fraction": 1.0
+          }
+        },
+        {
+          "stage": "block0",
+          "tile": 4,
+          "axis_order": [
+            0,
+            1,
+            2,
+            4,
+            3,
+            5
+          ],
+          "channel_split": [
+            2,
+            16
+          ],
+          "search_sample": {
+            "correlation": 0.10469719498614512,
+            "mae": 0.3076143264770508,
+            "rmse": 0.42433868038067424,
+            "exact_byte_fraction": 0.0216064453125,
+            "finite_fraction": 1.0
+          },
+          "fresh_sample": {
+            "correlation": 0.07570880289528312,
+            "mae": 0.31208866834640503,
+            "rmse": 0.43201332782654556,
+            "exact_byte_fraction": 0.021728515625,
+            "finite_fraction": 1.0
+          }
+        },
+        {
+          "stage": "block0",
+          "tile": 4,
+          "axis_order": [
+            0,
+            1,
+            4,
+            2,
+            3,
+            5
+          ],
+          "channel_split": [
+            2,
+            16
+          ],
+          "search_sample": {
+            "correlation": 0.09353623542806708,
+            "mae": 0.305145263671875,
+            "rmse": 0.4199072047931257,
+            "exact_byte_fraction": 0.02099609375,
+            "finite_fraction": 1.0
+          },
+          "fresh_sample": {
+            "correlation": 0.07548266989981872,
+            "mae": 0.313459187746048,
+            "rmse": 0.43481848326383743,
+            "exact_byte_fraction": 0.022430419921875,
+            "finite_fraction": 1.0
+          }
+        },
+        {
+          "stage": "block0",
+          "tile": 4,
+          "axis_order": [
+            0,
+            1,
+            3,
+            4,
+            2,
+            5
+          ],
+          "channel_split": [
+            2,
+            16
+          ],
+          "search_sample": {
+            "correlation": 0.09053425559714283,
+            "mae": 0.3074164390563965,
+            "rmse": 0.42514143454804687,
+            "exact_byte_fraction": 0.0245361328125,
+            "finite_fraction": 1.0
+          },
+          "fresh_sample": {
+            "correlation": 0.07938232587111813,
+            "mae": 0.31156212091445923,
+            "rmse": 0.431478838057315,
+            "exact_byte_fraction": 0.0228729248046875,
+            "finite_fraction": 1.0
+          }
+        },
+        {
+          "stage": "block0",
+          "tile": 4,
+          "axis_order": [
+            0,
+            1,
+            2,
+            4,
+            3,
+            5
+          ],
+          "channel_split": [
+            4,
+            8
+          ],
+          "search_sample": {
+            "correlation": 0.08940862744336234,
+            "mae": 0.3056919574737549,
+            "rmse": 0.4263318088434202,
+            "exact_byte_fraction": 0.02197265625,
+            "finite_fraction": 1.0
+          },
+          "fresh_sample": {
+            "correlation": 0.07825010448561215,
+            "mae": 0.3107322156429291,
+            "rmse": 0.4318883315786081,
+            "exact_byte_fraction": 0.0230865478515625,
+            "finite_fraction": 1.0
+          }
+        },
+        {
+          "stage": "block0",
+          "tile": 4,
+          "axis_order": [
+            0,
+            1,
+            4,
+            3,
+            2,
+            5
+          ],
+          "channel_split": [
+            4,
+            8
+          ],
+          "search_sample": {
+            "correlation": 0.08519026810631362,
+            "mae": 0.3074944019317627,
+            "rmse": 0.4248081388004458,
+            "exact_byte_fraction": 0.0205078125,
+            "finite_fraction": 1.0
+          },
+          "fresh_sample": {
+            "correlation": 0.06787916504623294,
+            "mae": 0.31368306279182434,
+            "rmse": 0.4368666322112731,
+            "exact_byte_fraction": 0.0231170654296875,
+            "finite_fraction": 1.0
+          }
+        },
+        {
+          "stage": "block0",
+          "tile": 8,
+          "axis_order": [
+            0,
+            4,
+            1,
+            2,
+            3,
+            5
+          ],
+          "channel_split": [
+            2,
+            16
+          ],
+          "search_sample": {
+            "correlation": 0.08392375686220604,
+            "mae": 0.31418633460998535,
+            "rmse": 0.43091831087355514,
+            "exact_byte_fraction": 0.01708984375,
+            "finite_fraction": 1.0
+          },
+          "fresh_sample": {
+            "correlation": 0.05766404059140846,
+            "mae": 0.319259911775589,
+            "rmse": 0.43911936423692766,
+            "exact_byte_fraction": 0.0161895751953125,
+            "finite_fraction": 1.0
+          }
+        },
+        {
+          "stage": "block0",
+          "tile": 4,
+          "axis_order": [
+            0,
+            1,
+            3,
+            4,
+            2,
+            5
+          ],
+          "channel_split": [
+            4,
+            8
+          ],
+          "search_sample": {
+            "correlation": 0.08164705511717184,
+            "mae": 0.3040504455566406,
+            "rmse": 0.42571832800006093,
+            "exact_byte_fraction": 0.0245361328125,
+            "finite_fraction": 1.0
+          },
+          "fresh_sample": {
+            "correlation": 0.06762373017683315,
+            "mae": 0.31320661306381226,
+            "rmse": 0.43742875121456,
+            "exact_byte_fraction": 0.0236968994140625,
+            "finite_fraction": 1.0
+          }
+        }
+      ],
+      "quality_gate_passed": false,
+      "layout_verified": false,
+      "limitations": [
+        "Allocation prefix may span multiple tensors or unpublished scratch data.",
+        "Only declared tiled axis permutations searched; arbitrary lane/channel maps and tensor offsets are not covered.",
+        "Reference first block is not numerically proven against NVIDIA.",
+        "Fresh samples can overlap the search sample; no data fitting or quality acceptance is performed.",
+        "This is not a model-performance benchmark."
+      ]
+    }
+  ],
+  "conclusion": "Fenced native allocation capture is available; searched layouts do not establish tensor decoding or numerical parity."
+}

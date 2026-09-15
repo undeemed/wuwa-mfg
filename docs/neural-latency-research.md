@@ -425,6 +425,53 @@ in a scratch tree. See
 [`native-buffer-ranges.json`](../evidence/neural-model-research/native-buffer-ranges.json)
 and the [probe instructions](../research/neural-latency/README.md#native-buffer-range-metadata).
 
+## Native first-preprocessor snapshot
+
+The next probe observed the runtime's actual barriers. The weight buffer moved
+COMMON → COPY_DEST → UAV during initialization; the scratch buffer moved
+COMMON → UAV. Both legacy and enhanced barrier hooks attached successfully.
+Observed relevant runtime calls used legacy transitions and global UAV barriers,
+with no reported implementation gaps. The event log was bounded at 4,096 entries.
+
+A separately enabled capture then copied a 32 MiB prefix starting at the known
+preprocessor output pointer after its first successful launch. The guard checked
+the observed state contract, extent, counter, allocation range and hook coverage.
+The source state was restored, and the copy was read only after its actual queue
+fence completed. Microsoft documents the
+[buffer state promotion/decay rules](https://learn.microsoft.com/en-us/windows/win32/direct3d12/using-resource-barriers-to-synchronize-resource-states-in-direct3d-12#performance-implications)
+used by this restricted capture path. These rules do not make arbitrary resource
+states interchangeable.
+
+The snapshot completed. Against the earlier launch-contract baseline, the first
+two frames had identical color/depth/motion inputs, controls, recorded scalar
+values and output bytes. Later inputs differed and were excluded. A closer-in-time
+barrier-only run also had different first inputs, so it cannot support a paired
+output claim. The capture run's two sparse post-warmup model samples were both
+5.45 ms; this is not a speedup.
+
+The bytes are still an **allocation prefix, not a decoded tensor**. A search
+against the reconstructed adapter, first block and pooled output tested 1,080
+simple tiled layouts, then 14,040 layouts including split channel axes. The best
+fresh-sample correlation in the larger search was only about 0.149, far short of
+establishing a match. Other offsets, packed lane layouts and arithmetic differences
+remain possible. No numerical equivalence follows from successful readback.
+
+This provides a concrete intermediate artifact for investigating the native
+kernel's stores and resolving the reconstruction mismatch. Raw bytes and
+reconstructed arrays remain private. The combined source patch, reproduction
+instructions and numeric evidence are in the
+[research README](../research/neural-latency/README.md#guarded-native-preprocessor-capture)
+and [`native-pre-tensor.json`](../evidence/neural-model-research/native-pre-tensor.json).
+
+A parallel model experiment added the reconstructed deterministic noise channels
+to the six-view width-16 hierarchical student. It used the same 1,500-step
+schedule, producing 224,208 parameters and a 1.466 ms graph median. Original-north
+MAE worsened to 0.02566 and translated-north MAE to 0.02580, compared with 0.02285
+and 0.02318 without noise. **This candidate was rejected.** Its noise values are
+not independently proven sample-exact against the native preprocessor, and timing
+excludes their preparation and D3D12 integration. See
+[`student-hierarchical-noise.json`](../evidence/neural-model-research/student-hierarchical-noise.json).
+
 ## Papers and what can transfer
 
 These papers provide research ideas. Their reported speedups are on other models
