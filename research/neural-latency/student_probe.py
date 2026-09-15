@@ -67,6 +67,7 @@ class HierarchicalStudent(nn.Module):
         self.reorder_decoder=False
         self.decoder_reorder_stages=(0,1,2)
         self.fused_decoder_backend=None
+        self.fused_conditioning_backend=None
         self.global_attention=None
         if attention:
             from attention_student import GlobalAttention
@@ -91,15 +92,21 @@ class HierarchicalStudent(nn.Module):
         if self.global_attention is not None:value=self.global_attention(value)
         coefficients=self.affine_head(value) if self.affine_head is not None else None
         for i in (2,1,0):
+            fused_conditioning=modulation is not None and self.fused_conditioning_backend is not None
+            if modulation is not None:
+                scale,shift=self.decoder_conditioning.stage(modulation,i)
             if self.reorder_decoder and i in self.decoder_reorder_stages:
                 value=self.up[i](value)
-                value=(self.fused_decoder_backend.decoder_upscale_add(value,skips[i])
+                value=(self.fused_conditioning_backend.decoder_conditioned_add(value,skips[i],scale,shift)
+                       if fused_conditioning else
+                       self.fused_decoder_backend.decoder_upscale_add(value,skips[i])
                        if self.fused_decoder_backend is not None
                        else F.interpolate(value,size=skips[i].shape[-2:],mode='nearest')+skips[i])
             else:
-                value=self.up[i](F.interpolate(value,size=skips[i].shape[-2:],mode='nearest'))+skips[i]
-            if modulation is not None:
-                scale,shift=self.decoder_conditioning.stage(modulation,i)
+                value=self.up[i](F.interpolate(value,size=skips[i].shape[-2:],mode='nearest'))
+                value=(self.fused_conditioning_backend.decoder_conditioned_add(value,skips[i],scale,shift)
+                       if fused_conditioning else value+skips[i])
+            if modulation is not None and not fused_conditioning:
                 value=value*(1+scale)+shift
             value=self.decoder[i](value)
         head=self.head(value)

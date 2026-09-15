@@ -1015,6 +1015,26 @@ and [numerical evidence](../evidence/neural-model-research/decoder-conditioning.
 record the diagnostics, training, regressions and timing scope. Game, driver and
 normal runtime state remain unchanged.
 
+## Capacity test and conditioning fusion
+
+Doubling the conditioned model's width increases its parameters from 254,672 to
+995,696. With the same data, seed and 4,500 updates, older-photo mean error falls
+2.36% and newer-photo error falls 0.51%, but scene error rises 1.20%. Mean training
+error also rises slightly. Extra width alone does not resolve the quality gap.
+
+A new optional kernel combines the decoder skip and conditioning operations while
+preserving all four FP16 rounding steps. Forty-two operator cases and 48 complete
+model/image comparisons pass bit-exact checks across eight execution modes.
+In alternating full-1080p graph measurements, it reduces the smaller conditioned
+model from **1.0389 to 0.9958 ms** and the larger one from **1.7895 to 1.7350 ms**.
+These are improvements to the experimental students, excluding application
+integration; the native runtime is unchanged and neither student meets its quality.
+
+[Method, commands and limits](../research/neural-latency/README.md#conditioned-capacity-and-decoder-fusion)
+and [numeric evidence](../evidence/neural-model-research/conditioning-capacity-and-fusion.json)
+include the mixed quality results, unchanged timing control and exactness scope.
+The new fusion remains disabled by default. Game and driver state are unchanged.
+
 ## Papers and what can transfer
 
 The joint [native feature supervision experiment](../research/neural-latency/README.md#native-intermediate-feature-supervision)

@@ -30,6 +30,9 @@ def same(a, b):
 
 
 def configure(model, mode, kernel):
+    conditioning=mode in ('conditioning','all-conditioning')
+    mode='all' if mode=='all-conditioning' else 'baseline' if mode=='conditioning' else mode
+    model.network.fused_conditioning_backend=kernel if conditioning else None
     model.fused_student_output = mode in ('output', 'combined', 'all')
     model.network.reorder_decoder = mode in ('decoder', 'combined', 'all')
     model.network.decoder_reorder_stages = (1, 2) if model.network.head.in_channels == 32 else (0, 1, 2)
@@ -45,6 +48,7 @@ def main():
     parser.add_argument('--photos', type=Path, required=True)
     parser.add_argument('--image-collection', type=Path, help='Optional diverse image extension manifest.')
     parser.add_argument('--residual-fusion', action='store_true', help='Also check residual-only and all-fusion modes.')
+    parser.add_argument('--conditioning-fusion',action='store_true',help='Also check conditioning-only and all-plus-conditioning modes.')
     parser.add_argument('--model', nargs=2, action='append', default=[])
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
@@ -58,6 +62,13 @@ def main():
     torch.backends.cuda.matmul.allow_tf32 = False
     kernel = FusedNorm()
     modes=['baseline','output','decoder','combined']+(['residual','all'] if args.residual_fusion else [])
+    if args.conditioning_fusion:
+        if not args.residual_fusion:raise ValueError('Conditioning comparison requires the previous all-fusion baseline.')
+        modes+=['conditioning','all-conditioning']
+    conditioning_tests=None
+    if args.conditioning_fusion:
+        from test_conditioning_fusion import operator_tests as conditioning_operator_tests
+        conditioning_tests=conditioning_operator_tests(kernel)
     residual_tests=None
     if args.residual_fusion:
         from test_student_residual import operator_tests
@@ -164,6 +175,7 @@ def main():
               'gpu': torch.cuda.get_device_name(), 'torch': torch.__version__,
               'kernel_tests': tests, 'rejected_inputs': rejected, 'models': model_info,
               'checked_modes':modes, 'residual_tests':residual_tests,
+              'conditioning_tests':conditioning_tests,
               'cases': rows, 'timings': timings,
               'limitations': ['Finite-input equivalence to existing student arithmetic, not native quality.',
                   'Complete student graph timings exclude D3D12 integration and do not accelerate native NVIDIA execution.',

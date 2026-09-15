@@ -2204,3 +2204,67 @@ includes the training-only diagnostics, neutral-insertion tests, full training
 record, per-image comparisons, fusion checks and timing samples. No sample or
 game launch was needed, and game, driver, native model and normal runtime files
 remain unchanged. **The full 3 ms/no-quality-loss target remains unmet.**
+
+## Conditioned capacity and decoder fusion
+
+The smaller conditioned model leaves execution headroom, but still has substantial
+training and validation error. A capacity test doubles its base width from 16 to
+32 while retaining the same 46 training frames, sixteen validation frames, seed,
+4,500 updates, learning-rate schedule and objective. Use the existing collection
+command with `--architecture hierarchical-film --width 32` to reproduce the
+configuration. It has **995,696 parameters**, including 123,904 conditioning
+parameters, versus 254,672 total in the smaller model. This is a controlled width
+change, not a FLOP-matched or multi-seed study. Training completed in 132.10 seconds.
+
+| Validation group | Width 16 conditioned | Width 32 conditioned | Change in MAE |
+| --- | ---: | ---: | ---: |
+| Six scene views | 0.028421 | 0.028761 | +1.20% |
+| Six older photo cases | 0.021364 | 0.020860 | −2.36% |
+| Four newer photo cases | 0.022106 | 0.021993 | −0.51% |
+
+Lower MAE is better. The larger model improves three of six scene cases, four of
+six older photo cases and two of four newer photo cases. Its mean training MAE
+also worsens slightly, from 0.028293 to 0.028833. These results do not support
+extra width alone as the solution to the quality gap. All 48 saved predictions
+from the three-model comparison reproduce exactly; the two older checkpoints'
+32 validation results also match the preceding experiment exactly.
+
+The new optional CUDA kernel combines the decoder skip addition and conditioning:
+`(nearest(projected) + skip) * (1 + scale) + shift`. It supports either matching
+spatial sizes or exact 2× nearest upsampling. It retains **four separate FP16
+roundings**, including `1 + scale`, rather than contracting them into an FMA.
+The implementation uses explicit [NVIDIA PTX half-precision arithmetic](https://docs.nvidia.com/cuda/parallel-thread-execution/index.html#half-precision-floating-point-instructions),
+without flush-to-zero. Aligned, contiguous channels-last inputs with 16, 32, 64
+or 128 channels use packed pairs; other supported layouts use scalar strided
+indexing. Per-image coefficients may have a larger batch stride or be broadcast.
+The existing width-32 restriction on moving the last projection before upsampling
+remains in place. The new fusion works after that projection as well.
+
+Forty-two operator cases cover both spatial ratios, multiple batches/layouts,
+real decoder extents, all finite FP16 patterns in selected operand combinations,
+broadcasting and misalignment. Eight invalid-input guards pass. All eight
+execution modes are bit-identical across sixteen images for each of three
+checkpoints, including the larger model. Existing output/residual operator tests
+also pass. The fusion is inference-only and **disabled by default**.
+
+```text
+test_student_output.py --base <private-demo-root> --photos <private-photo-manifest> --image-collection <private-image-manifest> --model <name> <private-student-directory> --residual-fusion --conditioning-fusion --output <fresh-private-report.json>
+benchmark_student_residual.py --capture <private-validation-capture> --model <name> <private-student-directory> --conditioning-fusion --output <fresh-private-report.json>
+```
+
+| Model | All earlier fusions | With conditioning fusion | Reduction |
+| --- | ---: | ---: | ---: |
+| Width 16 conditioned | 1.0389 ms | 0.9958 ms | 4.14% |
+| Width 32 conditioned | 1.7895 ms | 1.7350 ms | 3.05% |
+| Unconditioned control | 1.0017 ms | 1.0008 ms | No execution change |
+
+The unchanged control's 0.09% timing difference is noise, not a speedup. Thirty
+alternating pairs each average ten warmed graph replays; p95 describes interval
+averages, not individual-frame tails. These full 1080p student-plus-grade timings
+exclude D3D12 integration and do not accelerate the native NVIDIA model.
+
+[Numerical evidence](../../evidence/neural-model-research/conditioning-capacity-and-fusion.json)
+retains the complete training/comparison results, all operator and full-image
+checks, and timing samples. The larger model is not accepted or installed.
+No sample/game launch or game, driver, native model or normal runtime change was
+needed. **Native-quality equivalence at 3 ms remains unverified.**

@@ -216,3 +216,10 @@ Layer](https://arxiv.org/abs/1709.07871). No upstream implementation is copied.
 The renderer uses pooled image features rather than question embeddings; the
 paper's visual-reasoning results are not renderer quality claims. All learned
 weights, captured activations, original images and predictions remain private.
+
+The decoder-conditioning fusion and its operator tests are original Apache-2.0
+code. The scalar and packed half arithmetic follow NVIDIA's published
+[PTX instruction semantics](https://docs.nvidia.com/cuda/parallel-thread-execution/index.html#half-precision-floating-point-instructions).
+No vendor implementation, binary or disassembly is distributed. The associated
+capacity experiment uses the existing original image-conditioned architecture;
+its learned weights and captured data remain private.

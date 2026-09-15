@@ -427,6 +427,54 @@ extern "C" __global__ void gaussian_noise_f32(float* output,unsigned width,unsig
     output[index*3+2]=half_round(ra*cb);
 }
 
+// Preserve four separate half roundings: skip add, 1+scale, multiply, shift.
+// No fma contraction or flush-to-zero; optional nearest upsampling is indexing.
+extern "C" __global__ void decoder_conditioned_f16(
+    const unsigned short* x,const unsigned short* skip,const unsigned short* scale,
+    const unsigned short* shift,unsigned short* output,
+    unsigned count,unsigned channels,unsigned height,unsigned width,unsigned ratio,
+    unsigned long long xn,unsigned long long xc,unsigned long long xh,unsigned long long xw,
+    unsigned long long kn,unsigned long long kc,unsigned long long kh,unsigned long long kw,
+    unsigned long long sn,unsigned long long sc,unsigned long long bn,unsigned long long bc) {
+    unsigned index=blockIdx.x*blockDim.x+threadIdx.x;
+    if(index>=count)return;
+    unsigned c=index%channels,pixel=index/channels,w=pixel%width,h=(pixel/width)%height,n=pixel/(width*height);
+    unsigned short a=x[n*xn+c*xc+(h/ratio)*xh+(w/ratio)*xw];
+    unsigned short k=skip[n*kn+c*kc+h*kh+w*kw],s=scale[n*sn+c*sc],b=shift[n*bn+c*bc];
+    unsigned short one=0x3c00,v,gain,product,result;
+    asm("add.rn.f16 %0, %1, %2;" : "=h"(v) : "h"(a),"h"(k));
+    asm("add.rn.f16 %0, %1, %2;" : "=h"(gain) : "h"(one),"h"(s));
+    asm("mul.rn.f16 %0, %1, %2;" : "=h"(product) : "h"(v),"h"(gain));
+    asm("add.rn.f16 %0, %1, %2;" : "=h"(result) : "h"(product),"h"(b));
+    output[index]=result;
+}
+
+template<unsigned Channels> __device__ void conditioned_dense(
+    const unsigned* x,const unsigned* skip,const unsigned* scale,const unsigned* shift,unsigned* output,
+    unsigned pairs,unsigned height,unsigned width,unsigned ratio,unsigned long long sn,unsigned long long bn) {
+    unsigned index=blockIdx.x*blockDim.x+threadIdx.x;
+    if(index>=pairs)return;
+    constexpr unsigned cp=Channels/2;
+    unsigned c=index%cp,pixel=index/cp,w=pixel%width,h=(pixel/width)%height,n=pixel/(width*height);
+    unsigned low=((n*(height/ratio)+h/ratio)*(width/ratio)+w/ratio)*cp+c;
+    unsigned a=x[low],k=skip[index],s=scale[n*(sn/2)+c],b=shift[n*(bn/2)+c];
+    unsigned v,gain,product,result;
+    asm("add.rn.f16x2 %0, %1, %2;" : "=r"(v) : "r"(a),"r"(k));
+    asm("add.rn.f16x2 %0, %1, %2;" : "=r"(gain) : "r"(0x3c003c00u),"r"(s));
+    asm("mul.rn.f16x2 %0, %1, %2;" : "=r"(product) : "r"(v),"r"(gain));
+    asm("add.rn.f16x2 %0, %1, %2;" : "=r"(result) : "r"(product),"r"(b));
+    output[index]=result;
+}
+#define CONDITIONED_DENSE(C) extern "C" __global__ void conditioned_dense_##C( \
+    const unsigned* x,const unsigned* k,const unsigned* s,const unsigned* b,unsigned* y, \
+    unsigned pairs,unsigned channels,unsigned height,unsigned width,unsigned ratio, \
+    unsigned long long sn,unsigned long long bn) { \
+    conditioned_dense<C>(x,k,s,b,y,pairs,height,width,ratio,sn,bn); }
+CONDITIONED_DENSE(16)
+CONDITIONED_DENSE(32)
+CONDITIONED_DENSE(64)
+CONDITIONED_DENSE(128)
+
 // Direct SM89 FP8 tensor-core diagnostic. Layout follows NVIDIA PTX ISA 8.7
 // mma.m16n8k32 fragments. Every active warp executes every MMA collectively.
 // C is loaded before the first product; K advances in 32-element chunks.

@@ -93,7 +93,48 @@ class FusedNorm:
             function=C.c_void_p()
             check(lookup(C.byref(function),self.module,('residual_dense_'+str(channels)).encode()),'cuModuleGetFunction')
             self.dense_residual_functions[channels]=function
+        self.conditioning_function=C.c_void_p()
+        check(lookup(C.byref(self.conditioning_function),self.module,b'decoder_conditioned_f16'),'cuModuleGetFunction')
+        self.dense_conditioning_functions={}
+        for channels in (16,32,64,128):
+            function=C.c_void_p()
+            check(lookup(C.byref(function),self.module,('conditioned_dense_'+str(channels)).encode()),'cuModuleGetFunction')
+            self.dense_conditioning_functions[channels]=function
         # Module stays alive until process exit, including any captured graphs.
+
+    def decoder_conditioned_add(self,x,skip,scale,shift):
+        tensors=(x,skip,scale,shift)
+        if any(t.device.type!='cuda' or t.device!=x.device or t.dtype!=torch.float16
+               or t.ndim!=4 or t.requires_grad for t in tensors):
+            raise ValueError('Expected same-device inference-only CUDA NCHW FP16 tensors.')
+        batch,channels,height,width=skip.shape
+        if not skip.numel() or skip.numel()>=2**31:
+            raise ValueError('Tensor exceeds the bounded launch extent.')
+        if x.shape==skip.shape:ratio=1
+        elif height%2==0 and width%2==0 and x.shape==(batch,channels,height//2,width//2):ratio=2
+        else:raise ValueError('Input must match the skip or be exactly half its spatial extent.')
+        if scale.shape!=(batch,channels,1,1) or shift.shape!=scale.shape:
+            raise ValueError('Expected one scale and shift per image/channel.')
+        output=torch.empty((batch,height,width,channels),device=x.device,dtype=x.dtype).permute(0,3,1,2)
+        arguments=[C.c_void_p(t.data_ptr()) for t in (*tensors,output)]
+        dense=(channels in self.dense_conditioning_functions
+               and all(t.is_contiguous(memory_format=torch.channels_last) for t in (x,skip))
+               and all(t.data_ptr()%4==0 for t in tensors)
+               and all(t.stride(1)==1 and t.stride(0)%2==0 for t in (scale,shift)))
+        count=skip.numel()//2 if dense else skip.numel()
+        arguments += [C.c_uint(v) for v in (count,channels,height,width,ratio)]
+        if dense:
+            arguments += [C.c_ulonglong(t.stride(0)) for t in (scale,shift)]
+            function=self.dense_conditioning_functions[channels]
+        else:
+            arguments += [C.c_ulonglong(s) for t in (x,skip) for s in t.stride()]
+            arguments += [C.c_ulonglong(s) for t in (scale,shift) for s in t.stride()[:2]]
+            function=self.conditioning_function
+        params=(C.c_void_p*len(arguments))(*(C.addressof(v) for v in arguments))
+        status=self.launch(function,(count+255)//256,1,1,256,1,1,0,
+                           C.c_void_p(torch.cuda.current_stream(x.device).cuda_stream),params,None)
+        if status:raise RuntimeError(f'cuLaunchKernel failed: {status}')
+        return output
 
     def residual_scale_add(self,x,residual,scale):
         if any(t.device.type!='cuda' or t.device!=x.device or t.dtype!=torch.float16

@@ -19,7 +19,9 @@ def main():
     p.add_argument('--capture',type=Path,required=True)
     p.add_argument('--model',nargs=2,action='append',required=True)
     p.add_argument('--output',type=Path,required=True)
+    p.add_argument('--conditioning-fusion',action='store_true',help='Compare all existing fusions with all plus decoder conditioning.')
     args=p.parse_args()
+    modes=['all','all-conditioning'] if args.conditioning_fusion else ['combined','all']
     if args.output.exists() or args.output.resolve().is_relative_to(Path(__file__).resolve().parents[2]):
         raise ValueError('Use a fresh private report.')
     assert 1<=len(args.model)<=4 and len({n for n,_ in args.model})==len(args.model)
@@ -42,7 +44,7 @@ def main():
             model=model.cuda().half().eval().to(memory_format=torch.channels_last);model.fused_backend=kernel
             configure(model,'baseline',kernel);reference=model(source)
             graphs,outputs={},{}
-            for mode in ['combined','all']:
+            for mode in modes:
                 configure(model,mode,kernel)
                 stream=torch.cuda.Stream();stream.wait_stream(torch.cuda.current_stream())
                 with torch.cuda.stream(stream):
@@ -57,7 +59,7 @@ def main():
             assert all(same(out,reference) for out in outputs.values())
             measurements=[]
             for index in range(30):
-                order=['combined','all'] if index%2==0 else ['all','combined']
+                order=modes[:] if index%2==0 else modes[::-1]
                 times={}
                 for mode in order:
                     start,end=torch.cuda.Event(enable_timing=True),torch.cuda.Event(enable_timing=True)
@@ -71,11 +73,12 @@ def main():
                 'p95_ms':float(np.percentile([r['ms_per_replay'][mode] for r in measurements],95))} for mode in graphs}
             rows[name]={'checkpoint_sha256':sha(folder/'student-private.pt'),'width':a['width'],
                 'all_graphs_match_baseline_bitwise':True,'measurements':measurements,'summary':summary,
-                'median_reduction_percent':100*(1-summary['all']['median_ms']/summary['combined']['median_ms'])}
+                'median_reduction_percent':100*(1-summary[modes[1]]['median_ms']/summary[modes[0]]['median_ms'])}
             del graphs,outputs,graph,out,reference,model,state
     result={'complete':True,'target_achieved':False,'quality_gate_passed':False,'native_runtime_accelerated':False,
         'capture_hashes':hashes,'warmup_replays_per_mode':40,'replays_per_interval':10,
         'alternating_pairs':30,'gpu':torch.cuda.get_device_name(),'torch':torch.__version__,'models':rows,
+        'compared_modes':modes,
         'limitations':['Intervals average ten consecutive graph replays; p95 is an interval-average percentile, not per-frame tail latency.',
             'Measured execution of experimental students plus grade, excluding D3D12 integration. No native-runtime acceleration.',
             'One static input and one device; other desktop GPU work is not controlled.']}
