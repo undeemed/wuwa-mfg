@@ -76,5 +76,35 @@
     "No independent frame uniqueness or input latency measurement",
     "GPU slot defect reproduced, but exact prior game fault attribution remains unproven",
     "No long-term or anti-cheat safety qualification"
-  ]
+  ],
+  "output_75_percent_gameplay": {
+    "model_dimensions": [
+      2880,
+      1620
+    ],
+    "pre_sr_passes": 1,
+    "output_scale": 0.75,
+    "requested_and_actual_multiplier": 5,
+    "matched_active_observations": 25,
+    "unique_matched_heartbeats": 25,
+    "total_poll_observations": 30,
+    "excluded_observations": 5,
+    "recent_total_nr_ms": [
+      12.6,
+      13.55
+    ],
+    "recent_model_ms": [
+      11.68,
+      12.64
+    ],
+    "initial_total_nr_ms": 12.44,
+    "gpu_memory_mib_snapshot": {
+      "used": 10890,
+      "total": 12282
+    },
+    "follow_game": true,
+    "safe_maximum_multiplier": 6,
+    "user_responsiveness_and_visual_assessment": "pending",
+    "notes": "The game requested 5x in this run, so this is not a controlled same-FG-count latency comparison with the full-resolution 6x run. GPU intervals may include other work."
+  }
 }

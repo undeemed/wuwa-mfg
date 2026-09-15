@@ -47,3 +47,11 @@ polls. Recent total NR intervals were 21.42 and 24.22 ms, with a GPU memory snap
 of 11402/12282 MiB used. Two transition/off or mismatched polls were excluded.
 The user has not yet assessed responsiveness or confirmed exact-trigger repetition;
 this is an initial runtime result, not a long-term stability or input-latency test. See [the complete findings](neural-crashes.md) and [work history](investigation-history.md).
+
+
+A subsequent 75% output-scale run created a 2880×1620 model. Recent NR GPU intervals
+were 12.60–13.55 ms; 25 accepted FG-active observations matched the game's **5x**
+request and five frames presented. Follow game and maximum 6x remained available.
+This is later 5x evidence with NR, separate from the original MFG-only records.
+It is not a controlled same-FG-count input-latency comparison. See the
+[75% test details](neural-rendering.md#follow-up-at-75-output-scale).

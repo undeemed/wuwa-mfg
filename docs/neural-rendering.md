@@ -115,6 +115,24 @@ route. The model's edit is returned to the pre-SR colour input before DLSS upsca
 the game image. Full model resolution does not make the game itself render at native
 resolution or change the placement to a post-SR neural pass.
 
+
+### Follow-up at 75% output scale
+
+The tester requested 75% after the full-output trial. The same compatibility DLL
+created the model at **2880 × 1620**, with **12.60–13.55 ms** total NR GPU intervals
+and 11.68–12.64 ms in the model. A memory snapshot was **10890 / 12282 MiB** used.
+The game requested **5x** in this run; 25 accepted, FG-active polls matched five
+frames presented (30 total polls, off/transition or mismatched states excluded).
+RTXMFG remained in Follow game mode with a supported maximum of 6x. Only the NR
+scale configuration was changed for this trial.
+
+This adds runtime evidence for **5x with the neural stack**; it does not change the
+historical MFG-only 4x/5x user reports. The lower NR timing is encouraging, but the
+different game FG request and uncontrolled scene mean it is not a controlled
+end-to-end latency comparison. Visual quality and responsiveness still need the
+tester's assessment. The current personal setup uses 75%; the public profile still
+starts NR disabled and offers the scale control described above.
+
 ## Installed files and recovery
 
 The add-on installs `dxgi.dll`, `OptiScaler.ini`, the user-supplied `nvngx_dlssnr.dll`,
