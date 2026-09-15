@@ -5,6 +5,9 @@ import os
 from pathlib import Path
 import torch
 
+class TensorLayout(C.Structure):
+    _fields_=[('sizes',C.c_ulonglong*8),('strides',C.c_ulonglong*8),('rank',C.c_uint)]
+
 class FusedNorm:
     def __init__(self):
         if os.name != 'nt' or torch.cuda.get_device_capability() != (8,9):
@@ -47,6 +50,8 @@ class FusedNorm:
         self.functions = {}
         self.softmax_functions = {}
         self.gate_functions = {}
+        self.publish_functions = {}
+        self.roundtrip_functions = {}
         for dtype, name in [(torch.float16,b'cosine_norm_f16'),(torch.float32,b'cosine_norm_f32')]:
             function = C.c_void_p(); check(lookup(C.byref(function),self.module,name),'cuModuleGetFunction')
             self.functions[dtype] = function
@@ -56,6 +61,12 @@ class FusedNorm:
         for dtype, name in [(torch.float16,b'quadratic_activation_f16'),(torch.float32,b'quadratic_activation_f32')]:
             function = C.c_void_p(); check(lookup(C.byref(function),self.module,name),'cuModuleGetFunction')
             self.gate_functions[dtype] = function
+        for dtype, name in [(torch.float16,b'cosine_publish_f16'),(torch.float32,b'cosine_publish_f32')]:
+            function = C.c_void_p(); check(lookup(C.byref(function),self.module,name),'cuModuleGetFunction')
+            self.publish_functions[dtype] = function
+        for dtype, name in [(torch.float16,b'fp8_roundtrip_f16'),(torch.float32,b'fp8_roundtrip_f32')]:
+            function = C.c_void_p(); check(lookup(C.byref(function),self.module,name),'cuModuleGetFunction')
+            self.roundtrip_functions[dtype] = function
         # Module stays alive until process exit, including any captured graphs.
 
     def __call__(self, x):
@@ -85,6 +96,51 @@ class FusedNorm:
         params=(C.c_void_p*3)(C.addressof(input_arg),C.addressof(output_arg),C.addressof(count_arg))
         stream=torch.cuda.current_stream(x.device)
         status=self.launch(self.gate_functions[x.dtype],(count+255)//256,1,1,256,1,1,0,C.c_void_p(stream.cuda_stream),params,None)
+        if status:raise RuntimeError(f'cuLaunchKernel failed: {status}')
+        return output
+
+    def publish(self, x, scale=None):
+        if x.device.type!='cuda' or x.ndim!=4 or x.shape[-1]!=32 or x.dtype not in self.publish_functions or x.requires_grad:
+            raise ValueError('Expected inference-only CUDA [batch,heads,tokens,32] float16/32.')
+        batch,heads,tokens,_=x.shape
+        rows=batch*heads*tokens
+        if rows>2**30 or heads*tokens>=2**32:raise ValueError('Tensor exceeds bounded launch size.')
+        if scale is not None:
+            if scale.shape!=(heads,) or scale.device!=x.device or scale.requires_grad:
+                raise ValueError('Expected a same-device inference scale per head.')
+            scale=scale.to(x.dtype).contiguous()
+        output=torch.empty(x.shape,device=x.device,dtype=x.dtype)
+        if not rows:return output
+        # Read the original strided Q/K view directly: no contiguous input copy.
+        arguments=[C.c_void_p(x.data_ptr()),C.c_void_p(output.data_ptr()),C.c_uint(rows),
+                   C.c_void_p(scale.data_ptr()) if scale is not None else C.c_void_p(),
+                   C.c_uint(heads),C.c_uint(tokens),*(C.c_ulonglong(s) for s in x.stride())]
+        params=(C.c_void_p*len(arguments))(*(C.addressof(v) for v in arguments))
+        stream=torch.cuda.current_stream(x.device)
+        status=self.launch(self.publish_functions[x.dtype],(rows*4+255)//256,1,1,256,1,1,0,
+                           C.c_void_p(stream.cuda_stream),params,None)
+        if status:raise RuntimeError(f'cuLaunchKernel failed: {status}')
+        return output
+
+    def roundtrip(self,x):
+        if x.device.type!='cuda' or x.ndim>8 or x.dtype not in self.roundtrip_functions or x.requires_grad:
+            raise ValueError('Expected inference-only CUDA float16/32 with rank <=8.')
+        count=x.numel()
+        if count>=2**38:raise ValueError('Tensor exceeds bounded launch size.')
+        output=torch.empty(x.shape,device=x.device,dtype=x.dtype)
+        if not count:return output
+        layout=TensorLayout()
+        if x.is_contiguous():
+            layout.rank=1;layout.sizes[0]=count;layout.strides[0]=1
+        else:
+            layout.rank=x.ndim
+            for i,(size,stride) in enumerate(zip(x.shape,x.stride())):
+                layout.sizes[i]=size;layout.strides[i]=stride
+        arguments=[C.c_void_p(x.data_ptr()),C.c_void_p(output.data_ptr()),C.c_ulonglong(count),layout]
+        params=(C.c_void_p*4)(*(C.addressof(v) for v in arguments))
+        stream=torch.cuda.current_stream(x.device)
+        status=self.launch(self.roundtrip_functions[x.dtype],(count+255)//256,1,1,256,1,1,0,
+                           C.c_void_p(stream.cuda_stream),params,None)
         if status:raise RuntimeError(f'cuLaunchKernel failed: {status}')
         return output
 

@@ -5,7 +5,7 @@ One scene with a spatial holdout tests training mechanics, NOT generalization.
 Every input pixel is retained by pixel-unshuffle; no input image downscaling.
 Never installs anything in the game or changes the vendor runtime.
 """
-import argparse,copy,hashlib,json,statistics,time
+import argparse,copy,hashlib,json,math,statistics,sys,time
 from pathlib import Path
 import numpy as np
 import torch
@@ -14,9 +14,9 @@ from torch.nn import functional as F
 
 
 class ResidualBlock(nn.Module):
-    def __init__(self,width):
+    def __init__(self,width,dilation=1):
         super().__init__()
-        self.depthwise=nn.Conv2d(width,width,3,padding=1,groups=width)
+        self.depthwise=nn.Conv2d(width,width,3,padding=dilation,dilation=dilation,groups=width)
         self.expand=nn.Conv2d(width,width*2,1)
         self.project=nn.Conv2d(width*2,width,1)
         self.scale=nn.Parameter(torch.full((1,width,1,1),0.1))
@@ -27,10 +27,10 @@ class ResidualBlock(nn.Module):
 
 
 class PixelStudent(nn.Module):
-    def __init__(self,width=32,blocks=4):
+    def __init__(self,width=32,blocks=4,noise=False,dilations=None):
         super().__init__()
-        self.stem=nn.Conv2d(48,width,1)
-        self.blocks=nn.Sequential(*(ResidualBlock(width) for _ in range(blocks)))
+        self.stem=nn.Conv2d(96 if noise else 48,width,1)
+        self.blocks=nn.Sequential(*(ResidualBlock(width,d) for d in (dilations or [1]*blocks)))
         self.head=nn.Conv2d(width,48,1)
         nn.init.zeros_(self.head.weight)
         nn.init.zeros_(self.head.bias)
@@ -39,7 +39,7 @@ class PixelStudent(nn.Module):
         # A reversible rearrangement: 4x4 pixels become 48 channels.
         features=self.stem(F.pixel_unshuffle(x,4))
         residual=F.pixel_shuffle(self.head(self.blocks(features)),4)
-        return (x+0.25*residual).clamp(0,1)
+        return (x[:,:3]+0.25*residual).clamp(0,1)
 
 
 def main():
@@ -52,12 +52,25 @@ def main():
     p.add_argument('--max-seconds',type=int,default=120)
     p.add_argument('--width',type=int,default=32)
     p.add_argument('--blocks',type=int,default=4)
-    p.add_argument('--loss-border',type=int,choices=[0,16,32],default=16)
+    p.add_argument('--loss-border',type=int,choices=[0,16,32,64,96],default=16)
+    p.add_argument('--noise-source',type=Path,help='Pinned MLX-DLSS source for deterministic first-frame noise channels.')
+    p.add_argument('--dilations',help='One comma-separated dilation per residual block, e.g. 1,2,4,8,4,2.')
+    p.add_argument('--patch-size',type=int,choices=[128,256,384],default=128)
+    p.add_argument('--batch',type=int,choices=range(1,17),default=8)
+    p.add_argument('--cosine-lr',action='store_true',help='Decay learning rate from .002 to .00002 over the bounded steps.')
     a=p.parse_args()
     if not 1<=a.steps<=10000 or not 1<=a.max_seconds<=600:
         raise SystemExit('Use a bounded training run.')
     if a.width not in (16,32,48,64) or not 1<=a.blocks<=8:
         raise SystemExit('Architecture exceeds the prototype bounds.')
+    dilations=list(map(int,a.dilations.split(','))) if a.dilations else [1]*a.blocks
+    if len(dilations)!=a.blocks or any(d not in [1,2,4,8] for d in dilations):
+        raise SystemExit('Expected one supported dilation per block.')
+    if a.patch_size<=2*a.loss_border:raise SystemExit('Loss border removes the complete crop.')
+    noise=None
+    if a.noise_source:
+        sys.path.insert(0,str(a.noise_source/'python'))
+        from mlxdlss.features import deterministic_noise
     a.output.mkdir(parents=True,exist_ok=False)
     meta=json.loads((a.capture/'frame-0.json').read_text())
     assert meta['complete'] and meta['gpu_completed'] and meta['evaluate_result']==1
@@ -68,6 +81,7 @@ def main():
     torch.backends.cudnn.allow_tf32=False
     torch.backends.cudnn.benchmark=False
     def load_capture(directory):
+        nonlocal noise
         manifest=json.loads((directory/'frame-0.json').read_text())
         assert manifest['complete'] and manifest['gpu_completed'] and manifest['evaluate_result']==1
         assert manifest['controls']==meta['controls'], 'Keep all runtime controls matched.'
@@ -81,6 +95,13 @@ def main():
             assert np.isfinite(image).all()
             images[role]=torch.from_numpy(image).permute(2,0,1).unsqueeze(0).cuda()
             hashes[role]=hashlib.sha256(raw).hexdigest()
+        if a.noise_source:
+            h,w=images['color'].shape[2:]
+            if noise is None:
+                noise=torch.from_numpy(deterministic_noise(h,w,0)).permute(2,0,1).unsqueeze(0).cuda()
+            assert noise.shape==images['color'].shape
+            images['input']=torch.cat([images['color'],noise],dim=1)
+        else:images['input']=images['color']
         return images,hashes
     images,hashes=load_capture(a.capture)
     source,target=images['color'],images['output']
@@ -88,14 +109,14 @@ def main():
     assert source.shape==target.shape and height%4==0 and width%4==0
     train_end=width if a.validation_capture else (width*3//5)//4*4
     holdout_start=(width*4//5)//4*4
-    patch=128;batch=8
+    patch=a.patch_size;batch=a.batch
     assert train_end>=patch and height>=patch and width-holdout_start>=patch
-    training_views=[(source,target,train_end)]
+    training_views=[(images['input'],target,train_end)]
     training_hashes=[hashes]
     for directory in a.extra_train_capture:
         pair,pair_hashes=load_capture(directory)
         assert pair['color'].shape==source.shape
-        training_views.append((pair['color'],pair['output'],width))
+        training_views.append((pair['input'],pair['output'],width))
         training_hashes.append(pair_hashes)
     validation=None
     validation_hashes=None
@@ -103,13 +124,15 @@ def main():
         validation,validation_hashes=load_capture(a.validation_capture)
         assert validation['color'].shape==source.shape
         assert all(validation_hashes['color']!=h['color'] for h in training_hashes), 'Validation input overlaps training.'
-    model=PixelStudent(a.width,a.blocks).cuda().to(memory_format=torch.channels_last)
+    model=PixelStudent(a.width,a.blocks,bool(a.noise_source),dilations).cuda().to(memory_format=torch.channels_last)
     optimizer=torch.optim.AdamW(model.parameters(),lr=0.002,weight_decay=0.0001)
     report={'schema':1,'gpu':torch.cuda.get_device_name(),'torch':torch.__version__,
         'capture_hashes':hashes,'training_capture_hashes':training_hashes,'validation_capture_hashes':validation_hashes,
         'controls':meta['controls'],'native_shape':[height,width],
         'architecture':{'type':'pixel-unshuffle residual depthwise CNN','width':a.width,'blocks':a.blocks,
-                        'parameters':sum(p.numel() for p in model.parameters()),'shuffle_factor':4},
+                        'parameters':sum(p.numel() for p in model.parameters()),'shuffle_factor':4,
+                        'dilations':dilations,'noise_channels':3 if noise is not None else 0,
+                        'input_receptive_field_pixels':4*(1+2*sum(dilations))},
         'data_split':{'scene_count':1,'training_view_count':len(training_views),
                       'train_columns':[0,train_end],'holdout_columns':None if validation else [holdout_start,width],
                       'separate_validation_view':validation is not None,
@@ -119,6 +142,10 @@ def main():
                        'No temporal training or quality validation.',
                        'Torch timing excludes D3D12 integration and is not a hidden-demo benchmark.'],
         'training':[]}
+    report['optimization']={'initial_learning_rate':.002,'cosine_decay':a.cosine_lr,
+                            'final_learning_rate':.00002 if a.cosine_lr else .002}
+    if noise is not None:
+        report['limitations'].append('Noise is from the pinned reconstruction at counter 0; timing excludes its precomputation and input concatenation. No vendor intermediate feature parity is claimed.')
     with torch.no_grad():
         error=(validation['color'].clamp(0,1)-validation['output']).abs() if validation else (source.clamp(0,1)-target).abs()[:,:,:,holdout_start:]
         report['identity_holdout_mae']=float(error.mean())
@@ -135,6 +162,9 @@ def main():
         x=torch.cat(crops).contiguous(memory_format=torch.channels_last)
         y=torch.cat(labels).contiguous(memory_format=torch.channels_last)
         optimizer.zero_grad(set_to_none=True)
+        if a.cosine_lr:
+            lr=.00002+.5*(.002-.00002)*(1+math.cos(math.pi*step/max(1,a.steps-1)))
+            for group in optimizer.param_groups:group['lr']=lr
         predicted=model(x)
         if a.loss_border:
             border=a.loss_border
@@ -156,7 +186,7 @@ def main():
     # Private derivative checkpoint; publication includes source and metrics only.
     torch.save({'architecture':report['architecture'],'state_dict':model.cpu().state_dict()},a.output/'student-private.pt')
     inference=copy.deepcopy(model).cuda().half().eval().to(memory_format=torch.channels_last)
-    x=source.half().contiguous(memory_format=torch.channels_last)
+    x=images['input'].half().contiguous(memory_format=torch.channels_last)
     with torch.inference_mode():
         predicted=inference(x)
         error=(predicted.float()-target).abs()
@@ -170,7 +200,7 @@ def main():
             report['quality']['spatial_holdout']=metrics(slice(holdout_start,width))
         np.save(a.output/'student-output.npy',predicted[0].permute(1,2,0).float().cpu().numpy())
         if validation:
-            validation_output=inference(validation['color'].half().contiguous(memory_format=torch.channels_last))
+            validation_output=inference(validation['input'].half().contiguous(memory_format=torch.channels_last))
             error=(validation_output.float()-validation['output']).abs()
             report['quality']['heldout_camera']=metrics(slice(None))
             np.save(a.output/'validation-output.npy',validation_output[0].permute(1,2,0).float().cpu().numpy())

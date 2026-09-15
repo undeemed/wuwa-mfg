@@ -183,6 +183,34 @@ numerical smoke test, not visual equivalence on gameplay.
    padded to 1088×1920, the complete graph still took **226.92 ms**. Its RGB
    output again matched the earlier reconstruction exactly. This full-resolution
    result is far slower than NVIDIA and is not an installable improvement.
+8. **Fuse cosine publication and read strided views directly.** Normalization,
+   per-head scaling, half rounding and E4M3 conversion now share a CUDA kernel.
+   It reads Q/K views without a separate contiguous copy. All 848,000 tested
+   FP16/FP32 values matched the reference, including strided channels and large
+   scales. A warmed `[256,8,64,32]` graph interval fell from **0.0788 to 0.0225 ms**
+   against the previous fused normalization followed by separate scaling and
+   casts. Full 1080p reconstruction measured **207.59 ms** (a later run measured
+   207.33 ms), with all 6,220,800 RGB values **bit-for-bit identical** to the
+   226.92 ms reconstruction. These full-model measurements are separate runs.
+9. **Fuse general E4M3 publication.** Profiling that reconstructed graph found
+   4,164 CUDA kernels, including repeated clamp and copy/conversion passes.
+   Direct saturating conversion removes the intermediate FP8 allocation and
+   supports strided inputs. All 11,042,218 tested values matched, including every
+   finite FP16 value, FP32 random inputs, saturation, zero strides, scalar/empty
+   tensors and nonfinite cases. Every non-NaN output bit matched the previous
+   clamp-and-cast path. A `[1,1088,1920,32]` conversion fell from **1.523 to
+   0.582 ms**. With both new fusions, the complete reconstructed graph measured
+   **178.20 ms**, again preserving all final RGB bits. Its instrumented replay
+   contained 3,196 CUDA kernels. This remains far slower than the native runtime.
+
+These kernels use documented SM89 FP8 conversion instructions from
+[NVIDIA's PTX ISA](https://docs.nvidia.com/cuda/parallel-thread-execution/index.html#data-movement-and-conversion-instructions-cvt).
+The conversion fusions preserve the tested reconstruction; they do not resolve
+its existing difference from NVIDIA. The latest graph profile still spends
+substantial time in conversion, additions, matrix multiplication and activation.
+Published evidence includes the isolated tests, full-output equality and the
+instrumented kernel families in
+[`fused-publication-full1080.json`](../evidence/neural-model-research/fused-publication-full1080.json).
 
 All retained numerical records are in
 [`evidence/neural-model-research`](../evidence/neural-model-research).
@@ -287,6 +315,51 @@ See [`student-probes.json`](../evidence/neural-model-research/student-probes.jso
 [`student-capture-views.json`](../evidence/neural-model-research/student-capture-views.json)
 and [`batched-ffn-full1080.json`](../evidence/neural-model-research/batched-ffn-full1080.json).
 
+## Noise and context experiments in the student
+
+The RGB-only student omitted the three deterministic noise channels used by the
+reconstructed model. A new candidate concatenates those channels at their
+absolute image coordinates before pixel-unshuffle. The first-reset noise counter
+is zero, supported by the native trace. This is a conditioning experiment; the
+noise feature values themselves have not been captured from the native kernel.
+All runtime controls remain fixed across training and held-out views.
+
+The original 48-channel student's held-out error was also analyzed by spatial
+frequency. Approximately **76% of its squared RGB error lies at wavelengths of
+64 pixels or larger**; the largest band includes image-wide color differences.
+This does not prove why it failed, but it motivates testing wider image context.
+The FFT diagnostic checks Parseval energy consistency and reports its periodic
+image-border limitation. It is not a perceptual-quality metric.
+
+| Candidate | Receptive field | Held-out RGB MAE | Held-out RGB RMSE | 1080p graph median |
+| --- | ---: | ---: | ---: | ---: |
+| Previous RGB-only student | 52×52 pixels | 0.02249 | 0.03273 | 2.29 ms |
+| Add deterministic noise channels | 52×52 pixels | 0.02407 | 0.03515 | 2.32 ms |
+| Noise, wider dilated context and changed training schedule | 172×172 pixels | 0.02476 | 0.03661 | 5.72 ms |
+
+**Both new students were rejected.** The noise-conditioned model improved the
+reported training-view MAE from 0.02041 to 0.01535 while worsening the held-out
+view. The wider-context candidate also failed on quality and exceeded the timing
+target. Because its crop size, batch size, loss border and learning-rate schedule
+changed together with dilation, this experiment does not isolate dilation as the
+cause. It establishes that this particular combined candidate is unsuitable.
+
+Each candidate has 66,336 parameters and trained for 10,000 steps on the same two
+camera views; the third view stayed held out. Training took 80.5 and 57.9 seconds,
+respectively. The first used 128-pixel crops, batch 8, border 32 and constant
+learning rate 0.002. The second used 256-pixel crops, batch 4, border 96,
+dilations `[1,2,4,8,4,2]` and cosine decay to 0.00002. Input image resolution was
+not reduced. Timings exclude noise precomputation/input concatenation and D3D12
+integration, and do not establish application latency. No temporal or cross-scene
+quality has been validated.
+
+The data still cover only one scene. The next model work needs richer teacher
+examples and a way to retain broad context efficiently, with held-out image and
+temporal checks. Adding noise alone or increasing dilation did not solve it.
+Source, training metrics and the frequency diagnostic are in
+[`student-noise-context.json`](../evidence/neural-model-research/student-noise-context.json)
+and [`student-error-spectrum.json`](../evidence/neural-model-research/student-error-spectrum.json).
+
 ## Papers and what can transfer
 
 These papers provide research ideas. Their reported speedups are on other models
@@ -302,6 +375,8 @@ and hardware; none establishes the target for this runtime.
 | [V-JEPA 2](https://arxiv.org/html/2506.09985v1) | Predict compact latent representations and learn useful temporal structure. | Semantic latent accuracy does not establish correct fine texture or UI edges. A latent predictor could assist a student, but requires pixel and temporal losses and refresh on disocclusions. |
 | [ToCa](https://arxiv.org/html/2410.05317v1) | Selectively reuse features based on redundancy and error sensitivity. | Its reuse is across diffusion steps. This effect already uses one pass; across-frame reuse adds motion, disocclusion and noise-state problems. It must not simply retain an old rendered image. |
 | [Edge-Efficient Image Restoration](https://arxiv.org/abs/2605.02794) | Train replacement blocks against intermediate features, select combinations, then fine-tune the whole model. | Its transformer/SSM experiments use other restoration tasks and hardware. Here, the initial small CNNs fail the held-out image test; replacement blocks would need to retain learned context and be validated against actual vendor output. |
+| [Simple Baselines for Image Restoration / NAFNet](https://arxiv.org/abs/2204.04676) | Simple multiplicative gates can replace some expensive nonlinear components in a trained restoration architecture. | This suggests a student design; substituting gates into the trained vendor graph would change its function. No NAFNet replacement has been validated here. |
+| [Real Image Denoising with Knowledge Distillation for High-Performance Mobile NPUs](https://arxiv.org/abs/2605.03680) | Choose operators for the target device and expand training context while distilling a smaller network. | Its mobile-NPU denoising metrics do not prove renderer quality on Ada GPUs. Our wider-context candidate still failed, so the paper's success cannot be transferred without evidence. |
 
 ## Quality and performance acceptance
 

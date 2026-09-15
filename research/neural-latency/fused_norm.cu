@@ -22,16 +22,21 @@ template<> __device__ unsigned short write_value<unsigned short>(float x) {
     asm("cvt.rn.f16.f32 %0, %1;" : "=h"(h) : "f"(x));
     return h;
 }
-template<class T> __device__ void norm32(const T* input, T* output, unsigned rows) {
+template<class T, bool Publish=false> __device__ void norm32(
+    const T* input, T* output, unsigned rows, const T* scale=nullptr,
+    unsigned heads=1, unsigned tokens=1, unsigned long long sb=0,
+    unsigned long long sh=0, unsigned long long st=0, unsigned long long sc=1) {
     const unsigned thread = blockIdx.x * blockDim.x + threadIdx.x;
     const unsigned row = thread / 4, lane = thread % 4;
     // All lanes in a four-thread subgroup either participate or exit together.
     if (row >= rows) return;
+    const unsigned head=(row/tokens)%heads;
+    const unsigned long long base=Publish ? (row/(heads*tokens))*sb + head*sh + (row%tokens)*st : row*32ull;
     const unsigned mask = __activemask();
     float values[8], sums[2];
     for (int parity = 0; parity < 2; ++parity) {
         for (int i = 0; i < 4; ++i)
-            values[parity*4+i] = read_value(input[row*32ull + lane*2 + parity + i*8]);
+            values[parity*4+i] = read_value(input[base + (lane*2 + parity + i*8)*(Publish ? sc : 1)]);
         const float a = values[parity*4], b = values[parity*4+1];
         const float c = values[parity*4+2], d = values[parity*4+3];
         const float first = half_round(b*b + half_round(a*a));
@@ -46,15 +51,39 @@ template<class T> __device__ void norm32(const T* input, T* output, unsigned row
     float reciprocal;
     asm("rsqrt.approx.f32 %0, %1;" : "=f"(reciprocal) : "f"(sum));
     reciprocal = half_round(reciprocal);
-    for (int parity = 0; parity < 2; ++parity)
-        for (int i = 0; i < 4; ++i)
-            output[row*32ull + lane*2 + parity + i*8] = write_value<T>(values[parity*4+i]*reciprocal);
+    if constexpr (Publish) {
+        const float multiplier=scale ? read_value(scale[head]) : 1.f;
+        for (int i=0;i<4;++i) {
+            float a=half_round(values[i]*reciprocal),b=half_round(values[4+i]*reciprocal);
+            if(scale) { a=half_round(a*multiplier);b=half_round(b*multiplier); }
+            unsigned short fp8;unsigned packedHalf;
+            // PTX packs the second f32 operand into the low byte.
+            asm("cvt.rn.satfinite.e4m3x2.f32 %0, %1, %2;" : "=h"(fp8) : "f"(b),"f"(a));
+            asm("cvt.rn.f16x2.e4m3x2 %0, %1;" : "=r"(packedHalf) : "h"(fp8));
+            output[row*32ull+lane*2+i*8]=write_value<T>(read_half((unsigned short)packedHalf));
+            output[row*32ull+lane*2+1+i*8]=write_value<T>(read_half((unsigned short)(packedHalf>>16)));
+        }
+    } else {
+        for (int parity = 0; parity < 2; ++parity)
+            for (int i = 0; i < 4; ++i)
+                output[row*32ull + lane*2 + parity + i*8] = write_value<T>(values[parity*4+i]*reciprocal);
+    }
 }
 extern "C" __global__ void cosine_norm_f16(const unsigned short* input, unsigned short* output, unsigned rows) {
     norm32(input,output,rows);
 }
 extern "C" __global__ void cosine_norm_f32(const float* input, float* output, unsigned rows) {
     norm32(input,output,rows);
+}
+extern "C" __global__ void cosine_publish_f16(const unsigned short* input,unsigned short* output,
+    unsigned rows,const unsigned short* scale,unsigned heads,unsigned tokens,
+    unsigned long long sb,unsigned long long sh,unsigned long long st,unsigned long long sc) {
+    norm32<unsigned short,true>(input,output,rows,scale,heads,tokens,sb,sh,st,sc);
+}
+extern "C" __global__ void cosine_publish_f32(const float* input,float* output,
+    unsigned rows,const float* scale,unsigned heads,unsigned tokens,
+    unsigned long long sb,unsigned long long sh,unsigned long long st,unsigned long long sc) {
+    norm32<float,true>(input,output,rows,scale,heads,tokens,sb,sh,st,sc);
 }
 
 __device__ __forceinline__ unsigned short half_bits(float x) {
@@ -126,4 +155,32 @@ extern "C" __global__ void quadratic_activation_f16(const unsigned short* input,
 }
 extern "C" __global__ void quadratic_activation_f32(const float* input,float* output,unsigned long long count) {
     quadratic_activation(input,output,count);
+}
+
+struct TensorLayout {
+    unsigned long long sizes[8],strides[8];
+    unsigned rank;
+};
+template<class T> __device__ float read_full(T value) { return (float)value; }
+template<> __device__ float read_full<unsigned short>(unsigned short value) {return read_half(value);}
+template<class T> __device__ void fp8_roundtrip(const T* input,T* output,unsigned long long count,TensorLayout layout) {
+    const unsigned long long index=(unsigned long long)blockIdx.x*blockDim.x+threadIdx.x;
+    if(index>=count)return;
+    unsigned long long offset=0,remainder=index;
+    if(layout.rank==1)offset=index*layout.strides[0];
+    else for(int d=(int)layout.rank-1;d>=0;--d) {
+        offset+=(remainder%layout.sizes[d])*layout.strides[d];
+        remainder/=layout.sizes[d];
+    }
+    const float value=read_full(input[offset]);
+    unsigned short packed;unsigned decoded;
+    asm("cvt.rn.satfinite.e4m3x2.f32 %0, %1, %2;" : "=h"(packed) : "f"(value),"f"(value));
+    asm("cvt.rn.f16x2.e4m3x2 %0, %1;" : "=r"(decoded) : "h"(packed));
+    output[index]=write_value<T>(read_half((unsigned short)decoded));
+}
+extern "C" __global__ void fp8_roundtrip_f16(const unsigned short* input,unsigned short* output,unsigned long long count,TensorLayout layout) {
+    fp8_roundtrip(input,output,count,layout);
+}
+extern "C" __global__ void fp8_roundtrip_f32(const float* input,float* output,unsigned long long count,TensorLayout layout) {
+    fp8_roundtrip(input,output,count,layout);
 }

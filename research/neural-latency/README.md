@@ -32,6 +32,8 @@ weights. Use a path outside a public repository for the two tensor files.
 .venv\Scripts\python test_fused_norm.py --source MLX-DLSS --output results\fused-norm.json
 .venv\Scripts\python test_fused_softmax.py --source MLX-DLSS --output results\fused-softmax.json
 .venv\Scripts\python test_fused_gate.py --source MLX-DLSS --output results\fused-gate.json
+.venv\Scripts\python test_fused_publish.py --source MLX-DLSS --output results\fused-publish.json
+.venv\Scripts\python test_fused_roundtrip.py --output results\fused-roundtrip.json
 .venv\Scripts\python study_model.py --source MLX-DLSS --weights local-weights\logical.safetensors --output results\graph.json --mode graph --fused-norm --fused-softmax
 .venv\Scripts\python test_batched_ffn.py --source MLX-DLSS --weights local-weights\logical.safetensors --output results\batched-gate.json --fused-gate
 ```
@@ -63,6 +65,13 @@ by `compare_capture.py --batched-ffn`; FP32 falls back to the reference.
 `--profile` additionally records one eager execution with PyTorch's profiler.
 Its ATen and CUDA entries can overlap and must not be summed as disjoint costs.
 `--fused-gate` adds the separate activation kernel after the batching comparison.
+
+`FusedNorm.publish` combines strided normalization, per-head scaling and FP8
+publication for `[batch,heads,tokens,32]` inference tensors. `FusedNorm.roundtrip`
+combines saturation and FP8 conversion for FP16/FP32 tensors of rank at most 8,
+without storing an intermediate FP8 tensor. Both use documented SM89 conversion
+instructions. The tests compare against the prior operations, including strided
+and saturation cases; signed-zero bits are checked in the general conversion.
 
 ## Runtime kernel tracing in the existing demo
 
@@ -129,6 +138,7 @@ The local comparison tool reads the first frame without resizing its color:
 ```powershell
 .venv\Scripts\python compare_capture.py --source MLX-DLSS --weights local-weights\logical.safetensors --capture D:\PrivateCaptures\natural --output results\natural --precision fast
 .venv\Scripts\python compare_capture.py --source MLX-DLSS --weights local-weights\logical.safetensors --capture D:\PrivateCaptures\natural --output results\natural-graph --precision fast --batched-ffn --fused-gate --graph
+.venv\Scripts\python compare_capture.py --source MLX-DLSS --weights local-weights\logical.safetensors --capture D:\PrivateCaptures\natural --output results\natural-fused --precision fast --batched-ffn --fused-gate --fused-publish --fused-roundtrip --graph --profile
 ```
 
 `--inspect-only` validates the manifest and textures and writes previews without
@@ -148,6 +158,13 @@ extent. Its `network_timing_kind` distinguishes GPU intervals from the default
 eager wall time. The graph result still excludes D3D12 integration. Both batching
 and activation fusion are experimental options, not changes to the installed
 NVIDIA runtime.
+
+The two new fusions are opt-in. Compare the resulting local `reconstruction.npy`
+against the prior graph on exactly the same captured input. `--profile` requires
+`--graph` and records one warmed replay **after** the normal timing samples. Only
+CUDA-device events are aggregated in `graph_kernel_profile`; host ATen events
+are excluded to avoid double counting. Profile intervals remain instrumented
+diagnostics. The full reconstructed graph is still much slower than NVIDIA.
 
 ## Combined native launch contract and captures
 
@@ -239,6 +256,23 @@ the training loss. The report includes the unchanged-input baseline, holdout
 errors, training steps and timing samples. These limited probes provide neither
 temporal training nor cross-scene validation. Private checkpoints and NumPy
 outputs must remain local; only source and numeric evidence are published.
+
+Two follow-up students add deterministic noise conditioning and wider context:
+
+```powershell
+.venv\Scripts\python student_probe.py --capture D:\PrivateCaptures\natural --extra-train-capture D:\PrivateCaptures\west --validation-capture D:\PrivateCaptures\north --noise-source MLX-DLSS --output results\student-noise --width 48 --blocks 6 --steps 10000 --max-seconds 120 --loss-border 32
+.venv\Scripts\python student_probe.py --capture D:\PrivateCaptures\natural --extra-train-capture D:\PrivateCaptures\west --validation-capture D:\PrivateCaptures\north --noise-source MLX-DLSS --output results\student-context --width 48 --blocks 6 --steps 10000 --max-seconds 240 --loss-border 96 --patch-size 256 --batch 4 --dilations 1,2,4,8,4,2 --cosine-lr
+python analyze_student_error.py --capture D:\PrivateCaptures\north --prediction results\student-views\validation-output.npy --output results\student-spectrum.json
+```
+
+Noise is generated once from the pinned reference at counter zero, on the full
+image coordinates, then cropped alongside RGB. Its generation and concatenation
+are excluded from graph timing. The second configuration changes several
+training choices together; do not attribute its result to dilation alone. Both
+retained students failed the held-out quality check, and the wider-context model
+also missed 3 ms. The frequency diagnostic reads private pixels but writes only
+numeric band energies, with a Parseval consistency check. It is not a perceptual
+or temporal test. Keep every trained checkpoint and rendered prediction private.
 
 No vendor binaries, tensor files, generated GPU objects or raw captures belong
 in this directory. See [third-party notices](../../THIRD_PARTY_NOTICES.md).

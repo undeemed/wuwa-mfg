@@ -1,0 +1,726 @@
+{
+  "schema": 1,
+  "tests": [
+    {
+      "label": "strided QKV view",
+      "dtype": "torch.float16",
+      "shape": [
+        3,
+        1,
+        67,
+        32
+      ],
+      "stride": [
+        6432,
+        32,
+        96,
+        1
+      ],
+      "scaled": true,
+      "elements": 6432,
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    },
+    {
+      "label": "unscaled key",
+      "dtype": "torch.float16",
+      "shape": [
+        3,
+        1,
+        67,
+        32
+      ],
+      "stride": [
+        6432,
+        32,
+        96,
+        1
+      ],
+      "scaled": false,
+      "elements": 6432,
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    },
+    {
+      "label": "strided QKV view",
+      "dtype": "torch.float16",
+      "shape": [
+        3,
+        2,
+        67,
+        32
+      ],
+      "stride": [
+        12864,
+        32,
+        192,
+        1
+      ],
+      "scaled": true,
+      "elements": 12864,
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    },
+    {
+      "label": "unscaled key",
+      "dtype": "torch.float16",
+      "shape": [
+        3,
+        2,
+        67,
+        32
+      ],
+      "stride": [
+        12864,
+        32,
+        192,
+        1
+      ],
+      "scaled": false,
+      "elements": 12864,
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    },
+    {
+      "label": "strided QKV view",
+      "dtype": "torch.float16",
+      "shape": [
+        3,
+        4,
+        67,
+        32
+      ],
+      "stride": [
+        25728,
+        32,
+        384,
+        1
+      ],
+      "scaled": true,
+      "elements": 25728,
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    },
+    {
+      "label": "unscaled key",
+      "dtype": "torch.float16",
+      "shape": [
+        3,
+        4,
+        67,
+        32
+      ],
+      "stride": [
+        25728,
+        32,
+        384,
+        1
+      ],
+      "scaled": false,
+      "elements": 25728,
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    },
+    {
+      "label": "strided QKV view",
+      "dtype": "torch.float16",
+      "shape": [
+        3,
+        8,
+        67,
+        32
+      ],
+      "stride": [
+        51456,
+        32,
+        768,
+        1
+      ],
+      "scaled": true,
+      "elements": 51456,
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    },
+    {
+      "label": "unscaled key",
+      "dtype": "torch.float16",
+      "shape": [
+        3,
+        8,
+        67,
+        32
+      ],
+      "stride": [
+        51456,
+        32,
+        768,
+        1
+      ],
+      "scaled": false,
+      "elements": 51456,
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    },
+    {
+      "label": "strided QKV view",
+      "dtype": "torch.float16",
+      "shape": [
+        3,
+        16,
+        67,
+        32
+      ],
+      "stride": [
+        102912,
+        32,
+        1536,
+        1
+      ],
+      "scaled": true,
+      "elements": 102912,
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    },
+    {
+      "label": "unscaled key",
+      "dtype": "torch.float16",
+      "shape": [
+        3,
+        16,
+        67,
+        32
+      ],
+      "stride": [
+        102912,
+        32,
+        1536,
+        1
+      ],
+      "scaled": false,
+      "elements": 102912,
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    },
+    {
+      "label": "magnitude 0.0",
+      "dtype": "torch.float16",
+      "shape": [
+        1,
+        4,
+        19,
+        32
+      ],
+      "stride": [
+        2432,
+        608,
+        32,
+        1
+      ],
+      "scaled": true,
+      "elements": 2432,
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    },
+    {
+      "label": "magnitude 0.0001",
+      "dtype": "torch.float16",
+      "shape": [
+        1,
+        4,
+        19,
+        32
+      ],
+      "stride": [
+        2432,
+        608,
+        32,
+        1
+      ],
+      "scaled": true,
+      "elements": 2432,
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    },
+    {
+      "label": "magnitude 0.1",
+      "dtype": "torch.float16",
+      "shape": [
+        1,
+        4,
+        19,
+        32
+      ],
+      "stride": [
+        2432,
+        608,
+        32,
+        1
+      ],
+      "scaled": true,
+      "elements": 2432,
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    },
+    {
+      "label": "magnitude 16.0",
+      "dtype": "torch.float16",
+      "shape": [
+        1,
+        4,
+        19,
+        32
+      ],
+      "stride": [
+        2432,
+        608,
+        32,
+        1
+      ],
+      "scaled": true,
+      "elements": 2432,
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    },
+    {
+      "label": "magnitude 100.0",
+      "dtype": "torch.float16",
+      "shape": [
+        1,
+        4,
+        19,
+        32
+      ],
+      "stride": [
+        2432,
+        608,
+        32,
+        1
+      ],
+      "scaled": true,
+      "elements": 2432,
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    },
+    {
+      "label": "strided channels",
+      "dtype": "torch.float16",
+      "shape": [
+        3,
+        8,
+        17,
+        32
+      ],
+      "stride": [
+        8704,
+        1088,
+        64,
+        2
+      ],
+      "scaled": true,
+      "elements": 13056,
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    },
+    {
+      "label": "strided QKV view",
+      "dtype": "torch.float32",
+      "shape": [
+        3,
+        1,
+        67,
+        32
+      ],
+      "stride": [
+        6432,
+        32,
+        96,
+        1
+      ],
+      "scaled": true,
+      "elements": 6432,
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    },
+    {
+      "label": "unscaled key",
+      "dtype": "torch.float32",
+      "shape": [
+        3,
+        1,
+        67,
+        32
+      ],
+      "stride": [
+        6432,
+        32,
+        96,
+        1
+      ],
+      "scaled": false,
+      "elements": 6432,
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    },
+    {
+      "label": "strided QKV view",
+      "dtype": "torch.float32",
+      "shape": [
+        3,
+        2,
+        67,
+        32
+      ],
+      "stride": [
+        12864,
+        32,
+        192,
+        1
+      ],
+      "scaled": true,
+      "elements": 12864,
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    },
+    {
+      "label": "unscaled key",
+      "dtype": "torch.float32",
+      "shape": [
+        3,
+        2,
+        67,
+        32
+      ],
+      "stride": [
+        12864,
+        32,
+        192,
+        1
+      ],
+      "scaled": false,
+      "elements": 12864,
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    },
+    {
+      "label": "strided QKV view",
+      "dtype": "torch.float32",
+      "shape": [
+        3,
+        4,
+        67,
+        32
+      ],
+      "stride": [
+        25728,
+        32,
+        384,
+        1
+      ],
+      "scaled": true,
+      "elements": 25728,
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    },
+    {
+      "label": "unscaled key",
+      "dtype": "torch.float32",
+      "shape": [
+        3,
+        4,
+        67,
+        32
+      ],
+      "stride": [
+        25728,
+        32,
+        384,
+        1
+      ],
+      "scaled": false,
+      "elements": 25728,
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    },
+    {
+      "label": "strided QKV view",
+      "dtype": "torch.float32",
+      "shape": [
+        3,
+        8,
+        67,
+        32
+      ],
+      "stride": [
+        51456,
+        32,
+        768,
+        1
+      ],
+      "scaled": true,
+      "elements": 51456,
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    },
+    {
+      "label": "unscaled key",
+      "dtype": "torch.float32",
+      "shape": [
+        3,
+        8,
+        67,
+        32
+      ],
+      "stride": [
+        51456,
+        32,
+        768,
+        1
+      ],
+      "scaled": false,
+      "elements": 51456,
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    },
+    {
+      "label": "strided QKV view",
+      "dtype": "torch.float32",
+      "shape": [
+        3,
+        16,
+        67,
+        32
+      ],
+      "stride": [
+        102912,
+        32,
+        1536,
+        1
+      ],
+      "scaled": true,
+      "elements": 102912,
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    },
+    {
+      "label": "unscaled key",
+      "dtype": "torch.float32",
+      "shape": [
+        3,
+        16,
+        67,
+        32
+      ],
+      "stride": [
+        102912,
+        32,
+        1536,
+        1
+      ],
+      "scaled": false,
+      "elements": 102912,
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    },
+    {
+      "label": "magnitude 0.0",
+      "dtype": "torch.float32",
+      "shape": [
+        1,
+        4,
+        19,
+        32
+      ],
+      "stride": [
+        2432,
+        608,
+        32,
+        1
+      ],
+      "scaled": true,
+      "elements": 2432,
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    },
+    {
+      "label": "magnitude 0.0001",
+      "dtype": "torch.float32",
+      "shape": [
+        1,
+        4,
+        19,
+        32
+      ],
+      "stride": [
+        2432,
+        608,
+        32,
+        1
+      ],
+      "scaled": true,
+      "elements": 2432,
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    },
+    {
+      "label": "magnitude 0.1",
+      "dtype": "torch.float32",
+      "shape": [
+        1,
+        4,
+        19,
+        32
+      ],
+      "stride": [
+        2432,
+        608,
+        32,
+        1
+      ],
+      "scaled": true,
+      "elements": 2432,
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    },
+    {
+      "label": "magnitude 16.0",
+      "dtype": "torch.float32",
+      "shape": [
+        1,
+        4,
+        19,
+        32
+      ],
+      "stride": [
+        2432,
+        608,
+        32,
+        1
+      ],
+      "scaled": true,
+      "elements": 2432,
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    },
+    {
+      "label": "magnitude 100.0",
+      "dtype": "torch.float32",
+      "shape": [
+        1,
+        4,
+        19,
+        32
+      ],
+      "stride": [
+        2432,
+        608,
+        32,
+        1
+      ],
+      "scaled": true,
+      "elements": 2432,
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    },
+    {
+      "label": "strided channels",
+      "dtype": "torch.float32",
+      "shape": [
+        3,
+        8,
+        17,
+        32
+      ],
+      "stride": [
+        8704,
+        1088,
+        64,
+        2
+      ],
+      "scaled": true,
+      "elements": 13056,
+      "unequal": 0,
+      "max_abs_finite": 0.0
+    }
+  ],
+  "all_equal": true,
+  "total_elements": 848000,
+  "timing_shape": [
+    256,
+    8,
+    64,
+    32
+  ],
+  "timings": {
+    "previous_fused_norm_plus_separate_scale_fp8": {
+      "median_ms": 0.0788159966468811,
+      "samples_ms": [
+        0.10000000149011612,
+        0.08185599744319916,
+        0.09216000139713287,
+        0.07884799689054489,
+        0.07859200239181519,
+        0.07878399640321732,
+        0.08089599758386612,
+        0.07772800326347351,
+        0.07884799689054489,
+        0.07884799689054489,
+        0.07782399654388428,
+        0.07878399640321732,
+        0.0788159966468811,
+        0.07884799689054489,
+        0.07958400249481201,
+        0.07846400141716003,
+        0.07884799689054489,
+        0.07859200239181519,
+        0.0785600021481514,
+        0.07782399654388428,
+        0.07782399654388428,
+        0.07948800176382065,
+        0.07782399654388428,
+        0.07782399654388428,
+        0.07884799689054489,
+        0.0788159966468811,
+        0.07852800190448761,
+        0.0788159966468811,
+        0.07884799689054489,
+        0.07872000336647034
+      ]
+    },
+    "fused_publish": {
+      "median_ms": 0.02252800017595291,
+      "samples_ms": [
+        0.02755199931561947,
+        0.02252800017595291,
+        0.02252800017595291,
+        0.022463999688625336,
+        0.022304000332951546,
+        0.02332800067961216,
+        0.02252800017595291,
+        0.023520000278949738,
+        0.022592000663280487,
+        0.02252800017595291,
+        0.023104000836610794,
+        0.02252800017595291,
+        0.02252800017595291,
+        0.0225600004196167,
+        0.023264000192284584,
+        0.022272000089287758,
+        0.022431999444961548,
+        0.022304000332951546,
+        0.02239999920129776,
+        0.023296000435948372,
+        0.023296000435948372,
+        0.039712000638246536,
+        0.02252800017595291,
+        0.02252800017595291,
+        0.02252800017595291,
+        0.0225600004196167,
+        0.02252800017595291,
+        0.02319999970495701,
+        0.02252800017595291,
+        0.02208000048995018
+      ]
+    }
+  },
+  "scope": "CUDA Graph intervals in reconstruction only, not vendor or game latency."
+}

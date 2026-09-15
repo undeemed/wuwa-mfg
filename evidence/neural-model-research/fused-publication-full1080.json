@@ -1,0 +1,638 @@
+{
+  "schema": 1,
+  "quality_gate_passed": false,
+  "comparisons": [
+    {
+      "schema": 1,
+      "capture_hashes": {
+        "color": "2e44a6a5e2730c21f7f2b4610b0a3c0af6fc94e2f51601f2ab2fa3fa679cf7f6",
+        "output": "13668520132202f28b6b584aff445e6982d17ece0430c9c134b7c2ef85b68d2b"
+      },
+      "source_shape": [
+        1080,
+        1920,
+        3
+      ],
+      "network_extent": [
+        1088,
+        1920
+      ],
+      "precision": "fast",
+      "noise_frame": 0,
+      "batched_ffn": true,
+      "fused_gate": true,
+      "weights_sha256": "fa6ebc71bc6f91347d51b3368b0ef6e952b6157b6d9a164e7db82cffb88d3143",
+      "comparison": {
+        "rgb_mae": 0.015148261561989784,
+        "rgb_rmse": 0.022372259915421924,
+        "rgb_max_abs": 0.166259765625,
+        "rgb_p99_abs": 0.0693359375,
+        "psnr_db": 33.005802875756714,
+        "rgb_correlation": 0.9977564348667832,
+        "effect_correlation": 0.9377319251980138,
+        "highpass_correlation": 0.9735717434269928,
+        "reconstruction_effect_mae": 0.043202225118875504
+      },
+      "cuda_graph": {
+        "median_ms": 226.91788482666016,
+        "p95_ms": 226.99469451904298,
+        "samples_ms": [
+          226.90383911132812,
+          226.9468231201172,
+          226.93568420410156,
+          226.88243103027344,
+          226.8948516845703,
+          226.9091796875,
+          226.93682861328125,
+          226.90357971191406,
+          226.96022033691406,
+          226.9870147705078,
+          226.97325134277344,
+          226.96441650390625,
+          226.8528594970703,
+          226.89280700683594,
+          226.86207580566406,
+          226.90771484375,
+          226.8966064453125,
+          227.14060974121094,
+          226.9265899658203,
+          226.93478393554688
+        ],
+        "trial_wall_seconds": 6.689670199993998,
+        "scope": "Fixed full-resolution input in PyTorch; no D3D12 integration or vendor speedup."
+      },
+      "peak_allocated_mib": 1147.93408203125,
+      "trial": "capture-compare-natural-graph-gate",
+      "rgb_bits_equal_to_prior_reconstruction": true,
+      "compared_rgb_elements": 6220800
+    },
+    {
+      "schema": 1,
+      "capture_hashes": {
+        "color": "2e44a6a5e2730c21f7f2b4610b0a3c0af6fc94e2f51601f2ab2fa3fa679cf7f6",
+        "output": "13668520132202f28b6b584aff445e6982d17ece0430c9c134b7c2ef85b68d2b"
+      },
+      "source_shape": [
+        1080,
+        1920,
+        3
+      ],
+      "network_extent": [
+        1088,
+        1920
+      ],
+      "precision": "fast",
+      "noise_frame": 0,
+      "batched_ffn": true,
+      "fused_gate": true,
+      "fused_publish": true,
+      "weights_sha256": "fa6ebc71bc6f91347d51b3368b0ef6e952b6157b6d9a164e7db82cffb88d3143",
+      "comparison": {
+        "rgb_mae": 0.015148261561989784,
+        "rgb_rmse": 0.022372259915421924,
+        "rgb_max_abs": 0.166259765625,
+        "rgb_p99_abs": 0.0693359375,
+        "psnr_db": 33.005802875756714,
+        "rgb_correlation": 0.9977564348667832,
+        "effect_correlation": 0.9377319251980138,
+        "highpass_correlation": 0.9735717434269928,
+        "reconstruction_effect_mae": 0.043202225118875504
+      },
+      "cuda_graph": {
+        "median_ms": 207.5923080444336,
+        "p95_ms": 207.64150390625,
+        "samples_ms": [
+          207.55027770996094,
+          207.5801544189453,
+          207.5931854248047,
+          207.60166931152344,
+          207.5634307861328,
+          207.6045684814453,
+          207.53919982910156,
+          207.60269165039062,
+          207.57373046875,
+          207.6063690185547,
+          207.5617218017578,
+          207.56378173828125,
+          207.60751342773438,
+          207.58511352539062,
+          207.5914306640625,
+          207.59414672851562,
+          207.77880859375,
+          207.58834838867188,
+          207.63427734375,
+          207.62521362304688
+        ],
+        "trial_wall_seconds": 6.129958699995768,
+        "scope": "Fixed full-resolution input in PyTorch; no D3D12 integration or vendor speedup."
+      },
+      "peak_allocated_mib": 1147.93408203125,
+      "trial": "capture-compare-natural-graph-publish",
+      "rgb_bits_equal_to_prior_reconstruction": true,
+      "compared_rgb_elements": 6220800
+    },
+    {
+      "schema": 1,
+      "capture_hashes": {
+        "color": "2e44a6a5e2730c21f7f2b4610b0a3c0af6fc94e2f51601f2ab2fa3fa679cf7f6",
+        "output": "13668520132202f28b6b584aff445e6982d17ece0430c9c134b7c2ef85b68d2b"
+      },
+      "source_shape": [
+        1080,
+        1920,
+        3
+      ],
+      "network_extent": [
+        1088,
+        1920
+      ],
+      "precision": "fast",
+      "noise_frame": 0,
+      "batched_ffn": true,
+      "fused_gate": true,
+      "fused_publish": true,
+      "weights_sha256": "fa6ebc71bc6f91347d51b3368b0ef6e952b6157b6d9a164e7db82cffb88d3143",
+      "comparison": {
+        "rgb_mae": 0.015148261561989784,
+        "rgb_rmse": 0.022372259915421924,
+        "rgb_max_abs": 0.166259765625,
+        "rgb_p99_abs": 0.0693359375,
+        "psnr_db": 33.005802875756714,
+        "rgb_correlation": 0.9977564348667832,
+        "effect_correlation": 0.9377319251980138,
+        "highpass_correlation": 0.9735717434269928,
+        "reconstruction_effect_mae": 0.043202225118875504
+      },
+      "cuda_graph": {
+        "median_ms": 207.32927703857422,
+        "p95_ms": 207.41521224975585,
+        "samples_ms": [
+          207.39686584472656,
+          207.67391967773438,
+          207.32374572753906,
+          207.32415771484375,
+          207.34771728515625,
+          207.36000061035156,
+          207.291015625,
+          207.37843322753906,
+          207.28688049316406,
+          207.28282165527344,
+          207.29843139648438,
+          207.26170349121094,
+          207.3343963623047,
+          207.34768676757812,
+          207.34463500976562,
+          207.2596435546875,
+          207.3006134033203,
+          207.35472106933594,
+          207.32211303710938,
+          207.40159606933594
+        ],
+        "trial_wall_seconds": 6.132418599998346,
+        "scope": "Fixed full-resolution input in PyTorch; no D3D12 integration or vendor speedup."
+      },
+      "graph_kernel_profile": {
+        "instrumented_replays": 1,
+        "kernel_calls": 4164,
+        "summed_gpu_us": 209594.00499999936,
+        "families": [
+          {
+            "name": "_ZN2at6native29vectorized_elementwise_kernelILi4ENS0_15CUDAFunctor_addIN3c104HalfEEESt5arrayIPcLy3EEEEviT0_T1_",
+            "calls": 318,
+            "gpu_us": 21485.03999999979
+          },
+          {
+            "name": "_ZN2at6native27unrolled_elementwise_kernelIZZZNS0_23direct_copy_kernel_cudaERNS_18TensorIteratorBaseEENKUlvE1_clEvENKUlvE8_clEvEUlN3c104HalfEE_St5arrayIPcLy2EELi4E23TrivialOffsetCalculatorILi1EjESD_NS0_6memory12LoadWithCastILi1EEENSE_13StoreWithCastILi1EEEEEviT_T0_T2_T3_T4_T5_",
+            "calls": 458,
+            "gpu_us": 19905.35399999989
+          },
+          {
+            "name": "ampere_fp16_s16816gemm_fp16_64x64_ldg8_f2f_nn",
+            "calls": 228,
+            "gpu_us": 16675.396000000015
+          },
+          {
+            "name": "_ZN2at6native29vectorized_elementwise_kernelILi4EZZZNS0_49_GLOBAL__N__97375e57_16_TensorCompare_cu_71e06f4e19launch_clamp_scalarERNS_18TensorIteratorBaseEN3c106ScalarES6_NS0_6detail11ClampLimitsEENKUlvE_clEvENKUlvE6_clEvEUlNS5_4HalfEE_St5arrayIPcLy2EEEEviT0_T1_",
+            "calls": 330,
+            "gpu_us": 16349.987999999887
+          },
+          {
+            "name": "quadratic_activation_f16",
+            "calls": 92,
+            "gpu_us": 15281.13599999985
+          },
+          {
+            "name": "_ZN2at6native18elementwise_kernelILi128ELi4EZNS0_22gpu_kernel_impl_nocastINS0_15CUDAFunctor_addIN3c104HalfEEEEEvRNS_18TensorIteratorBaseERKT_EUliE_EEviT1_",
+            "calls": 268,
+            "gpu_us": 13825.518999999913
+          },
+          {
+            "name": "_ZN2at6native29vectorized_elementwise_kernelILi4EZNS0_23float8_copy_kernel_cudaERNS_18TensorIteratorBaseEEUlN3c104HalfEE_St5arrayIPcLy2EEEEviT0_T1_",
+            "calls": 458,
+            "gpu_us": 13741.621999999996
+          },
+          {
+            "name": "ampere_fp16_s1688gemm_fp16_128x128_ldg8_f2f_stages_32x1_nn",
+            "calls": 208,
+            "gpu_us": 13080.54100000014
+          },
+          {
+            "name": "_ZN2at6native18elementwise_kernelILi128ELi4EZNS0_22gpu_kernel_impl_nocastIZZZNS0_23direct_copy_kernel_cudaERNS_18TensorIteratorBaseEENKUlvE1_clEvENKUlvE8_clEvEUlN3c104HalfEE_EEvS4_RKT_EUliE_EEviT1_",
+            "calls": 449,
+            "gpu_us": 11080.916999999958
+          },
+          {
+            "name": "bit_affine_softmax_f16",
+            "calls": 99,
+            "gpu_us": 10331.60899999995
+          },
+          {
+            "name": "cosine_publish_f16",
+            "calls": 198,
+            "gpu_us": 8696.999000000033
+          },
+          {
+            "name": "_ZN2at6native18elementwise_kernelILi128ELi4EZNS0_22gpu_kernel_impl_nocastINS0_13BinaryFunctorIN3c104HalfES5_S5_NS0_15binary_internal10MulFunctorIfEEEEEEvRNS_18TensorIteratorBaseERKT_EUliE_EEviT1_",
+            "calls": 205,
+            "gpu_us": 8533.470999999945
+          },
+          {
+            "name": "_ZN7cutlass7Kernel2I64cutlass_80_tensorop_f16_s16816gemm_relu_f16_64x64_32x6_nn_align8EEvNT_6ParamsE",
+            "calls": 57,
+            "gpu_us": 7188.138999999992
+          },
+          {
+            "name": "_ZN7cutlass7Kernel2I65cutlass_80_wmma_tensorop_f16_s161616gemm_f16_32x32_32x1_nn_align8EEvNT_6ParamsE",
+            "calls": 131,
+            "gpu_us": 7034.662999999993
+          },
+          {
+            "name": "ampere_fp16_s16816gemm_fp16_64x64_ldg8_f2f_tn",
+            "calls": 53,
+            "gpu_us": 5412.6919999999955
+          },
+          {
+            "name": "_ZN2at6native18elementwise_kernelILi128ELi4EZNS0_22gpu_kernel_impl_nocastIZZZNS0_49_GLOBAL__N__97375e57_16_TensorCompare_cu_71e06f4e19launch_clamp_scalarERNS_18TensorIteratorBaseEN3c106ScalarES7_NS0_6detail11ClampLimitsEENKUlvE_clEvENKUlvE6_clEvEUlNS6_4HalfEE_EEvS5_RKT_EUliE_EEviT1_",
+            "calls": 136,
+            "gpu_us": 5172.925000000007
+          },
+          {
+            "name": "_ZN2at6native29vectorized_elementwise_kernelILi4ENS0_21CUDAFunctorOnSelf_addIN3c104HalfEEESt5arrayIPcLy2EEEEviT0_T1_",
+            "calls": 36,
+            "gpu_us": 4489.152000000155
+          },
+          {
+            "name": "_ZN2at6native40_GLOBAL__N__0b46c3ea_8_Shape_cu_85d9f36c26CatArrayBatchedCopy_contigINS1_10OpaqueTypeILj2EEEjLi2ELi128ELi1EEEvPT_NS1_25CatArrInputTensorMetadataIS5_T0_XT2_EXT3_EEENS1_16TensorSizeStrideIS8_Lj4EEEiS8_",
+            "calls": 12,
+            "gpu_us": 3057.6419999999725
+          },
+          {
+            "name": "memcpy128",
+            "calls": 93,
+            "gpu_us": 2086.7030000000414
+          },
+          {
+            "name": "_ZN2at6native18elementwise_kernelILi128ELi4EZNS0_22gpu_kernel_impl_nocastINS0_21CUDAFunctorOnSelf_addIN3c104HalfEEEEEvRNS_18TensorIteratorBaseERKT_EUliE_EEviT1_",
+            "calls": 36,
+            "gpu_us": 1205.2090000000098
+          },
+          {
+            "name": "ampere_fp16_s1688gemm_fp16_256x64_ldg8_f2f_stages_32x1_nn",
+            "calls": 28,
+            "gpu_us": 1111.1560000000027
+          },
+          {
+            "name": "_ZN2at6native29vectorized_elementwise_kernelILi4ENS0_11FillFunctorIN3c104HalfEEESt5arrayIPcLy1EEEEviT0_T1_",
+            "calls": 64,
+            "gpu_us": 952.2819999999629
+          },
+          {
+            "name": "ampere_fp16_s1688gemm_fp16_128x128_ldg8_f2f_nn",
+            "calls": 12,
+            "gpu_us": 600.9229999999661
+          },
+          {
+            "name": "_ZN7cutlass7Kernel2I65cutlass_80_wmma_tensorop_f16_s161616gemm_f16_32x32_64x1_nn_align8EEvNT_6ParamsE",
+            "calls": 28,
+            "gpu_us": 594.9709999999177
+          },
+          {
+            "name": "_ZN7cutlass7Kernel2I65cutlass_80_wmma_tensorop_f16_s161616gemm_f16_32x32_32x1_nn_align2EEvNT_6ParamsE",
+            "calls": 16,
+            "gpu_us": 546.0120000000461
+          },
+          {
+            "name": "_ZN7cutlass7Kernel2I65cutlass_80_wmma_tensorop_f16_s161616gemm_f16_32x32_32x1_tn_align2EEvNT_6ParamsE",
+            "calls": 26,
+            "gpu_us": 276.31799999998475
+          },
+          {
+            "name": "ampere_fp16_s1688gemm_fp16_128x128_ldg8_f2f_stages_32x1_tn",
+            "calls": 8,
+            "gpu_us": 237.08499999999185
+          },
+          {
+            "name": "_ZN7cutlass7Kernel2I66cutlass_80_wmma_tensorop_f16_s161616gemm_f16_32x32_128x1_nn_align8EEvNT_6ParamsE",
+            "calls": 12,
+            "gpu_us": 187.74199999998382
+          },
+          {
+            "name": "_ZN2at6native29vectorized_elementwise_kernelILi4ENS0_13AUnaryFunctorIN3c104HalfES4_S4_NS0_15binary_internal10MulFunctorIfEEEESt5arrayIPcLy2EEEEviT0_T1_",
+            "calls": 14,
+            "gpu_us": 133.15100000001985
+          },
+          {
+            "name": "_ZN7cutlass7Kernel2I65cutlass_80_wmma_tensorop_f16_s161616gemm_f16_32x32_32x2_nn_align8EEvNT_6ParamsE",
+            "calls": 16,
+            "gpu_us": 111.23099999995611
+          },
+          {
+            "name": "_ZN7cutlass7Kernel2I65cutlass_80_wmma_tensorop_f16_s161616gemm_f16_32x32_32x2_tn_align8EEvNT_6ParamsE",
+            "calls": 8,
+            "gpu_us": 110.7839999999851
+          },
+          {
+            "name": "Memset (Unknown)",
+            "calls": 56,
+            "gpu_us": 36.545000000085565
+          },
+          {
+            "name": "ampere_fp16_s16816gemm_fp16_128x128_ldg8_f2f_stages_32x5_nn",
+            "calls": 2,
+            "gpu_us": 28.38400000000547
+          },
+          {
+            "name": "ampere_fp16_s16816gemm_fp16_128x64_ldg8_f2f_stages_32x6_nn",
+            "calls": 1,
+            "gpu_us": 13.664000000004307
+          },
+          {
+            "name": "_ZN7cutlass7Kernel2I65cutlass_80_wmma_tensorop_f16_s161616gemm_f16_32x32_32x1_tn_align8EEvNT_6ParamsE",
+            "calls": 4,
+            "gpu_us": 13.407999999966705
+          },
+          {
+            "name": "memcpy32_post",
+            "calls": 4,
+            "gpu_us": 5.631999999961408
+          }
+        ],
+        "scope": "Instrumented reconstructed graph only; not native NVIDIA kernel costs."
+      },
+      "peak_allocated_mib": 1147.93408203125,
+      "trial": "capture-compare-natural-profile-publish",
+      "rgb_bits_equal_to_prior_reconstruction": true,
+      "compared_rgb_elements": 6220800
+    },
+    {
+      "schema": 1,
+      "capture_hashes": {
+        "color": "2e44a6a5e2730c21f7f2b4610b0a3c0af6fc94e2f51601f2ab2fa3fa679cf7f6",
+        "output": "13668520132202f28b6b584aff445e6982d17ece0430c9c134b7c2ef85b68d2b"
+      },
+      "source_shape": [
+        1080,
+        1920,
+        3
+      ],
+      "network_extent": [
+        1088,
+        1920
+      ],
+      "precision": "fast",
+      "noise_frame": 0,
+      "batched_ffn": true,
+      "fused_gate": true,
+      "fused_publish": true,
+      "fused_roundtrip": true,
+      "weights_sha256": "fa6ebc71bc6f91347d51b3368b0ef6e952b6157b6d9a164e7db82cffb88d3143",
+      "comparison": {
+        "rgb_mae": 0.015148261561989784,
+        "rgb_rmse": 0.022372259915421924,
+        "rgb_max_abs": 0.166259765625,
+        "rgb_p99_abs": 0.0693359375,
+        "psnr_db": 33.005802875756714,
+        "rgb_correlation": 0.9977564348667832,
+        "effect_correlation": 0.9377319251980138,
+        "highpass_correlation": 0.9735717434269928,
+        "reconstruction_effect_mae": 0.043202225118875504
+      },
+      "cuda_graph": {
+        "median_ms": 178.20262145996094,
+        "p95_ms": 178.41586532592774,
+        "samples_ms": [
+          178.2076873779297,
+          178.17190551757812,
+          178.197509765625,
+          178.19033813476562,
+          178.2097930908203,
+          178.22909545898438,
+          178.18406677246094,
+          178.16249084472656,
+          178.13095092773438,
+          178.2056884765625,
+          178.23641967773438,
+          178.19955444335938,
+          178.15245056152344,
+          178.23846435546875,
+          178.18809509277344,
+          178.18418884277344,
+          178.41238403320312,
+          178.4820098876953,
+          178.27491760253906,
+          178.28326416015625
+        ],
+        "trial_wall_seconds": 5.298135799996089,
+        "scope": "Fixed full-resolution input in PyTorch; no D3D12 integration or vendor speedup."
+      },
+      "graph_kernel_profile": {
+        "instrumented_replays": 1,
+        "kernel_calls": 3196,
+        "summed_gpu_us": 180852.34099999987,
+        "families": [
+          {
+            "name": "fp8_roundtrip_f16",
+            "calls": 458,
+            "gpu_us": 27221.088000000032
+          },
+          {
+            "name": "_ZN2at6native29vectorized_elementwise_kernelILi4ENS0_15CUDAFunctor_addIN3c104HalfEEESt5arrayIPcLy3EEEEviT0_T1_",
+            "calls": 318,
+            "gpu_us": 21991.501999999706
+          },
+          {
+            "name": "ampere_fp16_s16816gemm_fp16_64x64_ldg8_f2f_nn",
+            "calls": 228,
+            "gpu_us": 16976.952000000056
+          },
+          {
+            "name": "quadratic_activation_f16",
+            "calls": 92,
+            "gpu_us": 15265.380000000017
+          },
+          {
+            "name": "_ZN2at6native18elementwise_kernelILi128ELi4EZNS0_22gpu_kernel_impl_nocastINS0_15CUDAFunctor_addIN3c104HalfEEEEEvRNS_18TensorIteratorBaseERKT_EUliE_EEviT1_",
+            "calls": 268,
+            "gpu_us": 13325.324000000099
+          },
+          {
+            "name": "ampere_fp16_s1688gemm_fp16_128x128_ldg8_f2f_stages_32x1_nn",
+            "calls": 208,
+            "gpu_us": 13161.258999999956
+          },
+          {
+            "name": "bit_affine_softmax_f16",
+            "calls": 99,
+            "gpu_us": 10305.901000000064
+          },
+          {
+            "name": "_ZN2at6native18elementwise_kernelILi128ELi4EZNS0_22gpu_kernel_impl_nocastIZZZNS0_23direct_copy_kernel_cudaERNS_18TensorIteratorBaseEENKUlvE1_clEvENKUlvE8_clEvEUlN3c104HalfEE_EEvS4_RKT_EUliE_EEviT1_",
+            "calls": 397,
+            "gpu_us": 9775.91500000007
+          },
+          {
+            "name": "cosine_publish_f16",
+            "calls": 198,
+            "gpu_us": 8663.968999999914
+          },
+          {
+            "name": "_ZN2at6native18elementwise_kernelILi128ELi4EZNS0_22gpu_kernel_impl_nocastINS0_13BinaryFunctorIN3c104HalfES5_S5_NS0_15binary_internal10MulFunctorIfEEEEEEvRNS_18TensorIteratorBaseERKT_EUliE_EEviT1_",
+            "calls": 205,
+            "gpu_us": 8513.437999999984
+          },
+          {
+            "name": "_ZN7cutlass7Kernel2I64cutlass_80_tensorop_f16_s16816gemm_relu_f16_64x64_32x6_nn_align8EEvNT_6ParamsE",
+            "calls": 57,
+            "gpu_us": 7322.727999999979
+          },
+          {
+            "name": "_ZN7cutlass7Kernel2I65cutlass_80_wmma_tensorop_f16_s161616gemm_f16_32x32_32x1_nn_align8EEvNT_6ParamsE",
+            "calls": 131,
+            "gpu_us": 7187.9780000000255
+          },
+          {
+            "name": "ampere_fp16_s16816gemm_fp16_64x64_ldg8_f2f_tn",
+            "calls": 53,
+            "gpu_us": 5171.639999999992
+          },
+          {
+            "name": "_ZN2at6native29vectorized_elementwise_kernelILi4ENS0_21CUDAFunctorOnSelf_addIN3c104HalfEEESt5arrayIPcLy2EEEEviT0_T1_",
+            "calls": 36,
+            "gpu_us": 4574.584999999985
+          },
+          {
+            "name": "_ZN2at6native40_GLOBAL__N__0b46c3ea_8_Shape_cu_85d9f36c26CatArrayBatchedCopy_contigINS1_10OpaqueTypeILj2EEEjLi2ELi128ELi1EEEvPT_NS1_25CatArrInputTensorMetadataIS5_T0_XT2_EXT3_EEENS1_16TensorSizeStrideIS8_Lj4EEEiS8_",
+            "calls": 12,
+            "gpu_us": 3055.9760000000133
+          },
+          {
+            "name": "memcpy128",
+            "calls": 93,
+            "gpu_us": 1736.3299999999872
+          },
+          {
+            "name": "ampere_fp16_s1688gemm_fp16_256x64_ldg8_f2f_stages_32x1_nn",
+            "calls": 28,
+            "gpu_us": 1117.7520000000077
+          },
+          {
+            "name": "_ZN2at6native18elementwise_kernelILi128ELi4EZNS0_22gpu_kernel_impl_nocastINS0_21CUDAFunctorOnSelf_addIN3c104HalfEEEEEvRNS_18TensorIteratorBaseERKT_EUliE_EEviT1_",
+            "calls": 36,
+            "gpu_us": 1048.4389999999985
+          },
+          {
+            "name": "_ZN2at6native29vectorized_elementwise_kernelILi4ENS0_11FillFunctorIN3c104HalfEEESt5arrayIPcLy1EEEEviT0_T1_",
+            "calls": 64,
+            "gpu_us": 964.9169999999503
+          },
+          {
+            "name": "_ZN7cutlass7Kernel2I65cutlass_80_wmma_tensorop_f16_s161616gemm_f16_32x32_64x1_nn_align8EEvNT_6ParamsE",
+            "calls": 28,
+            "gpu_us": 675.4190000000235
+          },
+          {
+            "name": "ampere_fp16_s1688gemm_fp16_128x128_ldg8_f2f_nn",
+            "calls": 12,
+            "gpu_us": 601.8830000000016
+          },
+          {
+            "name": "_ZN7cutlass7Kernel2I65cutlass_80_wmma_tensorop_f16_s161616gemm_f16_32x32_32x1_nn_align2EEvNT_6ParamsE",
+            "calls": 16,
+            "gpu_us": 547.0039999999572
+          },
+          {
+            "name": "_ZN2at6native29vectorized_elementwise_kernelILi4EZZZNS0_49_GLOBAL__N__97375e57_16_TensorCompare_cu_71e06f4e19launch_clamp_scalarERNS_18TensorIteratorBaseEN3c106ScalarES6_NS0_6detail11ClampLimitsEENKUlvE_clEvENKUlvE6_clEvEUlNS5_4HalfEE_St5arrayIPcLy2EEEEviT0_T1_",
+            "calls": 8,
+            "gpu_us": 512.5420000000013
+          },
+          {
+            "name": "_ZN7cutlass7Kernel2I65cutlass_80_wmma_tensorop_f16_s161616gemm_f16_32x32_32x1_tn_align2EEvNT_6ParamsE",
+            "calls": 26,
+            "gpu_us": 274.49000000002707
+          },
+          {
+            "name": "ampere_fp16_s1688gemm_fp16_128x128_ldg8_f2f_stages_32x1_tn",
+            "calls": 8,
+            "gpu_us": 235.64500000000407
+          },
+          {
+            "name": "_ZN7cutlass7Kernel2I66cutlass_80_wmma_tensorop_f16_s161616gemm_f16_32x32_128x1_nn_align8EEvNT_6ParamsE",
+            "calls": 12,
+            "gpu_us": 184.44699999999284
+          },
+          {
+            "name": "_ZN2at6native29vectorized_elementwise_kernelILi4ENS0_13AUnaryFunctorIN3c104HalfES4_S4_NS0_15binary_internal10MulFunctorIfEEEESt5arrayIPcLy2EEEEviT0_T1_",
+            "calls": 14,
+            "gpu_us": 136.8310000000056
+          },
+          {
+            "name": "_ZN7cutlass7Kernel2I65cutlass_80_wmma_tensorop_f16_s161616gemm_f16_32x32_32x2_tn_align8EEvNT_6ParamsE",
+            "calls": 8,
+            "gpu_us": 110.46299999998882
+          },
+          {
+            "name": "_ZN7cutlass7Kernel2I65cutlass_80_wmma_tensorop_f16_s161616gemm_f16_32x32_32x2_nn_align8EEvNT_6ParamsE",
+            "calls": 16,
+            "gpu_us": 104.57499999999709
+          },
+          {
+            "name": "ampere_fp16_s16816gemm_fp16_128x128_ldg8_f2f_stages_32x5_nn",
+            "calls": 2,
+            "gpu_us": 28.414999999993597
+          },
+          {
+            "name": "Memset (Unknown)",
+            "calls": 56,
+            "gpu_us": 23.329000000012456
+          },
+          {
+            "name": "_ZN7cutlass7Kernel2I65cutlass_80_wmma_tensorop_f16_s161616gemm_f16_32x32_32x1_tn_align8EEvNT_6ParamsE",
+            "calls": 4,
+            "gpu_us": 15.999999999978172
+          },
+          {
+            "name": "ampere_fp16_s16816gemm_fp16_128x64_ldg8_f2f_stages_32x6_nn",
+            "calls": 1,
+            "gpu_us": 14.560000000012224
+          },
+          {
+            "name": "memcpy32_post",
+            "calls": 4,
+            "gpu_us": 5.665000000029977
+          }
+        ],
+        "scope": "Instrumented reconstructed graph only; not native NVIDIA kernel costs."
+      },
+      "peak_allocated_mib": 1140.27783203125,
+      "trial": "capture-compare-natural-graph-roundtrip",
+      "rgb_bits_equal_to_prior_reconstruction": true,
+      "compared_rgb_elements": 6220800
+    }
+  ],
+  "limitations": [
+    "Separate process timings on the same captured input and weights.",
+    "Exact reconstruction-output preservation does not close its existing vendor mismatch.",
+    "No NVIDIA DLL, game or driver changes; CUDA Graph tests exclude D3D12 integration.",
+    "Kernel profiles are instrumented single replays after the uninstrumented timing samples."
+  ]
+}

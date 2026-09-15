@@ -1,0 +1,323 @@
+{
+  "schema": 1,
+  "all_equal": true,
+  "all_non_nan_bits_equal": true,
+  "total_elements": 11042218,
+  "tests": [
+    {
+      "label": "all finite half patterns",
+      "dtype": "torch.float16",
+      "shape": [
+        63488
+      ],
+      "elements": 63488,
+      "unequal": 0,
+      "non_nan_bit_mismatches": 0
+    },
+    {
+      "label": "half values as float",
+      "dtype": "torch.float32",
+      "shape": [
+        63488
+      ],
+      "elements": 63488,
+      "unequal": 0,
+      "non_nan_bit_mismatches": 0
+    },
+    {
+      "label": "random 0.0001",
+      "dtype": "torch.float16",
+      "shape": [
+        1048591
+      ],
+      "elements": 1048591,
+      "unequal": 0,
+      "non_nan_bit_mismatches": 0
+    },
+    {
+      "label": "random 0.1",
+      "dtype": "torch.float16",
+      "shape": [
+        1048591
+      ],
+      "elements": 1048591,
+      "unequal": 0,
+      "non_nan_bit_mismatches": 0
+    },
+    {
+      "label": "random 1.0",
+      "dtype": "torch.float16",
+      "shape": [
+        1048591
+      ],
+      "elements": 1048591,
+      "unequal": 0,
+      "non_nan_bit_mismatches": 0
+    },
+    {
+      "label": "random 16.0",
+      "dtype": "torch.float16",
+      "shape": [
+        1048591
+      ],
+      "elements": 1048591,
+      "unequal": 0,
+      "non_nan_bit_mismatches": 0
+    },
+    {
+      "label": "random 1000.0",
+      "dtype": "torch.float16",
+      "shape": [
+        1048591
+      ],
+      "elements": 1048591,
+      "unequal": 0,
+      "non_nan_bit_mismatches": 0
+    },
+    {
+      "label": "slice offset",
+      "dtype": "torch.float16",
+      "shape": [
+        3,
+        4,
+        23,
+        32
+      ],
+      "elements": 8832,
+      "unequal": 0,
+      "non_nan_bit_mismatches": 0
+    },
+    {
+      "label": "permuted",
+      "dtype": "torch.float16",
+      "shape": [
+        67,
+        8,
+        3,
+        64
+      ],
+      "elements": 102912,
+      "unequal": 0,
+      "non_nan_bit_mismatches": 0
+    },
+    {
+      "label": "zero strides",
+      "dtype": "torch.float16",
+      "shape": [
+        3,
+        8,
+        67,
+        64
+      ],
+      "elements": 102912,
+      "unequal": 0,
+      "non_nan_bit_mismatches": 0
+    },
+    {
+      "label": "specials",
+      "dtype": "torch.float16",
+      "shape": [
+        9
+      ],
+      "elements": 9,
+      "unequal": 0,
+      "non_nan_bit_mismatches": 0
+    },
+    {
+      "label": "scalar",
+      "dtype": "torch.float16",
+      "shape": [],
+      "elements": 1,
+      "unequal": 0,
+      "non_nan_bit_mismatches": 0
+    },
+    {
+      "label": "empty",
+      "dtype": "torch.float16",
+      "shape": [
+        0,
+        32
+      ],
+      "elements": 0,
+      "unequal": 0,
+      "non_nan_bit_mismatches": 0
+    },
+    {
+      "label": "random 0.0001",
+      "dtype": "torch.float32",
+      "shape": [
+        1048591
+      ],
+      "elements": 1048591,
+      "unequal": 0,
+      "non_nan_bit_mismatches": 0
+    },
+    {
+      "label": "random 0.1",
+      "dtype": "torch.float32",
+      "shape": [
+        1048591
+      ],
+      "elements": 1048591,
+      "unequal": 0,
+      "non_nan_bit_mismatches": 0
+    },
+    {
+      "label": "random 1.0",
+      "dtype": "torch.float32",
+      "shape": [
+        1048591
+      ],
+      "elements": 1048591,
+      "unequal": 0,
+      "non_nan_bit_mismatches": 0
+    },
+    {
+      "label": "random 16.0",
+      "dtype": "torch.float32",
+      "shape": [
+        1048591
+      ],
+      "elements": 1048591,
+      "unequal": 0,
+      "non_nan_bit_mismatches": 0
+    },
+    {
+      "label": "random 1000.0",
+      "dtype": "torch.float32",
+      "shape": [
+        1048591
+      ],
+      "elements": 1048591,
+      "unequal": 0,
+      "non_nan_bit_mismatches": 0
+    },
+    {
+      "label": "slice offset",
+      "dtype": "torch.float32",
+      "shape": [
+        3,
+        4,
+        23,
+        32
+      ],
+      "elements": 8832,
+      "unequal": 0,
+      "non_nan_bit_mismatches": 0
+    },
+    {
+      "label": "permuted",
+      "dtype": "torch.float32",
+      "shape": [
+        67,
+        8,
+        3,
+        64
+      ],
+      "elements": 102912,
+      "unequal": 0,
+      "non_nan_bit_mismatches": 0
+    },
+    {
+      "label": "zero strides",
+      "dtype": "torch.float32",
+      "shape": [
+        3,
+        8,
+        67,
+        64
+      ],
+      "elements": 102912,
+      "unequal": 0,
+      "non_nan_bit_mismatches": 0
+    },
+    {
+      "label": "specials",
+      "dtype": "torch.float32",
+      "shape": [
+        9
+      ],
+      "elements": 9,
+      "unequal": 0,
+      "non_nan_bit_mismatches": 0
+    },
+    {
+      "label": "scalar",
+      "dtype": "torch.float32",
+      "shape": [],
+      "elements": 1,
+      "unequal": 0,
+      "non_nan_bit_mismatches": 0
+    },
+    {
+      "label": "empty",
+      "dtype": "torch.float32",
+      "shape": [
+        0,
+        32
+      ],
+      "elements": 0,
+      "unequal": 0,
+      "non_nan_bit_mismatches": 0
+    }
+  ],
+  "timing_shape": [
+    1,
+    1088,
+    1920,
+    32
+  ],
+  "timings": {
+    "separate_clamp_casts": {
+      "median_ms": 1.523087978363037,
+      "samples_ms": [
+        1.5482879877090454,
+        1.5388799905776978,
+        1.5360000133514404,
+        1.5185920000076294,
+        1.5257600545883179,
+        1.524351954460144,
+        1.5175039768218994,
+        1.522655963897705,
+        1.5196160078048706,
+        1.5206400156021118,
+        1.5489920377731323,
+        1.5503360033035278,
+        1.5409599542617798,
+        1.5380480289459229,
+        1.5206400156021118,
+        1.5196160078048706,
+        1.5196160078048706,
+        1.5235199928283691,
+        1.5192320346832275,
+        1.5195519924163818
+      ]
+    },
+    "fused_roundtrip": {
+      "median_ms": 0.5816320180892944,
+      "samples_ms": [
+        0.5877119898796082,
+        0.5816320180892944,
+        0.5815359950065613,
+        0.5817599892616272,
+        0.5815359950065613,
+        0.5816320180892944,
+        0.5825600028038025,
+        0.5824639797210693,
+        0.5815680027008057,
+        0.5816320180892944,
+        0.5824000239372253,
+        0.5816320180892944,
+        0.5811840295791626,
+        0.5816320180892944,
+        0.5816959738731384,
+        0.5816320180892944,
+        0.5812479853630066,
+        0.5816320180892944,
+        0.5812479853630066,
+        0.5822399854660034
+      ]
+    }
+  },
+  "scope": "Isolated CUDA Graph operation, not full model or NVIDIA runtime latency."
+}

@@ -2,6 +2,7 @@
 """Compare first-reset vendor RGB against the recovered model on identical input."""
 from pathlib import Path
 import argparse,hashlib,json,sys,time
+from collections import defaultdict
 import numpy as np
 
 p=argparse.ArgumentParser(description=__doc__)
@@ -14,10 +15,14 @@ p.add_argument('--precision',choices=['fast','reference'],default='fast')
 p.add_argument('--network-height',type=int)
 p.add_argument('--batched-ffn',action='store_true',help='Experimental FP16 branch batching; FP32 keeps the reference.')
 p.add_argument('--fused-gate',action='store_true')
+p.add_argument('--fused-publish',action='store_true',help='Fuse strided cosine normalization, scaling and FP8 publication.')
+p.add_argument('--fused-roundtrip',action='store_true',help='Fuse clamp and E4M3 roundtrip without an intermediate FP8 allocation.')
 p.add_argument('--graph',action='store_true',help='Time fixed-shape CUDA Graph replay on the complete captured input.')
+p.add_argument('--profile',action='store_true',help='Trace one warmed graph replay after timing; requires --graph.')
 p.add_argument('--noise-frame',type=int,choices=range(4),default=0,
                help='Noise counter, default 0; verify against a companion native launch-contract trace when available.')
 a=p.parse_args()
+if a.profile and not a.graph:p.error('--profile requires --graph')
 a.output.mkdir(parents=True,exist_ok=False)
 sys.path.insert(0,str(a.source/'python'))
 metadata=json.loads((a.capture/'frame-0.json').read_text())
@@ -66,6 +71,8 @@ original_round=reference.e4m3_round_trip
 reference.vendor_cosine_normalize=lambda x: fused(x) if x.device.type=='cuda' and x.shape[-1]==32 else original_norm(x)
 reference.vendor_approximate_softmax=lambda x: fused.softmax(x) if x.device.type=='cuda' and 2<=x.shape[-1]<=2048 and x.shape[-1]%2==0 else original_softmax(x)
 reference.e4m3_round_trip=lambda x: x.clamp(-448,448).to(torch.float8_e4m3fn).to(x.dtype) if x.device.type=='cuda' else original_round(x)
+if a.fused_roundtrip:
+    reference.e4m3_round_trip=lambda x: fused.roundtrip(x) if x.device.type=='cuda' and x.ndim<=8 else original_round(x)
 bias_layout=reference.recover_attention_bias_layout
 bias_cache={}
 def cached_bias(bias):
@@ -75,6 +82,9 @@ def cached_bias(bias):
 reference.recover_attention_bias_layout=cached_bias
 if a.fused_gate:
     reference.quadratic_gate_activation=fused.gate
+if a.fused_publish:
+    original_publish=reference.vendor_cosine_publish
+    reference.vendor_cosine_publish=lambda x,scale=None: fused.publish(x,scale) if x.ndim==4 and x.device.type=='cuda' and x.shape[-1]==32 else original_publish(x,scale)
 if a.batched_ffn:
     import batched_ffn
     original_branched=reference.branched_feed_forward
@@ -113,6 +123,20 @@ if a.graph:
         stats['cuda_graph']={'median_ms':float(np.median(samples)),'p95_ms':float(np.percentile(samples,95)),
                              'samples_ms':samples,'trial_wall_seconds':time.perf_counter()-start,
                              'scope':'Fixed full-resolution input in PyTorch; no D3D12 integration or vendor speedup.'}
+        if a.profile:
+            with torch.profiler.profile(activities=[torch.profiler.ProfilerActivity.CPU,torch.profiler.ProfilerActivity.CUDA]) as profiler:
+                graph.replay()
+                torch.cuda.synchronize()
+            groups=defaultdict(lambda:{'calls':0,'gpu_us':0.})
+            for event in profiler.events():
+                if event.device_type==torch.autograd.DeviceType.CUDA:
+                    groups[event.name]['calls']+=1
+                    groups[event.name]['gpu_us']+=event.time_range.elapsed_us()
+            stats['graph_kernel_profile']={'instrumented_replays':1,
+                'kernel_calls':sum(v['calls'] for v in groups.values()),
+                'summed_gpu_us':sum(v['gpu_us'] for v in groups.values()),
+                'families':[{'name':k,**v} for k,v in sorted(groups.items(),key=lambda item:item[1]['gpu_us'],reverse=True)],
+                'scope':'Instrumented reconstructed graph only; not native NVIDIA kernel costs.'}
         network_seconds=float(np.median(samples))/1000
     stats['network_timing_kind']='CUDA Graph median GPU interval'
 else:
@@ -136,6 +160,8 @@ stats.update(precision=a.precision,network_extent=list(result.network_extent),ne
              noise_frame=a.noise_frame,
              batched_ffn=a.batched_ffn and a.precision=='fast',
              fused_gate=a.fused_gate,
+             fused_publish=a.fused_publish,
+             fused_roundtrip=a.fused_roundtrip,
              weights_sha256=hashlib.sha256(a.weights.read_bytes()).hexdigest(),
              comparison={'rgb_mae':float(error.mean()),'rgb_rmse':mse**0.5,
              'rgb_max_abs':float(error.max()),'rgb_p99_abs':float(np.percentile(error,99)),

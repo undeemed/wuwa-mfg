@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "shape": [
+    1080,
+    1920,
+    3
+  ],
+  "quality_gate_passed": false,
+  "teacher_effect": {
+    "mse": 0.0006677920549915982,
+    "mae": 0.019964123144745827,
+    "dc_fraction": 0.13800368157442108,
+    "bands": [
+      {
+        "spatial_wavelength": "wavelength >=256px",
+        "mse": 0.0003403015000557431,
+        "fraction": 0.5095920157012477
+      },
+      {
+        "spatial_wavelength": "64..256px",
+        "mse": 0.00016469757885867378,
+        "fraction": 0.2466300359474138
+      },
+      {
+        "spatial_wavelength": "16..64px",
+        "mse": 7.027868040093962e-05,
+        "fraction": 0.10524036597097622
+      },
+      {
+        "spatial_wavelength": "4..16px",
+        "mse": 7.98069947964661e-05,
+        "fraction": 0.1195087513241298
+      },
+      {
+        "spatial_wavelength": "<4px",
+        "mse": 1.2707302220644553e-05,
+        "fraction": 0.019028831056232407
+      }
+    ]
+  },
+  "student_error": {
+    "mse": 0.0010713595393708132,
+    "mae": 0.022494977340102196,
+    "dc_fraction": 0.03843530861852652,
+    "bands": [
+      {
+        "spatial_wavelength": "wavelength >=256px",
+        "mse": 0.0005868999639638148,
+        "fraction": 0.5478085968681687
+      },
+      {
+        "spatial_wavelength": "64..256px",
+        "mse": 0.00022727659450646882,
+        "fraction": 0.2121384903428631
+      },
+      {
+        "spatial_wavelength": "16..64px",
+        "mse": 0.00017995599844539224,
+        "fraction": 0.1679697547441981
+      },
+      {
+        "spatial_wavelength": "4..16px",
+        "mse": 6.049470957025244e-05,
+        "fraction": 0.056465367187636395
+      },
+      {
+        "spatial_wavelength": "<4px",
+        "mse": 1.673226916052176e-05,
+        "fraction": 0.015617790857133346
+      }
+    ]
+  },
+  "limitation": "One first-reset camera view. FFT bands describe error scale, not perceptual or temporal quality. Image borders are periodic in this diagnostic."
+}
