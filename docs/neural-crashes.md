@@ -153,13 +153,37 @@ release APIs. No Windows patch or recovery is included in the control.
 identity, probe timings and control results. Dumps, raw logs, disassembly, process
 IDs and private paths remain local.
 
-Recovery is **pending verification**. No service was restarted or force-stopped,
-and no game, driver, persistent security setting or WMI repository was changed.
-The running WMI dependencies included Hyper-V management. Microsoft documents that
-[stopping WMI also stops dependent services](https://learn.microsoft.com/en-us/windows/win32/wmisdk/starting-and-stopping-the-wmi-service).
-After separately authorized recovery, repeat the bounded WMI query before another
-game launch. Clearing the current process state would not by itself establish
-that the underlying Windows error path cannot recur.
+### Verified recovery: recycle the affected provider
+
+After the user authorized recovery, the helper rechecked the captured provider's
+executable path, process creation time and 74-thread wait signature, then ended
+only that provider instance. Exit was confirmed in 0.016 seconds. The WMI service
+kept its existing process, and no dependent service or Windows restart was requested.
+
+Fresh, non-elevated probes all passed, each inside a five-second WMI timeout and
+an eight-second process deadline. Timings include launching the probe process:
+
+| Query | Before recovery | After recovery |
+| --- | --- | --- |
+| `Win32_OperatingSystem` version | Timed out | Returned in 1.812 s |
+| `Win32_ComputerSystemProduct` | Canceled calls from the hung game | Returned in 2.328 s |
+| `Win32_VideoController` | Canceled calls from the hung game | Returned in 2.329 s |
+
+The original game process also resumed: its title screen became visible and
+responsive, followed by a visible game-world session. Fresh RTXMFG telemetry
+reported **six actual frames presented**, multiplier 6, accepted options and a
+successful state query. A subsequent snapshot reported FG off and one actual
+frame; it is not counted as further 6x evidence. A standard attempt to close the
+game had been denied before recovery; no forced game termination or relaunch was
+needed afterward.
+
+This verifies **recovery from the captured blockage**, not long-term stability or
+prevention of recurrence. No game/driver file, persistent security setting or WMI
+repository was changed. A generic WMI service restart has a broader effect:
+Microsoft documents that it also
+[stops dependent services](https://learn.microsoft.com/en-us/windows/win32/wmisdk/starting-and-stopping-the-wmi-service).
+The recovery here targeted only the identified provider, after preserving evidence
+and confirming its identity again; it did not stop every `WmiPrvSE` process.
 
 ## Practical prevention while testing
 

@@ -1,7 +1,7 @@
 {
   "schema": 2,
   "observed_date": "2026-09-15",
-  "scope": "Two WuWa hang reports, bounded WMI layer probes, approved WMI-only dumps, offline symbol/binary analysis and an isolated API-pairing control. Recovery not performed.",
+  "scope": "WuWa hang diagnosis, bounded WMI probes, approved WMI-only dumps, offline lock analysis, isolated API-pairing control and verified targeted provider recovery.",
   "hang_reports": {
     "count": 2,
     "crash_type": "Hang",
@@ -98,18 +98,81 @@
     "experimental_student_installed": false,
     "game_files_modified": false
   },
-  "conclusion": "WuWa waits for WMI hardware information while its Windows provider is stalled on a malformed SRW lock. The stock binary contains a mismatched release error path that reproduces the preserved malformed state in an isolated control. The initial triggering error remains unknown.",
+  "conclusion": "WuWa waits for WMI hardware information while its Windows provider is stalled on a malformed SRW lock. The stock binary contains a mismatched release error path that reproduces the preserved malformed state in an isolated control. The initial triggering error remains unknown. Recycling only that affected provider restored all three hardware queries and allowed the already-running game to resume; this verifies recovery, not prevention of recurrence.",
   "recovery": {
-    "status": "Diagnosis before recovery requested and completed; recovery and fresh WMI/game checks pending.",
-    "verified": false,
+    "status": "Affected provider recycled after user authorization; all three WMI probes passed and the same WuWa process resumed into the game world.",
+    "verified": true,
     "diagnostic_session_elevated": true,
     "running_wmi_dependency_observed": "vmms",
     "services_force_stopped": false,
     "wmi_repository_modified": false,
-    "elevation_scope": "Read-only dumps and wait chains of the WMI service and affected provider only.",
+    "elevation_scope": "Initial read-only WMI capture, followed by separately authorized termination of the identity-verified affected provider only.",
     "game_process_opened_for_diagnostic": false,
     "services_restarted": false,
-    "windows_restarted": false
+    "windows_restarted": false,
+    "recovery_elevated": true,
+    "provider_process_recycled": true,
+    "provider_identity_and_creation_checked_against_dump": true,
+    "blocked_thread_signature_revalidated_before_recovery": true,
+    "provider_exit_confirmed": true,
+    "provider_exit_wait_seconds": 0.016,
+    "wmi_service_process_unchanged": true,
+    "game_stop_attempt": "Standard Stop-Process was denied before recovery; the same process later resumed without termination.",
+    "game_restarted": false,
+    "game_world_visually_observed": true,
+    "observations_are_long_term_stability_test": false,
+    "recurrence_prevention_verified": false,
+    "probes": [
+      {
+        "name": "operating_system",
+        "query": "SELECT Version FROM Win32_OperatingSystem",
+        "elapsed_seconds": 1.812,
+        "passed": true,
+        "instances": 1,
+        "operation_timeout_seconds": 5,
+        "process_deadline_seconds": 8,
+        "process_deadline_reached": false
+      },
+      {
+        "name": "game_computer_system_product",
+        "query": "SELECT * FROM Win32_ComputerSystemProduct",
+        "elapsed_seconds": 2.328,
+        "passed": true,
+        "instances": 1,
+        "operation_timeout_seconds": 5,
+        "process_deadline_seconds": 8,
+        "process_deadline_reached": false
+      },
+      {
+        "name": "game_video_controller",
+        "query": "SELECT * FROM Win32_VideoController",
+        "elapsed_seconds": 2.329,
+        "passed": true,
+        "instances": 1,
+        "operation_timeout_seconds": 5,
+        "process_deadline_seconds": 8,
+        "process_deadline_reached": false
+      }
+    ],
+    "resumed_game_runtime": {
+      "source": "Direct status-file tool output during the visually observed game-world session",
+      "heartbeat_unix_seconds": 1789515325,
+      "actual_frames_presented": 6,
+      "applied_multiplier": 6,
+      "frame_generation_on": true,
+      "set_options_accepted": true,
+      "state_sample_age_ms": 15,
+      "get_state_result": 0
+    },
+    "later_runtime_sample": {
+      "heartbeat_unix_seconds": 1789515415,
+      "actual_frames_presented": 1,
+      "applied_multiplier": 6,
+      "frame_generation_on": false,
+      "set_options_accepted": true,
+      "state_sample_age_ms": 16,
+      "get_state_result": 0
+    }
   },
   "private_artifacts_excluded": [
     "raw crash dumps",
