@@ -27,7 +27,7 @@ Python or NVIDIA Profile Inspector installation is needed.
 
 ## Install MFG
 
-1. Download **WuWa-Experience-Toolkit-0.2.0.zip** from the
+1. Download **WuWa-Experience-Toolkit-0.2.1.zip** from the
    [latest release](https://github.com/undeemed/wuwa-mfg/releases/latest).
    Extract the whole folder and keep it for verification and recovery.
 2. Close WuWa. Run **Setup.cmd**, choose **1**, and approve the normal Windows
@@ -92,6 +92,7 @@ Run `Setup.cmd` again whenever you need one of these actions.
 | 8 | Restore the neural add-on | Yes |
 | 9 | Read neural status | No; read only |
 | 10 | Set neural model resolution scale | Yes |
+| U | Uninstall all managed add-ons | Yes |
 
 For the optional neural engine, follow [its build and setup guide](neural-rendering.md).
 For the separate research student, use [the research integration guide](../research/neural/integration.md).
@@ -101,14 +102,25 @@ For the separate research student, use [the research integration guide](../resea
 1. Close WuWa.
 2. If you installed the separate student integration, restore it using
    [its own backup procedure](../research/neural/integration.md#build-and-install-locally).
-3. If the managed neural add-on is installed, use **Setup.cmd → 8** first.
-   To keep it installed but turn its effect off, use **7** instead.
-4. Restore MFG with **Setup.cmd → 3**, review the target, and type `RESTORE`.
-5. Restart Windows if GPU description strings were restored.
+3. Run **[Uninstall.cmd](../Uninstall.cmd)**, approve the normal administrator
+   prompt, review the target, and type `UNINSTALL`. **Setup.cmd → U** is equivalent.
+   The uninstaller checks both recovery records before changing anything, restores
+   the managed neural add-on, then restores MFG and its saved NVIDIA settings.
+4. Restart Windows if GPU description strings were restored.
+
+For a partial restore, **Setup → 8** removes only the managed neural add-on;
+**7** leaves it installed but disables the effect for the next launch. **3** restores
+only MFG and requires the managed neural add-on to be restored first.
+
+From an administrator terminal with Python installed, the full uninstall command is:
+
+```powershell
+python setup.py uninstall
+```
 
 Original MFG files, both scopes of the two profile settings, and changed descriptions
 are saved in `%ProgramData%\WuWaMFG\state.json` before changes begin. Restore keeps
-the backup. If a file or setting changed after installation, rollback stops rather
+the backup, game, and saves. If a file or setting changed after installation, rollback stops rather
 than overwriting it. See [recovery instructions](troubleshooting.md#rollback-stops-because-something-changed).
 
 A manually installed copy of this exact patch is left in place. Use Verify for

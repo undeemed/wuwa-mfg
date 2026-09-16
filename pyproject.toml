@@ -1,6 +1,6 @@
 [project]
 name = "wuwa-mfg"
-version = "0.2.0"
+version = "0.2.1"
 description = "WuWa Experience Toolkit: DLSS MFG, experimental neural rendering, reversible setup and diagnostics"
 requires-python = ">=3.10"
 license = "MIT"

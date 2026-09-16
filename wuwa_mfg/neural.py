@@ -168,9 +168,7 @@ def read_state(state_path):
     return state, game
 
 
-def restore(state_path, assert_closed):
-    assert_closed()
-    state_path = Path(state_path)
+def check_restore_conflicts(state_path):
     state, game = read_state(state_path)
     for name, entry in state['files'].items():
         dest = target(game, name)
@@ -180,6 +178,13 @@ def restore(state_path, assert_closed):
             accepted.append(state['pending_config_hash'])
         if actual not in accepted:
             raise ValueError(f'{name} changed after setup; restore stopped before modifying anything')
+    return state, game
+
+
+def restore(state_path, assert_closed):
+    assert_closed()
+    state_path = Path(state_path)
+    state, game = check_restore_conflicts(state_path)
     for name, entry in state['files'].items():
         dest = target(game, name)
         if entry['before'] is None and dest.exists():

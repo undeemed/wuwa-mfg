@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.2.1 — Uninstall and repository cleanup
+
+- Adds `Uninstall.cmd`, Setup option U, and `python setup.py uninstall` to restore
+  managed neural rendering followed by MFG, saved NVIDIA settings, and GPU-name aliases.
+- Checks both components before restoration, preserves recovery records, and
+  supports retrying an interrupted restore. Manual installations are left unchanged.
+- Shortens the README, adds task-based documentation indexes, and groups neural
+  research, tools, probes, and evidence without changing the MFG runtime patch.
+- Includes the previously published experimental student integration and its
+  quality limitations. NVIDIA remains the default neural engine.
+
 ## 0.2.0 — WuWa Experience Toolkit
 
 - Retains the RTXMFG 3x/4x/5x/6x unlock, GPU-name spoofing and scoped driver tweaks.

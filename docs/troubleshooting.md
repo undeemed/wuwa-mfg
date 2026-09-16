@@ -2,6 +2,10 @@
 
 [← Documentation](README.md)
 
+To undo the managed installation, close WuWa and run **[Uninstall.cmd](../Uninstall.cmd)**.
+It restores the neural add-on first, then MFG and saved NVIDIA settings, keeping
+your recovery records. See [restore instructions](installation.md#restore).
+
 For the optional neural engine, see [NR setup/recovery](neural-rendering.md) and
 [the crash investigation](neural-crashes.md). NR and MFG have separate controls:
 disable NR with Setup option 7, remove it with 8, then restore MFG with 3 if needed.

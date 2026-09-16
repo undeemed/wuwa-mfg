@@ -94,10 +94,13 @@ model weights, and compiled OptiScaler DLLs are not bundled.
 
 ## Uninstall
 
-Close WuWa. Restore the managed neural add-on with **Setup → 8** first, if installed,
-then restore MFG with **Setup → 3**. For the separate student integration, follow
+Close WuWa, run **[Uninstall.cmd](Uninstall.cmd)**, review the target, and type
+`UNINSTALL`. It restores the managed neural add-on first, then MFG, saved NVIDIA
+settings, and any GPU-name aliases. Backups are retained.
+
+For the separate student integration, follow
 [its restore procedure](research/neural/integration.md#build-and-install-locally) first.
-Keep your backup until recovery is complete. [Restore details →](docs/installation.md#restore)
+[Restore details →](docs/installation.md#restore)
 
 ## Documentation
 

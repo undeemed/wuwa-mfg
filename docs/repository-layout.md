@@ -12,6 +12,7 @@ next to their code. No runtime files or learned weights are included.
 wuwa-mfg/
 ├── README.md                    Project overview and quick start
 ├── Setup.cmd                    Windows setup entry point
+├── Uninstall.cmd                Restore all managed add-ons
 ├── Launch.ps1                   Interactive setup menu
 ├── setup.py                     Command-line entry point
 ├── CONTRIBUTING.md              Development and test instructions

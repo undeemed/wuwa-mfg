@@ -127,11 +127,17 @@ def check_restore_conflicts(state, backend):
     return directory
 
 
-def restore(state_path, backend):
+def read_restore_state(state_path):
     state_path = Path(state_path)
     state = json.loads(state_path.read_text())
     if state.get("schema") != 1 or set(state.get("before_files", {})) != set(FILES) or set(state.get("after_files", {})) != set(FILES):
         raise ValueError("Unsupported backup manifest.")
+    return state
+
+
+def restore(state_path, backend):
+    state_path = Path(state_path)
+    state = read_restore_state(state_path)
     if state.get("status") == "restored":
         return "Already restored."
     backend.assert_closed()
