@@ -50,7 +50,7 @@ def main():
     # Record the full choice before downloading or inspecting any model outputs.
     (output / 'selection.json').write_text(json.dumps({**report, 'selected_sources': CASES}, indent=2) + '\n')
     for case in CASES:
-        request = Request(case['url'], headers={'User-Agent': 'wuwa-mfg-research/1.0 (https://github.com/undeemed/wuwa-mfg)'})
+        request = Request(case['url'], headers={'User-Agent': 'wuwa-toolkit-research/1.0 (https://github.com/undeemed/wuwa-toolkit)'})
         with urlopen(request, timeout=30) as response:
             data = response.read(32 * 1024 * 1024 + 1)
         if not 1 <= len(data) <= 32 * 1024 * 1024:

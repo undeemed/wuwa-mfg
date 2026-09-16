@@ -45,7 +45,7 @@ BUCKETS = {
     'sunset': 'sunset clouds landscape photograph',
     'dark': 'cave interior photograph',
 }
-USER_AGENT = 'wuwa-mfg-research/1.0 (https://github.com/undeemed/wuwa-mfg)'
+USER_AGENT = 'wuwa-toolkit-research/1.0 (https://github.com/undeemed/wuwa-toolkit)'
 REPO = Path(__file__).resolve().parents[2]
 
 

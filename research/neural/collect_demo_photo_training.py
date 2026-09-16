@@ -118,7 +118,7 @@ def main():
     for source, split in [(c, 'train') for c in TRAINING_SOURCES] + [(c, 'validation') for c in VALIDATION_SOURCES]:
         name = source['name']
         if split == 'train':
-            request = Request(source['url'], headers={'User-Agent': 'wuwa-mfg-research/1.0 (https://github.com/undeemed/wuwa-mfg)'})
+            request = Request(source['url'], headers={'User-Agent': 'wuwa-toolkit-research/1.0 (https://github.com/undeemed/wuwa-toolkit)'})
             with urlopen(request, timeout=30) as response:
                 data = response.read(32 * 1024 * 1024 + 1)
             if not 1 <= len(data) <= 32 * 1024 * 1024:

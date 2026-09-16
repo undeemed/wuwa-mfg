@@ -41,7 +41,7 @@ new file. See [the implementation](docs/technical.md) for the exact edit.
 
 ## Compatibility reports
 
-Use the [issue template](https://github.com/undeemed/wuwa-mfg/issues/new/choose).
+Use the [issue template](https://github.com/undeemed/wuwa-toolkit/issues/new/choose).
 For a new configuration, include the physical GPU PCI ID, driver version, and
 NVIDIA wrapper/provider versions and hashes. Distinguish runtime requested and
 presented counts, observed picture quality, and tester reports.

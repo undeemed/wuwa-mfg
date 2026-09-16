@@ -63,7 +63,7 @@ def dll_from_archive(data):
 
 
 def download_dll():
-    request = urllib.request.Request(RELEASE_URL, headers={"User-Agent": "wuwa-mfg/0.1.0"})
+    request = urllib.request.Request(RELEASE_URL, headers={"User-Agent": "wuwa-toolkit/0.2.1"})
     with urllib.request.urlopen(request, timeout=60) as response:
         data = response.read(8 * 1024 * 1024 + 1)
     if len(data) > 8 * 1024 * 1024:

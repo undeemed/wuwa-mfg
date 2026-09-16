@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Renames the project to WuWa Toolkit and the repository to `undeemed/wuwa-toolkit`.
+- Updates project links, badges, and setup labels. Existing backup paths and
+  Python module names are preserved for compatibility.
+
 ## 0.2.1 — Uninstall and repository cleanup
 
 - Adds `Uninstall.cmd`, Setup option U, and `python setup.py uninstall` to restore

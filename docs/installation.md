@@ -28,7 +28,7 @@ Python or NVIDIA Profile Inspector installation is needed.
 ## Install MFG
 
 1. Download **WuWa-Experience-Toolkit-0.2.1.zip** from the
-   [latest release](https://github.com/undeemed/wuwa-mfg/releases/latest).
+   [latest release](https://github.com/undeemed/wuwa-toolkit/releases/latest).
    Extract the whole folder and keep it for verification and recovery.
 2. Close WuWa. Run **Setup.cmd**, choose **1**, and approve the normal Windows
    administrator prompt.

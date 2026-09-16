@@ -1,16 +1,16 @@
 <div align="center">
 
-# WuWa Experience Toolkit
+# WuWa Toolkit
 
 **DLSS Multi Frame Generation and optional neural rendering for Wuthering Waves.**
 
-[![Release](https://img.shields.io/github/v/release/undeemed/wuwa-mfg)](https://github.com/undeemed/wuwa-mfg/releases/latest)
-[![Tests](https://github.com/undeemed/wuwa-mfg/actions/workflows/test.yml/badge.svg)](https://github.com/undeemed/wuwa-mfg/actions/workflows/test.yml)
+[![Release](https://img.shields.io/github/v/release/undeemed/wuwa-toolkit)](https://github.com/undeemed/wuwa-toolkit/releases/latest)
+[![Tests](https://github.com/undeemed/wuwa-toolkit/actions/workflows/test.yml/badge.svg)](https://github.com/undeemed/wuwa-toolkit/actions/workflows/test.yml)
 ![Platform: Windows x64](https://img.shields.io/badge/platform-Windows_x64-0078D4)
 
-[**Download**](https://github.com/undeemed/wuwa-mfg/releases/latest) ·
+[**Download**](https://github.com/undeemed/wuwa-toolkit/releases/latest) ·
 [Quick start](#quick-start) · [Documentation](docs/README.md) ·
-[Report an issue](https://github.com/undeemed/wuwa-mfg/issues/new/choose)
+[Report an issue](https://github.com/undeemed/wuwa-toolkit/issues/new/choose)
 
 </div>
 
@@ -49,7 +49,7 @@ Other RTX cards are not currently supported by this installer.
 
 ## Quick start
 
-1. [Download the latest toolkit ZIP](https://github.com/undeemed/wuwa-mfg/releases/latest)
+1. [Download the latest toolkit ZIP](https://github.com/undeemed/wuwa-toolkit/releases/latest)
    and extract the entire folder.
 2. Close WuWa. Run **Setup.cmd → 1: Install MFG unlock**, approve the Windows prompt,
    and review the detected game folder.

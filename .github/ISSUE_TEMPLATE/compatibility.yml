@@ -4,8 +4,8 @@ body:
   - type: input
     id: version
     attributes:
-      label: WuWa MFG release
-      placeholder: 0.1.0
+      label: WuWa Toolkit release
+      placeholder: 0.2.1
     validations:
       required: true
   - type: input

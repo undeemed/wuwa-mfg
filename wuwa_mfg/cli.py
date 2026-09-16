@@ -69,7 +69,7 @@ def verify(game, seconds):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="WuWa Experience Toolkit: MFG and experimental neural rendering")
+    parser = argparse.ArgumentParser(description="WuWa Toolkit: MFG and experimental neural rendering")
     parser.add_argument("action", choices=("install", "uninstall", "restore", "verify", "doctor", "patch",
         "neural-install", "neural-on", "neural-off", "neural-restore", "neural-status", "neural-scale"))
     parser.add_argument("--game", help="WuWa root, Client/Binaries/Win64, or shipping EXE")

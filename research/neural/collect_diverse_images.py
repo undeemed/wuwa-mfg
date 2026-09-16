@@ -147,7 +147,7 @@ def main():
             if any((args.output/(row['name']+suffix)).exists() for suffix in ['-original.jpg', '-1080.png', '-scene']):
                 raise FileExistsError('Unrecorded preparation artifacts require inspection before resuming.')
             time.sleep(3)  # Respect the source host's request rate, including resumed work.
-            request = Request(row['url'], headers={'User-Agent': 'wuwa-mfg-research/1.0 (https://github.com/undeemed/wuwa-mfg)'})
+            request = Request(row['url'], headers={'User-Agent': 'wuwa-toolkit-research/1.0 (https://github.com/undeemed/wuwa-toolkit)'})
             with urlopen(request, timeout=30) as response:
                 data = response.read(32*1024*1024+1)
             assert len(data)==row['source_bytes'] and hashlib.sha1(data).hexdigest()==row['source_sha1']

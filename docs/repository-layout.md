@@ -9,7 +9,7 @@ next to their code. No runtime files or learned weights are included.
 ## Current layout
 
 ```text
-wuwa-mfg/
+wuwa-toolkit/
 ├── README.md                    Project overview and quick start
 ├── Setup.cmd                    Windows setup entry point
 ├── Uninstall.cmd                Restore all managed add-ons

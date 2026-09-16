@@ -3,7 +3,7 @@ $ErrorActionPreference = 'Stop'
 try {
     if (-not [Environment]::Is64BitOperatingSystem) { throw '64-bit Windows is required.' }
     if ($Action -eq 'menu') {
-        Write-Host "`nWuWa Experience Toolkit 0.2.1`n"
+        Write-Host "`nWuWa Toolkit 0.2.1`n"
         Write-Host '1. Install MFG unlock (game must be closed)'
         Write-Host '2. Verify actual runtime frame counts'
         Write-Host '3. Restore the previous MFG setup'
