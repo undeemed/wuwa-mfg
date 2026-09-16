@@ -14,6 +14,7 @@ with NVIDIA driver 616.92**; support for all older RTX cards is a goal, not a cl
 | RTXMFG 3x/4x/5x/6x | 3x and 6x verified in runtime; 4x and 5x tester-reported | [Guided MFG setup](#install-the-wuwa-dlss-mfg-unlock) |
 | Optional neural engine + MFG | Model runs alongside actual 6x; transition stability experimental | [Neural setup and source build](docs/neural-rendering.md) |
 | Model resolution control | DX12 scale relative to game output: full resolution or proportional fractions | [Resolution settings](docs/neural-rendering.md#model-resolution-relative-to-output) |
+| Live NVIDIA / student switching | Local 1080p student integration; engine swap and weight reload tested in the hidden demo | [Student setup and controls](docs/student-hotswap.md) |
 | Backups, restore and verification | Separate controls for MFG and NR, with hash checks | [Recovery](#undo) |
 
 [Download toolkit](https://github.com/undeemed/wuwa-mfg/releases/latest) ·

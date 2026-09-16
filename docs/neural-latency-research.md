@@ -9,7 +9,15 @@ Current work focuses on training a smaller model to reproduce the original
 output. Earlier kernel experiments remain documented below. Reduced resolution, skipped
 frames, weaker blending and a different visual style do not satisfy the target.
 
-The latest [model experiment](../research/neural-latency/README.md#region-routed-context-with-a-matched-dense-control)
+The current [student integration](student-hotswap.md) runs the broadly trained
+student in DirectX 12, with live NVIDIA/student selection and weight reload.
+It passed 56 image parity checks and 16 hidden-demo switch/reload checks. The
+integrated student measured about 3.35–3.78 ms total in that smoke test; live WuWa
+performance and final temporal validation remain unmeasured. This is distinct
+from the earlier 2.23 ms CUDA-only timing. The integration is installed locally
+with a backup; NVIDIA's own runtime binary is preserved.
+
+An earlier [model experiment](../research/neural-latency/README.md#region-routed-context-with-a-matched-dense-control)
 adds a region-attention branch inspired by MoBA and BiFormer, with matched dense
 and routed training runs. The routed complete model takes **2.463 ms** versus
 **2.592 ms** for dense attention in the same timing comparison. It improves the

@@ -1,0 +1,644 @@
+{
+  "schema": 1,
+  "port_parity": {
+    "complete": true,
+    "checkpoint_sha256": "7d3f8fd7b719422e89c5a84d151c1489005417379d27fdc45a82a453f085bbec",
+    "probe_sha256": "c761bab3baab40b46a88cc4fb4f6182f0dc60a38a5432a18458cdb519794e677",
+    "width": 1920,
+    "height": 1080,
+    "case_count": 56,
+    "all_passed": true,
+    "mean_mae": 4.4264939138624216e-05,
+    "max_p99": 0.001220703125,
+    "cases": [
+      {
+        "label": "north",
+        "finite": true,
+        "mae": 5.8719095250125974e-05,
+        "max": 0.00146484375,
+        "p99": 0.000244140625,
+        "median_ms": 3.600896,
+        "parity_passed": true
+      },
+      {
+        "label": "shifted-north",
+        "finite": true,
+        "mae": 5.96224854234606e-05,
+        "max": 0.0009765625,
+        "p99": 0.000244140625,
+        "median_ms": 3.595264,
+        "parity_passed": true
+      },
+      {
+        "label": "teacher-illumination-validation-dim",
+        "finite": true,
+        "mae": 5.972159851808101e-05,
+        "max": 0.0009765625,
+        "p99": 0.000244140625,
+        "median_ms": 3.5415039999999998,
+        "parity_passed": true
+      },
+      {
+        "label": "teacher-illumination-validation-bright",
+        "finite": true,
+        "mae": 6.290599412750453e-05,
+        "max": 0.00146484375,
+        "p99": 0.00048828125,
+        "median_ms": 3.5865600000000004,
+        "parity_passed": true
+      },
+      {
+        "label": "teacher-illumination-validation-low-sun",
+        "finite": true,
+        "mae": 6.384715379681438e-05,
+        "max": 0.000732421875,
+        "p99": 0.000244140625,
+        "median_ms": 3.593216,
+        "parity_passed": true
+      },
+      {
+        "label": "teacher-illumination-validation-neutral",
+        "finite": true,
+        "mae": 7.097275374690071e-05,
+        "max": 0.0009765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.597824,
+        "parity_passed": true
+      },
+      {
+        "label": "teacher-photo-portrait",
+        "finite": true,
+        "mae": 4.0934970456874e-05,
+        "max": 0.00146484375,
+        "p99": 0.00048828125,
+        "median_ms": 3.603456,
+        "parity_passed": true
+      },
+      {
+        "label": "teacher-photo-tenth-portrait",
+        "finite": true,
+        "mae": 2.7176429284736514e-05,
+        "max": 0.0009765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.569152,
+        "parity_passed": true
+      },
+      {
+        "label": "teacher-photo-landscape",
+        "finite": true,
+        "mae": 0.00013697434042114764,
+        "max": 0.0015869140625,
+        "p99": 0.000732421875,
+        "median_ms": 3.523584,
+        "parity_passed": true
+      },
+      {
+        "label": "teacher-photo-tenth-landscape",
+        "finite": true,
+        "mae": 3.5597429814515635e-05,
+        "max": 0.0009765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.584512,
+        "parity_passed": true
+      },
+      {
+        "label": "teacher-photo-cat",
+        "finite": true,
+        "mae": 5.881667311768979e-05,
+        "max": 0.00146484375,
+        "p99": 0.00048828125,
+        "median_ms": 3.599872,
+        "parity_passed": true
+      },
+      {
+        "label": "teacher-photo-tenth-cat",
+        "finite": true,
+        "mae": 6.488983490271494e-05,
+        "max": 0.0009765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.593216,
+        "parity_passed": true
+      },
+      {
+        "label": "teacher-diverse-library",
+        "finite": true,
+        "mae": 5.054100984125398e-05,
+        "max": 0.0078125,
+        "p99": 0.00048828125,
+        "median_ms": 3.600384,
+        "parity_passed": true
+      },
+      {
+        "label": "teacher-diverse-beach",
+        "finite": true,
+        "mae": 4.862572313868441e-05,
+        "max": 0.0025634765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.532288,
+        "parity_passed": true
+      },
+      {
+        "label": "teacher-diverse-cassidy",
+        "finite": true,
+        "mae": 4.118676588404924e-05,
+        "max": 0.0009765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.531264,
+        "parity_passed": true
+      },
+      {
+        "label": "teacher-diverse-dunes-other",
+        "finite": true,
+        "mae": 3.365115844644606e-05,
+        "max": 0.0009765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.552768,
+        "parity_passed": true
+      },
+      {
+        "label": "forest-72693101",
+        "finite": true,
+        "mae": 4.9158195906784385e-05,
+        "max": 0.0009765625,
+        "p99": 0.000244140625,
+        "median_ms": 3.596288,
+        "parity_passed": true
+      },
+      {
+        "label": "forest-72693254",
+        "finite": true,
+        "mae": 3.304611527710222e-05,
+        "max": 0.00146484375,
+        "p99": 0.00048828125,
+        "median_ms": 3.546112,
+        "parity_passed": true
+      },
+      {
+        "label": "foliage-29370484",
+        "finite": true,
+        "mae": 3.166758324368857e-05,
+        "max": 0.0009765625,
+        "p99": 0.000244140625,
+        "median_ms": 3.5384320000000002,
+        "parity_passed": true
+      },
+      {
+        "label": "foliage-111307040",
+        "finite": true,
+        "mae": 4.12867302657105e-05,
+        "max": 0.0009765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.593216,
+        "parity_passed": true
+      },
+      {
+        "label": "mountains-146971170",
+        "finite": true,
+        "mae": 3.522814949974418e-05,
+        "max": 0.0009765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.530752,
+        "parity_passed": true
+      },
+      {
+        "label": "mountains-40764786",
+        "finite": true,
+        "mae": 2.8785423637600616e-05,
+        "max": 0.0009765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.547136,
+        "parity_passed": true
+      },
+      {
+        "label": "coast-4498670",
+        "finite": true,
+        "mae": 2.95889640256064e-05,
+        "max": 0.0009765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.60192,
+        "parity_passed": true
+      },
+      {
+        "label": "coast-63218100",
+        "finite": true,
+        "mae": 3.945212665712461e-05,
+        "max": 0.0009765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.595776,
+        "parity_passed": true
+      },
+      {
+        "label": "water-7029276",
+        "finite": true,
+        "mae": 3.84637423849199e-05,
+        "max": 0.0009765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.591168,
+        "parity_passed": true
+      },
+      {
+        "label": "water-72694394",
+        "finite": true,
+        "mae": 0.00012196619354654104,
+        "max": 0.0174560546875,
+        "p99": 0.001220703125,
+        "median_ms": 3.593728,
+        "parity_passed": true
+      },
+      {
+        "label": "snow-50553806",
+        "finite": true,
+        "mae": 3.222952364012599e-05,
+        "max": 0.0009765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.597312,
+        "parity_passed": true
+      },
+      {
+        "label": "snow-533690",
+        "finite": true,
+        "mae": 4.23411293013487e-05,
+        "max": 0.0009765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.592192,
+        "parity_passed": true
+      },
+      {
+        "label": "desert-22648225",
+        "finite": true,
+        "mae": 4.106036067241803e-05,
+        "max": 0.0009765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.589632,
+        "parity_passed": true
+      },
+      {
+        "label": "desert-168098598",
+        "finite": true,
+        "mae": 3.438789281062782e-05,
+        "max": 0.0009765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.5384320000000002,
+        "parity_passed": true
+      },
+      {
+        "label": "day-city-113158873",
+        "finite": true,
+        "mae": 2.8425092750694603e-05,
+        "max": 0.0009765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.602432,
+        "parity_passed": true
+      },
+      {
+        "label": "day-city-106858244",
+        "finite": true,
+        "mae": 4.115225965506397e-05,
+        "max": 0.0009765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.5819520000000002,
+        "parity_passed": true
+      },
+      {
+        "label": "night-city-121086009",
+        "finite": true,
+        "mae": 4.371602335595526e-05,
+        "max": 0.002197265625,
+        "p99": 0.00048828125,
+        "median_ms": 3.599872,
+        "parity_passed": true
+      },
+      {
+        "label": "night-city-137799771",
+        "finite": true,
+        "mae": 2.6065494239446707e-05,
+        "max": 0.0009765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.60192,
+        "parity_passed": true
+      },
+      {
+        "label": "stone-181007160",
+        "finite": true,
+        "mae": 5.0917227781610563e-05,
+        "max": 0.0081787109375,
+        "p99": 0.00048828125,
+        "median_ms": 3.534848,
+        "parity_passed": true
+      },
+      {
+        "label": "stone-6109870",
+        "finite": true,
+        "mae": 3.5592140193330124e-05,
+        "max": 0.0009765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.539456,
+        "parity_passed": true
+      },
+      {
+        "label": "interior-18393499",
+        "finite": true,
+        "mae": 2.541006324463524e-05,
+        "max": 0.0009765625,
+        "p99": 0.000244140625,
+        "median_ms": 3.610624,
+        "parity_passed": true
+      },
+      {
+        "label": "interior-91689992",
+        "finite": true,
+        "mae": 3.541634578141384e-05,
+        "max": 0.0009765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.530752,
+        "parity_passed": true
+      },
+      {
+        "label": "ornament-20251852",
+        "finite": true,
+        "mae": 3.156487946398556e-05,
+        "max": 0.0009765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.543552,
+        "parity_passed": true
+      },
+      {
+        "label": "ornament-20157728",
+        "finite": true,
+        "mae": 3.567966996342875e-05,
+        "max": 0.0009765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.546624,
+        "parity_passed": true
+      },
+      {
+        "label": "faces-116177009",
+        "finite": true,
+        "mae": 3.309255771455355e-05,
+        "max": 0.0009765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.538944,
+        "parity_passed": true
+      },
+      {
+        "label": "faces-59357482",
+        "finite": true,
+        "mae": 4.4438711483962834e-05,
+        "max": 0.0009765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.535872,
+        "parity_passed": true
+      },
+      {
+        "label": "people-175262492",
+        "finite": true,
+        "mae": 3.686761192511767e-05,
+        "max": 0.00213623046875,
+        "p99": 0.00048828125,
+        "median_ms": 3.547136,
+        "parity_passed": true
+      },
+      {
+        "label": "people-61195156",
+        "finite": true,
+        "mae": 3.988670141552575e-05,
+        "max": 0.00341796875,
+        "p99": 0.00048828125,
+        "median_ms": 3.6080639999999997,
+        "parity_passed": true
+      },
+      {
+        "label": "animals-13414431",
+        "finite": true,
+        "mae": 4.218543108436279e-05,
+        "max": 0.0009765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.589632,
+        "parity_passed": true
+      },
+      {
+        "label": "animals-13415691",
+        "finite": true,
+        "mae": 3.103239941992797e-05,
+        "max": 0.00146484375,
+        "p99": 0.00048828125,
+        "median_ms": 3.59424,
+        "parity_passed": true
+      },
+      {
+        "label": "flowers-153899101",
+        "finite": true,
+        "mae": 6.711886817356572e-05,
+        "max": 0.00390625,
+        "p99": 0.00048828125,
+        "median_ms": 3.597312,
+        "parity_passed": true
+      },
+      {
+        "label": "flowers-187075391",
+        "finite": true,
+        "mae": 3.521299731801264e-05,
+        "max": 0.0009765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.5891200000000003,
+        "parity_passed": true
+      },
+      {
+        "label": "reflections-71407256",
+        "finite": true,
+        "mae": 3.096120781265199e-05,
+        "max": 0.0009765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.593728,
+        "parity_passed": true
+      },
+      {
+        "label": "reflections-71407255",
+        "finite": true,
+        "mae": 4.825332871405408e-05,
+        "max": 0.0009765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.546112,
+        "parity_passed": true
+      },
+      {
+        "label": "metal-8224497",
+        "finite": true,
+        "mae": 3.614694287534803e-05,
+        "max": 0.0009765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.5322880000000003,
+        "parity_passed": true
+      },
+      {
+        "label": "metal-8172054",
+        "finite": true,
+        "mae": 3.7154615711187944e-05,
+        "max": 0.0009765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.595776,
+        "parity_passed": true
+      },
+      {
+        "label": "sunset-160022247",
+        "finite": true,
+        "mae": 2.902542837546207e-05,
+        "max": 0.0009765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.527168,
+        "parity_passed": true
+      },
+      {
+        "label": "sunset-46526067",
+        "finite": true,
+        "mae": 3.832854417851195e-05,
+        "max": 0.0009765625,
+        "p99": 0.00048828125,
+        "median_ms": 3.539968,
+        "parity_passed": true
+      },
+      {
+        "label": "dark-193485774",
+        "finite": true,
+        "mae": 2.6373774744570255e-05,
+        "max": 0.0009765625,
+        "p99": 0.000244140625,
+        "median_ms": 3.537408,
+        "parity_passed": true
+      },
+      {
+        "label": "dark-193485776",
+        "finite": true,
+        "mae": 3.5972727346234024e-05,
+        "max": 0.0009765625,
+        "p99": 0.000244140625,
+        "median_ms": 3.531776,
+        "parity_passed": true
+      }
+    ],
+    "scope": "DirectML versus the same student weights in CUDA. This is port parity, not NVIDIA-quality or temporal/gameplay validation."
+  },
+  "live_integration": {
+    "complete": true,
+    "confirmed_switches": 16,
+    "reload_succeeded": true,
+    "missing_weights_fallback_and_recovery": true,
+    "isolated_desktop_unchanged": true,
+    "unexpected_visible_windows": false,
+    "checkpoint_sha256": "7d3f8fd7b719422e89c5a84d151c1489005417379d27fdc45a82a453f085bbec",
+    "integration_sha256": "482ef183514d790bcd71cd72730ff703c792e61921eda41acda1ce766932263c",
+    "transitions": [
+      {
+        "engine": "student",
+        "confirmed": true,
+        "at_s": 4.094
+      },
+      {
+        "engine": "nvidia",
+        "confirmed": true,
+        "at_s": 16.625
+      },
+      {
+        "engine": "student",
+        "confirmed": true,
+        "at_s": 17.641
+      },
+      {
+        "engine": "nvidia",
+        "confirmed": true,
+        "at_s": 18.672
+      },
+      {
+        "engine": "student",
+        "confirmed": true,
+        "at_s": 19.687
+      },
+      {
+        "engine": "nvidia",
+        "confirmed": true,
+        "at_s": 20.703
+      },
+      {
+        "engine": "student",
+        "confirmed": true,
+        "at_s": 21.719
+      },
+      {
+        "engine": "nvidia",
+        "confirmed": true,
+        "at_s": 22.734
+      },
+      {
+        "engine": "student",
+        "confirmed": true,
+        "at_s": 23.75
+      },
+      {
+        "engine": "nvidia",
+        "confirmed": true,
+        "at_s": 24.766
+      },
+      {
+        "engine": "student",
+        "confirmed": true,
+        "at_s": 25.781
+      },
+      {
+        "engine": "nvidia",
+        "confirmed": true,
+        "at_s": 26.812
+      },
+      {
+        "engine": "student",
+        "confirmed": true,
+        "at_s": 27.828
+      },
+      {
+        "engine": "reload",
+        "confirmed": true,
+        "at_s": 28.844
+      },
+      {
+        "engine": "reload",
+        "confirmed": true,
+        "at_s": 31.359
+      },
+      {
+        "engine": "reload",
+        "confirmed": true,
+        "at_s": 31.875
+      }
+    ],
+    "elapsed_s": 35.906
+  },
+  "demo_timing": {
+    "student_total_ms": [
+      3.78,
+      3.69,
+      3.35,
+      3.42,
+      3.43
+    ],
+    "student_model_ms": [
+      3.58,
+      3.49,
+      3.15,
+      3.22,
+      3.22
+    ],
+    "nvidia_total_ms": [
+      5.73
+    ],
+    "nvidia_model_ms": [
+      5.52
+    ],
+    "scope": "Sparse intervals during one inactive-desktop demo session. Not a controlled performance comparison or a WuWa FPS/latency measurement."
+  },
+  "limitations": [
+    "Private-desktop sample was occluded; visual parity was checked separately against the trained student on 56 images.",
+    "No live WuWa gameplay test of this integration yet.",
+    "No independent temporal/300-clip final validation.",
+    "Student is fixed to 1080p, one Natural pass, default model controls."
+  ],
+  "status": "Installed locally with backup; game launch remains user-controlled."
+}

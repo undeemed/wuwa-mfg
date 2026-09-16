@@ -4,6 +4,11 @@ This records the work behind the toolkit, including failed experiments. The scop
 is the tested WuWa installation on an RTX 4070 Ti, September 14–15, 2026. A high FPS
 counter or visible menu was never sufficient evidence of the actual FG multiplier.
 
+Latest addition: [live NVIDIA/student switching](student-hotswap.md), including
+the native DirectML port, private export/build workflow, fenced resource reuse,
+weight reload/fallback, local backup/restore, and numerical/hidden-demo evidence.
+The student integration is installed locally; a WuWa gameplay trial is pending.
+
 | Stage | Observation | Retained result |
 | --- | --- | --- |
 | Native game | Normal unmodified 2x loaded | Baseline |

@@ -1,0 +1,357 @@
+diff --git a/OptiScaler/Config.cpp b/OptiScaler/Config.cpp
+index ca217c9..7c0e4fb 100644
+--- a/OptiScaler/Config.cpp
++++ b/OptiScaler/Config.cpp
+@@ -320,6 +320,7 @@ bool Config::Reload(std::filesystem::path iniPath)
+ 
+             // --- DLSS 5 Neural Rendering (OptiScaler/dlssnr) ---
+             DlssNrEnabled.set_from_config(readBool("DlssNr", "Enabled"));
++            DlssNrEngine.set_from_config(readUInt("DlssNr", "Engine"));
+             auto nrBeforeSr = readBool("DlssNr", "RunBeforeSR");
+             if (!nrBeforeSr.has_value())
+                 nrBeforeSr = readBool("DlssNr", "BeforeUpscale");
+@@ -1252,6 +1253,7 @@ bool Config::SaveIni()
+ 
+     // --- DLSS 5 Neural Rendering (OptiScaler/dlssnr) ---
+     ini.SetValue("DlssNr", "Enabled", GetBoolValue(Instance()->DlssNrEnabled.value_for_config()).c_str());
++    ini.SetValue("DlssNr", "Engine", GetIntValue(Instance()->DlssNrEngine.value_for_config()).c_str());
+     ini.SetValue("DlssNr", "FinishedPicture", GetBoolValue(Instance()->DlssNrFinishedPicture.value_for_config()).c_str());
+     ini.SetValue("DlssNr", "HdrTransfer", GetBoolValue(Instance()->DlssNrHdrTransfer.value_for_config()).c_str());
+     ini.SetValue("DlssNr", "RunBeforeSR",
+diff --git a/OptiScaler/Config.h b/OptiScaler/Config.h
+index f22eb13..5819e2f 100644
+--- a/OptiScaler/Config.h
++++ b/OptiScaler/Config.h
+@@ -257,6 +257,8 @@ class Config
+     // DLSS Neural Rendering: a detail-synthesis pass over the upscaler's output. Off by default -- it is
+     // an undocumented feature driven directly through its snippet, not something NVIDIA exposes.
+     CustomOptional<bool> DlssNrEnabled { false };
++    // 0 NVIDIA, 1 locally exported student. Selection is sampled at a frame boundary.
++    CustomOptional<uint32_t> DlssNrEngine { 0 };
+     // Run the NR pass on the upscaler's colour input, at render resolution, immediately before SR.
+     // Off preserves the v0.2.0 post-upscale placement.
+     CustomOptional<bool> DlssNrRunBeforeSr { false };
+diff --git a/OptiScaler/OptiScaler.vcxproj b/OptiScaler/OptiScaler.vcxproj
+index 513659e..30dfd2b 100644
+--- a/OptiScaler/OptiScaler.vcxproj
++++ b/OptiScaler/OptiScaler.vcxproj
+@@ -969,4 +969,12 @@ copy NUL "$(SolutionDir)x64\Release\a\!! EXTRACT ALL FILES TO GAME FOLDER !!" /Y
+     <ClInclude Include="dlssnr\DlssNr_StreamlinePicture.h" />
+     <ClCompile Include="dlssnr\DlssNr_StreamlinePicture.cpp" />
+   </ItemGroup>
++  <ItemGroup>
++    <ClCompile Include="dlssnr\DlssNr_Student.cpp" />
++    <ClCompile Include="dlssnr\student\StudentRuntime.cpp">
++      <PrecompiledHeader>NotUsing</PrecompiledHeader>
++      <LanguageStandard>stdcpp17</LanguageStandard>
++      <PreprocessorDefinitions>DML_TARGET_VERSION=0x6400;NOMINMAX;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++    </ClCompile>
++  </ItemGroup>
+ </Project>
+diff --git a/OptiScaler/dlssnr/DlssNr_MenuInput.cpp b/OptiScaler/dlssnr/DlssNr_MenuInput.cpp
+index dca225a..7e57d48 100644
+--- a/OptiScaler/dlssnr/DlssNr_MenuInput.cpp
++++ b/OptiScaler/dlssnr/DlssNr_MenuInput.cpp
+@@ -14,6 +14,14 @@ namespace DlssNr::MenuSections
+ 
+ void RenderInput(Config* config, float menuResScale)
+ {
++    static const char* engines[] = { "NVIDIA", "Student (1080p)" };
++    int engine = std::min(config->DlssNrEngine.value_or_default(), 1u);
++    if (ImGui::Combo("Neural engine", &engine, engines, IM_ARRAYSIZE(engines)))
++        config->DlssNrEngine = (uint32_t)engine;
++    ImGui::TextWrapped("%s", DlssNr::EngineStatus().c_str());
++    if (ImGui::Button("Reload student weights")) DlssNr::ReloadStudent();
++    HelpMarker("Switches on the next frame without restarting. The local student uses one Natural pass at 1920 x 1080. Unsupported settings keep NVIDIA active; blend controls still apply.");
++    ImGui::Separator();
+     // Resolution changes rebuild model resources; commit only after releasing the slider.
+     static int pendingScale = -1;
+     bool outputRelative = config->DlssNrWorkingScaleRelativeToOutput.value_or_default();
+diff --git a/OptiScaler/dlssnr/DlssNr_Status.cpp b/OptiScaler/dlssnr/DlssNr_Status.cpp
+index 24513be..f47fa0e 100644
+--- a/OptiScaler/dlssnr/DlssNr_Status.cpp
++++ b/OptiScaler/dlssnr/DlssNr_Status.cpp
+@@ -81,4 +81,6 @@ std::optional<double> LastGpuTimeVk() { return ReadStatus(Backend::Vulkan).gpuTi
+ unsigned long long FramesVk() { return ReadStatus(Backend::Vulkan).frames; }
+ bool ExposureOfferedVk() { return ReadStatus(Backend::Vulkan).exposure.offeredNow; }
+ bool CaptureInProgress() { return ReadStatus(Backend::Dx12).captureInProgress; }
++std::string EngineStatus() { return ReadStatus(Backend::Dx12).engineStatus; }
++void ReloadStudent() { std::lock_guard lock(statusMutex); ++requests.studentReloadGeneration; }
+ } // namespace DlssNr
+diff --git a/OptiScaler/dlssnr/DlssNr_Status.h b/OptiScaler/dlssnr/DlssNr_Status.h
+index 9221d03..fcd108f 100644
+--- a/OptiScaler/dlssnr/DlssNr_Status.h
++++ b/OptiScaler/dlssnr/DlssNr_Status.h
+@@ -32,6 +32,7 @@ struct StatusSnapshot
+     unsigned long long frames = 0;
+     ExposureStatus exposure;
+     bool captureInProgress = false;
++    std::string engineStatus;
+ };
+ 
+ struct ControlRequests
+@@ -39,6 +40,7 @@ struct ControlRequests
+     uint64_t retryGeneration = 0;
+     uint64_t captureGeneration = 0;
+     unsigned int captureFrames = 0;
++    uint64_t studentReloadGeneration = 0;
+ };
+ 
+ void PublishStatus(const void* owner, Backend backend, const StatusSnapshot& status);
+@@ -53,6 +55,8 @@ ExposureStatus GameExposureStatus();
+ std::optional<double> LastGpuTime();
+ void RequestCapture(unsigned int frames);
+ bool CaptureInProgress();
++std::string EngineStatus();
++void ReloadStudent();
+ 
+ bool IsRunningVk();
+ const char* FailureReasonVk();
+diff --git a/OptiScaler/dlssnr/DlssNr_Student.cpp b/OptiScaler/dlssnr/DlssNr_Student.cpp
+new file mode 100644
+index 0000000..94e169b
+--- /dev/null
++++ b/OptiScaler/dlssnr/DlssNr_Student.cpp
+@@ -0,0 +1,103 @@
++// SPDX-License-Identifier: Apache-2.0
++#include "pch.h"
++#include "DlssNr_Student.h"
++#include "DlssNr_DispatchSlots.h"
++#include "DlssNr_Status.h"
++#include "student/StudentRuntime.h"
++#include <Config.h>
++#include <Util.h>
++#include <fstream>
++#include <mutex>
++
++namespace DlssNr {
++struct StudentEngine::Job {
++    std::mutex mutex;
++    std::unique_ptr<student::Runtime> runtime;
++    std::array<std::unique_ptr<student::Runtime::Slot>,3> slots;
++    DispatchSlots<3> availability;
++    std::string error;
++    bool complete=false;
++    struct Start { std::shared_ptr<Job> job; Microsoft::WRL::ComPtr<ID3D12Device> device; std::filesystem::path path; HMODULE module; };
++    static DWORD WINAPI Load(void* pointer) {
++        auto start=std::unique_ptr<Start>(static_cast<Start*>(pointer));
++        try {
++            auto runtime=std::make_unique<student::Runtime>(start->device.Get(),start->path);
++            auto slot=runtime->makeSlot();
++            std::lock_guard lock(start->job->mutex);
++            start->job->runtime=std::move(runtime); start->job->slots[0]=std::move(slot);
++            start->job->complete=true;
++        } catch(const std::exception& error) {
++            std::lock_guard lock(start->job->mutex); start->job->error=error.what(); start->job->complete=true;
++        } catch(...) {
++            std::lock_guard lock(start->job->mutex); start->job->error="Student initialization failed"; start->job->complete=true;
++        }
++        // The worker owns a module reference, but never waits for the rendering thread.
++        HMODULE module=start->module; start.reset(); FreeLibraryAndExitThread(module,0);
++    }
++};
++bool StudentEngine::Ready(ID3D12Device* device,unsigned width,unsigned height,unsigned passes,
++                          const Proxy::Settings& settings,std::string& status) {
++    if (width!=1920 || height!=1080) { status="NVIDIA fallback: student needs 1920 x 1080 (50% of 4K)."; return false; }
++    const Proxy::Settings trained{0,1,1.f,1.f,1.f,-1.f,true};
++    if (passes!=1 || settings!=trained) {
++        status="NVIDIA fallback: student needs one Natural pass with default model controls."; return false;
++    }
++    if (!job) {
++        job=std::make_shared<Job>();
++        auto start=std::make_unique<Job::Start>(); start->job=job; start->device=device;
++        start->path=Util::DllPath().parent_path()/"neural-student";
++        if (!GetModuleHandleExW(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS,reinterpret_cast<LPCWSTR>(&Job::Load),&start->module)) {
++            job->complete=true; job->error="Cannot retain integration module during initialization";
++        } else {
++            HANDLE worker=CreateThread(nullptr,0,&Job::Load,start.get(),0,nullptr);
++            if (worker) { start.release(); CloseHandle(worker); }
++            else { FreeLibrary(start->module); job->complete=true; job->error="Cannot start student initialization"; }
++        }
++    }
++    std::lock_guard lock(job->mutex);
++    if (!job->complete) { status="Preparing student; NVIDIA is active."; return false; }
++    if (!job->error.empty()) { status="NVIDIA fallback: "+job->error; return false; }
++    status="Student ready - 1920 x 1080."; return true;
++}
++bool StudentEngine::Run(ID3D12GraphicsCommandList* commands,ID3D12Resource* input,ID3D12Resource* output,
++                        GpuLifetime& lifetime,std::string& status) {
++    if (!job) return false;
++    std::lock_guard lock(job->mutex);
++    if (!job->runtime || !job->error.empty()) return false;
++    auto allocation=job->availability.Acquire();
++    if (!allocation) { status="NVIDIA fallback: student GPU slots are still in use."; return false; }
++    try {
++        auto& slot=job->slots[allocation->index];
++        if (!slot) slot=job->runtime->makeSlot();
++        lifetime.Record(commands);
++        lifetime.Retire([done=allocation->completion]{done->store(true);});
++        if (!job->runtime->record(commands,*slot,input,output)) {
++            status="NVIDIA fallback: unsupported student texture format."; return false;
++        }
++        status="Student active - 1920 x 1080."; return true;
++    } catch(const std::exception& error) {
++        job->error=error.what(); status="Student stopped: "+job->error;
++        LOG_ERROR("DLSS-NR student: {}",job->error); return false;
++    }
++}
++void StudentEngine::Retire(GpuLifetime& lifetime) {
++    if (!job) return;
++    // Do not release a compiled graph, heap, or tensor still referenced by an unsubmitted/replayed list.
++    // GpuLifetime deliberately abandons unresolved callbacks at teardown.
++    auto retained=new std::shared_ptr<Job>(std::move(job));
++    lifetime.Retire([retained]{delete retained;});
++}
++void PollStudentRequest() {
++    static std::mutex mutex; std::lock_guard lock(mutex);
++    static uint64_t next=0; const auto now=GetTickCount64(); if(now<next) return; next=now+250;
++    auto path=Util::DllPath().parent_path()/"neural-engine.request";
++    std::ifstream file(path); if(!file) return;
++    std::string engine; std::getline(file,engine); file.close();
++    if(engine=="student" || engine=="nvidia") {
++        Config::Instance()->DlssNrEngine=uint32_t(engine=="student");
++        LOG_INFO("DLSS-NR engine requested: {}",engine);
++    }
++    else if (engine=="reload") { ReloadStudent(); LOG_INFO("DLSS-NR student reload requested"); }
++    std::error_code error; std::filesystem::remove(path,error);
++}
++}
+diff --git a/OptiScaler/dlssnr/DlssNr_Student.h b/OptiScaler/dlssnr/DlssNr_Student.h
+new file mode 100644
+index 0000000..f8c9bab
+--- /dev/null
++++ b/OptiScaler/dlssnr/DlssNr_Student.h
+@@ -0,0 +1,22 @@
++// SPDX-License-Identifier: Apache-2.0
++#pragma once
++#include "DlssNr_GpuLifetime.h"
++#include "DlssNr_Proxy.h"
++#include <memory>
++#include <string>
++
++namespace DlssNr {
++// Render-thread owner; initialization runs independently without touching game resources.
++class StudentEngine {
++    struct Job;
++    std::shared_ptr<Job> job;
++public:
++    bool Ready(ID3D12Device* device, unsigned width, unsigned height, unsigned passes,
++               const Proxy::Settings& settings, std::string& status);
++    bool Run(ID3D12GraphicsCommandList* commands, ID3D12Resource* input, ID3D12Resource* output,
++             GpuLifetime& lifetime, std::string& status);
++    void Retire(GpuLifetime& lifetime);
++};
++// A small optional file control lets the headless test use the same frame-boundary selector as the menu.
++void PollStudentRequest();
++}
+diff --git a/OptiScaler/shaders/dlssnr/DlssNr_Dx12_Run.cpp b/OptiScaler/shaders/dlssnr/DlssNr_Dx12_Run.cpp
+index 88ee624..448519e 100644
+--- a/OptiScaler/shaders/dlssnr/DlssNr_Dx12_Run.cpp
++++ b/OptiScaler/shaders/dlssnr/DlssNr_Dx12_Run.cpp
+@@ -6,6 +6,7 @@ auto DlssNr_Dx12::State::Run(ID3D12GraphicsCommandList* cmdList, ID3D12Resource*
+              ID3D12Resource* output, const DlssNrFrameInfo& frame, ID3D12CommandQueue* timingQueue) -> void
+ {
+     std::lock_guard<std::recursive_mutex> nrLock(mutex);
++    DlssNr::PollStudentRequest();
+     const Config& cfg = *Config::Instance();
+ 
+     if (nr.failed || cmdList == nullptr || colour == nullptr || depth == nullptr || motion == nullptr ||
+@@ -156,6 +157,10 @@ auto DlssNr_Dx12::State::Run(ID3D12GraphicsCommandList* cmdList, ID3D12Resource*
+     }
+     const auto workWidth = work->width, workHeight = work->height;
+     const auto workScale = work->sourceScale;
++    bool useStudent = cfg.DlssNrEngine.value_or_default() == 1 &&
++        studentEngine.Ready(device, workWidth, workHeight, requestedPasses, ModelSettings(cfg,0), engineStatus);
++    if (cfg.DlssNrEngine.value_or_default() != 1) engineStatus = "NVIDIA active.";
++    if (useStudent != studentActive) nr.reset = true;
+     if (nr.workWidth != workWidth || nr.workHeight != workHeight || nr.width != width || nr.height != height)
+         LOG_INFO("DLSS-NR resolution: input {}x{}, output {}x{}, model {}x{}, basis {}",
+             width, height, frame.OutputWidth, frame.OutputHeight, workWidth, workHeight,
+@@ -358,7 +363,28 @@ auto DlssNr_Dx12::State::Run(ID3D12GraphicsCommandList* cmdList, ID3D12Resource*
+     const bool enlargementReset = nr.reset;
+     bool compositionSucceeded = false;
+ 
+-    for (unsigned int pass = 0; pass < effectivePasses && result == NVSDK_NGX_Result_Success; ++pass)
++    if (useStudent)
++    {
++        useStudent = studentEngine.Run(cmdList, modelInput, nr.output, lifetime, engineStatus);
++        if (useStudent)
++        {
++            effectivePasses = 1;
++            finalAnswer = nr.output;
++            MakeModelReadable(finalAnswer);
++            modelRunning = true;
++        }
++        else nr.reset = true;
++    }
++    if (studentActive != useStudent)
++        LOG_INFO("DLSS-NR active engine: {} ({})", useStudent ? "student" : "nvidia", engineStatus);
++    studentActive = useStudent;
++    if (engineStatus != loggedEngineStatus)
++    {
++        loggedEngineStatus = engineStatus;
++        LOG_INFO("DLSS-NR engine status: {}", engineStatus);
++    }
++
++    for (unsigned int pass = 0; !useStudent && pass < effectivePasses && result == NVSDK_NGX_Result_Success; ++pass)
+     {
+         MakeModelWritable(passOutput);
+         bool evaluated = false;
+diff --git a/OptiScaler/shaders/dlssnr/DlssNr_Dx12_State.h b/OptiScaler/shaders/dlssnr/DlssNr_Dx12_State.h
+index 274f98e..459213a 100644
+--- a/OptiScaler/shaders/dlssnr/DlssNr_Dx12_State.h
++++ b/OptiScaler/shaders/dlssnr/DlssNr_Dx12_State.h
+@@ -17,6 +17,7 @@
+ #include <dlssnr/DlssNr_PipelineCapture.h>
+ #include <dlssnr/DlssNr_Proxy.h>
+ #include <dlssnr/DlssNr_GpuLifetime.h>
++#include <dlssnr/DlssNr_Student.h>
+ #include <dlssnr/DlssNr_ExposureScan.h>
+ 
+ #include "DlssNr_Dx12.h"
+@@ -59,6 +60,10 @@ struct DlssNr_Dx12::State
+ 
+     using NrState = DlssNr::Detail::ModelStateDx12;
+     NrState nr;
++    DlssNr::StudentEngine studentEngine;
++    bool studentActive = false;
++    std::string engineStatus = "NVIDIA active.";
++    std::string loggedEngineStatus;
+     DlssNr_Dx12& shader;
+     struct Enlarger
+     {
+@@ -557,6 +562,7 @@ struct DlssNr_Dx12::State
+     ~State()
+     {
+         WaitForFinishedPicture();
++        studentEngine.Retire(lifetime);
+         ReleaseInputHold();
+         ReleaseResources();
+         SAFE_RELEASE(buffer);
+diff --git a/OptiScaler/shaders/dlssnr/DlssNr_Dx12_Status.cpp b/OptiScaler/shaders/dlssnr/DlssNr_Dx12_Status.cpp
+index 52d8ed7..b5e954a 100644
+--- a/OptiScaler/shaders/dlssnr/DlssNr_Dx12_Status.cpp
++++ b/OptiScaler/shaders/dlssnr/DlssNr_Dx12_Status.cpp
+@@ -36,6 +36,13 @@ auto DlssNr_Dx12::State::ConsumeControls() -> void
+         enlargementStatus.clear();
+     }
+     const auto requested = DlssNr::ReadControlRequests();
++    if (requested.studentReloadGeneration != controls.studentReloadGeneration)
++    {
++        studentEngine.Retire(lifetime);
++        studentActive = false;
++        nr.reset = true;
++        engineStatus = "Student reload requested.";
++    }
+     if (requested.retryGeneration != controls.retryGeneration)
+     {
+         for (auto& model : nr.models)
+@@ -58,7 +65,7 @@ auto DlssNr_Dx12::State::Publish() -> void
+           lastGpuTime,
+           frames,
+           { nr.exposureFrames, nr.exposureOfferedNow, nr.exposureEverOffered, nr.gameExposure, nr.gamePreExposure },
+-          captureFrames.isActive() });
++          captureFrames.isActive(), engineStatus });
+ }
+ 
+ void DlssNr_Dx12::State::EndGpuTiming(ID3D12GraphicsCommandList* cmdList, ID3D12CommandQueue* timingQueue)
