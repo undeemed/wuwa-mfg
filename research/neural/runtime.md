@@ -1,5 +1,7 @@
 # NVIDIA neural runtime performance investigation
 
+[← Neural research](README.md)
+
 Offline inspection of the tested SF-v2 `nvngx_dlssnr.dll` did not establish a
 faster replacement for the RTX 4070 Ti. Output-relative model resolution remains
 the measured performance control. No neural-runtime binary edit was installed during this
@@ -14,7 +16,7 @@ payloads with Zstandard, checked embedded ELF architecture metadata, and traced
 RIP-relative parameter references in the native `.text` section with Capstone.
 The DLL was read as data, never loaded by the inspection scripts.
 
-The retained [offline inspector](../tools/inspect_nr_runtime.py) reproduces the
+The retained [offline inspector](../../tools/inspect_nr_runtime.py) reproduces the
 architecture inventory and checks the two reset instructions for this exact hash.
 Run it in a separate analysis environment with `zstandard==0.25.0` and
 `capstone==5.0.6` installed:
@@ -71,11 +73,11 @@ isolated harness, implementing compatible SM89 kernels or a different model, and
 checking output correctness, GPU resource lifetimes and repeatable performance.
 This remains research work; no faster NVIDIA runtime is claimed by this toolkit.
 
-An [official NVIDIA demo setup](neural-demo-benchmark.md) now provides a separate
+An [official NVIDIA demo setup](benchmark.md) now provides a separate
 application for testing the same pre-SR path at a 1920×1080 model extent. Feature
 creation and evaluation succeeded; a controlled speedup has not been measured.
 
-The later [live kernel investigation](neural-latency-research.md) now identifies
+The later [live kernel investigation](findings.md) now identifies
 158 actual CUDA launches per evaluation in that demo and measures their costs.
 It also includes an editable model and tested custom CUDA normalization kernel.
 These development results do not establish a faster NVIDIA runtime or a 3 ms,

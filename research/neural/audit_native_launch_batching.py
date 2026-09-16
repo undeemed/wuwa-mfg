@@ -18,7 +18,7 @@ def main():
     paths={n:a.trial/n for n in ['nr-buffer-probe.jsonl','nr-launch-contract.jsonl']}
     buffers=[json.loads(s) for s in paths['nr-buffer-probe.jsonl'].read_text().splitlines()]
     contract=[json.loads(s) for s in paths['nr-launch-contract.jsonl'].read_text().splitlines()]
-    patch=Path(__file__).with_name('optiscaler-demo-pre-tensor.patch');source=patch.read_text()
+    patch=Path(__file__).parent.joinpath('probes/optiscaler-demo-pre-tensor.patch');source=patch.read_text()
     assert 'DemoBufferProbe::BeforeKernel(frame,chain+1);' in source
     assert 'state->frame=frame;state->chain=chain;' in source and 'if(state->barrierEvents>=4096)return;' in source
     assert '(id=ResourceId(b.Transition.pResource))>=0' in source

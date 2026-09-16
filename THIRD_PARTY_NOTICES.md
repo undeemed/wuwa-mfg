@@ -49,7 +49,7 @@ The runtime is not bundled in this repository or its source/script release.
 
 ## Research references
 
-The numerical experiments in `research/neural-latency` use
+The numerical experiments in `research/neural` use
 [MLX-DLSS](https://github.com/iamwavecut/MLX-DLSS) commit
 `0ca2deab092fe6f3e331bf4f616271dbc64521d0`. The CUDA normalization, bit-affine
 softmax, quadratic activation, cosine publication, Gaussian noise, first-block
@@ -180,7 +180,7 @@ The collector and split audit are original MIT-licensed research utilities.
 | [Tracy Caldwell Dyson in the ISS Cupola](https://commons.wikimedia.org/wiki/File:Tracy_Caldwell_Dyson_in_Cupola_ISS.jpg) | NASA/Tracy Caldwell Dyson | Public domain in the United States; [NASA media guidelines](https://www.nasa.gov/nasa-brand-center/images-and-media/). No endorsement is implied. |
 
 The next private extension adds sixteen different sources. The
-[fixed source catalogue](research/neural-latency/image-collections/diverse-extension.json)
+[fixed source catalogue](research/neural/data/diverse-extension.json)
 records each author, source page, original-file URL, license and license link,
 dimensions, SHA-1 and crop position. Training sources are Martin Eklund's forest
 waterfall, Basile Morin's palace interior, Beijing Drive Culture Media's concert

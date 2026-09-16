@@ -1,5 +1,7 @@
 # Separate neural benchmark application
 
+[← Neural research](README.md)
+
 Use the official **NVIDIA NGX DLSS Sample** as a small graphical test application.
 It exercises the same OptiScaler pre-SR neural path without launching or modifying
 WuWa. The sample is a rasterized Sponza scene, not a frame-generation benchmark.
@@ -63,7 +65,7 @@ open in front. Do not treat `SW_HIDE` or `Start-Process -WindowStyle Hidden` alo
 as a verified solution for this executable.
 
 With the demo closed, apply the optional
-[background preparation script](../tools/prepare_hidden_demo.py) to the separate
+[background preparation script](../../tools/prepare_hidden_demo.py) to the separate
 test executable:
 
 ```powershell
@@ -81,20 +83,20 @@ already creates the window with `GLFW_VISIBLE=false`, and its render loop uses
 window dimensions rather than visibility to decide whether to render.
 
 During the patched test, Windows reported no visible main window
-(`MainWindowHandle=0`), while fresh 1920×1080 NR timing records continued. To
+(`MainWindowHandle=0`), while fresh 1920Ã—1080 NR timing records continued. To
 restore the interactive demo, close it and copy the `.visible-original` backup
 over `ngx_dlss_demo.exe`. No patched executable is distributed by this repository.
 
-With the sample's initial DLSS Performance mode, render input is 960×540 and
-display output is 1920×1080. Output-relative scale **1.0** therefore creates a
-**1920×1080 neural model**. This matches the model extent of WuWa at 4K with scale
+With the sample's initial DLSS Performance mode, render input is 960Ã—540 and
+display output is 1920Ã—1080. Output-relative scale **1.0** therefore creates a
+**1920Ã—1080 neural model**. This matches the model extent of WuWa at 4K with scale
 0.5, but not its render input, full composition cost, scene content, or FG load.
 
 ## What has been verified
 
 On the tested RTX 4070 Ti, the demo loaded the same revision-4 OptiScaler build
 and SF-v2 runtime used by WuWa. Its log recorded successful creation of feature
-18 at 1920×1080 through the direct compatibility runtime, and a successful neural
+18 at 1920Ã—1080 through the direct compatibility runtime, and a successful neural
 evaluation with one model pass. These records establish initialization and an
 evaluation; they do **not** establish continuous rendering or a 3 ms result.
 
@@ -120,7 +122,7 @@ This is an approximate warmup cutoff, not a full per-frame profile.
 | Windows hidden-startup flag, 60 FPS cap | 6.410 ms | 6.210 ms | Still opened in front according to tester; startup flag alone rejected |
 
 The ordinary settings did not demonstrate a meaningful speedup, much less a
-1920×1080 model in 3 ms. The model accounts for about 5.9 ms of a typical 6.1 ms
+1920Ã—1080 model in 3 ms. The model accounts for about 5.9 ms of a typical 6.1 ms
 interval; host-side GPU work accounts for about 0.2 ms. Removing that entire
 surrounding cost would still fall well short of the target. No settings from
 these experiments were copied back to WuWa.
@@ -137,18 +139,18 @@ The restoration experiment emitted missing-original-function errors for graphics
 root CBV and descriptor-table restoration. A run surviving briefly with those
 errors is not evidence that the integration is fixed. That option was reverted.
 
-Aggregate records are in [neural-demo-summary.json](../evidence/neural-demo-summary.json).
+Aggregate records are in [neural-demo-summary.json](evidence/neural-demo-summary.json).
 
-At a 60 FPS demo cap, observed GPU utilization was about 53–55% rather than the
+At a 60 FPS demo cap, observed GPU utilization was about 53â€“55% rather than the
 uncapped 100%. This makes the test application less demanding overall, while the
-individual neural pass still costs about 6–6.5 ms. The 90-second run had no device
+individual neural pass still costs about 6â€“6.5 ms. The 90-second run had no device
 loss; that is a short observation, not a demonstrated fix for the earlier faults.
 The subsequent executable-level background change also continued rendering and
 reporting timings with no visible main window reported by Windows.
 
 ## Bounded trial runner
 
-The [source runner](../tools/run_neural_demo_trial.py) changes only the configured
+The [source runner](../../tools/run_neural_demo_trial.py) changes only the configured
 demo's INI, starts that demo hidden, records local logs/timings, stops its own process,
 and restores the original INI in a `finally` block. It refuses to start while
 WuWa or another instance of this demo is running. Use a new label for each trial:
@@ -180,14 +182,14 @@ not an equivalent full-1080p optimization.
 
 A successful demo optimization would still need verification in WuWa. Shared
 runtime/host improvements may carry over; game-specific scheduling, SR, FG and
-resource-transition behavior may not. No 1920×1080-at-3-ms improvement has yet
+resource-transition behavior may not. No 1920Ã—1080-at-3-ms improvement has yet
 been established.
 
 ## Earlier harness experiment
 
 A separate NR-only harness was also built from
 [DLSS5-Reshade-AIO's lab](https://github.com/kibblerz/DLSS5-Reshade-AIO/tree/09301f5528e619e8b9ec17c257d167e2985f53b0/lab).
-A 320×180 compatibility run created/evaluated the runtime successfully, but its
+A 320Ã—180 compatibility run created/evaluated the runtime successfully, but its
 short, contended timings were unsuitable for benchmarking. Optional kernel
 instrumentation compiled but was not validated or used to identify active
 kernels. The existing NVIDIA demo was selected at the tester's request instead.

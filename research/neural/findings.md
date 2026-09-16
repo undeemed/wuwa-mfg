@@ -1,23 +1,28 @@
 # Neural latency research: model and kernel experiments
 
-**Target: 3 ms at a 1920×1080 model extent without reducing image quality. This
-target has not been achieved.** The current NVIDIA runtime remains about 5.4–6.1 ms in
-the separate NVIDIA DLSS Sample. None of the experiments below replaces the
-working WuWa installation or changes the installer defaults.
+[← Neural research](README.md)
+
+**Target: 3 ms at a 1920Ã—1080 model extent without reducing image quality. This
+target has not been achieved.** The current NVIDIA runtime remains about 5.4â€“6.1 ms in
+the separate NVIDIA DLSS Sample. The optional student integration has been
+installed locally for evaluation; the normal neural installer still uses NVIDIA.
 
 Current work focuses on training a smaller model to reproduce the original
 output. Earlier kernel experiments remain documented below. Reduced resolution, skipped
 frames, weaker blending and a different visual style do not satisfy the target.
 
-The current [student integration](student-hotswap.md) runs the broadly trained
+The current [student integration](integration.md) runs the broadly trained
 student in DirectX 12, with live NVIDIA/student selection and weight reload.
 It passed 56 image parity checks and 16 hidden-demo switch/reload checks. The
-integrated student measured about 3.35–3.78 ms total in that smoke test; live WuWa
-performance and final temporal validation remain unmeasured. This is distinct
+integrated student measured about 3.35â€“3.78 ms total in that smoke test. The first
+visible WuWa trial subsequently reported washed-out output, a substantial quality
+gap, and occasional stutters. Sparse gameplay samples near 3.9 ms do not measure
+frame-time tails or establish smoothness. Final temporal validation remains
+outstanding, and this candidate has not met the quality target. This is distinct
 from the earlier 2.23 ms CUDA-only timing. The integration is installed locally
 with a backup; NVIDIA's own runtime binary is preserved.
 
-An earlier [model experiment](../research/neural-latency/README.md#region-routed-context-with-a-matched-dense-control)
+An earlier [model experiment](EXPERIMENTS.md#region-routed-context-with-a-matched-dense-control)
 adds a region-attention branch inspired by MoBA and BiFormer, with matched dense
 and routed training runs. The routed complete model takes **2.463 ms** versus
 **2.592 ms** for dense attention in the same timing comparison. It improves the
@@ -29,7 +34,7 @@ comparison; a metric regression alone does not quantify perceived quality loss.
 The quality gap and complete-pass 3 ms target remain unresolved; these timings
 exclude D3D12 integration, and the native runtime is unchanged.
 
-A subsequent [export and reload check](../research/neural-latency/README.md#how-the-routed-student-was-built-and-exported)
+A subsequent [export and reload check](EXPERIMENTS.md#how-the-routed-student-was-built-and-exported)
 preserves the routed model's output bit for bit on all 16 validation images,
 including a fresh process that does not import its original model classes.
 In this separate paired timing run, the existing optimized path takes **2.090 ms**
@@ -37,13 +42,13 @@ and the standard-operator export **3.722 ms**. Export succeeds, but preserving t
 existing optimizations remains necessary for deployment. The package is a private
 PyTorch artifact, not a native runtime DLL, and no game or sample was launched.
 
-The preceding [sampling experiment](../research/neural-latency/README.md#training-coverage-and-cluster-sampling)
+The preceding [sampling experiment](EXPERIMENTS.md#training-coverage-and-cluster-sampling)
 also failed validation. The 62 training captures still come from one 3D scene and
 16 photos. Reweighting them or adding selective attention has not resolved the
 generalization gap; broader teacher-labeled training content remains the next
 data direction. No game installation or new kernel change was made.
 
-The earlier [native batching investigation](../research/neural-latency/README.md#rejected-native-batching-and-verified-overlap-differences)
+The earlier [native batching investigation](EXPERIMENTS.md#rejected-native-batching-and-verified-overlap-differences)
 rejected an eight-kernel batcher after GPU errors and no completed image readback.
 It preserved observed barriers and received successful API results, which proved
 insufficient. A bounded original producer/consumer test then showed an overlap
@@ -55,8 +60,8 @@ is retired, normal files are restored, and no native speedup is claimed.
 
 ## Measurements from the actual runtime
 
-The [hidden NVIDIA demo](neural-demo-benchmark.md) ran the SF-v2 runtime, Natural
-style, one pass, output-relative scale 1.0, at 1920×1080. The physical GPU was an
+The [hidden NVIDIA demo](benchmark.md) ran the SF-v2 runtime, Natural
+style, one pass, output-relative scale 1.0, at 1920Ã—1080. The physical GPU was an
 RTX 4070 Ti with driver 616.92. The demo had no visible main window during both
 trace tests. Test processes were stopped after their bounded runs.
 
@@ -69,7 +74,7 @@ unsubmitted command lists are handled separately.
 
 The 60-second timing test captured **24 complete evaluations after warmup**, each
 containing **158 successful, single-kernel chains**. Their summed GPU intervals
-had a median of **6.138 ms** (5.662–6.277 ms). OptiScaler's separate sparse timing
+had a median of **6.138 ms** (5.662â€“6.277 ms). OptiScaler's separate sparse timing
 reported 6.16 ms for the model and 6.36 ms for the total pass. Instrumentation
 overhead and interference from other GPU work were not subtracted. This is a cost
 breakdown, not evidence that instrumentation accelerated the model.
@@ -85,7 +90,7 @@ breakdown, not evidence that instrumentation accelerated the model.
 
 Individual families varied between samples; for example, the first row ranged
 from 0.630 to 0.994 ms. Medians of families need not add to the median of complete
-evaluations. [Machine-readable results](../evidence/neural-kernel-timing.json)
+evaluations. [Machine-readable results](evidence/neural-kernel-timing.json)
 include all families and ranges.
 
 FP8-named fused kernels were **actually invoked**, rather than merely found in
@@ -104,11 +109,11 @@ A combined, demo-only capture and launch observer now records a limited set of
 scalar arguments alongside the fenced input/output captures. Each of seven
 observed evaluations again contained 158 successful single-kernel chains, all
 using packed arguments through `LaunchCuKernelChain`. The baseline's time inside
-those native calls totalled 0.131–0.165 ms of CPU time per observed evaluation.
+those native calls totalled 0.131â€“0.165 ms of CPU time per observed evaluation.
 These are submission durations, **not GPU execution intervals**; removing them
 would not imply the same reduction in the neural pass.
 
-For the four captured frames, the preprocessor's extent was 1920×1080, its noise
+For the four captured frames, the preprocessor's extent was 1920Ã—1080, its noise
 counter advanced through 0, 1, 2 and 3, and style was 1/128 with automatic masking
 enabled. Tone, structure, masking, depth direction and extent agreed with the
 public control values captured for the same evaluations. This confirms the
@@ -140,8 +145,8 @@ paired quality comparison. Two matching frames do not satisfy the quality gate.
 The model remains the dominant measured GPU cost. A simple architecture
 selection override did not approach 3 ms. The combined probe, selector tests,
 sanitized results and reproduction instructions are published in
-[`research/neural-latency`](../research/neural-latency/README.md) and
-[`native-launch-contract.json`](../evidence/neural-model-research/native-launch-contract.json).
+[`research/neural`](EXPERIMENTS.md) and
+[`native-launch-contract.json`](evidence/native-launch-contract.json).
 
 ## Recovering an editable model
 
@@ -178,12 +183,12 @@ numerical smoke test, not visual equivalence on gameplay.
    conversion matched values for all 63,488 finite FP16 bit patterns. The only
    bit-pattern difference was negative zero. A `[1,1088,1920,32]` conversion
    measured 14.63 ms versus 1.60 ms. This tensor shape is an operation benchmark,
-   not a 1080p end-to-end result. The complete 320×320 synthetic model head was
+   not a 1080p end-to-end result. The complete 320Ã—320 synthetic model head was
    numerically identical in the measured comparison.
 2. **CUDA Graph replay and constant hoisting.** The first capture failed because
    the reference created a GPU index tensor from a CPU list inside each bias
    permutation. Caching immutable inference weights' permutations before capture
-   fixed this. A 320×320 synthetic replay measured 99.90 ms versus 1,173.97 ms for
+   fixed this. A 320Ã—320 synthetic replay measured 99.90 ms versus 1,173.97 ms for
    the original eager execution in that run, with identical model-head output.
    This makes model research more practical; it remains much slower than NVIDIA.
 3. **Fused cosine normalization.** A CUDA kernel reproduces the reference's
@@ -193,7 +198,7 @@ numerical smoke test, not visual equivalence on gameplay.
    rows each; all matched the reference values. At `[262144,32]`, the isolated
    operation measured 2.568 ms versus 0.0414 ms. This is an operation speedup
    against eager PyTorch, not a speedup against NVIDIA's fused attention.
-   With this kernel inside CUDA Graph replay, the complete 320×320 synthetic
+   With this kernel inside CUDA Graph replay, the complete 320Ã—320 synthetic
    model measured **53.04 ms**, with identical model-head output. The earlier
    replay without this fusion was 99.90 ms; these were separate process runs.
 4. **Fused bit-affine softmax.** A second custom CUDA kernel preserves the
@@ -201,7 +206,7 @@ numerical smoke test, not visual equivalence on gameplay.
    E4M3 conversion. It matched 12,182,044 tested values across 92 cases: FP16/FP32,
    even row lengths from 2 to 2048, five input scales and noncontiguous layouts.
    The isolated `[32768,64]` operation measured **0.0332 ms versus 0.6669 ms** for
-   the reference. With normalization and softmax fused, the complete 320×320
+   the reference. With normalization and softmax fused, the complete 320Ã—320
    synthetic CUDA Graph measured **42.73 ms**, with identical model-head output.
    This improves the research implementation; NVIDIA already uses fused kernels,
    and this is not a measured improvement to the vendor runtime.
@@ -212,7 +217,7 @@ numerical smoke test, not visual equivalence on gameplay.
 6. **Batch independent feed-forward branches.** Eager profiling found 6,270
    matrix-multiply calls in the small reference fixture. A candidate batches
    independent branch products while keeping the original order of additions
-   across heads. In one warmed, same-process comparison, the 320×320 CUDA Graph
+   across heads. In one warmed, same-process comparison, the 320Ã—320 CUDA Graph
    fell from **42.57 ms to 18.30 ms**, with identical model-head output. Tested
    FP16 operations matched; FP32 cases had differences, so the comparison tool
    keeps the original implementation for FP32. On the real 1080p captured input,
@@ -222,9 +227,9 @@ numerical smoke test, not visual equivalence on gameplay.
    reference's half rounding, clamping and quadratic gate. All **8,640,830**
    tested values matched, including every finite FP16 input, FP32 cases and
    noncontiguous tensors. The isolated operation measured **0.0399 ms versus
-   0.9605 ms**. Combined with branch batching, the 320×320 graph reached
-   **10.86 ms**, with identical head output. At the actual 1920×1080 input,
-   padded to 1088×1920, the complete graph still took **226.92 ms**. Its RGB
+   0.9605 ms**. Combined with branch batching, the 320Ã—320 graph reached
+   **10.86 ms**, with identical head output. At the actual 1920Ã—1080 input,
+   padded to 1088Ã—1920, the complete graph still took **226.92 ms**. Its RGB
    output again matched the earlier reconstruction exactly. This full-resolution
    result is far slower than NVIDIA and is not an installable improvement.
 8. **Fuse cosine publication and read strided views directly.** Normalization,
@@ -254,12 +259,12 @@ its existing difference from NVIDIA. The latest graph profile still spends
 substantial time in conversion, additions, matrix multiplication and activation.
 Published evidence includes the isolated tests, full-output equality and the
 instrumented kernel families in
-[`fused-publication-full1080.json`](../evidence/neural-model-research/fused-publication-full1080.json).
+[`fused-publication-full1080.json`](evidence/fused-publication-full1080.json).
 
 All retained numerical records are in
-[`evidence/neural-model-research`](../evidence/neural-model-research).
+[`research/neural/evidence`](evidence).
 Source and reproduction instructions are in
-[`research/neural-latency`](../research/neural-latency).
+[`research/neural`](.).
 
 ## Matched 1080p vendor comparisons
 
@@ -270,7 +275,7 @@ the actual submitting queue completes. Copies restore each resource's expected
 state. Recorded controls include style, preset, masking, guide extents and reset.
 
 Two 25-second hidden-demo runs completed all four fenced captures each, with
-Natural style, preset 0 and a true 1920×1080 model extent. The first used automatic
+Natural style, preset 0 and a true 1920Ã—1080 model extent. The first used automatic
 masking; the second disabled it only to diagnose reconstruction differences.
 Their sparse model intervals were approximately 5.46 ms, with about 0.20 ms
 around inference. These capture runs do not demonstrate a speedup over earlier
@@ -295,40 +300,40 @@ RMSE and tail errors. Disabling masking and varying the noise counter also did
 not close it. None of these diagnostics was adopted as a fix.
 
 The original visible extent is preserved in every comparison. Default network
-padding is 1088×1920; the 1152-height variant adds padding without downscaling.
+padding is 1088Ã—1920; the 1152-height variant adds padding without downscaling.
 The original capture manifests do not contain the internal noise counter. The
 later combined trace above observes counter 0 on its first reset frame, supporting
 the comparison's default rather than the tested counter offsets. The local weight file also differs from the hash
 used for upstream's reported golden comparisons. These remain possible sources
 of disagreement, alongside incomplete reconstruction behavior.
 
-The full-resolution Python runs took roughly 0.9–1.2 seconds of inference wall
+The full-resolution Python runs took roughly 0.9â€“1.2 seconds of inference wall
 time. They are quality diagnostics, not an optimized runtime or a route already
 meeting the latency target. Only the first reset frame has been compared; motion
 and temporal quality remain unvalidated. Numeric records, capture hashes and
 controls are in
-[`matched-vendor-capture.json`](../evidence/neural-model-research/matched-vendor-capture.json).
+[`matched-vendor-capture.json`](evidence/matched-vendor-capture.json).
 
 The native launch grids motivated a second padding check using the same FP16
 arithmetic, batched feed-forward layers and fused activation as the 1088-height
 reference. Grid dimensions alone do not prove the effective tensor extent;
 kernels may guard extra threads. With 1152 network rows, RGB MAE fell from
 0.01515 to 0.01435, but RMSE worsened from 0.02237 to 0.02367 and the 99th-percentile
-channel error rose from 0.06934 to 0.08044. The visible input stayed 1920×1080.
+channel error rose from 0.06934 to 0.08044. The visible input stayed 1920Ã—1080.
 This did not resolve parity and was not adopted. Its reconstructed graph took
 243.4 ms; this is not the native NVIDIA pass. See
-[`native-geometry-diagnostic.json`](../evidence/neural-model-research/native-geometry-diagnostic.json).
+[`native-geometry-diagnostic.json`](evidence/native-geometry-diagnostic.json).
 
 ## First trained student experiments
 
 Two small convolutional students were trained directly against the captured
-NVIDIA RGB output. A reversible pixel-unshuffle packs each 4×4 input neighborhood
+NVIDIA RGB output. A reversible pixel-unshuffle packs each 4Ã—4 input neighborhood
 into channels; the input image is not resized. A depthwise/pointwise residual
 network predicts a full-resolution RGB correction through pixel-shuffle. Training
 uses pixel and gradient losses. These are initial architecture experiments, not
 distilled replacements for individual transformer blocks.
 
-| Candidate | Training | Held-out RGB MAE | Unchanged-input MAE on the same holdout | PyTorch median at 1920×1080 |
+| Candidate | Training | Held-out RGB MAE | Unchanged-input MAE on the same holdout | PyTorch median at 1920Ã—1080 |
 | --- | --- | ---: | ---: | ---: |
 | 32 channels, 4 blocks, 21,328 parameters | 1,500 steps; left part of one view | 0.05611 | 0.01986 | 0.94 ms |
 | 48 channels, 6 blocks, 64,032 parameters | 10,000 steps; two complete views | 0.02249 | 0.01996 | 2.29 ms |
@@ -355,9 +360,9 @@ excluding D3D12 integration. They are not measurements in the application and do
 not satisfy the target. The small networks, source and numeric failures are
 documented; private trained weights and rendered images are not distributed.
 
-See [`student-probes.json`](../evidence/neural-model-research/student-probes.json),
-[`student-capture-views.json`](../evidence/neural-model-research/student-capture-views.json)
-and [`batched-ffn-full1080.json`](../evidence/neural-model-research/batched-ffn-full1080.json).
+See [`student-probes.json`](evidence/student-probes.json),
+[`student-capture-views.json`](evidence/student-capture-views.json)
+and [`batched-ffn-full1080.json`](evidence/batched-ffn-full1080.json).
 
 ## Noise and context experiments in the student
 
@@ -377,9 +382,9 @@ image-border limitation. It is not a perceptual-quality metric.
 
 | Candidate | Receptive field | Held-out RGB MAE | Held-out RGB RMSE | 1080p graph median |
 | --- | ---: | ---: | ---: | ---: |
-| Previous RGB-only student | 52×52 pixels | 0.02249 | 0.03273 | 2.29 ms |
-| Add deterministic noise channels | 52×52 pixels | 0.02407 | 0.03515 | 2.32 ms |
-| Noise, wider dilated context and changed training schedule | 172×172 pixels | 0.02476 | 0.03661 | 5.72 ms |
+| Previous RGB-only student | 52Ã—52 pixels | 0.02249 | 0.03273 | 2.29 ms |
+| Add deterministic noise channels | 52Ã—52 pixels | 0.02407 | 0.03515 | 2.32 ms |
+| Noise, wider dilated context and changed training schedule | 172Ã—172 pixels | 0.02476 | 0.03661 | 5.72 ms |
 
 **Both new students were rejected.** The noise-conditioned model improved the
 reported training-view MAE from 0.02041 to 0.01535 while worsening the held-out
@@ -401,15 +406,15 @@ The data still cover only one scene. The next model work needs richer teacher
 examples and a way to retain broad context efficiently, with held-out image and
 temporal checks. Adding noise alone or increasing dilation did not solve it.
 Source, training metrics and the frequency diagnostic are in
-[`student-noise-context.json`](../evidence/neural-model-research/student-noise-context.json)
-and [`student-error-spectrum.json`](../evidence/neural-model-research/student-error-spectrum.json).
+[`student-noise-context.json`](evidence/student-noise-context.json)
+and [`student-error-spectrum.json`](evidence/student-error-spectrum.json).
 
 ## Hierarchical models with more camera views
 
 A four-level convolutional encoder/decoder now tests learned multiscale features,
 skip connections and an image-wide context gate. The RGB input is padded and
 reversibly rearranged into channels; internal feature maps use learned
-downsampling. Every candidate still consumes true 1920×1080 input. Preserving the
+downsampling. Every candidate still consumes true 1920Ã—1080 input. Preserving the
 input extent does not guarantee that the learned representation preserves quality.
 
 Five additional views were collected in the existing hidden NVIDIA sample: four
@@ -424,7 +429,7 @@ the translated view was also excluded from training. This is still **one scene**
 | Width 16; 223,440 parameters | 2 | 0.02619 | Not evaluated | 1.20 ms |
 | Width 16; 223,440 parameters | 6 | 0.02285 | 0.02318 | 1.19 ms |
 | Width 32; 871,792 parameters | 6 | 0.02322 | 0.02375 | 1.94 ms |
-| Unchanged input baseline | — | 0.01996 | 0.02187 | — |
+| Unchanged input baseline | â€” | 0.01996 | 0.02187 | â€” |
 
 **All three models failed quality validation.** Additional views reduced the
 first candidate's original-north MAE by about 13%, but both holdouts still favored
@@ -440,10 +445,10 @@ integration. No temporal or cross-scene quality claim is supported. These models
 were not installed in WuWa or substituted into the NVIDIA sample.
 
 Source and reproduction flags are in the
-[research README](../research/neural-latency/README.md#hierarchical-student-and-additional-teacher-views).
+[research README](EXPERIMENTS.md#hierarchical-student-and-additional-teacher-views).
 Numeric records are in
-[`student-hierarchical.json`](../evidence/neural-model-research/student-hierarchical.json)
-and [`student-additional-views.json`](../evidence/neural-model-research/student-additional-views.json).
+[`student-hierarchical.json`](evidence/student-hierarchical.json)
+and [`student-additional-views.json`](evidence/student-additional-views.json).
 
 ## Native tensor allocation mapping
 
@@ -461,19 +466,19 @@ input/output texture capture remained active. Any intermediate capture needs a
 separately established state and synchronization contract.
 
 The 25-second trial retained two sparse GPU intervals after warmup: median
-**5.435 ms model + 0.200 ms surrounding = 5.635 ms total**, at true 1920×1080.
+**5.435 ms model + 0.200 ms surrounding = 5.635 ms total**, at true 1920Ã—1080.
 This is diagnostic evidence, not a speedup. The research build was confined to
 the hidden sample and removed afterward; normal R4 source and binaries were
 restored. The combined patch was built and checked by applying and reversing it
 in a scratch tree. See
-[`native-buffer-ranges.json`](../evidence/neural-model-research/native-buffer-ranges.json)
-and the [probe instructions](../research/neural-latency/README.md#native-buffer-range-metadata).
+[`native-buffer-ranges.json`](evidence/native-buffer-ranges.json)
+and the [probe instructions](EXPERIMENTS.md#native-buffer-range-metadata).
 
 ## Native first-preprocessor snapshot
 
 The next probe observed the runtime's actual barriers. The weight buffer moved
-COMMON → COPY_DEST → UAV during initialization; the scratch buffer moved
-COMMON → UAV. Both legacy and enhanced barrier hooks attached successfully.
+COMMON â†’ COPY_DEST â†’ UAV during initialization; the scratch buffer moved
+COMMON â†’ UAV. Both legacy and enhanced barrier hooks attached successfully.
 Observed relevant runtime calls used legacy transitions and global UAV barriers,
 with no reported implementation gaps. The event log was bounded at 4,096 entries.
 
@@ -504,8 +509,8 @@ This provides a concrete intermediate artifact for investigating the native
 kernel's stores and resolving the reconstruction mismatch. Raw bytes and
 reconstructed arrays remain private. The combined source patch, reproduction
 instructions and numeric evidence are in the
-[research README](../research/neural-latency/README.md#guarded-native-preprocessor-capture)
-and [`native-pre-tensor.json`](../evidence/neural-model-research/native-pre-tensor.json).
+[research README](EXPERIMENTS.md#guarded-native-preprocessor-capture)
+and [`native-pre-tensor.json`](evidence/native-pre-tensor.json).
 
 A parallel model experiment added the reconstructed deterministic noise channels
 to the six-view width-16 hierarchical student. It used the same 1,500-step
@@ -514,12 +519,12 @@ MAE worsened to 0.02566 and translated-north MAE to 0.02580, compared with 0.022
 and 0.02318 without noise. **This candidate was rejected.** Its noise values are
 not independently proven sample-exact against the native preprocessor, and timing
 excludes their preparation and D3D12 integration. See
-[`student-hierarchical-noise.json`](../evidence/neural-model-research/student-hierarchical-noise.json).
+[`student-hierarchical-noise.json`](evidence/student-hierarchical-noise.json).
 
 ## First-block layout and missing branch rounding
 
 Private inspection of the SM89 preprocessor revealed 512-byte tiles containing
-4×4 pixels and 32 channels. A fixed nine-bit address permutation, validated on
+4Ã—4 pixels and 32 channels. A fixed nine-bit address permutation, validated on
 the original view and a separate west view without refitting, decodes every byte
 of the captured 32 MiB skip prefix. Both views correlate above 0.9989 with the
 reconstruction, but only about 53% of the original reference values match exactly.
@@ -542,14 +547,14 @@ time remains around 190 ms; native model time remains 5.45 ms in the latest
 sparse demo samples. The 3 ms target has not been reached.
 
 The correction stays optional and confined to offline research. The published
-[decoder, inspection and arithmetic tools](../research/neural-latency/README.md#first-block-lane-layout-and-arithmetic)
+[decoder, inspection and arithmetic tools](EXPERIMENTS.md#first-block-lane-layout-and-arithmetic)
 and numeric evidence document both the improvement and the failed image test.
 The next native checks should isolate downstream publication/accumulation and
 the separate pooled output, rather than train another student against an
 unverified reconstruction.
 
 The subsequent accumulation test raised first-block exact agreement to
-**99.46–99.48%** on both captured prefixes. The key changes were direct FP8
+**99.46â€“99.48%** on both captured prefixes. The key changes were direct FP8
 tensor-core instructions with FP16 C/D, initial residuals in the projection
 accumulators, and initial attention bias in the QK product. A direct FP16 adapter
 gave the same aggregate results as cuBLAS with FP16 accumulation. Twenty-six
@@ -562,7 +567,7 @@ It preserves the comparison tool's original input adapter/noise/downstream code;
 it is not the same configuration as the isolated best-prefix test. RGB error
 remains worse than the earlier 0.01435 baseline, and neither reconstruction
 timing nor prefix equality establishes a native speedup. See the
-[direct-MMA experiment](../research/neural-latency/README.md#direct-tensor-core-accumulation)
+[direct-MMA experiment](EXPERIMENTS.md#direct-tensor-core-accumulation)
 and its numeric evidence. The working game/runtime remains unchanged.
 
 ## Separate native pooled features
@@ -573,7 +578,7 @@ two planes of 16 channels, rather than 512-byte spatial tiles. A fixed decoder
 now supplies an actual native intermediate target for subsequent model work.
 
 Direct tensor-core arithmetic plus horizontal-pair FP16 averaging matches
-99.07–99.09% of its bytes across the two views, with mean absolute error around
+99.07â€“99.09% of its bytes across the two views, with mean absolute error around
 0.00012. Padding and remaining arithmetic differences are included in those
 figures. This improves the reference for intermediate-feature distillation; it
 does not establish an accurate or faster replacement model.
@@ -584,13 +589,13 @@ same captured image. Its other blocks and full-resolution skip were unchanged,
 so correcting this pooled path alone is insufficient. Capturing subsequent
 native intermediates and the complete skip can separate those remaining errors.
 The real native model still measured about 5.42 ms; the 3 ms quality-preserving
-target remains unmet. See the [pooling experiment](../research/neural-latency/README.md#separate-pooled-features-and-a-native-input-diagnostic)
-and [numeric evidence](../evidence/neural-model-research/native-pre-pool.json).
+target remains unmet. See the [pooling experiment](EXPERIMENTS.md#separate-pooled-features-and-a-native-input-diagnostic)
+and [numeric evidence](evidence/native-pre-pool.json).
 
 ## Complete first-block substitution
 
 The complete skip and pool were subsequently captured together in two hidden
-demo views. The reconstructed first block matches about 99.34–99.35% of the full
+demo views. The reconstructed first block matches about 99.34â€“99.35% of the full
 skip bytes, now including previously uncaptured rows. Substituting both exact
 native outputs still worsens final RGB error in both views. This moves the next
 numerical investigation to the remaining network and output composition; it
@@ -602,7 +607,7 @@ views. With a captured native first block it improved image error slightly,
 still far short of matching the native result. Neither candidate is accepted.
 The native runtime remained around 5.46 ms for the model and 5.66 ms total.
 
-The [complete-capture experiment](../research/neural-latency/README.md#complete-first-block-capture-and-full-network-accumulation)
+The [complete-capture experiment](EXPERIMENTS.md#complete-first-block-capture-and-full-network-accumulation)
 documents the capture guards, decoder, paired comparisons and limitations.
 Its lower timings when using stored native activations are diagnostic only;
 they cannot be reported as a usable renderer speedup.
@@ -631,8 +636,8 @@ sparse warm readings. The 3 ms target remains unmet.
 Model research can now account explicitly for the known color transform while
 working on the learned detail changes. Whether that permits a smaller model
 without losing quality is still untested. See the
-[output-grading experiment](../research/neural-latency/README.md#output-grading-changes-the-earlier-image-comparisons)
-and [complete numeric evidence](../evidence/neural-model-research/native-output-grading.json).
+[output-grading experiment](EXPERIMENTS.md#output-grading-changes-the-earlier-image-comparisons)
+and [complete numeric evidence](evidence/native-output-grading.json).
 
 ## Student grading fusion and expanded training coverage
 
@@ -656,7 +661,7 @@ scene without temporal validation. Repeatedly using these validation cameras
 also means they cannot serve as the independent final quality test. No student
 was installed in WuWa. The native runtime remains around 5.4 ms.
 
-The [full experiment and numeric evidence](../research/neural-latency/README.md#explicit-grading-in-a-small-student-and-a-fused-gpu-implementation)
+The [full experiment and numeric evidence](EXPERIMENTS.md#explicit-grading-in-a-small-student-and-a-fused-gpu-implementation)
 record the data split, exact-output checks, training ablations and timing scope.
 The next model work needs better generalization and detail preservation, with
 broader data and independent sequences; simply adding width is not supported
@@ -666,7 +671,7 @@ by this comparison.
 
 The next model experiment added a learned smooth RGB transform alongside the
 existing full-resolution detail branch. It was motivated by the previous
-model's error spectrum: about 80–83% of validation squared error was at spatial
+model's error spectrum: about 80â€“83% of validation squared error was at spatial
 wavelengths of at least 64 pixels. This is a diagnostic of broad image changes,
 not a perceptual quality measurement.
 
@@ -684,8 +689,8 @@ grading fusion, the complete affine student takes **1.199 ms** instead of
 **3.683 ms**, with identical tested output. These times exclude application
 integration and do not improve NVIDIA's native 5.4 ms result.
 
-The [full experiment](../research/neural-latency/README.md#learned-affine-color-field-with-a-full-resolution-detail-branch)
-and [numeric evidence](../evidence/neural-model-research/student-affine-field.json)
+The [full experiment](EXPERIMENTS.md#learned-affine-color-field-with-a-full-resolution-detail-branch)
+and [numeric evidence](evidence/student-affine-field.json)
 include the rejected initial interpolation rounding, corrected kernel tests,
 training report and branch ablations. This is a reusable research optimization,
 not a validated lower-latency replacement model. No game files were changed.
@@ -719,7 +724,7 @@ insufficient to establish the requested native quality.
 The projection takes 0.0358 ms in an isolated Torch CUDA Graph, versus 0.329 ms
 for that reconstructed block. This is not a native renderer speedup: the native
 block was already about 0.0722 ms in the instrumented trace. No application was
-launched and no game or native DLL was changed. The [full experiment](../research/neural-latency/README.md#pretrained-block-costs-sensitivity-and-feature-distillation)
+launched and no game or native DLL was changed. The [full experiment](EXPERIMENTS.md#pretrained-block-costs-sensitivity-and-feature-distillation)
 includes all removals, group checks, fitted projection results, source and
 numeric evidence. The 3 ms/no-quality-loss target remains unmet.
 
@@ -742,7 +747,7 @@ These low errors depend on captured native intermediate features. With all
 inputs computed by the reconstruction itself, the same final-block changes
 reach only **0.007683 / 0.008770**. No independently runnable replacement has
 achieved native quality, and no native latency gain was measured. Both capture
-runs still reported sparse model samples of 5.44 ms. The [full diagnostic](../research/neural-latency/README.md#final-block-inputs-and-fp8-accumulation)
+runs still reported sparse model samples of 5.44 ms. The [full diagnostic](EXPERIMENTS.md#final-block-inputs-and-fp8-accumulation)
 includes the layout checks, output comparisons, regression tests and source.
 
 This distinguishes two requirements: a smaller model must retain the learned
@@ -753,7 +758,7 @@ Neither requirement has been solved by the new final-block result.
 
 ## Single-head corrections and measured packing optimization
 
-Direct-MMA arithmetic now covers the known single-head blocks 0–4 and 66–70.
+Direct-MMA arithmetic now covers the known single-head blocks 0â€“4 and 66â€“70.
 Every activation is computed from the input image; native captures serve only
 as comparison targets. Correcting the early stages helps much more than
 correcting only the last decoder stages. With all changes, native RGB error
@@ -768,12 +773,12 @@ every operand. In the complete diagnostic final block, fusing all packing is
 faster than fusing activation alone, with identical output.
 
 Across all 71 reconstructed blocks and the direct head, packing fusion reduces
-GPU graph time from **204.2–204.3 ms to 180.1–180.9 ms**, with identical eager and
+GPU graph time from **204.2â€“204.3 ms to 180.1â€“180.9 ms**, with identical eager and
 graph outputs. These times start at prepared features and exclude output
 grading and application integration. They remain far slower than the native
 runtime's approximately **5.4 ms**. Neither native quality nor 3 ms is achieved.
 
-The [full experiment](../research/neural-latency/README.md#single-head-arithmetic-and-fused-fp8-operands)
+The [full experiment](EXPERIMENTS.md#single-head-arithmetic-and-fused-fp8-operands)
 documents the arithmetic progression, packing tradeoff, complete-image checks,
 timing scopes and source. No app, game, native DLL, driver or installer setting
 was changed.
@@ -795,7 +800,7 @@ candidate images remain identical after this optimization. These are research
 implementation timings, not native renderer gains; NVIDIA's approximately
 5.4 ms result remains unchanged.
 
-The [full experiment](../research/neural-latency/README.md#branched-blocks-and-shared-attention-bias)
+The [full experiment](EXPERIMENTS.md#branched-blocks-and-shared-attention-bias)
 includes inspection provenance, the nine-candidate comparison, seed mapping
 tests, regression checks and explicit timing scopes. No application, game,
 native DLL, driver or installer setting was changed.
@@ -803,7 +808,7 @@ native DLL, driver or installer setting was changed.
 ## Compact student with global attention
 
 A new student adds spatial self-attention to the previous model's deepest
-learned features. It retains full 1920×1080 inputs and detail paths. With the
+learned features. It retains full 1920Ã—1080 inputs and detail paths. With the
 same 18 training views and 4,500 updates, mean training error improves from
 0.011933 to **0.010733**, but validation MAE worsens from 0.015580 / 0.019533 to
 **0.021237 / 0.019931**. Some other metrics improve; overall quality acceptance
@@ -817,7 +822,7 @@ offline Torch timings, not an application result. No validated replacement is
 available: inference speed is already adequate for these small candidates,
 but retaining the native effect across views remains unresolved.
 
-The [experiment and evidence](../research/neural-latency/README.md#global-attention-in-the-compact-student)
+The [experiment and evidence](EXPERIMENTS.md#global-attention-in-the-compact-student)
 document the matched training setup, branch ablation, implementation checks
 and limitations. No application, game, native DLL, driver or installer setting
 was changed.
@@ -837,7 +842,7 @@ views have mixed results, and attention still does not improve the combined
 validation score. A width-32 candidate fits training better and runs at
 **1.96 ms**, but worsens all four new validation MAEs. No quality gate is passed.
 
-The [experiment and evidence](../research/neural-latency/README.md#illumination-data-and-reserved-camera-views)
+The [experiment and evidence](EXPERIMENTS.md#illumination-data-and-reserved-camera-views)
 include split checks, all checkpoint comparisons and timings. The additional
 validation views now inform model choices; they are not a final independent
 test. One scene and first-reset frames cannot establish temporal or cross-scene
@@ -846,7 +851,7 @@ quality preservation.
 A read-only kernel-feasibility check also rules out automatic conversion of
 the inspected weight tensors to 2:4 storage at their existing shapes: only
 **5.03%** of 143.8 million inspected weight values are zero, and none of the
-360 tensors passes the format checks. The [sparsity audit](../research/neural-latency/README.md#exact-zero-feasibility-for-structured-sparsity)
+360 tensors passes the format checks. The [sparsity audit](EXPERIMENTS.md#exact-zero-feasibility-for-structured-sparsity)
 documents its scope and the NVIDIA format reference. No sparse kernel was
 installed or benchmarked; pruning would require changing the model and
 validating its quality.
@@ -862,7 +867,7 @@ complete Torch graph runs at **1.223 ms**. Speed is available; preserving the
 learned effect remains unresolved. A color grade is not a substitute for that
 effect, and neither result passes acceptance.
 
-The [experiment](../research/neural-latency/README.md#unseen-photo-content-and-contained-background-launches)
+The [experiment](EXPERIMENTS.md#unseen-photo-content-and-contained-background-launches)
 records attribution, private-data preparation, matched native inputs/targets,
 all three model comparisons and limitations. These are static rendered photos;
 sample exposure pushes some channels to or above one, and there is no temporal or game-quality
@@ -897,8 +902,8 @@ the original photograph, remains the reference for every comparison.
 
 Four new photo identities enter training. Three previous identities remain
 excluded at both original and calibrated emission, alongside all six Sponza
-validation views. The [experiment and reproduction commands](../research/neural-latency/README.md#calibrated-photo-training-extension)
-and [complete numeric evidence](../evidence/neural-model-research/photo-training-extension.json)
+validation views. The [experiment and reproduction commands](EXPERIMENTS.md#calibrated-photo-training-extension)
+and [complete numeric evidence](evidence/photo-training-extension.json)
 record the improvements and regressions, all 36 new fenced frames, source
 attribution, output reproduction and preserved files. No native kernel change,
 game modification or model installation occurred. The native **5.4 ms** baseline
@@ -921,8 +926,8 @@ keeping its final projection in the original position to preserve output;
 that path reduces **2.00 ms to 1.93 ms**, with twelve matching images. Moving
 all its projections is faster but changes rounding and is not treated as exact.
 
-The [implementation and results](../research/neural-latency/README.md#optimization-controls-and-decoder-execution)
-and [numeric evidence](../evidence/neural-model-research/optimization-and-decoder.json)
+The [implementation and results](EXPERIMENTS.md#optimization-controls-and-decoder-execution)
+and [numeric evidence](evidence/optimization-and-decoder.json)
 retain both failed and successful execution comparisons. These optimizations
 stay disabled by default and apply only to experimental student execution.
 They do not improve native NVIDIA latency, establish native image quality or
@@ -948,8 +953,8 @@ for the checked width-32 model. All 48 model/image comparisons are bit-identical
 Fourteen operator cases, eight input guards and thirty samples per graph are
 recorded. Fusion remains disabled by default and excludes app integration.
 
-The [implementation and full results](../research/neural-latency/README.md#feature-capacity-staged-training-and-fused-output)
-and [numeric evidence](../evidence/neural-model-research/staged-features-and-output-fusion.json)
+The [implementation and full results](EXPERIMENTS.md#feature-capacity-staged-training-and-fused-output)
+and [numeric evidence](evidence/staged-features-and-output-fusion.json)
 preserve both the speedup and quality failures. Native NVIDIA execution remains
 about 5.4 ms, and no game or normal runtime changes were made.
 
@@ -967,7 +972,7 @@ verified the exact hidden executable and ran on an inactive desktop; all 64
 desktop observations passed. The original scene, DLL and INI were restored after
 each run. Only the first-reset frame enters this experiment. Photo planes pass
 through the sample's earlier DLSS processing before the neural model receives
-its true 1920×1080 input; they do not establish gameplay or temporal quality.
+its true 1920Ã—1080 input; they do not establish gameplay or temporal quality.
 
 The new student keeps the original architecture, width 16, 223,440 parameters,
 seed and 4,500-step RGB training budget. No feature pretraining or auxiliary loss
@@ -988,14 +993,14 @@ The earlier output and decoder fusions remain bit-exact across all sixteen
 validation inputs and three checkpoints. The new model's complete student-plus-
 grade graph measures **1.060 ms** with both fusions, excluding D3D12 integration.
 No new kernel or native-runtime acceleration is claimed. The model is not
-accepted or installed. [Method and commands](../research/neural-latency/README.md#broader-image-training-with-a-fixed-validation-split)
-and [numerical evidence](../evidence/neural-model-research/diverse-image-extension.json)
+accepted or installed. [Method and commands](EXPERIMENTS.md#broader-image-training-with-a-fixed-validation-split)
+and [numerical evidence](evidence/diverse-image-extension.json)
 record the data, training, comparison, exactness checks and timing samples.
 
 ## Gradient interference and residual fusion
 
 A diagnostic on all 46 training frames found negative gradient alignment in
-288/480 scene/photo pairs. The two mean gradients had cosine −0.929. This is an
+288/480 scene/photo pairs. The two mean gradients had cosine âˆ’0.929. This is an
 observation at one checkpoint, not proof that gradient interference caused the
 quality tradeoff. No validation pixels or weight updates entered the diagnostic.
 
@@ -1017,14 +1022,14 @@ fallback. All six execution modes are bit-identical on sixteen images for four
 checkpoints: **64 complete model/image checks**.
 
 Alternating the previous and new graph paths over thirty pairs, with ten replays
-per interval, measures **3.21–4.82% less GPU time** for the width-16 students and
+per interval, measures **3.21â€“4.82% less GPU time** for the width-16 students and
 **6.45% less** for the tested width-32 model. Complete student-plus-grade interval
-averages are about 1.12–1.16 ms and 1.96 ms respectively. This excludes D3D12
+averages are about 1.12â€“1.16 ms and 1.96 ms respectively. This excludes D3D12
 integration; it does not accelerate NVIDIA's native runtime. The fusion remains
 an optional research path, disabled by default.
 
-[Methods and commands](../research/neural-latency/README.md#paired-gradients-and-residual-scale-fusion)
-and [numerical evidence](../evidence/neural-model-research/paired-gradients-and-residual-fusion.json)
+[Methods and commands](EXPERIMENTS.md#paired-gradients-and-residual-scale-fusion)
+and [numerical evidence](evidence/paired-gradients-and-residual-fusion.json)
 include the rejected scalar timing, both training controls, exactness checks and
 timing variation. The game, native model, normal runtime files and driver settings
 remain unchanged.
@@ -1032,7 +1037,7 @@ remain unchanged.
 ## Direct decoder conditioning
 
 Training-only diagnostics found that a native-target-derived constant RGB
-correction explains only about 1–4% of the models' errors. The ordinary model's
+correction explains only about 1â€“4% of the models' errors. The ordinary model's
 context gate is also largely unsaturated. This does not support treating the
 problem as a simple global color bias or a stuck gate.
 
@@ -1054,8 +1059,8 @@ checks. The candidate's fully optimized 1080p student-plus-grade graph measures
 integration. This revalidates existing kernels on the new architecture; it does
 not accelerate NVIDIA's native runtime.
 
-[Method and commands](../research/neural-latency/README.md#direct-image-conditioning-of-decoder-features)
-and [numerical evidence](../evidence/neural-model-research/decoder-conditioning.json)
+[Method and commands](EXPERIMENTS.md#direct-image-conditioning-of-decoder-features)
+and [numerical evidence](evidence/decoder-conditioning.json)
 record the diagnostics, training, regressions and timing scope. Game, driver and
 normal runtime state remain unchanged.
 
@@ -1074,8 +1079,8 @@ model from **1.0389 to 0.9958 ms** and the larger one from **1.7895 to 1.7350 ms
 These are improvements to the experimental students, excluding application
 integration; the native runtime is unchanged and neither student meets its quality.
 
-[Method, commands and limits](../research/neural-latency/README.md#conditioned-capacity-and-decoder-fusion)
-and [numeric evidence](../evidence/neural-model-research/conditioning-capacity-and-fusion.json)
+[Method, commands and limits](EXPERIMENTS.md#conditioned-capacity-and-decoder-fusion)
+and [numeric evidence](evidence/conditioning-capacity-and-fusion.json)
 include the mixed quality results, unchanged timing control and exactness scope.
 The new fusion remains disabled by default. Game and driver state are unchanged.
 
@@ -1097,8 +1102,8 @@ The model still fails native-quality acceptance.
 Its optimized full-1080p graph takes **1.0977 ms**, excluding application
 integration. Existing kernels remain bit-exact across 48 complete model/image
 checks and eight execution modes; no new kernel or native-runtime acceleration
-is claimed. The [method and commands](../research/neural-latency/README.md#spatial-error-and-latent-context-exchange)
-and [numeric evidence](../evidence/neural-model-research/latent-context-exchange.json)
+is claimed. The [method and commands](EXPERIMENTS.md#spatial-error-and-latent-context-exchange)
+and [numeric evidence](evidence/latent-context-exchange.json)
 include all comparisons and their limits. Game and driver state remain unchanged.
 
 ## Paired conditioned training and native batching coverage
@@ -1122,8 +1127,8 @@ UAV barriers among 158 successful single-kernel calls in six uncensored sampled
 frames. The marker cannot distinguish barriers inside a launch from those
 between launches, and the observer covers only selected resources. This trace
 therefore does not establish executable batches or a GPU speedup. The
-[method and results](../research/neural-latency/README.md#paired-training-of-the-conditioned-model)
-and [numeric evidence](../evidence/neural-model-research/paired-conditioning-and-launch-audit.json)
+[method and results](EXPERIMENTS.md#paired-training-of-the-conditioned-model)
+and [numeric evidence](evidence/paired-conditioning-and-launch-audit.json)
 record both investigations and the next evidence needed. No application was
 launched or game/driver state changed.
 
@@ -1150,12 +1155,12 @@ the capture control. Later frames have different inputs and cannot test output
 equivalence. Other command coverage, argument lifetimes and multi-kernel ordering
 still need verification before batching. No native acceleration is claimed.
 
-The [data method and results](../research/neural-latency/README.md#matched-native-brightness-training),
-[observer procedure](../research/neural-latency/README.md#native-launch-scopes-and-complete-intercepted-barrier-calls)
-and [numeric evidence](../evidence/neural-model-research/brightness-training-and-launch-order.json)
+The [data method and results](EXPERIMENTS.md#matched-native-brightness-training),
+[observer procedure](EXPERIMENTS.md#native-launch-scopes-and-complete-intercepted-barrier-calls)
+and [numeric evidence](evidence/brightness-training-and-launch-order.json)
 document both experiments. All eighteen sample launches used the inactive private
 desktop; game, driver and normal runtime state remain unchanged. The full goal
-of 3 ms at 1920×1080 with unchanged native quality remains unmet.
+of 3 ms at 1920Ã—1080 with unchanged native quality remains unmet.
 
 ## Output-clamp training and a native dependency test
 
@@ -1180,16 +1185,16 @@ This supports dependency ordering for those finite workloads on this GPU and
 driver. It does not prove that the native model's calls can be merged safely or
 that merging them would meet 3 ms. No native kernels were modified or accelerated.
 
-The [training method](../research/neural-latency/README.md#training-gradients-through-the-output-clamp),
-[native selftest](../research/neural-latency/README.md#native-multi-kernel-dependency-selftest)
-and [numeric evidence](../evidence/neural-model-research/clamp-training-and-chain-selftest.json)
+The [training method](EXPERIMENTS.md#training-gradients-through-the-output-clamp),
+[native selftest](EXPERIMENTS.md#native-multi-kernel-dependency-selftest)
+and [numeric evidence](evidence/clamp-training-and-chain-selftest.json)
 document the completed experiments. The single sample launch used the inactive
 private desktop; WuWa and the normal runtime remain unchanged. The full target
 is still unmet.
 
 ## Spectral training and controlled native argument forwarding
 
-Broad spatial frequencies account for roughly 64–69% of squared training error
+Broad spatial frequencies account for roughly 64â€“69% of squared training error
 in the brighter-data model. A training-only spectral loss, calibrated without
 validation data, worsens all three validation groups by 13.87%, 28.85% and 10.87%.
 It is rejected and remains off by default. Its graph still takes about 1.003 ms;
@@ -1208,21 +1213,21 @@ copied arguments reproduce the native reference output byte-for-byte on every
 frame. This is a controlled correctness result, not a batching or speed result.
 No real-model kernel calls have been merged yet.
 
-The [spectral experiment](../research/neural-latency/README.md#training-against-spectral-errors),
-[native method and replay procedure](../research/neural-latency/README.md#native-command-coverage-argument-ownership-and-fixed-input-replay)
-and [numeric evidence](../evidence/neural-model-research/spectral-training-and-native-input-replay.json)
+The [spectral experiment](EXPERIMENTS.md#training-against-spectral-errors),
+[native method and replay procedure](EXPERIMENTS.md#native-command-coverage-argument-ownership-and-fixed-input-replay)
+and [numeric evidence](evidence/spectral-training-and-native-input-replay.json)
 document the completed work. Five hidden sample launches used the inactive
 private desktop. WuWa, driver settings and the normal runtime remain unchanged;
 the full 3 ms and unchanged-quality goal remains unmet.
 
 ## Papers and what can transfer
 
-The joint [native feature supervision experiment](../research/neural-latency/README.md#native-intermediate-feature-supervision)
+The joint [native feature supervision experiment](EXPERIMENTS.md#native-intermediate-feature-supervision)
 adds training-only targets from the native decoder. Against the mixed RGB
 baseline, it reduces mean scene validation error by 12.94% but increases photo
 error by 13.86%. The inference model stays near 1.24 ms in a complete Torch
 graph; its extra training projection is removed. It still fails native quality.
-The [numeric evidence](../evidence/neural-model-research/native-feature-hints.json)
+The [numeric evidence](evidence/native-feature-hints.json)
 includes all regressions, capture checks and split/gradient/inference tests.
 Seven new sample captures ran on an inactive private desktop and restored the
 original files. WuWa and the normal runtime remain unchanged.
@@ -1268,13 +1273,13 @@ student, compare RGB error, high-frequency structure, perceptual metrics and
 temporal errors on held-out sequences, followed by direct visual comparison.
 A synthetic head match is not a pass for this gate.
 
-Timing must include the full NR pass at a **true 1920×1080 model extent**, with
+Timing must include the full NR pass at a **true 1920Ã—1080 model extent**, with
 GPU warmup, repeated samples and separate median/tail results. Instrumented
 kernel timings locate costs; final claims require an uninstrumented comparison
 in the existing hidden demo. A single isolated-kernel speedup or reduced network
 resolution cannot be reported as meeting 3 ms.
 
-The [broader-data warm start](broad-student-training.md) completed 6,000 updates
+The [broader-data warm start](training.md) completed 6,000 updates
 on 262 training frames and evaluated 56 development images. It reduces overall
 RGB error 12.42% against the earlier routed checkpoint at essentially unchanged
 standalone inference cost: 2.230 versus 2.242 ms in the same run. The older

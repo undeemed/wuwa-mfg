@@ -17,7 +17,7 @@ def original_training_names():
     names = ['model-capture-natural', 'model-capture-natural-west',
              'teacher-natural-northeast', 'teacher-natural-northwest',
              'teacher-natural-southeast', 'teacher-natural-southwest']
-    poses = json.loads((Path(__file__).parent / 'capture-viewsets/translated-training.json').read_text())
+    poses = json.loads((Path(__file__).parent / 'data/translated-training.json').read_text())
     return names + ['teacher-translated-' + pose['name'] for pose in poses]
 
 

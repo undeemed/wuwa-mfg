@@ -50,7 +50,7 @@ def main():
     report={'complete':True,'target_achieved':False,'quality_gate_passed':False,'native_runtime_accelerated':False,
         'native_calls_reordered':False,'batching_safety_established':False,'events_retained':len(events),'event_cap':32768,'cap_reached':False,
         'input_sha256':{n:sha(f) for n,f in paths.items()},'paired_capture_sha256':sha(a.paired_capture),
-        'observer_patch_sha256':sha(Path(__file__).with_name('optiscaler-demo-launch-order.patch')),
+        'observer_patch_sha256':sha(Path(__file__).parent.joinpath('probes/optiscaler-demo-launch-order.patch')),
         'paired_capture':pair,'matched_input_frames':[r['frame'] for r in pair['paired_frames'] if all(r['resources'][n]['byte_equal'] for n in ('color','depth','motion'))],
         'rows':rows,'limitations':[
             'Observes the intercepted command-list implementations on the calling thread; not proof of all commands, worker threads or implicit driver operations.',

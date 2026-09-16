@@ -1,13 +1,20 @@
 # Investigation history and work inventory
 
+[← Documentation](README.md)
+
 This records the work behind the toolkit, including failed experiments. The scope
 is the tested WuWa installation on an RTX 4070 Ti, September 14–15, 2026. A high FPS
 counter or visible menu was never sufficient evidence of the actual FG multiplier.
 
-Latest addition: [live NVIDIA/student switching](student-hotswap.md), including
+Latest addition: [live NVIDIA/student switching](../research/neural/integration.md), including
 the native DirectML port, private export/build workflow, fenced resource reuse,
 weight reload/fallback, local backup/restore, and numerical/hidden-demo evidence.
-The student integration is installed locally; a WuWa gameplay trial is pending.
+The student integration is installed locally. Its first visible WuWa trial
+reported washed-out output, a substantial quality gap, and occasional stutters;
+it is not accepted as a quality-equivalent NVIDIA replacement. Sparse student
+samples near 3.9 ms do not establish frame pacing. A subsequent source revision
+moves the remaining dispatch-buffer allocations off the rendering thread;
+visible gameplay testing of that revision is still pending.
 
 | Stage | Observation | Retained result |
 | --- | --- | --- |
@@ -45,12 +52,12 @@ The student integration is installed locally; a WuWa gameplay trial is pending.
 | Guided MFG setup, rollback and diagnostics | `Setup.cmd`, `Launch.ps1`, `wuwa_mfg/` |
 | Original successful MFG evidence | [Validation](validation.md), `evidence/session-summary.json` |
 | All retained OptiScaler compatibility/source changes | `patches/optiscaler-wuwa-compat.patch` against the pinned source |
-| Neural source build and local bundle creation | `BuildNeural.ps1`, `tools/make_neural_bundle.py` |
+| Neural source build and local bundle creation | `tools/BuildNeural.ps1`, `tools/make_neural_bundle.py` |
 | Neural profile, optional install/disable/scale/restore | `neural/OptiScaler.ini`, `wuwa_mfg/neural.py`, `wuwa_mfg/neural_cli.py` |
 | Crash diagnosis, proof and limits | [Crash investigation](neural-crashes.md) |
-| NVIDIA model-runtime performance investigation | [Runtime findings](nvidia-runtime-investigation.md) |
-| Separate lightweight test application and rejected harness trial | [Demo benchmark](neural-demo-benchmark.md) |
-| Model/kernel experiments, paper review and acceptance criteria | [Latency research](neural-latency-research.md), `research/neural-latency/`, `evidence/neural-model-research/` |
+| NVIDIA model-runtime performance investigation | [Runtime findings](../research/neural/runtime.md) |
+| Separate lightweight test application and rejected harness trial | [Demo benchmark](../research/neural/benchmark.md) |
+| Model/kernel experiments, paper review and acceptance criteria | [Latency research](../research/neural/findings.md), `research/neural/`, `research/neural/evidence/` |
 | Reproduction/tests | `tests/` and regression sources inside the OptiScaler patch |
 | Attribution/licensing | `THIRD_PARTY_NOTICES.md`, `licenses/` |
 

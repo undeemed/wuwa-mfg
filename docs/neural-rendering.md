@@ -1,5 +1,7 @@
 # Neural rendering with RTXMFG
 
+[← Documentation](README.md)
+
 The optional neural engine uses a locally patched **OptiScaler NR v0.8.4** alongside
 this project's RTXMFG unlock. RTXMFG keeps control of 3x/4x/5x/6x; OptiScaler runs
 one neural pass before DLSS Super Resolution. The changes are source patches, with
@@ -23,14 +25,15 @@ Requirements: the supported MFG installation, Git for Windows, Visual Studio 202
 with Desktop development with C++ and a Windows SDK, and your own compatible
 `nvngx_dlssnr.dll`. The script does not install these prerequisites.
 
-1. Download/extract the complete toolkit release or clone this repository.
+1. Clone the current repository. The commands below use the current `tools/`
+   layout; the v0.2.0 release ZIP keeps its build scripts at the root.
 2. Obtain the NR runtime according to [upstream's setup information](https://github.com/wilsjo2/OptiScaler-DLSSNR-PreSR-Multipass/blob/v0.8.4/INSTALL-DLSSNR.md).
    This integration accepts only the tested SF-v2 file identified below. No NVIDIA
    runtime or model is bundled here.
 3. From PowerShell in the toolkit folder, run:
 
    ```powershell
-   powershell -NoProfile -ExecutionPolicy Bypass -File .\BuildNeural.ps1 -NrRuntime "D:\Downloads\nvngx_dlssnr.dll"
+   powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\BuildNeural.ps1 -NrRuntime "D:\Downloads\nvngx_dlssnr.dll"
    ```
 
    This downloads pinned source/dependencies, applies the patch, runs the isolated
@@ -157,9 +160,9 @@ At 25% (960 × 540 at 4K), the runtime created the expected model and recent GPU
 intervals were about **3.15–3.76 ms total**, including **2.62–3.01 ms model time**.
 These are observations rather than a controlled A/B benchmark. They do not show
 that a 1920 × 1080 model runs in 3 ms. The
-[separate demo experiment](neural-demo-benchmark.md) targets that larger extent.
+[separate demo experiment](../research/neural/benchmark.md) targets that larger extent.
 The public profile continues to start NR disabled. The separate
-[NVIDIA-runtime investigation](nvidia-runtime-investigation.md) records the
+[NVIDIA-runtime investigation](../research/neural/runtime.md) records the
 embedded Ada kernels, overwritten internal scale parameter and FP4 limitations.
 
 ## Installed files and recovery

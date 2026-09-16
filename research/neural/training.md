@@ -1,12 +1,14 @@
 # Broader training for the fast neural student
 
+[← Neural research](README.md)
+
 This experiment continues the existing **381,600-parameter region-routed
 student**. It does not change the inference architecture, replace NVIDIA model
 weights, or install a model in WuWa. The normal neural runtime remains separate.
 
 The purpose is to test whether more varied native-teacher examples improve
 fidelity while retaining the student's low standalone inference cost. The
-[protocol](../research/neural-latency/broad-data-protocol.json) fixes the training
+[protocol](data/broad-data-protocol.json) fixes the training
 budget and separates development images from future gameplay acceptance tests.
 
 ## Completed development result
@@ -48,7 +50,7 @@ search categories, not certified coverage; a portrait's center crop, for
 example, may omit the face. No perceptual-equivalence, motion or complete-game
 latency acceptance is claimed. **The candidate remains uninstalled.**
 
-[Full numeric evidence](../evidence/neural-model-research/broad-data-v1.json)
+[Full numeric evidence](evidence/broad-data-v1.json)
 includes every development score, training sampling count, alternating timing
 interval, capture-speed pilot and preservation check. Source images, capture
 pixels and learned weights remain private.
@@ -75,7 +77,7 @@ the new training and development partitions. It does not establish independent
 gameplay coverage. These are still-image development examples, not 240 gameplay
 trials or evidence of a 99% gameplay pass rate.
 
-The [source attribution catalogue](../research/neural-latency/broad-source-attribution.json)
+The [source attribution catalogue](data/broad-source-attribution.json)
 records the 240 source pages, authors, licenses, hashes and fixed partitions.
 It contains no source images or teacher outputs.
 

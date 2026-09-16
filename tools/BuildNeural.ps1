@@ -1,8 +1,9 @@
 param(
     [Parameter(Mandatory=$true)][string]$NrRuntime,
-    [string]$WorkDirectory = (Join-Path $PSScriptRoot '.build')
+    [string]$WorkDirectory = (Join-Path (Split-Path -Parent $PSScriptRoot) '.build')
 )
 $ErrorActionPreference = 'Stop'
+$repoRoot = Split-Path -Parent $PSScriptRoot
 function RunGit { & git @args; if ($LASTEXITCODE -ne 0) { throw 'Git command failed.' } }
 if (-not (Get-Command git -ErrorAction SilentlyContinue)) { throw 'Git for Windows is required for this source build.' }
 $NrRuntime = (Resolve-Path -LiteralPath $NrRuntime).Path
@@ -22,7 +23,7 @@ RunGit -C $source submodule update --init --recursive --depth 1 --jobs 4
 $headers = Join-Path $WorkDirectory 'directx-headers'
 RunGit clone --depth 1 --branch v1.619.5 https://github.com/microsoft/DirectX-Headers.git $headers
 if ((& git -C $headers rev-parse HEAD).Trim() -ne 'ee479f0bd5f7b884f202bcf0c3f076cc050dd256') { throw 'DirectX-Headers tag moved; stopped.' }
-$patch = Join-Path $PSScriptRoot 'patches\optiscaler-wuwa-compat.patch'
+$patch = Join-Path $repoRoot 'patches\optiscaler-wuwa-compat.patch'
 RunGit -C $source apply --check $patch
 RunGit -C $source apply $patch
 & (Join-Path $source 'tests\run_nr_dispatch_slots.ps1') -LegacyControl
@@ -43,12 +44,12 @@ if ($LASTEXITCODE -ne 0) { throw 'OptiScaler build failed.' }
 $package = Join-Path $WorkDirectory 'OptiScaler-NR-v0.8.4.zip'
 Invoke-WebRequest -UseBasicParsing -Uri 'https://github.com/wilsjo2/OptiScaler-DLSSNR-PreSR-Multipass/releases/download/v0.8.4/OptiScaler-NR-v0.8.4.zip' -OutFile $package
 if ((Get-FileHash -LiteralPath $package).Hash -ne '8789912859882E66B3F3A1AA768DB947DA779DFD65225DF69EA919052E73A2E4') { throw 'Upstream package checksum mismatch.' }
-$runtime = Join-Path $PSScriptRoot '.runtime'
+$runtime = Join-Path $repoRoot '.runtime'
 New-Item -ItemType Directory -Path $runtime -Force | Out-Null
 $pythonZip = Join-Path $runtime 'python-3.12.10-embed-amd64.zip'
 if (-not (Test-Path -LiteralPath $pythonZip)) { Invoke-WebRequest -UseBasicParsing -Uri 'https://www.python.org/ftp/python/3.12.10/python-3.12.10-embed-amd64.zip' -OutFile $pythonZip }
 if ((Get-FileHash -LiteralPath $pythonZip).Hash -ne '4ACBED6DD1C744B0376E3B1CF57CE906F9DC9E95E68824584C8099A63025A3C3') { throw 'Python archive checksum mismatch.' }
 Expand-Archive -LiteralPath $pythonZip -DestinationPath $runtime -Force
-& (Join-Path $runtime 'python.exe') -I (Join-Path $PSScriptRoot 'tools\make_neural_bundle.py') --source $source --package $package --nr-runtime $NrRuntime --output (Join-Path $WorkDirectory 'bundle')
+& (Join-Path $runtime 'python.exe') -I (Join-Path $repoRoot 'tools\make_neural_bundle.py') --source $source --package $package --nr-runtime $NrRuntime --output (Join-Path $WorkDirectory 'bundle')
 if ($LASTEXITCODE -ne 0) { throw 'NR bundle validation failed.' }
 Write-Host 'Build complete. Open Setup.cmd, choose 5, and select the bundle folder printed above.'

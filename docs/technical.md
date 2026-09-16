@@ -1,5 +1,7 @@
 # Startup timing fix
 
+[← Documentation](README.md)
+
 ## What failed
 
 With the original RTXMFG v1.3.3, WuWa discovered the Streamline wrapper before RTXMFG had selected the Ada GPU backend. The wrapper's startup maximum appeared to be cached as one generated frame. The mod prepared the wrapper only when the first NGX FG Create identified Ada, which was too late for that cached value. Higher requests returned result `38` or remained limited to 2x.

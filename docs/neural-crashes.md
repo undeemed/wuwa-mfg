@@ -1,5 +1,7 @@
 # Neural crash investigation and compatibility patch
 
+[← Documentation](README.md)
+
 These findings come from one RTX 4070 Ti / driver 616.92 WuWa installation on
 September 15, 2026. Separate a demonstrated code defect from a plausible explanation
 of a game crash. The published source contains both the fixes and regression tests;
@@ -84,7 +86,7 @@ resource-state, model, driver, or transition bugs. NR remains experimental.
 5. DX12 output-relative model sizing, config persistence, a menu control and extent tests.
 
 The patch includes tests for module lifetime, GPU dispatch slots and model extents.
-Use [BuildNeural.ps1](../BuildNeural.ps1) to apply it to the exact upstream commit.
+Use [tools/BuildNeural.ps1](../tools/BuildNeural.ps1) to apply it to the exact upstream commit.
 The output-size tests cover 4K, ultrawide, DLSS input changes, invalid sizes/scales
 and uniform texture-limit handling. They verify dimensions, not model quality or
 performance at those dimensions.
@@ -149,7 +151,7 @@ Microsoft documents the matching
 and [exclusive](https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-releasesrwlockexclusive)
 release APIs. No Windows patch or recovery is included in the control.
 
-[Sanitized evidence](../evidence/neural-wmi-hang.json) records the counts, binary
+[Sanitized evidence](../research/windows-wmi/evidence.json) records the counts, binary
 identity, probe timings and control results. Dumps, raw logs, disassembly, process
 IDs and private paths remain local.
 

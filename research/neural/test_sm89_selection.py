@@ -9,7 +9,7 @@ import subprocess
 import tempfile
 
 parser = argparse.ArgumentParser(description=__doc__)
-parser.add_argument('--patch', type=Path, default=Path(__file__).with_name('optiscaler-demo-launch-contract.patch'))
+parser.add_argument('--patch', type=Path, default=Path(__file__).parent.joinpath('probes/optiscaler-demo-launch-contract.patch'))
 args = parser.parse_args()
 patch = args.patch.read_text()
 section = patch.split('+++ b/OptiScaler/dlssnr/DlssNr_DemoKernelProbe.h\n', 1)[1]

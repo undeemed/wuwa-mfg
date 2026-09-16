@@ -17,7 +17,7 @@ srw_pairing_control.exe mismatch
 wrong release function, as a negative control. Both use the nonblocking
 `TryAcquireSRWLockExclusive` for the subsequent attempt; neither waits for the
 malformed lock. The observed results are recorded in
-[sanitized evidence](../../evidence/neural-wmi-hang.json).
+[sanitized evidence](../../research/windows-wmi/evidence.json).
 
 The malformed value is an implementation-specific observation on the tested
 Windows build, not a guaranteed API result on other versions. This control is

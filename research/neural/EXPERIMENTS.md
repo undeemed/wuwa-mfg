@@ -1,8 +1,10 @@
 # Isolated neural-model research
 
-These developer tools investigate the [latency target and current findings](../../docs/neural-latency-research.md).
+[← Neural research](README.md)
+
+These developer tools investigate the [latency target and current findings](../../research/neural/findings.md).
 They are not an installer, and do not provide a 3 ms renderer. The existing
-[hidden NVIDIA demo](../../docs/neural-demo-benchmark.md) remains the application
+[hidden NVIDIA demo](../../research/neural/benchmark.md) remains the application
 benchmark. Python experiments are for numerical checks and model development.
 
 ## Model experiments
@@ -75,13 +77,13 @@ and saturation cases; signed-zero bits are checked in the general conversion.
 
 ## Runtime kernel tracing in the existing demo
 
-[`optiscaler-demo-kernel-probe.patch`](optiscaler-demo-kernel-probe.patch) is an
+[`optiscaler-demo-kernel-probe.patch`](probes/optiscaler-demo-kernel-probe.patch) is an
 **incremental research patch** on top of
 [`patches/optiscaler-wuwa-compat.patch`](../../patches/optiscaler-wuwa-compat.patch).
 The integration is GPL-3.0 under the OptiScaler license. It is not applied by the
 normal installer or source-build script.
 
-Use a separate source build produced by `BuildNeural.ps1`, with its pinned
+Use a separate source build produced by `tools/BuildNeural.ps1`, with its pinned
 v0.8.4 source and DirectX headers. Apply this incremental patch with `git apply
 --check` followed by `git apply`. Rebuild Release x64 using that build's
 `local-build.props` through `ForceImportBeforeCppTargets`, and set
@@ -113,7 +115,7 @@ objects. Instrumented timings are diagnostic, not final speed claims.
 
 ## Matched input/output capture in the existing demo
 
-[`optiscaler-demo-model-capture.patch`](optiscaler-demo-model-capture.patch) is a
+[`optiscaler-demo-model-capture.patch`](probes/optiscaler-demo-model-capture.patch) is a
 separate GPL-3.0 research patch on top of the same R4 compatibility source. Apply
 it to a separate source copy with `git apply --check` and `git apply`; use the
 Release x64 build procedure and DirectX-header override described above. The
@@ -168,7 +170,7 @@ diagnostics. The full reconstructed graph is still much slower than NVIDIA.
 
 ## Combined native launch contract and captures
 
-[`optiscaler-demo-launch-contract.patch`](optiscaler-demo-launch-contract.patch)
+[`optiscaler-demo-launch-contract.patch`](probes/optiscaler-demo-launch-contract.patch)
 combines both research instruments and adds whitelisted scalar metadata. Apply
 it directly on the normal R4 compatibility source, **not** on top of either
 research patch above. It was built with the same pinned source, DirectX headers
@@ -312,7 +314,7 @@ quality. Publish only the collection manifest and numeric results.
 
 ## Native buffer range metadata
 
-[`optiscaler-demo-buffer-ranges.patch`](optiscaler-demo-buffer-ranges.patch)
+[`optiscaler-demo-buffer-ranges.patch`](probes/optiscaler-demo-buffer-ranges.patch)
 includes the combined launch-contract/capture patch plus a bounded buffer
 registry. Apply it directly to normal R4 source, not over another research patch.
 It was built as Release x64 and its patch application/reversal was checked in a
@@ -336,11 +338,11 @@ This establishes allocation ownership, **not** tensor layout, current resource
 state or intermediate numerical equivalence. Do not infer a safe readback state
 from the recorded creation state. The underlying reconstruction remains
 numerically different from the vendor. Results are in
-[`native-buffer-ranges.json`](../../evidence/neural-model-research/native-buffer-ranges.json).
+[`native-buffer-ranges.json`](../../research/neural/evidence/native-buffer-ranges.json).
 
 ## Guarded native preprocessor capture
 
-[`optiscaler-demo-pre-tensor.patch`](optiscaler-demo-pre-tensor.patch) extends the
+[`optiscaler-demo-pre-tensor.patch`](probes/optiscaler-demo-pre-tensor.patch) extends the
 combined research build with legacy/enhanced barrier observation and one optional
 allocation-prefix capture. Apply it directly to normal R4 source. It includes the
 earlier research patches; do not stack them. Build Release x64 with the existing
@@ -392,13 +394,13 @@ not localize an arithmetic error.
 
 The tool writes private reconstructed arrays plus numeric metrics. Publish only
 metrics, never the prefix or arrays. See
-[`native-pre-tensor.json`](../../evidence/neural-model-research/native-pre-tensor.json).
+[`native-pre-tensor.json`](../../research/neural/evidence/native-pre-tensor.json).
 
 The hierarchical noise-conditioned follow-up uses the six-view width-16 command
 above with `--noise-source MLX-DLSS`. It ran in 1.47 ms but worsened both holdouts;
 it was rejected. Noise preparation and application integration are excluded from
 that timing. Its full numeric record is
-[`student-hierarchical-noise.json`](../../evidence/neural-model-research/student-hierarchical-noise.json).
+[`student-hierarchical-noise.json`](../../research/neural/evidence/student-hierarchical-noise.json).
 
 ## First-block lane layout and arithmetic
 
@@ -468,8 +470,8 @@ or native speedup follows from this experiment.
 
 Source, tool provenance, addresses expressed as constant-buffer offsets, numeric
 comparisons and limitations are recorded in
-[`native-pre-layout.json`](../../evidence/neural-model-research/native-pre-layout.json)
-and [`first-block-rounding.json`](../../evidence/neural-model-research/first-block-rounding.json).
+[`native-pre-layout.json`](../../research/neural/evidence/native-pre-layout.json)
+and [`first-block-rounding.json`](../../research/neural/evidence/first-block-rounding.json).
 Weights, raw textures/tensors, vendor code and tool binaries are not published.
 
 ## Direct tensor-core accumulation
@@ -528,7 +530,7 @@ rounding alone. High-pass correlation was 0.98199. Graph time was **193.91 ms**;
 this is not native runtime latency. This candidate is not accepted or deployed.
 
 The full settings, per-channel errors, ULP counts, synthetic checks and image
-comparison are in [`first-block-mma.json`](../../evidence/neural-model-research/first-block-mma.json).
+comparison are in [`first-block-mma.json`](../../research/neural/evidence/first-block-mma.json).
 
 ## Separate pooled features and a native-input diagnostic
 
@@ -596,7 +598,7 @@ per view. No quality acceptance, native speedup or game deployment follows.
 
 Capture contracts, hashes, per-channel errors, padding results, pooling variants
 and the matched final-image diagnostic are published in
-[`native-pre-pool.json`](../../evidence/neural-model-research/native-pre-pool.json).
+[`native-pre-pool.json`](../../research/neural/evidence/native-pre-pool.json).
 
 ## Complete first-block capture and full-network accumulation
 
@@ -665,7 +667,7 @@ global UAV barrier at each of 16 distinct chain positions; these logs did not
 identify consecutive duplicate barriers to remove. No barrier-removal patch was
 made. Source restoration, capture contracts, complete skip comparisons and all
 eight matched image tests are recorded in
-[`native-pre-stem.json`](../../evidence/neural-model-research/native-pre-stem.json).
+[`native-pre-stem.json`](../../research/neural/evidence/native-pre-stem.json).
 
 ## Output grading changes the earlier image comparisons
 
@@ -754,7 +756,7 @@ The next model experiments can keep this known color transform explicit while
 testing whether a smaller learned component preserves detail and motion; this
 is a research direction, not a demonstrated replacement. Complete numerical
 results and contracts are in
-[`native-output-grading.json`](../../evidence/neural-model-research/native-output-grading.json).
+[`native-output-grading.json`](../../research/neural/evidence/native-output-grading.json).
 
 ## Explicit grading in a small student and a fused GPU implementation
 
@@ -802,7 +804,7 @@ student, but the student fails quality and has no D3D12 integration. It is not a
 
 To improve data coverage, `collect_demo_views.py --views-file <json>` accepts a
 bounded camera list. The included
-[`translated-training.json`](capture-viewsets/translated-training.json) adds
+[`translated-training.json`](data/translated-training.json) adds
 twelve training views from two translated positions. Collection still uses only
 the verified hidden demo and restores the scene, DLL and marker. Private output
 inside the repository is rejected. `audit_teacher_views.py` checks restoration
@@ -845,9 +847,9 @@ command, with each extra training image supplied through
 The models remain rejected for the requested no-quality-loss replacement.
 These repeatedly consulted validation cameras are not an independent final
 test set, and they do not cover other scenes or motion. The new evidence is in
-[`fused-output-grade.json`](../../evidence/neural-model-research/fused-output-grade.json),
-[`teacher-translated-views.json`](../../evidence/neural-model-research/teacher-translated-views.json)
-and [`student-explicit-grading.json`](../../evidence/neural-model-research/student-explicit-grading.json).
+[`fused-output-grade.json`](../../research/neural/evidence/fused-output-grade.json),
+[`teacher-translated-views.json`](../../research/neural/evidence/teacher-translated-views.json)
+and [`student-explicit-grading.json`](../../research/neural/evidence/student-explicit-grading.json).
 
 ## Learned affine color field with a full-resolution detail branch
 
@@ -924,7 +926,7 @@ checks. For branch diagnostics, use
 roles are `primary`, `validation` and `extra-0`. These commands do not launch a
 game or the demo. Source, full numeric reports, failed and corrected kernel
 checks, and branch metrics are in
-[`student-affine-field.json`](../../evidence/neural-model-research/student-affine-field.json).
+[`student-affine-field.json`](../../research/neural/evidence/student-affine-field.json).
 Weights and images remain private. No new application capture or game change
 was needed. The **3 ms at true 1080p with no quality loss** target remains unmet.
 
@@ -1013,8 +1015,8 @@ slower than NVIDIA, and both versions fail native quality matching.
 All application and game files remain unchanged; these tests use existing
 private captures and never open a window. Only source, numerical results and
 artifact hashes are published in
-[`native-block-costs.json`](../../evidence/neural-model-research/native-block-costs.json)
-and [`pretrained-block-compression.json`](../../evidence/neural-model-research/pretrained-block-compression.json).
+[`native-block-costs.json`](../../research/neural/evidence/native-block-costs.json)
+and [`pretrained-block-compression.json`](../../research/neural/evidence/pretrained-block-compression.json).
 The fitted weights stay private. The two repeatedly consulted evaluation
 cameras are research diagnostics, not an independent final quality test.
 
@@ -1037,7 +1039,7 @@ before accepting results. No compressed model is accepted for installation.
 
 The latest diagnostic separates errors accumulated by the reconstructed
 decoder from errors in its final block. The new
-[`optiscaler-demo-post-inputs.patch`](optiscaler-demo-post-inputs.patch) is an
+[`optiscaler-demo-post-inputs.patch`](probes/optiscaler-demo-post-inputs.patch) is an
 **add-on to the combined `optiscaler-demo-pre-tensor.patch`**, not a standalone
 patch or installer option. It captures two bounded input prefixes after the
 first successful neural post block (chain 156), without changing the launch:
@@ -1112,7 +1114,7 @@ No new latency improvement or replacement DLL is claimed. The complete
 reconstruction remains far slower than NVIDIA's native implementation, and the
 3 ms/no-quality-loss target remains unmet.
 
-Only source and [numeric evidence](../../evidence/neural-model-research/native-post-block.json)
+Only source and [numeric evidence](../../research/neural/evidence/native-post-block.json)
 are published. Captured features, textures, weights, vendor binaries and
 disassembly stay private. Reproduction interfaces, using fresh private output
 directories and the same pinned reference and weights:
@@ -1202,8 +1204,8 @@ or improve NVIDIA's approximately 5.4 ms runtime. The target remains unmet.
 `test_boundary_mma.py` retains its 24 regression/chunk checks and adds 30 packing
 comparisons spanning all ten single-head blocks. Gate-only and all packing
 fusion match the unfused block output in every added case. The
-[arithmetic evidence](../../evidence/neural-model-research/single-head-arithmetic.json)
-and [packing evidence](../../evidence/neural-model-research/fused-fp8-packing.json)
+[arithmetic evidence](../../research/neural/evidence/single-head-arithmetic.json)
+and [packing evidence](../../research/neural/evidence/fused-fp8-packing.json)
 contain all comparisons, timing samples and source hashes. Original/west views
 remain same-scene first-reset diagnostics, not independent temporal or
 perceptual acceptance tests. No app was launched and no game, native DLL,
@@ -1292,8 +1294,8 @@ diagnostic block improves from **2.5537 to 2.4497 ms** on the original view and
 modes. Thirty samples follow warmup for each timing. This roughly 4% block
 improvement is not a native renderer or complete-network speedup.
 
-The [branched arithmetic evidence](../../evidence/neural-model-research/branched-arithmetic.json)
-and [shared-bias evidence](../../evidence/neural-model-research/shared-mma-bias.json)
+The [branched arithmetic evidence](../../research/neural/evidence/branched-arithmetic.json)
+and [shared-bias evidence](../../research/neural/evidence/shared-mma-bias.json)
 contain the inspection provenance, all candidate results, checks and timing
 samples. Only source and numerical evidence are published. No application was
 launched and no game, native runtime, driver or installer default changed.
@@ -1379,7 +1381,7 @@ nonzero so it cannot hide intermediate errors. A small direct-attention
 comparison has maximum error 1.19e-7; distant-token influence and finite,
 nonzero gradients are checked. All complete graph outputs match eager output.
 
-The [numerical evidence](../../evidence/neural-model-research/student-global-attention.json)
+The [numerical evidence](../../research/neural/evidence/student-global-attention.json)
 includes training results, ablation, frequency diagnostics, timing samples,
 checks, dataset hashes and source hashes. These repeatedly consulted views are
 not an independent final test set. They contain one scene and no temporal
@@ -1395,7 +1397,7 @@ ablate_attention_student.py --student <attention-run> --baseline <previous-grade
 ```
 
 Repeat `--extra-train-capture` in the order recorded in the evidence to include
-all 18 views; the translated poses are in `capture-viewsets/translated-training.json`.
+all 18 views; the translated poses are in `data/translated-training.json`.
 Repeat `--case` for each compared view. Captures, learned weights and predictions
 remain private. No app was opened and no game, native runtime, driver or installer
 default changed. NVIDIA's approximately 5.4 ms result and the unmet
@@ -1411,7 +1413,7 @@ vary its irradiance or direction across four existing camera directions.
 Validation uses four different camera positions and lighting combinations.
 The source scene is restored byte for byte afterward.
 
-`capture-viewsets/illumination.json` records every pose, light and split.
+`data/illumination.json` records every pose, light and split.
 `collect_demo_views.py` accepts the optional `sun` field and retains its exact
 hidden-executable hash requirement. The runner checks that hash before each
 launch. All **16 captures and 64 fenced frames** completed; only each first-reset
@@ -1474,13 +1476,13 @@ match the earlier comparison byte for byte. All six measured graphs match
 eager output. Neither the faster candidate nor the better training fit is a
 validated native replacement.
 
-The [collection and model evidence](../../evidence/neural-model-research/student-illumination.json)
+The [collection and model evidence](../../research/neural/evidence/student-illumination.json)
 contains the capture audit, matched training results, every validation score,
 timing samples and preserved-file hashes. The native approximately 5.4 ms
 baseline and unmet 3 ms/no-quality-loss target remain unchanged.
 
 ```text
-collect_demo_views.py --demo-dir <configured-hidden-demo> --output-dir <private-output> --capture-dll <private-fenced-capture-build> --capture-sha256 <verified-hash> --prefix teacher-illumination --views-file research/neural-latency/capture-viewsets/illumination.json
+collect_demo_views.py --demo-dir <configured-hidden-demo> --output-dir <private-output> --capture-dll <private-fenced-capture-build> --capture-sha256 <verified-hash> --prefix teacher-illumination --views-file research/neural/data/illumination.json
 audit_teacher_views.py --collection <private-manifest> --baseline-result <prior-18-view-result> --allow-new-validation --output <private-audit>
 train_student_collection.py --collection <private-manifest> --audit <private-audit> --baseline-result <prior-18-view-result> --base-trials <private-trials> --grade-contract <private-native-contract> --output <new-private-directory> --architecture hierarchical --width 16
 evaluate_student_collection.py --collection <private-manifest> --audit <private-audit> --baseline-result <prior-18-view-result> --base-trials <private-trials> --model <label> <private-student-run> --output-directory <new-private-directory>
@@ -1511,7 +1513,7 @@ axis checks do not prove a native operand mapping or compatible accumulation
 order, and no sparse kernel or performance benchmark is claimed. This rules
 out an automatic conversion of these tensors, not all possible kernel or
 trained-sparsity improvements.
-The [sparsity evidence](../../evidence/neural-model-research/weight-sparsity.json)
+The [sparsity evidence](../../research/neural/evidence/weight-sparsity.json)
 contains per-tensor counts, logical-axis histograms and source hashes. Run
 `inspect_weight_sparsity.py --weights <private-pinned-weights> --output <private-json>`
 to reproduce the audit locally.
@@ -1586,7 +1588,7 @@ input and its native target, not the original photograph. Temporal quality and
 perceptual acceptance remain untested. The three cases now inform research and
 must not be advertised as a future independent final test set.
 
-The [numeric evidence](../../evidence/neural-model-research/photo-validation.json)
+The [numeric evidence](../../research/neural/evidence/photo-validation.json)
 contains source provenance, seven successful captures/28 fenced frames,
 fixture checks, both original-scene controls, the deliberate failure check,
 all model comparisons and preserved-file hashes. No candidate is installed;
@@ -1666,7 +1668,7 @@ not establish that simply collecting more photos will solve it. Balanced
 training, capacity and supervision remain open questions. This is one small,
 static-content experiment, with no temporal or in-game acceptance.
 
-[Numerical evidence](../../evidence/neural-model-research/photo-training-extension.json)
+[Numerical evidence](../../research/neural/evidence/photo-training-extension.json)
 includes both calibration captures, seven new photo captures, all 36 new fenced
 frames, original/source hashes, matched training settings, all validation scores,
 timing samples and preserved game/demo files. **No replacement is installed,
@@ -1749,7 +1751,7 @@ equivalence guarantee. No model or execution change is installed in the game.
 test_decoder_execution.py --base <private-trials-root> --photos <private-photo-extension-manifest> --model <label> <private-student-run> [--model <label> <another-run>] --output <new-private-report.json>
 ```
 
-[Complete evidence](../../evidence/neural-model-research/optimization-and-decoder.json)
+[Complete evidence](../../research/neural/evidence/optimization-and-decoder.json)
 records the two training runs, all twelve validation comparisons, three decoder
 experiments including the rounding investigation, source hashes and preserved
 runtime files. No sample or game launch was needed. Native latency remains
@@ -1835,7 +1837,7 @@ existing collection training command to enable hints. They are disabled by
 default. `collect_pre_pool.py --single-view` supports the prepared photo scene;
 its default two-view collection remains unchanged.
 
-[Source provenance and complete numerical evidence](../../evidence/neural-model-research/native-feature-hints.json)
+[Source provenance and complete numerical evidence](../../research/neural/evidence/native-feature-hints.json)
 retain capture checks, both oracle audits, normalization statistics, the training
 run, validation regressions and source tests. Weights, raw features and images
 remain private. All data are first-reset static frames from the sample; this
@@ -1939,7 +1941,7 @@ this output fusion.
 test_student_output.py --base <private-trials-root> --photos <private-photo-manifest> --model <label> <private-student-run> [--model <label> <another-run>] --output <fresh-private-report.json>
 ```
 
-[Complete numerical evidence](../../evidence/neural-model-research/staged-features-and-output-fusion.json)
+[Complete numerical evidence](../../research/neural/evidence/staged-features-and-output-fusion.json)
 includes the feature bounds, failed pretraining/generalization results, source
 provenance, kernel tests and all timing samples. No sample or game launch was
 needed, and no game, driver, native model or normal runtime file changed.
@@ -1952,7 +1954,7 @@ accuracy on different photographs. Its training set contained only four photo
 identities. The next experiment adds twelve training sources covering interiors,
 portraits, vegetation, animals, food, landscapes and a night city. Four additional
 identities are reserved for validation before any capture or fitting. The
-[source catalogue](image-collections/diverse-extension.json) pins all sixteen
+[source catalogue](data/diverse-extension.json) pins all sixteen
 files, credits, licenses and crop positions. None overlaps the seven earlier
 photo identities by source hash.
 
@@ -2020,7 +2022,7 @@ samples. With both fusions, the new model measures **1.060 ms**, compared with
 optimizations on the new checkpoint; it is not a new native-runtime speedup.
 The full 1080p student and grade are included, and D3D12 integration is excluded.
 
-[Numerical evidence](../../evidence/neural-model-research/diverse-image-extension.json)
+[Numerical evidence](../../research/neural/evidence/diverse-image-extension.json)
 contains source identities, capture/restoration proofs, split checks, training,
 per-image comparisons and all timing samples. No model is accepted or installed.
 The native runtime and game remain unchanged, and the **3 ms/no-quality-loss
@@ -2124,7 +2126,7 @@ should not be compared directly. The optional fusion remains disabled by default
 benchmark_student_residual.py --capture <private-validation-capture> --model <name> <private-model-directory> [--model <name> <another-model-directory>] --output <fresh-private-report.json>
 ```
 
-[Complete numerical evidence](../../evidence/neural-model-research/paired-gradients-and-residual-fusion.json)
+[Complete numerical evidence](../../research/neural/evidence/paired-gradients-and-residual-fusion.json)
 retains the training diagnostic, failed quality outcomes, initial slower kernel,
 final exactness tests and both timing protocols. No sample or game launch was
 needed; normal runtime files and game/driver settings are unchanged. **Native
@@ -2199,7 +2201,7 @@ these are complete 1080p student-plus-grade GPU intervals, excluding D3D12
 integration. Timing varies with desktop GPU work and is not native-runtime
 acceleration or an individual-frame tail guarantee.
 
-[Numerical evidence](../../evidence/neural-model-research/decoder-conditioning.json)
+[Numerical evidence](../../research/neural/evidence/decoder-conditioning.json)
 includes the training-only diagnostics, neutral-insertion tests, full training
 record, per-image comparisons, fusion checks and timing samples. No sample or
 game launch was needed, and game, driver, native model and normal runtime files
@@ -2263,7 +2265,7 @@ alternating pairs each average ten warmed graph replays; p95 describes interval
 averages, not individual-frame tails. These full 1080p student-plus-grade timings
 exclude D3D12 integration and do not accelerate the native NVIDIA model.
 
-[Numerical evidence](../../evidence/neural-model-research/conditioning-capacity-and-fusion.json)
+[Numerical evidence](../../research/neural/evidence/conditioning-capacity-and-fusion.json)
 retains the complete training/comparison results, all operator and full-image
 checks, and timing samples. The larger model is not accepted or installed.
 No sample/game launch or game, driver, native model or normal runtime change was
@@ -2344,7 +2346,7 @@ fusion. Thirty alternating intervals per mode each average ten replays after
 forty warmups. The timings exclude D3D12 integration; they are not per-frame tail
 latency or a native-runtime speedup. No new CUDA kernel is introduced here.
 
-[Numerical evidence](../../evidence/neural-model-research/latent-context-exchange.json)
+[Numerical evidence](../../research/neural/evidence/latent-context-exchange.json)
 records the spatial diagnostic, mechanical checks, training, mixed validation,
 branch removal and kernel compatibility. No sample or game launch was needed;
 game, driver, native model and normal runtime files remain unchanged. **The
@@ -2440,7 +2442,7 @@ across 64 model/image pairs and eight execution modes. The paired models measure
 they exclude application integration and are not individual-frame tail metrics.
 No new kernel or native-runtime acceleration is claimed.
 
-[Numerical evidence](../../evidence/neural-model-research/paired-conditioning-and-launch-audit.json)
+[Numerical evidence](../../research/neural/evidence/paired-conditioning-and-launch-audit.json)
 retains the gradient diagnostic, deterministic routing check, both training runs,
 all validation/subgroup results, fusion/timing checks and the native batching
 coverage audit above. No sample or game was launched; game, driver, native model
@@ -2448,7 +2450,7 @@ and normal runtime state remain unchanged. **3 ms with native quality is unmet.*
 
 ## Native launch scopes and complete intercepted barrier calls
 
-[`optiscaler-demo-launch-order.patch`](optiscaler-demo-launch-order.patch) is an
+[`optiscaler-demo-launch-order.patch`](probes/optiscaler-demo-launch-order.patch) is an
 **add-on** to `optiscaler-demo-pre-tensor.patch`. Apply the combined pre-tensor
 patch to normal R4 source first, then this patch. It brackets both native launch
 APIs with a thread-local scope and records evaluation entry/exit. Both APIs still
@@ -2584,7 +2586,7 @@ regress and no perceptual or temporal acceptance is established. The validation
 set remains outside fitting, although its earlier scores motivated this test.
 **No replacement is installed; 3 ms with unchanged native quality remains unmet.**
 
-[Numeric evidence](../../evidence/neural-model-research/brightness-training-and-launch-order.json)
+[Numeric evidence](../../research/neural/evidence/brightness-training-and-launch-order.json)
 records the new capture audit, matched training runs, every validation result,
 kernel/timing checks and launch-order study. All eighteen sample launches stayed
 on the inactive private desktop. WuWa, driver settings, native model and normal
@@ -2678,8 +2680,8 @@ CUDA source with the separately installed PyTorch 2.7.1+cu128 NVRTC, targeting
 SM89. The tested cubin is 4,456 bytes; the C++ harness deliberately pins that size.
 A different compiler output requires reviewing that guard and a fresh test.
 Apply the existing `optiscaler-demo-pre-tensor.patch` to the pinned research
-source, then the new [`optiscaler-demo-chain-selftest.patch`](optiscaler-demo-chain-selftest.patch),
-and copy [`DlssNr_DemoChainSelftest.h`](DlssNr_DemoChainSelftest.h) into its
+source, then the new [`optiscaler-demo-chain-selftest.patch`](probes/optiscaler-demo-chain-selftest.patch),
+and copy [`DlssNr_DemoChainSelftest.h`](probes/DlssNr_DemoChainSelftest.h) into its
 `OptiScaler/dlssnr` directory before building. This is an independent add-on to
 the combined observer, not an add-on to the launch-order patch. All generated
 binaries remain private.
@@ -2697,7 +2699,7 @@ demo stayed hidden and off the input desktop. The normal DLL and INI were
 restored and owned probe artifacts archived afterward. A completed runner is not
 itself a passing test: inspect test completion, all statuses and mismatch counts.
 
-[Numeric evidence](../../evidence/neural-model-research/clamp-training-and-chain-selftest.json)
+[Numeric evidence](../../research/neural/evidence/clamp-training-and-chain-selftest.json)
 records both investigations, source hashes and preserved state. One sample was
 launched, and WuWa remained closed and unchanged. The 3 ms, unchanged-quality
 goal remains unmet.
@@ -2761,7 +2763,7 @@ exclude application integration. No native-runtime acceleration is claimed.
 
 ## Native command coverage, argument ownership and fixed input replay
 
-[`DlssNr_DemoCommandProbe.h`](DlssNr_DemoCommandProbe.h) adds typed forwarding
+[`DlssNr_DemoCommandProbe.h`](probes/DlssNr_DemoCommandProbe.h) adds typed forwarding
 hooks for 75 methods in the observed `ID3D12GraphicsCommandList10` implementation.
 Existing hooks cover the two barrier methods. The method signatures come from
 the installed DirectX interface types; the 86-slot vtable ordering is checked
@@ -2796,7 +2798,7 @@ passing equivalence test nor an isolated regression caused by argument copying.
 [`analyze_native_commands.py`](analyze_native_commands.py) reports current-input
 matches separately from matches extending from reset through the prior frames.
 
-To remove this ambiguity, [`DlssNr_DemoInputReplay.h`](DlssNr_DemoInputReplay.h)
+To remove this ambiguity, [`DlssNr_DemoInputReplay.h`](probes/DlssNr_DemoInputReplay.h)
 uploads the same saved color, depth and motion sequence for the first four
 evaluations, beginning at reset. Every control value, texture format, extent and
 row layout is checked before recording copies. Upload resources remain alive
@@ -2822,9 +2824,9 @@ does not merge kernel calls.
 
 The command observer is an add-on to the existing pre-tensor and launch-order
 patches. Copy its header into `OptiScaler/dlssnr`, then apply
-[`optiscaler-demo-command-probe.patch`](optiscaler-demo-command-probe.patch).
+[`optiscaler-demo-command-probe.patch`](probes/optiscaler-demo-command-probe.patch).
 For fixed input replay, also copy its header and apply
-[`optiscaler-demo-input-replay.patch`](optiscaler-demo-input-replay.patch).
+[`optiscaler-demo-input-replay.patch`](probes/optiscaler-demo-input-replay.patch).
 Build only the separate demo research DLL. The replay collector runs the three
 modes and restores the normal DLL/INI after each; staged input payloads and
 markers are removed, and captures are archived privately.
@@ -2842,7 +2844,7 @@ not relaunched. Every application launch verifies the exact hidden EXE and uses
 the inactive private desktop. Five sample runs occurred in total, with zero game
 launches and no driver changes. No binaries or private inputs are distributed.
 
-[Numeric evidence](../../evidence/neural-model-research/spectral-training-and-native-input-replay.json)
+[Numeric evidence](../../research/neural/evidence/spectral-training-and-native-input-replay.json)
 records the rejected spectral model, native trace, input/history qualifications,
 controlled output comparisons, source hashes and preserved state. The 3 ms at
 1920×1080 goal with unchanged native quality remains unmet.
@@ -2850,7 +2852,7 @@ controlled output comparisons, source hashes and preserved state. The 3 ms at
 ## Rejected native batching and verified overlap differences
 
 The first actual native batch experiment **failed and is not an installation
-option**. [`DlssNr_DemoBatch.h`](DlssNr_DemoBatch.h) owns every packed argument
+option**. [`DlssNr_DemoBatch.h`](probes/DlssNr_DemoBatch.h) owns every packed argument
 block and launch structure, retains them through process exit, caps batches at
 eight kernels, and flushes before observed command/barrier boundaries. It changes
 neither model weights nor kernel arithmetic. Nevertheless, preserving those
@@ -2871,7 +2873,7 @@ restored the normal DLL/INI and archived the failed trial. The collector now
 retries restoration for up to ten seconds and archives evidence even if restoring
 a file fails. It never retries an application launch because of this error.
 
-[`DlssNr_DemoApiProbe.h`](DlssNr_DemoApiProbe.h) then observed selected NVAPI
+[`DlssNr_DemoApiProbe.h`](probes/DlssNr_DemoApiProbe.h) then observed selected NVAPI
 descriptor/module interfaces without changing submissions. Its fixed-input
 outputs are byte-identical to the reference in all four frames. On the first
 evaluation, descriptor calls occur before the first launch and after launches
@@ -2913,13 +2915,13 @@ a pipeline that depends on overlap. **The exact native dependency cycle and
 fault cause are not proven.** Neither the passing integer chains nor these
 polling counts justify merging arbitrary native kernels.
 
-The batch header and [`optiscaler-demo-batch.patch`](optiscaler-demo-batch.patch)
+The batch header and [`optiscaler-demo-batch.patch`](probes/optiscaler-demo-batch.patch)
 are retained solely to document the rejected experiment. They apply after the
 pre-tensor, launch-order, command-probe and input-replay patches. The API observer
-uses that same base plus [`optiscaler-demo-api-probe.patch`](optiscaler-demo-api-probe.patch),
+uses that same base plus [`optiscaler-demo-api-probe.patch`](probes/optiscaler-demo-api-probe.patch),
 without the batching patch. The original ordering tests use the pre-tensor and
 chain-selftest patches; the overlap helper additionally uses
-[`optiscaler-demo-chain-overlap.patch`](optiscaler-demo-chain-overlap.patch).
+[`optiscaler-demo-chain-overlap.patch`](probes/optiscaler-demo-chain-overlap.patch).
 Copy each referenced helper header into `OptiScaler/dlssnr` before building a
 separate research DLL. No research build replaces the working game installation.
 
@@ -2931,7 +2933,7 @@ inspect_native_sync.py --cubin <pinned-private-module> --nvdisasm <installed-too
 analyze_native_batch.py --base <private-trial-root> --lab <private-research-root> --nvapi-interface <installed-interface-header> --output <fresh-private-analysis.json>
 ```
 
-[Numeric evidence](../../evidence/neural-model-research/native-batching-and-overlap.json)
+[Numeric evidence](../../research/neural/evidence/native-batching-and-overlap.json)
 records the failure, recovery, image checks, both ordering runs, bounded overlap
 results, static counts and source hashes. Five sample launches used the checked
 hidden executable and inactive private desktop; no game launches or driver-setting
@@ -3018,7 +3020,7 @@ evaluate_progressive_student.py --base <private-demo-root> --lab <private-resear
 analyze_progressive_student.py --base <private-demo-root> --photos <photo-manifest> --images <diverse-manifest> --brightness <brightness-manifest> --baseline <private-46-image-model> --first <private-first-model> --candidate <private-candidate> --output <fresh-private-diagnostic.json>
 ```
 
-[Numeric evidence](../../evidence/neural-model-research/progressive-student.json)
+[Numeric evidence](../../research/neural/evidence/progressive-student.json)
 includes all image metrics, training history, mechanical checks, timing intervals,
 scalar diagnostics, source digests and preserved installation hashes. Captures,
 activation arrays and trained weights remain private. There is no accepted
@@ -3112,7 +3114,7 @@ analyze_progressive_student.py --shared-features --base <private-demo-root> --ph
 audit_shared_precision.py --base <private-demo-root> --lab <private-research-root> --photos <photo-manifest> --images <diverse-manifest> --first <private-first-model> --candidate <private-candidate> --evaluation <private-evaluation/result.json> --output <fresh-private-precision.json>
 ```
 
-[Numeric evidence](../../evidence/neural-model-research/shared-feature-student.json)
+[Numeric evidence](../../research/neural/evidence/shared-feature-student.json)
 contains all training/validation metrics, intervals, diagnostic scalars, tests,
 listed source hashes and preservation checks. No application was launched, no
 game/driver setting changed, and no candidate was installed. Private weights,
@@ -3196,7 +3198,7 @@ train_shared_feature_student.py --coverage-sampling <private-coverage.json> --ba
 evaluate_progressive_student.py --shared-features --base <private-demo-root> --lab <private-research-root> --photos <photo-manifest> --images <diverse-manifest> --first <private-first-model> --candidate <private-candidate> --output <fresh-private-evaluation>
 ```
 
-[Numeric evidence](../../evidence/neural-model-research/cluster-sampling.json)
+[Numeric evidence](../../research/neural/evidence/cluster-sampling.json)
 includes cluster assignments/probabilities, actual draw counts, tests, training
 history, every validation image, timing intervals, source digests and preserved
 installation hashes. Descriptor vectors, weights and pixels remain private.
@@ -3311,7 +3313,7 @@ wrapper uses Python's existing environment/Win32 platform-query fallback in that
 process. It changes no service, driver or Python installation. It is not needed
 on hosts where the normal query works.
 
-[Numeric evidence](../../evidence/neural-model-research/region-context.json)
+[Numeric evidence](../../research/neural/evidence/region-context.json)
 includes both complete training/evaluation records, checks, precision diagnostics,
 direct timing intervals, source digests and preserved game/demo hashes. Weights,
 captured images, feature tensors and route arrays remain private.
@@ -3377,7 +3379,7 @@ export_region_student.py export --base <private-demo-root> --lab <private-resear
 export_region_student.py verify --output <private-export-directory>
 ```
 
-[Numeric evidence](../../evidence/neural-model-research/region-export.json)
+[Numeric evidence](../../research/neural/evidence/region-export.json)
 contains output parity checks, operator counts and timing intervals. The model
 package, capture paths, pixels and weights remain private.
 
@@ -3388,10 +3390,10 @@ The completed fixed-budget experiment warm-starts that same routed checkpoint wi
 frames, and compares against 56 development images. The first stage stays
 frozen; the architecture and existing inference fusions are unchanged.
 
-The [training guide](../../docs/broad-student-training.md) documents capture,
-fitting, evaluation and limitations. The [protocol](broad-data-protocol.json)
+The [training guide](../../research/neural/training.md) documents capture,
+fitting, evaluation and limitations. The [protocol](data/broad-data-protocol.json)
 separates this development experiment from the still-uncollected final gameplay
-test. The [attribution catalogue](broad-source-attribution.json) retains public
+test. The [attribution catalogue](data/broad-source-attribution.json) retains public
 source provenance without distributing pixels.
 
 `collect_broad_sources.py --capture-only` stops each hidden trial once four
@@ -3414,7 +3416,7 @@ images, mean RGB error falls 12.42% relative to the previous routed model, with
 10.77%, so this is not a uniform fidelity improvement. The new and previous
 complete model graphs measure 2.230 and 2.242 ms median in the same run; their
 inference architecture is unchanged. All 168 model/image fusion checks are
-bit-exact. [Complete results and regressions](../../docs/broad-student-training.md#completed-development-result)
-and [numeric evidence](../../evidence/neural-model-research/broad-data-v1.json)
+bit-exact. [Complete results and regressions](../../research/neural/training.md#completed-development-result)
+and [numeric evidence](../../research/neural/evidence/broad-data-v1.json)
 retain the comparison. Game integration, temporal validation and the full
 3 ms effect target remain open.

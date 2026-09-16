@@ -5,6 +5,7 @@ param(
     [string]$Python = 'python'
 )
 $ErrorActionPreference='Stop'
+$repoRoot = Split-Path -Parent $PSScriptRoot
 $source=(Resolve-Path -LiteralPath $CompatibilitySource).Path
 $model=(Resolve-Path -LiteralPath $StudentModelDirectory).Path
 if ((& git -C $source rev-parse HEAD).Trim() -ne '8802b2b470db0462fa1ed03a125e793a7c06d735') { throw 'Unexpected OptiScaler base commit.' }
@@ -12,12 +13,12 @@ if (Test-Path -LiteralPath $WorkDirectory) { throw 'Choose a new work directory;
 $manifest=Get-Content -LiteralPath (Join-Path $model 'model.json') -Raw | ConvertFrom-Json
 if ($manifest.architecture -ne 'region-broad-v1' -or $manifest.width -ne 1920 -or $manifest.height -ne 1080) { throw 'Unsupported private student export.' }
 if ((Get-FileHash -LiteralPath (Join-Path $model 'weights.bin')).Hash -ne $manifest.weights_sha256) { throw 'Model checksum mismatch.' }
-$patch=Join-Path $PSScriptRoot 'patches\optiscaler-neural-student.patch'
+$patch=Join-Path $repoRoot 'patches\optiscaler-neural-student.patch'
 if (Test-Path -LiteralPath (Join-Path $source 'OptiScaler\dlssnr\DlssNr_Student.cpp')) {
     & git -C $source apply --reverse --check $patch
     if ($LASTEXITCODE -ne 0) { throw 'Existing student source differs from this patch.' }
 } else {
-    & git -C $source apply --reverse --check (Join-Path $PSScriptRoot 'patches\optiscaler-wuwa-compat.patch')
+    & git -C $source apply --reverse --check (Join-Path $repoRoot 'patches\optiscaler-wuwa-compat.patch')
     if ($LASTEXITCODE -ne 0) { throw 'Prepare the compatibility source with BuildNeural.ps1 first.' }
     & git -C $source apply --check $patch
     if ($LASTEXITCODE -ne 0) { throw 'Student patch does not apply cleanly.' }
@@ -27,12 +28,12 @@ if (Test-Path -LiteralPath (Join-Path $source 'OptiScaler\dlssnr\DlssNr_Student.
 New-Item -ItemType Directory -Path $WorkDirectory | Out-Null
 $work=(Resolve-Path -LiteralPath $WorkDirectory).Path
 $deps=Join-Path $work 'directml'
-& $Python (Join-Path $PSScriptRoot 'tools\prepare_directml.py') --output $deps
+& $Python (Join-Path $repoRoot 'tools\prepare_directml.py') --output $deps
 if ($LASTEXITCODE -ne 0) { throw 'DirectML dependency preparation failed.' }
 $native=Join-Path $source 'OptiScaler\dlssnr\student'
 New-Item -ItemType Directory -Path $native -Force | Out-Null
 foreach($name in @('StudentRuntime.cpp','StudentRuntime.h','StudentGraph.h')) {
-    Copy-Item -LiteralPath (Join-Path $PSScriptRoot "research\neural-latency\native-student\$name") -Destination (Join-Path $native $name) -Force
+    Copy-Item -LiteralPath (Join-Path $repoRoot "research\neural\backend\$name") -Destination (Join-Path $native $name) -Force
 }
 $vswhere=Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
 $vs=& $vswhere -latest -products '*' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath

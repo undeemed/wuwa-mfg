@@ -20,7 +20,7 @@ from PIL import Image, ImageOps
 
 from make_demo_image_scene import write_scene
 
-CATALOGUE = Path(__file__).parent/'image-collections/diverse-extension.json'
+CATALOGUE = Path(__file__).parent/'data/diverse-extension.json'
 
 
 def read(path):

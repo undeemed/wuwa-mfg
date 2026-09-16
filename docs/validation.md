@@ -1,5 +1,7 @@
 # Validation record
 
+[← Documentation](README.md)
+
 One RTX 4070 Ti 12 GB, NVIDIA driver 616.92, Wuthering Waves on Windows, September 14, 2026.
 
 | Run | Runtime evidence | Visual report |
@@ -60,4 +62,4 @@ The tester subsequently found 75% too slow. At 50%, the model was 1920×1080 and
 recent NR GPU intervals were 6.20–6.32 ms; responsiveness was reported acceptable.
 A separate 30-poll capture had FG off throughout and is excluded from multiplier
 claims. Offline NVIDIA-runtime analysis and its limitations are documented in
-[the runtime investigation](nvidia-runtime-investigation.md).
+[the runtime investigation](../research/neural/runtime.md).

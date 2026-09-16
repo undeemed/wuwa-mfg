@@ -1,5 +1,7 @@
 # Troubleshooting and recovery
 
+[← Documentation](README.md)
+
 For the optional neural engine, see [NR setup/recovery](neural-rendering.md) and
 [the crash investigation](neural-crashes.md). NR and MFG have separate controls:
 disable NR with Setup option 7, remove it with 8, then restore MFG with 3 if needed.
@@ -20,7 +22,7 @@ Fully close and restart WuWa after installation or changing driver overrides. Th
 
 ## Unsupported hardware, driver, or NVIDIA cache
 
-Version 0.1.0 deliberately accepts the tested physical GPU, driver and cache hashes only. It does not download NVIDIA files or replace a driver to manufacture a matching environment. Do not remove validation checks simply to get past this message. A maintainer can evaluate a new combination using a reproducible report and then add support.
+The installer accepts the tested physical GPU, driver and cache hashes only. It does not download NVIDIA files or replace a driver to manufacture a matching environment. Do not remove validation checks simply to get past this message. A maintainer can evaluate a new combination using a reproducible report and then add support.
 
 ## Existing proxy DLL
 
