@@ -1,0 +1,5580 @@
+{
+  "schema": 1,
+  "complete": true,
+  "target_achieved": false,
+  "quality_gate_passed": false,
+  "installed_in_game": false,
+  "scope": "One fixed-budget warm-start of the existing routed student. Public numerical evidence only.",
+  "collection": {
+    "sources": 240,
+    "splits": {
+      "train": 200,
+      "development": 40
+    },
+    "prepared_manifest_sha256": "9bb6dc705a012d5e38ceaeac8644546b3de084272f3b4da059ffd2c00ab50595",
+    "all_four_frame_resources_rehashed": true,
+    "all_trials_hidden_on_inactive_desktop": true,
+    "all_sample_files_restored": true,
+    "minimum_desktop_observations": 3,
+    "logical_capture_bytes": 47775744000,
+    "allocated_capture_bytes": 18971783168,
+    "all_compression_logical_bytes_unchanged": true,
+    "capture_only_trials": 222,
+    "legacy_duration_trials": 18,
+    "capture_only_run_seconds": [
+      3.047,
+      3.047,
+      3.046,
+      3.032,
+      3.031,
+      4.047,
+      4.062,
+      4.047,
+      4.078,
+      4.046,
+      3.046,
+      3.047,
+      4.062,
+      3.047,
+      4.047,
+      4.063,
+      4.062,
+      4.063,
+      3.047,
+      3.031,
+      3.031,
+      3.062,
+      3.047,
+      4.062,
+      4.062,
+      4.062,
+      4.062,
+      3.031,
+      3.046,
+      3.047,
+      4.047,
+      4.063,
+      4.062,
+      4.047,
+      4.063,
+      3.031,
+      3.047,
+      4.063,
+      3.047,
+      3.031,
+      3.047,
+      6.188,
+      5.079,
+      4.063,
+      3.046,
+      3.031,
+      3.032,
+      3.031,
+      3.047,
+      5.11,
+      5.187,
+      5.125,
+      4.063,
+      3.047,
+      3.047,
+      3.032,
+      3.047,
+      5.14,
+      5.125,
+      5.094,
+      3.046,
+      3.047,
+      3.047,
+      3.047,
+      3.078,
+      5.109,
+      5.109,
+      5.125,
+      3.031,
+      3.031,
+      3.031,
+      3.046,
+      3.047,
+      3.031,
+      5.156,
+      5.109,
+      5.109,
+      3.047,
+      3.031,
+      3.031,
+      3.031,
+      4.062,
+      5.141,
+      5.125,
+      5.125,
+      3.032,
+      3.032,
+      3.047,
+      3.031,
+      3.047,
+      3.047,
+      5.109,
+      5.125,
+      5.109,
+      3.031,
+      3.032,
+      3.031,
+      3.063,
+      3.047,
+      5.109,
+      5.109,
+      5.11,
+      4.078,
+      3.031,
+      3.078,
+      3.031,
+      3.031,
+      3.031,
+      5.125,
+      5.093,
+      5.141,
+      4.047,
+      3.032,
+      3.031,
+      3.047,
+      5.11,
+      5.078,
+      4.063,
+      3.047,
+      4.047,
+      3.032,
+      3.047,
+      3.047,
+      3.046,
+      3.047,
+      3.047,
+      3.047,
+      3.047,
+      3.047,
+      3.032,
+      3.031,
+      3.031,
+      3.047,
+      3.031,
+      3.047,
+      3.047,
+      3.047,
+      4.062,
+      3.047,
+      3.047,
+      3.046,
+      3.046,
+      3.046,
+      3.046,
+      3.047,
+      3.063,
+      3.046,
+      4.047,
+      4.047,
+      3.047,
+      4.047,
+      4.047,
+      4.062,
+      4.063,
+      4.062,
+      4.063,
+      4.062,
+      4.047,
+      4.063,
+      4.047,
+      3.047,
+      4.063,
+      4.062,
+      4.047,
+      4.079,
+      4.047,
+      3.032,
+      4.063,
+      4.047,
+      4.047,
+      4.062,
+      4.078,
+      4.062,
+      4.047,
+      3.047,
+      3.047,
+      4.062,
+      3.031,
+      4.063,
+      4.062,
+      4.047,
+      4.063,
+      4.062,
+      3.047,
+      3.047,
+      3.047,
+      3.047,
+      3.047,
+      3.047,
+      3.047,
+      3.047,
+      3.047,
+      3.062,
+      3.047,
+      3.047,
+      3.047,
+      3.047,
+      3.046,
+      3.047,
+      3.047,
+      4.063,
+      3.031,
+      3.047,
+      3.047,
+      3.031,
+      3.047,
+      3.047,
+      3.047,
+      3.047,
+      3.063,
+      3.047,
+      3.047,
+      3.031,
+      4.047,
+      3.047,
+      4.062,
+      4.047,
+      4.047,
+      4.047,
+      3.047,
+      4.047,
+      4.047
+    ],
+    "capture_dll_sha256": "673e49d21149e4cf27f165317d9c42dbcda8eae80a8629373e82ad60d822c545"
+  },
+  "capture_speed_pilot": {
+    "complete": true,
+    "all_16_resource_hashes_match_previous_capture": true,
+    "gpu_fenced_frames": 4,
+    "run_seconds": 4.046,
+    "desktop_observations": 4,
+    "sample_restored": true,
+    "timing_benchmark": false,
+    "complete_command_wall_seconds": 9.6159109,
+    "previous_capture_window_seconds": 20,
+    "inference_speedup_claim": false
+  },
+  "preflight": {
+    "checkpoint_and_pairs": {
+      "complete": true,
+      "device": "CPU",
+      "old_pair_groups": {
+        "old-scene": 30,
+        "old-photos": 32
+      },
+      "parameters": 381600,
+      "candidate_sha256": "a8c3f154fcef648aee1c078b735708ca2de7fd210df1fe3fe33a0b8f61b73077",
+      "first_checkpoint_sha256": "5591e5ee782668956f8a99424e6e1c701951d10490d4e569038fb0d528913283",
+      "frozen_parameter_count": 254672,
+      "trainable_parameter_count": 126928,
+      "seconds": 0.8686899000022095
+    },
+    "cpu_real_pair_training_step": {
+      "complete": true,
+      "device": "CPU",
+      "native_shape": [
+        1080,
+        1920
+      ],
+      "real_training_pairs": 2,
+      "candidate_warm_start": true,
+      "frozen_first_exact": true,
+      "trainable_weights_changed": true,
+      "finite_losses_and_gradients": true,
+      "host_fp16_roundtrip_exact": true,
+      "scores": [
+        {
+          "loss": 0.02534426376223564,
+          "mae": 0.022551128640770912
+        },
+        {
+          "loss": 0.04021985083818436,
+          "mae": 0.03767263516783714
+        }
+      ],
+      "seconds": 9.643608900005347,
+      "free_ram_gib": 17.97551727294922,
+      "gpu_training_started": false
+    }
+  },
+  "preserved_state": {
+    "game_dxgi": "b3b0857a6d94e4745b42f2bb3beb747c527548ceec0abff11afecf89a1f6a590",
+    "game_ini": "213fd3f55423a12c075a9d96c2f87df3ea86c3971e135aa89eab1ff9b6a34fa6",
+    "game_nr": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927",
+    "demo_dxgi": "b3b0857a6d94e4745b42f2bb3beb747c527548ceec0abff11afecf89a1f6a590",
+    "demo_ini": "8ac6219a0f4090297a87cc753aa3efee6b4c87111dffed5d9d314fb73ebffc62",
+    "demo_nr": "6eb209e764f39872625debd6abaf45e2bb6322f6f270f781f70c059ae30b3927",
+    "demo_hidden_exe": "f262742631d02da935649322f220f0490b114287c98a1d75d60e04557f98a9c6",
+    "demo_scene": "389da6d234662bb88714b4240384ce63739ff06c7e75ff6014fcd2bab574f547",
+    "normal_files_match_prior_baseline": true,
+    "no_active_capture_marker": true,
+    "game_installation_changed": false
+  },
+  "selected_visual_review": {
+    "complete": true,
+    "selected_case_count": 6,
+    "review_type": "Unblinded developer inspection of fixed-conversion previews and native-size center crops; not final acceptance.",
+    "cases": [
+      "north",
+      "teacher-illumination-validation-dim",
+      "foliage-29370484",
+      "night-city-121086009",
+      "faces-116177009",
+      "water-7029276"
+    ],
+    "findings": [
+      "Water and droplet examples retain the broad appearance; differences in brightness and fine texture remain.",
+      "The Sponza textile/stone crops still differ from the native teacher in fine pattern detail and shading.",
+      "The city-light example still differs in highlights, color and local detail.",
+      "The selected faces-bucket source is an antique portrait whose center crop omits the head; it does not establish face fidelity. Bucket names are retrieval categories, not certified coverage."
+    ],
+    "native_equivalence_established": false,
+    "temporal_testing": false,
+    "quality_gate_passed": false,
+    "posthoc_regression_review": {
+      "label": "teacher-photo-landscape",
+      "recorded_metrics_reproduced": true,
+      "finding": "Visible color/tone and fine-detail differences remain; the new student shifts bright mountain/cloud colors further from this native target.",
+      "selection": "Largest development MAE increase, chosen after scoring. Not an independent acceptance test."
+    }
+  },
+  "training": {
+    "complete": true,
+    "variant": "region-context-broad-warm-start",
+    "target_achieved": false,
+    "quality_gate_passed": false,
+    "native_shape": [
+      1080,
+      1920
+    ],
+    "controls": {
+      "DLSSNR.ColorSubrectBaseX": 0,
+      "DLSSNR.ColorSubrectBaseY": 0,
+      "DLSSNR.ColorSubrectHeight": 1080,
+      "DLSSNR.ColorSubrectWidth": 1920,
+      "DLSSNR.DepthInverted": 0,
+      "DLSSNR.DepthSubrectBaseX": 0,
+      "DLSSNR.DepthSubrectBaseY": 0,
+      "DLSSNR.DepthSubrectHeight": 540,
+      "DLSSNR.DepthSubrectWidth": 960,
+      "DLSSNR.Height": 1080,
+      "DLSSNR.Hint.Render.Preset": 0,
+      "DLSSNR.Intensity": 1.0,
+      "DLSSNR.LocalStructureStrength": 1.0,
+      "DLSSNR.LocalToneStrength": 1.0,
+      "DLSSNR.MVecScaleX": 2.0,
+      "DLSSNR.MVecScaleY": 2.0,
+      "DLSSNR.MVecSubrectBaseX": 0,
+      "DLSSNR.MVecSubrectBaseY": 0,
+      "DLSSNR.MVecSubrectHeight": 540,
+      "DLSSNR.MVecSubrectWidth": 960,
+      "DLSSNR.Reset": 1,
+      "DLSSNR.SkinStructureStrength": -1.0,
+      "DLSSNR.Style": 1,
+      "DLSSNR.UseAutoMask": 1,
+      "DLSSNR.Width": 1920
+    },
+    "first_stage_unchanged": true,
+    "first_stage_has_gradients": false,
+    "first_checkpoint_sha256": "5591e5ee782668956f8a99424e6e1c701951d10490d4e569038fb0d528913283",
+    "first_result_sha256": "7b7cdfb6533d4cbdd82aecb7836769c330569682b7b5243ab8ce8cefd5244db5",
+    "starting_checkpoint_sha256": "a8c3f154fcef648aee1c078b735708ca2de7fd210df1fe3fe33a0b8f61b73077",
+    "starting_result_sha256": "6c1a390decd4a1296604c1f46cb2a2dee87e7ece84d5f3be80d013e4c99571ae",
+    "checkpoint_sha256": "7d3f8fd7b719422e89c5a84d151c1489005417379d27fdc45a82a453f085bbec",
+    "source_manifest_sha256": "9bb6dc705a012d5e38ceaeac8644546b3de084272f3b4da059ffd2c00ab50595",
+    "teacher_manifest_sha256": "5c96b0ad6f5a7872715ec03422c6011d4e50d22ce65cb992de5f19df94f958b5",
+    "visual_review_sha256": "360690486531b229921b882df42aa114510114487f826b9044dcfba4d0ea0003",
+    "training_frames": 262,
+    "new_training_sources": 200,
+    "development_count": 56,
+    "final_gameplay_test_count": 0,
+    "no_training_development_overlap": true,
+    "parameters": 381600,
+    "region_context": {
+      "type": "shared-feature decoder with region context",
+      "mode": "routed",
+      "input_channels": 96,
+      "inner_channels": 48,
+      "heads": 3,
+      "region_size": [
+        4,
+        4
+      ],
+      "selected_regions": 4,
+      "own_region_always_included": true,
+      "routing_scores": "FP32 pooled q/k dot products",
+      "routing_differentiable": false,
+      "query_pixels_dropped": false,
+      "padding_excluded_from_pooling_and_keys": true,
+      "new_custom_kernels": false
+    },
+    "completed_steps": 6000,
+    "training_seconds": 321.30815219998476,
+    "history": [
+      {
+        "step": 1,
+        "loss": 0.03254867997020483,
+        "pixel_mae": 0.030692576430737972,
+        "seconds": 1.0963592999905813,
+        "remaining_seconds_estimate": 6577.0594406434975
+      },
+      {
+        "step": 101,
+        "loss": 0.027915040031075478,
+        "pixel_mae": 0.02643960900604725,
+        "seconds": 6.430120799981523,
+        "remaining_seconds_estimate": 375.5572534563466
+      },
+      {
+        "step": 201,
+        "loss": 0.02756527252495289,
+        "pixel_mae": 0.025366278365254402,
+        "seconds": 11.644297399994684,
+        "remaining_seconds_estimate": 335.9466697640257
+      },
+      {
+        "step": 301,
+        "loss": 0.024572057649493217,
+        "pixel_mae": 0.02280818112194538,
+        "seconds": 16.82838539997465,
+        "remaining_seconds_estimate": 318.6211574566629
+      },
+      {
+        "step": 401,
+        "loss": 0.02159209083765745,
+        "pixel_mae": 0.01965530961751938,
+        "seconds": 22.078881399997044,
+        "remaining_seconds_estimate": 308.2784462807567
+      },
+      {
+        "step": 501,
+        "loss": 0.02040642872452736,
+        "pixel_mae": 0.018988479860126972,
+        "seconds": 27.326626099995337,
+        "remaining_seconds_estimate": 299.93835713348176
+      },
+      {
+        "step": 601,
+        "loss": 0.028291886672377586,
+        "pixel_mae": 0.025049124844372272,
+        "seconds": 32.563676799996756,
+        "remaining_seconds_estimate": 292.5312662948128
+      },
+      {
+        "step": 701,
+        "loss": 0.01724516786634922,
+        "pixel_mae": 0.015289681265130639,
+        "seconds": 37.77339599997504,
+        "remaining_seconds_estimate": 285.53669815102387
+      },
+      {
+        "step": 801,
+        "loss": 0.026931200176477432,
+        "pixel_mae": 0.02477928251028061,
+        "seconds": 43.07802200000151,
+        "remaining_seconds_estimate": 279.60379073409223
+      },
+      {
+        "step": 901,
+        "loss": 0.012016427237540483,
+        "pixel_mae": 0.011317028198391199,
+        "seconds": 48.4609180999978,
+        "remaining_seconds_estimate": 274.2532978822295
+      },
+      {
+        "step": 1001,
+        "loss": 0.025235927663743496,
+        "pixel_mae": 0.023097483441233635,
+        "seconds": 53.93873889997485,
+        "remaining_seconds_estimate": 269.3703853755987
+      },
+      {
+        "step": 1101,
+        "loss": 0.01326879533007741,
+        "pixel_mae": 0.011902300640940666,
+        "seconds": 59.375467599980766,
+        "remaining_seconds_estimate": 264.1965629176256
+      },
+      {
+        "step": 1201,
+        "loss": 0.01437635300680995,
+        "pixel_mae": 0.013376104179769754,
+        "seconds": 64.6556600999902,
+        "remaining_seconds_estimate": 258.35346612810406
+      },
+      {
+        "step": 1301,
+        "loss": 0.020875885151326656,
+        "pixel_mae": 0.018908779602497816,
+        "seconds": 70.07526859999052,
+        "remaining_seconds_estimate": 253.10045130772903
+      },
+      {
+        "step": 1401,
+        "loss": 0.016920619178563356,
+        "pixel_mae": 0.015919959172606468,
+        "seconds": 75.47034649999114,
+        "remaining_seconds_estimate": 247.74312887470325
+      },
+      {
+        "step": 1501,
+        "loss": 0.02030613925307989,
+        "pixel_mae": 0.018686658702790737,
+        "seconds": 80.77009399997769,
+        "remaining_seconds_estimate": 242.0950385782143
+      },
+      {
+        "step": 1601,
+        "loss": 0.021340160630643368,
+        "pixel_mae": 0.019552196376025677,
+        "seconds": 86.11199929998838,
+        "remaining_seconds_estimate": 236.60629913844403
+      },
+      {
+        "step": 1701,
+        "loss": 0.018285637721419334,
+        "pixel_mae": 0.01689254166558385,
+        "seconds": 91.35282229998847,
+        "remaining_seconds_estimate": 230.87935512501497
+      },
+      {
+        "step": 1801,
+        "loss": 0.02694098651409149,
+        "pixel_mae": 0.025434241630136967,
+        "seconds": 96.64671079997788,
+        "remaining_seconds_estimate": 225.3301158518085
+      },
+      {
+        "step": 1901,
+        "loss": 0.01752480771392584,
+        "pixel_mae": 0.015665122075006366,
+        "seconds": 101.91609119999339,
+        "remaining_seconds_estimate": 219.7548962802593
+      },
+      {
+        "step": 2001,
+        "loss": 0.024452765472233295,
+        "pixel_mae": 0.022482498083263636,
+        "seconds": 107.18508979998296,
+        "remaining_seconds_estimate": 214.20948231390898
+      },
+      {
+        "step": 2101,
+        "loss": 0.03727323282510042,
+        "pixel_mae": 0.03468672186136246,
+        "seconds": 112.47822349998751,
+        "remaining_seconds_estimate": 208.73517059802538
+      },
+      {
+        "step": 2201,
+        "loss": 0.01618590485304594,
+        "pixel_mae": 0.015037610661238432,
+        "seconds": 118.0007401999901,
+        "remaining_seconds_estimate": 203.67324489766577
+      },
+      {
+        "step": 2301,
+        "loss": 0.006761818192899227,
+        "pixel_mae": 0.00604591506998986,
+        "seconds": 123.54552819998935,
+        "remaining_seconds_estimate": 198.60708770611063
+      },
+      {
+        "step": 2401,
+        "loss": 0.030149915255606174,
+        "pixel_mae": 0.027800547890365124,
+        "seconds": 129.00651379997726,
+        "remaining_seconds_estimate": 193.37544488384762
+      },
+      {
+        "step": 2501,
+        "loss": 0.025841987691819668,
+        "pixel_mae": 0.02400732971727848,
+        "seconds": 134.2865830999799,
+        "remaining_seconds_estimate": 187.87235276562564
+      },
+      {
+        "step": 2601,
+        "loss": 0.020497129764407873,
+        "pixel_mae": 0.019096745643764734,
+        "seconds": 139.534233399987,
+        "remaining_seconds_estimate": 182.34404433931402
+      },
+      {
+        "step": 2701,
+        "loss": 0.02102670632302761,
+        "pixel_mae": 0.018864894285798073,
+        "seconds": 144.83394019998377,
+        "remaining_seconds_estimate": 176.90009948898427
+      },
+      {
+        "step": 2801,
+        "loss": 0.023967518471181393,
+        "pixel_mae": 0.022058098576962948,
+        "seconds": 150.3584422999993,
+        "remaining_seconds_estimate": 171.72319061681463
+      },
+      {
+        "step": 2901,
+        "loss": 0.013650883454829454,
+        "pixel_mae": 0.012311799451708794,
+        "seconds": 155.84426909999456,
+        "remaining_seconds_estimate": 166.4810030820004
+      },
+      {
+        "step": 3001,
+        "loss": 0.023022597655653954,
+        "pixel_mae": 0.02119610831141472,
+        "seconds": 161.30028489997494,
+        "remaining_seconds_estimate": 161.19278720927187
+      },
+      {
+        "step": 3101,
+        "loss": 0.025635162834078074,
+        "pixel_mae": 0.0235194549895823,
+        "seconds": 166.85581719997572,
+        "remaining_seconds_estimate": 155.98678299346327
+      },
+      {
+        "step": 3201,
+        "loss": 0.011479793349280953,
+        "pixel_mae": 0.01071918400702998,
+        "seconds": 172.2021710999834,
+        "remaining_seconds_estimate": 150.57603152416542
+      },
+      {
+        "step": 3301,
+        "loss": 0.010377608239650726,
+        "pixel_mae": 0.009366633836179972,
+        "seconds": 177.61147750000237,
+        "remaining_seconds_estimate": 145.22065367237394
+      },
+      {
+        "step": 3401,
+        "loss": 0.021260065026581287,
+        "pixel_mae": 0.01968011073768139,
+        "seconds": 183.05730689998018,
+        "remaining_seconds_estimate": 139.89001488769435
+      },
+      {
+        "step": 3501,
+        "loss": 0.013789215590804815,
+        "pixel_mae": 0.01251251995563507,
+        "seconds": 188.3496535999875,
+        "remaining_seconds_estimate": 134.44324031601508
+      },
+      {
+        "step": 3601,
+        "loss": 0.020219746977090836,
+        "pixel_mae": 0.018340826965868473,
+        "seconds": 193.58097549999366,
+        "remaining_seconds_estimate": 128.9643877324312
+      },
+      {
+        "step": 3701,
+        "loss": 0.02862246986478567,
+        "pixel_mae": 0.02620394341647625,
+        "seconds": 198.8918642999779,
+        "remaining_seconds_estimate": 123.54833721309085
+      },
+      {
+        "step": 3801,
+        "loss": 0.022122285328805447,
+        "pixel_mae": 0.02019152557477355,
+        "seconds": 204.15440390000003,
+        "remaining_seconds_estimate": 118.10984850726126
+      },
+      {
+        "step": 3901,
+        "loss": 0.019605626352131367,
+        "pixel_mae": 0.017815084662288427,
+        "seconds": 209.5230278999952,
+        "remaining_seconds_estimate": 112.73746105154831
+      },
+      {
+        "step": 4001,
+        "loss": 0.02673353161662817,
+        "pixel_mae": 0.024191019125282764,
+        "seconds": 214.98771919999854,
+        "remaining_seconds_estimate": 107.41325935536042
+      },
+      {
+        "step": 4101,
+        "loss": 0.01899360795505345,
+        "pixel_mae": 0.017108555883169174,
+        "seconds": 220.37151349999476,
+        "remaining_seconds_estimate": 102.04474619275544
+      },
+      {
+        "step": 4201,
+        "loss": 0.0264743585139513,
+        "pixel_mae": 0.02388196624815464,
+        "seconds": 225.65736669997568,
+        "remaining_seconds_estimate": 96.63356407837568
+      },
+      {
+        "step": 4301,
+        "loss": 0.017789854668080807,
+        "pixel_mae": 0.01613296288996935,
+        "seconds": 230.94664280000143,
+        "remaining_seconds_estimate": 91.22956198958438
+      },
+      {
+        "step": 4401,
+        "loss": 0.025684459134936333,
+        "pixel_mae": 0.023792588151991367,
+        "seconds": 236.24720039998647,
+        "remaining_seconds_estimate": 85.83487240163107
+      },
+      {
+        "step": 4501,
+        "loss": 0.022435861639678478,
+        "pixel_mae": 0.019992077723145485,
+        "seconds": 241.58294009999372,
+        "remaining_seconds_estimate": 80.45608247275952
+      },
+      {
+        "step": 4601,
+        "loss": 0.015604437328875065,
+        "pixel_mae": 0.0141392070800066,
+        "seconds": 246.88878300000215,
+        "remaining_seconds_estimate": 75.07007333557988
+      },
+      {
+        "step": 4701,
+        "loss": 0.029324164614081383,
+        "pixel_mae": 0.026886711828410625,
+        "seconds": 252.11478319999878,
+        "remaining_seconds_estimate": 69.66541233286502
+      },
+      {
+        "step": 4801,
+        "loss": 0.015084875281900167,
+        "pixel_mae": 0.014218040741980076,
+        "seconds": 257.40451999998186,
+        "remaining_seconds_estimate": 64.28411153509232
+      },
+      {
+        "step": 4901,
+        "loss": 0.024892368353903294,
+        "pixel_mae": 0.023263598792254925,
+        "seconds": 262.8393210999784,
+        "remaining_seconds_estimate": 58.93907649232325
+      },
+      {
+        "step": 5001,
+        "loss": 0.03831581212580204,
+        "pixel_mae": 0.035290720872581005,
+        "seconds": 268.2046193999995,
+        "remaining_seconds_estimate": 53.57656764259138
+      },
+      {
+        "step": 5101,
+        "loss": 0.02604463417083025,
+        "pixel_mae": 0.024077129550278187,
+        "seconds": 273.4812894999923,
+        "remaining_seconds_estimate": 48.198329594293874
+      },
+      {
+        "step": 5201,
+        "loss": 0.021329340059310198,
+        "pixel_mae": 0.01974984211847186,
+        "seconds": 278.8272349999752,
+        "remaining_seconds_estimate": 42.83463963948859
+      },
+      {
+        "step": 5301,
+        "loss": 0.011314469622448087,
+        "pixel_mae": 0.010441335034556687,
+        "seconds": 284.1005088999809,
+        "remaining_seconds_estimate": 37.46203654425329
+      },
+      {
+        "step": 5401,
+        "loss": 0.022582913283258677,
+        "pixel_mae": 0.021172448992729187,
+        "seconds": 289.4146790999803,
+        "remaining_seconds_estimate": 32.097647246970595
+      },
+      {
+        "step": 5501,
+        "loss": 0.020460808649659157,
+        "pixel_mae": 0.01833905093371868,
+        "seconds": 294.7607231999864,
+        "remaining_seconds_estimate": 26.737975073040033
+      },
+      {
+        "step": 5601,
+        "loss": 0.013394600711762905,
+        "pixel_mae": 0.01205373601987958,
+        "seconds": 300.10341329997755,
+        "remaining_seconds_estimate": 21.378550599302095
+      },
+      {
+        "step": 5701,
+        "loss": 0.018702754750847816,
+        "pixel_mae": 0.017269571777433157,
+        "seconds": 305.3512879999762,
+        "remaining_seconds_estimate": 16.014740416066108
+      },
+      {
+        "step": 5801,
+        "loss": 0.01613809308037162,
+        "pixel_mae": 0.014513826463371515,
+        "seconds": 310.69887939997716,
+        "remaining_seconds_estimate": 10.658348043543432
+      },
+      {
+        "step": 5901,
+        "loss": 0.02010193234309554,
+        "pixel_mae": 0.01867692731320858,
+        "seconds": 316.0411483999924,
+        "remaining_seconds_estimate": 5.3021646655819765
+      },
+      {
+        "step": 6000,
+        "loss": 0.02449264470487833,
+        "pixel_mae": 0.022333418019115925,
+        "seconds": 321.30713129998185,
+        "remaining_seconds_estimate": 0.0
+      }
+    ],
+    "optimization": {
+      "seed": 190915,
+      "optimizer": "AdamW",
+      "initial_lr": 0.0002,
+      "final_lr": 2e-06,
+      "weight_decay": 0.0001,
+      "examples": 12000,
+      "expected_group_weights": [
+        0.25,
+        0.25,
+        0.5
+      ],
+      "groups": [
+        "old-scene",
+        "old-photos",
+        "new-photos"
+      ],
+      "loss": "L1 + 0.25 * horizontal and vertical gradient L1",
+      "training_precision": "FP32, TF32 off"
+    },
+    "training_pairs": [
+      {
+        "label": "model-capture-natural",
+        "group": "old-scene",
+        "capture_hashes": {
+          "color": "2e44a6a5e2730c21f7f2b4610b0a3c0af6fc94e2f51601f2ab2fa3fa679cf7f6",
+          "output": "13668520132202f28b6b584aff445e6982d17ece0430c9c134b7c2ef85b68d2b"
+        },
+        "sample_count": 110
+      },
+      {
+        "label": "model-capture-natural-west",
+        "group": "old-scene",
+        "capture_hashes": {
+          "color": "5a3292ed2faf5fb6e1290d0a9c0e7f672995bc05480e0466dea0f10271074ca4",
+          "output": "42d040613e5bd3b3dac82ed254908976971d1fdcd374084ba09cb63a3f3f0004"
+        },
+        "sample_count": 83
+      },
+      {
+        "label": "teacher-natural-northeast",
+        "group": "old-scene",
+        "capture_hashes": {
+          "color": "d2ae1d4ac3eecdd016d78c45f209a1b05226e292fe71d9c0ffeaf9c13d44fd1a",
+          "output": "865392ee835b618b3f03556c1ddba2890b4e4dda31ecf6f213a0cdc13c4ed944"
+        },
+        "sample_count": 113
+      },
+      {
+        "label": "teacher-natural-northwest",
+        "group": "old-scene",
+        "capture_hashes": {
+          "color": "3d23dc0613c3f28ca10e0cde8cc23f3dd8b29e2c5a8844ac413b1ab295142784",
+          "output": "71d3160242fc2f1dfc4981d5aae6a18eeddccfe41731468723f7e67e2710eca5"
+        },
+        "sample_count": 80
+      },
+      {
+        "label": "teacher-natural-southeast",
+        "group": "old-scene",
+        "capture_hashes": {
+          "color": "1d047a54cd2d48c97c6584de1e99230d302c0c87e35c3a96ef410489e4aaf6f3",
+          "output": "4ea2e4fbf267b748c22511f776afeac1db5fdb4585232dd7484918ac0cb0d265"
+        },
+        "sample_count": 106
+      },
+      {
+        "label": "teacher-natural-southwest",
+        "group": "old-scene",
+        "capture_hashes": {
+          "color": "2395ba423bb8ccaedab929a00969edd41df43ba532682d4190ac48e13da95f7c",
+          "output": "e263ce78605640d67dce9997b8badfbceeb86406055c48f910b1b449e4f2bd7a"
+        },
+        "sample_count": 94
+      },
+      {
+        "label": "teacher-translated-left-east",
+        "group": "old-scene",
+        "capture_hashes": {
+          "color": "5de11f09a67c5e03acd2269c85b64a546218cff7772d91c31cf1b08ec6b2ccbc",
+          "output": "2a44509b6a7b93b8501381187036c9b54da17d73e40093e6407497d1128d3164"
+        },
+        "sample_count": 100
+      },
+      {
+        "label": "teacher-translated-left-northeast",
+        "group": "old-scene",
+        "capture_hashes": {
+          "color": "9b4379a5baacc89bf9a23952bd4984d9a78d006cf1aa004dc039f7731cf39352",
+          "output": "a8d17ac54406ea33b589fd96f9f81d6b5366c21e5782d161b7024c922b052b7f"
+        },
+        "sample_count": 96
+      },
+      {
+        "label": "teacher-translated-left-north",
+        "group": "old-scene",
+        "capture_hashes": {
+          "color": "83c5e825ee18a238bd87af5411b4315590f164415832788faaecd7e29ba46598",
+          "output": "61d708cc63c85825a2577a99d0782481ace12cfe8ff423dcb37275b9ddafcabf"
+        },
+        "sample_count": 94
+      },
+      {
+        "label": "teacher-translated-left-northwest",
+        "group": "old-scene",
+        "capture_hashes": {
+          "color": "50585653ae9d032acca0296d5b35cf7dc4019172dbca37888b2ee3bfec79ef04",
+          "output": "631a5e9f2f8809deced19f120569fcf22621080548d6eb8a5d48e22d1949f60e"
+        },
+        "sample_count": 111
+      },
+      {
+        "label": "teacher-translated-left-west",
+        "group": "old-scene",
+        "capture_hashes": {
+          "color": "b095223d223d70b27532f26c0e22858de9da9898e8411a5b75b101a980b2face",
+          "output": "9a867cfa000ea5b622f84a3cfa37630c16e89607ced6ea8bc7fa0f895edffbb9"
+        },
+        "sample_count": 105
+      },
+      {
+        "label": "teacher-translated-left-southwest",
+        "group": "old-scene",
+        "capture_hashes": {
+          "color": "3d73b62af1fb7e4c3ea46f2f80038c79c8bd3b0fcd215a8ac49e358f9da9e808",
+          "output": "efcbc12dd20bbd0e7c01f09c48f5662fedaa9624e7f4d9b659ecd7fb3e857f57"
+        },
+        "sample_count": 113
+      },
+      {
+        "label": "teacher-translated-left-south",
+        "group": "old-scene",
+        "capture_hashes": {
+          "color": "6b792009748a3dad1b76aaea904a76e0b5d325e59efb86fc4b1efaab1b37480d",
+          "output": "a59b5a4fa64884f6023281284a7de0647bf5fa66ec99e7617da22a38dc0b6d5c"
+        },
+        "sample_count": 85
+      },
+      {
+        "label": "teacher-translated-left-southeast",
+        "group": "old-scene",
+        "capture_hashes": {
+          "color": "fdae01c0f5c0fa8ab4f6aaa30df022e2d835e39ff7ddd718cfb9afac91640421",
+          "output": "1304717d8cb7ae013e46cfbecf9c000fd580667f89ba91aae974a25350f71625"
+        },
+        "sample_count": 111
+      },
+      {
+        "label": "teacher-translated-right-east",
+        "group": "old-scene",
+        "capture_hashes": {
+          "color": "15f32702df477c9a31a76a84d5f2990374cf311535757ac854928e26e449d968",
+          "output": "21a4d6d6206019e65ac6b44ebaec2738d1646cc85447ce7a23e95746e7f3e3c9"
+        },
+        "sample_count": 91
+      },
+      {
+        "label": "teacher-translated-right-west",
+        "group": "old-scene",
+        "capture_hashes": {
+          "color": "3cc3c866987e43c2b1a9a8850f3103e1efb0449b55fd9a40cd3fea956b1b6fe1",
+          "output": "e1998768dd68043e92830ebe383e2aaceab2e71b70d7db64c511200ec2dfb1c3"
+        },
+        "sample_count": 106
+      },
+      {
+        "label": "teacher-translated-right-southeast",
+        "group": "old-scene",
+        "capture_hashes": {
+          "color": "9a5b464bcad2066a8e1cd8ef52db3c68ccc90253a315c2ba981921a55864f55f",
+          "output": "5f678e7ecbd4b491ccc438bb28450ad75c4d4b5cd9d6bab6dd9331e5ce83381a"
+        },
+        "sample_count": 94
+      },
+      {
+        "label": "teacher-translated-right-southwest",
+        "group": "old-scene",
+        "capture_hashes": {
+          "color": "70747879e3292e5bbe3c5d2fe00cdbd5454e60bc18bb38f59181651c097d9cd9",
+          "output": "4d3d4137951dfabc2c726200a15ecbe2e5e247c8c45c1689e8e2527b01c77ecb"
+        },
+        "sample_count": 91
+      },
+      {
+        "label": "teacher-illumination-dim-east",
+        "group": "old-scene",
+        "capture_hashes": {
+          "color": "596f9a25a382295f5abc9902944850b6af25962323828c097118da76479c1556",
+          "output": "1283ae05882472638a42b2766f2d234f85f57dc8878d4678c37cc3edb91ec8bd"
+        },
+        "sample_count": 109
+      },
+      {
+        "label": "teacher-illumination-dim-west",
+        "group": "old-scene",
+        "capture_hashes": {
+          "color": "88a5ddbdc3d2e8548e30e1e152f92dc89527d516c8313b496e3395df09456f06",
+          "output": "8ebc238d7db0accde71d2d8759a820cca291ed79bdb7d64723a552461168f6a3"
+        },
+        "sample_count": 84
+      },
+      {
+        "label": "teacher-illumination-dim-northeast",
+        "group": "old-scene",
+        "capture_hashes": {
+          "color": "360a739198086b110a442c7ee3e708b81da4441660b82bfc9695ffa3bf4715f5",
+          "output": "5b32b0c97fdf3094112c61f5145fabdea5b954a3d03e6cb032a3a1af01c0259d"
+        },
+        "sample_count": 88
+      },
+      {
+        "label": "teacher-illumination-dim-southwest",
+        "group": "old-scene",
+        "capture_hashes": {
+          "color": "fd38ae04f24fde89463011afede652240c6fe3597c62b2dc805fe62f33db2d08",
+          "output": "3a20ea061e9dc84479440965a9e0014a6052b4a5fa17d456f87459ce6dac583c"
+        },
+        "sample_count": 98
+      },
+      {
+        "label": "teacher-illumination-bright-east",
+        "group": "old-scene",
+        "capture_hashes": {
+          "color": "bcff97e701de0cb6c0da423167f6c0096d64c455969ba6d528cffd3eb6b486b4",
+          "output": "859979ebf978edca683adb46fe3681d5d59e3e1345e90f9dba4d7608379c5119"
+        },
+        "sample_count": 106
+      },
+      {
+        "label": "teacher-illumination-bright-west",
+        "group": "old-scene",
+        "capture_hashes": {
+          "color": "df6272610fa50b9dfa8491e471aef120fc6165dcb946b49992c815b89a97e6dc",
+          "output": "f8f203a5b70f583aaaaae5d781e46702d97ceb54344fc9a3b544520933f1a320"
+        },
+        "sample_count": 92
+      },
+      {
+        "label": "teacher-illumination-bright-northeast",
+        "group": "old-scene",
+        "capture_hashes": {
+          "color": "44f4e9a90dbef9581a873c1321407277e58f100cd16d1c76fb716a5e3deafdad",
+          "output": "30d6238f20cdd6bfcc2eab7e4c4a51ebe16533020f6b5719cb6461cf753e3903"
+        },
+        "sample_count": 97
+      },
+      {
+        "label": "teacher-illumination-bright-southwest",
+        "group": "old-scene",
+        "capture_hashes": {
+          "color": "ec9b20370d5e9b6a89fa8fc9b138d5b6b8af492508e41e69ca197c159a31c876",
+          "output": "09f81e847a97333cbb7c5f6e74cb12cc938671af4cf494b2a5336e3c2c458b59"
+        },
+        "sample_count": 92
+      },
+      {
+        "label": "teacher-illumination-low-sun-east",
+        "group": "old-scene",
+        "capture_hashes": {
+          "color": "84b010b308a5e65b226af1acee6ac44d554b1624b71edebb97e413e72e8f3dc9",
+          "output": "cba912532a04728e4f02de44ab4d8727f6b7bff6532ad28a1948c975c516c7cb"
+        },
+        "sample_count": 106
+      },
+      {
+        "label": "teacher-illumination-low-sun-west",
+        "group": "old-scene",
+        "capture_hashes": {
+          "color": "ff41ad82010ec2ebfcb52b9da86cc7a62b79f96ebb65535a7f602005b121d284",
+          "output": "1071abffa45cf79ad6053898c0b02f461f65afa6be8e752374859eb6a429de3f"
+        },
+        "sample_count": 103
+      },
+      {
+        "label": "teacher-illumination-low-sun-northeast",
+        "group": "old-scene",
+        "capture_hashes": {
+          "color": "34995fad95433d7e18ad6f8aa8a5d4441566ae9957c4989eb911d352c2506a46",
+          "output": "75cc08cdc98f8fca52fb171fe7827232d7397aab73543dbbc48a2f6487859125"
+        },
+        "sample_count": 106
+      },
+      {
+        "label": "teacher-illumination-low-sun-southwest",
+        "group": "old-scene",
+        "capture_hashes": {
+          "color": "04eae772d7ccfa83a92963b327a74c1c2a6702fb13dacc0d8be20d7bfc5b6299",
+          "output": "6f9268dfb195984bb9a23d09f3654d731cf895bdbaf70699db64b62740b9a38f"
+        },
+        "sample_count": 96
+      },
+      {
+        "label": "teacher-photo-tenth-snow-cat",
+        "group": "old-photos",
+        "capture_hashes": {
+          "color": "3871e72a3c211fdc24e999fde53e28ec10c3d3ab33895049965fa2fdbec63e2c",
+          "output": "d679c6c531daaa6b4c21846f5bf909766dcee619384c74299a075da7c640f70f"
+        },
+        "sample_count": 111
+      },
+      {
+        "label": "teacher-photo-tenth-bridge",
+        "group": "old-photos",
+        "capture_hashes": {
+          "color": "a3c93b102dd81e3fd909a56e9b601b97377c258231dc364ac016cfa67aee0d98",
+          "output": "a792b98415ef9fb61873ba5b928e0f5ec586c1f7d5c967e49463b5b0ead06685"
+        },
+        "sample_count": 108
+      },
+      {
+        "label": "teacher-photo-tenth-lake",
+        "group": "old-photos",
+        "capture_hashes": {
+          "color": "4b206a9282a7e1937d39d72fefe6ba16403ecf9c1cd272b11ac0555abd3a24e5",
+          "output": "f0bc7f9afecc5ca65c8b796e904a60c551e9825a3c638c89f9c361101abd811d"
+        },
+        "sample_count": 76
+      },
+      {
+        "label": "teacher-photo-tenth-cupola",
+        "group": "old-photos",
+        "capture_hashes": {
+          "color": "3fb30ea75a3e3aa36933f4900a7ddc4d8e9b5748c5507e83f9a511d7f15bc46c",
+          "output": "27b9eae7c47f7cea01ce4798992a89c3c6afc8188b0fc630cba7ce4181b1cbfe"
+        },
+        "sample_count": 92
+      },
+      {
+        "label": "teacher-diverse-forest",
+        "group": "old-photos",
+        "capture_hashes": {
+          "color": "ff161f553d6abefc44ef4a94aa97443bb06a49fe5186c61b716f739c6f6e17ba",
+          "output": "52de33d92985c150012991bda1bd6a3af2fa15111526d3f0471ff868037a4bfa"
+        },
+        "sample_count": 95
+      },
+      {
+        "label": "teacher-diverse-palace",
+        "group": "old-photos",
+        "capture_hashes": {
+          "color": "7f14403921fe29a0e097781195a13c742a65c39d27b9cb21315049ab03c3287f",
+          "output": "86078d2c5c1523eeaa7496628eeccab7c4673da2df1cac39cdf058d93a266f0c"
+        },
+        "sample_count": 96
+      },
+      {
+        "label": "teacher-diverse-concert",
+        "group": "old-photos",
+        "capture_hashes": {
+          "color": "64fee6701ecc57f5f82108dad8a7cc0ea736d38f7e19e727aabc4d02c1af79c6",
+          "output": "64291a7886965e7537ed4bdb58bc38dbff54ea1ecc08d33cc3d9aeb9e9dab7e1"
+        },
+        "sample_count": 97
+      },
+      {
+        "label": "teacher-diverse-cloisters",
+        "group": "old-photos",
+        "capture_hashes": {
+          "color": "39b6d7f109bf1c1504eb86531f1831fe552a8080091e89aa821e87ceffc4bd7b",
+          "output": "56b71109d2c34aab2ada95e797136182f3f1768ef8d4520b78d9fdf02390e5f6"
+        },
+        "sample_count": 94
+      },
+      {
+        "label": "teacher-diverse-night-city",
+        "group": "old-photos",
+        "capture_hashes": {
+          "color": "53ea95ee426669e8e514077be8983a51a9ed8fbb4600a4310537d3c97449c101",
+          "output": "7b124f5c138c91d15e2dfd8fab9e8171c99534b470873dceef0bb300587d60e9"
+        },
+        "sample_count": 100
+      },
+      {
+        "label": "teacher-diverse-sunflower",
+        "group": "old-photos",
+        "capture_hashes": {
+          "color": "d97cfbb7c75e775e4798f1251806de7c84c5d9ae141a706345c8089171678924",
+          "output": "044d591e92741403c4dbeeafe01af4b75eb8960d3930c6da7f546db12bb174cd"
+        },
+        "sample_count": 105
+      },
+      {
+        "label": "teacher-diverse-retriever",
+        "group": "old-photos",
+        "capture_hashes": {
+          "color": "4c92b39370bbe62f5dae7b937de0171ef6736571201423ec1e55268f2e02b83b",
+          "output": "6b42d31592cbc4fcb7b36453d61e3e579f3a73ac21385b50d6c04d9bc786bbe7"
+        },
+        "sample_count": 101
+      },
+      {
+        "label": "teacher-diverse-dunes",
+        "group": "old-photos",
+        "capture_hashes": {
+          "color": "f2145c6412a5e81cb86c48e2d304404ddefc5394b139417a669146081e1631ae",
+          "output": "a68c52b4fc06babc750d01493957be1b4e394d0d00fa85e26a676acb0b267c26"
+        },
+        "sample_count": 86
+      },
+      {
+        "label": "teacher-diverse-watkins",
+        "group": "old-photos",
+        "capture_hashes": {
+          "color": "111d7eaa792a3d17e375d5b83998e57217e29ce000499bfda0cc56ca8f95816a",
+          "output": "e6000ce639c9df7969ba2b2eaccc71483c1565bcdda1a2fa544857ebd8df89f2"
+        },
+        "sample_count": 100
+      },
+      {
+        "label": "teacher-diverse-foale",
+        "group": "old-photos",
+        "capture_hashes": {
+          "color": "0c9b4eacbb4b33f101970d2b17de5d6aec5698b3a5c560ed4d981d1f3ed7401d",
+          "output": "465ebd18e4db65cdc4b82def8a307f713c23c476cea5d59f8a6ba1d418e4a3a0"
+        },
+        "sample_count": 102
+      },
+      {
+        "label": "teacher-diverse-berries",
+        "group": "old-photos",
+        "capture_hashes": {
+          "color": "6940831713f52497069972c96bf3f4ddeaf6fb2966daae2d56914b8d87b5aa4f",
+          "output": "4c323ac99536d945dedb5d4236b92ce9faaa7732b019892777d920574faabaf7"
+        },
+        "sample_count": 95
+      },
+      {
+        "label": "teacher-diverse-aerial",
+        "group": "old-photos",
+        "capture_hashes": {
+          "color": "5fe01636707f4b60d05624399c483b7336d97e61528c23a0f70f3936019380b0",
+          "output": "cc64ae2448628272dc3c8c22e57579df5537e61a410c6e7341035e277f7e1cbb"
+        },
+        "sample_count": 87
+      },
+      {
+        "label": "teacher-bright-snow-cat",
+        "group": "old-photos",
+        "capture_hashes": {
+          "color": "c48298ece113d670b0d631c18fcef1ecee85ff9709bbffe8ec2ed6075f7ad7ba",
+          "output": "3679878badb1bb17b5affa35be0431ac6b5f19d1ee1acd3f571b6f5c581b82cf"
+        },
+        "sample_count": 109
+      },
+      {
+        "label": "teacher-bright-bridge",
+        "group": "old-photos",
+        "capture_hashes": {
+          "color": "9ba28fbcc5784306e9f3120b251cf3ba865ff0483114bca809a78bd01ece8fec",
+          "output": "a136519b2d2c9de4a18166deb5c4b6064d2e6a05337bd51b9a91003341b1a8f7"
+        },
+        "sample_count": 109
+      },
+      {
+        "label": "teacher-bright-lake",
+        "group": "old-photos",
+        "capture_hashes": {
+          "color": "8399476381fb024cf9107a5291681645637155c99701b2f313dc92d03b07a643",
+          "output": "3f74820a66bd300607bd84748944b896e40359813fafa530a2ac36b43ad6c632"
+        },
+        "sample_count": 71
+      },
+      {
+        "label": "teacher-bright-cupola",
+        "group": "old-photos",
+        "capture_hashes": {
+          "color": "b4c19c0ba00ce98ca3a9168bfbb6e61efcb4421bcb44d222146c3e5406e0a366",
+          "output": "3e7343f50135d2d1aa932c2ee1043fbc58e8c30adcbf833e66834595245bb337"
+        },
+        "sample_count": 90
+      },
+      {
+        "label": "teacher-bright-forest",
+        "group": "old-photos",
+        "capture_hashes": {
+          "color": "f4ee061a5c9e737c26949b1d9110d927b3f816d308ed5de3a72b1b78462a69bd",
+          "output": "dffc97d5cb261f8d1dd3d142f3c91c6b0099234e7c5e6010896eacdc7fce7987"
+        },
+        "sample_count": 102
+      },
+      {
+        "label": "teacher-bright-palace",
+        "group": "old-photos",
+        "capture_hashes": {
+          "color": "fb299e5a7e64de6dda1d296e868563ac84097ae0207b638b6299a83ca9a59be5",
+          "output": "71d8b5fa038810e9ceed7f65dac0c3da6184b03cced63ae869f3516ebd6788c7"
+        },
+        "sample_count": 97
+      },
+      {
+        "label": "teacher-bright-concert",
+        "group": "old-photos",
+        "capture_hashes": {
+          "color": "a738660ae2484876c6b84a370f08aaa5826bb409e76a12d089728e1f77c2fe00",
+          "output": "ea9b8ee9300c8386799a1ed74a083e1ec34dcefff5f732ad7a21f2e38973f60c"
+        },
+        "sample_count": 99
+      },
+      {
+        "label": "teacher-bright-cloisters",
+        "group": "old-photos",
+        "capture_hashes": {
+          "color": "5232ec969ab056e56d802074a72162680d1904360b7d3a73b362fbf081b97a41",
+          "output": "651b386b9a0ab3470b0860530bc6f176747bb4129ac7cf0b402da6c732d2d1e8"
+        },
+        "sample_count": 94
+      },
+      {
+        "label": "teacher-bright-night-city",
+        "group": "old-photos",
+        "capture_hashes": {
+          "color": "cd70226bb7b3564de5ed6cf66f028e97c089798fb5a4294fb748b2cd2f955393",
+          "output": "f04b0d7060c522ad60d7ab976ddfd2056270cd5b83692ff5ad9d0843f1761d81"
+        },
+        "sample_count": 75
+      },
+      {
+        "label": "teacher-bright-sunflower",
+        "group": "old-photos",
+        "capture_hashes": {
+          "color": "ae8ca8dbf0e022fbb1f6cec14855c4d269bce91f399e8437ed20cad629734ca6",
+          "output": "493e7b20712bca43c426aafcaf737a38711cbdb6c1b1f8a725d453158e8620f7"
+        },
+        "sample_count": 101
+      },
+      {
+        "label": "teacher-bright-retriever",
+        "group": "old-photos",
+        "capture_hashes": {
+          "color": "4f26fd95bc0b24848b7f38988609ff5578649ac34041fd7ad3333cd032073041",
+          "output": "836f5fd61ca027216b38abf454ee394ebb764f34d0319821659f1ae851e30d56"
+        },
+        "sample_count": 90
+      },
+      {
+        "label": "teacher-bright-dunes",
+        "group": "old-photos",
+        "capture_hashes": {
+          "color": "80a4c23bbbf82e5fef01bed35b198fa5abd5482bd0ec0c342b2955b35c34d825",
+          "output": "206ec668ad5c6eefbc87eb3702932955ea4191f91e2721a5580180c854005fb0"
+        },
+        "sample_count": 102
+      },
+      {
+        "label": "teacher-bright-watkins",
+        "group": "old-photos",
+        "capture_hashes": {
+          "color": "d46c7093e1ceeddd1a9a8e706aec1c9506b34d0c71a1f579bb044c4153da68c7",
+          "output": "223950d18f443917c1e7607d66d7f8c8d94d94bf7279c3eeeca455d2304db852"
+        },
+        "sample_count": 89
+      },
+      {
+        "label": "teacher-bright-foale",
+        "group": "old-photos",
+        "capture_hashes": {
+          "color": "7d52a355ae128d345df29d8f005f0ab0f25f9c267549509f5fd15758f6f5b509",
+          "output": "096b954c940c811d6d7e4735ad52ddde914698fe95706746fb35d089640c8ad5"
+        },
+        "sample_count": 85
+      },
+      {
+        "label": "teacher-bright-berries",
+        "group": "old-photos",
+        "capture_hashes": {
+          "color": "930b308c0a81c93483af3ba6871d9fedc9cdc9af17fe79540fb68fc6c56fd7fa",
+          "output": "751421d8094481b53de79e5d6aa97ac8dae7b07e2ba7b7f706ccb7a6520c3a21"
+        },
+        "sample_count": 88
+      },
+      {
+        "label": "teacher-bright-aerial",
+        "group": "old-photos",
+        "capture_hashes": {
+          "color": "8894f959fe901c76a0c743683d322d3edbbdea2f0477566388f73ae91dd89f8d",
+          "output": "e14f51eab0401cc0d4eca5e1b7398d0318d7ac51d7840738713fa56bb9dd9d92"
+        },
+        "sample_count": 94
+      },
+      {
+        "label": "forest-110091620",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "de9de85f944aef817032d06a1db2156414cd2618ef8844a31a6098601419e3a8",
+          "output": "9a64987f5367976f0cc6fc47140f193e404405f6184a846595c30b0fcaf21021"
+        },
+        "sample_count": 25
+      },
+      {
+        "label": "forest-155958658",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "a89d7bf52c99c31e81f4db16eeedb230136b74665923fdf3414de9a859bd4bb4",
+          "output": "b6350358c64bfbcfdbf5a026ec2a1e251db56272f6ace124b50e2ceaa56de1ca"
+        },
+        "sample_count": 35
+      },
+      {
+        "label": "forest-51602918",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "7a8b18e8a59ac2a211d23754257721892d902674e1a05ecba4b7afc6c554878c",
+          "output": "4ed82c4071f2f4447622f91bcdb14344df720aa9501878c5c6d675bdc4a36a2e"
+        },
+        "sample_count": 31
+      },
+      {
+        "label": "forest-182578878",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "2e0b5676236234f997d958a728e49c32b5a424945faf11bf17b8b606ae405fa6",
+          "output": "9e8a63448a09724f37356127e00822da7764744481a5f8627ad32375cd8eafd6"
+        },
+        "sample_count": 34
+      },
+      {
+        "label": "forest-46864622",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "8d6447165194298abb6032abddf886f881577a5b6376c230838332237c516c15",
+          "output": "c8c580c8b67519f31580913968d30d7bef4a6ffd92e957c2278fe0d347b38d71"
+        },
+        "sample_count": 24
+      },
+      {
+        "label": "forest-114474166",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "28d211b5132522572d5daa29d800646f6104298d13ebaa07995af8d21ba7119f",
+          "output": "91ee58e246ff1dc8f7c952f9b5da1255592dcaa42a79aac959fe14f6ffaa5c61"
+        },
+        "sample_count": 22
+      },
+      {
+        "label": "forest-46864632",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "20211371c46e5422aef5e2b4b6ded3cb4efb04efb1ce08d79212bb7ae1094c06",
+          "output": "5b44a4f76fcd25b87e5f3e8944244a8e352c415977f77a9ba0012e22bc6c3591"
+        },
+        "sample_count": 25
+      },
+      {
+        "label": "forest-106069450",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "a95d058d3fd7132cfcbe7ffa62ac90e3ccf00629dd8fc1c8b1bb1184de306b27",
+          "output": "7e6be50fa0cc8a4729b6175a13f88065f919ce4ecb98d446d2549cea75a6bd73"
+        },
+        "sample_count": 25
+      },
+      {
+        "label": "forest-105395516",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "cff4633596123f51fac7b0ccc58452466daf2eafa2e0720dd63e2a0485cffed2",
+          "output": "7e70f945972f4252f9d39d15a56292fe37e36bd03f657aad8127344f6a50455b"
+        },
+        "sample_count": 30
+      },
+      {
+        "label": "forest-184581572",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "8fddab072019ea1da0575c3cb1866ceef5e54e23a1a4163cce1c57704a0a1aad",
+          "output": "44d65d3840302fbcd012426ab8d00afc6d85bf82172669c603c82d2c67c7b8a0"
+        },
+        "sample_count": 28
+      },
+      {
+        "label": "foliage-80297370",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "4ea3da7edb1eebc22b734a081349e3f24a6dddca5f159fc2c25d296b344a55fb",
+          "output": "1d8810d1b00305058480f2864721594b55f532a93aec7f73254436e1fd8e8420"
+        },
+        "sample_count": 45
+      },
+      {
+        "label": "foliage-30890131",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "78f3eb7b51fa54a5fb676024c1290e5c4fb0e38b29e81429581c6c7a30e60782",
+          "output": "4dff955fa485bf8ba7ebf47854e90191d38de31462845a7312a6a9a6ccf1e880"
+        },
+        "sample_count": 32
+      },
+      {
+        "label": "foliage-47125478",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "ef647c932b57be508a587e4e5cf366b25d13d9f78be5c6ad5fbbfd6a006bd20f",
+          "output": "80a93306fe81da968c3d17cd11f083cf395dfa1d15e13a20ea6c59317bdd1da2"
+        },
+        "sample_count": 38
+      },
+      {
+        "label": "foliage-30853901",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "a5c4c17aa7ba3cdaab3e7972edeeb4319064f2bbe79e0eab9c0a7c715686f074",
+          "output": "8438d50a9572fd883b5fdc9a358e00f205f64b52aa6f60f8dcd227ba869c2da0"
+        },
+        "sample_count": 31
+      },
+      {
+        "label": "foliage-55335334",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "55e37e4090b834db1c0560b1f8152f6515825a92b00fa9eee25e74e6a85079d5",
+          "output": "ea0d6da1e5d5dff4c51b321fb364cbad94759f49ccb6d91e5a0416f7dc24643f"
+        },
+        "sample_count": 22
+      },
+      {
+        "label": "foliage-30878723",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "58357547415ec25d796ae641a7e5e4ed66e91675ae262d9baea4589c8f58043c",
+          "output": "328f155fda585602e2df5402aa6f71e504c77fcb2ac6cc7b2a42f56ac325768b"
+        },
+        "sample_count": 34
+      },
+      {
+        "label": "foliage-30861780",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "151876f419fbf05a9c6e38ec107553540691673d2571ade1f634f120a28e8280",
+          "output": "5a9c0f41e5bc42761c711122e877ea2c01fc7a7078142b697f7edc00c25133b0"
+        },
+        "sample_count": 30
+      },
+      {
+        "label": "foliage-186768124",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "695f73213b8a6afa69571fcb9fb6597d417861d3b8e7845473001517bfbbad6a",
+          "output": "b90fa23e2825dcedf5a287f42906f382123c51863b1f5f54554fdf15e1c92fcf"
+        },
+        "sample_count": 27
+      },
+      {
+        "label": "foliage-187803853",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "b8c0be98773efd58e591060e76256399387975578d2e07655a3df18dc8e36e03",
+          "output": "2f3e667e1386902a5ec442bd85e2ed24c84333cbb43d126d33f613897e17a998"
+        },
+        "sample_count": 26
+      },
+      {
+        "label": "foliage-196363488",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "ff7ed0381734c2b0bcdcf388ce1ba32fbc5ceb7bbb5809e354487a0dd368f07a",
+          "output": "cab5036bca66084dc7d81e847b6c913bb89eb27d827e788e673b43694b138f36"
+        },
+        "sample_count": 40
+      },
+      {
+        "label": "mountains-14358",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "be3d005216c59178c3221b8994ce7f8262e2139dfac3cc2fcd5141dbab4a2cbb",
+          "output": "254f1afcbba11643e899e3408ac81bc106203e7c220c0166ea2427c47070a0d8"
+        },
+        "sample_count": 29
+      },
+      {
+        "label": "mountains-158986126",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "e11987fd75340b1868e4cd23b0acfe5d88bcb1b791825a577fe79ad1a7514b40",
+          "output": "ff4e652b9f6fa0f2114411b6b6dcdc3a9f13002861a95a18997a12608c119d2a"
+        },
+        "sample_count": 32
+      },
+      {
+        "label": "mountains-160245743",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "466ca52fed8565fce121a1815e4993cf22fba60535251b0b5a01a9d602266bdd",
+          "output": "71cc81adfdc4ba0564f7605ea42035c24a87f70868dd98f52aa9a1910e233c41"
+        },
+        "sample_count": 18
+      },
+      {
+        "label": "mountains-48692154",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "0650843e27b5a7226ad95a97a2792f2bd93d71126c01b091ad81a28723713c9f",
+          "output": "0c63957d25d00824d672a0823684913273ad48438e0321f8259221ea28597434"
+        },
+        "sample_count": 33
+      },
+      {
+        "label": "mountains-96137994",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "e2047df4ae3becef625cc52774261c7b52dd8f8d0c0cdd26f59278a498830da0",
+          "output": "a341c777f786e5ac4c3bff5388915515f5abaa09bb2de7e6f66791ea35a1a907"
+        },
+        "sample_count": 32
+      },
+      {
+        "label": "mountains-88422859",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "818924f9c33582a43cdee84da7638951a6024c2c7deaa48701c46a6b69ee8ef2",
+          "output": "cb17d95c6b672df4d4192aed41fd0375dd4f52d7b18f3b5f4d0bf0e6412db8c3"
+        },
+        "sample_count": 34
+      },
+      {
+        "label": "mountains-44594373",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "4ef699b72e7f15c0cc2d2246ddf3c5bd1145f2553759190ac53cae53fb74528a",
+          "output": "531ca2bf1c5e488b2915b4287aba80f48206b705f8805e3da4b816dc621e9520"
+        },
+        "sample_count": 36
+      },
+      {
+        "label": "mountains-98708810",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "3e94dbf7d7293d00511c497e2086a166876253b872162f9f2d98389ea788cec4",
+          "output": "8e404a6ac3e698a8b24d4d2dc41fb74440125340aba7f12a090b6ff7660d1ae6"
+        },
+        "sample_count": 34
+      },
+      {
+        "label": "mountains-149668304",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "9facf62c17cbfc01da66b1820b19e6817d048957c171237d3ce8c2d61c9ad638",
+          "output": "af8adafa8f3fb972cf7e921a26c315a76f3684baaf8c6a35d37d227006fcba2c"
+        },
+        "sample_count": 37
+      },
+      {
+        "label": "mountains-29876671",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "39b688866c82dd87424f26b8dab8746e4f1c4c5b4dd401540ede6220ff4b1f94",
+          "output": "9595613ba2a6431440b9cb0c279a351246a50cfdcbaf1f6d09459ea4daceb6b1"
+        },
+        "sample_count": 32
+      },
+      {
+        "label": "coast-129075577",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "a7d395865155f435a3b60f25bacd0c910d7f75559158d9356e68ad77f0f9860a",
+          "output": "30b7a458510ad4df6288f25b713454b1e2227d82fb653b8488d7ac272b308663"
+        },
+        "sample_count": 26
+      },
+      {
+        "label": "coast-129075578",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "b739ad9d5bb33bd7899f22d818a98d9ce2c95a3183ad5d88bb40d3785baef52b",
+          "output": "ff8b897d6965d9720ee8469a67168b5f745fe870e4005029bcaf3c392a0798d1"
+        },
+        "sample_count": 28
+      },
+      {
+        "label": "coast-93676412",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "abfc4937de807e4a44422895ad80679effa91525d8d7337a70ba9cd769c93c31",
+          "output": "5ba1225c19a17d60c90ca4f97d810a3883a9d2c650cc2d03367ac8b1edb50c88"
+        },
+        "sample_count": 25
+      },
+      {
+        "label": "coast-93676411",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "2eb716025f5f15cd795028b48ada4e409e1286cf4ff1a8d79a1f43e5bedb84c3",
+          "output": "5e354fa670b7c50f525e864ed1d706e4a59782690ba0d11f23ed46cf81f7d879"
+        },
+        "sample_count": 33
+      },
+      {
+        "label": "coast-118590419",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "7296eece9a8105e72d10c9adc8b8c5675edb5afca39fcdbdfee48aaadf278352",
+          "output": "f1c4a0a759fe70430917ba696dd8ae4e53061ea09712cefbcf5edd5f9703d0b7"
+        },
+        "sample_count": 36
+      },
+      {
+        "label": "coast-171509990",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "695cc2a14ba65cf4b326b6b2157ef29cdabab806c20b3f991fbd79268a12a999",
+          "output": "54b775ebc0575ed62fab9a156d3d3bb560c69bfb39420369150067992f71c9eb"
+        },
+        "sample_count": 30
+      },
+      {
+        "label": "coast-89628599",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "d3bb4addbbf434bedcdda1060cfe53b1b1d55dcfaa34b88a3b0306798de0c8cf",
+          "output": "fa56246028a011bc6bade6c89d56f96c9143bd52b517058d21d9c366fb2a29f5"
+        },
+        "sample_count": 24
+      },
+      {
+        "label": "coast-79147003",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "63f9855b99db6b2353c0a21559c1a734ce38e0c0e07a35a28ebbb2ab57fbde92",
+          "output": "8a9b8b6b9769cb175630cfcd67ea2def4d6f6626cbb2c07c25ed7c7b7bc8604d"
+        },
+        "sample_count": 36
+      },
+      {
+        "label": "coast-30883706",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "741c28c59c697a04380b9ea6a9cfa225293a64315e3c8f96267f93b5af70164e",
+          "output": "4d22f611c84c4944af713454c6dcb4dc739e6eb156a4e83d68543e2356ea424d"
+        },
+        "sample_count": 24
+      },
+      {
+        "label": "coast-73857715",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "28591d98bfc4945f6860e28a75d40b6bf2de9292e418a1200b488aaf877a082f",
+          "output": "1e705d93b5c3996d2120f7f5eaaeda208a59155bf318c1fd836308006cc9ac28"
+        },
+        "sample_count": 32
+      },
+      {
+        "label": "water-150599694",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "b2db402c8299920c7f90fa7e25bddccbbee77c434ef16ddd64d5ce624b3b6dea",
+          "output": "5ea4e536918644edd6f26a6e160a1ddc6c2ef5a2d800043d1a9d0f2057743689"
+        },
+        "sample_count": 28
+      },
+      {
+        "label": "water-82348190",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "05c5198d2c948a5b41c567d71792e1f150179ba525f83fd134270bf81fd4a6b2",
+          "output": "98332a49180401b2f2d62c1d37863563c1b191679ba7149a4bd8a4a37ef25ce5"
+        },
+        "sample_count": 34
+      },
+      {
+        "label": "water-75728685",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "60bf2d865dcbebfcaf171426eaf1f0a127108b786bd59b0b8d4b73257f69703a",
+          "output": "3eee159faef4df17f6dfbad73e1e76e89a27b3e1b609c06a5fe1ed1f694f9a8c"
+        },
+        "sample_count": 28
+      },
+      {
+        "label": "water-75728690",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "46c2b92b02a847d906941fed25738c4aa7affc1df178df3a617ef4fea4354472",
+          "output": "c0ed3b3369a343953c6640fdddfbbdc82c01a70ec43559733498954013b27ed6"
+        },
+        "sample_count": 30
+      },
+      {
+        "label": "water-46864651",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "b85266ecc78d1c3ab7a2d7a1c2f38901dfe529835aa864f88fee012c21398e2d",
+          "output": "6281d310022788b78a65fc4850c56fdec96075cd95298f1991757c881c279fc3"
+        },
+        "sample_count": 35
+      },
+      {
+        "label": "water-167470367",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "fdc738587ccc13d5520eaf8afdb577eda15008aff25404009a93d424af946940",
+          "output": "57e35ded7dc8c92b3b89db0c63557d857e8605972e1f49dfcadcbc95fd11a731"
+        },
+        "sample_count": 31
+      },
+      {
+        "label": "water-167470356",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "2cc866340f1d3c6d0519f1284a8c20fee3cf0e65236c19ba243136fe44cfe494",
+          "output": "0263c76bf963e65526474b8c4fa558811e967a1bd968b77c9d176a7bfe8c2c8b"
+        },
+        "sample_count": 27
+      },
+      {
+        "label": "water-167470357",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "e78d21a3c95c90a0c253ef8cdaabecc068789f50c0a92daec23e22ed8996f39a",
+          "output": "3d6229bc7320c0a54d17c52805c4c3313d0731fe6a5de4426f4cbd136468bb5c"
+        },
+        "sample_count": 31
+      },
+      {
+        "label": "water-167470368",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "1ab4d40e66567d59a5c33804b44dd1b0c24bcf960b8fc078e99ee51f4ab8b7cf",
+          "output": "98e5a0ac274d213932dbf9213cf869e371a70e0d623058d1c17713b7c7aef6c5"
+        },
+        "sample_count": 26
+      },
+      {
+        "label": "water-150599702",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "afc2c1fb85f1a36ce96f14e9bc15775ef573abbba3e4205dae1541ff61bdbd44",
+          "output": "e479dbb9081b4f068e06b64c1702f5dd389e4133f581411056b8417cb1b4e6fb"
+        },
+        "sample_count": 38
+      },
+      {
+        "label": "snow-109161422",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "85ed8f545296871a219cfb192f2e6a6b38136648b011a7e8a63a41596e213c39",
+          "output": "2ae7db3ef51da0fc494c88cdc06ece338316d05cddcd5ebe482915ff6d185817"
+        },
+        "sample_count": 24
+      },
+      {
+        "label": "snow-168584575",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "521ec35d862f5fd9a519be32639b42ddd4c685f9a6361720552b7b67f4407f1a",
+          "output": "13bfc438f9975824debb6370245ff066af989dcf8a07a0e8408dc5a5e78d1190"
+        },
+        "sample_count": 25
+      },
+      {
+        "label": "snow-159264127",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "7554a72931aa77b8968bad5ec2dc0572861bfc580f36e8b015f0f6e87e1b63af",
+          "output": "cc781814d6dde3aa1f98350cd5ec5121c9579ebf7ddabbb2f98108c64098ed99"
+        },
+        "sample_count": 31
+      },
+      {
+        "label": "snow-178951848",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "0376a6b9722527207ddc2207fcf53eef26c4eda1bf624f23c34124ef653b0086",
+          "output": "8c89ae3d0664c0d92f08bfdf34e0be0582276a45b3724904af5c3ec3801c1ff1"
+        },
+        "sample_count": 26
+      },
+      {
+        "label": "snow-29613954",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "3449c0f33c0c90fbb92eba633330de5f304c07d9ffd2652a7e5170db7029c142",
+          "output": "af13ca85696fbe9a1366a351885fb4aa88f20695cc4a47617adb0195ffde037e"
+        },
+        "sample_count": 29
+      },
+      {
+        "label": "snow-34001262",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "fb27cd6a43076a1ff8a12a4b8e9f0f7d9c1cd0377db019ae733b11573207d4e4",
+          "output": "89457646e6f93dfc5e95450a1bb9cdc525137b6572425e19ddf00cdc36878c00"
+        },
+        "sample_count": 38
+      },
+      {
+        "label": "snow-58440102",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "fa2bb69ab9559573efec01ffebc121fb10f24fcc9ab429b8695207eeb718f0f4",
+          "output": "28b810a0194a1238a1558ef0424e09111a01468b226d935482778c49d1052fbd"
+        },
+        "sample_count": 23
+      },
+      {
+        "label": "snow-165952280",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "6f6eff6accdb4d8b5e9267ea1bcc06669972ce93b21392b6ca8d4a535fc91ac8",
+          "output": "f41e0b4fb7c2dd8606c0e49b62963b13bdf43e3d9ba04d0a104f87e50bf2c529"
+        },
+        "sample_count": 33
+      },
+      {
+        "label": "snow-181361926",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "caabcbfc6651fa56320a876610a14991b35bf85e3a2a63548b478bfad91eb922",
+          "output": "fa22779217514064580bc0bc2a4b7247f6f2585a11be9e7edcab4a3bcf872316"
+        },
+        "sample_count": 28
+      },
+      {
+        "label": "snow-143746074",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "8f5d3c84cb63995680a5a38d44613bed47228306f903ea96129b3432e7b573a7",
+          "output": "e15fb236fee87c76212e7fdebc15f4013b3d0f1ccddb3bfb7d05113a7a40ea6a"
+        },
+        "sample_count": 24
+      },
+      {
+        "label": "desert-76081011",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "06454e5e89126491ef9a9d5cc5eb297ea12896457532b7613fdfeccd87f29bbb",
+          "output": "06fa3d4be9db339c9fb46e8cf1bb60f177c06a91268be25af1f0ca706156e282"
+        },
+        "sample_count": 25
+      },
+      {
+        "label": "desert-39960429",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "9f7184632c919144e90f536de8c7034615a0a817cea9695bca8c70e6e0fc2de9",
+          "output": "29f54ccb73d7e7d95ae1b3057c10f7fa4b13aeccf9bec57e98b6920cd739b31f"
+        },
+        "sample_count": 30
+      },
+      {
+        "label": "desert-68600649",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "8c99c98e65f0823657564b57091297d77490fde369a9d90309988d3c17c9163c",
+          "output": "170efbf904c69b73176d78c59be54ba29ffb33710a1d1cdb2603c8091d54b0e4"
+        },
+        "sample_count": 34
+      },
+      {
+        "label": "desert-157364307",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "fa73a4c58fdf00d92ad83c3b5341929b8a26f527604b674d7e7a2c1fdd360331",
+          "output": "7e26eb679736b0357f3261a6bb10615dd67b9eb421509b3eecc124980a8f5b4b"
+        },
+        "sample_count": 31
+      },
+      {
+        "label": "desert-76080918",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "74e0f307a5bb5ea8e8eb9f21a4613200dcf2cc51bfd5fabacaa1cec20950648d",
+          "output": "3e8a2a486bf9ba4b3dbd1acae13089de7893bbdb51ab2d27fa5a34eb34688bf8"
+        },
+        "sample_count": 32
+      },
+      {
+        "label": "desert-157364313",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "14ab8bd32cc7410b69313c53fec081d4dd89a81315b7a982cdc409b086d9aea0",
+          "output": "b2f300bc221cfd9423367ad8899559c30ee8cce85c28b52dbf7185f997339976"
+        },
+        "sample_count": 40
+      },
+      {
+        "label": "desert-157364309",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "2b5e852abce829dac75bce761f9acf5c79575db3406b6ecb2b09e634272358bb",
+          "output": "7086a768976b04cb79da59d9de3fa3aad77099ddf252c9a4f10b47bab5c3af26"
+        },
+        "sample_count": 34
+      },
+      {
+        "label": "desert-157364219",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "f6268f6b377991220c170b895ac2964ae9a78121f31aa6e635bd0dcce7acbe0b",
+          "output": "3f1bce5aa481f2a2bd547eb0f033d7db802bb902e4bc21c8d7c2a1894165cbe5"
+        },
+        "sample_count": 28
+      },
+      {
+        "label": "desert-143728585",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "0f9cf731e0bf706789be3e20404db5631e6d2c315243935d8e9fad0c57f35256",
+          "output": "1a8b4c9d3e1331af7cb0772f0e1e65ebef811b6438905f12f3219f756298f14c"
+        },
+        "sample_count": 27
+      },
+      {
+        "label": "desert-99777362",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "7e5f994c17a5919ff78b68cb417f68df3a33b2c74755061d3777a399ccefd42e",
+          "output": "83a9a88d3c3e72c93b01bf2104429a0db14ccd1b0b70103a32eb587b8b005cd3"
+        },
+        "sample_count": 29
+      },
+      {
+        "label": "day-city-42835864",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "cc7eb78274aab311b57c356203ba5ba0248ef33410e62e1d474e028c1685fb90",
+          "output": "8c0c76cb09fb6b5ccf8ec876ed04423e67996253d26385485db5f0c39c77f834"
+        },
+        "sample_count": 35
+      },
+      {
+        "label": "day-city-17159882",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "cf14a3ae73ace136f20a9a454986c5e0bd6579f90f40bd15aeb002e033fcb403",
+          "output": "621255594bf3cd6ad7134498bd44b3274f634e4bbda376700ab38d9c6c9578f1"
+        },
+        "sample_count": 37
+      },
+      {
+        "label": "day-city-75970542",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "41061bce82d95bbd12b244ca95ea74efb4324c318af9c32e55eea1a45ae1c768",
+          "output": "25c1ef52ed59c4dad671c3c16f45228ca63d2fc174f09b6edfcdd5814c63a7d4"
+        },
+        "sample_count": 22
+      },
+      {
+        "label": "day-city-17159891",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "3c673607560a22f56b3bbc3c9c91a73880a180a0a1bd77dcd7415728b06a3713",
+          "output": "ee8c1c72af4632d89a632e71d04eccb6c0941601cbca661b71fa991e119d0f3c"
+        },
+        "sample_count": 35
+      },
+      {
+        "label": "day-city-17159884",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "4059eb40b5801cf350f5e9df7f08285fb191faf0d5382a54c691add140d784a8",
+          "output": "9d6925167b602f1546b345c4a4352102bd60c6aa19eeb7d719f019daeccc47ef"
+        },
+        "sample_count": 24
+      },
+      {
+        "label": "day-city-195397852",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "f46763f7f0b4e2f01f8752671f08af4c1f881a4f81de1ececa5dc529d1f00d9c",
+          "output": "8c98623566a4a781c5667d637bcc2e2d39dc86af65968efe222ef18f8697bffd"
+        },
+        "sample_count": 29
+      },
+      {
+        "label": "day-city-91463484",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "46de54e9485a1984fd028442368987c48ac5a14e0cf104dd603e8458085db0e6",
+          "output": "beb6529ee3aad5dd3c1c750baa25c08138a8960c84703f66ef4f29b2e8e35b2f"
+        },
+        "sample_count": 21
+      },
+      {
+        "label": "day-city-145434944",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "21685a7857af4d55d773c8d74f401a4dabd6743b104f5c7c484c4f1b04d36515",
+          "output": "ad50f2b687e3291d8b0a744d7a84149c7234170a867ab1283c207cc68ff78f80"
+        },
+        "sample_count": 32
+      },
+      {
+        "label": "day-city-31793119",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "0b018d2e2b02b24cbcd30d0ed92084ad7684211f68dc860a259e9f7fe369cbe3",
+          "output": "907b51aea1c3d767f49a110705857041587f9cb17da37fbddcd6375cff0f15ee"
+        },
+        "sample_count": 31
+      },
+      {
+        "label": "day-city-45449967",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "ab3519094f81ee2f502641d74862ed9340c5006e91cd21fb078352e339490946",
+          "output": "fc69d50fcadb66f186b78ae6adbcbe218c01ba81869ba0e1b9fefa6b6f736167"
+        },
+        "sample_count": 26
+      },
+      {
+        "label": "night-city-154551238",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "e53cabc7c34fbc7f6e167dc60142a12c660b5ee7fcf6ad4a18913cdccf6a6e32",
+          "output": "c1caea518200a50a4f9acf341e9619e7188948e9886e2d9cabf8389bde3de7db"
+        },
+        "sample_count": 25
+      },
+      {
+        "label": "night-city-106140115",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "6a57575e8db2f656d34c029e16fa05d32b1210781d6670d70766c510493f7359",
+          "output": "d2945927108eced299df0836328ca65f6012e66ae8bbff59ba03990640716976"
+        },
+        "sample_count": 43
+      },
+      {
+        "label": "night-city-71849479",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "dd2ae16af0250a030725ce3d29379ac41451589d84e18f38725d45cbfb7565ea",
+          "output": "cad1aba5d44fc092d69405bc8120593047a59b6559aaf4850fe2ec4468608a9d"
+        },
+        "sample_count": 39
+      },
+      {
+        "label": "night-city-149816871",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "ccb8b4f8fbcb48c06ce0e2c83013ed14cb3192bdf7a4a01b59a8128985da4837",
+          "output": "fd6c66a231aad6ca120633f1614b7c1735ab4c06e63b7d26434bc5c4fc7421ae"
+        },
+        "sample_count": 37
+      },
+      {
+        "label": "night-city-88071543",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "ed5baa02f257f32da002715a1ff9e3348b3e07b665d2cf62f9834134eb78473c",
+          "output": "beec30f4e6f76f7c2b74d28df34f59b626b49c3d3a002cbb2c86b603ea3870e4"
+        },
+        "sample_count": 37
+      },
+      {
+        "label": "night-city-70198535",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "9e763d44d5d8d263f3d9481c1cf89820a9a7fe660b1f99848756f4cef3a820ce",
+          "output": "a9281bf8315fe0060a00e3aaf4e635c77d64e08b3b5f853c1be8accec1077939"
+        },
+        "sample_count": 28
+      },
+      {
+        "label": "night-city-127566170",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "ac93675ab5edcdc5fb83ed5ac74d97ae38ffc5e994eadf2a0e9477ae295942f8",
+          "output": "a647940068e6833a1881e7bfabd158e5d42d5a659d4b87df987c89a30f0032e8"
+        },
+        "sample_count": 40
+      },
+      {
+        "label": "night-city-67001711",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "f521c42782eb13c09c700af044e293810fab278140103bdd8d1afa3dc408c812",
+          "output": "4c5d9d0e613dca987df43d2f5a7e7fe89a67bd6e327af3d8f692bda0cccbc41b"
+        },
+        "sample_count": 35
+      },
+      {
+        "label": "night-city-48526927",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "774e1eb2338f49a414a3d3cd93f2539b46bde8d3bd47fc54df1d11b5df2066bd",
+          "output": "36b7b4fed91aaf33229fbde4dad12614980724aa1bb5bfccb93318dbd6f8128b"
+        },
+        "sample_count": 17
+      },
+      {
+        "label": "night-city-157906399",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "9f48dd6e5ed2db1d43228cd80b9613b94404baa2031b2fc3a251ebc0de17d1f9",
+          "output": "e387407ab8f96667de5cedb38900baae66281aa5d0f4a7592e7b63be31e127a3"
+        },
+        "sample_count": 33
+      },
+      {
+        "label": "stone-125700894",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "b13fda9f52d267e52243461c0a90eb10292fc2ad90a33fa314f64426e8cd98e9",
+          "output": "c3d18afcc5e8628e448fd3b40e6bde62529040e385813e054537a8b5ee538fbb"
+        },
+        "sample_count": 28
+      },
+      {
+        "label": "stone-133070854",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "b4a6c57955b628ffc1e91212498ba4337ff92864180f64cbd26ae5cc2052c078",
+          "output": "01180b6c0b2503dd3324627a817a2e7e5142f036ad40451e0b1424686d772107"
+        },
+        "sample_count": 31
+      },
+      {
+        "label": "stone-133070853",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "ad810c8c3041b93a5fa4d92aff8514463f4718a9a89f19fbb836c2b131c9ec50",
+          "output": "80b1fca19c809785b3f99d33afadf1432e5709b148ff04f05820ad0e4db4a3c1"
+        },
+        "sample_count": 27
+      },
+      {
+        "label": "stone-133070856",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "2e2caa30402486e58a643ca6632c6d0b3a5f54857f38ca79275e3745b9a78270",
+          "output": "097b62ccb75e8d908f984a15754de9949e1b7105fb66c700d0dafd0b683b7b9f"
+        },
+        "sample_count": 29
+      },
+      {
+        "label": "stone-133070855",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "bcb860e9a1dadb8b466f31665fc507d36a54078d26bcecb29ead9f254cca96b4",
+          "output": "1a8a25572b100eba0770c25e82b8c07f029b6343fddcec2c4c5e39994938218b"
+        },
+        "sample_count": 32
+      },
+      {
+        "label": "stone-51296337",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "831a4147d0262e1ff35a8cbfce8cff84bbdcf236fb2199997e8aaa7fc3b72f63",
+          "output": "72285637e0fa65aee75b6aec4b00f007fd74ddc4a3aae7809c2d13bc9e42db4c"
+        },
+        "sample_count": 24
+      },
+      {
+        "label": "stone-4471782",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "5c21828d11106a3acedbaef0f1470f9bbfffe2d9eb079303eaf2314b95434f1a",
+          "output": "c992da70db252d1aeb51b8c31671e9c15327efe46434715ad0aee7de4c9f33be"
+        },
+        "sample_count": 30
+      },
+      {
+        "label": "stone-25741840",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "d1e535b906c5b6755e54e1a6709ebc3b03e28188a0b637471f645ad8f85e0334",
+          "output": "1bb38359c4f1cd886c96dfd66c880b47d3d85c6dbf97052215dd63c49cb05f1d"
+        },
+        "sample_count": 25
+      },
+      {
+        "label": "stone-115434678",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "94c9349efcd4f64bf26d52dad4a8b5f54a5ab2c0bde4b31dad7bf9a1ed98798e",
+          "output": "a0e29e73e8eebcae5d3b88d1647b963bd2291f0cd2db7c1a6261766b1b2658df"
+        },
+        "sample_count": 24
+      },
+      {
+        "label": "stone-3132944",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "88d930af0ccb1f5e194ea460e66753944bc3cc6e11e90ffd5b11fa4f098a75a5",
+          "output": "4e50a75c8b461441d9561bdfde4d76af551441b77921ca523988732dc8c2e0d9"
+        },
+        "sample_count": 29
+      },
+      {
+        "label": "interior-15594829",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "64c4e10f393133a326ab56582cb7235c8ba3701d4ed035812584ff82f1ef91ad",
+          "output": "8cee0409eff38a18316f1674bed2aea0d67f0d57cff8031fdd9b323bf18d17d4"
+        },
+        "sample_count": 31
+      },
+      {
+        "label": "interior-99447135",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "4baabf614a8211fdd936729b6a3332deb9e9677a8183c8386d7a9bf629a35ccc",
+          "output": "56ec810a6be8109884ac06b47437ba15f9ad14239a79d884165ad941b3476ac3"
+        },
+        "sample_count": 32
+      },
+      {
+        "label": "interior-107334827",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "e8ca544a5e4ab7b65a368167cfee33b2ca2dde822b8b14ce190ec51c072cbdb6",
+          "output": "1a6b546d8ac7dffc1b61a99f47246fb3daeb27e7491bde39cb090b33d3bfbde0"
+        },
+        "sample_count": 21
+      },
+      {
+        "label": "interior-107334824",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "3e53f1867a17d492f22c525ea77b693030a3b539ecfa9400409870e15de542e8",
+          "output": "cc370d99c9ba4b204dc07f2413e2fcaf9f394962b88d38c4e984567241796c04"
+        },
+        "sample_count": 30
+      },
+      {
+        "label": "interior-107334828",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "047396d05c555001f99f4a01b954696956a53b5b4cac76c637533ff66a0f6605",
+          "output": "afe43e54228fd2ac670b5c926f295771d1dad9e0cde03376f2b98b30b5ff36ef"
+        },
+        "sample_count": 30
+      },
+      {
+        "label": "interior-117539523",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "f2dc7901a4cc49449969f3b54d573def8665cb4ef8c3243e81126d29a7012196",
+          "output": "f1259c0cd31c4f3311e6ebda102fca76cbd89ac7a9aa3b782e7b8d5b41e6b1b7"
+        },
+        "sample_count": 26
+      },
+      {
+        "label": "interior-30832229",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "0329e444caaa6180d4f9144caaac4f3e8423be152525807604e35ad5658f0af8",
+          "output": "0cbd60b5907dcee039bbbfe85c37ffc334646ff9d2ea08f706902d8c1531e2e2"
+        },
+        "sample_count": 38
+      },
+      {
+        "label": "interior-108896056",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "3bbca8747365c82453dfe778bcaa08aa2fbe7c144c5b17ca2918ea93449a5a09",
+          "output": "a0987cb7dcaf4f47b5ad59c56bd479b7b95f5345c1170cbdef57c47c71d3887e"
+        },
+        "sample_count": 23
+      },
+      {
+        "label": "interior-117106307",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "7c609bcdf0a2659e944a201b0b7b23d3144bc1dd06b86cebfa54a4fa150debc3",
+          "output": "c906673179c10a418bd88ae2009f666c7ba116f60281940ec3089b124d50c894"
+        },
+        "sample_count": 29
+      },
+      {
+        "label": "interior-117123347",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "256dabf526cef75e004ca71621420a11ad97ec7d3c2280a3f168ba0d163b5f1d",
+          "output": "d6555313f15bf661c633fdd22e996bedf3ba6c4f42a6fc9ee62fe7a2ebded8f4"
+        },
+        "sample_count": 27
+      },
+      {
+        "label": "ornament-4118369",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "0be833bb4afde61d10764e7b071401cec5a25efe3bb43d6a46c6c71ffcdeb24a",
+          "output": "da1c90c9db34c7785f1dddc4da1f8563b1d1d80dd4173b6ee92136c5aed6a742"
+        },
+        "sample_count": 38
+      },
+      {
+        "label": "ornament-6256281",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "b45d0a8d2e04d8ac39d173a13e1689e0793b4e1a0fea4d4c10222a3ab01b88bd",
+          "output": "155d4596f75635453f55a626b52c3e62571fbf21cd56db999e4ece3111cf8497"
+        },
+        "sample_count": 38
+      },
+      {
+        "label": "ornament-21611001",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "ee659975abd2edb1557feaa6885f4ac713c8fb7a8e1a245026aa3b4b9aefaf03",
+          "output": "7fb0832a8a7b8d4c5885ef40d0539c7a1a7bc69c0872d699d97212c9c910fd7a"
+        },
+        "sample_count": 29
+      },
+      {
+        "label": "ornament-51142948",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "bab95d94d16a4b8293ae11e107c024afe9c4750a661c99df7e57ee2f4f3ceb09",
+          "output": "713b4d55f619974d15e6a02c0c2430e68205132a62ed275bf143f40a2ac01442"
+        },
+        "sample_count": 31
+      },
+      {
+        "label": "ornament-134785401",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "809383c908dcd8569ec28a6cda84778aad57337ff689ee91aec10a0e1a997c7d",
+          "output": "18f07751cbec0bc021bf38ba17b12602ed7c0e587bf57ec5c62cfe61b55f21fb"
+        },
+        "sample_count": 24
+      },
+      {
+        "label": "ornament-25862061",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "b36fc6acf027cb3efc82e798a2dec4567dbf35c4267a634ab0b6e558d5a3c431",
+          "output": "4a0c451c8b84880b207f4e13f1e04894fa403621b61c3e072767e9cd5ba04a58"
+        },
+        "sample_count": 29
+      },
+      {
+        "label": "ornament-17281185",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "abeb655d03c684a569e89ecfae1beead514514f24ccba8ad4aac068e93773cee",
+          "output": "25a0211ee153301acd984eba4dd3a4c3585a9586ba8b9e9a6c4085c80faa4c84"
+        },
+        "sample_count": 32
+      },
+      {
+        "label": "ornament-29319572",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "b8b1b497db442c4a996ddfdca8374f65c0778c5a502c50db7509d2cf603118b8",
+          "output": "442f39bc42046dbfe1590915ca7dd571f5d179013cdb8d66e9ed9ee4ef22adea"
+        },
+        "sample_count": 28
+      },
+      {
+        "label": "ornament-21740492",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "787ab992c830b7d981ec57868dd77b207155dbbaac428f04090a3b22b09f715e",
+          "output": "89047a1940cd55408f05ca9a4e3b01e6973d985b6f32045a61b5c4700fc8442b"
+        },
+        "sample_count": 32
+      },
+      {
+        "label": "ornament-28769088",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "1c1d1f595c52ccf12a68a8ddba48ff4c432bd4051f68642de13eb4ba375b8793",
+          "output": "add03dcb7c3bf1441933141679ffb30ff410475aa2be007f1acdb3ab83e6ea1a"
+        },
+        "sample_count": 26
+      },
+      {
+        "label": "faces-6057325",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "8637cb26c4fbdc9053968b1f7df0ded4b06856b5750b31a9de44099c47211d0d",
+          "output": "2a098f7e3347e8a44a3f7eb50348035429d7479d1329eaf3322fbc8bea958f56"
+        },
+        "sample_count": 15
+      },
+      {
+        "label": "faces-20939025",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "d9c5ecfdfef3cdf17c2468f8177a07997978101122137db25f549ebec670b653",
+          "output": "06c0791746db06afda0ede05017c503ebf7cd46d34dd5de70db803d9037f94d6"
+        },
+        "sample_count": 27
+      },
+      {
+        "label": "faces-128315098",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "1f3577f810580c890b8caee24fcdda2e48c5f7f1fd461e5eb1a100a9e75eb5a1",
+          "output": "b3e7f5cb7a81c3dc37e17a35ad42220639534ab88644bdee7afe726d03b64991"
+        },
+        "sample_count": 36
+      },
+      {
+        "label": "faces-5039891",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "bffd93059d337d776cbcf51fa2d2b7693f16a7d3091058a8fd26ea03c7f149ad",
+          "output": "d29af58279343cd7d4e8ae7ec139d63d505f51f3ef3db7e114fc91fece122ced"
+        },
+        "sample_count": 33
+      },
+      {
+        "label": "faces-176130300",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "f8b97c84ed46b820ae90e0bc39c47f12ab90b49905cebb6ddb0e9654e322574a",
+          "output": "08b84332e0a3a363918aca192bbc86af492ed1e25dd30cdfba126889c574eaa3"
+        },
+        "sample_count": 33
+      },
+      {
+        "label": "faces-112753799",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "71935ae74c69b4c1c66428a43d6b65265b21aab4d59b86fb18c457c374d994b0",
+          "output": "8dbe3d2ed9efddf82c412465902edbd061d08ac39e624eee2e63a6e5b88445a8"
+        },
+        "sample_count": 18
+      },
+      {
+        "label": "faces-50456574",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "633d8a96930b7263ebe78dbda39e23093031adf36cccb9b55b673237fa0eb15d",
+          "output": "483982f272a3576a64b2dce01966c42091b697acf9e87692091291c06e1c37d1"
+        },
+        "sample_count": 30
+      },
+      {
+        "label": "faces-50457146",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "ac3721734a09ec6f19d3edc27bc8484cbde085391abc4f39745a88c0a4a6070c",
+          "output": "95b96d6b640a4c0e7244917f5dd7515ca32b966fc91add66e26a87e4c6bd79ba"
+        },
+        "sample_count": 36
+      },
+      {
+        "label": "faces-10465667",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "f9b49273eca9a1d82769656948dd3ef6a9ae2b43f753a13e7215307f07885b83",
+          "output": "050addcab8ca02ad54895bbdb2c0ce743fcfd6af3c5c2fac036b6290da2c208f"
+        },
+        "sample_count": 26
+      },
+      {
+        "label": "faces-14942170",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "feda0c8272ea60943c8ddf6189fd793726c8f23808f18d73959f2d3fa6a0b41a",
+          "output": "b722d2dccf91a88c402d0c9cabd7641ec39584d456ba754264ce8b0c79b5d325"
+        },
+        "sample_count": 28
+      },
+      {
+        "label": "people-80100676",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "012f8a8a404c74a954b7b556fbc515938a5244363cff6f14a47e1e0e514e7a81",
+          "output": "a48024d0ebf24af6da3e3eeb3ed5215531f176ec962ab56e731aa75224e70d41"
+        },
+        "sample_count": 39
+      },
+      {
+        "label": "people-58700923",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "3a8566c946a37b2164f4db769a71f02dbdac0428abb6990053a54f3b0af447b2",
+          "output": "fecaa6e5045255d63fb73f6cc4086a83ecb343b8c7c379694ae8555724dfd9d5"
+        },
+        "sample_count": 44
+      },
+      {
+        "label": "people-169378050",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "4bfb0296e4cd166b55b38b9d52297dd6e25ad15d6bae5d7a141bbf6feb2df6c7",
+          "output": "6af583f1911dd6fb229f43ea7a172570b5d9221ccacfbcfda66f60c1d2007a8f"
+        },
+        "sample_count": 31
+      },
+      {
+        "label": "people-85708269",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "f9cf126ec1cb0dbc5c4ee7c5af3eab26662f547c4940ef23a4cc9ac6884922a6",
+          "output": "f1ea618d2201b296fd4f634f5855302d9cdcf6525002f9a08feb2a285c3ec4f9"
+        },
+        "sample_count": 38
+      },
+      {
+        "label": "people-169822587",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "ba78e9b7eebe62cbcc53b20b82fae8b3b2896784b1ba7f34ad108ac5cc34a1d2",
+          "output": "ef520ba5c79b699aa0fed9b5ccefb38a9890062a9d401aa90e3f704e60c0404a"
+        },
+        "sample_count": 24
+      },
+      {
+        "label": "people-71255208",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "36c845b64bd40d9bad67896902f765a84d396dd79a19e17b10c8b25e8aa467bf",
+          "output": "90c5ef22a5681ef07ba066729a32466ee765ccea9f9ac5d2c683bc6968d8edef"
+        },
+        "sample_count": 27
+      },
+      {
+        "label": "people-73852634",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "cc4059f50128b45723f192763699d32e571c577058ee86a29f46ee7d03e7f431",
+          "output": "1a87161dac186e4fce11a1507cd45ebb32550b7c3924e7133305198c343476a8"
+        },
+        "sample_count": 29
+      },
+      {
+        "label": "people-71256187",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "6eda452b600bc05b2b7e1f739eac105f78ab36264cf29b7936cb1b5ecac7fc65",
+          "output": "214a2552dd2380dd417b1882fa3fbaf7b53dd6a71c54f9beab55fa7e65bdc4d4"
+        },
+        "sample_count": 30
+      },
+      {
+        "label": "people-147948328",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "b2a057c03695958a51d2c8f58abaabcdb65a969626642c3dae55c17e78ffdd9c",
+          "output": "3a70063e543c5b6ab03921da45165bcb7b4f0057b22c9b8e0ee152cf2831184b"
+        },
+        "sample_count": 31
+      },
+      {
+        "label": "people-71255722",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "62e41a4ff6379fb4902a20847c5760a7c3310bc9ca91c4075dac0073ab7611e2",
+          "output": "db2a9f10293af30b872e7acd05bdd51a3654413688985d240d8818afdb899ccf"
+        },
+        "sample_count": 25
+      },
+      {
+        "label": "animals-57573933",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "6f38c3072cf394ed9d8ba7793d1a0c2f09cdebd9e7b5c5f10236caadd0fd2b48",
+          "output": "207c50553fdb3c29d8f52261ee8faec0bf1fc0d9827b5e863f79cd0f5775cf9a"
+        },
+        "sample_count": 29
+      },
+      {
+        "label": "animals-57573954",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "72194ddc3d5305e25076c92c08877dad950ef5eaad55f9f6f117be3117027070",
+          "output": "2d3286c4c61957585522275f3997f3b8c8f3c0ce2d9c04d6e8a16667e01b3d53"
+        },
+        "sample_count": 34
+      },
+      {
+        "label": "animals-91523013",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "d4c63c3351f6f17ec500cc940336a30c5fcbc4ae403fa2a7ba157633e2a84514",
+          "output": "6b02e2e8636fece411744f563f31bc87206091d0b9a161255defb981c8137bd6"
+        },
+        "sample_count": 37
+      },
+      {
+        "label": "animals-11774208",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "96d57e1edb2d8d309540301efaea460a9408892d40b961fd8422d7f8c5702a08",
+          "output": "b0c9194f520ca1a339fbc80393ff38ee0028e94aef6de42ef33e80ae2770d50b"
+        },
+        "sample_count": 35
+      },
+      {
+        "label": "animals-117877234",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "f0d2379a8f43fdf1c65069bf1012840788d7281480fa0ed745fe844ed4375b3a",
+          "output": "b5ed50e20fe700fd5d5d59f77d1cbb6a9ce5e5b93ab6df13d641a4ec7a92b8a3"
+        },
+        "sample_count": 36
+      },
+      {
+        "label": "animals-7302610",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "7df35640cb9851c30ac82e47ea5e66784dddb470ff25be83400872863ed88e55",
+          "output": "9708e3ddd34b774dd17c03af19f0fd2f36c884b088e29f63d6e52d7558a31ae1"
+        },
+        "sample_count": 30
+      },
+      {
+        "label": "animals-14891723",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "91e1eaa0b4223bb3267676cd3d07473f9110a2706795bc391e7e0651be6b3497",
+          "output": "ba92c6bbba5f7ac3c42479a4e68d9c7c92046ce4c495ae9d87440fdf923f01bf"
+        },
+        "sample_count": 16
+      },
+      {
+        "label": "animals-67476070",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "f1f4a3e5e021ab7aa13b219502d1f02b0d6d1402fb2ee6b5ff4823d8e6443ba4",
+          "output": "8162748117f738724da33a0e3c314c6f87442ab426ccc5e6eba7450578114a8e"
+        },
+        "sample_count": 29
+      },
+      {
+        "label": "animals-61205142",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "0b20d7d1fe9137c9f7d5ae6cf70190638a11bdfe9c112f1a0c7f6af3d976e0db",
+          "output": "f44c10c6ab720f6d31f89532829295083e38fafeeaea212027fa08b411be39f9"
+        },
+        "sample_count": 34
+      },
+      {
+        "label": "animals-136623172",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "f8c2d82b056603d7eda3e458ad522b8156004755da0bb2c2cade9768022082fd",
+          "output": "e2f08b0dd417540ee69fe5af8fb9fa283b23546b0a9ac86c49ae904e7f8fbe61"
+        },
+        "sample_count": 21
+      },
+      {
+        "label": "flowers-90130673",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "3fc2df94c7b56ae2e1b1c2c89cdbd81385cd61c6a4e6662bc595646aa9734725",
+          "output": "5644e667021d626dd3896f3a4ad35af4bb3089e2dc54ed381c98fbd87258b3f5"
+        },
+        "sample_count": 26
+      },
+      {
+        "label": "flowers-180993779",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "7c010485d584fb839c7a165ed6f8171aa57c30d431adf80c909b2e05bbf70348",
+          "output": "c846b6ebee2ab40f8ff2c19bb81fd9767106b4dc79df170fd5f30f1682ae0a3d"
+        },
+        "sample_count": 38
+      },
+      {
+        "label": "flowers-171240586",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "a02b3dcca14c68408a768fab5daa07ccab67353b778729e6056c0e74e14102c5",
+          "output": "a43e559dc57ead53fbcd017ecb7904f45ff4af98a2d2628db4da46c94b2240ef"
+        },
+        "sample_count": 29
+      },
+      {
+        "label": "flowers-90130676",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "5c39f855e20cffd4109d378c4d87d0177504108ec872af6f9d998aa94f08b0f3",
+          "output": "0a3bd784bbde5317c932dcd65d2467c8533de4e9cffe9e490bcd41ef1300ae03"
+        },
+        "sample_count": 33
+      },
+      {
+        "label": "flowers-90130692",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "e58a6c83c49abab88d9488ed18034f67b30d1fa0f08660ffc561a1f8a1da2e1e",
+          "output": "d1cdbf07915920ab8794f3ab94fb0d9ce5af399731bcebaefed87f2300ad02fc"
+        },
+        "sample_count": 28
+      },
+      {
+        "label": "flowers-90130677",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "8ba5fc61cef026cc8edc494be4f41c0d3f20862330db4a1c9cd28df19968bb47",
+          "output": "81dc0f10370bdcd580623c8f1f866fb95bf0f03b1e786b812ea20102a42256e6"
+        },
+        "sample_count": 30
+      },
+      {
+        "label": "flowers-171240623",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "7855127886ce69076187faac01cae37485ea9ad97e4808a0d29aed30f1eb8226",
+          "output": "3a2f145db3977c1b702dab5134438959217973762cecab3d89dc1bbc80378c57"
+        },
+        "sample_count": 32
+      },
+      {
+        "label": "flowers-163513223",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "1a40c0f6910ffe4df36524d5883333111af88c7eb545ea685a7f1658b4f97edf",
+          "output": "842a1ea4e42ba2ccd6116cc613b44b6b61473049fa423eb662d78973446c583d"
+        },
+        "sample_count": 21
+      },
+      {
+        "label": "flowers-163513222",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "dba9402ea1c12767254be0cf8455c4a93bfa94bfc54fb93f9e4da9f914962af4",
+          "output": "7337149ea4dea4062c1e6d783a58afe520cd11f62c2b3b26e9b3f994e2cebad4"
+        },
+        "sample_count": 28
+      },
+      {
+        "label": "flowers-163513211",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "50d30a091767a07a65dba96d123c3a8f4c00efbc98993d000ef076eb724807cd",
+          "output": "1112500296153f78d4d47cae7d007f1cf9556f3ff16a38a1a487f4c8e2b334fb"
+        },
+        "sample_count": 31
+      },
+      {
+        "label": "reflections-11509256",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "41832478786228bd23be3c325abb8af19ba5f3051980443c51cd77e0df17f663",
+          "output": "78791ad3f12eb1913c055d8d704fd309268d70ffe5addf189c0ad55937c8b960"
+        },
+        "sample_count": 30
+      },
+      {
+        "label": "reflections-132626882",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "3d2b049b33f7390926d42334282193f4144064438a8276a2989d1af546a6f906",
+          "output": "643f85db1046c58e3ef706654d02eb096e8ca23472887701084df439c04046fb"
+        },
+        "sample_count": 27
+      },
+      {
+        "label": "reflections-131279551",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "aae2570126d37ba2bdbf1fa0516c7b33e319567044ecffbc3a8ff9df23ce5e87",
+          "output": "4202c199282b340881cc030a193affd4e03d16231cf86a17304a9330d180b563"
+        },
+        "sample_count": 27
+      },
+      {
+        "label": "reflections-72021745",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "63bb963f20787d295470b414742491f16840ed3491ee3dde0d6a257142663f73",
+          "output": "f8c164b301468a7ffaf626951a449fdea508460db38b72ad478550cfabdb4303"
+        },
+        "sample_count": 37
+      },
+      {
+        "label": "reflections-185986386",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "dd99041f97c070af261fd785ffe625ebd31da80b7640f5bea79217d4f05c4a33",
+          "output": "bf84a0e296ac632971f869b7539c926317cc546c4c8f62b00a47a8cdcb917313"
+        },
+        "sample_count": 25
+      },
+      {
+        "label": "reflections-185986391",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "efbd27558909626219d21a82114011b0ac7768a8d724f11244152777e4faa4ad",
+          "output": "8069dc4f9d827956c84972e7525292303898d836aa7a06435f7e31c2b823ff63"
+        },
+        "sample_count": 31
+      },
+      {
+        "label": "reflections-26730717",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "eac916e91fe24067d573ae472240f08211642db458bb8f2e9a016626c0b93cb0",
+          "output": "12c35e82b10f9c4eaff93ffd1eedbdddba8c6718e6c0f0753758840a196a643f"
+        },
+        "sample_count": 37
+      },
+      {
+        "label": "reflections-64110913",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "2b5ce59a90376aed7a3aa4fba069668dbcd29bc0f7d8f35ff3687589fe801eff",
+          "output": "76e6899c527ca6b27630091232b177d075f7c5f15a49ac39d23926ff06b47573"
+        },
+        "sample_count": 26
+      },
+      {
+        "label": "reflections-26793822",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "906f76614104b55a7045467254aeb9dabbf353c9791f908be9dca6d957302ca6",
+          "output": "a497a35ba60432c61fd202932912eb66da532535f3a06e5c27a0b16e8d42dd3d"
+        },
+        "sample_count": 36
+      },
+      {
+        "label": "reflections-12457651",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "d437ac30cad1d2fdcdd61a1b8ee07799fdda8acf6b10892bed586ad2a4521064",
+          "output": "94c696fef0d4a0ec41f620c9f42c7e88ee7533fb1b858397cee3a8651562b1ad"
+        },
+        "sample_count": 27
+      },
+      {
+        "label": "metal-8238561",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "4c9114d4d376a4425462c8d8514c87114eb9add8cd0bb51643a32fb7c158b1cb",
+          "output": "6dc81bf98e0b8cd140a727271b7b605e84e341e36edd76fd954b0938557868ee"
+        },
+        "sample_count": 25
+      },
+      {
+        "label": "metal-61776879",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "ca89ad8e9f36da7bd6184ab869000b1e7a1e8f1a8e8850295827a098f63894f6",
+          "output": "fdd82f4c4e106997f6d5f80a810dc4fe3dacc49263a7f1fd7c0664301c5498dd"
+        },
+        "sample_count": 30
+      },
+      {
+        "label": "metal-15099456",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "82d831ba9e37c7d446036486877777087c8d5f12811cafa3019720ae626ae917",
+          "output": "138610dd92b953573a6cac6302dcf5a52a2b57433507d37a573e87969ec6640b"
+        },
+        "sample_count": 33
+      },
+      {
+        "label": "metal-26666139",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "400aab8d77d7b6b2e6d6db3f1f36a1ecf42132f335d4b8ad9486236c0f960cc2",
+          "output": "b653a718ca46e7085ee9925dc9f184db95b68135f4b6509fe3678f7f83937fd5"
+        },
+        "sample_count": 34
+      },
+      {
+        "label": "metal-8222701",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "400af948892508285b28d67f668c0e7f7bc256175ed4494f1610cca8ed74d785",
+          "output": "1a6d32ea45404cc078d32081fd5c5af7379382703ef4114589765525c5da863d"
+        },
+        "sample_count": 30
+      },
+      {
+        "label": "metal-26407330",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "fb660d5b80d2eea29f9bfa221a05e07a0c935d1e08f49c23b22688f242464e5b",
+          "output": "12057774499cf22536d8a252cdae1e320d6de19ed23c48ce34079915f4df9581"
+        },
+        "sample_count": 25
+      },
+      {
+        "label": "metal-8205251",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "cf62dbbb9aa8322decc8daafb728d459072a4d19f313d929cc01bac3d684ba06",
+          "output": "6767fe504e957cba6d8e825024aa14602226aab3accdb7fdabeff262e9bfe62d"
+        },
+        "sample_count": 21
+      },
+      {
+        "label": "metal-51163320",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "5c69e949ab21af2069ba3811d175d59323e891f7c227d375836bcf804a33043b",
+          "output": "49033b8ecd5c55e48597513b222d0afd3389c75231e4b57a858671e149ff69a9"
+        },
+        "sample_count": 30
+      },
+      {
+        "label": "metal-179962158",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "8b3800896b792f67885e2df813464cf9552b9ec1245d4d1b958358e4ab076d7c",
+          "output": "fb4f455b7e3091078d2ce91c01596c7b14aa140639856b77adab8f76cea66581"
+        },
+        "sample_count": 29
+      },
+      {
+        "label": "metal-30853483",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "1cbff62d8fa4b88b379adc7718852f358db00464430253b18f7b85d77e1437bb",
+          "output": "7faa3fc5420422d351345ea17c5b64b8d4ee520997aa0db0e728ae9b65d521b5"
+        },
+        "sample_count": 23
+      },
+      {
+        "label": "sunset-179847634",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "df332324b6e11cb5ea60586c3a78cc00dc5dcad8cc52a1ba38df1f3514100c03",
+          "output": "9fb51f879aa68614e741c8583051e2ef3f0f61b48a3ea0ad2f1221424ec6ac4d"
+        },
+        "sample_count": 39
+      },
+      {
+        "label": "sunset-2830825",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "bafc1abe596e72b106a2c16beab00f7760cc48c00fd3c1040c1366061ad71df9",
+          "output": "219e8e869fc4ed070b0e027a5c8bed24ea77af25df15bf4aa02540d91dda5887"
+        },
+        "sample_count": 35
+      },
+      {
+        "label": "sunset-91468874",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "abd7d8435392e921188fb6a7d44eb170ff22e5e17b690408f4b81bc1c5315243",
+          "output": "65e6e3f12d05847c9c0aef3d5966c0283420d9cd15067bda911315b045420354"
+        },
+        "sample_count": 29
+      },
+      {
+        "label": "sunset-92827662",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "532296a99b5990bbbdcda7d7c523f354932af138ebcda62551f187a2158c1d00",
+          "output": "c3991cf7f12216ae5893a0c5a0c244655a94d1a6a7e4483ad2f31d78f2e65be9"
+        },
+        "sample_count": 26
+      },
+      {
+        "label": "sunset-82225427",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "d405a66f026f158e31beea19b162c845bff40702533577c300fc588040e2ed86",
+          "output": "e78060c623e3bddc6fea0772ffde41a4a0b3af29ac92c9df28e1e7ae91dd5f6c"
+        },
+        "sample_count": 32
+      },
+      {
+        "label": "sunset-94672550",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "70f8d7a578d383eab6bc5c1da6d8610a615a7f858b78a60ca07e4dad29e3862e",
+          "output": "125c46713415a6ab46ca618f7ac2193830dc56b5e00bc8e18b3712f29e2ae1c7"
+        },
+        "sample_count": 28
+      },
+      {
+        "label": "sunset-196122047",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "2e134186adb27c638e437cec6bf8c118d5fcc9fde6a6a951a1f2999a4b9f3c17",
+          "output": "495ff4482074183ac6d9a3cee5147b605ee34d4c2b343e343d9f4066dc241caf"
+        },
+        "sample_count": 30
+      },
+      {
+        "label": "sunset-45529574",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "94b2b794a22b8b64535df32f58cca587b8a78f7af6c9f9112fc32240162333e9",
+          "output": "e35a0d219310509c55c0f4ed790db3ab9358b3f16b64a34aa2d23a5193ad75eb"
+        },
+        "sample_count": 34
+      },
+      {
+        "label": "sunset-27551034",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "2a84451e781525dc79f76db6e99664dc2387316b78e636e85ef5f572622a41ce",
+          "output": "b4d8b17334fa47cb19cce34e7686b7fb6ee482806a397e61a49a51bbbc69b0b1"
+        },
+        "sample_count": 19
+      },
+      {
+        "label": "sunset-170412810",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "294254df4ad4efe976bc7faa851ce4c9c72647e4e2bc7e439e88f5a9febcdedc",
+          "output": "10c6659e12754779990f13bb020c08b649adc310efa07be0d6493b31d53db3f9"
+        },
+        "sample_count": 20
+      },
+      {
+        "label": "dark-60503841",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "fdeba5d902918a07f5a0941af171c1ccea12bc0e61095cc1cf70267ad333e760",
+          "output": "35ed214089e6fd6d1f9eba7c5a944c2c764faacd4dbf92ef8284b318474f60f3"
+        },
+        "sample_count": 27
+      },
+      {
+        "label": "dark-108249591",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "efac576639240bf0262d03b1140c3f55f2f79ea9cfc3ee5115bd3bc3a808c73b",
+          "output": "693b2f75fa169cb15e40fe8c58131a47985d08e5888db2847e5918857b88dbd1"
+        },
+        "sample_count": 22
+      },
+      {
+        "label": "dark-117178564",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "99ad12ec5c2e78409e79e5e309d0c01af910f1ec65afa281dc061e2803bee618",
+          "output": "6e935ff946c3adca22d8878751900e44c6ee127c22ed26fc87084b9c78a741b3"
+        },
+        "sample_count": 29
+      },
+      {
+        "label": "dark-112208213",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "9096e7ac819128b4f5359bc1c0474236f88a8131e6155c26e3f463509af10feb",
+          "output": "fb1149e0e89ad60ca1dfba99b6b77d06fe30579fdb33d32aacc7c3d5e08efcf2"
+        },
+        "sample_count": 35
+      },
+      {
+        "label": "dark-73553970",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "e1b29884c7d3f584dfeede9e675e13dc965890245d551be9fd6d35b2a4e4ba0c",
+          "output": "7305b963d3a65eb8ad1cfef01b162842fa609f86bc3e6c47fec55ef8fc48dd92"
+        },
+        "sample_count": 26
+      },
+      {
+        "label": "dark-64160881",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "07a5304aed74b88339f569f949f1d5d011cbbe0d57a33b4ea303fe82b8d17e4d",
+          "output": "9d0c8699345af35f8aa4943c1855664390cebba9d980ed9451a26337a9c3b3b0"
+        },
+        "sample_count": 36
+      },
+      {
+        "label": "dark-73575246",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "75cbd5804c0a895e68f71eb24d0371ea0c928db8e7213f99c77b84c72898e937",
+          "output": "43230642f2a4ff63cf27a0553a3c6bbc25ea75d64ab2a02d11b53cd7127a1a51"
+        },
+        "sample_count": 37
+      },
+      {
+        "label": "dark-73575400",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "e29f4757867120e5357f91879d1ce0fe62f6f2c118fbdff048ea58e21921e237",
+          "output": "7bdffd8c3a7acfaa662b61253cee802c42b28d439ca5b3c8cf8ad76f50ab18c5"
+        },
+        "sample_count": 34
+      },
+      {
+        "label": "dark-79230336",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "bf14de84dfc5c629a930ed2d51a0f10905385cb000a8103e3d362b2736bcc3b8",
+          "output": "c8b9fb16247ebcdffb15e10bb8f90c4484c37f4117eb9a5707ab700f19d2345e"
+        },
+        "sample_count": 28
+      },
+      {
+        "label": "dark-64186216",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "d12b20f32248ad7a7a164b712809450bc8c1ac8a32b897cfbcc87136e767fcbc",
+          "output": "97b29c43f99c5f3633902f8c553703ba49c0fe2814023295e0e828e48167b33c"
+        },
+        "sample_count": 41
+      }
+    ],
+    "scope": "Same inference architecture and existing candidate warm start. Exact host FP16 input/target cache; FP32 model fitting. No final-test data, architecture change, new kernels or installation."
+  },
+  "evaluation": {
+    "complete": true,
+    "target_achieved": false,
+    "quality_gate_passed": false,
+    "variant": "region-context-broad-warm-start",
+    "region_context": {
+      "type": "shared-feature decoder with region context",
+      "mode": "routed",
+      "input_channels": 96,
+      "inner_channels": 48,
+      "heads": 3,
+      "region_size": [
+        4,
+        4
+      ],
+      "selected_regions": 4,
+      "own_region_always_included": true,
+      "routing_scores": "FP32 pooled q/k dot products",
+      "routing_differentiable": false,
+      "query_pixels_dropped": false,
+      "padding_excluded_from_pooling_and_keys": true,
+      "new_custom_kernels": false
+    },
+    "native_shape": [
+      1080,
+      1920
+    ],
+    "gpu": "NVIDIA GeForce RTX 4070 Ti",
+    "torch": "2.7.1+cu128",
+    "first_checkpoint_sha256": "5591e5ee782668956f8a99424e6e1c701951d10490d4e569038fb0d528913283",
+    "previous_checkpoint_sha256": "a8c3f154fcef648aee1c078b735708ca2de7fd210df1fe3fe33a0b8f61b73077",
+    "candidate_checkpoint_sha256": "7d3f8fd7b719422e89c5a84d151c1489005417379d27fdc45a82a453f085bbec",
+    "candidate_result_sha256": "7668fca7d907a579c4a274148f2e9d5b50a0e66fb9b07329a2e1b19ca5d6335d",
+    "source_manifest_sha256": "9bb6dc705a012d5e38ceaeac8644546b3de084272f3b4da059ffd2c00ab50595",
+    "teacher_manifest_sha256": "5c96b0ad6f5a7872715ec03422c6011d4e50d22ce65cb992de5f19df94f958b5",
+    "frozen_first_state_exact": true,
+    "training_count": 262,
+    "development_count": 56,
+    "development_training_overlap": false,
+    "final_gameplay_test_count": 0,
+    "validation": [
+      {
+        "label": "north",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "584c107ead68fca78c3eee0190d715e51c1f76392dc03c09050b5f572afa075e",
+          "output": "10bf20e6b20b3b56a31dca40dd829ff260061998d7fa18eafa306f56d525ca3a"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": true,
+        "old_metrics_reproduced_within_1e_7": true,
+        "models": {
+          "first": {
+            "mae": 0.01854042522609234,
+            "rmse": 0.025587173178792,
+            "p99": 0.078521728515625,
+            "gradient_error": 0.008372742682695389
+          },
+          "previous": {
+            "mae": 0.018495261669158936,
+            "rmse": 0.026381665840744972,
+            "p99": 0.08270263671875,
+            "gradient_error": 0.008301649242639542
+          },
+          "broad": {
+            "mae": 0.01935918815433979,
+            "rmse": 0.02813759818673134,
+            "p99": 0.0908203125,
+            "gradient_error": 0.00846042763441801
+          }
+        }
+      },
+      {
+        "label": "shifted-north",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "721e179eda73cb100b0afad0894313bbae3a79f5ddffe7fb80dcef448e1282e1",
+          "output": "32ff6ac02eaedd341702bbce4d7aecbefc416cc2604e640814acdca718f4cf2a"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": true,
+        "old_metrics_reproduced_within_1e_7": true,
+        "models": {
+          "first": {
+            "mae": 0.0190802700817585,
+            "rmse": 0.026311218738555908,
+            "p99": 0.0810546875,
+            "gradient_error": 0.008257521316409111
+          },
+          "previous": {
+            "mae": 0.023353779688477516,
+            "rmse": 0.031121687963604927,
+            "p99": 0.0865478515625,
+            "gradient_error": 0.008172811940312386
+          },
+          "broad": {
+            "mae": 0.02175995707511902,
+            "rmse": 0.030399836599826813,
+            "p99": 0.088623046875,
+            "gradient_error": 0.008220633491873741
+          }
+        }
+      },
+      {
+        "label": "teacher-illumination-validation-dim",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "72ea0a80f42db07ca3206415e6dcf5a6731d568bfb312232b800a74b5fe86a5d",
+          "output": "c340167f486527ada9844e30bf8d926d8da26469fb23f052a49b4e8dabb36c00"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": true,
+        "old_metrics_reproduced_within_1e_7": true,
+        "models": {
+          "first": {
+            "mae": 0.027692001312971115,
+            "rmse": 0.039426062256097794,
+            "p99": 0.12249755859375,
+            "gradient_error": 0.009882261045277119
+          },
+          "previous": {
+            "mae": 0.025449629873037338,
+            "rmse": 0.03822794184088707,
+            "p99": 0.12890625,
+            "gradient_error": 0.010015147738158703
+          },
+          "broad": {
+            "mae": 0.025980329141020775,
+            "rmse": 0.03853795304894447,
+            "p99": 0.13189697265625,
+            "gradient_error": 0.010028081014752388
+          }
+        }
+      },
+      {
+        "label": "teacher-illumination-validation-bright",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "d55760855801f6f13bde735009f7aa8bf441b09d029c5f19bba290dbd9bba8a7",
+          "output": "afa0d89796b9a294ed2be40b353dd870d16c826a86f1614178810aa0c6a1eba3"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": true,
+        "old_metrics_reproduced_within_1e_7": true,
+        "models": {
+          "first": {
+            "mae": 0.03907367214560509,
+            "rmse": 0.05259615555405617,
+            "p99": 0.1558837890625,
+            "gradient_error": 0.013720735907554626
+          },
+          "previous": {
+            "mae": 0.037055641412734985,
+            "rmse": 0.05096108466386795,
+            "p99": 0.16259765625,
+            "gradient_error": 0.013542313128709793
+          },
+          "broad": {
+            "mae": 0.03784952685236931,
+            "rmse": 0.05083402991294861,
+            "p99": 0.15087890625,
+            "gradient_error": 0.013465367257595062
+          }
+        }
+      },
+      {
+        "label": "teacher-illumination-validation-low-sun",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "ce5e35c020ddc18ee2c33c84c5638e639a40b1af0669db6f528704e2333d9611",
+          "output": "07b6b385703687102b597cddf0b3312fd0c8c3891234a0d5c0ea61d09ba1d702"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": true,
+        "old_metrics_reproduced_within_1e_7": true,
+        "models": {
+          "first": {
+            "mae": 0.025685990229249,
+            "rmse": 0.03583623468875885,
+            "p99": 0.1197509765625,
+            "gradient_error": 0.008772940374910831
+          },
+          "previous": {
+            "mae": 0.0240663830190897,
+            "rmse": 0.0342976339161396,
+            "p99": 0.118408203125,
+            "gradient_error": 0.008674467913806438
+          },
+          "broad": {
+            "mae": 0.023609844967722893,
+            "rmse": 0.03378878906369209,
+            "p99": 0.1177978515625,
+            "gradient_error": 0.008722687140107155
+          }
+        }
+      },
+      {
+        "label": "teacher-illumination-validation-neutral",
+        "group": "scene",
+        "capture_hashes": {
+          "color": "ec96364768db3b4fd5f306cb1c3ccd77d4dc03a0965a8d6602ce87cbe6fb8a2e",
+          "output": "e8ebdcfeb6d46d5272d2fd2be9fc872af09dbdf9f603e3599d1b88819e147d4c"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": true,
+        "old_metrics_reproduced_within_1e_7": true,
+        "models": {
+          "first": {
+            "mae": 0.02633526921272278,
+            "rmse": 0.03675543889403343,
+            "p99": 0.114501953125,
+            "gradient_error": 0.013033213093876839
+          },
+          "previous": {
+            "mae": 0.025332942605018616,
+            "rmse": 0.03550932928919792,
+            "p99": 0.1141357421875,
+            "gradient_error": 0.01288506481796503
+          },
+          "broad": {
+            "mae": 0.024911167100071907,
+            "rmse": 0.03521021082997322,
+            "p99": 0.113525390625,
+            "gradient_error": 0.012934830039739609
+          }
+        }
+      },
+      {
+        "label": "teacher-photo-portrait",
+        "group": "previous-photos",
+        "capture_hashes": {
+          "color": "d60ec44402a02d7e03fc0be790deefbcc5110dc7002be1d8a2031243ce602862",
+          "output": "cb75f15d16ab5f4ac082a5a7272c13aab748cae4037ac27059333d2348c7d969"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": true,
+        "old_metrics_reproduced_within_1e_7": true,
+        "models": {
+          "first": {
+            "mae": 0.03448612987995148,
+            "rmse": 0.05086212232708931,
+            "p99": 0.17291259765625,
+            "gradient_error": 0.00749803613871336
+          },
+          "previous": {
+            "mae": 0.03053233027458191,
+            "rmse": 0.0461120642721653,
+            "p99": 0.1798095703125,
+            "gradient_error": 0.007473450619727373
+          },
+          "broad": {
+            "mae": 0.032445892691612244,
+            "rmse": 0.04908553510904312,
+            "p99": 0.189453125,
+            "gradient_error": 0.007550316397100687
+          }
+        }
+      },
+      {
+        "label": "teacher-photo-tenth-portrait",
+        "group": "previous-photos",
+        "capture_hashes": {
+          "color": "071ec0aae77b6e15909c3f7b79ed0c619e4359289d37e46094e4f0e941978d19",
+          "output": "fe55fe61e495fa68e16c9d743f926cab52233fc946adf436619591ed1dbbb795"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": true,
+        "old_metrics_reproduced_within_1e_7": true,
+        "models": {
+          "first": {
+            "mae": 0.021468892693519592,
+            "rmse": 0.028045648708939552,
+            "p99": 0.08251953125,
+            "gradient_error": 0.004593945108354092
+          },
+          "previous": {
+            "mae": 0.021484756842255592,
+            "rmse": 0.028020095080137253,
+            "p99": 0.083251953125,
+            "gradient_error": 0.0046746013686060905
+          },
+          "broad": {
+            "mae": 0.020622026175260544,
+            "rmse": 0.02728971093893051,
+            "p99": 0.08203125,
+            "gradient_error": 0.004546657204627991
+          }
+        }
+      },
+      {
+        "label": "teacher-photo-landscape",
+        "group": "previous-photos",
+        "capture_hashes": {
+          "color": "ce88cebb0be45aefb048a3ae4e87b83c56776ef4ff3f11d454ce0bc7d61734d1",
+          "output": "7890ee1902560f34f54766f349d4306fa910d81b788b4f2eff7a070072c2f4a4"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": true,
+        "old_metrics_reproduced_within_1e_7": true,
+        "models": {
+          "first": {
+            "mae": 0.012646102346479893,
+            "rmse": 0.02132313698530197,
+            "p99": 0.083740234375,
+            "gradient_error": 0.005694116465747356
+          },
+          "previous": {
+            "mae": 0.027992071583867073,
+            "rmse": 0.04310606047511101,
+            "p99": 0.132080078125,
+            "gradient_error": 0.00637638196349144
+          },
+          "broad": {
+            "mae": 0.04192538931965828,
+            "rmse": 0.06356091052293777,
+            "p99": 0.1954345703125,
+            "gradient_error": 0.00693625258281827
+          }
+        }
+      },
+      {
+        "label": "teacher-photo-tenth-landscape",
+        "group": "previous-photos",
+        "capture_hashes": {
+          "color": "8675250f022e482d5a01d8e287b2bafc844baf561090d30d1a9488b0656ca309",
+          "output": "5a61cc6d78a4a4a0d45ea60f04dcbefc6516a10f2456334b9394dcb003992812"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": true,
+        "old_metrics_reproduced_within_1e_7": true,
+        "models": {
+          "first": {
+            "mae": 0.014582511968910694,
+            "rmse": 0.01862284354865551,
+            "p99": 0.0504150390625,
+            "gradient_error": 0.005512066185474396
+          },
+          "previous": {
+            "mae": 0.01610671728849411,
+            "rmse": 0.020517660304903984,
+            "p99": 0.0556640625,
+            "gradient_error": 0.005564228165894747
+          },
+          "broad": {
+            "mae": 0.015394174493849277,
+            "rmse": 0.01897181011736393,
+            "p99": 0.0498046875,
+            "gradient_error": 0.005534762516617775
+          }
+        }
+      },
+      {
+        "label": "teacher-photo-cat",
+        "group": "previous-photos",
+        "capture_hashes": {
+          "color": "f783346fc093b8f8b61a4f77376e8ac9e0170ba1aa3f6f8063ff2aa5075151cb",
+          "output": "397f02d8e46dfe8171b77ff400eb0cd200527bad0e95dc862eaea21f37483093"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": true,
+        "old_metrics_reproduced_within_1e_7": true,
+        "models": {
+          "first": {
+            "mae": 0.014672803692519665,
+            "rmse": 0.02221078798174858,
+            "p99": 0.07861328125,
+            "gradient_error": 0.0034453044645488262
+          },
+          "previous": {
+            "mae": 0.015434904024004936,
+            "rmse": 0.023189933970570564,
+            "p99": 0.08154296875,
+            "gradient_error": 0.0036384211853146553
+          },
+          "broad": {
+            "mae": 0.015766818076372147,
+            "rmse": 0.02380787394940853,
+            "p99": 0.084716796875,
+            "gradient_error": 0.003602406708523631
+          }
+        }
+      },
+      {
+        "label": "teacher-photo-tenth-cat",
+        "group": "previous-photos",
+        "capture_hashes": {
+          "color": "25fe2d0b191d1c31efa9ca0bff7ecf75585296631930e318c6fc1e6a3c212015",
+          "output": "e0f64756c7243ffdcaccd52f2df9bc49f7fa514747be48be65ce5661c0c7581c"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": true,
+        "old_metrics_reproduced_within_1e_7": true,
+        "models": {
+          "first": {
+            "mae": 0.014528381638228893,
+            "rmse": 0.020402129739522934,
+            "p99": 0.059326171875,
+            "gradient_error": 0.002285987138748169
+          },
+          "previous": {
+            "mae": 0.013294004835188389,
+            "rmse": 0.017910495400428772,
+            "p99": 0.0582275390625,
+            "gradient_error": 0.0025524981319904327
+          },
+          "broad": {
+            "mae": 0.01213152427226305,
+            "rmse": 0.01703559421002865,
+            "p99": 0.05859375,
+            "gradient_error": 0.002489049918949604
+          }
+        }
+      },
+      {
+        "label": "teacher-diverse-library",
+        "group": "diverse-photos",
+        "capture_hashes": {
+          "color": "e7a63502657c1d957e2340622bcf2fec67266ef9375cda3f3d2cfca48803e9d4",
+          "output": "8f771e46ab78f64595c272f4238c402eb4b36469c52790ef0bfe950aa27b93c3"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": true,
+        "old_metrics_reproduced_within_1e_7": true,
+        "models": {
+          "first": {
+            "mae": 0.03748704120516777,
+            "rmse": 0.05028826370835304,
+            "p99": 0.158447265625,
+            "gradient_error": 0.014673465862870216
+          },
+          "previous": {
+            "mae": 0.03832415118813515,
+            "rmse": 0.050985995680093765,
+            "p99": 0.157958984375,
+            "gradient_error": 0.014909193851053715
+          },
+          "broad": {
+            "mae": 0.037368275225162506,
+            "rmse": 0.04995808005332947,
+            "p99": 0.154296875,
+            "gradient_error": 0.014954734593629837
+          }
+        }
+      },
+      {
+        "label": "teacher-diverse-beach",
+        "group": "diverse-photos",
+        "capture_hashes": {
+          "color": "400f68a2ed7a175a66d28efb3ee13b04415a6077f6b9ed38d5654e14b7458ebd",
+          "output": "e18e03c18d3ae5444c44db0325a918cadea5c4a6b953ba94bf197bb302a294cb"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": true,
+        "old_metrics_reproduced_within_1e_7": true,
+        "models": {
+          "first": {
+            "mae": 0.012348943389952183,
+            "rmse": 0.018136609345674515,
+            "p99": 0.05517578125,
+            "gradient_error": 0.004611945245414972
+          },
+          "previous": {
+            "mae": 0.019074060022830963,
+            "rmse": 0.02415391430258751,
+            "p99": 0.0753173828125,
+            "gradient_error": 0.004784013610333204
+          },
+          "broad": {
+            "mae": 0.01242118887603283,
+            "rmse": 0.01780540496110916,
+            "p99": 0.052978515625,
+            "gradient_error": 0.004574628546833992
+          }
+        }
+      },
+      {
+        "label": "teacher-diverse-cassidy",
+        "group": "diverse-photos",
+        "capture_hashes": {
+          "color": "4a922ad9e1e26560cdc917a60fb13fdb358cf1275628c823038b3c2d9278d9c3",
+          "output": "e483e2d868f94e1817e33a4984fc7eb6447f34eb3f8dd0fead278513638ade97"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": true,
+        "old_metrics_reproduced_within_1e_7": true,
+        "models": {
+          "first": {
+            "mae": 0.019789062440395355,
+            "rmse": 0.02699047140777111,
+            "p99": 0.08935546875,
+            "gradient_error": 0.004480413626879454
+          },
+          "previous": {
+            "mae": 0.020346760749816895,
+            "rmse": 0.02808994986116886,
+            "p99": 0.09442138671875,
+            "gradient_error": 0.0045110201463103294
+          },
+          "broad": {
+            "mae": 0.0198589526116848,
+            "rmse": 0.027354400604963303,
+            "p99": 0.091552734375,
+            "gradient_error": 0.0044932859018445015
+          }
+        }
+      },
+      {
+        "label": "teacher-diverse-dunes-other",
+        "group": "diverse-photos",
+        "capture_hashes": {
+          "color": "33acd586d4f1fc5fe871095f71706a24f6b568d24390499b19077a649e5136ed",
+          "output": "97fee64e2ac2c101b3c564f5cf769e727770acb6fe2c6a00b0b651054b2e37c6"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": true,
+        "old_metrics_reproduced_within_1e_7": true,
+        "models": {
+          "first": {
+            "mae": 0.012871741317212582,
+            "rmse": 0.01647523045539856,
+            "p99": 0.04443359375,
+            "gradient_error": 0.0020815376192331314
+          },
+          "previous": {
+            "mae": 0.012008066289126873,
+            "rmse": 0.015215982683002949,
+            "p99": 0.041015625,
+            "gradient_error": 0.0020895046181976795
+          },
+          "broad": {
+            "mae": 0.011406201869249344,
+            "rmse": 0.014231802895665169,
+            "p99": 0.03662109375,
+            "gradient_error": 0.002112840535119176
+          }
+        }
+      },
+      {
+        "label": "forest-72693101",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "e91d2efc9e4d044d76dbd46fd3f46d252ec7d85f5ccd606b708f83ae494e010f",
+          "output": "108ce0137ab4d3fa727c3b990c523790b85b72790c74835bad72e47ab7a9f724"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.015891406685113907,
+            "rmse": 0.021669592708349228,
+            "p99": 0.06787109375,
+            "gradient_error": 0.0076451292261481285
+          },
+          "previous": {
+            "mae": 0.01933547854423523,
+            "rmse": 0.024685651063919067,
+            "p99": 0.07177734375,
+            "gradient_error": 0.008191262371838093
+          },
+          "broad": {
+            "mae": 0.013175264932215214,
+            "rmse": 0.017826691269874573,
+            "p99": 0.05517578125,
+            "gradient_error": 0.007466034963726997
+          }
+        }
+      },
+      {
+        "label": "forest-72693254",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "e929bc58a9d450d8f60a756275a000f8fc30852cb5a9b7c076fab2453b41c88e",
+          "output": "cd5e1a383d0f9eebef63afc1d1b3e9d186b0fb93b97a66e7c009aa286f2bba42"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.03242872655391693,
+            "rmse": 0.04192101210355759,
+            "p99": 0.111572265625,
+            "gradient_error": 0.009205404669046402
+          },
+          "previous": {
+            "mae": 0.03403513878583908,
+            "rmse": 0.042892035096883774,
+            "p99": 0.10986328125,
+            "gradient_error": 0.009433770552277565
+          },
+          "broad": {
+            "mae": 0.032347552478313446,
+            "rmse": 0.04145391285419464,
+            "p99": 0.1083984375,
+            "gradient_error": 0.009284211322665215
+          }
+        }
+      },
+      {
+        "label": "foliage-29370484",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "508a88cb46563b73bb054c2af481f9ed53d68d0e7241ac8e07f573e96024e072",
+          "output": "cf48514d9648562fc618ae84a93e6f6d304f0144e17db9d70fbd2a22b4cb8c4c"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.009434483014047146,
+            "rmse": 0.013023379258811474,
+            "p99": 0.0458984375,
+            "gradient_error": 0.0016447630478069186
+          },
+          "previous": {
+            "mae": 0.010633531957864761,
+            "rmse": 0.013725251890718937,
+            "p99": 0.04815673828125,
+            "gradient_error": 0.001736174337565899
+          },
+          "broad": {
+            "mae": 0.00780408876016736,
+            "rmse": 0.009916314855217934,
+            "p99": 0.03662109375,
+            "gradient_error": 0.0016774146351963282
+          }
+        }
+      },
+      {
+        "label": "foliage-111307040",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "992bee069b6c371aea40b2be9735f0e898c6dac63867f729db4811db9de12722",
+          "output": "a76b48ad7edfe0178d89b708cb835bc0f2af733b1bbde0a0fe8096fef794d51c"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.03613163158297539,
+            "rmse": 0.04768826439976692,
+            "p99": 0.1258544921875,
+            "gradient_error": 0.005229880567640066
+          },
+          "previous": {
+            "mae": 0.034088391810655594,
+            "rmse": 0.04438360035419464,
+            "p99": 0.12335205078125,
+            "gradient_error": 0.005118849687278271
+          },
+          "broad": {
+            "mae": 0.02542540244758129,
+            "rmse": 0.03326297551393509,
+            "p99": 0.093505859375,
+            "gradient_error": 0.005070162005722523
+          }
+        }
+      },
+      {
+        "label": "mountains-146971170",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "8afe63fd91a913663fd9e02491109432a5a5ae297d70df892b6a1debe71a17ba",
+          "output": "be1f3547a59e76f23cb77c3f08e0d3b8f0f09845784cd15dfabb21f8d7b6cb7c"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.015588012523949146,
+            "rmse": 0.023609675467014313,
+            "p99": 0.1015625,
+            "gradient_error": 0.0033963173627853394
+          },
+          "previous": {
+            "mae": 0.02316729724407196,
+            "rmse": 0.029482172802090645,
+            "p99": 0.086669921875,
+            "gradient_error": 0.003866621758788824
+          },
+          "broad": {
+            "mae": 0.015727128833532333,
+            "rmse": 0.022969907149672508,
+            "p99": 0.097412109375,
+            "gradient_error": 0.003497163765132427
+          }
+        }
+      },
+      {
+        "label": "mountains-40764786",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "571aef0624812e58eb733a20854592f831a20e0c8a5bd9d7599d0bfd9fbcb139",
+          "output": "aea44acc5dd7e103cdc213aec2ec182728c374999b9ae519b0ebc7bd32d0fcab"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.008438178338110447,
+            "rmse": 0.010820054449141026,
+            "p99": 0.032470703125,
+            "gradient_error": 0.0023535292129963636
+          },
+          "previous": {
+            "mae": 0.01747434213757515,
+            "rmse": 0.021386245265603065,
+            "p99": 0.05047607421875,
+            "gradient_error": 0.0025965825188905
+          },
+          "broad": {
+            "mae": 0.007517927326261997,
+            "rmse": 0.010077692568302155,
+            "p99": 0.03076171875,
+            "gradient_error": 0.0023750991094857454
+          }
+        }
+      },
+      {
+        "label": "coast-4498670",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "63cc9ddcd04ad3eaae321a24c769d2e7b336c5d731cdf661451ff851266a9981",
+          "output": "c3d7be5598a392e2a1890e9a203075402361d5954866d0ec8eb610ea7178bc33"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.026121102273464203,
+            "rmse": 0.03267589211463928,
+            "p99": 0.0906982421875,
+            "gradient_error": 0.010151607915759087
+          },
+          "previous": {
+            "mae": 0.031555186957120895,
+            "rmse": 0.03994026407599449,
+            "p99": 0.1148681640625,
+            "gradient_error": 0.010369068011641502
+          },
+          "broad": {
+            "mae": 0.02664479985833168,
+            "rmse": 0.03360981494188309,
+            "p99": 0.096923828125,
+            "gradient_error": 0.01031927578151226
+          }
+        }
+      },
+      {
+        "label": "coast-63218100",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "f4a3cb35df47b4a64c52d8c7e999a3be59c95c4b95c1d91e6a044389de2a9aab",
+          "output": "4ed3f896fd39ee02449a48f4624ff3d3beee7c46402690978993f78be40e9f60"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.020200898870825768,
+            "rmse": 0.024331247434020042,
+            "p99": 0.063720703125,
+            "gradient_error": 0.004326504655182362
+          },
+          "previous": {
+            "mae": 0.023121967911720276,
+            "rmse": 0.029925916343927383,
+            "p99": 0.0966796875,
+            "gradient_error": 0.004450141452252865
+          },
+          "broad": {
+            "mae": 0.016636265441775322,
+            "rmse": 0.021212918683886528,
+            "p99": 0.062255859375,
+            "gradient_error": 0.004397672601044178
+          }
+        }
+      },
+      {
+        "label": "water-7029276",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "1434252e36ed85f525a4d9f0af86eea5f17bb8586118f84d3dd384b2bb67e9e0",
+          "output": "568a7cd94bd1852237786865f31847d0892cf5083b0969f43c97e90085c9e682"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.03006046824157238,
+            "rmse": 0.04043707996606827,
+            "p99": 0.12744140625,
+            "gradient_error": 0.005394577980041504
+          },
+          "previous": {
+            "mae": 0.03274977207183838,
+            "rmse": 0.043046753853559494,
+            "p99": 0.119140625,
+            "gradient_error": 0.005897771567106247
+          },
+          "broad": {
+            "mae": 0.02640179917216301,
+            "rmse": 0.03781750053167343,
+            "p99": 0.116943359375,
+            "gradient_error": 0.005504284985363483
+          }
+        }
+      },
+      {
+        "label": "water-72694394",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "e29219e9d534f3acab3a7015055d255d4d48c5df4e3581c10004584df945d970",
+          "output": "f957971ebf94776f29301011ba83a3752e7cb1f00e96ce700010422d54c5715e"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.03990894928574562,
+            "rmse": 0.05158955603837967,
+            "p99": 0.1387939453125,
+            "gradient_error": 0.011256696656346321
+          },
+          "previous": {
+            "mae": 0.04154464602470398,
+            "rmse": 0.0540458969771862,
+            "p99": 0.144287109375,
+            "gradient_error": 0.010965388268232346
+          },
+          "broad": {
+            "mae": 0.038745373487472534,
+            "rmse": 0.05066511407494545,
+            "p99": 0.135986328125,
+            "gradient_error": 0.01078116986900568
+          }
+        }
+      },
+      {
+        "label": "snow-50553806",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "5d65c824c9034e4d2fc6d299a03808c47619879a082cecbeb546fc93d9e143a6",
+          "output": "643a65cf97b66b8066224292d15525ddd8d5e4e5f777ccf65178d86cd0cfd5dc"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.026572057977318764,
+            "rmse": 0.031030215322971344,
+            "p99": 0.07177734375,
+            "gradient_error": 0.005348613485693932
+          },
+          "previous": {
+            "mae": 0.019996723160147667,
+            "rmse": 0.025294121354818344,
+            "p99": 0.06982421875,
+            "gradient_error": 0.005677139386534691
+          },
+          "broad": {
+            "mae": 0.02092333696782589,
+            "rmse": 0.025323813781142235,
+            "p99": 0.06494140625,
+            "gradient_error": 0.005021608434617519
+          }
+        }
+      },
+      {
+        "label": "snow-533690",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "46fe190add7a2dc76f059cfa7ece3d9affb6d5dc34944dfb50eb57d6c1684d1e",
+          "output": "d4da19f8efd44b914121a7dd502783018181d1f17dea258517dc662eb124ede7"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.022308414801955223,
+            "rmse": 0.030577337369322777,
+            "p99": 0.109130859375,
+            "gradient_error": 0.005515487398952246
+          },
+          "previous": {
+            "mae": 0.029394207522273064,
+            "rmse": 0.04051368683576584,
+            "p99": 0.142578125,
+            "gradient_error": 0.005651962012052536
+          },
+          "broad": {
+            "mae": 0.023077204823493958,
+            "rmse": 0.03204898163676262,
+            "p99": 0.11474609375,
+            "gradient_error": 0.0055254800245165825
+          }
+        }
+      },
+      {
+        "label": "desert-22648225",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "ba8ff87bb05d46aa29e812f7c1efbaa76cdb21b0f588d2c41fd5616f13dacdfe",
+          "output": "0363a41fae16ef13ee3d346ed19c17698c7f603b317903a08c98c13666bea609"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.01240154542028904,
+            "rmse": 0.017118282616138458,
+            "p99": 0.05615234375,
+            "gradient_error": 0.002434657420963049
+          },
+          "previous": {
+            "mae": 0.015098663046956062,
+            "rmse": 0.019600272178649902,
+            "p99": 0.0634765625,
+            "gradient_error": 0.0024906001053750515
+          },
+          "broad": {
+            "mae": 0.008689617738127708,
+            "rmse": 0.012128747068345547,
+            "p99": 0.042236328125,
+            "gradient_error": 0.002453187480568886
+          }
+        }
+      },
+      {
+        "label": "desert-168098598",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "6a3f553295a8b301292a608b4413b0e615ff21ecb4b3ca98bdc6e06d3edaf021",
+          "output": "c2ccd44d485218ba8ca4f1edce9183323f6eb60f47ae929d4106a622326205d2"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.018832627683877945,
+            "rmse": 0.02356616221368313,
+            "p99": 0.05859375,
+            "gradient_error": 0.002314282115548849
+          },
+          "previous": {
+            "mae": 0.018670132383704185,
+            "rmse": 0.024599865078926086,
+            "p99": 0.063720703125,
+            "gradient_error": 0.002348089125007391
+          },
+          "broad": {
+            "mae": 0.01221032626926899,
+            "rmse": 0.01596197672188282,
+            "p99": 0.04150390625,
+            "gradient_error": 0.0022554087918251753
+          }
+        }
+      },
+      {
+        "label": "day-city-113158873",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "1e8b2b9a536fd73881066b36275f932f3f24b38e5c0a93a0423e919fe2f0b318",
+          "output": "c9ef4eddf1f7c84536a03ab879652323e5a2ec0bd68076da8159529633f819a3"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.024777555838227272,
+            "rmse": 0.030536293983459473,
+            "p99": 0.0771484375,
+            "gradient_error": 0.005490909330546856
+          },
+          "previous": {
+            "mae": 0.02703740820288658,
+            "rmse": 0.033047713339328766,
+            "p99": 0.08154296875,
+            "gradient_error": 0.005575739778578281
+          },
+          "broad": {
+            "mae": 0.02384922280907631,
+            "rmse": 0.03001108020544052,
+            "p99": 0.0770263671875,
+            "gradient_error": 0.005538239609450102
+          }
+        }
+      },
+      {
+        "label": "day-city-106858244",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "e46d352679fc4bf3104a9a22073ff01567d03369b94000ea8fbe7f20b385a9ae",
+          "output": "a6c47093083996574938cf52609c15fb08a4328a667f170396fb9ae677e31ba5"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.024869244545698166,
+            "rmse": 0.03628528118133545,
+            "p99": 0.120361328125,
+            "gradient_error": 0.007583271712064743
+          },
+          "previous": {
+            "mae": 0.027448207139968872,
+            "rmse": 0.0398397371172905,
+            "p99": 0.130859375,
+            "gradient_error": 0.008133722469210625
+          },
+          "broad": {
+            "mae": 0.025444727391004562,
+            "rmse": 0.03731301426887512,
+            "p99": 0.12353515625,
+            "gradient_error": 0.00785315316170454
+          }
+        }
+      },
+      {
+        "label": "night-city-121086009",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "41dfb724a220ca4d968b5d19939d6e7d89b7e2f3b6f220d0fe008e6882b6f8fd",
+          "output": "217df05bd5d9fc4cc92df4dee2b12411357f62a20afbcc9db147b26c58ff5d56"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.024949833750724792,
+            "rmse": 0.03193499892950058,
+            "p99": 0.08935546875,
+            "gradient_error": 0.007794535253196955
+          },
+          "previous": {
+            "mae": 0.028538774698972702,
+            "rmse": 0.03467494249343872,
+            "p99": 0.090087890625,
+            "gradient_error": 0.007913057692348957
+          },
+          "broad": {
+            "mae": 0.02714225836098194,
+            "rmse": 0.03342997655272484,
+            "p99": 0.09033203125,
+            "gradient_error": 0.007940263487398624
+          }
+        }
+      },
+      {
+        "label": "night-city-137799771",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "7ba3257b805d133ce17dd25301c94a8a08ab9c53fb5a12e3b5d3be91bf02688c",
+          "output": "3501f520680f8aa73d78a94bdcc5e12358b71af3d66f55202c5068ace9a2871e"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.021776853129267693,
+            "rmse": 0.02666902355849743,
+            "p99": 0.07177734375,
+            "gradient_error": 0.003378092311322689
+          },
+          "previous": {
+            "mae": 0.023533537983894348,
+            "rmse": 0.028195355087518692,
+            "p99": 0.0732421875,
+            "gradient_error": 0.0034826784394681454
+          },
+          "broad": {
+            "mae": 0.019743047654628754,
+            "rmse": 0.024781683459877968,
+            "p99": 0.070068359375,
+            "gradient_error": 0.003411652520298958
+          }
+        }
+      },
+      {
+        "label": "stone-181007160",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "5e2e6fd60076dddd35114fd6afa58f76d8bad81ab6637673d31b0860f29fef62",
+          "output": "3858e740b261fa4bceb13cdf250c7e5d3363d9a5d6482918bb4044657e9a833d"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.012962544336915016,
+            "rmse": 0.017789063975214958,
+            "p99": 0.048828125,
+            "gradient_error": 0.003509677015244961
+          },
+          "previous": {
+            "mae": 0.027028923854231834,
+            "rmse": 0.03302568942308426,
+            "p99": 0.08837890625,
+            "gradient_error": 0.0036135453265160322
+          },
+          "broad": {
+            "mae": 0.010970604605972767,
+            "rmse": 0.014709563925862312,
+            "p99": 0.04541015625,
+            "gradient_error": 0.0033485516905784607
+          }
+        }
+      },
+      {
+        "label": "stone-6109870",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "6f473a368255f81b0d48f9774b8d8c11a3dd0114d8bbccdcd35d5f351e866c63",
+          "output": "39b87c4084e3947d4f048b23910de7401083930ea4a604dcf22443171c641450"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.021072685718536377,
+            "rmse": 0.02669421210885048,
+            "p99": 0.0732421875,
+            "gradient_error": 0.008890919387340546
+          },
+          "previous": {
+            "mae": 0.022794287651777267,
+            "rmse": 0.028711363673210144,
+            "p99": 0.07373046875,
+            "gradient_error": 0.009186945855617523
+          },
+          "broad": {
+            "mae": 0.02101694606244564,
+            "rmse": 0.026638679206371307,
+            "p99": 0.07568359375,
+            "gradient_error": 0.009077856317162514
+          }
+        }
+      },
+      {
+        "label": "interior-18393499",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "068319e2058d6c917bd4c62b9ab60e55bdea4bbc7f0fee1f845f9f6df644aeff",
+          "output": "b23d760589a457d9fc1d6d189fd1ce3a3f1a63ad36eddad3cefd2b16201d0643"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.03240002319216728,
+            "rmse": 0.048559948801994324,
+            "p99": 0.1728515625,
+            "gradient_error": 0.009244382381439209
+          },
+          "previous": {
+            "mae": 0.03193278610706329,
+            "rmse": 0.0480867475271225,
+            "p99": 0.17431640625,
+            "gradient_error": 0.009279437363147736
+          },
+          "broad": {
+            "mae": 0.03299224376678467,
+            "rmse": 0.049646925181150436,
+            "p99": 0.17529296875,
+            "gradient_error": 0.009219562634825706
+          }
+        }
+      },
+      {
+        "label": "interior-91689992",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "7e230aad69968fb2371f91b49fb19996b7f55e4d838be894555ba21fb8b82979",
+          "output": "1bb7a88f4a702e276f7d2113d7bfc9f87aba1e228b5013909ac1851f12db524e"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.01073070615530014,
+            "rmse": 0.015465307049453259,
+            "p99": 0.05517578125,
+            "gradient_error": 0.004236144945025444
+          },
+          "previous": {
+            "mae": 0.01820029504597187,
+            "rmse": 0.023320535197854042,
+            "p99": 0.069580078125,
+            "gradient_error": 0.0044436976313591
+          },
+          "broad": {
+            "mae": 0.01244269497692585,
+            "rmse": 0.017940755933523178,
+            "p99": 0.06640625,
+            "gradient_error": 0.004254038445651531
+          }
+        }
+      },
+      {
+        "label": "ornament-20251852",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "8eb7971e1b653640a31de3cafc26602af0c60dd6fae27889f47b97937ba8d3f8",
+          "output": "60e0138258bc1b6a1e9325bb98ce84931c280581c27d4ba562a01203e7a2fe6c"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.019777506589889526,
+            "rmse": 0.026096386834979057,
+            "p99": 0.078125,
+            "gradient_error": 0.00426601804792881
+          },
+          "previous": {
+            "mae": 0.021422721445560455,
+            "rmse": 0.02863139845430851,
+            "p99": 0.083251953125,
+            "gradient_error": 0.004359206184744835
+          },
+          "broad": {
+            "mae": 0.020294830203056335,
+            "rmse": 0.02679678425192833,
+            "p99": 0.078857421875,
+            "gradient_error": 0.004326973110437393
+          }
+        }
+      },
+      {
+        "label": "ornament-20157728",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "d31b9f1b5387611b69d7ceaf9151e7cdda80134fa661ce718a502523002ede1d",
+          "output": "93b38d8e92230fdd0a3181a751e0aa5b15f9c8ec30a79a2c330aca0bbb6de3e3"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.01260032132267952,
+            "rmse": 0.016209516674280167,
+            "p99": 0.04638671875,
+            "gradient_error": 0.0032282304018735886
+          },
+          "previous": {
+            "mae": 0.017560504376888275,
+            "rmse": 0.022790759801864624,
+            "p99": 0.0703125,
+            "gradient_error": 0.0036670530680567026
+          },
+          "broad": {
+            "mae": 0.010873925872147083,
+            "rmse": 0.014729726128280163,
+            "p99": 0.0458984375,
+            "gradient_error": 0.003202694235369563
+          }
+        }
+      },
+      {
+        "label": "faces-116177009",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "93cf963c1e640ded85e7cd7a23696e51e1b09a6d744644d64d683268cf33d57a",
+          "output": "2a52c71559406b181460f70bd6a967fa5ab4d206a6a1e6da58ce43bdbdcf7364"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.022799836471676826,
+            "rmse": 0.030418945476412773,
+            "p99": 0.0869140625,
+            "gradient_error": 0.002917362842708826
+          },
+          "previous": {
+            "mae": 0.02809470146894455,
+            "rmse": 0.035039834678173065,
+            "p99": 0.09619140625,
+            "gradient_error": 0.003161346772685647
+          },
+          "broad": {
+            "mae": 0.020976612344384193,
+            "rmse": 0.027622180059552193,
+            "p99": 0.0821533203125,
+            "gradient_error": 0.002867855131626129
+          }
+        }
+      },
+      {
+        "label": "faces-59357482",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "cf192e2f05f01567b4d48c0f5209ff3a513236e6d4ad077bd48da5288745410a",
+          "output": "6f722f490eaaf1d48876d69f28c80993f08773b95c953c2f28db5ca4f1905000"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.009161854162812233,
+            "rmse": 0.013102044351398945,
+            "p99": 0.04296875,
+            "gradient_error": 0.002679443685337901
+          },
+          "previous": {
+            "mae": 0.016169752925634384,
+            "rmse": 0.021557670086622238,
+            "p99": 0.06201171875,
+            "gradient_error": 0.002931951079517603
+          },
+          "broad": {
+            "mae": 0.010478412732481956,
+            "rmse": 0.014339325949549675,
+            "p99": 0.045166015625,
+            "gradient_error": 0.0028154337778687477
+          }
+        }
+      },
+      {
+        "label": "people-175262492",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "f0fecb98634b4ec043ac6304d7de4ef09f5d90f7b850f660380767cc6b1797fc",
+          "output": "1e9c79c362d4fded76a5b3a05f4b1256d25399d981cfab5b5db23cf6506e689a"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.018670188263058662,
+            "rmse": 0.024159708991646767,
+            "p99": 0.0648193359375,
+            "gradient_error": 0.003624157514423132
+          },
+          "previous": {
+            "mae": 0.017940383404493332,
+            "rmse": 0.024279961362481117,
+            "p99": 0.0718994140625,
+            "gradient_error": 0.0037181919906288385
+          },
+          "broad": {
+            "mae": 0.014772667549550533,
+            "rmse": 0.019688380882143974,
+            "p99": 0.064453125,
+            "gradient_error": 0.0035894769243896008
+          }
+        }
+      },
+      {
+        "label": "people-61195156",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "23111dee2eee0f64b0a8901e88c0119d544b6e22c216e07497e7917627f228cc",
+          "output": "85cee686beda53ccabefca96de5e88e9a03dc796a301fb3958a3313f33ca002c"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.014117168262600899,
+            "rmse": 0.021071888506412506,
+            "p99": 0.0771484375,
+            "gradient_error": 0.003430777695029974
+          },
+          "previous": {
+            "mae": 0.016950974240899086,
+            "rmse": 0.023832108825445175,
+            "p99": 0.08837890625,
+            "gradient_error": 0.003555147908627987
+          },
+          "broad": {
+            "mae": 0.013018593192100525,
+            "rmse": 0.019682150334119797,
+            "p99": 0.0751953125,
+            "gradient_error": 0.003286389634013176
+          }
+        }
+      },
+      {
+        "label": "animals-13414431",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "7d02ea73a0cce8c922919211d98fa808965b1e0324b07bdc0dabcd1662198bf3",
+          "output": "c985d361b2200ac8a10b46a520227eab9141e7ee55249e8af3b2d1234448c540"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.02783414162695408,
+            "rmse": 0.0343276672065258,
+            "p99": 0.08935546875,
+            "gradient_error": 0.007677687797695398
+          },
+          "previous": {
+            "mae": 0.03272107616066933,
+            "rmse": 0.040685202926397324,
+            "p99": 0.09820556640625,
+            "gradient_error": 0.00779471080750227
+          },
+          "broad": {
+            "mae": 0.022389357909560204,
+            "rmse": 0.029439518228173256,
+            "p99": 0.08984375,
+            "gradient_error": 0.007068753242492676
+          }
+        }
+      },
+      {
+        "label": "animals-13415691",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "703d1d8079e0771fdbd5894177c6f6fd7148f34e846f4d1f5a1975b9b30e4e97",
+          "output": "714bcf7c5c56c412cb8d6ed029cae9e57000d18ae57c27cc37863ecb7cb40706"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.022072654217481613,
+            "rmse": 0.028104178607463837,
+            "p99": 0.07861328125,
+            "gradient_error": 0.006129697896540165
+          },
+          "previous": {
+            "mae": 0.02510722167789936,
+            "rmse": 0.033691395074129105,
+            "p99": 0.10693359375,
+            "gradient_error": 0.006541070528328419
+          },
+          "broad": {
+            "mae": 0.02066311612725258,
+            "rmse": 0.026810307055711746,
+            "p99": 0.081787109375,
+            "gradient_error": 0.005779445171356201
+          }
+        }
+      },
+      {
+        "label": "flowers-153899101",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "2b4a2e4e8ee710d50d458e65dfc2a18bdf9cf44c9790a30b9ac87d448ee1d155",
+          "output": "5f29fdf26d00bc6227333878506178e6ea846fb4ecd8400a32a68e10eedc7277"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.022075533866882324,
+            "rmse": 0.029164984822273254,
+            "p99": 0.0826416015625,
+            "gradient_error": 0.005710977129638195
+          },
+          "previous": {
+            "mae": 0.02109944075345993,
+            "rmse": 0.027746671810746193,
+            "p99": 0.0799560546875,
+            "gradient_error": 0.0058023096062242985
+          },
+          "broad": {
+            "mae": 0.022229667752981186,
+            "rmse": 0.029054706916213036,
+            "p99": 0.08795166015625,
+            "gradient_error": 0.005830760113894939
+          }
+        }
+      },
+      {
+        "label": "flowers-187075391",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "4d703cbd9f8258cfc6b94024db98f7bc108391aae0006b519b93ea48f02d3b3f",
+          "output": "731cef49b5490a0479f1de3fcc1c5ba6f6f97473ae5e3cf9fedddede8ae64e85"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.027974234893918037,
+            "rmse": 0.04113011807203293,
+            "p99": 0.1483154296875,
+            "gradient_error": 0.009468328207731247
+          },
+          "previous": {
+            "mae": 0.028632141649723053,
+            "rmse": 0.04217947646975517,
+            "p99": 0.15380859375,
+            "gradient_error": 0.009518083184957504
+          },
+          "broad": {
+            "mae": 0.0267975814640522,
+            "rmse": 0.039371732622385025,
+            "p99": 0.1507568359375,
+            "gradient_error": 0.009240134619176388
+          }
+        }
+      },
+      {
+        "label": "reflections-71407256",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "428296a44e51294e79670ef26775fcc3890a0a82184fcd11a5bf4f9318eac2eb",
+          "output": "6349d6bd4e5a4962277903554382f694550cb75edcaaaf19b9c9eb20c354536b"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.023971570655703545,
+            "rmse": 0.03226083517074585,
+            "p99": 0.10009765625,
+            "gradient_error": 0.010031146928668022
+          },
+          "previous": {
+            "mae": 0.026603637263178825,
+            "rmse": 0.033727530390024185,
+            "p99": 0.093994140625,
+            "gradient_error": 0.010200071148574352
+          },
+          "broad": {
+            "mae": 0.021820424124598503,
+            "rmse": 0.03033931367099285,
+            "p99": 0.10205078125,
+            "gradient_error": 0.009434420615434647
+          }
+        }
+      },
+      {
+        "label": "reflections-71407255",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "625d51889842b4c9940b5763ba7cb3b69ab2b4c96f3f4e8e3a6eec3b3f22960f",
+          "output": "dff5e1bf5772270a173558c6b2cdd6ab62958686e0f45c93f741c22c339bab05"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.026060016825795174,
+            "rmse": 0.032786380499601364,
+            "p99": 0.08837890625,
+            "gradient_error": 0.005215245299041271
+          },
+          "previous": {
+            "mae": 0.027415484189987183,
+            "rmse": 0.033824604004621506,
+            "p99": 0.08837890625,
+            "gradient_error": 0.005488097667694092
+          },
+          "broad": {
+            "mae": 0.026160230860114098,
+            "rmse": 0.03235957771539688,
+            "p99": 0.0849609375,
+            "gradient_error": 0.005176904611289501
+          }
+        }
+      },
+      {
+        "label": "metal-8224497",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "ced23749623737448530079077582463470ce1812093977475a624db27077dc0",
+          "output": "8a117324abdd51fc7620e8cd1056ac6a0a722c38562a71b0f1fa7b0967e4e8ad"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.019264183938503265,
+            "rmse": 0.026159759610891342,
+            "p99": 0.083740234375,
+            "gradient_error": 0.006996465846896172
+          },
+          "previous": {
+            "mae": 0.018671508878469467,
+            "rmse": 0.025253329426050186,
+            "p99": 0.0810546875,
+            "gradient_error": 0.007008495274931192
+          },
+          "broad": {
+            "mae": 0.018014337867498398,
+            "rmse": 0.02456260472536087,
+            "p99": 0.07958984375,
+            "gradient_error": 0.006881388835608959
+          }
+        }
+      },
+      {
+        "label": "metal-8172054",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "b11cb140380c3bc60fc3c6af790b796cfd489626c1776953ff78ad2a8b88c89f",
+          "output": "02e85637a29fe76d96a15b9574e8c22321f2d3ac92eded21f4774cd8b4717a2b"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.02007901482284069,
+            "rmse": 0.0288822241127491,
+            "p99": 0.09765625,
+            "gradient_error": 0.004819318652153015
+          },
+          "previous": {
+            "mae": 0.021335730329155922,
+            "rmse": 0.02994759939610958,
+            "p99": 0.10107421875,
+            "gradient_error": 0.005146253854036331
+          },
+          "broad": {
+            "mae": 0.019952915608882904,
+            "rmse": 0.02866336703300476,
+            "p99": 0.09912109375,
+            "gradient_error": 0.004874801263213158
+          }
+        }
+      },
+      {
+        "label": "sunset-160022247",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "4f4806b3487e5c88fd419de7f05f0fcca2ef76874432fc158404da73c3ce16e9",
+          "output": "7cca6fa1a9ed3d2d3db2ff97f294478e2615f438569eaaa6dfd2713e6c49e16e"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.02005285583436489,
+            "rmse": 0.02628190629184246,
+            "p99": 0.07647705078125,
+            "gradient_error": 0.0035892920568585396
+          },
+          "previous": {
+            "mae": 0.02523580752313137,
+            "rmse": 0.03166992589831352,
+            "p99": 0.0830078125,
+            "gradient_error": 0.0038222731091082096
+          },
+          "broad": {
+            "mae": 0.01840248703956604,
+            "rmse": 0.024341918528079987,
+            "p99": 0.07373046875,
+            "gradient_error": 0.003544384613633156
+          }
+        }
+      },
+      {
+        "label": "sunset-46526067",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "c66db1a291ab1b40f669475ae4ed1e40300b10846673f0c66aa9501fcbf6b33f",
+          "output": "aba7fba6b493273de00e819bb575b4bbf5856b6ae1b1ecaee8186f057652f449"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.013286195695400238,
+            "rmse": 0.017407214269042015,
+            "p99": 0.04345703125,
+            "gradient_error": 0.003338427282869816
+          },
+          "previous": {
+            "mae": 0.01523021049797535,
+            "rmse": 0.019813954830169678,
+            "p99": 0.052825927734375,
+            "gradient_error": 0.0034301618579775095
+          },
+          "broad": {
+            "mae": 0.014336402527987957,
+            "rmse": 0.01873874105513096,
+            "p99": 0.046173095703125,
+            "gradient_error": 0.003322579897940159
+          }
+        }
+      },
+      {
+        "label": "dark-193485774",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "0f74b76220885cc6c70a2e2c0ad66dc72e7c55b93481f137e8edd4534b4ce3e9",
+          "output": "0d918d42d320e87edb0a94f9a8a8f48e448032094eb753c24ed5d93d47f412fa"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.025456728413701057,
+            "rmse": 0.032524656504392624,
+            "p99": 0.096435546875,
+            "gradient_error": 0.004980853293091059
+          },
+          "previous": {
+            "mae": 0.02886849269270897,
+            "rmse": 0.03575243055820465,
+            "p99": 0.086181640625,
+            "gradient_error": 0.005240158177912235
+          },
+          "broad": {
+            "mae": 0.025989176705479622,
+            "rmse": 0.03192349523305893,
+            "p99": 0.0806884765625,
+            "gradient_error": 0.005075414665043354
+          }
+        }
+      },
+      {
+        "label": "dark-193485776",
+        "group": "new-photos",
+        "capture_hashes": {
+          "color": "3398f9b35f618472904c597b2e97ba1e9c3e949db850f727b64374a0a6448b62",
+          "output": "52c671ecad6667a582cdb2f02709143b60a9440cb93f376b12fbb69d93d6ffd3"
+        },
+        "existing_fusions_match_unfused_bitwise": true,
+        "old_first_saved_output_exact": null,
+        "old_metrics_reproduced_within_1e_7": null,
+        "models": {
+          "first": {
+            "mae": 0.01758706383407116,
+            "rmse": 0.02259419858455658,
+            "p99": 0.058837890625,
+            "gradient_error": 0.003603119868785143
+          },
+          "previous": {
+            "mae": 0.01808694377541542,
+            "rmse": 0.02284693717956543,
+            "p99": 0.06182861328125,
+            "gradient_error": 0.004020520485937595
+          },
+          "broad": {
+            "mae": 0.0184025838971138,
+            "rmse": 0.023371361196041107,
+            "p99": 0.059326171875,
+            "gradient_error": 0.0036568674258887768
+          }
+        }
+      }
+    ],
+    "summary": {
+      "all": {
+        "count": 56,
+        "means": {
+          "first": {
+            "mae": 0.021464076042840525,
+            "rmse": 0.02886685755636011,
+            "p99": 0.08746065412248884,
+            "gradient_error": 0.005981574406697681
+          },
+          "previous": {
+            "mae": 0.02380139097970511,
+            "rmse": 0.03159814470979784,
+            "p99": 0.09461593627929688,
+            "gradient_error": 0.006142716372518667
+          },
+          "broad": {
+            "mae": 0.02084485026508836,
+            "rmse": 0.028332013803135072,
+            "p99": 0.08817672729492188,
+            "gradient_error": 0.005979877339476454
+          }
+        },
+        "improved_mae_count": 46,
+        "mae_change_percent": -12.421713996201845
+      },
+      "old-development": {
+        "count": 16,
+        "means": {
+          "first": {
+            "mae": 0.021955577423796058,
+            "rmse": 0.030616845469921827,
+            "p99": 0.09669685363769531,
+            "gradient_error": 0.007307264517294243
+          },
+          "previous": {
+            "mae": 0.023021966335363686,
+            "rmse": 0.032112593471538275,
+            "p99": 0.1032867431640625,
+            "gradient_error": 0.007385298027656972
+          },
+          "broad": {
+            "mae": 0.023300653556361794,
+            "rmse": 0.03287559631280601,
+            "p99": 0.10556411743164062,
+            "gradient_error": 0.007414185092784464
+          }
+        },
+        "improved_mae_count": 10,
+        "mae_change_percent": 1.2105274455641135
+      },
+      "scene": {
+        "count": 6,
+        "means": {
+          "first": {
+            "mae": 0.026067938034733135,
+            "rmse": 0.036085380551715694,
+            "p99": 0.11203511555989583,
+            "gradient_error": 0.010339902403453985
+          },
+          "previous": {
+            "mae": 0.025625606377919514,
+            "rmse": 0.03608322391907374,
+            "p99": 0.11554972330729167,
+            "gradient_error": 0.010265242463598648
+          },
+          "broad": {
+            "mae": 0.025578335548440616,
+            "rmse": 0.03615140294035276,
+            "p99": 0.11559041341145833,
+            "gradient_error": 0.010305337763080994
+          }
+        },
+        "improved_mae_count": 3,
+        "mae_change_percent": -0.18446716452973355
+      },
+      "previous-photos": {
+        "count": 6,
+        "means": {
+          "first": {
+            "mae": 0.018730803703268368,
+            "rmse": 0.026911111548542976,
+            "p99": 0.087921142578125,
+            "gradient_error": 0.0048382425835977
+          },
+          "previous": {
+            "mae": 0.02080746414139867,
+            "rmse": 0.02980938491721948,
+            "p99": 0.09842936197916667,
+            "gradient_error": 0.005046596905837457
+          },
+          "broad": {
+            "mae": 0.023047637504835922,
+            "rmse": 0.033291905807952084,
+            "p99": 0.11000569661458333,
+            "gradient_error": 0.005109907554772993
+          }
+        },
+        "improved_mae_count": 3,
+        "mae_change_percent": 10.766200764369893
+      },
+      "diverse-photos": {
+        "count": 4,
+        "means": {
+          "first": {
+            "mae": 0.020624197088181973,
+            "rmse": 0.027972643729299307,
+            "p99": 0.08685302734375,
+            "gradient_error": 0.0064618405885994434
+          },
+          "previous": {
+            "mae": 0.02243825956247747,
+            "rmse": 0.02961146063171327,
+            "p99": 0.0921783447265625,
+            "gradient_error": 0.006573433056473732
+          },
+          "broad": {
+            "mae": 0.02026365464553237,
+            "rmse": 0.027337422128766775,
+            "p99": 0.0838623046875,
+            "gradient_error": 0.006533872394356877
+          }
+        },
+        "improved_mae_count": 4,
+        "mae_change_percent": -9.691504418558372
+      },
+      "new-photos": {
+        "count": 40,
+        "means": {
+          "first": {
+            "mae": 0.02126747549045831,
+            "rmse": 0.02816686239093542,
+            "p99": 0.08376617431640625,
+            "gradient_error": 0.005451298362459056
+          },
+          "previous": {
+            "mae": 0.024113160837441684,
+            "rmse": 0.03139236520510167,
+            "p99": 0.09114761352539062,
+            "gradient_error": 0.005645683710463345
+          },
+          "broad": {
+            "mae": 0.019862528948578984,
+            "rmse": 0.026514580799266697,
+            "p99": 0.08122177124023437,
+            "gradient_error": 0.005406154238153249
+          }
+        },
+        "improved_mae_count": 36,
+        "mae_change_percent": -17.627850274454836
+      }
+    },
+    "timing": {
+      "measurements": [
+        {
+          "order": [
+            "first",
+            "previous",
+            "broad"
+          ],
+          "ms_per_replay": {
+            "first": 1.0915840148925782,
+            "previous": 2.2113279342651366,
+            "broad": 2.228633689880371
+          }
+        },
+        {
+          "order": [
+            "broad",
+            "previous",
+            "first"
+          ],
+          "ms_per_replay": {
+            "broad": 2.266214370727539,
+            "previous": 2.2165056228637696,
+            "first": 1.1223679542541505
+          }
+        },
+        {
+          "order": [
+            "first",
+            "previous",
+            "broad"
+          ],
+          "ms_per_replay": {
+            "first": 1.0842111587524415,
+            "previous": 2.213273620605469,
+            "broad": 2.214809608459473
+          }
+        },
+        {
+          "order": [
+            "broad",
+            "previous",
+            "first"
+          ],
+          "ms_per_replay": {
+            "broad": 2.2721376419067383,
+            "previous": 2.24399356842041,
+            "first": 1.1396096229553223
+          }
+        },
+        {
+          "order": [
+            "first",
+            "previous",
+            "broad"
+          ],
+          "ms_per_replay": {
+            "first": 1.0745759963989259,
+            "previous": 2.2189056396484377,
+            "broad": 2.2126495361328127
+          }
+        },
+        {
+          "order": [
+            "broad",
+            "previous",
+            "first"
+          ],
+          "ms_per_replay": {
+            "broad": 2.2516416549682616,
+            "previous": 2.2145023345947266,
+            "first": 1.1490303993225097
+          }
+        },
+        {
+          "order": [
+            "first",
+            "previous",
+            "broad"
+          ],
+          "ms_per_replay": {
+            "first": 1.0819583892822267,
+            "previous": 2.2555328369140626,
+            "broad": 2.231091117858887
+          }
+        },
+        {
+          "order": [
+            "broad",
+            "previous",
+            "first"
+          ],
+          "ms_per_replay": {
+            "broad": 2.2151168823242187,
+            "previous": 2.2255615234375,
+            "first": 1.1191295623779296
+          }
+        },
+        {
+          "order": [
+            "first",
+            "previous",
+            "broad"
+          ],
+          "ms_per_replay": {
+            "first": 1.0980352401733398,
+            "previous": 2.254102325439453,
+            "broad": 2.2304447174072264
+          }
+        },
+        {
+          "order": [
+            "broad",
+            "previous",
+            "first"
+          ],
+          "ms_per_replay": {
+            "broad": 2.214463996887207,
+            "previous": 2.2209535598754884,
+            "first": 1.1173888206481934
+          }
+        },
+        {
+          "order": [
+            "first",
+            "previous",
+            "broad"
+          ],
+          "ms_per_replay": {
+            "first": 1.0702431678771973,
+            "previous": 2.2532800674438476,
+            "broad": 2.2216703414916994
+          }
+        },
+        {
+          "order": [
+            "broad",
+            "previous",
+            "first"
+          ],
+          "ms_per_replay": {
+            "broad": 2.2345727920532226,
+            "previous": 2.2609535217285157,
+            "first": 1.0930944442749024
+          }
+        },
+        {
+          "order": [
+            "first",
+            "previous",
+            "broad"
+          ],
+          "ms_per_replay": {
+            "first": 1.084108829498291,
+            "previous": 2.2185983657836914,
+            "broad": 2.2329343795776366
+          }
+        },
+        {
+          "order": [
+            "broad",
+            "previous",
+            "first"
+          ],
+          "ms_per_replay": {
+            "broad": 2.2153215408325195,
+            "previous": 2.2617088317871095,
+            "first": 1.0847135543823243
+          }
+        },
+        {
+          "order": [
+            "first",
+            "previous",
+            "broad"
+          ],
+          "ms_per_replay": {
+            "first": 1.1423744201660155,
+            "previous": 2.2079488754272463,
+            "broad": 2.2578176498413085
+          }
+        },
+        {
+          "order": [
+            "broad",
+            "previous",
+            "first"
+          ],
+          "ms_per_replay": {
+            "broad": 2.223718452453613,
+            "previous": 2.2637407302856447,
+            "first": 1.0813440322875976
+          }
+        },
+        {
+          "order": [
+            "first",
+            "previous",
+            "broad"
+          ],
+          "ms_per_replay": {
+            "first": 1.1286527633666992,
+            "previous": 2.2136831283569336,
+            "broad": 2.210201644897461
+          }
+        },
+        {
+          "order": [
+            "broad",
+            "previous",
+            "first"
+          ],
+          "ms_per_replay": {
+            "broad": 2.224844741821289,
+            "previous": 2.270924758911133,
+            "first": 1.0976256370544433
+          }
+        },
+        {
+          "order": [
+            "first",
+            "previous",
+            "broad"
+          ],
+          "ms_per_replay": {
+            "first": 1.1196415901184082,
+            "previous": 2.2399999618530275,
+            "broad": 2.2312959671020507
+          }
+        },
+        {
+          "order": [
+            "broad",
+            "previous",
+            "first"
+          ],
+          "ms_per_replay": {
+            "broad": 2.248294448852539,
+            "previous": 2.2539072036743164,
+            "first": 1.0883071899414063
+          }
+        },
+        {
+          "order": [
+            "first",
+            "previous",
+            "broad"
+          ],
+          "ms_per_replay": {
+            "first": 1.1437824249267579,
+            "previous": 2.2005760192871096,
+            "broad": 2.248192024230957
+          }
+        },
+        {
+          "order": [
+            "broad",
+            "previous",
+            "first"
+          ],
+          "ms_per_replay": {
+            "broad": 2.2158464431762694,
+            "previous": 2.2894527435302736,
+            "first": 1.0804960250854492
+          }
+        },
+        {
+          "order": [
+            "first",
+            "previous",
+            "broad"
+          ],
+          "ms_per_replay": {
+            "first": 1.0910719871520995,
+            "previous": 2.224025535583496,
+            "broad": 2.221260833740234
+          }
+        },
+        {
+          "order": [
+            "broad",
+            "previous",
+            "first"
+          ],
+          "ms_per_replay": {
+            "broad": 2.215590476989746,
+            "previous": 2.2798336029052733,
+            "first": 1.0878975868225098
+          }
+        },
+        {
+          "order": [
+            "first",
+            "previous",
+            "broad"
+          ],
+          "ms_per_replay": {
+            "first": 1.123635196685791,
+            "previous": 2.2738943099975586,
+            "broad": 2.228019142150879
+          }
+        },
+        {
+          "order": [
+            "broad",
+            "previous",
+            "first"
+          ],
+          "ms_per_replay": {
+            "broad": 2.2564863204956054,
+            "previous": 2.213171195983887,
+            "first": 1.1508383750915527
+          }
+        },
+        {
+          "order": [
+            "first",
+            "previous",
+            "broad"
+          ],
+          "ms_per_replay": {
+            "first": 1.086639976501465,
+            "previous": 2.2527999877929688,
+            "broad": 2.2252384185791017
+          }
+        },
+        {
+          "order": [
+            "broad",
+            "previous",
+            "first"
+          ],
+          "ms_per_replay": {
+            "broad": 2.2319807052612304,
+            "previous": 2.2319103240966798,
+            "first": 1.132646369934082
+          }
+        },
+        {
+          "order": [
+            "first",
+            "previous",
+            "broad"
+          ],
+          "ms_per_replay": {
+            "first": 1.0999808311462402,
+            "previous": 2.2624256134033205,
+            "broad": 2.240790367126465
+          }
+        },
+        {
+          "order": [
+            "broad",
+            "previous",
+            "first"
+          ],
+          "ms_per_replay": {
+            "broad": 2.2611967086791993,
+            "previous": 2.253414344787598,
+            "first": 1.1228960037231446
+          }
+        }
+      ],
+      "all_graphs_match_eager_bitwise": true,
+      "warmup_replays_per_model": 40,
+      "replays_per_interval": 10,
+      "alternating_pairs": 30,
+      "summary": {
+        "first": {
+          "median_ms": 1.0978304386138915,
+          "p95_interval_ms": 1.1466688108444214
+        },
+        "previous": {
+          "median_ms": 2.2419967651367188,
+          "p95_interval_ms": 2.277160921096802
+        },
+        "broad": {
+          "median_ms": 2.2295392036437987,
+          "p95_interval_ms": 2.2639564228057862
+        }
+      }
+    },
+    "saved_cases": [
+      "north",
+      "teacher-illumination-validation-dim",
+      "foliage-29370484",
+      "night-city-121086009",
+      "faces-116177009",
+      "water-7029276"
+    ],
+    "timing_scope": "Complete FP16 model at 1920x1080, both stages including final grade. Existing fusions unchanged; no inference feature cache.",
+    "limitations": [
+      "Development comparisons only; no independent final gameplay or temporal validation.",
+      "Additional warm-start training is not an equal-training-compute architecture comparison.",
+      "Standalone CUDA graph excludes application conversion, synchronization and composition.",
+      "p95 is over ten-replay interval averages, not individual-frame tails.",
+      "Pixel error does not establish perceptual equivalence. No model has been installed."
+    ]
+  },
+  "source_sha256": {
+    "tools/run_neural_demo_trial.py": "70ea0188e75b51a4cedfa3c8dd7c69f42dd8997d9b5e7dbc9ce9faad1197303d",
+    "tools/test_capture_ready.py": "6fd357775d0f2c7dbf1badce3a6a92979487ca08b493c83501f71a93ad0d1107",
+    "research/neural-latency/prepare_broad_sources.py": "a4de1421dfb2283e3544f763f03e32bbabe7099a8b22c6f0e54179e81b936c05",
+    "research/neural-latency/collect_broad_sources.py": "feed53b68370700a3c516b9f46141fc01e40bdf8b29a3bc7a85d94f26ca666b5",
+    "research/neural-latency/collect_demo_image.py": "ac2020b67111e0b6010c7b2d864df034c0a5149b94bd407cd69da1e7f9a508f1",
+    "research/neural-latency/compact_teacher_capture.py": "03c91fde1eb3a57f36f725c0e08138c0e5352f90b16f362c69668950e703a2c9",
+    "research/neural-latency/test_capture_compaction.py": "ed6a5de20e13ff71f40b9c67e892738dc75aa92da69cdf81dfa141e67fd76139",
+    "research/neural-latency/train_broad_student.py": "5924a8e255b06b796c6f2ecd08bbc1fcaa40ac7ad8255333274acff3891bf61f",
+    "research/neural-latency/test_broad_pairs.py": "4e4282027b060cd70d22b3468e7ff25331f24759863a2cd810ede987ef306445",
+    "research/neural-latency/evaluate_broad_student.py": "c97f828c81b134fe111898342e0c6dd3df655ec6ddc4d25c109937c784fd441d",
+    "research/neural-latency/broad-data-protocol.json": "e1595d2e66631d6810757a1ee9e7fa83eebf3cd5684917cc3eedd55933d85547",
+    "research/neural-latency/broad-source-attribution.json": "962a02bbcf005e062fa7786150d0807b38aa491defb9bcafdac94d87fd9e36b2"
+  },
+  "limitations": [
+    "Still-image development data, not independent gameplay acceptance trials.",
+    "The new sources are partitioned by author; this is not proof of universal source independence.",
+    "The candidate received additional training; this is not a compute-matched architecture comparison.",
+    "Standalone model latency excludes application conversion, synchronization and composition.",
+    "Interval p95 is not individual frame-tail latency.",
+    "Private teacher pixels and learned checkpoint/export payloads are not distributed."
+  ]
+}

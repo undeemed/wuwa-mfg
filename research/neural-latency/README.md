@@ -3380,3 +3380,41 @@ export_region_student.py verify --output <private-export-directory>
 [Numeric evidence](../../evidence/neural-model-research/region-export.json)
 contains output parity checks, operator counts and timing intervals. The model
 package, capture paths, pixels and weights remain private.
+
+## Broader data without changing the routed architecture
+
+The completed fixed-budget experiment warm-starts that same routed checkpoint with
+200 additional native-teacher examples, retains the previous 62 training
+frames, and compares against 56 development images. The first stage stays
+frozen; the architecture and existing inference fusions are unchanged.
+
+The [training guide](../../docs/broad-student-training.md) documents capture,
+fitting, evaluation and limitations. The [protocol](broad-data-protocol.json)
+separates this development experiment from the still-uncollected final gameplay
+test. The [attribution catalogue](broad-source-attribution.json) retains public
+source provenance without distributing pixels.
+
+`collect_broad_sources.py --capture-only` stops each hidden trial once four
+fenced frames are complete, then verifies every resource and restores the
+sample. A repeat pilot matched all 16 earlier resource hashes; the command took
+9.616 seconds end to end, with 4.046 seconds inside the trial. This speeds data
+collection, not model inference. `compact_teacher_capture.py` applies lossless
+compression only to explicitly validated capture files and rechecks their hashes.
+
+`train_broad_student.py` keeps an exact FP16 host cache and recomputes the frozen
+base during FP32 fitting. `evaluate_broad_student.py` compares old/new weights
+on identical inputs and times their complete graphs in alternating order.
+`test_broad_pairs.py` covers diagnostic-copy aliases and mismatched targets;
+`tools/test_capture_ready.py` covers incomplete publication and GPU fences.
+The new model remains private and is not installed in the game.
+
+The fit completed all 6,000 updates in 321.31 seconds. On the 56 development
+images, mean RGB error falls 12.42% relative to the previous routed model, with
+46 improvements and 10 regressions. The earlier six-photo group regresses
+10.77%, so this is not a uniform fidelity improvement. The new and previous
+complete model graphs measure 2.230 and 2.242 ms median in the same run; their
+inference architecture is unchanged. All 168 model/image fusion checks are
+bit-exact. [Complete results and regressions](../../docs/broad-student-training.md#completed-development-result)
+and [numeric evidence](../../evidence/neural-model-research/broad-data-v1.json)
+retain the comparison. Game integration, temporal validation and the full
+3 ms effect target remain open.

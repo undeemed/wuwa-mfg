@@ -5,6 +5,34 @@ import argparse, configparser, hashlib, json, re, statistics, subprocess, time
 ARGS = ['-d3d12', '-width', '1920', '-height', '1080']
 RX = re.compile(r'DLSS-NR elapsed: ([\d.]+) ms total, ([\d.]+) ms model, ([\d.]+) ms surrounding')
 
+def capture_ready(directory):
+    """Read-only completion check; final collector still hashes every resource."""
+    try:
+        for index in range(4):
+            frame = json.loads((directory/f'frame-{index}.json').read_text())
+            if not (frame.get('complete') and frame.get('gpu_completed') and frame.get('evaluate_result') == 1):
+                return False
+            if frame.get('index') != index or (index == 0 and frame['controls'].get('DLSSNR.Reset') != 1):
+                return False
+            if (frame['controls'].get('DLSSNR.Width'), frame['controls'].get('DLSSNR.Height')) != (1920, 1080):
+                return False
+            resources = frame['resources']
+            if set(resources) != {'color', 'output', 'depth', 'motion'}:
+                return False
+            for role, resource in resources.items():
+                name = resource['file']
+                if not name or Path(name).name != name:
+                    raise ValueError('Capture resource must stay in the capture directory.')
+                rows, row_bytes = resource['rows'], resource['row_bytes']
+                if rows <= 0 or row_bytes <= 0 or (directory/name).stat().st_size != rows*row_bytes:
+                    return False
+                if role in ('color', 'output') and (resource['width'], resource['height']) != (1920, 1080):
+                    return False
+    except (FileNotFoundError, json.JSONDecodeError, KeyError):
+        return False
+    return True
+
+
 def gpu_snapshot():
     r = subprocess.run(['nvidia-smi', '--query-gpu=utilization.gpu,memory.used,clocks.gr,pstate',
                         '--format=csv,noheader'], capture_output=True, text=True,
@@ -22,6 +50,8 @@ def main():
     parser.add_argument('--seconds', type=int, default=45)
     parser.add_argument('--restore-state', action='store_true')
     parser.add_argument('--fps', type=int, choices=[0, 60, 120], default=0)
+    parser.add_argument('--capture-only', action='store_true',
+                        help='Exit after four complete GPU-fenced reference frames; not a timing benchmark.')
     parser.add_argument('--isolated-desktop', action='store_true', default=True,
                         help='Enabled by default: contain all demo windows and error dialogs on a desktop that is never activated.')
     opts = parser.parse_args()
@@ -33,6 +63,9 @@ def main():
         raise SystemExit('Prepare the exact background demo with prepare_hidden_demo.py first; refusing a launch that could open in front.')
     assert re.fullmatch(r'[a-z0-9-]+', opts.label)
     assert 20 <= opts.seconds <= 180
+    if opts.capture_only:
+        assert (DEMO/'nr-model-capture.enable').is_file(), 'Capture-only requires the explicit capture marker.'
+        assert not (DEMO/'nr-model-capture').exists(), 'Refusing stale capture data.'
     existing = subprocess.run(['powershell', '-NoProfile', '-Command',
         "@(Get-Process -Name ngx_dlss_demo,Client-Win64-Shipping -ErrorAction SilentlyContinue).Count"],
         capture_output=True, text=True, creationflags=subprocess.CREATE_NO_WINDOW)
@@ -63,6 +96,7 @@ def main():
     observations = []
     telemetry = []
     desktop_observations = []
+    capture_complete = False
     try:
         log_path = DEMO / 'OptiScaler.log'
         if log_path.exists():
@@ -70,13 +104,14 @@ def main():
         from isolated_demo_process import IsolatedDemoProcess
         proc = IsolatedDemoProcess([str(DEMO / 'ngx_dlss_demo.exe'), *ARGS], cwd=DEMO)
         while time.monotonic() - start < opts.seconds:
-            time.sleep(5)
+            time.sleep(1 if opts.capture_only else 5)
             log_path = DEMO / 'OptiScaler.log'
             lines = log_path.read_text(errors='replace').splitlines() if log_path.exists() else []
             elapsed = time.monotonic() - start
             if opts.isolated_desktop:
                 desktop_observations.append({'elapsed_s': round(elapsed, 1), **proc.snapshot()})
-            telemetry.append({'elapsed_s': round(elapsed, 1), 'gpu': gpu_snapshot()})
+            if not opts.capture_only:
+                telemetry.append({'elapsed_s': round(elapsed, 1), 'gpu': gpu_snapshot()})
             fresh = [line for line in lines if RX.search(line)]
             for line in fresh:
                 if line in [x['line'] for x in observations]:
@@ -86,15 +121,22 @@ def main():
                     'total_ms': values[0], 'model_ms': values[1], 'surrounding_ms': values[2]})
             if proc.poll() is not None:
                 break
+            if opts.capture_only and len(desktop_observations) >= 3:
+                capture_complete = capture_ready(DEMO/'nr-model-capture')
+                if capture_complete:
+                    break
         full_log = log_path.read_text(errors='replace') if log_path.exists() else ''
         (out / 'OptiScaler.log').write_text(full_log, encoding='utf-8')
         # Approximate warmup; each record is first observed on a five-second poll.
-        kept = [x for x in observations if x['observed_at_s'] >= 15]
-        result = {'label': opts.label, 'settings': vars(opts), 'warmup_seconds': 15,
+        kept = [] if opts.capture_only else [x for x in observations if x['observed_at_s'] >= 15]
+        result = {'label': opts.label, 'settings': vars(opts), 'warmup_seconds': None if opts.capture_only else 15,
                   'pid': proc.pid, 'exit_code_before_cleanup': proc.poll(),
-                  'model_1920x1080_confirmed': 'model 1920x1080, basis output' in full_log,
+                  'model_1920x1080_confirmed': capture_complete or 'model 1920x1080, basis output' in full_log,
                   'observations': observations, 'telemetry': telemetry,
-                  'retained_count': len(kept), 'timings_are_sparse_gpu_intervals': True}
+                  'retained_count': len(kept), 'timings_are_sparse_gpu_intervals': not opts.capture_only,
+                  'capture_only': opts.capture_only, 'four_frame_capture_complete': capture_complete,
+                  'run_elapsed_seconds': round(time.monotonic()-start, 3),
+                  'stop_reason': 'capture-complete' if capture_complete else 'duration-or-process-exit'}
         result['hidden_launch_requested'] = True
         if opts.isolated_desktop:
             result['isolated_desktop_observations'] = desktop_observations
@@ -105,6 +147,8 @@ def main():
                 'min': min(x[field] for x in kept), 'max': max(x[field] for x in kept)}
                 for field in ('total_ms', 'model_ms', 'surrounding_ms')}
         (out / 'result.json').write_text(json.dumps(result, indent=2))
+        if opts.capture_only and not capture_complete:
+            raise RuntimeError('Capture deadline/process exit occurred before four complete fenced frames.')
         print(json.dumps({k:v for k,v in result.items() if k not in ('observations','telemetry')}, indent=2))
     finally:
         try:

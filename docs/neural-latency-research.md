@@ -1266,6 +1266,13 @@ kernel timings locate costs; final claims require an uninstrumented comparison
 in the existing hidden demo. A single isolated-kernel speedup or reduced network
 resolution cannot be reported as meeting 3 ms.
 
+The [broader-data warm start](broad-student-training.md) completed 6,000 updates
+on 262 training frames and evaluated 56 development images. It reduces overall
+RGB error 12.42% against the earlier routed checkpoint at essentially unchanged
+standalone inference cost: 2.230 versus 2.242 ms in the same run. The older
+six-photo group regresses 10.77%, and visual differences remain. This candidate
+is not installed or accepted as native-equivalent.
+
 Remaining work: improve the student's fidelity and extend matched captures to
 varied scenes and temporal sequences. For model compression, train against actual vendor
 outputs and reserve separate sequences for validation. The smaller model must

@@ -1,0 +1,75 @@
+{
+  "schema": 1,
+  "name": "broad-data-v1",
+  "status": "Fixed-budget fit and development evaluation completed; final gameplay testing pending; no confidence claim",
+  "candidate_family": "Existing 381600-parameter routed student; warm start, unchanged inference architecture",
+  "training": {
+    "new_sources": 200,
+    "retained_previous_training_frames": 62,
+    "source_domains": "Licensed high-resolution images rendered through the existing hidden sample",
+    "teacher": "Unchanged native runtime, actual full-1920x1080 input/output capture",
+    "do_not_assume_teacher_equivariance": true,
+    "selection_uses_teacher_outputs": false,
+    "sampling_groups": ["old scene", "old photographs", "new photographs"],
+    "source_count_is_not_independent_gameplay_count": true,
+    "initial_fit": {
+      "updates": 6000,
+      "examples_per_update": 2,
+      "warm_start": "Previously compared routed candidate",
+      "trainable": "Existing refinement stage; first stage remains frozen",
+      "optimizer": "AdamW",
+      "initial_lr": 0.0002,
+      "final_lr": 0.000002,
+      "schedule": "cosine",
+      "weight_decay": 0.0001,
+      "expected_domain_weights": [0.25, 0.25, 0.5],
+      "precision": "FP32, TF32 disabled",
+      "seed": 190915,
+      "selection": "Evaluate the completed fixed-budget fit; do not select a checkpoint using final tests"
+    }
+  },
+  "development": {
+    "new_sources": 40,
+    "previous_comparison_images": 16,
+    "use": "Track learning and regressions; may guide development, never used for final reliability claims",
+    "new_split_group": "author",
+    "deduplication": "Exact content hashes and DCT perceptual similarity against all selected and previously used original images; visual inspection before fitting"
+  },
+  "final_gameplay_test": {
+    "target_trials": 300,
+    "collected_trials": 0,
+    "unit": "One independently selected 10-second gameplay sequence, not an individual frame",
+    "target_domain": "Wuthering Waves under the specified hardware, settings, resolution and native-teacher control configuration",
+    "requires_real_gameplay": true,
+    "photo_planes_and_synthetic_camera_motion_do_not_count": true,
+    "candidate_frozen_before_scoring": true,
+    "used_for_training_or_model_selection": false,
+    "independence": "No overlapping footage, crops of the same footage, repeated event or near-duplicate scene counted as another trial. Group related scene/event recordings together and sample one; independence must be justified in the final manifest.",
+    "sampling": "Predefine the intended gameplay distribution and sample independent scene/event groups from it. Targeted stress cases are scored separately; do not treat a convenient balanced image collection as random gameplay.",
+    "coverage_checks": ["combat effects", "faces and hair", "fine foliage", "dark interiors", "bright sky and highlights", "reflective surfaces", "fast camera motion", "disocclusion", "UI and text", "scene transitions"],
+    "reference_pairing": "Same input, controls, exposure, frame sequence and temporal history for native teacher and candidate",
+    "visual_review": "Randomize A/B labels, use identical display conversion, inspect full sequence and matching native-size crops. No amplified difference image is the sole pass/fail criterion.",
+    "failure_rule": "Any noticeable loss of detail, wrong structure/color/lighting, flicker, ghosting, disocclusion artifact, or UI corruption relative to the native teacher fails the entire clip. Ambiguous or unreviewed cases remain unresolved and do not count as passes.",
+    "zero_failure_acceptance": "All 300 trials pass the predefined criterion. Under the independence and representative-sampling assumptions, the one-sided 95% exact binomial lower bound on pass rate exceeds 99%.",
+    "if_failures_occur": "Report actual successes, failures and the exact confidence bound; do not silently replace failures, lower the criterion, or stop after a convenient number of successes.",
+    "if_model_changes": "Previously inspected final cases become development data; collect an untouched final set for the changed candidate.",
+    "no_universal_zero_loss_claim": true
+  },
+  "performance": {
+    "model_extent": [1920, 1080],
+    "target_median_complete_effect_ms": 3.0,
+    "include": ["model", "texture conversion", "synchronization", "composition"],
+    "report_separately": ["median", "frame p95", "frame p99", "base rendering", "MFG", "GPU memory"],
+    "standalone_graph_timing_is_not_application_acceptance": true,
+    "new_custom_kernel_work": false
+  },
+  "collection_constraints": {
+    "game_installation_untouched": true,
+    "sample_only_on_inactive_private_desktop": true,
+    "verify_pinned_hidden_executable_each_launch": true,
+    "minimum_free_bytes_before_capture": 1073741824,
+    "all_capture_compression_lossless_and_hash_verified": true,
+    "private": ["images", "native captures", "feature tensors", "weights", "model packages", "private paths"],
+    "public": ["original tooling", "attribution", "protocol", "sanitized numerical evidence"]
+  }
+}

@@ -24,11 +24,15 @@ def main():
     parser.add_argument('--capture-dll', type=Path, required=True)
     parser.add_argument('--capture-sha256', required=True)
     parser.add_argument('--label', required=True)
+    parser.add_argument('--compact-capture', action='store_true', help='Losslessly compress only this new capture after the sample exits and restoration succeeds.')
+    parser.add_argument('--capture-only', action='store_true', help='Stop the hidden trial after four fenced frames; do not benchmark its latency.')
     args = parser.parse_args()
     if not re.fullmatch('[a-z0-9-]+', args.label):
         raise ValueError('Use a simple trial label.')
     repo = Path(__file__).resolve().parents[2]
     demo, output, scene_dir = (p.resolve() for p in (args.demo_dir, args.output_dir, args.scene_dir))
+    if (output / 'pause-image-collection.enable').exists():
+        raise SystemExit('Collection paused before launch by the private pause marker.')
     if output.is_relative_to(repo) or scene_dir.is_relative_to(repo):
         raise ValueError('Keep generated scenes and captures outside the repository.')
     if sha256((demo / 'ngx_dlss_demo.exe').read_bytes()) != HIDDEN_EXE_SHA256:
@@ -83,9 +87,12 @@ def main():
         scene.write_bytes(template)
         marker.write_text('Private image-plane teacher capture\n')
         runner = repo / 'tools/run_neural_demo_trial.py'
-        result = subprocess.run([sys.executable, str(runner), args.label,
+        command = [sys.executable, str(runner), args.label,
             '--demo-dir', str(demo), '--output-dir', str(output), '--seconds', '20',
-            '--fps', '60', '--style', '1', '--mask', 'true', '--isolated-desktop'], capture_output=True,
+            '--fps', '60', '--style', '1', '--mask', 'true', '--isolated-desktop']
+        if args.capture_only:
+            command.append('--capture-only')
+        result = subprocess.run(command, capture_output=True,
             text=True, creationflags=subprocess.CREATE_NO_WINDOW)
         (state / 'runner.log').write_text(result.stdout + '\n' + result.stderr)
         if result.returncode:
@@ -121,6 +128,10 @@ def main():
         (state / 'result.json').write_text(json.dumps(report, indent=2) + '\n')
     if not all(report['restored'].values()):
         raise RuntimeError('Sample restoration did not match its original bytes.')
+    if args.compact_capture:
+        from compact_teacher_capture import compact_capture
+        report['capture_storage']=compact_capture(state/'capture',output)
+        (state/'result.json').write_text(json.dumps(report,indent=2)+'\n')
     print(json.dumps(report, indent=2))
 
 

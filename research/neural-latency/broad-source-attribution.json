@@ -1,0 +1,4335 @@
+{
+  "schema": 1,
+  "scope": "Source attribution and fixed train/development partitions for broad-data-v1. No image pixels or native captures are distributed. These are still-image development sources, not final gameplay trials.",
+  "source_manifest_sha256": "9bb6dc705a012d5e38ceaeac8644546b3de084272f3b4da059ffd2c00ab50595",
+  "counts": {
+    "train": 200,
+    "development": 40
+  },
+  "unique_authors": 177,
+  "new_train_development_author_overlap": false,
+  "all_sources_visually_screened": true,
+  "preprocessing": "See make_demo_image_scene.py and prepare_broad_sources.py. Photos are center-cropped to 16:9, rendered as an image plane and captured through the native teacher at 1920x1080.",
+  "cases": [
+    {
+      "id": "forest-110091620",
+      "page_id": 110091620,
+      "bucket": "forest",
+      "split": "train",
+      "title": "File:Trail in Forest Toronto 2021.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Trail_in_Forest_Toronto_2021.jpg",
+      "author": "Don'taskwhyImadethis",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        3264,
+        1836
+      ],
+      "source_sha256": "10480ff3c0713ed3ebd5c62afb25a090bab4e1caf13556e3fbccbe4c872cf788",
+      "texture_sha256": "871003ca064f686a5b34159a6e5b98beb353403443b793e0b9d12d8a4f24a4a4",
+      "phash": "4603d90e3898df79"
+    },
+    {
+      "id": "forest-155958658",
+      "page_id": 155958658,
+      "bucket": "forest",
+      "split": "train",
+      "title": "File:Hiking trail to Biskupsk\u00e1 kupa, Czechia.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Hiking_trail_to_Biskupsk%C3%A1_kupa,_Czechia.jpg",
+      "author": "Pudelek",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        3056,
+        2037
+      ],
+      "source_sha256": "e936dd56fb192780ae28a6af2d69c5fd8cc9d4ea887d1ae21708e3fe2f55d0e5",
+      "texture_sha256": "3cd8f6ce2d70de65924c73de9f0ac0c017aa8dae5a043bfd03b627c0fe4a1781",
+      "phash": "38d78cd0cfac30c9"
+    },
+    {
+      "id": "forest-51602918",
+      "page_id": 51602918,
+      "bucket": "forest",
+      "split": "train",
+      "title": "File:... a trail in Nagla forest (1463004220).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:..._a_trail_in_Nagla_forest_(1463004220).jpg",
+      "author": "Dinesh Valke from Thane, India",
+      "license": "CC BY-SA 2.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+      "source_size": [
+        2816,
+        2112
+      ],
+      "source_sha256": "c41b875174d5c935224055181cc0e6fd11aedbbba5a9cb5bdd2b5c505dfee7db",
+      "texture_sha256": "ec5b8ef73085f6e14a0eeb6681bd8767d018a3f01e2577a115b5f4ae32de4ce9",
+      "phash": "23ec42e3f0b99998"
+    },
+    {
+      "id": "forest-72693101",
+      "page_id": 72693101,
+      "bucket": "forest",
+      "split": "development",
+      "title": "File:Willamette National Forest, Backpackers hiking trail (36737320031).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Willamette_National_Forest,_Backpackers_hiking_trail_(36737320031).jpg",
+      "author": "U.S. Forest Service- Pacific Northwest Region",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        5352,
+        3584
+      ],
+      "source_sha256": "856bdd37d6123c39b6a593aadf398a515d26aa8abe7fe662e40a2586b1fa1475",
+      "texture_sha256": "8ac57e9222fc987e45f8a23036db0d7fedb0f4241f38762dca561ee4e5650a6b",
+      "phash": "1299ecf33b0c4791"
+    },
+    {
+      "id": "forest-182578878",
+      "page_id": 182578878,
+      "bucket": "forest",
+      "split": "train",
+      "title": "File:Jogger on Yellowstone Shortline Trail Custer Gallatin National Forest DSC 6346-01 (53282808045).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Jogger_on_Yellowstone_Shortline_Trail_Custer_Gallatin_National_Forest_DSC_6346-01_(53282808045).jpg",
+      "author": "Forest Service - Northern Region",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        5286,
+        3519
+      ],
+      "source_sha256": "9aa7f28134f3a9e8897a9a665385ee72c481d653df5a0f14f41898452de5b9ed",
+      "texture_sha256": "26931d195b6d9cf4d161b272746754e1850165d5b63ef93e1c1889e52d8d85cc",
+      "phash": "30a7ad8b8f42f0d4"
+    },
+    {
+      "id": "forest-72693254",
+      "page_id": 72693254,
+      "bucket": "forest",
+      "split": "development",
+      "title": "File:Snowshoe Trail in Winter, Willamette National Forest (34727463022).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Snowshoe_Trail_in_Winter,_Willamette_National_Forest_(34727463022).jpg",
+      "author": "U.S. Forest Service- Pacific Northwest Region",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        2048,
+        1361
+      ],
+      "source_sha256": "f53dac29eb5d1af0754186aba549729536fc2a8721665ef3c5c24b496b90b0b9",
+      "texture_sha256": "c3dd671810b5d302010a2709fe0bb2f2c299a88582c0fb8f11a02830c4580892",
+      "phash": "6530c9f67211fc61"
+    },
+    {
+      "id": "forest-46864622",
+      "page_id": 46864622,
+      "bucket": "forest",
+      "split": "train",
+      "title": "File:Rain Forest Trail (14699499033).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Rain_Forest_Trail_(14699499033).jpg",
+      "author": "Mount Rainier National Park from Ashford, WA, United States",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        5184,
+        3456
+      ],
+      "source_sha256": "cb11e5904cabff1bce908b9ccde36df4c7a71f797880b6c82172c481273d1750",
+      "texture_sha256": "c754dfd00c1e3200761910ef05430c057fd87198ce3593e69402aa7dcf76c2ce",
+      "phash": "67834b39b4d99294"
+    },
+    {
+      "id": "forest-114474166",
+      "page_id": 114474166,
+      "bucket": "forest",
+      "split": "train",
+      "title": "File:Forest trail in Yuze-Keikoku.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Forest_trail_in_Yuze-Keikoku.jpg",
+      "author": "\u63ac\u8336",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        3000,
+        2000
+      ],
+      "source_sha256": "2c79aad3cee37e470e6d99c3f578244bd6841260ff048bdfe70767999a092e5a",
+      "texture_sha256": "47bb4e439a20b6a810459ff52be2200e0f955831a1671945eef5dea6a5c4105e",
+      "phash": "3e01c42e43757ee1"
+    },
+    {
+      "id": "forest-46864632",
+      "page_id": 46864632,
+      "bucket": "forest",
+      "split": "train",
+      "title": "File:Rain Forest Trail (14492998429).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Rain_Forest_Trail_(14492998429).jpg",
+      "author": "Mount Rainier National Park from Ashford, WA, United States",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        5184,
+        3456
+      ],
+      "source_sha256": "9c0163c5bb5823331b8a160d535ae63db22b08dc8c6b00d9c7c4a4a30dd8592b",
+      "texture_sha256": "70b019080c886866baba8924c4bded35cf8e60d4a5a316afb143fe88f61b99f5",
+      "phash": "28df431e1ae51d94"
+    },
+    {
+      "id": "forest-106069450",
+      "page_id": 106069450,
+      "bucket": "forest",
+      "split": "train",
+      "title": "File:Seminole State Forest; Cassia Trailhead; To Florida Trail Sign.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Seminole_State_Forest;_Cassia_Trailhead;_To_Florida_Trail_Sign.jpg",
+      "author": "DanTD",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        3648,
+        2736
+      ],
+      "source_sha256": "f545d2b43d5dd69e9a65b56851b828de8a6e3ba5e13ee6ced1edf20be967f61a",
+      "texture_sha256": "74c224b4012eb86ed983acdb83878ffc7cf9c89d89daa44439686eb3030a1cd8",
+      "phash": "4f9b58466333b119"
+    },
+    {
+      "id": "forest-105395516",
+      "page_id": 105395516,
+      "bucket": "forest",
+      "split": "train",
+      "title": "File:Explore Mount Rainier's forest along the Rampart Ridge Trail. (6228025d-94c5-44cd-a6ac-9a54be7635e6).JPG",
+      "source": "https://commons.wikimedia.org/wiki/File:Explore_Mount_Rainier%27s_forest_along_the_Rampart_Ridge_Trail._(6228025d-94c5-44cd-a6ac-9a54be7635e6).JPG",
+      "author": "NPS Photo",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        4000,
+        6000
+      ],
+      "source_sha256": "bae8a25147e6880ae7b5f5fce9a3074d746f437335062b80e8e1a0f73cb03189",
+      "texture_sha256": "84a47f22dae900be7eeba19906330dd2a1e1343ab65ed0ee410efaced324daf0",
+      "phash": "343fc437806fc81d"
+    },
+    {
+      "id": "forest-184581572",
+      "page_id": 184581572,
+      "bucket": "forest",
+      "split": "train",
+      "title": "File:Gum Springs Horse Trail Entrance - Kisatchie National Forest (51718466769).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Gum_Springs_Horse_Trail_Entrance_-_Kisatchie_National_Forest_(51718466769).jpg",
+      "author": "US Forest Service - Southern Region",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        5472,
+        3648
+      ],
+      "source_sha256": "70e6f34dbbc584e0ced3f86510b716f9778d106be62dc8357d490724de700ea0",
+      "texture_sha256": "86978d2278256621ece980e2b0d3caea1fc0120aaa18ee9bc9e9e9802dd43548",
+      "phash": "4659e443d225f5e1"
+    },
+    {
+      "id": "foliage-80297370",
+      "page_id": 80297370,
+      "bucket": "foliage",
+      "split": "train",
+      "title": "File:Logan Canyon Scenic Byway - Close-up of Fire-Red Leaves - NARA - 7720178.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Logan_Canyon_Scenic_Byway_-_Close-up_of_Fire-Red_Leaves_-_NARA_-_7720178.jpg",
+      "author": "Unknown author Unknown author or not provided",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        3008,
+        2000
+      ],
+      "source_sha256": "f3dafbbd2f0a730ddec8ebc1e7110584abf0a6a988a4940f3d922302944b80a2",
+      "texture_sha256": "82d95c0afff71f20987bf1543afee47589d55cac3042b4d4655b823d32603ebf",
+      "phash": "012f99e750cbb519"
+    },
+    {
+      "id": "foliage-29370484",
+      "page_id": 29370484,
+      "bucket": "foliage",
+      "split": "development",
+      "title": "File:Aftertherain2010 (9) (5114411375) (2).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Aftertherain2010_(9)_(5114411375)_(2).jpg",
+      "author": "Virginia State Parks staff",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "source_size": [
+        2736,
+        3648
+      ],
+      "source_sha256": "ab1e8d184875f59728272259febe64c0814fd32381bad325590c71845ec2c5be",
+      "texture_sha256": "b1b1a5e901ae1a1119118c9fdb793cd808a001c55c2965bf80df19576176c1cd",
+      "phash": "4e67639999992466"
+    },
+    {
+      "id": "foliage-30890131",
+      "page_id": 30890131,
+      "bucket": "foliage",
+      "split": "train",
+      "title": "File:Close-up of a specimen of a Chrysanthemum (flower), ca.1920 (CHS-2658).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Close-up_of_a_specimen_of_a_Chrysanthemum_(flower),_ca.1920_(CHS-2658).jpg",
+      "author": "C. C. Pierce",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        3939,
+        5112
+      ],
+      "source_sha256": "bb864b3a7d47d67c57c47fe778b9a6079133ae548a1d20bfccee3b912eba6e5a",
+      "texture_sha256": "b94f16d3e52d125c0d875204b031b0f9686c9bd39e33d33766bf950e942f8d6b",
+      "phash": "0315be51da07a4ee"
+    },
+    {
+      "id": "foliage-47125478",
+      "page_id": 47125478,
+      "bucket": "foliage",
+      "split": "train",
+      "title": "File:Shades of grey and yellow Mushroom in late August.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Shades_of_grey_and_yellow_Mushroom_in_late_August.jpg",
+      "author": "Stesso",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "source_size": [
+        3264,
+        1836
+      ],
+      "source_sha256": "013101f8d52d6619878c8cd6725fdb5c1dbd469ac9bb39a2a936a11c92afb1d7",
+      "texture_sha256": "88026a3718a9773c896ce86999189e421f74173203639fdb1c837bf9e906e6b8",
+      "phash": "6ac09ae15bbc65a4"
+    },
+    {
+      "id": "foliage-30853901",
+      "page_id": 30853901,
+      "bucket": "foliage",
+      "split": "train",
+      "title": "File:Close-up of a specimen of a Lady Washington Geranium (Pelagonium), ca.1920 (CHS-2655).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Close-up_of_a_specimen_of_a_Lady_Washington_Geranium_(Pelagonium),_ca.1920_(CHS-2655).jpg",
+      "author": "C. C. Pierce",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        3939,
+        5100
+      ],
+      "source_sha256": "e781a144716897bfbf3afc239ec90b69245a7cab4b7746253e72e5155e24b54e",
+      "texture_sha256": "b9f55caed5126a279b6e4a6985161f42fb7159c8d06eecd2717558f0d50bf590",
+      "phash": "3116d642eb4c91af"
+    },
+    {
+      "id": "foliage-55335334",
+      "page_id": 55335334,
+      "bucket": "foliage",
+      "split": "train",
+      "title": "File:Roman mount in the form of a panther emerging from a flower, close up (FindID 89170).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Roman_mount_in_the_form_of_a_panther_emerging_from_a_flower,_close_up_(FindID_89170).jpg",
+      "author": "Colchester Museums, Caroline McDonald, 2005-03-04 13:33:34",
+      "license": "CC BY-SA 2.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+      "source_size": [
+        2272,
+        1704
+      ],
+      "source_sha256": "206956935d15afca6cfdcdf60c3aef4d3bb18c9e7c88d3ac1fad30924c6f1ec2",
+      "texture_sha256": "2a4dbb9e2f931ba71aa3182cf17ba9a8eeeb33865e3e208196b719a046013589",
+      "phash": "4831232cdde666b3"
+    },
+    {
+      "id": "foliage-30878723",
+      "page_id": 30878723,
+      "bucket": "foliage",
+      "split": "train",
+      "title": "File:Close-up of a specimen of mustang mints (Monardella lanceolata), ca.1920 (CHS-5519).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Close-up_of_a_specimen_of_mustang_mints_(Monardella_lanceolata),_ca.1920_(CHS-5519).jpg",
+      "author": "Unknown author Unknown author",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        4050,
+        5012
+      ],
+      "source_sha256": "ccb2242dd6768aea85b4d8466d468e76ba94a8ec9a3f26546d26b8b7bdaaf57a",
+      "texture_sha256": "536d72a94cd97d36fd61b3784bebe1e8c5efbaaa9fc7637a4fcd9c361a59d176",
+      "phash": "70fe0a492e8534db"
+    },
+    {
+      "id": "foliage-30861780",
+      "page_id": 30861780,
+      "bucket": "foliage",
+      "split": "train",
+      "title": "File:Close-up of a specimen of branches from a scrub oak (quercus dumosa), ca.1920 (CHS-5407).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Close-up_of_a_specimen_of_branches_from_a_scrub_oak_(quercus_dumosa),_ca.1920_(CHS-5407).jpg",
+      "author": "Unknown author Unknown author",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        4050,
+        4932
+      ],
+      "source_sha256": "7aed9f569985a1335092f1dde20ae6028e858d2786952e77adc74e3357c92fa3",
+      "texture_sha256": "1e4535d85dfd4a4b4f0db205158bc93810649183a79c2c4ee230b07e77f89d85",
+      "phash": "1b0dc976a37d9482"
+    },
+    {
+      "id": "foliage-186768124",
+      "page_id": 186768124,
+      "bucket": "foliage",
+      "split": "train",
+      "title": "File:Small white Oldenlandia wildflower macro image.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Small_white_Oldenlandia_wildflower_macro_image.jpg",
+      "author": "Vraj Acharya, WELL Labs",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        3468,
+        4624
+      ],
+      "source_sha256": "a4d49d87fd5403ec3b0678ee1f5d27536ea791f49c4166d04dc755cd1f003e12",
+      "texture_sha256": "b5f3f5e2e59370d3bf52b8067102080d8cf7a1204b9eef746df1ff753bfd4859",
+      "phash": "295b157cbe3204ce"
+    },
+    {
+      "id": "foliage-187803853",
+      "page_id": 187803853,
+      "bucket": "foliage",
+      "split": "train",
+      "title": "File:Pumpkin flower (Cucurbita) on green foliage.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Pumpkin_flower_(Cucurbita)_on_green_foliage.jpg",
+      "author": "Sanskritidubey",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0",
+      "source_size": [
+        4000,
+        1840
+      ],
+      "source_sha256": "b44ead59b812e1d0861ac18fe79f4cb746709e254a81c6d23d48c45ed6aba6d9",
+      "texture_sha256": "33b6e04349d31783f5bcc4a91fd0c899b3f549291e1d88f96bc1ec5e5689a27f",
+      "phash": "66ec614739d214b9"
+    },
+    {
+      "id": "foliage-196363488",
+      "page_id": 196363488,
+      "bucket": "foliage",
+      "split": "train",
+      "title": "File:Young Green Leaves.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Young_Green_Leaves.jpg",
+      "author": "Asah baby",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        3024,
+        4032
+      ],
+      "source_sha256": "8e54b2350c6e1332491caf053aa8b845bda2112eb73bc914fc77fc75135a39a3",
+      "texture_sha256": "855717aa6df2ed006b0b3f287c88f9547fbf22b9a2cdefd62dcb2ce1b64bf287",
+      "phash": "593db34ec4b24aa4"
+    },
+    {
+      "id": "foliage-111307040",
+      "page_id": 111307040,
+      "bucket": "foliage",
+      "split": "development",
+      "title": "File:Beginning foliage colouring.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Beginning_foliage_colouring.jpg",
+      "author": "Islander61",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        5000,
+        3750
+      ],
+      "source_sha256": "38111af14dd6084005101c985ec0907b9b8de383407494efd8f71cfc8ea685f7",
+      "texture_sha256": "11e71294bde45ed79bfc7bd8fd12fd98c67f1d64ad86b7101633e97afdb7106a",
+      "phash": "22e3d690dc295dd4"
+    },
+    {
+      "id": "mountains-14358",
+      "page_id": 14358,
+      "bucket": "mountains",
+      "split": "train",
+      "title": "File:Field, corn, Liechtenstein, Mountains, Alps, Vaduz, sky, clouds, landscape.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Field,_corn,_Liechtenstein,_Mountains,_Alps,_Vaduz,_sky,_clouds,_landscape.jpg",
+      "author": "Paranoid",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        2048,
+        1536
+      ],
+      "source_sha256": "fd45f1623dad1d5a3f2e47d8798204be5fcc467c2c035b4e7541563a49f34895",
+      "texture_sha256": "e32ab469a26140ce49c2564514d34c505baea3ac2eea34234c240b36a0c6f02e",
+      "phash": "4ee1bf4180371ed1"
+    },
+    {
+      "id": "mountains-158986126",
+      "page_id": 158986126,
+      "bucket": "mountains",
+      "split": "train",
+      "title": "File:Vihren & Kutelo Pirin Mountains Bulgaria 2025.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Vihren_%26_Kutelo_Pirin_Mountains_Bulgaria_2025.jpg",
+      "author": "kallerna",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        5400,
+        3600
+      ],
+      "source_sha256": "dcb99a1ff05b5c27a80ed574729c53eadd2b437e98123353fff0bc4b12e54177",
+      "texture_sha256": "2737785b09364cc0f2be901949fef45ae5d600566b90ba712c62906fa35d4560",
+      "phash": "4936c692785d2f85"
+    },
+    {
+      "id": "mountains-160245743",
+      "page_id": 160245743,
+      "bucket": "mountains",
+      "split": "train",
+      "title": "File:Landscape and mountains (53640239496).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Landscape_and_mountains_(53640239496).jpg",
+      "author": "BLMUtah",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        2048,
+        1365
+      ],
+      "source_sha256": "ef8f18c6f308bf0867941ccec4fd17407dc9a678dd3ea0a8ed0e4ba64c979528",
+      "texture_sha256": "7204cadcb2c568ef66ea6f5df15e02fe3d31182358de4ebeb496ced856c72982",
+      "phash": "1f7284d02f5f3285"
+    },
+    {
+      "id": "mountains-48692154",
+      "page_id": 48692154,
+      "bucket": "mountains",
+      "split": "train",
+      "title": "File:Hills landscape with mountains in the background.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Hills_landscape_with_mountains_in_the_background.jpg",
+      "author": "Junaid Rahim Khan",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        3264,
+        2448
+      ],
+      "source_sha256": "b814a289c857b38d8788e36e50b05db088ff06f7a4c12d18c949e3e559b538ec",
+      "texture_sha256": "cf8906264102dbae0621aa77db4dfd5f139acfa17fefa95a5ce3c327a72fa656",
+      "phash": "49896139a6b59fd0"
+    },
+    {
+      "id": "mountains-96137994",
+      "page_id": 96137994,
+      "bucket": "mountains",
+      "split": "train",
+      "title": "File:Switerzland landscape blooming grasland with cows and mountains in background.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Switerzland_landscape_blooming_grasland_with_cows_and_mountains_in_background.jpg",
+      "author": "TER3981",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        3968,
+        2976
+      ],
+      "source_sha256": "60739d606860ced6b8566bf8df8e4713a564138b3585f01fa1789c8420e024d6",
+      "texture_sha256": "afe1f087d869b8e43733de7d91a395c78d86a0e7d3285471a2d6d1aaafb29259",
+      "phash": "77f5dc4a0226c5c1"
+    },
+    {
+      "id": "mountains-88422859",
+      "page_id": 88422859,
+      "bucket": "mountains",
+      "split": "train",
+      "title": "File:\u015anie\u017cka (Sn\u011b\u017eka, Schneekoppe) in winter 2020, Karkonosze mountains 03.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:%C5%9Anie%C5%BCka_(Sn%C4%9B%C5%BEka,_Schneekoppe)_in_winter_2020,_Karkonosze_mountains_03.jpg",
+      "author": "Pudelek",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        4068,
+        2712
+      ],
+      "source_sha256": "71485b8807f10313388f4251561f6634c79955b4368c0512d8352e6d1742f0c5",
+      "texture_sha256": "5c653ef403330d1ba23e6e7f4af7f50fe889a2ad040e89ca1acf9e4749d7c89c",
+      "phash": "0bfd2c4c74f1922a"
+    },
+    {
+      "id": "mountains-44594373",
+      "page_id": 44594373,
+      "bucket": "mountains",
+      "split": "train",
+      "title": "File:Mountains in Krasnaya Polyana.JPG",
+      "source": "https://commons.wikimedia.org/wiki/File:Mountains_in_Krasnaya_Polyana.JPG",
+      "author": "SKas",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        4272,
+        2848
+      ],
+      "source_sha256": "45ce9032ed1938a59bcc4ebf2ac4d7b08bcad5d8310a39db15e0ab985d07576a",
+      "texture_sha256": "c7544bdca8ac2cfd11cbfd8d41db8aab134fe2ddcd50b9a6cb095929af8ad352",
+      "phash": "175b52ef64691611"
+    },
+    {
+      "id": "mountains-98708810",
+      "page_id": 98708810,
+      "bucket": "mountains",
+      "split": "train",
+      "title": "File:Landscape Fez region.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Landscape_Fez_region.jpg",
+      "author": "KhaoulaRamah",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        4032,
+        3024
+      ],
+      "source_sha256": "ab83837a77ada81d7f7c9b44cb4c12c2dffe5c90d8c996a97cdae682b4ff37d1",
+      "texture_sha256": "d95e2d08d41f5385c40a98935a9e9441abcd8a87478fd45c985925b0cde5f101",
+      "phash": "464ba994fcbb29c0"
+    },
+    {
+      "id": "mountains-149668304",
+      "page_id": 149668304,
+      "bucket": "mountains",
+      "split": "train",
+      "title": "File:Forest landscape with mountain in Lloret de Mar 2012.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Forest_landscape_with_mountain_in_Lloret_de_Mar_2012.jpg",
+      "author": "JopkeB",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        3264,
+        1840
+      ],
+      "source_sha256": "d8797b41bd4972682f462e1d0b0a3f42a6638a1135c3bc6b3c81d25ca3b6d33b",
+      "texture_sha256": "5ef8e5a17a05947c599a123a31e4e7bcb81880dda6978a440f89e05e0f57d474",
+      "phash": "20c8d47f0f6ba8d4"
+    },
+    {
+      "id": "mountains-29876671",
+      "page_id": 29876671,
+      "bucket": "mountains",
+      "split": "train",
+      "title": "File:Blue mountain landscape (3304771454).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Blue_mountain_landscape_(3304771454).jpg",
+      "author": "Randi Hausken from B\u00e6rum, Norway",
+      "license": "CC BY-SA 2.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+      "source_size": [
+        3000,
+        2015
+      ],
+      "source_sha256": "f118740a0aadf41f49fce2ec4333a173fc1d74c894003e1058706df65687bcad",
+      "texture_sha256": "23669986f28606ddc8ebccd6389e292db038debdd10bcb2379cec97cfa0ea027",
+      "phash": "62bf0cd8fc1f1980"
+    },
+    {
+      "id": "mountains-146971170",
+      "page_id": 146971170,
+      "bucket": "mountains",
+      "split": "development",
+      "title": "File:Mountain landscape near Kungsleden.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Mountain_landscape_near_Kungsleden.jpg",
+      "author": "Christoph Str\u00e4ssler",
+      "license": "CC BY-SA 2.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+      "source_size": [
+        3887,
+        2185
+      ],
+      "source_sha256": "02ae345ea2def8fb8fd136f5f0c3515599073b19543a0d8f16d18b27bf3ada24",
+      "texture_sha256": "a8b027cffe04b2e9f3d6bd534655906bc74c816944ebb9103c08613430e03230",
+      "phash": "75958a0a2f2db1d1"
+    },
+    {
+      "id": "mountains-40764786",
+      "page_id": 40764786,
+      "bucket": "mountains",
+      "split": "development",
+      "title": "File:Mountains in the canton of Valais-3.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Mountains_in_the_canton_of_Valais-3.jpg",
+      "author": "Yair Haklai",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source_size": [
+        3264,
+        2448
+      ],
+      "source_sha256": "118877ffea6bff3719a79fcbcd4a9f701b5c4cae53f05927238eb511d0dad26b",
+      "texture_sha256": "20c636b63435609e7db939852e1764056c67ff9442941b22b20d269204a838d5",
+      "phash": "5b55452d6c7064e5"
+    },
+    {
+      "id": "coast-129075577",
+      "page_id": 129075577,
+      "bucket": "coast",
+      "split": "train",
+      "title": "File:Dover White Cliffs 6.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Dover_White_Cliffs_6.jpg",
+      "author": "kallerna",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        5300,
+        3440
+      ],
+      "source_sha256": "cbd5910381bb0e1f7e609d0fde935f9991394af0178bc1242abce913f15b601f",
+      "texture_sha256": "c994444a644a123992494e2d46ff9a636b03261cb0e987164b6b30e6052aee46",
+      "phash": "631411b3445f7dcc"
+    },
+    {
+      "id": "coast-129075578",
+      "page_id": 129075578,
+      "bucket": "coast",
+      "split": "train",
+      "title": "File:Dover White Cliffs 4.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Dover_White_Cliffs_4.jpg",
+      "author": "kallerna",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        5340,
+        3550
+      ],
+      "source_sha256": "0796ec8bdb899bceaa52df76ec2dc1a36f845166c5809cf936269a59a632d68a",
+      "texture_sha256": "401a6073ff713d32fff6e1f9d3c53eb302ad1629a298b11fcba3a66e6dd35b1a",
+      "phash": "4cc91ee30c9b037d"
+    },
+    {
+      "id": "coast-93676412",
+      "page_id": 93676412,
+      "bucket": "coast",
+      "split": "train",
+      "title": "File:Little Beach, Looking West.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Little_Beach,_Looking_West.jpg",
+      "author": "Partonez",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        5152,
+        3864
+      ],
+      "source_sha256": "0709db12e9f9c802f4be9ebf471f2a629503fe1f7b73133d078e7457fd460e32",
+      "texture_sha256": "dafdbe3cfe264a2f633d36d7749aac4ed7ce03a7caf59cf4ca10958f6f4ecf21",
+      "phash": "07ec8873429c99f3"
+    },
+    {
+      "id": "coast-93676411",
+      "page_id": 93676411,
+      "bucket": "coast",
+      "split": "train",
+      "title": "File:Little Beach, Looking East.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Little_Beach,_Looking_East.jpg",
+      "author": "Partonez",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        5152,
+        3864
+      ],
+      "source_sha256": "3b9f14f1ab1e6fa817805f75499441fbdd4b112221b4ae5e74d89dc98578c508",
+      "texture_sha256": "a7720b14f63fe438244bb1b736b2d209852a9010e4eda8cdf7b8b01150507757",
+      "phash": "4699951aa559e674"
+    },
+    {
+      "id": "coast-4498670",
+      "page_id": 4498670,
+      "bucket": "coast",
+      "split": "development",
+      "title": "File:Cliff-walled beach and cliff underpass, Marathia cape, Zakynthos, Greece 01.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Cliff-walled_beach_and_cliff_underpass,_Marathia_cape,_Zakynthos,_Greece_01.jpg",
+      "author": "Christaras A",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source_size": [
+        3072,
+        2304
+      ],
+      "source_sha256": "16485b73e6112943b6834077e4e9ed71f2bd53b7216794d9bafee56c5878fe95",
+      "texture_sha256": "8f131eb8192e9769ecfeab17eda0d76aab7da6797d224a6f24aedff613f09d2f",
+      "phash": "23eac0858da97dd4"
+    },
+    {
+      "id": "coast-118590419",
+      "page_id": 118590419,
+      "bucket": "coast",
+      "split": "train",
+      "title": "File:Konyaalt\u0131 Beach and cliffs.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Konyaalt%C4%B1_Beach_and_cliffs.jpg",
+      "author": "MrEfeS",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        4000,
+        3000
+      ],
+      "source_sha256": "dd18e51806cdad55556eaf8a774b247543301a0412e871b4cf8a76ab825ddeea",
+      "texture_sha256": "c91d7dc26e8263bcfade89577a56d2f2fcbe5bd399a3b4b1fe7b3a37f53c8038",
+      "phash": "5345b8d6291752ec"
+    },
+    {
+      "id": "coast-63218100",
+      "page_id": 63218100,
+      "bucket": "coast",
+      "split": "development",
+      "title": "File:Beach of the Sculpture valley in Hormoz Island.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Beach_of_the_Sculpture_valley_in_Hormoz_Island.jpg",
+      "author": "Mimnoon7",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        4032,
+        3024
+      ],
+      "source_sha256": "a100ec7b5fbf5eb25229f349cd14ed63cb67120352181bbc69edaa49b6cca923",
+      "texture_sha256": "f5d973a2327e0c416487d844a0b276b59c29f5b21a7267f569ade1be4c4f4d7e",
+      "phash": "25ad495b5296d499"
+    },
+    {
+      "id": "coast-171509990",
+      "page_id": 171509990,
+      "bucket": "coast",
+      "split": "train",
+      "title": "File:Houses and cliffs near North Point, Depoe Bay, Oregon.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Houses_and_cliffs_near_North_Point,_Depoe_Bay,_Oregon.jpg",
+      "author": "Joe Mabel",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        6000,
+        4000
+      ],
+      "source_sha256": "256af5cdc8892884fec3ce8d3532331c29b0091f46efedf2fc33c71f496c8083",
+      "texture_sha256": "05641ce536ca80b8dd643405e983e99d7c57b8284e0e68378dcffba91087271b",
+      "phash": "18146dfb1779e884"
+    },
+    {
+      "id": "coast-89628599",
+      "page_id": 89628599,
+      "bucket": "coast",
+      "split": "train",
+      "title": "File:Golden Cap from Charmouth Beach.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Golden_Cap_from_Charmouth_Beach.jpg",
+      "author": "Partonez",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        5152,
+        3864
+      ],
+      "source_sha256": "fdd885d3b278a3c48e7d8939d736763e643ca72e56b01389f9a1814d5e2b94ca",
+      "texture_sha256": "6672e7c6cdad2987714804de0ce8995b8911ea79b3a5e47d2227f94377673c45",
+      "phash": "10cba6b65a21e5f2"
+    },
+    {
+      "id": "coast-79147003",
+      "page_id": 79147003,
+      "bucket": "coast",
+      "split": "train",
+      "title": "File:2019 - Nationalpark Jasmund - 01.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:2019_-_Nationalpark_Jasmund_-_01.jpg",
+      "author": "Moahim",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        4493,
+        2877
+      ],
+      "source_sha256": "443bd79bf4381f5a30007b7c3f0f0e3b85c8eae57b2282d530735917027c5b3e",
+      "texture_sha256": "2a862b56dcab480913973cb32a649b5315af3a2fa6a70947f5e6f63654c38413",
+      "phash": "4e11f777098188be"
+    },
+    {
+      "id": "coast-30883706",
+      "page_id": 30883706,
+      "bucket": "coast",
+      "split": "train",
+      "title": "File:View of rocks and a small boat on the south end of Newport Beach (Balboa), ca.1906-1908 (CHS-5460).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:View_of_rocks_and_a_small_boat_on_the_south_end_of_Newport_Beach_(Balboa),_ca.1906-1908_(CHS-5460).jpg",
+      "author": "Unknown author Unknown author",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        5100,
+        4196
+      ],
+      "source_sha256": "5affa64b956222c06b5dc8c032ee76e3e3200301b2786748ca11dda319115c54",
+      "texture_sha256": "250d20e51dca1f44359fe21d16c82dbc9ab1e5c30c69d6e557a078c29ae96cd3",
+      "phash": "4c7331cc7e3181dc"
+    },
+    {
+      "id": "coast-73857715",
+      "page_id": 73857715,
+      "bucket": "coast",
+      "split": "train",
+      "title": "File:Graywhale Cove State Beach - California - United States.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Graywhale_Cove_State_Beach_-_California_-_United_States.jpg",
+      "author": "Raffaele pagani",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        4032,
+        1960
+      ],
+      "source_sha256": "efe01f30b89697d6aeb4d6e09422e7b07d460ed67495f06abdec0212f5c63219",
+      "texture_sha256": "f252a465a7c1fc3f5612684c81c187bbb207150169ca863dc9a8dbcae8c5bd05",
+      "phash": "0377ce3c74fe1081"
+    },
+    {
+      "id": "water-150599694",
+      "page_id": 150599694,
+      "bucket": "water",
+      "split": "train",
+      "title": "File:Edale, waterfall on River Noe above the Packhorse Bridge (1).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Edale,_waterfall_on_River_Noe_above_the_Packhorse_Bridge_(1).jpg",
+      "author": "AndyScott",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "source_size": [
+        2665,
+        4000
+      ],
+      "source_sha256": "820858cba961adad758af5eec085466cb61d2706a19476f09ad2b88e6740c5c4",
+      "texture_sha256": "f3b21c96f6b819297751025f172b3b1715e16d4bae1d5c771f2804f6b01c9492",
+      "phash": "1a46b693c8f4b389"
+    },
+    {
+      "id": "water-82348190",
+      "page_id": 82348190,
+      "bucket": "water",
+      "split": "train",
+      "title": "File:Paradise River waterfall (6cd0271a7ba044949364f253efd61a1e).JPG",
+      "source": "https://commons.wikimedia.org/wiki/File:Paradise_River_waterfall_(6cd0271a7ba044949364f253efd61a1e).JPG",
+      "author": "Steve Redman ( MORA )",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        2560,
+        1920
+      ],
+      "source_sha256": "cc5c5cfc94ca0aabc8595a53e0e7c2ff5728e93be193c90f82130c3f306e22ae",
+      "texture_sha256": "293b9749e3708bc6ad3a10967aaf1830b04b80bace5fcfdabf3989e1f548b2ce",
+      "phash": "303c849b258f0ff5"
+    },
+    {
+      "id": "water-75728685",
+      "page_id": 75728685,
+      "bucket": "water",
+      "split": "train",
+      "title": "File:Little Union River Small Waterfall PLC-WF-9.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Little_Union_River_Small_Waterfall_PLC-WF-9.jpg",
+      "author": "Shadowmeld Photography",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        3872,
+        2592
+      ],
+      "source_sha256": "3c824b01e7afdb5b39ef549b78b3a3af41c9eb77487292752e2b40e436f4305d",
+      "texture_sha256": "13c1c609857108ef8eb4ecb9270359da453594b41708de778e335694e74235ef",
+      "phash": "5f12727164c63f09"
+    },
+    {
+      "id": "water-75728690",
+      "page_id": 75728690,
+      "bucket": "water",
+      "split": "train",
+      "title": "File:Little Union River Small Steep Waterfall PLC-WF-13.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Little_Union_River_Small_Steep_Waterfall_PLC-WF-13.jpg",
+      "author": "Shadowmeld Photography",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        3339,
+        2113
+      ],
+      "source_sha256": "2ebc40172fcf1eb7c3616c74e1766cbe4ddcab6708314b9e328fd0d8925e73a5",
+      "texture_sha256": "1d6312e4e061eca385869d14d23141d5777c1e08c408d96ecd691662ea08171d",
+      "phash": "75db24994c749a0d"
+    },
+    {
+      "id": "water-46864651",
+      "page_id": 46864651,
+      "bucket": "water",
+      "split": "train",
+      "title": "File:Waterfall by the Nisqually River (14597747134).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Waterfall_by_the_Nisqually_River_(14597747134).jpg",
+      "author": "Mount Rainier National Park from Ashford, WA, United States",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        5184,
+        3456
+      ],
+      "source_sha256": "81e2fcd21596f062e889f9bc211941896f25a27d696c9a8db1e10816825a80ac",
+      "texture_sha256": "b4189feb0ed5ad5314e4e4f4d74259df0e00f419c11daf1830e0a5df5ed9a76a",
+      "phash": "1c952e18c7fc5962"
+    },
+    {
+      "id": "water-167470367",
+      "page_id": 167470367,
+      "bucket": "water",
+      "split": "train",
+      "title": "File:Shivapuri Bishnudwar River Waterfall 115322.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Shivapuri_Bishnudwar_River_Waterfall_115322.jpg",
+      "author": "Pratapbaniya",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        4624,
+        2136
+      ],
+      "source_sha256": "28ca4adb787d86d12d1f89694a5c8062c2997d4b1953c6d0fd2daf066ce6ceb4",
+      "texture_sha256": "27ef7685591d25b65f071561f4dc5e9c538047e025e15fd978029a1618a4271b",
+      "phash": "275aa11bcca63a78"
+    },
+    {
+      "id": "water-167470356",
+      "page_id": 167470356,
+      "bucket": "water",
+      "split": "train",
+      "title": "File:Shivapuri Paanimuhan River Waterfall 093325.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Shivapuri_Paanimuhan_River_Waterfall_093325.jpg",
+      "author": "Pratapbaniya",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        4624,
+        2136
+      ],
+      "source_sha256": "9746fed9c45b04b4a7988179635d562b0fb10724c54136c778458682ebb95f19",
+      "texture_sha256": "a130ffa248dace9ef3b75cac61dfa8ac5fdfb9d3171d9858be4b0ff9e3497d40",
+      "phash": "3c35c3cf0c469359"
+    },
+    {
+      "id": "water-167470357",
+      "page_id": 167470357,
+      "bucket": "water",
+      "split": "train",
+      "title": "File:Shivapuri Bishnudwar River Waterfall 114010.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Shivapuri_Bishnudwar_River_Waterfall_114010.jpg",
+      "author": "Pratapbaniya",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        2136,
+        4624
+      ],
+      "source_sha256": "fb5a6dcffa67b81f7bcfd0378cc911ef5b48818acb50103284b3978ac9ef98b1",
+      "texture_sha256": "2ba668105ee8943fc5174a1d4273d477a567b81e3c780d25f60b98bacf3cea29",
+      "phash": "2ab9b3c491b43c9c"
+    },
+    {
+      "id": "water-167470368",
+      "page_id": 167470368,
+      "bucket": "water",
+      "split": "train",
+      "title": "File:Shivapuri Bishnudwar River Waterfall 114649.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Shivapuri_Bishnudwar_River_Waterfall_114649.jpg",
+      "author": "Pratapbaniya",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        4624,
+        2136
+      ],
+      "source_sha256": "883a1bc62d24ead6e9fb4ba503d167a85c19e0cc8231979acb2c394f26208e32",
+      "texture_sha256": "252d4e54357a346d99db6e8de7294317d62ff4265987e36d13f966f45c30b4bd",
+      "phash": "5b9e7092e2394639"
+    },
+    {
+      "id": "water-150599702",
+      "page_id": 150599702,
+      "bucket": "water",
+      "split": "train",
+      "title": "File:Edale, waterfall on River Noe above the Packhorse Bridge (2).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Edale,_waterfall_on_River_Noe_above_the_Packhorse_Bridge_(2).jpg",
+      "author": "AndyScott",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "source_size": [
+        4000,
+        2665
+      ],
+      "source_sha256": "8b1511a03b9a6dcf1a8bbbf72d2cd7a21a86301c86a827b826169e37c61f1498",
+      "texture_sha256": "9fbaf159359ada98105f2454ebe2babbaa16a394f1ae7a3688bb62889771cfdd",
+      "phash": "32aa56c9cc86e8f1"
+    },
+    {
+      "id": "water-7029276",
+      "page_id": 7029276,
+      "bucket": "water",
+      "split": "development",
+      "title": "File:Fossa River and Waterfall 2.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Fossa_River_and_Waterfall_2.jpg",
+      "author": "Jdharding at English Wikipedia",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source_size": [
+        3072,
+        2304
+      ],
+      "source_sha256": "130e9382ad6ed6ae935f0d86f95a509abf207732740ad46b869bd335dc8df8f2",
+      "texture_sha256": "2553d7aacb2e01925b1da2e68fb4b0fbc2c91c199c8630f0b1c55282a502953b",
+      "phash": "024ddcdaa5c6be41"
+    },
+    {
+      "id": "water-72694394",
+      "page_id": 72694394,
+      "bucket": "water",
+      "split": "development",
+      "title": "File:Small Waterfall on Upper Santiam River, Willamette National Forest (23852194171).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Small_Waterfall_on_Upper_Santiam_River,_Willamette_National_Forest_(23852194171).jpg",
+      "author": "U.S. Forest Service- Pacific Northwest Region",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        3504,
+        2336
+      ],
+      "source_sha256": "6fcd7f0415f9d30912ddd866aee4f5ec0009e500bd4096948858fd545d30397e",
+      "texture_sha256": "040e4fb9c2d13048cb7937ef77f888627892517e1518239385d5ad5b116db146",
+      "phash": "5adf676281639c03"
+    },
+    {
+      "id": "snow-109161422",
+      "page_id": 109161422,
+      "bucket": "snow",
+      "split": "train",
+      "title": "File:Winter snow landscape February 5, 2010 Tarbek - Schleswig-Holstein - Germany (50389550033).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Winter_snow_landscape_February_5,_2010_Tarbek_-_Schleswig-Holstein_-_Germany_(50389550033).jpg",
+      "author": "Torsten Behrens from Tarbek - Segeberg - Schleswig-Holstein., Deutschland",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "source_size": [
+        4000,
+        3000
+      ],
+      "source_sha256": "c4271044419b661ccb3fda601dffc13ee8997094b64cd7e2f62ae50a3243dd04",
+      "texture_sha256": "a1833511cfccff5a37270c458ab488d43879816ec2bbd67d3d0add813a8bc0d6",
+      "phash": "5f6733c8740341f4"
+    },
+    {
+      "id": "snow-168584575",
+      "page_id": 168584575,
+      "bucket": "snow",
+      "split": "train",
+      "title": "File:Snow in Chapelle-des-Bois sunrise in winter 07.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Snow_in_Chapelle-des-Bois_sunrise_in_winter_07.jpg",
+      "author": "R\u00e9mih",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        5184,
+        3888
+      ],
+      "source_sha256": "ca6923b8b5a6e9e5e2f45bade04ff41a9ac93a85039e55d521fc55d0d7da575d",
+      "texture_sha256": "d2a5a82e8d627bcfef9f161607a2b74b51b957bba440c42e4518700f7f5cb9f8",
+      "phash": "21b5da4aa5d25aa5"
+    },
+    {
+      "id": "snow-50553806",
+      "page_id": 50553806,
+      "bucket": "snow",
+      "split": "development",
+      "title": "File:Landscape, skiing, hillside, winter, snow Fortepan 56679.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Landscape,_skiing,_hillside,_winter,_snow_Fortepan_56679.jpg",
+      "author": "FOTO:Fortepan \u2014 ID 56679 : Adom\u00e1nyoz\u00f3/Donor: Balassa P\u00e9ter. archive copy at the Wayback Machine",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source_size": [
+        3539,
+        4144
+      ],
+      "source_sha256": "c2b80ba3534a240ae06cc6434d5360aad09ea8ceeba0c583b924ec34a16504f1",
+      "texture_sha256": "e74d66bed6ebbf2b3dda4c5795d497672601065a349f8904c9eebd6a4914e96c",
+      "phash": "540d8b51b1ffc18c"
+    },
+    {
+      "id": "snow-533690",
+      "page_id": 533690,
+      "bucket": "snow",
+      "split": "development",
+      "title": "File:Snow Scene at Shipka Pass 1.JPG",
+      "source": "https://commons.wikimedia.org/wiki/File:Snow_Scene_at_Shipka_Pass_1.JPG",
+      "author": "Psy guy",
+      "license": "CC BY-SA 3.0",
+      "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "source_size": [
+        2576,
+        1932
+      ],
+      "source_sha256": "15b66ae220bdefbd91cf157c9ce8fee6a2c07d3b4947a771f3876d07d74d1bea",
+      "texture_sha256": "7cef387e2accfb6d792c494b1a9cc9e057e0451f5f27272b062fecab0e55390d",
+      "phash": "600cd36cb664c9db"
+    },
+    {
+      "id": "snow-159264127",
+      "page_id": 159264127,
+      "bucket": "snow",
+      "split": "train",
+      "title": "File:Snow landscape near Lake Meridian (2025) - 0002.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Snow_landscape_near_Lake_Meridian_(2025)_-_0002.jpg",
+      "author": "Roc0ast3r",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "source_size": [
+        4000,
+        3000
+      ],
+      "source_sha256": "9c33b677c4463ffdcb2e17e07d37a9087fc7db17b319bb6df8d7b46676c72210",
+      "texture_sha256": "fca72c51159c3fadd15cce0c0a4329001959b3ebbafb9f29e5152171c831ffc1",
+      "phash": "7b81a4245f5bba05"
+    },
+    {
+      "id": "snow-178951848",
+      "page_id": 178951848,
+      "bucket": "snow",
+      "split": "train",
+      "title": "File:2025.11.24 Winter landscape of Tsna Minsk Belarus.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:2025.11.24_Winter_landscape_of_Tsna_Minsk_Belarus.jpg",
+      "author": "Dina Panayotis",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        3024,
+        4032
+      ],
+      "source_sha256": "2670137aaf9d6f7cbf25bd881ac8163623af6a67de664cd533f18799890e7fbe",
+      "texture_sha256": "b6cdc31f7c2335f649c70894d4ee6dd885695166ffbca1c09a60112e83b786cf",
+      "phash": "7db21e4ca333d08c"
+    },
+    {
+      "id": "snow-29613954",
+      "page_id": 29613954,
+      "bucket": "snow",
+      "split": "train",
+      "title": "File:Rock Creek, Winter Snow Storm (6473145559).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Rock_Creek,_Winter_Snow_Storm_(6473145559).jpg",
+      "author": "Denali National Park and Preserve",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        5184,
+        3878
+      ],
+      "source_sha256": "4aa86f81d5c9604ccdf6f1931f5bfcb12c5d8db7b6e2bf824c810a92fb5cef9a",
+      "texture_sha256": "54a35dd6075384e4bfe7f31277576e3b57d5ae362ddefcb75109686a05ce2019",
+      "phash": "746d1b7ec382d2a0"
+    },
+    {
+      "id": "snow-34001262",
+      "page_id": 34001262,
+      "bucket": "snow",
+      "split": "train",
+      "title": "File:Winter landscape at Gwatt by Thun.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Winter_landscape_at_Gwatt_by_Thun.jpg",
+      "author": "Marco Beierer",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source_size": [
+        4290,
+        2469
+      ],
+      "source_sha256": "8ac970ac22bccac8dc77d9a7ce67657c16f3e15d333b7f6433f5fda8b0bf0c1b",
+      "texture_sha256": "675a9c156a1e05399ce38df37e082c87de65899cb3997800f2ad2d97a9fe974c",
+      "phash": "30f7a3283587ca95"
+    },
+    {
+      "id": "snow-58440102",
+      "page_id": 58440102,
+      "bucket": "snow",
+      "split": "train",
+      "title": "File:Winter Landscape with touch of autumn.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Winter_Landscape_with_touch_of_autumn.jpg",
+      "author": "Samikhan86",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        5184,
+        3456
+      ],
+      "source_sha256": "e30e04b17e8f6f74634ecac25ea222f3bc2ad5eb48dab00e9a4893e3024d5b29",
+      "texture_sha256": "26b2729974fe9d43069ac67a2418fe322db65e20601efc65511b4cd3c4d99a36",
+      "phash": "1741a09c767b2ed8"
+    },
+    {
+      "id": "snow-165952280",
+      "page_id": 165952280,
+      "bucket": "snow",
+      "split": "train",
+      "title": "File:A Snow-Covered Landscape (52920326984).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:A_Snow-Covered_Landscape_(52920326984).jpg",
+      "author": "Joshua Tree National Park",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        1920,
+        1080
+      ],
+      "source_sha256": "66427db83962ffc55b1b98f77660a9add9736fb3fa163d7cdcb1f4f06eb38190",
+      "texture_sha256": "54b3d41d8898d81ca02de145b9c66f30ef90151b1c2cc36d91e9c2b6772987ee",
+      "phash": "109a392fd0a59be9"
+    },
+    {
+      "id": "snow-181361926",
+      "page_id": 181361926,
+      "bucket": "snow",
+      "split": "train",
+      "title": "File:Winter German landscape - 2026.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Winter_German_landscape_-_2026.jpg",
+      "author": "Thomas Heins from Friesenheim, Deutschland",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0",
+      "source_size": [
+        5786,
+        3857
+      ],
+      "source_sha256": "a2a8e66600bf854942d55a93525cfe4d7333dcf00ffdc14611116b93b1d0fc5f",
+      "texture_sha256": "29dcb5bcf4431a432b77294f49992655e4e42f8c4964bf71b71cbc454b555447",
+      "phash": "64afc9723ac54199"
+    },
+    {
+      "id": "snow-143746074",
+      "page_id": 143746074,
+      "bucket": "snow",
+      "split": "train",
+      "title": "File:Winter in Kleinpreitenegg, Gemeinde Preitenegg, K\u00e4rnten.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Winter_in_Kleinpreitenegg,_Gemeinde_Preitenegg,_K%C3%A4rnten.jpg",
+      "author": "Naturpuur",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        5000,
+        3333
+      ],
+      "source_sha256": "bf3a3a4607b4b3091be4f87a0a6758784be689c3dcf7a80d7eee321afc075912",
+      "texture_sha256": "d40d787e209baaefe34782b6a5a3d8e3078a24ca31fd4ab9298fae5c56c708a3",
+      "phash": "11ee7c53282eca95"
+    },
+    {
+      "id": "desert-22648225",
+      "page_id": 22648225,
+      "bucket": "desert",
+      "split": "development",
+      "title": "File:Timothy O'Sullivan - Sand Dunes, Carson Desert, Nevada - Google Art Project.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Timothy_O%27Sullivan_-_Sand_Dunes,_Carson_Desert,_Nevada_-_Google_Art_Project.jpg",
+      "author": "Timothy H. O'Sullivan",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        4001,
+        2923
+      ],
+      "source_sha256": "0ef661e7ba1c47fe2fac13deba6e6746f2ddecfbc8e2c1e0fdadfe5711aaebbf",
+      "texture_sha256": "aca7b260a06e4e93a0eb60e7ef22c56049c8c2697b10709d96f9a0de26e1fb98",
+      "phash": "4b5d158968aedac1"
+    },
+    {
+      "id": "desert-76081011",
+      "page_id": 76081011,
+      "bucket": "desert",
+      "split": "train",
+      "title": "File:Namib Desert Dunes (37714505886).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Namib_Desert_Dunes_(37714505886).jpg",
+      "author": "Sonse",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "source_size": [
+        3085,
+        4438
+      ],
+      "source_sha256": "abade32c63fa6654de5e3f81a97d8c4aecda70a0a42f549e13e5f65fd6552325",
+      "texture_sha256": "03c2af540d0d4b21dcf4151bddfde82ff1c76f7cb373e99b9d21d03ae9024df7",
+      "phash": "78a693e9b69ac2a0"
+    },
+    {
+      "id": "desert-39960429",
+      "page_id": 39960429,
+      "bucket": "desert",
+      "split": "train",
+      "title": "File:Dunes in the Carcross desert, Yukon (11003647235).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Dunes_in_the_Carcross_desert,_Yukon_(11003647235).jpg",
+      "author": "Anthony DeLorenzo from Whitehorse, Yukon, Canada",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "source_size": [
+        2215,
+        1600
+      ],
+      "source_sha256": "51cefc18a34c9ec31edee7cbbcf4fbc21ed18a2075151f8d4c073cf948142ec4",
+      "texture_sha256": "a02fb65bfda897fa47707ea6fdb974177427e6b82b8d40202c368a0541b5ce09",
+      "phash": "5cd8e9a5b6b24b40"
+    },
+    {
+      "id": "desert-68600649",
+      "page_id": 68600649,
+      "bucket": "desert",
+      "split": "train",
+      "title": "File:Desert Dunes U.A.E.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Desert_Dunes_U.A.E.jpg",
+      "author": "Rakfotography",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        5184,
+        3456
+      ],
+      "source_sha256": "0c58f1e21986e7c7b0ff85a2366fa63823dfd123b79d98b86c313e9ee2ae33b5",
+      "texture_sha256": "39490740d36a124912c42d5f688526d4e66b05b173b8d2a497a18ef4e2e52179",
+      "phash": "69b316999b0641f9"
+    },
+    {
+      "id": "desert-157364307",
+      "page_id": 157364307,
+      "bucket": "desert",
+      "split": "train",
+      "title": "File:A sand dune in the Maranjab Desert, located in the middle of the Kavir National Park IRAN 34.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:A_sand_dune_in_the_Maranjab_Desert,_located_in_the_middle_of_the_Kavir_National_Park_IRAN_34.jpg",
+      "author": "Mostafameraji",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        3000,
+        2000
+      ],
+      "source_sha256": "d56b574861fe3ca8f331c3c699c465ef027c76ed88c21033dc6c09b162171e37",
+      "texture_sha256": "de700d118de827e678aeb3dc67939e73ec9d4d3083a74d43ddc00b6d342b63cd",
+      "phash": "2111d5d587e7aa8a"
+    },
+    {
+      "id": "desert-76080918",
+      "page_id": 76080918,
+      "bucket": "desert",
+      "split": "train",
+      "title": "File:Dune Formations Namib Desert (23909806828).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Dune_Formations_Namib_Desert_(23909806828).jpg",
+      "author": "Sonse",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "source_size": [
+        4999,
+        3332
+      ],
+      "source_sha256": "a503ffaf11e7f333353c3cf7ba3ba9a9578b7539edaf65a082b5b3efcc89e35c",
+      "texture_sha256": "7eed72ff6d550493592b5f0b3acd0d5dd084cc3c544f6eb15eb444cc9c341be5",
+      "phash": "693c07fae8eea280"
+    },
+    {
+      "id": "desert-157364313",
+      "page_id": 157364313,
+      "bucket": "desert",
+      "split": "train",
+      "title": "File:A sand dune in the Maranjab Desert, located in the middle of the Kavir National Park IRAN 30.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:A_sand_dune_in_the_Maranjab_Desert,_located_in_the_middle_of_the_Kavir_National_Park_IRAN_30.jpg",
+      "author": "Mostafameraji",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        4500,
+        3000
+      ],
+      "source_sha256": "4a88dce7377772866712a5fa3d18b143fc7ef5a85ca590e68643284f40d7fe4c",
+      "texture_sha256": "5f889470b524c017ea402d44d033d8604361a3198d1bea8a890d95db4d067702",
+      "phash": "73d668837e4814d5"
+    },
+    {
+      "id": "desert-157364309",
+      "page_id": 157364309,
+      "bucket": "desert",
+      "split": "train",
+      "title": "File:A sand dune in the Maranjab Desert, located in the middle of the Kavir National Park IRAN 24.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:A_sand_dune_in_the_Maranjab_Desert,_located_in_the_middle_of_the_Kavir_National_Park_IRAN_24.jpg",
+      "author": "Mostafameraji",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        5000,
+        3333
+      ],
+      "source_sha256": "e5033c5cc8e73103300c515fb7c1d9c03abfaaf7644916d7b8d06b596df41717",
+      "texture_sha256": "7ee151e0de18f60f2a288e0aa6e0b67a70d96c569f6ab56ce892b23891ad97c6",
+      "phash": "3664311bcbecf610"
+    },
+    {
+      "id": "desert-157364219",
+      "page_id": 157364219,
+      "bucket": "desert",
+      "split": "train",
+      "title": "File:A sand dune in the Maranjab Desert, located in the middle of the Kavir National Park IRAN 09.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:A_sand_dune_in_the_Maranjab_Desert,_located_in_the_middle_of_the_Kavir_National_Park_IRAN_09.jpg",
+      "author": "Mostafameraji",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        5000,
+        3333
+      ],
+      "source_sha256": "ba3b1efd79be2b88366a30266d3e76cfd3148a9c0dcf6edb574ed600a6ddd176",
+      "texture_sha256": "d9fbd7521dca4738c21a7e682961ff26409e678613b857f02dcfd1fc91acc0c7",
+      "phash": "625615f10b7a40ef"
+    },
+    {
+      "id": "desert-143728585",
+      "page_id": 143728585,
+      "bucket": "desert",
+      "split": "train",
+      "title": "File:Dubai desert dunes 1.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Dubai_desert_dunes_1.jpg",
+      "author": "Gfilip",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        2560,
+        1706
+      ],
+      "source_sha256": "6fca2f92d4424e69dddb6b2b5d55dfc3232628c5b075429f0f1b20cdb7397891",
+      "texture_sha256": "78d81443bf022ab15a52284005108c7682e6c125d7857f10f914dc7cf5f960d7",
+      "phash": "3878e5e71a3845c5"
+    },
+    {
+      "id": "desert-99777362",
+      "page_id": 99777362,
+      "bucket": "desert",
+      "split": "train",
+      "title": "File:Gobi Desert dunes.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Gobi_Desert_dunes.jpg",
+      "author": "Richard Mortel",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "source_size": [
+        4032,
+        3024
+      ],
+      "source_sha256": "6cb64ea985a6747dd7a6882b07eef075a05b9ee4e625f48b4c9abc3421a1e84e",
+      "texture_sha256": "174539db85cf4bf0be2648399ffc2d79155fc72ef58cb3363f5d04137214cc4f",
+      "phash": "3e4b95aa4f5622d0"
+    },
+    {
+      "id": "desert-168098598",
+      "page_id": 168098598,
+      "bucket": "desert",
+      "split": "development",
+      "title": "File:Mongolian Gobi desert dune 8.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Mongolian_Gobi_desert_dune_8.jpg",
+      "author": "Orgio89",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "source_size": [
+        2016,
+        1134
+      ],
+      "source_sha256": "d59b8b87cf8c45bce16da51130ec00228c6393f4f6b11ce0f6c89861aac60005",
+      "texture_sha256": "65c5730bc9511e959a0bb5b4a0275a40bd9f4d7822e1cf8d619f4568ae7da45b",
+      "phash": "4f31cea05f073aa8"
+    },
+    {
+      "id": "day-city-42835864",
+      "page_id": 42835864,
+      "bucket": "day-city",
+      "split": "train",
+      "title": "File:(52nd Street, New York, N.Y., ca. July 1948) (LOC) (4843118849).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:(52nd_Street,_New_York,_N.Y.,_ca._July_1948)_(LOC)_(4843118849).jpg",
+      "author": "The Library of Congress",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        4770,
+        3675
+      ],
+      "source_sha256": "6b557e9776f7c5cff2d71e4b1caa80a4b2c6136647498f6e163e478a8916b11a",
+      "texture_sha256": "a9de667535e2f695a48dbbd6670810b45748647df6918af975691149788dd465",
+      "phash": "64194456bb392b6e"
+    },
+    {
+      "id": "day-city-17159882",
+      "page_id": 17159882,
+      "bucket": "day-city",
+      "split": "train",
+      "title": "File:Royal Theater. Kansas City - NARA - 283798.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Royal_Theater._Kansas_City_-_NARA_-_283798.jpg",
+      "author": "Unknown author Unknown author or not provided",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        2374,
+        3000
+      ],
+      "source_sha256": "52960c9edbc43bb3d255ba7787962df1cc8e22af5f80ccbe0d1f166d4e401e0c",
+      "texture_sha256": "85db3b37e1fadc551f5a9cc3e45c1e53a959b81af24fb82de9e50c4fb1dc039c",
+      "phash": "7b1b83018d05dcfa"
+    },
+    {
+      "id": "day-city-75970542",
+      "page_id": 75970542,
+      "bucket": "day-city",
+      "split": "train",
+      "title": "File:Central Street (105313443).jpeg",
+      "source": "https://commons.wikimedia.org/wiki/File:Central_Street_(105313443).jpeg",
+      "author": "Omar Burgos D\u00e4ttwyler",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source_size": [
+        2048,
+        1365
+      ],
+      "source_sha256": "026ced0978893f7aa58c3960d13fd6f8e8c245a93e6be1f59170a1e189f8fb18",
+      "texture_sha256": "d06089f80f02aa60563fb361de41910c08f29a0d4609acdbe571a538f05f4e29",
+      "phash": "5a7036ae70d2ce4c"
+    },
+    {
+      "id": "day-city-17159891",
+      "page_id": 17159891,
+      "bucket": "day-city",
+      "split": "train",
+      "title": "File:Royal Theater. Kansas City - NARA - 283801.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Royal_Theater._Kansas_City_-_NARA_-_283801.jpg",
+      "author": "Unknown author Unknown author or not provided",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        2434,
+        3000
+      ],
+      "source_sha256": "c4889fd1158935cd7997e8c24fd0767659fdb9d3b3252de9dd46446c98016be8",
+      "texture_sha256": "218936f36d24430230e7fa65b502db27380441960ffef5c1e83fa563eed7b979",
+      "phash": "5c98bdc1b010a6fe"
+    },
+    {
+      "id": "day-city-17159884",
+      "page_id": 17159884,
+      "bucket": "day-city",
+      "split": "train",
+      "title": "File:Royal Theater. Kansas City - NARA - 283799.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Royal_Theater._Kansas_City_-_NARA_-_283799.jpg",
+      "author": "Unknown author Unknown author or not provided",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        2412,
+        3000
+      ],
+      "source_sha256": "65a1911bcd70d3aaa257401712d9f7663b27634b47d10e3123499e2e6ac90c5b",
+      "texture_sha256": "886a4989bca85b86453a49ce668c05df190f95030215eddb176d6aed902990bb",
+      "phash": "4b01db09dc54b4be"
+    },
+    {
+      "id": "day-city-113158873",
+      "page_id": 113158873,
+      "bucket": "day-city",
+      "split": "development",
+      "title": "File:\u0412\u0438\u0434 \u043d\u0430 \u0433\u043e\u0440\u043e\u0434 \u0441\u043e \u041b\u044c\u0432\u043e\u0432\u0441\u043a\u043e\u0439 \u0440\u0430\u0442\u0443\u0448\u0438, 2019, 14.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:%D0%92%D0%B8%D0%B4_%D0%BD%D0%B0_%D0%B3%D0%BE%D1%80%D0%BE%D0%B4_%D1%81%D0%BE_%D0%9B%D1%8C%D0%B2%D0%BE%D0%B2%D1%81%D0%BA%D0%BE%D0%B9_%D1%80%D0%B0%D1%82%D1%83%D1%88%D0%B8,_2019,_14.jpg",
+      "author": "Mitte27",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        3648,
+        2736
+      ],
+      "source_sha256": "4f66a03294c8b35aa1af9fecfa7b9687aadc2d60d42334792af4363a21552282",
+      "texture_sha256": "6b14e3ab4329247e47ca3dbe26f72b8c96d4e4c5976d497a5cac833df48c512e",
+      "phash": "7c97d224c6cb4998"
+    },
+    {
+      "id": "day-city-195397852",
+      "page_id": 195397852,
+      "bucket": "day-city",
+      "split": "train",
+      "title": "File:Hotel room bedroom in building on Chapel Street, Salford, Greater Manchester, England, on 5 October 2025.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Hotel_room_bedroom_in_building_on_Chapel_Street,_Salford,_Greater_Manchester,_England,_on_5_October_2025.jpg",
+      "author": "MatthewHoobin",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "source_size": [
+        4080,
+        2296
+      ],
+      "source_sha256": "5708c346927df45ea6d00bde26a0184e1678ea261dc59a561534fd3eacc6b0cc",
+      "texture_sha256": "139308d6e60c38ccf843e954940020fa026e7760696306619bac375cbd3964f1",
+      "phash": "1a0c9f3e04ed1ad9"
+    },
+    {
+      "id": "day-city-91463484",
+      "page_id": 91463484,
+      "bucket": "day-city",
+      "split": "train",
+      "title": "File:ARCHIWUM PA\u0143STWOWE W KRAKOWIE, fot. M. Klag (MIK, 2004) (3507671547).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:ARCHIWUM_PA%C5%83STWOWE_W_KRAKOWIE,_fot._M._Klag_(MIK,_2004)_(3507671547).jpg",
+      "author": "mik Krakow",
+      "license": "CC BY-SA 2.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+      "source_size": [
+        2363,
+        1772
+      ],
+      "source_sha256": "3e71ff68b4790df772a6f466fc55658cec50432593b95a5c68c2a8263cad6f97",
+      "texture_sha256": "23b2062e59321db163b822b7dc7338ce7db2bf168b34e3b3a7571c8d7633b647",
+      "phash": "30e7f25981263cd9"
+    },
+    {
+      "id": "day-city-145434944",
+      "page_id": 145434944,
+      "bucket": "day-city",
+      "split": "train",
+      "title": "File:Cloud streets in the Sea of Okhotsk (MODIS 2018-01-23).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Cloud_streets_in_the_Sea_of_Okhotsk_(MODIS_2018-01-23).jpg",
+      "author": "Jeff Schmaltz, MODIS Land Rapid Response Team, NASA GSFC",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        4600,
+        6000
+      ],
+      "source_sha256": "bb43ec33f9b5e6952c6b2d03d9649a12fd4c9d6eac825d84f6de433f8c4b1dc9",
+      "texture_sha256": "1d25a6a8c934e05ee41d486a3914ae9c11075b596d1866421ac561c7795b8605",
+      "phash": "52a7dc84e8548eab"
+    },
+    {
+      "id": "day-city-31793119",
+      "page_id": 31793119,
+      "bucket": "day-city",
+      "split": "train",
+      "title": "File:2285 New Yorkers volunteered in one week-Is your name on this list? LCCN2001700140.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:2285_New_Yorkers_volunteered_in_one_week-Is_your_name_on_this_list%3F_LCCN2001700140.jpg",
+      "author": "Willard and Dorothy Straight Collection",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        4443,
+        3600
+      ],
+      "source_sha256": "acff3fb41cd00b7274ec90498f37019f37438637e84696acd1be377aa99461b8",
+      "texture_sha256": "05e34f34eca762f279a389b089145e2508715c41dd9c08b80f03eb20bc753c97",
+      "phash": "0189bcab56be4e54"
+    },
+    {
+      "id": "day-city-45449967",
+      "page_id": 45449967,
+      "bucket": "day-city",
+      "split": "train",
+      "title": "File:Geiger Grade, Virginia Foothills, Nevada (2378907589).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Geiger_Grade,_Virginia_Foothills,_Nevada_(2378907589).jpg",
+      "author": "Ken Lund from Reno, Nevada, USA",
+      "license": "CC BY-SA 2.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+      "source_size": [
+        2048,
+        1536
+      ],
+      "source_sha256": "14099d347ff0a52643bd7744c00326dd6ece1ac9ac112dded7f9f2f6a61fa5b1",
+      "texture_sha256": "735c52899e1accd0e766c759d7ef05b8d7860a39f44fdb9b76739d384dabb8e2",
+      "phash": "3cc4ce3803356cd7"
+    },
+    {
+      "id": "day-city-106858244",
+      "page_id": 106858244,
+      "bucket": "day-city",
+      "split": "development",
+      "title": "File:\u00c9tonnamment Jumelles - Flickr - Fan.D ^ Dav.C Photgraphy.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:%C3%89tonnamment_Jumelles_-_Flickr_-_Fan.D_%5E_Dav.C_Photgraphy.jpg",
+      "author": "Fan D",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "source_size": [
+        2760,
+        3938
+      ],
+      "source_sha256": "889bc2207f33fef39e6fb000981549bd1b408de738a18303f306fa362875d2f3",
+      "texture_sha256": "0dbc92ca5c786e9eb52ee06de341f98ff2135db77a6a96a463dd92d538693dfc",
+      "phash": "1be84d6814ae6a97"
+    },
+    {
+      "id": "night-city-154551238",
+      "page_id": 154551238,
+      "bucket": "night-city",
+      "split": "train",
+      "title": "File:City lights at Night.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:City_lights_at_Night.jpg",
+      "author": "FN-082",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        3107,
+        2236
+      ],
+      "source_sha256": "baa2c8bddf46d9e8fe62657a10efacf549abcecb526750672835aca2e6033e9e",
+      "texture_sha256": "583de47836a3621736d2a5090898f8337b6e961077b70572076c37953363bd10",
+      "phash": "74e91661c6798639"
+    },
+    {
+      "id": "night-city-106140115",
+      "page_id": 106140115,
+      "bucket": "night-city",
+      "split": "train",
+      "title": "File:Mumbai, India, Night in Mumbai, City lights.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Mumbai,_India,_Night_in_Mumbai,_City_lights.jpg",
+      "author": "Vyacheslav Argenberg",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0",
+      "source_size": [
+        3072,
+        2048
+      ],
+      "source_sha256": "e288d332868d0535410aaf341a6addc315ccfbfff47ba0089292e160fcd429cd",
+      "texture_sha256": "ab5c194932e520c17b05d9abffc9b1f4c0027b81a2b3d9da821dcd31956df084",
+      "phash": "705694a9ab4f54b4"
+    },
+    {
+      "id": "night-city-71849479",
+      "page_id": 71849479,
+      "bucket": "night-city",
+      "split": "train",
+      "title": "File:Debrecen Night Lights (185766917).jpeg",
+      "source": "https://commons.wikimedia.org/wiki/File:Debrecen_Night_Lights_(185766917).jpeg",
+      "author": "Papa Zsolt",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "source_size": [
+        2048,
+        1081
+      ],
+      "source_sha256": "6c684dab1275c9c5e75e86df6f613f6f7b034218eddab45347a99683f95d44fd",
+      "texture_sha256": "e99620f273e12832bc661cffca73a303ed91782e025c5310f3829059c5daf66b",
+      "phash": "3555cdb32c29724c"
+    },
+    {
+      "id": "night-city-149816871",
+      "page_id": 149816871,
+      "bucket": "night-city",
+      "split": "train",
+      "title": "File:Atlanta City Night Lights And Traffic - December 2015 (42348114472).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Atlanta_City_Night_Lights_And_Traffic_-_December_2015_(42348114472).jpg",
+      "author": "formulanone",
+      "license": "CC BY-SA 2.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+      "source_size": [
+        2400,
+        1600
+      ],
+      "source_sha256": "ce610a8c5e591f01e5bd27d3c271e1d44c6bd5474f5c86665b6bcd19087aeb5a",
+      "texture_sha256": "f452a8c34e03e70c9d221f4b0a090738aedf685ad51bf4ea68f5c8be7e3e6739",
+      "phash": "684ddda77c060d8c"
+    },
+    {
+      "id": "night-city-121086009",
+      "page_id": 121086009,
+      "bucket": "night-city",
+      "split": "development",
+      "title": "File:Orlando City SC Home - Night of a Million Lights 2020 (52241252904).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Orlando_City_SC_Home_-_Night_of_a_Million_Lights_2020_(52241252904).jpg",
+      "author": "elisfkc2",
+      "license": "CC BY-SA 2.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+      "source_size": [
+        4032,
+        3024
+      ],
+      "source_sha256": "8928064cdcaca63ffc50e926b77d104c553595c894978f5c6d4d6cb6112e384d",
+      "texture_sha256": "82c4d1e3865b4fa24d628809b030275ceb1c6cf7ec222208f2efa3e8018237a5",
+      "phash": "6e4a452572d9193e"
+    },
+    {
+      "id": "night-city-88071543",
+      "page_id": 88071543,
+      "bucket": "night-city",
+      "split": "train",
+      "title": "File:City lights from ISS.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:City_lights_from_ISS.jpg",
+      "author": "Alexander Gerst",
+      "license": "CC BY-SA 2.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+      "source_size": [
+        5568,
+        3712
+      ],
+      "source_sha256": "b991bf70837fccfeaad5bdae8ce508fc8bee3737967d4d0d2784f86b07865a04",
+      "texture_sha256": "b6653ad4e02aaba5ae7257cf7085020d99f5df30d8b5aeb130dd3cc5ee55370f",
+      "phash": "18e7661999e66619"
+    },
+    {
+      "id": "night-city-70198535",
+      "page_id": 70198535,
+      "bucket": "night-city",
+      "split": "train",
+      "title": "File:Night Lights (480317957).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Night_Lights_(480317957).jpg",
+      "author": "Sharon Mollerus",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "source_size": [
+        3072,
+        2304
+      ],
+      "source_sha256": "7143a390fbe20e8b88f019b9bb7fa64fe0d0462eea7f7a6312f1611f15bfc8f1",
+      "texture_sha256": "92248630a42f4c98c2d31c6b6148837b2eb5375bfbf5eb2b9e492df1a1c0d927",
+      "phash": "7d9805e7f2780385"
+    },
+    {
+      "id": "night-city-127566170",
+      "page_id": 127566170,
+      "bucket": "night-city",
+      "split": "train",
+      "title": "File:73rd Street between 2nd and 3rd Avenue by night, Christmas lights in the trees, Upper East Side, Manhattan, 2019.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:73rd_Street_between_2nd_and_3rd_Avenue_by_night,_Christmas_lights_in_the_trees,_Upper_East_Side,_Manhattan,_2019.jpg",
+      "author": "Deansfa",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        3024,
+        4032
+      ],
+      "source_sha256": "fd2cb304420cbb6d38188c69dd60c65f57584e57552c4fec297293dc5ebefa67",
+      "texture_sha256": "b32212790d997fb96d761ebf8789f8b7874566aac50811e14bbe4056a8480426",
+      "phash": "74db759964943944"
+    },
+    {
+      "id": "night-city-67001711",
+      "page_id": 67001711,
+      "bucket": "night-city",
+      "split": "train",
+      "title": "File:City lights (13260374073).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:City_lights_(13260374073).jpg",
+      "author": "Thomas Quine",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "source_size": [
+        2108,
+        2736
+      ],
+      "source_sha256": "0bb39618d7a5992cc163fb34747b56abc1bd0c5ffb69c499ea000b594995017e",
+      "texture_sha256": "d31514ffd8ce8eece6bb2f8ab5e160a3cc8a75b5d9c084c364ce3b482291f056",
+      "phash": "080387079b8787ff"
+    },
+    {
+      "id": "night-city-48526927",
+      "page_id": 48526927,
+      "bucket": "night-city",
+      "split": "train",
+      "title": "File:Kilda at night Lights from city.JPG",
+      "source": "https://commons.wikimedia.org/wiki/File:Kilda_at_night_Lights_from_city.JPG",
+      "author": "PrixieDustInspire",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        3024,
+        3024
+      ],
+      "source_sha256": "20c8c5680464c8b25f01421d4d6c8ac2feb19073b8d49e34f25ece36455586b7",
+      "texture_sha256": "b2cb648ca16256794f2221dd04c3eb2d0a67a3edceaaa97055ae612f5d3b09e4",
+      "phash": "5231bdef424318bc"
+    },
+    {
+      "id": "night-city-157906399",
+      "page_id": 157906399,
+      "bucket": "night-city",
+      "split": "train",
+      "title": "File:The city lights of Almaty, Kazakhstan's largest city (iss072e445670).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:The_city_lights_of_Almaty,_Kazakhstan%27s_largest_city_(iss072e445670).jpg",
+      "author": "NASA Johnson Space Center",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        8256,
+        5504
+      ],
+      "source_sha256": "c169d190c1aac11c4b5637ddff57cf6a784cf07046613cb4c416e651dbc516f4",
+      "texture_sha256": "5eda9c72f353e9691feda403db5127e4b63bb50d7fcebddfc707207cc4fd0cdf",
+      "phash": "31e64c99b3664c99"
+    },
+    {
+      "id": "night-city-137799771",
+      "page_id": 137799771,
+      "bucket": "night-city",
+      "split": "development",
+      "title": "File:Los Angeles City Hall at night with office lights turned on in the form on a cross for Christmas, 1947.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Los_Angeles_City_Hall_at_night_with_office_lights_turned_on_in_the_form_on_a_cross_for_Christmas,_1947.jpg",
+      "author": "Los Angeles Times",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0",
+      "source_size": [
+        4913,
+        6147
+      ],
+      "source_sha256": "70c964ac51d7c09784d9bf7c9b50be98a893d664aea666a3bc430bd65f8b92f7",
+      "texture_sha256": "413cda0929e40aef4811a150b010afc4b690c07f246bbd209ca16388bb8065bf",
+      "phash": "676746275abb2910"
+    },
+    {
+      "id": "stone-125700894",
+      "page_id": 125700894,
+      "bucket": "stone",
+      "split": "train",
+      "title": "File:Dedication stone on gates to Hertford Castle grounds, Hertford, November 2022.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Dedication_stone_on_gates_to_Hertford_Castle_grounds,_Hertford,_November_2022.jpg",
+      "author": "No Swan So Fine",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        4032,
+        3024
+      ],
+      "source_sha256": "98034dc4dd47c760447071a708e30e4a60627f71dd7c71f6bae95c6ef39a1a15",
+      "texture_sha256": "d7e81e0807dd40756327ce13856b517659f775fabc0885de21fcf78bdc8672b0",
+      "phash": "58617d7a3f0a4075"
+    },
+    {
+      "id": "stone-133070854",
+      "page_id": 133070854,
+      "bucket": "stone",
+      "split": "train",
+      "title": "File:Saxon Town Wall plaque Oxford Castle 3.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Saxon_Town_Wall_plaque_Oxford_Castle_3.jpg",
+      "author": "Set in Stone Project",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        4032,
+        3024
+      ],
+      "source_sha256": "100f86c8a320a56b55fdc3c247985f441b6eb61b9680c3451354d5ca81a78454",
+      "texture_sha256": "df3fb9b91493060b1979c3dfc5f971b6def7ce6ec8734759eecb5e845ca32c8a",
+      "phash": "4956ed01befa0586"
+    },
+    {
+      "id": "stone-133070853",
+      "page_id": 133070853,
+      "bucket": "stone",
+      "split": "train",
+      "title": "File:Saxon Town Wall plaque Oxford Castle 2.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Saxon_Town_Wall_plaque_Oxford_Castle_2.jpg",
+      "author": "Set in Stone Project",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        4032,
+        3024
+      ],
+      "source_sha256": "c1af406df639850c309449fc6718dfe84bace6c6a05fab3837c5660ede80eb7f",
+      "texture_sha256": "8d06b7ee5d86cfd8edb1f5d0ce2567fa4dc8aaa077e77683a6a88efa10e4ae53",
+      "phash": "52491a0cddf395cc"
+    },
+    {
+      "id": "stone-133070856",
+      "page_id": 133070856,
+      "bucket": "stone",
+      "split": "train",
+      "title": "File:Saxon Town Wall plaque Oxford Castle 4.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Saxon_Town_Wall_plaque_Oxford_Castle_4.jpg",
+      "author": "Set in Stone Project",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        4032,
+        3024
+      ],
+      "source_sha256": "5c3987f66abce1f568b345c08285ac6bf53dc7cb9e03a0c8f37513d7a6ca18db",
+      "texture_sha256": "cc91c798668f266030a198f8b804980e66f290ad1377f9df37bf7bcfcf351d72",
+      "phash": "67b3446012c9cf97"
+    },
+    {
+      "id": "stone-133070855",
+      "page_id": 133070855,
+      "bucket": "stone",
+      "split": "train",
+      "title": "File:Saxon Town Wall plaque Oxford Castle 1.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Saxon_Town_Wall_plaque_Oxford_Castle_1.jpg",
+      "author": "Set in Stone Project",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        4032,
+        3024
+      ],
+      "source_sha256": "4d1eabbb09dec38b4f82ab347619acc79bbc774f23798c040c8799ff9db17d86",
+      "texture_sha256": "0ff3cf19b0ce19c6528569f3caafe2a4059ef2248f0e2bc0322bc14bd59975ce",
+      "phash": "76394f388d703943"
+    },
+    {
+      "id": "stone-51296337",
+      "page_id": 51296337,
+      "bucket": "stone",
+      "split": "train",
+      "title": "File:Coat of arms of King Matthias on a the top-stone from the Citadel (copy) 2012-03-21.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Coat_of_arms_of_King_Matthias_on_a_the_top-stone_from_the_Citadel_(copy)_2012-03-21.jpg",
+      "author": "Szilas",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        2667,
+        2439
+      ],
+      "source_sha256": "4bcd4fcb942540496dd559f4aceb4b9153acfd6bc089577a2506ffa4c6c5def3",
+      "texture_sha256": "24e8978308d7de1de1f19a12ed27897e8686186ed461fb4db72576efbc305912",
+      "phash": "1b2b7927493e0754"
+    },
+    {
+      "id": "stone-4471782",
+      "page_id": 4471782,
+      "bucket": "stone",
+      "split": "train",
+      "title": "File:Geminated windows Bergfried Bourscheid.JPG",
+      "source": "https://commons.wikimedia.org/wiki/File:Geminated_windows_Bergfried_Bourscheid.JPG",
+      "author": "Caranorn",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        2592,
+        1944
+      ],
+      "source_sha256": "8525a2dac72d1d80bcb1a63b83e1c07d734731f30f6040cec3f17b351b7fe1a8",
+      "texture_sha256": "7ed2d5c495ff528c1f834167ae1ae40ced0a520e14431ed6ca97e8766dbc9f44",
+      "phash": "4cff534c6cb30a24"
+    },
+    {
+      "id": "stone-25741840",
+      "page_id": 25741840,
+      "bucket": "stone",
+      "split": "train",
+      "title": "File:In The Prison (4946438340).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:In_The_Prison_(4946438340).jpg",
+      "author": "xlibber",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "source_size": [
+        4288,
+        2848
+      ],
+      "source_sha256": "c8ff4ead7809525316e644e7ddf6574e60d554614682dd818319e221e0cfee48",
+      "texture_sha256": "30fac073cada9f437639bea73ac8ed8ab9fde77a98baf571d9e2f7ece215a379",
+      "phash": "5a50b633cc758c99"
+    },
+    {
+      "id": "stone-115434678",
+      "page_id": 115434678,
+      "bucket": "stone",
+      "split": "train",
+      "title": "File:Limerick - Stone Town Terrace (5771619772).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Limerick_-_Stone_Town_Terrace_(5771619772).jpg",
+      "author": "William Murphy from Dublin, Ireland",
+      "license": "CC BY-SA 2.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+      "source_size": [
+        4592,
+        3056
+      ],
+      "source_sha256": "1ae4c1138548ea1310df2afbb86e926f579eb6a9393afd3ba87391516b63ba5f",
+      "texture_sha256": "dee63c3e336a6b1b16253cce47af2888b0e59ebf7f89e64027d3f434f72940f1",
+      "phash": "63735083030f3fbc"
+    },
+    {
+      "id": "stone-3132944",
+      "page_id": 3132944,
+      "bucket": "stone",
+      "split": "train",
+      "title": "File:MareMiramare.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:MareMiramare.jpg",
+      "author": "Airin",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source_size": [
+        2592,
+        1944
+      ],
+      "source_sha256": "aa4b1f0b1224ae36541ad211369117fb31c6df6e2d444e1addf7dcb6c85da456",
+      "texture_sha256": "27d20439a6c46cb2821de2fb0f252db487ef57cc65613e121bf548474e59d7a4",
+      "phash": "45d9d2165803afad"
+    },
+    {
+      "id": "stone-181007160",
+      "page_id": 181007160,
+      "bucket": "stone",
+      "split": "development",
+      "title": "File:0 Les Baux-de-Provence (3).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:0_Les_Baux-de-Provence_(3).jpg",
+      "author": "Jean-Pol GRANDMONT",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0",
+      "source_size": [
+        6368,
+        4320
+      ],
+      "source_sha256": "01b4f670ecdb73bc1a5b3d59661ca98634a6eddbc5ddc964bea12cb706c5bf2a",
+      "texture_sha256": "0f54bf2072f0ef0c7614d41b5e6416f697e2239663e293850d0cda88aacb3cc8",
+      "phash": "267da75da8526914"
+    },
+    {
+      "id": "stone-6109870",
+      "page_id": 6109870,
+      "bucket": "stone",
+      "split": "development",
+      "title": "File:Nagayama Castle stone wall.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Nagayama_Castle_stone_wall.jpg",
+      "author": "Mukai",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source_size": [
+        3072,
+        2304
+      ],
+      "source_sha256": "1d3c89ca6169172d92c4a29fd3af1e77253a156c87bd9841f0ca896791c4b780",
+      "texture_sha256": "6bca73506d9be4e31fa2065979bea27027f229eedb297448bb68cc693472aa05",
+      "phash": "108211573f871f77"
+    },
+    {
+      "id": "interior-15594829",
+      "page_id": 15594829,
+      "bucket": "interior",
+      "split": "train",
+      "title": "File:Room of farmworckerState museum of folk architecture and life.JPG",
+      "source": "https://commons.wikimedia.org/wiki/File:Room_of_farmworckerState_museum_of_folk_architecture_and_life.JPG",
+      "author": "user:\u0425\u043e\u043c\u0435\u043b\u043a\u0430",
+      "license": "CC BY 3.0",
+      "license_url": "https://creativecommons.org/licenses/by/3.0",
+      "source_size": [
+        3872,
+        2592
+      ],
+      "source_sha256": "ea9ef8ea576a98e6fc694e1710b368d1be99602a0e464f9ca41c6bbe124d6130",
+      "texture_sha256": "bb14c975b396b0caa8b854738a10dc0a3ae6038e76adee76d13f7a85bfd2db4c",
+      "phash": "2a771c18f7665509"
+    },
+    {
+      "id": "interior-99447135",
+      "page_id": 99447135,
+      "bucket": "interior",
+      "split": "train",
+      "title": "File:Museum of Architecture Kanazawa 20200105-003.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Museum_of_Architecture_Kanazawa_20200105-003.jpg",
+      "author": "J o",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        4814,
+        3199
+      ],
+      "source_sha256": "15e4edae30f8dbf6e50ba66000132dbedebfd3fb4f6b4cdea5537b027151344e",
+      "texture_sha256": "066d6b85bd54f5ef8bfcbdd332bcb125f05e2f33087555b9eb7947ff54c28cae",
+      "phash": "7d247a2cade1630a"
+    },
+    {
+      "id": "interior-107334827",
+      "page_id": 107334827,
+      "bucket": "interior",
+      "split": "train",
+      "title": "File:Pioneer 001 train interior - Ilham Aliyev in diagnsotics room (3).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Pioneer_001_train_interior_-_Ilham_Aliyev_in_diagnsotics_room_(3).jpg",
+      "author": "Press office of the President of Azerbaijan",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0",
+      "source_size": [
+        1960,
+        1272
+      ],
+      "source_sha256": "137a7f655b08c39e7e0a6d52bcba34d80e1ac84a48c0206b183eda3bef3da994",
+      "texture_sha256": "5363a81a7da117f6c0955bc28e2467ae80300a108e49b050dbbddfd4e65c2fa5",
+      "phash": "3947a693e438c8e3"
+    },
+    {
+      "id": "interior-107334824",
+      "page_id": 107334824,
+      "bucket": "interior",
+      "split": "train",
+      "title": "File:Pioneer 001 train interior - Ilham Aliyev in diagnsotics room (2).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Pioneer_001_train_interior_-_Ilham_Aliyev_in_diagnsotics_room_(2).jpg",
+      "author": "Press office of the President of Azerbaijan",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0",
+      "source_size": [
+        1960,
+        1216
+      ],
+      "source_sha256": "7cb7789d744ddfcc508a79ada552bb29b46bacb92402836e96a3e41226ca213c",
+      "texture_sha256": "384ae5a31e5faf9a5ed10aa0a7df36581da4975bff6fd6a6b810f9a11388edc8",
+      "phash": "7c50360b2f11e6d9"
+    },
+    {
+      "id": "interior-107334828",
+      "page_id": 107334828,
+      "bucket": "interior",
+      "split": "train",
+      "title": "File:Pioneer 001 train interior - Ilham Aliyev in diagnsotics room (1).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Pioneer_001_train_interior_-_Ilham_Aliyev_in_diagnsotics_room_(1).jpg",
+      "author": "Press office of the President of Azerbaijan",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0",
+      "source_size": [
+        1940,
+        1292
+      ],
+      "source_sha256": "63a6e61946126dbfbffdc099b1785b53b9c170922a8f1043bdd3bbb6c7f95415",
+      "texture_sha256": "aa937c14a292a67c5b41cea58d36c700d2f4c4d8bbe0e0355e375491fc7140b8",
+      "phash": "162a77687582c9bc"
+    },
+    {
+      "id": "interior-117539523",
+      "page_id": 117539523,
+      "bucket": "interior",
+      "split": "train",
+      "title": "File:Withington Residence-Interior, Room with Piano - DPLA - 1a086f24a5eb3b6e19cac776bebdceba.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Withington_Residence-Interior,_Room_with_Piano_-_DPLA_-_1a086f24a5eb3b6e19cac776bebdceba.jpg",
+      "author": "Schweinfurth, Charles Frederick, 1856-1919",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        2946,
+        2256
+      ],
+      "source_sha256": "4c715ad5562d9a018a178fe0202a682e3c626d427851d75894e6a742d34ff681",
+      "texture_sha256": "0cfe9def2f97774ff5f528adcc68e0bed749e60d5e75cadb476bc9ea66f69b68",
+      "phash": "0a5cd73ac03d7ec0"
+    },
+    {
+      "id": "interior-30832229",
+      "page_id": 30832229,
+      "bucket": "interior",
+      "split": "train",
+      "title": "File:Interior view of the sitting room in the Charles F. Lummis house, 1902 (CHS-1421).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Interior_view_of_the_sitting_room_in_the_Charles_F._Lummis_house,_1902_(CHS-1421).jpg",
+      "author": "C.C. Pierce & Co.",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        5154,
+        3930
+      ],
+      "source_sha256": "22998d5316c8f9e7dc5f37688705a96d63ce69b0f314ca52b20e1d7eaddefde4",
+      "texture_sha256": "a7cd270859dbcd623197149ecae68db851db41f3d54bea07dd6b9926cf15cc8c",
+      "phash": "473691498e879b78"
+    },
+    {
+      "id": "interior-108896056",
+      "page_id": 108896056,
+      "bucket": "interior",
+      "split": "train",
+      "title": "File:Panoramic of Edith Vanderbilt's Room at Biltmore House, Asheville, North Carolina.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Panoramic_of_Edith_Vanderbilt%27s_Room_at_Biltmore_House,_Asheville,_North_Carolina.jpg",
+      "author": "Comtesse d'Autodidactica",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        4096,
+        1742
+      ],
+      "source_sha256": "a66c7d0244ed0ae2430eab3983d1de4eb3648d7c8fa9df57a504c5fc7c28bdbc",
+      "texture_sha256": "e3425f53035227ccfcca46bd9592bc113004005742b948ab26371403a6ab950a",
+      "phash": "61615ad0967c0eed"
+    },
+    {
+      "id": "interior-117106307",
+      "page_id": 117106307,
+      "bucket": "interior",
+      "split": "train",
+      "title": "File:Withington Residence-Interior, Room with Sword on Wall - DPLA - b315431a9d1928089e3de185780f9b8b.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Withington_Residence-Interior,_Room_with_Sword_on_Wall_-_DPLA_-_b315431a9d1928089e3de185780f9b8b.jpg",
+      "author": "Schweinfurth, Charles Frederick, 1856-1919",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        2898,
+        2232
+      ],
+      "source_sha256": "e565b13891c5bd987856ddaffa73e93f04071d3784f8f66fbe9ccd05f1faac63",
+      "texture_sha256": "04acc3c1255da099964e76c8f06acc462308c60843d766b5a7ceadcfbf22b616",
+      "phash": "4e806d58ed9875a3"
+    },
+    {
+      "id": "interior-18393499",
+      "page_id": 18393499,
+      "bucket": "interior",
+      "split": "development",
+      "title": "File:Marble House in Newport Dining Room 01.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Marble_House_in_Newport_Dining_Room_01.jpg",
+      "author": "Carol M. Highsmith",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        6901,
+        5380
+      ],
+      "source_sha256": "de82d4ec2c7160dede8a8f0f396276880759360e3dba3f1e98991ea394016e1a",
+      "texture_sha256": "d59ba8011ff3a8f3e50555bf7381ad0c84c124fb32f981dd3cd8828e5829f897",
+      "phash": "4f38a7ccb0667b01"
+    },
+    {
+      "id": "interior-117123347",
+      "page_id": 117123347,
+      "bucket": "interior",
+      "split": "train",
+      "title": "File:Hord Residence-Interior, Room with White Wicker Rocking Chairs - DPLA - 0947588787b5346737ea5e31f9d1855b.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Hord_Residence-Interior,_Room_with_White_Wicker_Rocking_Chairs_-_DPLA_-_0947588787b5346737ea5e31f9d1855b.jpg",
+      "author": "Schweinfurth, Charles Frederick, 1856-1919",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        2892,
+        2170
+      ],
+      "source_sha256": "78a8210c1d252cc9f830268163084963f6eae6d6ad9e89ee8568af21cd40956e",
+      "texture_sha256": "5e64ed48ac2b65464e8d0640f344ab0b18726bbadab39cdd14cf4d1822332b59",
+      "phash": "120cf7308fcb51ad"
+    },
+    {
+      "id": "interior-91689992",
+      "page_id": 91689992,
+      "bucket": "interior",
+      "split": "development",
+      "title": "File:Reading Room - Flickr - sendung.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Reading_Room_-_Flickr_-_sendung.jpg",
+      "author": "Marian Steinbach from Cologne, Germany",
+      "license": "CC BY-SA 2.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+      "source_size": [
+        2144,
+        1484
+      ],
+      "source_sha256": "f29128a42c74ff2ef845f5ec9762b3e278076b1da4af89122d3c3f6ade9ddd54",
+      "texture_sha256": "393921b4dea4831451904caf54f08b29f2e1236a377e34d4c8a86e4794595523",
+      "phash": "07cd9c32335c4cf1"
+    },
+    {
+      "id": "ornament-20251852",
+      "page_id": 20251852,
+      "bucket": "ornament",
+      "split": "development",
+      "title": "File:Ornate bay ceiling in Kaitabhesvara temple at Kubatur.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Ornate_bay_ceiling_in_Kaitabhesvara_temple_at_Kubatur.jpg",
+      "author": "Dineshkannambadi",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source_size": [
+        5184,
+        3456
+      ],
+      "source_sha256": "6ba93290c34bf0a2855c646122ac8959c20b62547038f83621990c7ddbcc09f5",
+      "texture_sha256": "34efd6c70e61fed8785f34d0882c10cb57a25e6158b2adade2391bcaa47dfd91",
+      "phash": "0e74df548f0a558c"
+    },
+    {
+      "id": "ornament-4118369",
+      "page_id": 4118369,
+      "bucket": "ornament",
+      "split": "train",
+      "title": "File:Ornate pillars in the Saraswati temple at Gadag.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Ornate_pillars_in_the_Saraswati_temple_at_Gadag.jpg",
+      "author": "Dineshkannambadi at English Wikipedia",
+      "license": "CC BY-SA 3.0",
+      "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "source_size": [
+        2592,
+        1944
+      ],
+      "source_sha256": "b7d9b23a3c16f9f8415906625405413c1a59ef418b49a850a9535bf09c5fc053",
+      "texture_sha256": "a14e38f17824bf8fcb0005a8a10eec42a89fad0faed032b86531127c713a9eb1",
+      "phash": "69a629834ad9da63"
+    },
+    {
+      "id": "ornament-20157728",
+      "page_id": 20157728,
+      "bucket": "ornament",
+      "split": "development",
+      "title": "File:Ornate pillars in Gaurishvara temple at Yelandur.JPG",
+      "source": "https://commons.wikimedia.org/wiki/File:Ornate_pillars_in_Gaurishvara_temple_at_Yelandur.JPG",
+      "author": "Dineshkannambadi",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source_size": [
+        3456,
+        5184
+      ],
+      "source_sha256": "67ec2e5487d93560ea93dc806169676f94050f3b722fd98d5e512a95990b00c5",
+      "texture_sha256": "b8b71845e9aa6ad654dcc9e5576da0ae27b100ddda718eafa8bd799f0cb3fa5e",
+      "phash": "55d7290aa35cf522"
+    },
+    {
+      "id": "ornament-6256281",
+      "page_id": 6256281,
+      "bucket": "ornament",
+      "split": "train",
+      "title": "File:Ornate sanctum door jamp, lintel, door keepers and stambha buttalika pillar in Chennakesava temple at Belur.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Ornate_sanctum_door_jamp,_lintel,_door_keepers_and_stambha_buttalika_pillar_in_Chennakesava_temple_at_Belur.jpg",
+      "author": "Charles Haynes",
+      "license": "CC BY-SA 2.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+      "source_size": [
+        4368,
+        2912
+      ],
+      "source_sha256": "0718ecbbc9129c3e5eed921d7cf4e1ae737d7b9ac881510ab4e1e063d1c6191c",
+      "texture_sha256": "01cefdc61cdcb1534f6b36dbd77a26f7fb113bab24f29a7d6a8d88b30dc0bba0",
+      "phash": "2bd728ed362a5581"
+    },
+    {
+      "id": "ornament-21611001",
+      "page_id": 21611001,
+      "bucket": "ornament",
+      "split": "train",
+      "title": "File:Ornate domical bay ceiling between pillars in the hall of Bucesvara temple at Koravangala.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Ornate_domical_bay_ceiling_between_pillars_in_the_hall_of_Bucesvara_temple_at_Koravangala.jpg",
+      "author": "HoysalaPhotos",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source_size": [
+        1920,
+        1080
+      ],
+      "source_sha256": "c260648795da8873e10dc30fea426394d7c47354d32e75022a5c5e43487087f7",
+      "texture_sha256": "fc13832774744e05d674ac0f5798ddfaefc9f8fab11974e79b0163dd4ee8ae8d",
+      "phash": "734d52e0d3748b2a"
+    },
+    {
+      "id": "ornament-51142948",
+      "page_id": 51142948,
+      "bucket": "ornament",
+      "split": "train",
+      "title": "File:Ornated ceiling inside Lakshmi Devi Temple, Doddagaddavalli.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Ornated_ceiling_inside_Lakshmi_Devi_Temple,_Doddagaddavalli.jpg",
+      "author": "Bikashrd",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        4928,
+        3073
+      ],
+      "source_sha256": "d94fd01b410940232feeb1de7b7bc1826ece94e43c56b3085bbfcef48f857684",
+      "texture_sha256": "396869a53fd43b53020a58336a9e233c445c837be91a9b2ff33ac4f271e02dfe",
+      "phash": "097635cef1d88227"
+    },
+    {
+      "id": "ornament-134785401",
+      "page_id": 134785401,
+      "bucket": "ornament",
+      "split": "train",
+      "title": "File:Column in Saint Peter's Basilica - DPLA - 67b3fbad8ddc04ed352f6fc40318fc32.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Column_in_Saint_Peter%27s_Basilica_-_DPLA_-_67b3fbad8ddc04ed352f6fc40318fc32.jpg",
+      "author": "Edmund F. Arras",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        3252,
+        3810
+      ],
+      "source_sha256": "d3edf21eaed62c64166379c847cdf69c1d6766655e5aa2b94ec1500bf97641b8",
+      "texture_sha256": "2bf991063a0d9936948ebad6b6417948c95f6b097893f34a847d66287b221d7f",
+      "phash": "694f71422ba556d4"
+    },
+    {
+      "id": "ornament-25862061",
+      "page_id": 25862061,
+      "bucket": "ornament",
+      "split": "train",
+      "title": "File:Ancient marble panelling in Hagia Sofia.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Ancient_marble_panelling_in_Hagia_Sofia.jpg",
+      "author": "Ian Scott",
+      "license": "CC BY-SA 2.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+      "source_size": [
+        3772,
+        2999
+      ],
+      "source_sha256": "366b2a27669054bdb1802d5ff8d0b3189bfa12fd27aa6f6723aff0a2fbf24a84",
+      "texture_sha256": "6b05c843b954261da2c1ab2f8c963a68724b5ec5890c0136636c7c78e2480ace",
+      "phash": "43d04aaa2b093efe"
+    },
+    {
+      "id": "ornament-17281185",
+      "page_id": 17281185,
+      "bucket": "ornament",
+      "split": "train",
+      "title": "File:Ornate porch entrance in Nagaresvara Temple at Bankapura.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Ornate_porch_entrance_in_Nagaresvara_Temple_at_Bankapura.jpg",
+      "author": "Dineshkannambadi at English Wikipedia",
+      "license": "CC BY-SA 3.0",
+      "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "source_size": [
+        2592,
+        1944
+      ],
+      "source_sha256": "a3355630a4320b3dd97b27a626defc3d73e5c2c820458f3828a2eadcf8f91d8f",
+      "texture_sha256": "6b79e4addc86fcc96140064bee7bc8339dd0e48a9dbf988c81cc1f6baa04cda3",
+      "phash": "77a0f4d002fcc50f"
+    },
+    {
+      "id": "ornament-29319572",
+      "page_id": 29319572,
+      "bucket": "ornament",
+      "split": "train",
+      "title": "File:Ornate porch entrance into the Vaidyeshwara temple at Talakad.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Ornate_porch_entrance_into_the_Vaidyeshwara_temple_at_Talakad.jpg",
+      "author": "Harijibhv",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source_size": [
+        4000,
+        3000
+      ],
+      "source_sha256": "9b8d8f902251b832c6da373ff534889f2eb1530eb6017f9598771bf0641ac27a",
+      "texture_sha256": "09e1aa9f3d7b74477a089628ef549ecd23ffeddddea282b38669905e41eb4fbf",
+      "phash": "322af15809c2fd57"
+    },
+    {
+      "id": "ornament-21740492",
+      "page_id": 21740492,
+      "bucket": "ornament",
+      "split": "train",
+      "title": "File:Ornate mantapa pillars in Someshwara Temple at Kolar.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Ornate_mantapa_pillars_in_Someshwara_Temple_at_Kolar.jpg",
+      "author": "Hariharan Arunachalam ( NIC )",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source_size": [
+        4320,
+        3240
+      ],
+      "source_sha256": "e91c133de0778dd032a4bc539173e183e1e7d9abd952cc4f6565936184853000",
+      "texture_sha256": "c5e3d2b64cc64dc78fe0cfd4ead7cdd526b80a528fbd6edb5483f20816990af0",
+      "phash": "7c26f1e19819b871"
+    },
+    {
+      "id": "ornament-28769088",
+      "page_id": 28769088,
+      "bucket": "ornament",
+      "split": "train",
+      "title": "File:Ornate wall panel relief and molding frieze in Hoysaleshwara temple, Halebidu.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Ornate_wall_panel_relief_and_molding_frieze_in_Hoysaleshwara_temple,_Halebidu.jpg",
+      "author": "Mashalti",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source_size": [
+        5184,
+        3456
+      ],
+      "source_sha256": "adf20e756ec4f4bbf831811b7922824fd20c33daf476fff4bd5b32c74045fefc",
+      "texture_sha256": "2759ead2b91f4268580c31dd7b19357d3f5662c64e99c2778d9d27ebc16b77ac",
+      "phash": "1d07c617183fd8c9"
+    },
+    {
+      "id": "faces-6057325",
+      "page_id": 6057325,
+      "bucket": "faces",
+      "split": "train",
+      "title": "File:Elderly Gambian woman face portrait.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Elderly_Gambian_woman_face_portrait.jpg",
+      "author": "Ferdinand Reus",
+      "license": "CC BY-SA 2.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+      "source_size": [
+        1949,
+        2160
+      ],
+      "source_sha256": "0be4d1180a4a1c884bada85792176fc0a06f865cd3f85a1e55f1b2c82cb36083",
+      "texture_sha256": "ad1860d261c3c090b451d9b35c55abc969a53d67255b5e52a97f3e149006a56b",
+      "phash": "4e380d7184d0f5be"
+    },
+    {
+      "id": "faces-20939025",
+      "page_id": 20939025,
+      "bucket": "faces",
+      "split": "train",
+      "title": "File:Boy Face from Venezuela.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Boy_Face_from_Venezuela.jpg",
+      "author": "Wilfredor",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "source_size": [
+        3545,
+        2848
+      ],
+      "source_sha256": "e11be19f72949f9fe445b32077a63911ca065c09097477318ab9c75600ffd321",
+      "texture_sha256": "3e8d4e428811d0a4f848c965fdbb271812fafdf16b1112fe536e4c325c78c11d",
+      "phash": "463c6f7b719c0862"
+    },
+    {
+      "id": "faces-116177009",
+      "page_id": 116177009,
+      "bucket": "faces",
+      "split": "development",
+      "title": "File:Studio Portrait Person Wearing White Robe and Face Covering Hood, Naples MET DP-15801-007.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Studio_Portrait_Person_Wearing_White_Robe_and_Face_Covering_Hood,_Naples_MET_DP-15801-007.jpg",
+      "author": "Giorgio Conrad",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "source_size": [
+        2119,
+        3149
+      ],
+      "source_sha256": "2e5089e5887175d1a0d93b2661304cc0f27b5a00045dd2d3490f36fbc38fc4d0",
+      "texture_sha256": "d39b49135d539f789b8ea6094fa236c7f1f274e073035d90ae198adca0ab611e",
+      "phash": "43a4b1b1acb1da4e"
+    },
+    {
+      "id": "faces-128315098",
+      "page_id": 128315098,
+      "bucket": "faces",
+      "split": "train",
+      "title": "File:Half face portrait of a mysterious woman with a mask.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Half_face_portrait_of_a_mysterious_woman_with_a_mask.jpg",
+      "author": "julija.mazhora",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "source_size": [
+        3240,
+        4956
+      ],
+      "source_sha256": "2b752f38fa5489d899d275853cf46f1384408a53d5a94d12765aa1cf5c388d44",
+      "texture_sha256": "f0fda72e7c13d7644f7843f8ba61b29e164bd217ff69a223e8da12caf0d4e20a",
+      "phash": "586b6c53b60ce236"
+    },
+    {
+      "id": "faces-5039891",
+      "page_id": 5039891,
+      "bucket": "faces",
+      "split": "train",
+      "title": "File:Example of person portrait.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Example_of_person_portrait.jpg",
+      "author": "Marin Bobek",
+      "license": "CC BY 3.0",
+      "license_url": "https://creativecommons.org/licenses/by/3.0",
+      "source_size": [
+        2401,
+        1603
+      ],
+      "source_sha256": "4c443ce7111129d43d6b0d898f09f2c8bac7d0be207cfd717a3e8b1d7df25a40",
+      "texture_sha256": "647b80e7b6bbbc24901e6016cb2b08f64420f8d23e64d95bfd101d68bc8c66fa",
+      "phash": "35c1ce8c0c93dbc3"
+    },
+    {
+      "id": "faces-176130300",
+      "page_id": 176130300,
+      "bucket": "faces",
+      "split": "train",
+      "title": "File:John Thomas Rowntree Portrait Face.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:John_Thomas_Rowntree_Portrait_Face.jpg",
+      "author": "HRowntree",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "source_size": [
+        2448,
+        3264
+      ],
+      "source_sha256": "ab1463e5ddb10c213f8277f186e65c8e8e75fcea522d2876d7a8644b5d18ce56",
+      "texture_sha256": "b36a0b0b57dd73ce8254401a210bb8a0c71676cb8c48daddcb49f159f5b2965a",
+      "phash": "6ce59813c37a0f61"
+    },
+    {
+      "id": "faces-112753799",
+      "page_id": 112753799,
+      "bucket": "faces",
+      "split": "train",
+      "title": "File:Portrait Peru 46.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Portrait_Peru_46.jpg",
+      "author": "RForster",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        2272,
+        1515
+      ],
+      "source_sha256": "fabf027bca06e3653bb9f9c8e67dd8c282c58880a4883f0d76dcd18688e7c315",
+      "texture_sha256": "1eeb2964e1f92e3de0b8da6230c772e317b75df98c71ccb2ea809d9cb840b36c",
+      "phash": "09b8d391e9c18a9f"
+    },
+    {
+      "id": "faces-59357482",
+      "page_id": 59357482,
+      "bucket": "faces",
+      "split": "development",
+      "title": "File:Albert Szent-Gy\u00f6rgyi on the left Endre B\u00edr\u00f3 on the far right and Tam\u00e1s Erd\u0151 and the person whose face cannot be seen is W.F.H. M Mommaerts.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Albert_Szent-Gy%C3%B6rgyi_on_the_left_Endre_B%C3%ADr%C3%B3_on_the_far_right_and_Tam%C3%A1s_Erd%C5%91_and_the_person_whose_face_cannot_be_seen_is_W.F.H._M_Mommaerts.jpg",
+      "author": "The first photo shows my father, Endre B\u00edro in 1946. Endre B\u00edr\u00f3 was a biochemist who started his career at the Institute of Albert Szent-Gy\u00f6rgyi who was a Nobel Prize-winning Hungarian scientist. The second and third photos were taken at the Sixth International Congress of Cytology in Stockholm, Sweden. The second photo shows Endre B\u00edr\u00f3 and Tam\u00e1s Erd\u0151s sitting opposite Albert Szent-Gy\u00f6rgyi, while the third shows Endre B\u00edr\u00f3 and Tam\u00e1s Erd\u0151 sitting opposite Albert Szent-Gy\u00f6rgyi.",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        2708,
+        1940
+      ],
+      "source_sha256": "e86f480774f45bc16596fb2b7eb955b0009f8baacf7571e9f4870d1ef457c9f1",
+      "texture_sha256": "d92511dceb5243ddbd0a3c8e834fc3a05e3205ec28f58be3a7fd7b9d86f7da9a",
+      "phash": "1ce099d9f4e1831e"
+    },
+    {
+      "id": "faces-50456574",
+      "page_id": 50456574,
+      "bucket": "faces",
+      "split": "train",
+      "title": "File:Face \u2013 Alexander.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Face_%E2%80%93_Alexander.jpg",
+      "author": "Genusfotografen (Tomas Gunnarsson) / Wikimedia",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        3840,
+        5760
+      ],
+      "source_sha256": "2ae1ce6fc077dc8c66f6bd06b9ac991f88947b26145b32960c216e8f579ecee6",
+      "texture_sha256": "9b4f623ec8eb416fefed1e68e216e68bf2f0353e67265b21a1631ed4ab88cb01",
+      "phash": "68e881a08783fb7e"
+    },
+    {
+      "id": "faces-50457146",
+      "page_id": 50457146,
+      "bucket": "faces",
+      "split": "train",
+      "title": "File:Face \u2013 Tiger.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Face_%E2%80%93_Tiger.jpg",
+      "author": "Genusfotografen (Tommas Gunnarsson) / Wikimedia Sverige",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        3840,
+        5760
+      ],
+      "source_sha256": "b444d999f35e2aeb1f53b58b091e75fbdc8c888e72b5221b132cecb99859f435",
+      "texture_sha256": "25417762b5b5903a93011a97d2607340bc69a637b1c16627b43cf02d68ec499a",
+      "phash": "19f04ce38dd819e6"
+    },
+    {
+      "id": "faces-10465667",
+      "page_id": 10465667,
+      "bucket": "faces",
+      "split": "train",
+      "title": "File:Girl's face in shadow.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Girl%27s_face_in_shadow.jpg",
+      "author": "Mark J Sebastian",
+      "license": "CC BY-SA 2.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+      "source_size": [
+        4372,
+        2906
+      ],
+      "source_sha256": "c89115d391fc170abba01d9689a33719d92377dfb284d5d24afd9e55c5f9ffc5",
+      "texture_sha256": "42af74fc0833549dbd44e0e274d5e3c3706d3ebed8f02f84e8dc9bbd88c5de69",
+      "phash": "67e6574e4c9819c1"
+    },
+    {
+      "id": "faces-14942170",
+      "page_id": 14942170,
+      "bucket": "faces",
+      "split": "train",
+      "title": "File:Baby portrait 1-year-old.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Baby_portrait_1-year-old.jpg",
+      "author": "Kozuch",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source_size": [
+        2848,
+        2136
+      ],
+      "source_sha256": "0b0cb5e35c577273669f5a8337b889fed6961b8366f8b7a26fb8c8fc8a01891a",
+      "texture_sha256": "5ac72c7769e4a21ed8f5ed133d89ea105e2bc5c1f5674289cd8bde1ee0184acf",
+      "phash": "19698f235bb524e8"
+    },
+    {
+      "id": "people-80100676",
+      "page_id": 80100676,
+      "bucket": "people",
+      "split": "train",
+      "title": "File:Crowd Tuska 2019 (3).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Crowd_Tuska_2019_(3).jpg",
+      "author": "WanderingTrad",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        6000,
+        4000
+      ],
+      "source_sha256": "e6ba91b72437c5c9303f6efb41fdc70bb9a469ae80e0ac5038d6e413e592c534",
+      "texture_sha256": "b00ed578614d2b6dcf750f9c1c608873015dc4fb6c8db80493fe306cc6833875",
+      "phash": "61d95e1a35b80b9a"
+    },
+    {
+      "id": "people-175262492",
+      "page_id": 175262492,
+      "bucket": "people",
+      "split": "development",
+      "title": "File:Brett in the crowd at Royal Festival Hall 2025-09-13.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Brett_in_the_crowd_at_Royal_Festival_Hall_2025-09-13.jpg",
+      "author": "Bex.Walton",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0",
+      "source_size": [
+        4668,
+        3501
+      ],
+      "source_sha256": "08ada10a2fc42d3c8c29ef7f2c8d6527a0393d726dc7d37d82c1cc4098c821e1",
+      "texture_sha256": "82fb40cb861f3aee614c692579d852ba39db4ebc00b19d923bea19ccebe565af",
+      "phash": "74cb40ba44de39c9"
+    },
+    {
+      "id": "people-58700923",
+      "page_id": 58700923,
+      "bucket": "people",
+      "split": "train",
+      "title": "File:Bar girls and the crowd Taihoku.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Bar_girls_and_the_crowd_Taihoku.jpg",
+      "author": "\u674e\u706b\u589e",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        2498,
+        1642
+      ],
+      "source_sha256": "f5944ae78a0689a7905e988480f9dc6f53c4214a4a5651668e560c0798650c5e",
+      "texture_sha256": "18314449caf53b75c4a87cedf1410d70afd5b98d787124837f41c4b32fd0651a",
+      "phash": "5cdce658a012cfc5"
+    },
+    {
+      "id": "people-169378050",
+      "page_id": 169378050,
+      "bucket": "people",
+      "split": "train",
+      "title": "File:Essence Festival of Culture.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Essence_Festival_of_Culture.jpg",
+      "author": "Adjoajo",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        3000,
+        3898
+      ],
+      "source_sha256": "fb1bddcd0463d3175f8c2db7e57318a001fe1bc78da1a4b902092a51d2803f51",
+      "texture_sha256": "d490ccf33d6ada4c7c79e42454e86900ac381490e1979a442189166f0a2d0a71",
+      "phash": "02efb66699764c11"
+    },
+    {
+      "id": "people-85708269",
+      "page_id": 85708269,
+      "bucket": "people",
+      "split": "train",
+      "title": "File:Crowd at night at WBF 2019.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Crowd_at_night_at_WBF_2019.jpg",
+      "author": "JIP",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        4608,
+        3456
+      ],
+      "source_sha256": "cefc8cc3c42c9d58acf292779fa70bd8ee608225b86d1b0e748f27aad9e292db",
+      "texture_sha256": "7efb0e92dc43d817a5367df05050ea7bc8e14fe5a713b8f87f2877330a2cc65c",
+      "phash": "6d7c25bb13214a4d"
+    },
+    {
+      "id": "people-169822587",
+      "page_id": 169822587,
+      "bucket": "people",
+      "split": "train",
+      "title": "File:Essence Cultural Festival - 2025 (81579).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Essence_Cultural_Festival_-_2025_(81579).jpg",
+      "author": "Adjoajo",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        3000,
+        4000
+      ],
+      "source_sha256": "8a7a49a756c40a5fd12e5ac2bc30d82306a13739c64721918710561bc51fa5c6",
+      "texture_sha256": "9ae726f7a17c5c9202db4556bffbbd6b14869ef4be40bc51bffb5fb1a774bce2",
+      "phash": "30292a5a47f5c5d5"
+    },
+    {
+      "id": "people-71255208",
+      "page_id": 71255208,
+      "bucket": "people",
+      "split": "train",
+      "title": "File:People of parade of Taiwan Shrine at Taihei-ch\u014d.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:People_of_parade_of_Taiwan_Shrine_at_Taihei-ch%C5%8D.jpg",
+      "author": "\u674e\u706b\u589e",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        2487,
+        1648
+      ],
+      "source_sha256": "f10f30fd98ba694ea6526380674f6959014992533568042c28d82ddda22fea1e",
+      "texture_sha256": "d927d4998a4da20b2bf8ac969565cbd76ae13338b1d0eda68f70043e505afc5a",
+      "phash": "6cdce258bcd0ce84"
+    },
+    {
+      "id": "people-73852634",
+      "page_id": 73852634,
+      "bucket": "people",
+      "split": "train",
+      "title": "File:Crowd watching The Proclaimers, Towersey 2018.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Crowd_watching_The_Proclaimers,_Towersey_2018.jpg",
+      "author": "Tim Packer",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        6000,
+        4000
+      ],
+      "source_sha256": "ed2bdccd5e51bdc1e54ba07ff12a587ac37a9a75efb8251d92c46266ef3e529c",
+      "texture_sha256": "3aaa8b3a5b2ec849d5fd5c3b94c7c6a3756f12b4891cce6c583d7c2d0b459b4b",
+      "phash": "266619c9be3e61c1"
+    },
+    {
+      "id": "people-71256187",
+      "page_id": 71256187,
+      "bucket": "people",
+      "split": "train",
+      "title": "File:Crowds in the New Park upon festival of Taiwan Shrine.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Crowds_in_the_New_Park_upon_festival_of_Taiwan_Shrine.jpg",
+      "author": "\u674e\u706b\u589e",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        2456,
+        1669
+      ],
+      "source_sha256": "2c7ffbe5b3514cf4fa803d830df36bba076d5db9238f2a3f9407576f7ebb3b22",
+      "texture_sha256": "63a990166f10344ae67ca1d6d0b53b6190774479c66135b2567d6be89e14e93c",
+      "phash": "69415b882e60dfd5"
+    },
+    {
+      "id": "people-147948328",
+      "page_id": 147948328,
+      "bucket": "people",
+      "split": "train",
+      "title": "File:Crowd at Kallio Block Party 2023.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Crowd_at_Kallio_Block_Party_2023.jpg",
+      "author": "JIP",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        4608,
+        3456
+      ],
+      "source_sha256": "ebbee9714178ba957044b0c00452a73a574d6ea0126c69a7ce0384c2ae161aea",
+      "texture_sha256": "b3ac518d44bf3f05cf860db6de575b82531e7ec5e3570aea0cdb3660ac887412",
+      "phash": "281dcc2276d5d19d"
+    },
+    {
+      "id": "people-71255722",
+      "page_id": 71255722,
+      "bucket": "people",
+      "split": "train",
+      "title": "File:Crowds upon festival of Taiwan Shrine at the New Park.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Crowds_upon_festival_of_Taiwan_Shrine_at_the_New_Park.jpg",
+      "author": "\u674e\u706b\u589e",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        2500,
+        1640
+      ],
+      "source_sha256": "2717428f781a73a4c8fca116c208d699290a60208888a70fa6c87ccd0219eba7",
+      "texture_sha256": "3256abb48f3c48bc04376758783e59a075c4b6c835c3b8ce37d09e97bcb871ff",
+      "phash": "0f58b519d1b5c970"
+    },
+    {
+      "id": "people-61195156",
+      "page_id": 61195156,
+      "bucket": "people",
+      "split": "development",
+      "title": "File:Mikoshi and crowds at festival in Japan (1914 by Elstner Hilton).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Mikoshi_and_crowds_at_festival_in_Japan_(1914_by_Elstner_Hilton).jpg",
+      "author": "A.Davey from Portland, Oregon, EE UU",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "source_size": [
+        2594,
+        1663
+      ],
+      "source_sha256": "c0740c108774b88ac8ce8838b3af3d884cd39d2df9b127f14663a7129561a0a8",
+      "texture_sha256": "e77b835d4fc4b174f027a5db7357743b8c217e37beffd05c35df7c8b27ccda48",
+      "phash": "63e9b18dcbe8b280"
+    },
+    {
+      "id": "animals-57573933",
+      "page_id": 57573933,
+      "bucket": "animals",
+      "split": "train",
+      "title": "File:Checking out some animal furs (17224191565).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Checking_out_some_animal_furs_(17224191565).jpg",
+      "author": "vastateparksstaff",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "source_size": [
+        2448,
+        3264
+      ],
+      "source_sha256": "6f06b4ca3f54098b08154735a2b61f704b9799a884c9864af9fa4c2f083fceb7",
+      "texture_sha256": "ed84f78436f0b08540859168e6d00f1dcb51f649d66f8c61c45b2e5a7408bf52",
+      "phash": "6c321114eed39e55"
+    },
+    {
+      "id": "animals-57573954",
+      "page_id": 57573954,
+      "bucket": "animals",
+      "split": "train",
+      "title": "File:Happy kids pose with some animal furs (17036439038).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Happy_kids_pose_with_some_animal_furs_(17036439038).jpg",
+      "author": "vastateparksstaff",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "source_size": [
+        3264,
+        2448
+      ],
+      "source_sha256": "324404289e3379ee204d72c2ec62d0c77fba67476912b6eb1e5670a449dca25a",
+      "texture_sha256": "84b6ebfec860273e08ab860abfa738d480de4745e82c4a4a1638dd54964e45d1",
+      "phash": "16090ff340cc96fe"
+    },
+    {
+      "id": "animals-13414431",
+      "page_id": 13414431,
+      "bucket": "animals",
+      "split": "development",
+      "title": "File:Oikeutta el\u00e4imille - Fur farming in Finland 04.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Oikeutta_el%C3%A4imille_-_Fur_farming_in_Finland_04.jpg",
+      "author": "Oikeutta el\u00e4imille",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "source_size": [
+        3487,
+        2325
+      ],
+      "source_sha256": "e6fcd1fa17d54d37184755896357001f1f09b72413de764607ee8829fd89e4b7",
+      "texture_sha256": "a4c9d8b522f330272e2c04a8d8911bcd9756da1247ebf31b40a66390383c1fd0",
+      "phash": "298365bcde6b2514"
+    },
+    {
+      "id": "animals-13415691",
+      "page_id": 13415691,
+      "bucket": "animals",
+      "split": "development",
+      "title": "File:Oikeutta el\u00e4imille - Fur farming in Finland 12.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Oikeutta_el%C3%A4imille_-_Fur_farming_in_Finland_12.jpg",
+      "author": "Oikeutta el\u00e4imille",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "source_size": [
+        2419,
+        1612
+      ],
+      "source_sha256": "77a7bc6481d91d84d4bc7773b6f3ca570ed6837303409ea30fb9c09d51f20c8b",
+      "texture_sha256": "971001eab2cc252383ca363d38640d82feeded0a8aefaf71becf3afcb8c955a8",
+      "phash": "33b64c58333b664c"
+    },
+    {
+      "id": "animals-91523013",
+      "page_id": 91523013,
+      "bucket": "animals",
+      "split": "train",
+      "title": "File:Fur Seal at Flat Point Beach.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Fur_Seal_at_Flat_Point_Beach.jpg",
+      "author": "Sheldybett",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        2048,
+        1536
+      ],
+      "source_sha256": "a764095aac1cabb37155edcdfd39879eebd0a69564d840dee45b281e8339a514",
+      "texture_sha256": "4f0a2ad022c739505397d85e3610c6761a8fc989a296f1c08e34fd5241c742e2",
+      "phash": "1bdc11051da5a5b7"
+    },
+    {
+      "id": "animals-11774208",
+      "page_id": 11774208,
+      "bucket": "animals",
+      "split": "train",
+      "title": "File:New Zealand Fur Seal (Arctocephalus forsteri) shaking off water.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:New_Zealand_Fur_Seal_(Arctocephalus_forsteri)_shaking_off_water.jpg",
+      "author": "Avenue",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source_size": [
+        2008,
+        2824
+      ],
+      "source_sha256": "9a454bc5e15eb88ef17b430dadd9252a45cafe7ac2f75c4a86fa9f4ed633430f",
+      "texture_sha256": "708ef44966787961a75d279827c345525222bda4ecda84d3af46fa7bb8351602",
+      "phash": "14db520eaa78c38f"
+    },
+    {
+      "id": "animals-117877234",
+      "page_id": 117877234,
+      "bucket": "animals",
+      "split": "train",
+      "title": "File:1912 green fur-felt hat trimmed with a stuffed owl, British.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:1912_green_fur-felt_hat_trimmed_with_a_stuffed_owl,_British.jpg",
+      "author": "Photographed by Kocourek Ond\u0159ej and Urb\u00e1nek Gabriel for the Um\u011bleckopr\u016fmyslov\u00e9 museum",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "source_size": [
+        3680,
+        2456
+      ],
+      "source_sha256": "2d0acc6a4d7dfd141f54efedded9583da09fc6511c6f3e7292d149a1bfa6e70e",
+      "texture_sha256": "78d864760577203d5982047448658ce3ee464a97d45374b809de38245a346847",
+      "phash": "4deb1806461379ed"
+    },
+    {
+      "id": "animals-7302610",
+      "page_id": 7302610,
+      "bucket": "animals",
+      "split": "train",
+      "title": "File:Exhibit of fur bearing animals, Liberal Arts building, World's Columbian Exposition, by Kilburn, B. W. (Benjamin West), 1827-1909.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Exhibit_of_fur_bearing_animals,_Liberal_Arts_building,_World%27s_Columbian_Exposition,_by_Kilburn,_B._W._(Benjamin_West),_1827-1909.jpg",
+      "author": "Kilburn, B. W. (Benjamin West), 1827-1909 -- Photographer",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        2737,
+        1371
+      ],
+      "source_sha256": "bc37315a101782281f7d9e5c680a3a00b955025601ecc4538bc903ba55ea95f4",
+      "texture_sha256": "c5f24b60cf0cb132336041d4288bf099438925929e5da279de4bc85cd01167bd",
+      "phash": "378f65e60b507291"
+    },
+    {
+      "id": "animals-14891723",
+      "page_id": 14891723,
+      "bucket": "animals",
+      "split": "train",
+      "title": "File:Stagecoach with soft toy horse, covered with calf fur, 1870, Stadtmuseum D\u00fcsseldorf.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Stagecoach_with_soft_toy_horse,_covered_with_calf_fur,_1870,_Stadtmuseum_D%C3%BCsseldorf.jpg",
+      "author": "Unknown producer / K\u00fcrschner ( talk ) 15:51, 12 April 2011 (UTC)",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        2048,
+        1536
+      ],
+      "source_sha256": "21920014d725cdee3f8ea199bea73450a7644c2bdf2502aa8672c50f915837ea",
+      "texture_sha256": "6645757f7b1c646d36c0c785874403ceeb67eb47dc6efb6e721ad550e67bb8b4",
+      "phash": "2dd24d541be4f628"
+    },
+    {
+      "id": "animals-67476070",
+      "page_id": 67476070,
+      "bucket": "animals",
+      "split": "train",
+      "title": "File:Galapagos fur seal.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Galapagos_fur_seal.jpg",
+      "author": "User:Jasoncorriveau~enwiki",
+      "license": "CC BY-SA 3.0",
+      "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "source_size": [
+        2816,
+        1872
+      ],
+      "source_sha256": "cd28f9528d86555528443ebc8b621769d69aed1ad49ff96e7628032cf74dba8d",
+      "texture_sha256": "d0bf38320be8b459070c4d72bcbe09d263dde894b9cbb9db846d2fef6c21f1c1",
+      "phash": "34ea61a60f4db871"
+    },
+    {
+      "id": "animals-61205142",
+      "page_id": 61205142,
+      "bucket": "animals",
+      "split": "train",
+      "title": "File:Castlepoint Fur Seal.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Castlepoint_Fur_Seal.jpg",
+      "author": "IcknieldRidgeway",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        4608,
+        2592
+      ],
+      "source_sha256": "27f18f1beef9d1082a0daaa6cacc36c3a37eb5715dd896fc2f593667db7b073d",
+      "texture_sha256": "6aad086c0ae62169f8d4c0d7c7239a182751c32a480ed069c68621684517abf2",
+      "phash": "1e91871db326ae4a"
+    },
+    {
+      "id": "animals-136623172",
+      "page_id": 136623172,
+      "bucket": "animals",
+      "split": "train",
+      "title": "File:2023-08-25 Haustiervorf\u00fchrung f\u00fcr Besucher - Domesticated animal show for visitors of Wildpark Bad Mergentheim 09.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:2023-08-25_Haustiervorf%C3%BChrung_f%C3%BCr_Besucher_-_Domesticated_animal_show_for_visitors_of_Wildpark_Bad_Mergentheim_09.jpg",
+      "author": "Triplec85",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        4000,
+        3000
+      ],
+      "source_sha256": "8d5b6acae79ce0a0728ec3c7bc63d8007f256a0ec3b74b469b847378d3693eb0",
+      "texture_sha256": "d9e88ca6694902fe44e4d3644fd38c8887e95c67d0962a1dfc77c1b767233789",
+      "phash": "527b692c2343de34"
+    },
+    {
+      "id": "flowers-90130673",
+      "page_id": 90130673,
+      "bucket": "flowers",
+      "split": "train",
+      "title": "File:2019 - Rose Garden - Flowers - 01.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:2019_-_Rose_Garden_-_Flowers_-_01.jpg",
+      "author": "Atwngirl",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        4096,
+        2731
+      ],
+      "source_sha256": "d1ca49c9dbf47af21072360694e83f63f8c539017440c2ef361d83902d6297b1",
+      "texture_sha256": "4ec72b9688ff9800266091d6fdf4441a801677a2e5e5b414e25a2d422a93cc7a",
+      "phash": "3929a85edcce286c"
+    },
+    {
+      "id": "flowers-180993779",
+      "page_id": 180993779,
+      "bucket": "flowers",
+      "split": "train",
+      "title": "File:Flowers of Prunus mume (Armenaca mume \u2018Bumpi\u2019) at Nagai Botanical Garden, February 2024 - 5452.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Flowers_of_Prunus_mume_(Armenaca_mume_%E2%80%98Bumpi%E2%80%99)_at_Nagai_Botanical_Garden,_February_2024_-_5452.jpg",
+      "author": "Laitche",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        5144,
+        3528
+      ],
+      "source_sha256": "1954d52c8188d9f2219f3220617460a4a87462e77e810f8752b0607d13057b00",
+      "texture_sha256": "70ee8f0c0c2d79c500ad6f36413ea6ac000f90ea09dd80ef5552bf01fce401d4",
+      "phash": "19b1b9cce6271a19"
+    },
+    {
+      "id": "flowers-171240586",
+      "page_id": 171240586,
+      "bucket": "flowers",
+      "split": "train",
+      "title": "File:Flowers in Brooklyn Botanic Garden.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Flowers_in_Brooklyn_Botanic_Garden.jpg",
+      "author": "\u062f\u0627\u0646\u064a\u0629 \u062f\u0631\u0648\u0628\u064a",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        3024,
+        4032
+      ],
+      "source_sha256": "6412e834bf8b27dbef96ebac4ab6a9efdbd9d75e1a30fa76aaf4dcea7f465453",
+      "texture_sha256": "ceddde745b88ce1c0134ad5aa320a58e749dec69d9e03f1d9237b90d0da7db97",
+      "phash": "19d9e407be5811f4"
+    },
+    {
+      "id": "flowers-90130676",
+      "page_id": 90130676,
+      "bucket": "flowers",
+      "split": "train",
+      "title": "File:2019 - Rose Garden - Flowers - 05.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:2019_-_Rose_Garden_-_Flowers_-_05.jpg",
+      "author": "Atwngirl",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        4096,
+        2731
+      ],
+      "source_sha256": "0cda7e28d7a93deebc474943692b80b363b8ac84826c8c4d3b03903c193d6185",
+      "texture_sha256": "045dec06018c0ae679ccd72fceb3435e9298cb17d3734bb8a5144e0fa3ee8b19",
+      "phash": "03f3f00049a5fe9e"
+    },
+    {
+      "id": "flowers-90130692",
+      "page_id": 90130692,
+      "bucket": "flowers",
+      "split": "train",
+      "title": "File:2019 - Rose Garden - Flowers - 19.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:2019_-_Rose_Garden_-_Flowers_-_19.jpg",
+      "author": "Atwngirl",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        2731,
+        4096
+      ],
+      "source_sha256": "62c3f4b7c7a4dd6a7912199e2617d9b95b2003b08d6b61739ef782d35a2072c8",
+      "texture_sha256": "8d6e0cbdefb1ad79149b601fc7010f181eb342f113b4e0c88cd6949f2888f197",
+      "phash": "62cc7e888af01bf2"
+    },
+    {
+      "id": "flowers-90130677",
+      "page_id": 90130677,
+      "bucket": "flowers",
+      "split": "train",
+      "title": "File:2019 - Rose Garden - Flowers - 06.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:2019_-_Rose_Garden_-_Flowers_-_06.jpg",
+      "author": "Atwngirl",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        4096,
+        2731
+      ],
+      "source_sha256": "f1f9bcbca3a8aa1fdd1b148a5091166fd511021859d493ba87981959dc82fa31",
+      "texture_sha256": "a46e2eda700e4f76b4eaaa26913e9ffef7d45e06cfe8f10a30d35e4d8bb20a01",
+      "phash": "05c7d9f9e96b0901"
+    },
+    {
+      "id": "flowers-171240623",
+      "page_id": 171240623,
+      "bucket": "flowers",
+      "split": "train",
+      "title": "File:Flowers in brooklyn botanic garden.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Flowers_in_brooklyn_botanic_garden.jpg",
+      "author": "\u062f\u0627\u0646\u064a\u0629 \u062f\u0631\u0648\u0628\u064a",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        3024,
+        4032
+      ],
+      "source_sha256": "11f9e815b853270bd75a6fe06a2f5e1635832a38a5acfbe79e8340bdfb87dd4a",
+      "texture_sha256": "9964d00b8280ff09947ad84477353011044eedf7b07f096088a217853de9d79d",
+      "phash": "3cc35c3cf556025c"
+    },
+    {
+      "id": "flowers-163513223",
+      "page_id": 163513223,
+      "bucket": "flowers",
+      "split": "train",
+      "title": "File:English Flower Garden - Hamilton Gardens - Hamilton, NZ - DSC06500.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:English_Flower_Garden_-_Hamilton_Gardens_-_Hamilton,_NZ_-_DSC06500.jpg",
+      "author": "Daderot",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "source_size": [
+        5388,
+        3257
+      ],
+      "source_sha256": "ae9e91f172048c31a54713c8871da37c49494ab00119e8584174f7f491b0c9a1",
+      "texture_sha256": "54c78b5cd23d264e83bf2dc7d0d946aa7c5281d751896c5b11284fb6a5e4a93b",
+      "phash": "7dff1b1599c08484"
+    },
+    {
+      "id": "flowers-163513222",
+      "page_id": 163513222,
+      "bucket": "flowers",
+      "split": "train",
+      "title": "File:English Flower Garden - Hamilton Gardens - Hamilton, NZ - DSC06497.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:English_Flower_Garden_-_Hamilton_Gardens_-_Hamilton,_NZ_-_DSC06497.jpg",
+      "author": "Daderot",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "source_size": [
+        5472,
+        3648
+      ],
+      "source_sha256": "0185545825ff3f55a33a6986d5965772b4feb9d7f1c7015679f9bd092575d0c6",
+      "texture_sha256": "ed9246f31b1521b88026e64217dc97a916e1538c3338a563580138b96f3b09dd",
+      "phash": "389686c9a3e35707"
+    },
+    {
+      "id": "flowers-163513211",
+      "page_id": 163513211,
+      "bucket": "flowers",
+      "split": "train",
+      "title": "File:English Flower Garden - Hamilton Gardens - Hamilton, NZ - DSC06493.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:English_Flower_Garden_-_Hamilton_Gardens_-_Hamilton,_NZ_-_DSC06493.jpg",
+      "author": "Daderot",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "source_size": [
+        5232,
+        3301
+      ],
+      "source_sha256": "dfe199e66361eda1adc313fec84704ae3573294aa58723897d0f0a0a5af77ece",
+      "texture_sha256": "8c59e5d618f3dd2a0796e0144592255ea638105f1325f38e73b640cad488bc11",
+      "phash": "14acc279d2de2d45"
+    },
+    {
+      "id": "flowers-153899101",
+      "page_id": 153899101,
+      "bucket": "flowers",
+      "split": "development",
+      "title": "File:Wild flowers - Abandoned garden near Efremov Kurgan, Tula Oblast, Russia.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Wild_flowers_-_Abandoned_garden_near_Efremov_Kurgan,_Tula_Oblast,_Russia.jpg",
+      "author": "\u042e\u0440\u0438\u0439 \u0414.\u041a.",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0",
+      "source_size": [
+        3318,
+        3910
+      ],
+      "source_sha256": "e7b3e86da6bafe603c33ed015e99e3bc654a5ede3719055aec618adb6fded301",
+      "texture_sha256": "e1fae62d72017f2e45fb2c29f3c6614af53bb01c1c43a9cbd1954bfa483cd0a6",
+      "phash": "2f2760d2962f6564"
+    },
+    {
+      "id": "flowers-187075391",
+      "page_id": 187075391,
+      "bucket": "flowers",
+      "split": "development",
+      "title": "File:Flower pots at Rose Garden, Ooty.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Flower_pots_at_Rose_Garden,_Ooty.jpg",
+      "author": "Rangan Datta Wiki",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        4928,
+        3264
+      ],
+      "source_sha256": "ed14088eaf9f2f3a9cbed8fd25ec389a63e644561e4d6142e07eda19faa677b1",
+      "texture_sha256": "de7329a408de4af509653a5bc566ce58586d75c94f1fc00052063ef087966ab0",
+      "phash": "56e22a1dfb5e5420"
+    },
+    {
+      "id": "reflections-11509256",
+      "page_id": 11509256,
+      "bucket": "reflections",
+      "split": "train",
+      "title": "File:Taiwan Glass Building and Nanjing Fuxing Road Intersection bus stop 20100916.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Taiwan_Glass_Building_and_Nanjing_Fuxing_Road_Intersection_bus_stop_20100916.jpg",
+      "author": "Solomon203",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source_size": [
+        2048,
+        1536
+      ],
+      "source_sha256": "4242addcb18a1a652c8c3bf73344075e739f4e92af5c06dd0581127399961631",
+      "texture_sha256": "992749f68a60d433cf345289c7af7ce2653ce8944060156cfabb8932a2b9940e",
+      "phash": "7f7de454303850d1"
+    },
+    {
+      "id": "reflections-132626882",
+      "page_id": 132626882,
+      "bucket": "reflections",
+      "split": "train",
+      "title": "File:Taiwan Glass Building 20230603.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Taiwan_Glass_Building_20230603.jpg",
+      "author": "Solomon203",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        3000,
+        3000
+      ],
+      "source_sha256": "d4a94b13eb32bfc8de6d406caea3347fab3471f678150be5e9c51ff65aab5dba",
+      "texture_sha256": "7155eb0bb7026db7883cbc4f42e5c53ba1b8ee54c54d76780d2a4a3db34d011d",
+      "phash": "6a25bd5ae765208a"
+    },
+    {
+      "id": "reflections-131279551",
+      "page_id": 131279551,
+      "bucket": "reflections",
+      "split": "train",
+      "title": "File:Taiwan Glass Building 20230428.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Taiwan_Glass_Building_20230428.jpg",
+      "author": "Solomon203",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        4200,
+        3150
+      ],
+      "source_sha256": "305ca452462ecc2af168388f95d67fe7a2540db825456f2dfafadf5195d8ae2a",
+      "texture_sha256": "77031b229ef14f1c71b5ee20af50253811827046c71162ea16ca8c8c21a344ba",
+      "phash": "2891a4c417f9d5cb"
+    },
+    {
+      "id": "reflections-72021745",
+      "page_id": 72021745,
+      "bucket": "reflections",
+      "split": "train",
+      "title": "File:Reflection of Old Courthouse in Office Building - St. Louis - Missouri - USA (41895582082).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Reflection_of_Old_Courthouse_in_Office_Building_-_St._Louis_-_Missouri_-_USA_(41895582082).jpg",
+      "author": "Adam Jones from Kelowna, BC, Canada",
+      "license": "CC BY-SA 2.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+      "source_size": [
+        2736,
+        3648
+      ],
+      "source_sha256": "2acb2d3b0088a5e6e618836fef47255a2ce532a0ac7270205401753aac67e0fa",
+      "texture_sha256": "04beeb43c10559c04ee6bac8dd4cf7c1146e636ca63a9bea55b3e7b67590bbcb",
+      "phash": "4699a111de11ee97"
+    },
+    {
+      "id": "reflections-185986386",
+      "page_id": 185986386,
+      "bucket": "reflections",
+      "split": "train",
+      "title": "File:Battersea Power Station Chimneys reflection Circus Road Wandsworth London England 03.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Battersea_Power_Station_Chimneys_reflection_Circus_Road_Wandsworth_London_England_03.jpg",
+      "author": "Acabashi",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        4412,
+        3309
+      ],
+      "source_sha256": "926aef8c395b297e8373f14618d7a65d1fa77d7bcc25fb95c08cf7e488a807c7",
+      "texture_sha256": "1329571dea6e03b9cf983b616b0e2cecdd5b4effb205bea856462d989a4c17a9",
+      "phash": "22af094306ff1dd1"
+    },
+    {
+      "id": "reflections-185986391",
+      "page_id": 185986391,
+      "bucket": "reflections",
+      "split": "train",
+      "title": "File:Battersea Power Station Chimneys reflection Circus Road Wandsworth London England 04.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Battersea_Power_Station_Chimneys_reflection_Circus_Road_Wandsworth_London_England_04.jpg",
+      "author": "Acabashi",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        3118,
+        4377
+      ],
+      "source_sha256": "f7e7068ec9d14dcf701e284feb8d282f954cde0b7951fe2769b1622d39730088",
+      "texture_sha256": "800a36598f62a2dbba813df4c6f26d8df92685af90bb532bf7f206ba895c3ed2",
+      "phash": "6829737450f32597"
+    },
+    {
+      "id": "reflections-26730717",
+      "page_id": 26730717,
+      "bucket": "reflections",
+      "split": "train",
+      "title": "File:Reflections of the demolition of CS Post Building Amsterdam on Oosterdokseiland; high resolution image by FotoDutch, 2011.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Reflections_of_the_demolition_of_CS_Post_Building_Amsterdam_on_Oosterdokseiland;_high_resolution_image_by_FotoDutch,_2011.jpg",
+      "author": "Fons Heijnsbroek",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "source_size": [
+        3552,
+        2368
+      ],
+      "source_sha256": "e7be9f924e0c8458d73fca2bdc9f03ca77ba91f632486b8f3143c1bdc8321f41",
+      "texture_sha256": "9bf83c49a7a6a39a8c138a282ec4248c783163d3a4d213d620b54ae3e875a277",
+      "phash": "0085ccd1e7d4b1cf"
+    },
+    {
+      "id": "reflections-64110913",
+      "page_id": 64110913,
+      "bucket": "reflections",
+      "split": "train",
+      "title": "File:Reflection in Glass Globe - Lviv - Ukraine (26572491653) (2).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Reflection_in_Glass_Globe_-_Lviv_-_Ukraine_(26572491653)_(2).jpg",
+      "author": "Adam Jones from Kelowna, BC, Canada",
+      "license": "CC BY-SA 2.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+      "source_size": [
+        3648,
+        2736
+      ],
+      "source_sha256": "d13933821c336ec6e2afb0b65b4cb83a7aa71f78a25042f9539d52a76e941da6",
+      "texture_sha256": "53c91ee8b062ab1a33d6e41bfc6592676dd475e17a02da62c3d380ca0f0d3579",
+      "phash": "0e219cba790d03fd"
+    },
+    {
+      "id": "reflections-26793822",
+      "page_id": 26793822,
+      "bucket": "reflections",
+      "split": "train",
+      "title": "File:Oakland Skyscraper Mirroring Reflection Facade.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Oakland_Skyscraper_Mirroring_Reflection_Facade.jpg",
+      "author": "TheMue",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "source_size": [
+        3000,
+        4000
+      ],
+      "source_sha256": "f50c28e56a4753698709c7031802fccd507ff214c031e5f85bbee5a2873df336",
+      "texture_sha256": "08cf5387c819335ebb29b62ec29290d6ebcbb6304343d41fbaaffd11a627eebe",
+      "phash": "1a2937c818d7738d"
+    },
+    {
+      "id": "reflections-12457651",
+      "page_id": 12457651,
+      "bucket": "reflections",
+      "split": "train",
+      "title": "File:Factory, sunlight reflection, Brno.JPG",
+      "source": "https://commons.wikimedia.org/wiki/File:Factory,_sunlight_reflection,_Brno.JPG",
+      "author": "Mark Ahsmann",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source_size": [
+        2448,
+        3264
+      ],
+      "source_sha256": "0d055730152181ff95ae2929813b9f01c4314a0a501abfbb348737577f5fb348",
+      "texture_sha256": "f2ed8fb8dc469556ae73e266279a9dbca69df0c9fad038236b04bba917d5ccd9",
+      "phash": "35964a681115eeee"
+    },
+    {
+      "id": "reflections-71407256",
+      "page_id": 71407256,
+      "bucket": "reflections",
+      "split": "development",
+      "title": "File:Glass And Steel (221410203).jpeg",
+      "source": "https://commons.wikimedia.org/wiki/File:Glass_And_Steel_(221410203).jpeg",
+      "author": "Martin Kopta",
+      "license": "CC BY 3.0",
+      "license_url": "https://creativecommons.org/licenses/by/3.0",
+      "source_size": [
+        2048,
+        1536
+      ],
+      "source_sha256": "64ba0a5fff3b6ccf773d74de96c94d471ce16dd6faf2079bd147a57767b021f0",
+      "texture_sha256": "948fbea6c42a2c94b977cbb444392588dda48eeb93f45f823369789418cbdcf1",
+      "phash": "03fc41ac3a65ed07"
+    },
+    {
+      "id": "reflections-71407255",
+      "page_id": 71407255,
+      "bucket": "reflections",
+      "split": "development",
+      "title": "File:Glass And Steel (221410191).jpeg",
+      "source": "https://commons.wikimedia.org/wiki/File:Glass_And_Steel_(221410191).jpeg",
+      "author": "Martin Kopta",
+      "license": "CC BY 3.0",
+      "license_url": "https://creativecommons.org/licenses/by/3.0",
+      "source_size": [
+        2048,
+        1536
+      ],
+      "source_sha256": "6fb203e1021e3835efe6e357d1e5342dc4fe79f8970fa6e8567ed828a1c01d65",
+      "texture_sha256": "96503e91f86d629e207387f48bceb5ca00497822de9aa786b9b4f9b5aa1e265f",
+      "phash": "359414b6c292a7de"
+    },
+    {
+      "id": "metal-8238561",
+      "page_id": 8238561,
+      "bucket": "metal",
+      "split": "train",
+      "title": "File:US Navy 060502-N-7711S-134 Machinery Repairman 3rd Class Kevin Weeks drills threading into a metal fitting in the repair shop.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:US_Navy_060502-N-7711S-134_Machinery_Repairman_3rd_Class_Kevin_Weeks_drills_threading_into_a_metal_fitting_in_the_repair_shop.jpg",
+      "author": "U.S. Navy photo by Photographer's Mate Airman Christine Singh",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        2896,
+        1944
+      ],
+      "source_sha256": "4e5061cfa18c2049d688a12444bb124017b59ae9b1e8cdfbaae8d94259e06123",
+      "texture_sha256": "1ec81763f5ac29ebba71d21f89b97ab26ee734c86ff609b5ac41568475f3d5dd",
+      "phash": "093c5809bed875a7"
+    },
+    {
+      "id": "metal-61776879",
+      "page_id": 61776879,
+      "bucket": "metal",
+      "split": "train",
+      "title": "File:Metal Pin Tray With Raised Image of the Palace of Machinery.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Metal_Pin_Tray_With_Raised_Image_of_the_Palace_of_Machinery.jpg",
+      "author": "Unknown author Unknown author",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        2081,
+        1890
+      ],
+      "source_sha256": "7fe769426357c1167b77c4787ae5665b59d251e8a8fadb46a62c4b9a48cd0241",
+      "texture_sha256": "ced7eceacea0479f2ddb8747c223463fb315747fe941cdad8ab1b5032ddb7049",
+      "phash": "1f708f075285a9da"
+    },
+    {
+      "id": "metal-15099456",
+      "page_id": 15099456,
+      "bucket": "metal",
+      "split": "train",
+      "title": "File:US Navy 110427-N-5031T-048 Machinery Repairman 3rd Class Chelsea Martinez fabricates a Teflon bushing in the sheet metal shop aboard USS John C. St.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:US_Navy_110427-N-5031T-048_Machinery_Repairman_3rd_Class_Chelsea_Martinez_fabricates_a_Teflon_bushing_in_the_sheet_metal_shop_aboard_USS_John_C._St.jpg",
+      "author": "U.S. Navy photo by Mass Communication Specialist 3rd Class Will Tyndall",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        4072,
+        2760
+      ],
+      "source_sha256": "1703ef23e44ee0e966d1df4fcd0881ae06430ede201afd2af4d65f6a877beb40",
+      "texture_sha256": "39b1639464f1f41c5397ac0fdcacdecb825d26d537ae74f3827fb30c30eff0f0",
+      "phash": "66566f263a34a4e4"
+    },
+    {
+      "id": "metal-8224497",
+      "page_id": 8224497,
+      "bucket": "metal",
+      "split": "development",
+      "title": "File:US Navy 040722-N-1238B-028 Machinery Repairman Fireman Richard Henegar, assigned to the amphibious assault ship USS Wasp (LHD 1) inspects a piece of metal on a milling machine.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:US_Navy_040722-N-1238B-028_Machinery_Repairman_Fireman_Richard_Henegar,_assigned_to_the_amphibious_assault_ship_USS_Wasp_(LHD_1)_inspects_a_piece_of_metal_on_a_milling_machine.jpg",
+      "author": "U.S. Navy photo by Photographer\u2019s Mate Airman Toni N. Burton",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        2100,
+        1500
+      ],
+      "source_sha256": "10c36b814aa0bb9b8e3408fe53b5716215bcdca10dee98d46ac0a1487cd11d0d",
+      "texture_sha256": "4d7f58cb6b33cf0c1791f16cb948ee9aa2c09934da30d8363de093ed71f2c9d5",
+      "phash": "1ae6ad4467ec2970"
+    },
+    {
+      "id": "metal-26666139",
+      "page_id": 26666139,
+      "bucket": "metal",
+      "split": "train",
+      "title": "File:U.S. Navy Machinery Repairman Fireman Darrell Vason measures a metal rod aboard the aircraft carrier USS George H.W. Bush (CVN 77) in the Atlantic Ocean June 11, 2013 130611-N-XE109-009.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:U.S._Navy_Machinery_Repairman_Fireman_Darrell_Vason_measures_a_metal_rod_aboard_the_aircraft_carrier_USS_George_H.W._Bush_(CVN_77)_in_the_Atlantic_Ocean_June_11,_2013_130611-N-XE109-009.jpg",
+      "author": "MC3 Brian Read Castillo",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        3544,
+        2560
+      ],
+      "source_sha256": "d42d0bfd12685e40c2642fd2c2c402361109d4668c07075572b6aeceb6e2817e",
+      "texture_sha256": "7cf2007a9702cf729cf2fb57f582e90a6c73705fb9d9e4a583a27cff863c4e9e",
+      "phash": "638c433927705e57"
+    },
+    {
+      "id": "metal-8222701",
+      "page_id": 8222701,
+      "bucket": "metal",
+      "split": "train",
+      "title": "File:US Navy 080925-N-2456S-078 Machinery Repairman Fireman Ben Kelly uses a dial caliber to measure a piece of metal.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:US_Navy_080925-N-2456S-078_Machinery_Repairman_Fireman_Ben_Kelly_uses_a_dial_caliber_to_measure_a_piece_of_metal.jpg",
+      "author": "U.S. Navy photo by Mass Communication Specialist 3rd Class John Suits",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        2100,
+        1500
+      ],
+      "source_sha256": "6c762211ea131834d450034046e6268dd452562ccd82c8044dd5be10f5a1c8a4",
+      "texture_sha256": "5a205f4eac1154c20fb0303600b6143946d909f6cf05bcf595a5e6d79d4fd74f",
+      "phash": "5f806796c64b93a2"
+    },
+    {
+      "id": "metal-8172054",
+      "page_id": 8172054,
+      "bucket": "metal",
+      "split": "development",
+      "title": "File:US Navy 030227-N-9403F-006 Machinery repair aboard USS Abraham Lincoln CVN 72.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:US_Navy_030227-N-9403F-006_Machinery_repair_aboard_USS_Abraham_Lincoln_CVN_72.jpg",
+      "author": "U.S. Navy photo by Photographer's Mate Airman Jason Frost.",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        3008,
+        2000
+      ],
+      "source_sha256": "34afbfbc9c963df7fa56aed16badf39c8926f13f5fefa5087702dbbb5bd7ee5c",
+      "texture_sha256": "0eb06fe2d358112cc5797e74d9dd5c0c4b767f5706dae1a849d23f8d47978fa3",
+      "phash": "41f07e7ac94107a7"
+    },
+    {
+      "id": "metal-26407330",
+      "page_id": 26407330,
+      "bucket": "metal",
+      "split": "train",
+      "title": "File:U.S. Air Force Airman 1st Class Justin Morris, an aircraft metals technologist with the 379th Expeditionary Maintenance Squadron, uses machinery to create a piece of aerospace ground equipment May 13, 2013 130514-F-FU332-013.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:U.S._Air_Force_Airman_1st_Class_Justin_Morris,_an_aircraft_metals_technologist_with_the_379th_Expeditionary_Maintenance_Squadron,_uses_machinery_to_create_a_piece_of_aerospace_ground_equipment_May_13,_2013_130514-F-FU332-013.jpg",
+      "author": "TSgt Raymond Hoy",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        4288,
+        2848
+      ],
+      "source_sha256": "96c77ab842bb218da06f82d157585caaaf8159890d8b4e4fab7e26cdf37154d2",
+      "texture_sha256": "bcf0e3abb0d013567e97eb15811b8185c65c6bc83e4e207aba88bb7aeb1d9b91",
+      "phash": "68a35a74ada5115e"
+    },
+    {
+      "id": "metal-8205251",
+      "page_id": 8205251,
+      "bucket": "metal",
+      "split": "train",
+      "title": "File:US Navy 070426-N-3560G-007 Machinery Repairman 3rd Class Christian Duarda of Naval Mobile Construction Battalion (NMCB) 4 adjust the cutting angle on a portable lathe.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:US_Navy_070426-N-3560G-007_Machinery_Repairman_3rd_Class_Christian_Duarda_of_Naval_Mobile_Construction_Battalion_(NMCB)_4_adjust_the_cutting_angle_on_a_portable_lathe.jpg",
+      "author": "U.S. Navy photo by Mass Communication Specialist 2nd Class Ronald Gutridge",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        2100,
+        1500
+      ],
+      "source_sha256": "e844c9df6736ac978f7c19f34fa08efe5f0e7e12378488bdfd1722734610b978",
+      "texture_sha256": "2e319e345dd26784c89077f25f23c19b72ba268b9a8555a9692c9e9945464f3a",
+      "phash": "1a7116da479cb8a5"
+    },
+    {
+      "id": "metal-51163320",
+      "page_id": 51163320,
+      "bucket": "metal",
+      "split": "train",
+      "title": "File:L-15-04-24 A 15 (17086044607).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:L-15-04-24_A_15_(17086044607).jpg",
+      "author": "US Department of Labor",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        2400,
+        1600
+      ],
+      "source_sha256": "aa19d7472c7c1e8df4353e34e62fab0a07653f018966fa8d0877be38c1e1850f",
+      "texture_sha256": "504d2bdfe2a2d409a5d50d2ccce13375b400e914920ac72a060c636de9487b4b",
+      "phash": "1658cb26b9a4d1cb"
+    },
+    {
+      "id": "metal-179962158",
+      "page_id": 179962158,
+      "bucket": "metal",
+      "split": "train",
+      "title": "File:Making sparks for parts (8625885).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Making_sparks_for_parts_(8625885).jpg",
+      "author": "U.S. Air Force photo by Senior Airman Luis E. Rios Calderon",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        5659,
+        3773
+      ],
+      "source_sha256": "81dd71a43e3283f296ce32040e3661fcc2e1020833e54a2d0330abaafee0ada1",
+      "texture_sha256": "f3f1406af04c6843f6cb95c4005380e6c611ff4ef7e1d049ff53f172da795207",
+      "phash": "47c699ce19386731"
+    },
+    {
+      "id": "metal-30853483",
+      "page_id": 30853483,
+      "bucket": "metal",
+      "split": "train",
+      "title": "File:Five workmen standing around the rotary drill system in action, Brayer Field, ca.1910 (CHS-2485).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Five_workmen_standing_around_the_rotary_drill_system_in_action,_Brayer_Field,_ca.1910_(CHS-2485).jpg",
+      "author": "C. C. Pierce",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        5000,
+        4011
+      ],
+      "source_sha256": "7323dbfc37f9e37569622f54fdb501e864e854f0a8b8bca481c421d69efbd9f4",
+      "texture_sha256": "8ca4cfc84fc2d85e5d2772fb88de1e5685bf6d6b49d95d4492eb9a2376a99fb0",
+      "phash": "4b3a5d92b586a8e2"
+    },
+    {
+      "id": "sunset-160022247",
+      "page_id": 160022247,
+      "bucket": "sunset",
+      "split": "development",
+      "title": "File:Careening of a pirogue on a beach of the Mekong under cottony gray clouds at sunset near Don Det Laos.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Careening_of_a_pirogue_on_a_beach_of_the_Mekong_under_cottony_gray_clouds_at_sunset_near_Don_Det_Laos.jpg",
+      "author": "Basile Morin",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        7091,
+        4851
+      ],
+      "source_sha256": "c7397bcf4f7004d3e15c511ec51d6d4380ba9a348b2b8e829387a23e971051b4",
+      "texture_sha256": "434f9bdbcd743166074a85ed103d1c5379a7a865792d7bedef55a4d4b9b11afa",
+      "phash": "40f836934e9395ec"
+    },
+    {
+      "id": "sunset-46526067",
+      "page_id": 46526067,
+      "bucket": "sunset",
+      "split": "development",
+      "title": "File:Ordubad sun sunset gunes gunbatimi golden clouds landscapes svln4821.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Ordubad_sun_sunset_gunes_gunbatimi_golden_clouds_landscapes_svln4821.jpg",
+      "author": "Svln4821",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        3920,
+        2204
+      ],
+      "source_sha256": "8755ceff8c555f138d862f07be1ca84532add913b7e678e0779d65be72519062",
+      "texture_sha256": "ae1e0678de73c7f4ff3781b86560a9f2172a89784ba5ed85f643f73c4d4f269c",
+      "phash": "719ac4fb1ce71580"
+    },
+    {
+      "id": "sunset-179847634",
+      "page_id": 179847634,
+      "bucket": "sunset",
+      "split": "train",
+      "title": "File:New Zealand sunset landscape.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:New_Zealand_sunset_landscape.jpg",
+      "author": "Mazzali",
+      "license": "CC BY-SA 2.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+      "source_size": [
+        5342,
+        3490
+      ],
+      "source_sha256": "5c947fe3de355548c94b604292889b739476eec86f29989ff9735105d12acf25",
+      "texture_sha256": "333c6817d8ea718e186958d6d96d59234723e5161d33a18e1b9cc81b91bf3836",
+      "phash": "47a65bdd8c0d0f84"
+    },
+    {
+      "id": "sunset-2830825",
+      "page_id": 2830825,
+      "bucket": "sunset",
+      "split": "train",
+      "title": "File:Sunset Zebulun.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Sunset_Zebulun.jpg",
+      "author": "RonAlmog , (Flickr page)",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "source_size": [
+        2048,
+        1536
+      ],
+      "source_sha256": "657955b3cae4af4dd59b4b3b87acf0daf2849b6835b28dd92743f8f29e33cdf7",
+      "texture_sha256": "9d1cafd19332c9e07a4e3c577ff1710b4fd198ec901543a8d1f940fb62a8a1d9",
+      "phash": "6c0fd2d419f20e71"
+    },
+    {
+      "id": "sunset-91468874",
+      "page_id": 91468874,
+      "bucket": "sunset",
+      "split": "train",
+      "title": "File:Clouds in the Sunset - Flickr - Afroswede.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Clouds_in_the_Sunset_-_Flickr_-_Afroswede.jpg",
+      "author": "Kurt Nordstrom from Montgomery County, MD, USA",
+      "license": "CC BY-SA 2.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+      "source_size": [
+        3072,
+        2048
+      ],
+      "source_sha256": "68f77b4f8e5aa6ea68bdd61741bfb98d109e6e692cc7ab73b60fff4678c81543",
+      "texture_sha256": "aecff5fee60f8b85fc36b499fa5fac8feab49237d83a3e339799a85fed924f3c",
+      "phash": "4b88f863827e7d81"
+    },
+    {
+      "id": "sunset-92827662",
+      "page_id": 92827662,
+      "bucket": "sunset",
+      "split": "train",
+      "title": "File:Isoj\u00e4rvi sunset 5.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Isoj%C3%A4rvi_sunset_5.jpg",
+      "author": "kallerna",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        4850,
+        3220
+      ],
+      "source_sha256": "84fab0adff7ba6de238f44617282f281c9fe1aea180c9603231cf54bfdaa9603",
+      "texture_sha256": "d7e7d065ead88c5cf9c7dbc4ceee96ce26be4748d6491289ff0e7c08c94251a2",
+      "phash": "463db5ab2b42c2b4"
+    },
+    {
+      "id": "sunset-82225427",
+      "page_id": 82225427,
+      "bucket": "sunset",
+      "split": "train",
+      "title": "File:Lenticular clouds (5e26d953e391407198c04646284cca27).JPG",
+      "source": "https://commons.wikimedia.org/wiki/File:Lenticular_clouds_(5e26d953e391407198c04646284cca27).JPG",
+      "author": "Steve Redman ( MORA )",
+      "license": "Public domain",
+      "license_url": "",
+      "source_size": [
+        3072,
+        2304
+      ],
+      "source_sha256": "45603df4fd976249da0d28d339532e4e74e2f679e59ddeba9f1e3416ff0c73b2",
+      "texture_sha256": "2779aa3932c56a6c7ada583f2fa6f1434efd4295a10302e4f2a79540a663c210",
+      "phash": "3ce2c39b392c84c7"
+    },
+    {
+      "id": "sunset-94672550",
+      "page_id": 94672550,
+      "bucket": "sunset",
+      "split": "train",
+      "title": "File:Dreamy sunset in Manila Bay, Manila, Philippines.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Dreamy_sunset_in_Manila_Bay,_Manila,_Philippines.jpg",
+      "author": "Vyacheslav Argenberg",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0",
+      "source_size": [
+        4000,
+        2667
+      ],
+      "source_sha256": "fe77f54b391633eb1ab6c00603ec7f048dde2fd8c625fb0079bff64bc5831b29",
+      "texture_sha256": "2278c822fb1b3e111dfd519477bd1d2b5213d6eb2d65e7178e98dca6ab660242",
+      "phash": "29ab0294d5df552a"
+    },
+    {
+      "id": "sunset-196122047",
+      "page_id": 196122047,
+      "bucket": "sunset",
+      "split": "train",
+      "title": "File:Sunset on Yosemite Valley.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Sunset_on_Yosemite_Valley.jpg",
+      "author": "Erick Gustafson",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "source_size": [
+        2325,
+        3497
+      ],
+      "source_sha256": "f444ea8d6591a6c23f6e04ed7f09d6c02f34aa0807d8824b560b2555bc5a1133",
+      "texture_sha256": "da63e817dc2d0f82878afbb214dd39b1031768f0a9c8ba0749620b2910e35af5",
+      "phash": "083c6e0658af99f5"
+    },
+    {
+      "id": "sunset-45529574",
+      "page_id": 45529574,
+      "bucket": "sunset",
+      "split": "train",
+      "title": "File:Bieszczady - sunrise from Chatka Puchatka (2).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Bieszczady_-_sunrise_from_Chatka_Puchatka_(2).jpg",
+      "author": "Pudelek",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        3187,
+        2304
+      ],
+      "source_sha256": "cf1f0eb7d4af4c60d9c9a63d52b10acf8f2bc5361bef9b77efab85f67a7ebffc",
+      "texture_sha256": "d9e731d0d52902504cd4088e5ad2cdaa30d2a9fd25571a8753f08f3029956018",
+      "phash": "0f8370c08a077fbd"
+    },
+    {
+      "id": "sunset-27551034",
+      "page_id": 27551034,
+      "bucket": "sunset",
+      "split": "train",
+      "title": "File:Sunset at the lake.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Sunset_at_the_lake.jpg",
+      "author": "RhinoMind",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source_size": [
+        2560,
+        1440
+      ],
+      "source_sha256": "d5ce6f4fcfea8ea4950ae02161891a1060ef6b24749a8ceb2ac11b9e6eeaa18e",
+      "texture_sha256": "fd93fd45aa5d3abecbf86ba101623411564494410eaf111f4358440cd7952346",
+      "phash": "17a4ca12a5cf0db5"
+    },
+    {
+      "id": "sunset-170412810",
+      "page_id": 170412810,
+      "bucket": "sunset",
+      "split": "train",
+      "title": "File:Scottish Borders Sunset (50315038348) (cropped).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Scottish_Borders_Sunset_(50315038348)_(cropped).jpg",
+      "author": "caroline legg",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "source_size": [
+        4638,
+        1851
+      ],
+      "source_sha256": "10fae9c0c6c8644615a0e9680a1311a86bac02a18204572b4aa570bfc2468c7c",
+      "texture_sha256": "903007f1337c51f517e43ce3f9d9770b9cfd65824d9f4a328f130a77176b7136",
+      "phash": "30c2a3996f39a8ae"
+    },
+    {
+      "id": "dark-193485774",
+      "page_id": 193485774,
+      "bucket": "dark",
+      "split": "development",
+      "title": "File:Interiors of Chaitya Cave (Cave 12), Bhaja Caves 1.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Interiors_of_Chaitya_Cave_(Cave_12),_Bhaja_Caves_1.jpg",
+      "author": "Rangan Datta Wiki",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        4831,
+        3200
+      ],
+      "source_sha256": "79e96637adbb08d7d27778c6b84287a00416475f43447964c5e25913b4e15438",
+      "texture_sha256": "f84e32b5cb3d2ded93e9d414d243c5aaf052e11117f21472140aab0199460b67",
+      "phash": "766993348368fa16"
+    },
+    {
+      "id": "dark-193485776",
+      "page_id": 193485776,
+      "bucket": "dark",
+      "split": "development",
+      "title": "File:Interiors of Chaitya Cave (Cave 12), Bhaja Caves 3.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Interiors_of_Chaitya_Cave_(Cave_12),_Bhaja_Caves_3.jpg",
+      "author": "Rangan Datta Wiki",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        3164,
+        4811
+      ],
+      "source_sha256": "933909a70b66cd469d51a0449a2cc60bd3d563b00aa0b2e750b8f1615ad8f464",
+      "texture_sha256": "4c673a7940b19a4886c10556ddd49e913ee738d026df4767112afc389a0b327a",
+      "phash": "244e7da758a0a75a"
+    },
+    {
+      "id": "dark-60503841",
+      "page_id": 60503841,
+      "bucket": "dark",
+      "split": "train",
+      "title": "File:-Sutar ka Jhopda Cave Interior, Ellora Caves- MET DP273475.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:-Sutar_ka_Jhopda_Cave_Interior,_Ellora_Caves-_MET_DP273475.jpg",
+      "author": "Creator:Alfred William Pl\u00e2t\u00e9",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "source_size": [
+        3192,
+        3858
+      ],
+      "source_sha256": "fbdaf29a71155ae5b19981f519c59765db89580d182bd41263429b67d4f0aab2",
+      "texture_sha256": "3e89392405b32088d5fe54ef1eb76eee13d29f40fe278ee29e2094e47b245706",
+      "phash": "14a3e148d952973f"
+    },
+    {
+      "id": "dark-108249591",
+      "page_id": 108249591,
+      "bucket": "dark",
+      "split": "train",
+      "title": "File:Cave interior at Amabere ga Nyinamwiru near Nyakasura falls Fortportal Uganda.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Cave_interior_at_Amabere_ga_Nyinamwiru_near_Nyakasura_falls_Fortportal_Uganda.jpg",
+      "author": "Alvinategyeka",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        4344,
+        2896
+      ],
+      "source_sha256": "241e0bea267359bcbfba23bb8d60766db3b6809ad1869f5831fe6a030473ff43",
+      "texture_sha256": "920bd593696718e14fd653d2cc250a18abc15eb9c42c48fdb977c0e46e198ac9",
+      "phash": "1a371f4e29d911cc"
+    },
+    {
+      "id": "dark-117178564",
+      "page_id": 117178564,
+      "bucket": "dark",
+      "split": "train",
+      "title": "File:Interior Showing Trimutti, Elephanta Cave, Bombay.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Interior_Showing_Trimutti,_Elephanta_Cave,_Bombay.jpg",
+      "author": "Lala Deen Dayal (Indian, 1844 - 1905)",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "source_size": [
+        4338,
+        3157
+      ],
+      "source_sha256": "7cca7f1fd3b40a8cc3d6e97e0dbb9e19d04613eca77c0a2cfe9ca23087bfbca3",
+      "texture_sha256": "0ac68b938b4992b475de439622258b03d57923dd15783788dd03926e10c09d9b",
+      "phash": "2ab7618a1fd1294b"
+    },
+    {
+      "id": "dark-112208213",
+      "page_id": 112208213,
+      "bucket": "dark",
+      "split": "train",
+      "title": "File:Cave of the apocalypse.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Cave_of_the_apocalypse.jpg",
+      "author": "PLBechly",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        3091,
+        2317
+      ],
+      "source_sha256": "b39ebe0f5b6b9da287527b27e11b88139ee1f6e364884401affb8e1283c4147a",
+      "texture_sha256": "62aeb94d28ee5a41d1068f1676f660cf38616f85248a14fe990d2c7dd5225e34",
+      "phash": "6c952d7292c1b89e"
+    },
+    {
+      "id": "dark-73553970",
+      "page_id": 73553970,
+      "bucket": "dark",
+      "split": "train",
+      "title": "File:Gemu Goddess Cave interior, August 2018.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Gemu_Goddess_Cave_interior,_August_2018.jpg",
+      "author": "Jason Zhang",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source_size": [
+        5184,
+        3456
+      ],
+      "source_sha256": "632ec1b63923f76f62b797bf8d8335c09bf55898fa86c3fc1c473784a78054a1",
+      "texture_sha256": "67367efe8c010bd43bca2a102294e7969ee6f199277ae04229a3325c1932c8da",
+      "phash": "43de07a918417cbd"
+    },
+    {
+      "id": "dark-64160881",
+      "page_id": 64160881,
+      "bucket": "dark",
+      "split": "train",
+      "title": "File:View from Cave Interior - Uplistsikhe Cave City - Archaeological Site - Outside Gori - Georgia (17866185314).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:View_from_Cave_Interior_-_Uplistsikhe_Cave_City_-_Archaeological_Site_-_Outside_Gori_-_Georgia_(17866185314).jpg",
+      "author": "Adam Jones from Kelowna, BC, Canada",
+      "license": "CC BY-SA 2.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+      "source_size": [
+        2736,
+        3648
+      ],
+      "source_sha256": "d0a6d5153f98189f16d906916e6ca7f82077b063ea0d47c765d91e5250b37a94",
+      "texture_sha256": "7e20cd90314f0bd977927ccef31b5812a735cdffbf9b472b36aa03f020cc6b99",
+      "phash": "51af032f0b2e7c54"
+    },
+    {
+      "id": "dark-73575246",
+      "page_id": 73575246,
+      "bucket": "dark",
+      "split": "train",
+      "title": "File:Gemu Goddess Cave interior, August 2018 (2).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Gemu_Goddess_Cave_interior,_August_2018_(2).jpg",
+      "author": "Jason Zhang",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source_size": [
+        5184,
+        3456
+      ],
+      "source_sha256": "2368b31d6b520a227576e99344754e91b4a1c10ff3459e8de1c9fe0ec3c650f0",
+      "texture_sha256": "4823dd08391e0a6aee2172a3a25372cb226bbd540e28d8a37505258ba82ceee6",
+      "phash": "7ca663898d8a4755"
+    },
+    {
+      "id": "dark-73575400",
+      "page_id": 73575400,
+      "bucket": "dark",
+      "split": "train",
+      "title": "File:Gemu Goddess Cave interior, August 2018 (3).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Gemu_Goddess_Cave_interior,_August_2018_(3).jpg",
+      "author": "Jason Zhang",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "source_size": [
+        3456,
+        5184
+      ],
+      "source_sha256": "ef4e355fc2f8b6249b25dfcf46ab9b60de5a37e6cbb2358652685a2d2f4e49d3",
+      "texture_sha256": "38f05f345bcb34cca2590bf893d921ffaa1dff25f185dc70690dd9434be08321",
+      "phash": "657bcac34e254994"
+    },
+    {
+      "id": "dark-79230336",
+      "page_id": 79230336,
+      "bucket": "dark",
+      "split": "train",
+      "title": "File:Alpeswor cave interior.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Alpeswor_cave_interior.jpg",
+      "author": "Paradox7vr",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_size": [
+        3264,
+        2448
+      ],
+      "source_sha256": "9dc63978384d8776213d897c927d2a7afaa8e2f289f601d980a293817937e384",
+      "texture_sha256": "12f2b2598dbd0729ceba91e7b73ae85a62654971130f21d1141cc3255d69e5f2",
+      "phash": "7b24935f528ca634"
+    },
+    {
+      "id": "dark-64186216",
+      "page_id": 64186216,
+      "bucket": "dark",
+      "split": "train",
+      "title": "File:Interior of Main Cave - Elephanta Caves - Elephanta Island - Mumbai - Maharashtra - India - 06 (25804819144).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Interior_of_Main_Cave_-_Elephanta_Caves_-_Elephanta_Island_-_Mumbai_-_Maharashtra_-_India_-_06_(25804819144).jpg",
+      "author": "Adam Jones from Kelowna, BC, Canada",
+      "license": "CC BY-SA 2.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+      "source_size": [
+        3648,
+        2736
+      ],
+      "source_sha256": "970129f88620f3467547292630f402839439a313c258f67998a68050b8bb7fd3",
+      "texture_sha256": "92e1efaf992ba1cceb4703474183a77f18d4569b97b70fc9fcac095447044908",
+      "phash": "11cdb8b860be1fc1"
+    }
+  ]
+}
